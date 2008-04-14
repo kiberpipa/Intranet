@@ -1,0 +1,44 @@
+{% extends "org/base_2col.html" %}
+{% block extrahead %} {% endblock %}
+{% block title %}Dogodki{% endblock %}
+{% load box %}
+{% block toplinks %}
+	<div class="breadcrumbs">
+	<ul id="breadcrumbs">
+		<li><a href="../../{{ previous_month|date:"Y"}}/{{ previous_month|date:"M"|lower }}/">{{ previous_month|date:"F" }}</a></li>
+		<li>{{ month|date:"F" }}</li>
+		<li><a href="../../{{ next_month|date:"Y"}}/{{ next_month|date:"M"|lower }}/">{{ next_month|date:"F" }}</a></li>
+	</ul>
+	</div>
+{% endblock %}
+
+{% block heading %}
+        <h1>Arhiv dogodkov - {{ month|date:"F" }} {{ year }} ({{ object_list|length }} dogodkov)</h1>
+{% endblock %}
+
+{% block content-related-left %}
+  <div class="module" id="recent-actions-module">
+	</div>
+{% endblock %}
+
+{% block content-main %}
+<div class="module">
+	<h2>Seznam</h2>
+	<ul>
+        {% for log in object_list %}
+			<li>
+				{% print_event log %}
+			</li>
+	    {% endfor %}
+	</ul>
+</div>
+{% endblock %}
+
+{% block content-related-right %}
+  <div class="module" id="recent-actions-module">
+    <h2>Filtri</h2>
+  	 <ul class="actionlist">
+		<br>
+	</ul>
+</div>
+{% endblock %}

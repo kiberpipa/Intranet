@@ -1,0 +1,78 @@
+<p>
+	<input type="radio" name="event_repeat" value="0" {% if not form.event_repeat %}checked{% else %}{% ifequal form.data.event_repeat '0' %}checked {% endifequal %} {% endif %}/>
+	dogodek se ne ponavlja
+</p>
+
+<p>
+	<input type="radio" name="event_repeat" value="1" {% ifequal form.data.event_repeat '1' %}checked {% endifequal %} />
+	se ponovi vsake:
+	<input type="text" name="event_repeat_freq" value="{{form.data.event_repeat_freq}}{%if not form.data.event_repeat_freq%}1{%endif%}" size="4" />
+<!--
+<select name="event_repeat_freq">
+<option value="1" >Every</option>
+<option value="2" >Every Other</option>
+<option value="3" >Every Third</option>
+<option value="4" >Every Fourth</option>
+</select>
+-->
+	<select name="event_repeat_freq_type">
+		<option value="0" >dni</option>
+		<option value="1" {% ifequal form.data.event_repeat_freq_type "1"%}selected{% endifequal %}>tednov</option>
+		<option value="2" {% ifequal form.data.event_repeat_freq_type "2"%}selected{% endifequal %}>mesecev</option>
+	</select>
+<!--	<option value="3" >let</option> -->
+</p>
+
+<!--
+<p>
+	<input type="radio" name="event_repeat" value="2"  />
+	se ponovi na:
+
+	<select name="event_repeat_on_num">
+		<option value="1" >prvi</option>
+		<option value="2" >drugi</option>
+		<option value="3" >tretji</option>
+		<option value="4" >čerti</option>
+		<option value="5" >zadnji</option>
+	</select>
+	<select name="event_repeat_on_day">
+		<option value="0" selected>Ned</option>
+		<option value="1" >Pon</option>
+		<option value="2" >Tor</option>
+		<option value="3" >Sre</option>
+		<option value="4" >Čet</option>
+		<option value="5" >Pet</option>
+		<option value="6" >Sob</option>
+	</select>&nbsp;
+	v mesecu, vsake&nbsp;
+	<input type="text" name="event_repeat_on_freq" value="1" size="4" />
+	mesecev.
+-->
+<!--
+<select name="event_repeat_on_freq">
+<option value="1" >mesec</option>
+<option value="2" >drug mesec</option>
+<option value="3" >3 mesece</option>
+<option value="4" >4 mesecev</option>
+<option value="6" >6 mesecev</option>
+<option value="12" >leto</option>
+</select>
+-->
+</p>
+
+<hr>
+
+  <p>
+    <label for="id_end_date">Zadnja ponovitev:</label>
+    {{ form.end_date }}
+    {% if form.end_date.errors %}
+      *** {{ form.end_date.errors|join:", " }}
+    {% endif %}
+  </p>
+
+<!--
+<p>
+<input type="radio" name="event_endtype" value="0" checked />&nbsp;
+Brez konca.
+</p>
+-->

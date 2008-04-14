@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<title>TagsField demo</title>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" href="style/demo.css">
+<link rel="stylesheet" href="style/tags.css">
+
+<p>This is a demo of a control <a href="http://softwaremaniacs.org/soft/tags/">TagsField</a> library for Django.
+
+<p>The form is for test only, it doesn't submit anywhere, just shows how the control
+works in a browser.
+
+<form action="" method="get">
+  <p>
+    <label for="id_title">Title</label>
+    <input type="text" id="id_title" class="vTextField required" name="title" size="30" value="Album" maxlength="50" />
+    
+  <fieldset>
+    <legend>Tags</legend>
+    
+    <div id="tag_widget">
+  <ul>
+  
+    <li class="output">
+      <input type="hidden" name="tags" value="blues">
+      
+      <a href="/tags/blues/">blues</a>
+
+      
+      <img src="style/delete.png" alt="[-]" title="" onclick="deleteTag(this);">
+  
+    <li class="output">
+      <input type="hidden" name="tags" value="guitar">
+      
+      <a href="/tags/guitar/">guitar</a>
+      
+      <img src="style/delete.png" alt="[-]" title="" onclick="deleteTag(this);">
+  
+    <li class="input">
+      <input type="text" name="tags" class="suggest_tag" autocomplete="off">
+      <img src="style/delete.png" alt="[-]" title="" onclick="deleteTag(this);">
+
+  </ul>
+  <p><img src="style/add.png" alt="[+]" title="" onclick="addTag();">
+  <ul class="suggest tag" style="display:none;">
+    
+    <li>blues
+    
+    <li>guitar
+    
+    <li>guitar acoustic
+    
+    <li>guitar electric
+    
+    <li>live
+    
+    <li>liquid
+    
+    <li>rock
+    
+  </ul>
+</div>
+
+<script type="text/javascript" src="js/tags.js"></script>
+<script type="text/javascript">
+  var ENTER_CODE=13;
+  var tag_widget=document.getElementById('tag_widget')
+
+  function deleteTag(button){
+    var li=button.parentNode;
+    var ul=li.parentNode;
+    //Prevent deletion of last input for it is used as a template for addition
+    if(getElementsByClass('suggest_tag',li,'input').length && getElementsByClass('suggest_tag',ul,'input').length==1)
+      addTag();
+    ul.removeChild(li);
+  }//deleteTag
+  
+  function addTag(){
+    var ul=tag_widget.getElementsByTagName('UL')[0];
+    var lis=ul.getElementsByTagName('LI');
+    var li=ul.appendChild(lis[lis.length-1].cloneNode(true));
+    var input=li.getElementsByTagName('INPUT')[0];
+    input.value='';
+    initAutoComplete(input,tag_widget);
+    input.focus();
+  }//addTag
+  
+  addEvent(tag_widget,'keydown',function(e){
+    if(getKeyCode(e)==ENTER_CODE) {
+      addTag();
+      if(e && e.preventDefault)
+        e.preventDefault();
+      return false;
+    }//if
+  })//keypress
+
+  addEvent(window,'load',function(){initAutoCompletes(tag_widget);});
+</script>
+
+  </fieldset>
+  
+  <div class="buttons"><button type="submit">OK</button></div>
+</form>

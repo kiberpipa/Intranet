@@ -1,0 +1,38 @@
+{% extends "org/base_3col.html" %}
+{% load box %}
+    {% block extrahead %}
+    {% endblock %}
+{% block title %}Dnevnik{% endblock %}
+
+{% load markup %}
+
+{% block toplinks %}
+    <div class="breadcrumbs">
+    <ul id="breadcrumbs">
+        <li>Arhiv: </li>
+        <li><a href="/intranet/diarys/arhiv/{{ object.date|date:"Y" }}/{{ object.date|date:"M"|lower }}">{{ object.date|date:"M" }}</a></li>
+        <li><a href="/intranet/diarys/arhiv/{{ object.date|date:"Y" }}">{{ object.date|date:"Y" }}</a></li>
+    </ul>
+    </div>
+{% endblock %}
+
+{% block heading %}
+    <h1>Dnevnik</h1>
+{% endblock %}
+
+{% block content-related-left %}
+{% ifequal object.author user %}
+<div class="module" id="recent-actions-module">
+      <h2>Uredi dnevnik</h2>
+      <ul><li><a href="/intranet/admin/org/diary/{{ object.id }}/">Uredi dnevnik</a></li></ul>
+      {% box_change_diary %}
+</div>
+{% endifequal %}
+{% endblock %}
+
+{% block content-main %}
+    {% print_diary object%}
+{% endblock %}
+
+{% block content-related-right %}
+{% endblock %}

@@ -1,0 +1,12 @@
+{% for task in object_list %}
+
+<li {% ifequal task.start_date.date today %} class="today"{% endifequal %}>
+        <b>{{ task.start_date|date:"D j. M H:i" }}</b><br />
+        <a class="eventlink" href="/intranet/events/{{ task.id }}/">
+                {{ task.title }}
+        </a>
+        <br />
+        <span class="mini quiet">{{ task.project }}</span>
+</li>
+
+{% endfor %}

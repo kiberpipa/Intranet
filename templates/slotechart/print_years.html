@@ -1,0 +1,13 @@
+<ul id="years">
+{% for y in list %}
+	<li>
+		{% ifequal y year %}
+			{{ y }}
+		{% else %}
+			<a href="/slotechart/arhiv/{{ y }}">
+				{{ y }}
+			</a>
+		{% endifequal %}
+	</li>
+{% endfor %}
+</ul>

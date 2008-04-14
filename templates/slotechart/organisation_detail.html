@@ -1,0 +1,11 @@
+{% extends "slotechart/details.html" %}
+{% load menus %}
+
+{% block details-navigation %}
+	{% producer_detail object %}
+{% endblock %}
+
+{% block archive-list %}
+	 {% box_orgs %}
+{% endblock %}
+

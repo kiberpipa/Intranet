@@ -1,0 +1,7 @@
+<ul id="list">
+{% for object in object_list %}
+	<li>
+		<a href="/slotechart/{{ menu }}/{{ object.id }}">{{ object }}</a>
+	</li>
+{% endfor %}
+</ul>

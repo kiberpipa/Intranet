@@ -1,0 +1,16 @@
+{% load markup %}
+
+{% if object_list %}
+<ul>
+{% for task in object_list %}
+        <div class="{{ task.message }}">
+        <b>
+                <a id="message" href="/intranet/admin/org/stickynotes/{{ task.id }}/">
+                        {{ task.post_date|date:"j. M" }}, {{ task.author }}:
+                </a>
+        </b>
+        <p>{{ task.note|textile }}</p>
+        </div>
+{% endfor %}
+</ul>
+{% endif %}

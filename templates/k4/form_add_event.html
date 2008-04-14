@@ -1,0 +1,31 @@
+{% extends "k4/base.html" %}
+
+{% block extrahead %}
+{% endblock %}
+
+{% load k4 %}
+
+{% block links %}
+  <li>
+    <h2>Ponavljanje</h2>
+    <ul>
+	<form method="POST" action="/k4/events/create/">
+		{% box_reccurings form %}
+	<h3> <input type="submit" value="Vpiši" /></h3>
+	</ul>
+  </li>
+{% endblock %}
+
+{% block content %}
+<div id="post">
+	<h2>Dodaj dogodek v koledar</h2>
+{% if form.has_errors %}
+	<h3>Please correct the following error{{ form.error_dict|pluralize }}:</h3>
+{% endif %}
+	{% form_event form %}
+</form>
+</div>
+{% endblock %}
+
+
+

@@ -1,0 +1,31 @@
+{% extends "k6_4/base.html" %}
+{% load parts %}
+
+{% block extrahead %}
+{% endblock %}
+
+{% block events %}
+	<li class="pagenav"><h2>Aktualni dogodki</h2>
+     <ul>
+	{% current_events %}
+     </ul>
+    </li>
+{% endblock %}
+
+{% block content %}
+	<ul>
+        {% for log in latest %}
+			<li class="page_item">
+				{% print_event log %}
+			</li>
+	    {% endfor %}
+	</ul>
+{% endblock %}
+
+{% block links %}
+    <li class="pagenav"><h2>Urejanje</h2>
+      <ul>
+		<li><a href="create/">Dodaj dogodek</a></li>
+	  </ul>
+	</li>
+{% endblock %}

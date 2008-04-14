@@ -1,0 +1,40 @@
+{% extends "kapelica/base.html" %}
+{% block extrahead %}
+	    <script type="text/javascript" src="{{ media_url }}tiny_mce/tiny_mce.js"></script>
+    <script type="text/javascript" src="{{ media_url }}textareas.js"></script>
+
+{% endblock %}
+
+{% block content-main %}
+
+{% if form.has_errors %}
+	<h2>Please correct the following error{{ form.error_dict|pluralize }}:</h2>
+{% endif %}
+
+
+<form method="POST" action="/kapelica/pages/{{ form.id }}/edit/">
+  <p>
+    <label for="id_title">title:</label>
+    {{ form.title }}
+    {% if form.title.errors %}
+      *** {{ form.title.errors|join:", " }}
+    {% endif %}
+  </p>
+  <p>
+    <label for="id_slug">slug:</label>
+    {{ form.slug }}
+    {% if form.slug.errors %}
+      *** {{ form.slug.errors|join:", " }}
+    {% endif %}
+  </p>
+  <p>
+    <label for="id_content">content:</label>
+    {{ form.content|textile }}
+    {% if form.content.errors %}
+      *** {{ form.content.errors|join:", " }}
+    {% endif %}
+  </p>
+<input type="submit" value="submit" />
+</form>
+
+{% endblock %}

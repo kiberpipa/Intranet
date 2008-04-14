@@ -1,0 +1,4 @@
+
+{% for o in object_list %}
+    <a class="ooocon_header_navitem_selected" id="{{ o.name|upper }}" href="/video3/{{ o.slug }}/">{{o.name }}</a>
+{% endfor %}

@@ -1,0 +1,57 @@
+{% extends "org/base_3col.html" %}
+
+{% block title %}Imenik{% endblock %}
+
+{% block heading %}
+    <h1>Kdo je kdo</h1>
+{% endblock %}
+
+{% block content-related-left %}
+  <div class="module" id="recent-actions-module">
+    <h2>Urejanje</h2>
+        <ul class="actionlist">
+            <li>{{ user.username }}:</li>
+            <li><a href="/intranet/admin/auth/user/{{ user.id }}/">Uredi svoje podatke</a></li>
+            {% if user.get_profile %}
+                <li><a href="/intranet/admin/org/userprofile/{{ user.id }}/">Uredi svoj profil</a></li>
+            {% else %}
+                <li><a href="/intranet/admin/org/userprofile/add/">Dodaj profil uporabnika</a></li>
+            {% endif %}
+
+            <!--
+            <hr>
+            <li><a href="/intranet/admin/auth/user/add/">Dodaj uporabnika</a></li>
+            <li><a href="">Dodaj profil</a></li>-->
+        </ul>
+  </div>
+{% endblock %}
+
+{% block content-main %}
+        {% for user in object_list %}
+<div class="module">
+    <h2><a name="{{ user.username }}">{{ user.first_name }} "{{ user.username }}" {{ user.last_name }}</a></h2>
+        <div class="user">
+            <ul>
+                <li>E-pošta: <a href="mailto:{{ user.email }}">{{ user.email }}</a></li>
+                {% if user.get_profile %}
+                <li>Telefon: {{ user.get_profile.mobile }}</li>
+                <li>IM: {{ user.get_profile.im|linebreaksbr }}</li>
+                {% else %}
+                <li><a href="/intranet/admin/org/userprofile/add/">dodaj razširjen profil</a></li>
+                {% endif %}
+            </ul>
+        </div>
+</div>
+        {% endfor %}
+{% endblock %}
+
+{% block content-related-right %}
+<div class="module">
+    <h2>Kazalo</h2>
+    <ul>
+    {% for user in object_list %}
+        <li><a href="#{{ user.username }}">{{ user.username }}</a></li>
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "k6_4/base.html" %}
+
+{% load parts %}
+
+{% block events %}
+    <li class="pagenav"><h2>Aktualni dogodki</h2>
+     <ul>
+	{% current_events %}
+     </ul>
+    </li>
+{% endblock %}
+
+{% block content %}
+	{% load_first_post %}
+{% endblock %}

@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="sl" >
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="-1" />
+
+    <title>{% block title %}Intranet | Kiberpipa{% endblock %}</title>
+
+    <link rel="stylesheet" type="text/css" href="{{ media_url }}/base.css" />
+    <link rel="stylesheet" type="text/css" href="{{ media_url }}/nifty.css" />
+    <link rel="stylesheet" type="text/css" href="{{ media_url }}/dezuranje.css" />
+
+    <script type="text/javascript" src="{{ media_url }}nifty.js"></script>
+    <script type="text/javascript" src="{{ media_url }}sorttable.js"></script>
+
+    <script type="text/javascript" src="/intranet/admin/jsi18n/"></script>
+    <script type="text/javascript" src="{{ admin_media_prefix }}js/core.js"></script>
+    <script type="text/javascript" src="{{ admin_media_prefix }}js/admin/RelatedObjectLookups.js"></script>
+    <script type="text/javascript" src="{{ admin_media_prefix }}js/calendar.js"></script>
+    <script type="text/javascript" src="{{ admin_media_prefix }}js/admin/DateTimeShortcuts.js"></script>
+
+    {% block extrahead %}{% endblock %}
+</head>
+{% block extrabody %}<body>{% endblock %}
+    <div id="header">
+        <!-- put some header here -->
+    <div id="top">
+    <ul id="mainmenu">
+      <li><a href="/intranet/">
+              <img id="logo" alt="Kiberpipa" src="{{ media_url }}/kiberpipa-white.png" />
+              <br />nadzorna plo&#353;&#269;a
+          </a>
+      </li>
+      <li><a href="/intranet/dezurni/">De&#382;urni</a></li>
+      <li><a href="/intranet/tehniki/">Tehniki</a></li>
+      <li><a href="/intranet/diarys/">Dnevniki</a></li>
+      <li><a href="/intranet/bugs/">Hro&#353;&#269;i</a></li>
+      <li><a href="/intranet/lends/">Reverzi</a></li>
+      <li><a href="/intranet/events/">Dogodki</a></li>
+      <li><a href="/intranet/kb/">Znanje</a></li>
+      <li><a href="/intranet/imenik/">Imenik</a></li>
+      <li><a href="/intranet/shopping/">Nakupi</a></li>
+      <li><a href="/intranet/admin">Administracija</a></li>
+    </ul>
+    <ul id="login_info">
+      <li>Pozdravljen {{ user.username }}!</li>
+      <li><a href="/intranet/accounts/logout/">Odjava</a></li>
+      <br />
+      {% comment %}
+      <form action="/intranet/search/" method="post">
+                        <input type="text" name="term" size="22">
+                        <input type="submit" value="Najdi">
+                    </form>
+      {% endcomment %}
+    </ul>
+    </div>
+    </div>
+
+{% block content %}{% endblock %}
+<p>
+<!-- STATS: Total: %(totTime).2f Python: %(pyTime).2f DB: %(dbTime).2f Queries: %(queries)d -->
+</p>
+</body>
+</html>

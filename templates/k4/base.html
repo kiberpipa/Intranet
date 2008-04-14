@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+{% load k4 %}
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Klub K4</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <style type="text/css" media="screen">
+   @import url( {{ media_url }}/k4/style.css );
+  </style>
+    <script type="text/javascript" src="/intranet/admin/jsi18n/"></script>
+    <script type="text/javascript" src="{{ admin_media_prefix }}js/core.js"></script>
+    <script type="text/javascript" src="{{ admin_media_prefix }}js/admin/RelatedObjectLookups.js"></script>
+    <script type="text/javascript" src="{{ admin_media_prefix }}js/calendar.js"></script>
+    <script type="text/javascript" src="{{ admin_media_prefix }}js/admin/DateTimeShortcuts.js"></script>
+
+    {% block extrahead %}{% endblock %}
+</head>
+
+<body >
+<table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="557">
+  <tbody><tr>
+    <td background="{{ media_url }}/k4/bcg2.gif" valign="top">
+    <table align="center" border="0" cellpadding="0" cellspacing="0" width="557">
+      <tbody><tr>
+        <td><img src="{{ media_url }}/k4/head.gif" usemap="#Map" border="0" height="66" width="557"></td>
+      </tr>
+      <tr>
+        <td><img src="{{ media_url }}/k4/logo.gif" height="83" width="557"></td>
+      </tr>
+
+      <tr>
+		<td>
+			<ul>
+      {% block links %}
+      {% endblock %}
+			</ul>
+		</td>
+	  </tr><tr>
+		<td>
+			<ul>
+      {% block events %}
+      {% endblock %}
+			</ul>
+		</td>
+	  </tr>
+
+		<tr>
+			<td>
+			{% block content %}
+			{% endblock %}
+			</td>
+		</tr>
+	  </tbody>
+	</table>
+</td></tr>
+ </tbody>
+</table>
+
+</body></html>
+

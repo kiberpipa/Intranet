@@ -1,0 +1,69 @@
+{% if object.picture %}
+	<ul><li><img src="{{ object.picture }}" alt="no logo" /></li></ul>
+{% endif %}
+
+{% if events %}
+<img src="{{ media_url }}/img/projekti.png" alt="projekti" />
+<ul>
+{% for e in events %}
+	<li><a href="/slotechart/projects/{{ e.id }}">
+		{{ e }} ({{ e.start_date|date:"Y" }})
+	</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+
+
+{% if artists %}
+<img src="{{ media_url }}/img/avtorji.png" alt="avtorji"/>
+<ul>
+	{% for a in artists %}
+		<li><a href="/slotechart/umetniki/{{ a.id }}/">{{ a }}</a></li>
+	{% endfor %}
+</ul>
+{% endif %}
+
+{% if collaborators %}
+<img src="{{ media_url }}/img/sodelavci.png" alt="sodelavci"/>
+<ul>
+	{% for a in collaborators %}
+		<li><a href="/slotechart/umetniki/{{ a.id }}/">{{ a }}</a></li>
+	{% endfor %}
+</ul>
+{% endif %}
+
+{% if gallerys %}
+<img src="{{ media_url }}/img/galerije.png" alt="galerije"/>
+<ul>
+	{% for a in gallerys %}
+		<li><a href="/slotechart/galerije/{{ a.id }}/">{{ a }}</a></li>
+	{% endfor %}
+</ul>
+{% endif %}
+
+{% if festivals %}
+<img src="{{ media_url }}/img/festivali.png" alt="festivali"/>
+<ul>
+	{% for a in festivals %}
+		<li><a href="/slotechart/festivali/{{ a.id }}/">{{ a }}</a></li>
+	{% endfor %}
+</ul>
+{% endif %}
+
+{% if producers %}
+<img src="{{ media_url }}/img/producenti.png" alt="producenti"/>
+<ul>
+	{% for a in producers %}
+		<li><a href="/slotechart/producenti/{{ a.id }}/">{{ a }}</a></li>
+	{% endfor %}
+</ul>
+{% endif %}
+
+{% if awards %}
+<img src="{{ media_url }}/img/nagrade.png" alt="nagrade"/>
+<ul>
+	{% for a in awards %}
+		<li><a href="/slotechart/nagrade/{{ a.id }}/">{{ a }}</a></li>
+	{% endfor %}
+</ul>
+{% endif %}

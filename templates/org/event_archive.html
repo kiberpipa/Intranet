@@ -1,0 +1,42 @@
+{% extends "org/base_2col.html" %}
+{% block extrahead %}
+    <link rel="alternate" type="application/rss+xml" title="Events RSS Feed" href="/intranet/feeds/events/" />
+{% endblock %}
+{% block title %}Dogodki{% endblock %}
+{% load box %}
+{% block toplinks %}
+    <div class="breadcrumbs">
+    <ul id="breadcrumbs">
+        <li>Leta:</li>
+        <li><a href="arhiv/2006/">2006</a></li>
+        {% for obj in date_list %}
+            <li><a href="arhiv/{{ obj.year }}/">{{ obj.year }}</a></li>
+        {% endfor %}
+    </ul>
+    </div>
+{% endblock %}
+
+{% block heading %}
+    <h1>Aktualni dogodki <a href="/intranet/feeds/events/"><img src="{{ media_url }}/img/rss.gif" alt="event rss" /></a></h1>
+{% endblock %}
+
+{% block content-related-left %}
+  <div class="module" id="recent-actions-module">
+    <h2>Urejanje</h2>
+        <ul class="actionlist">
+            <li><a href="create/">Dodajanje</a></li>
+            <li>Potrebuje snemanje: <img src="{{ media_url }}img/camera.png" alt="video" /></li>
+            <li>Ima tehnika: <img src="{{ media_url }}img/tools.png" alt="tech" /></li>
+            <li>Manjka tehnik: <img src="{{ media_url }}img/help.png" alt="help" /></li>
+        </ul>
+  </div>
+{% endblock %}
+
+{% block content-main %}
+<div class="module">
+    <h2>Seznam dogodkov</h2>
+        {% for log in latest reversed %}
+                {% print_event log %}
+        {% endfor %}
+</div>
+{% endblock %}

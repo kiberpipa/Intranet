@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<django-objects version="1.0">
+    <object pk="1" model="org.task">
+        <field type="CharField" name="title">Dežuranje</field>
+        <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
+        <field type="TextField" name="note"></field>
+        <field type="DateTimeField" name="pub_date">2008-03-24 16:07:15</field>
+        <field type="DateTimeField" name="chg_date">2008-03-24 16:07:15</field>
+    </object>
+    <object pk="2" model="org.task">
+        <field type="CharField" name="title">Tehničarjenje</field>
+        <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
+        <field type="TextField" name="note"></field>
+        <field type="DateTimeField" name="pub_date">2008-03-24 16:08:10</field>
+        <field type="DateTimeField" name="chg_date">2008-03-24 16:08:10</field>
+    </object>
+    <object pk="3" model="org.task">
+        <field type="CharField" name="title">Programiranje</field>
+        <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
+        <field type="TextField" name="note"></field>
+        <field type="DateTimeField" name="pub_date">2008-03-24 16:08:21</field>
+        <field type="DateTimeField" name="chg_date">2008-03-24 16:08:21</field>
+    </object>
+    <object pk="4" model="org.task">
+        <field type="CharField" name="title">SysAdministracija</field>
+        <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
+        <field type="TextField" name="note"></field>
+        <field type="DateTimeField" name="pub_date">2008-03-24 16:08:30</field>
+        <field type="DateTimeField" name="chg_date">2008-03-24 16:08:30</field>
+    </object>
+    <object pk="5" model="org.task">
+        <field type="CharField" name="title">Webmastranje</field>
+        <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
+        <field type="TextField" name="note"></field>
+        <field type="DateTimeField" name="pub_date">2008-03-24 16:08:37</field>
+        <field type="DateTimeField" name="chg_date">2008-03-24 16:08:37</field>
+    </object>
+    <object pk="6" model="org.task">
+        <field type="CharField" name="title">Promocija</field>
+        <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
+        <field type="TextField" name="note"></field>
+        <field type="DateTimeField" name="pub_date">2008-03-24 16:08:48</field>
+        <field type="DateTimeField" name="chg_date">2008-03-24 16:08:48</field>
+    </object>
+    <object pk="7" model="org.task">
+        <field type="CharField" name="title">Program</field>
+        <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
+        <field type="TextField" name="note"></field>
+        <field type="DateTimeField" name="pub_date">2008-03-24 16:09:00</field>
+        <field type="DateTimeField" name="chg_date">2008-03-24 16:09:00</field>
+    </object>
+</django-objects>

@@ -1,0 +1,13 @@
+<ul id="months">
+{% for month in months_list %}
+	<li>
+	{% ifequal m month %}
+		{{ month|date:"M"|lower }}
+	{% else %}
+		<a href="/slotechart/arhiv/{{ date.year }}/{{ month|date:"M"|lower }}">
+			{{ month|date:"M"|lower }}
+		</a>
+	{% endifequal %}
+	</li>
+{% endfor %}
+</ul>

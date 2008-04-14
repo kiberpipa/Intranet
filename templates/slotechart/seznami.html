@@ -1,0 +1,24 @@
+{% extends "slotechart/base.html" %}
+{% load menus %}
+
+{% block heading %}
+	<img src="{{ media_url }}/img/naslovi/{{ what|lower }}.png" alt="{{ what }}">
+{% endblock %}
+
+{% block main-content %}
+	<ul>
+	{% for who in object_list %}
+		<li><a href="{{ who.id }}/">{{ who }} ({{ who.country }})</a></li>
+	{% endfor %}
+	</ul>
+{% endblock %}
+
+{% block archive-list %}
+	{% if object_list %}
+		<ul id="list">
+	{% for who in object_list %}
+			<li><a href="{{ who.id }}/">{{ who }}</a></li>
+	{% endfor %}
+		</ul>
+	{% endif %}
+{% endblock %}

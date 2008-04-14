@@ -1,0 +1,14 @@
+{% extends "video/base.html" %}
+{% load thumbnail videotags %}
+{% block videos %}
+
+<table id="videos">
+<tbody>
+
+{% for object in latest %}
+    {% print_video_object object %}
+{% endfor %}
+
+</tbody>
+</table>
+{% endblock %}

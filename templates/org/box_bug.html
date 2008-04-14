@@ -1,0 +1,25 @@
+<form method="post" action="/intranet/box/bugs/add/">
+  <p>
+    <label for="id_name">Hrošč:</label>
+    {{ form.name }}
+    {% if form.name.errors %}
+      *** {{ form.name.errors|join:", " }}
+    {% endif %}
+  </p>
+  <p>
+    <label for="id_assign">Komu:</label>
+    {{ form.assign }}
+    {% if form.assign.errors %}
+      *** {{ form.assign.errors|join:", " }}
+    {% endif %}
+  </p>
+  <p>
+    <label for="id_note">Opis:</label>
+    {{ form.note }}
+    {% if form.note.errors %}
+      *** {{ form.note.errors|join:", " }}
+    {% endif %}
+  </p>
+  <p><input type="submit" value="Pošlji" /></p>
+</form>
+

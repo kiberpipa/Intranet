@@ -1,0 +1,57 @@
+{% extends "org/base_3col.html" %}
+{% block extrahead %}
+{% endblock %}
+{% load box %}
+{% block title %}Hrošči in želje{% endblock %}
+
+{% block heading %}
+        <h1>Hrošči</h1>
+{% endblock %}
+
+{% block content-related-left %}
+  <div class="module" id="recent-actions-module">
+    	    <h2>Urejanje</h2>
+  	 <ul class="actionlist">
+  	 	{% if object.resolved %}
+			<li>Ta hrosc je ze odpravljen</li>
+		{% else %}
+			{% ifequal object.assign user %}
+				<li><a href="/intranet/bugs/{{ object.id }}/done/">Oznaci kot opravljeno</a></li>
+			{% else %}
+				<li><a href="/intranet/bugs/{{ object.id }}/take/">Prevzami razresevanje</a></li>
+			{% endifequal %}
+		{% endif %}
+			<li>
+		<form action = "move/" method="post" name="MoveBugForm">
+		<input type="submit" value="Preusmeri"/> k:
+			<select selected name="assign">
+				{% box_list User "" %}
+			</select>
+			, ker:
+			<textarea name="note" id="note" rows="5" cols="20"></textarea>
+			<br>
+
+		</form>
+				</li>
+	</ul>
+  </div>
+{% endblock %}
+
+{% block content-main %}
+	<div class="module">
+	<h2>{{ object.name }}</h2>
+          <p>{{ object.author }} -> {{ object.assign }}
+             ({{ object.pub_date|date:"d.m.Y" }})</p>
+          <p>{{ object.note|escape|linebreaks }}</p>
+	</div>
+
+	{% comment %}{% loadcomments object user %}{% endcomment %}
+
+{% endblock %}
+
+{% block content-related-right %}
+  <div class="module" id="recent-actions-module">
+    <h2>Kazalo odprtih hroscev</h2>
+  	 {% box_list Bug "resolved__exact=False" "template=org/list_my_bugs.html" %}
+</div>
+{% endblock %}

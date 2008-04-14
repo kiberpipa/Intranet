@@ -1,0 +1,11 @@
+{% for task in list %}
+
+<li>
+        <b>{{ task.start_date|date:"D j. M H:i" }}</b><br>
+        {{ task.project }}
+        <a id="eventlink" href="/{{ task.what }}/events/{{ task.id }}/">
+                {{ task.title }}
+        </a>
+</li>
+
+{% endfor %}

@@ -1,0 +1,31 @@
+
+<tr>
+
+<td valign="top" width="220">
+    <a href="{{ object.baseurl }}/play.html" style="border: medium none ;">
+        <img alt="{{ object.name }}" src="{{ media_url }}{{ object.image }}">
+    </a>
+</td>
+
+<td valign="top">
+    <p><span class="title">
+        <a class="videolink" style="text-decoration: none" href="{{ object.baseurl }}/play.html" style="border: medium none ;">
+            {{ object.name }}
+        </a>
+    </span></p>
+    <p>{{ object.featuring }}</p>
+    <p class="date">{{ object.date|date:"d.m.Y" }}</p>
+</td>
+
+<td valign="top">
+    <p>Trajanje: {{ object.length }}<br>
+       Velikost: {{ object.filesize }}</p>
+    <p class="link"><a href="{{ object.baseurl }}/play.html">Predvajaj v brskalniku</a></p>
+    <p class="link">
+        Predvajaj: <a href="{{ object.baseurl }}/video.ogg.m3u">Video</a>,
+                   <a href="{{ object.baseurl }}/audio.ogg.m3u">Audio</a>
+    <br>Prenesi:   <a href="{{ object.baseurl }}/video.ogg">Video</a>
+                   <a href="{{ object.baseurl }}/audio.ogg">Audio</a>
+    </p>
+</td>
+</tr>

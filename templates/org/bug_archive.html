@@ -1,0 +1,48 @@
+{% extends "org/base_3col.html" %}
+{% block extrahead %}
+		<link rel="alternate" type="application/rss+xml" title="Events RSS Feed" href="/intranet/feeds/bugs/" />
+{% endblock %}
+
+{% load box %}
+
+{% block title %}Hrošči in želje{% endblock %}
+
+{% block heading %}
+        <h1>Hrošči</h1>
+{% endblock %}
+
+{% block content-related-left %}
+  <div class="module" id="recent-actions-module">
+  	<h2>Pregled</h2>
+  	{% box_bug_stats user %}
+  </div>
+  <div class="module" id="recent-actions-module">
+  	<h2>Dodaj hrošča</h2>
+		{% box_add Bug %}
+  </div>
+{% endblock %}
+
+{% block content-main %}
+	<div class="module">
+    {% for log in latest %}
+    {% if not log.resolved %}
+			<h2><a class="h2" href="{{ log.get_absolute_url }}">{{ log.name }}</a>
+          		{{ log.pub_date|date:"d.m.Y" }}</h2>
+        <h5>{{ log.author }} -> {{ log.assign }}</h5>
+    	<p>{{ log.note|escape|linebreaks }}</p>
+	{% endif %}
+	{% endfor %}
+	</div>
+{% endblock %}
+
+{% block content-related-right %}
+<!--  <div class="module" id="recent-actions-module">
+    <h2>Filtri</h2>
+  	 <ul class="actionlist">
+	</ul>
+</div>-->
+  <div class="module" id="recent-actions-module">
+    <h2>Kazalo odprtih hroscev</h2>
+  	 {% box_list Bug "resolved__exact=False" "template=org/list_bugs.html" %}
+</div>
+{% endblock %}

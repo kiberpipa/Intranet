@@ -1,0 +1,8 @@
+<data>{% load box %}
+{% for event in event_list %}
+  <event start="{{ event.start_date|date:"M d Y H:i:s" }} GMT"
+    title="{{ event.title|escape }}"
+    >
+  </event>
+{% endfor %}
+</data>

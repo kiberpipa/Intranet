@@ -1,0 +1,112 @@
+  <p>
+    <label for="id_title">title:</label>
+    {{ form.title }}
+    {% if form.title.errors %}
+      *** {{ form.title.errors|join:", " }}
+    {% endif %}
+  </p>
+   <p>
+    <label for="id_author">author:</label>
+    {{ form.author }}
+    {% if form.author.errors %}
+      *** {{ form.author.errors|join:", " }}
+    {% endif %}
+  </p>
+ <p>
+    <label for="id_project">project:</label>
+    {{ form.project }}
+    {% if form.project.errors %}
+      *** {{ form.project.errors|join:", " }}
+    {% endif %}
+    <label for="id_responsible">responsible:</label>
+    {{ form.responsible }}
+    {% if form.responsible.errors %}
+      *** {{ form.responsible.errors|join:", " }}
+    {% endif %}
+</p>
+<p>
+    <label for="id_category">category:</label>
+    {{ form.category }}
+    {% if form.category.errors %}
+      *** {{ form.category.errors|join:", " }}
+    {% endif %}
+<!--	<a href="/intranet/admin/auth/user/add/" class="add-another" id="add_id_responsible" onclick="return showAddAnotherPopup(this);"> <img src="/media/img/admin/icon_addlink.gif" width="10" height="10" alt="Add Another"/></a
+-->
+	</p>
+<hr>
+   <p>
+    <label for="id_start_date">start date:</label>
+    {{ form.start_date_date }}
+    {% if form.start_date_date.errors %}
+      *** {{ form.start_date_date.errors|join:", " }}
+    {% endif %}
+    {{ form.start_date_time }}
+    {% if form.start_date_time.errors %}
+      *** {{ form.start_date_time.errors|join:", " }}
+    {% endif %}
+  </p>
+  <p>
+    <label for="id_length">length:</label>
+    {{ form.length }}
+    {% if form.length.errors %}
+      *** {{ form.length.errors|join:", " }}
+    {% endif %}
+  </p>
+<hr>
+  <p>
+    <label for="id_require_technician">require technician:</label>
+    {{ form.require_technician }}
+    {% if form.require_technician.errors %}
+      *** {{ form.require_technician.errors|join:", " }}
+    {% endif %}
+    <label for="id_technician">Tehnik:</label>
+    {{ form.technician }}
+    {% if form.technician.errors %}
+      *** {{ form.technician.errors|join:", " }}
+    {% endif %}  </p>
+  <p>
+    <label for="id_require_video">require video:</label>
+    {{ form.require_video }}
+    {% if form.require_video.errors %}
+      *** {{ form.require_video.errors|join:", " }}
+    {% endif %}
+  </p>
+<hr>
+  <p>
+    <label for="id_place">place:</label>
+    {{ form.place }}
+    {% if form.place.errors %}
+      *** {{ form.place.errors|join:", " }}
+    {% endif %}
+    <label for="id_place_internal">place internal:</label>
+    {{ form.place_internal }}
+    {% if form.place_internal.errors %}
+      *** {{ form.place_internal.errors|join:", " }}
+    {% endif %}
+  </p>
+  <p>
+    <label for="id_tags">tags:</label>
+    {{ form.tags }}
+    {% if form.tags.errors %}
+      *** {{ form.tags.errors|join:", " }}
+    {% endif %}
+   	 <a href="/intranet/admin/org/tag/add/" class="add-another" id="add_id_tags" onclick="return showAddAnotherPopup(this);"> <img src="/media/img/admin/icon_addlink.gif" width="10" height="10" alt="Add Another"/></a
+  </p>
+<hr>
+ <p>
+    <label for="id_announce">announce:</label>
+    {{ form.announce }}
+    {% if form.announce.errors %}
+      *** {{ form.announce.errors|join:", " }}
+    {% endif %}
+  </p>
+
+<hr>
+
+  <p>
+    <label for="id_note">note:</label>
+    {{ form.note }}
+    {% if form.note.errors %}
+      *** {{ form.note.errors|join:", " }}
+    {% endif %}
+  </p>

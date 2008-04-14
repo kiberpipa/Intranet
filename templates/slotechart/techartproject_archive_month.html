@@ -1,0 +1,21 @@
+{% extends "slotechart/base.html" %}
+{% load menus %}
+{% block heading %}
+	<img src="{{ media_url }}/img/naslovi/{{ what|lower }}.png" alt="{{ what }}">{{ month|date:"M Y" }}
+{% endblock %}
+
+{% block main-content %}
+	<ul>
+	{% for event in object_list %}
+		<li><a href="/slotechart/projects/{{ event.id }}">{{ event }}</a></li>
+	{% endfor %}
+	</ul>
+{% endblock %}
+
+{% block archive-navigation %}
+	{% year_list month.year %}
+{% endblock %}
+
+{% block archive-navigation-month %}
+	{% months_list month %}
+{% endblock %}

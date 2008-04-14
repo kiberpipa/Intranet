@@ -1,0 +1,53 @@
+Kiberpipa, dnevno poročilo: {{ today }}
+
+{% if dogodki %}
+=== Jutrišnji dogodki:
+    {% for e in dogodki %}{{ e.start_date }} - {{ e.project }} - {{ e.title }}
+        {% if e.require_technician %}{% if not e.technician %}POZOR: nimamo tehnika za dogodek!
+    {% endif %}{% endif %}
+    {% endfor %}
+{% endif %}
+
+{% if novo %}
+=== Novi dogodki v bazi:
+    {% for e in novo %}{{ e.start_date }} - {{ e.project }} - {{ e.title }}
+    {% endfor %}
+{% endif %}
+
+{% if dogodki_vceraj %}
+=== Število obiskovalcev na dogodkih:
+	{% for d in dogodki_vceraj %}
+	{{ d.title}}:{{ d.visitors }}	
+	{% endfor %}
+{% endif %}
+
+{% if dnevniki %}
+=== Današnji dnevniki:
+    {% for e in dnevniki %}
+[ {{ e.date }} - {{ e.author }} - {{ e.task }} - {{ e.length }} ]
+    ---
+    {{ e.log_formal|wordwrap:"60" }}
+    ---
+    {{ e.log_informal|wordwrap:"60" }}
+    {% endfor %}
+{% endif %}
+
+{% if scratchpad %}
+=== Kracarka na koncu dneva:
+
+{{ scratchpad.content|wordwrap:"60" }}
+
+{% endif %}
+
+{% if reverzi %}
+=== Pretečeni reverzi:
+    {% for e in reverzi %}{{ e.what }} - {{ e.from_who }} posodil {{ e.to_who }}
+    {% endfor %}
+{% endif %}
+
+===
+
+domača stran: https://www.kiberpipa.org/intranet
+trac: http://www.kiberpipa.org/projekti/trac
+svn co http://www.kiberpipa.org/svn/intranet/magic
+[intranet]: http://lists.kiberpipa.org/mailman/listinfo/intranet

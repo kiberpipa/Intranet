@@ -1,0 +1,43 @@
+{% extends "org/base_3col.html" %}
+{% block title %}Reverzi opreme{% endblock %}
+
+{% block extrahead %}
+{% endblock %}
+{% load box %}
+{% block heading %}
+        <h1>Reverzi</h1>
+{% endblock %}
+
+{% block content-related-left %}
+  <div class="module" id="recent-actions-module">
+      <h2>Vpisi reverz</h2>
+        {% box_add Lend %}
+  </div>
+{% endblock %}
+
+{% block content-main %}
+    <div class="module">
+    {% for log in latest %}
+    {% if not log.returned %}
+            <h2><a class="h2" href="{{ log.id }}">{{ log.what }}</a>
+                  do {{ log.due_date|date:"d.m.Y" }}</h2>
+        <h5>{{ log.from_who }} -> {{ log.to_who }}</h5>
+        <p>{{ log.why|escape|linebreaks }}</p>
+        <p>{{ log.note|escape|linebreaks }}</p>
+    {% endif %}
+    {% endfor %}
+    </div>
+{% endblock %}
+
+{% block content-related-right %}
+  <div class="module" id="recent-actions-module">
+    <h2>Filter po izposojevalcih</h2>
+       {% box_list User "" "template=org/list_user_lend.html" %}
+</div>
+  <div class="module" id="recent-actions-module">
+    <h2>Izposojena oprema</h2>
+       <ul class="actionlist">
+        {% box_list Lend "returned=False" "template=org/list_lend.html" %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "k4/base.html" %}
+
+{% block extrahead %}{% endblock %}
+
+{% load parts %}
+
+{% block links %}
+    <li class="pagenav"><h2>Urejanje</h2>
+      <ul>
+    	<li><a href="edit/">Uredi podatke</a></li>
+		<li><a href="../create/">Dodaj novega</a></li>
+	  </ul>
+	</li>
+{% endblock %}
+
+{% block content %}
+        <h2>{{ object.title }}</h2>
+		<h4>{{ object.project }}</h4>
+			<p>{{ object.title }}</p>
+			<p>{{ object.start_date|date:"D d.m.Y" }} ({{ object.length }})</p>
+          <h4>Vsebina:</h4>
+          <p>
+			{{ object.announce }}</p>
+
+{% endblock %}
+
