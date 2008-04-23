@@ -39,7 +39,7 @@
         <h4>{{ object.project }}</h4>
             <p>{{ object.title }}</p>
             <p>{{ object.start_date|date:"D d.m.Y" }} ({{ object.length }})</p>
-          <h4>Zahteve:</h4>
+          <h4>Zahteve tralalala:</h4>
           <p>
                 {% if object.require_technician %}
                     tehnik
@@ -48,10 +48,10 @@
                     ,video
                 {% endif %}
                 {% if object.place_internal %}
-                    ,{{ object.place_internal }}
-                  {% comment %}{% for o in object.place_internal %}
+                 {% comment %}   ,{{ object.place_internal.all }}{% endcomment %}
+                  {% for o in object.place_internal.all %}
                     , {{ o }}
-                  {% endfor %}{% endcomment %}
+                  {% endfor %}
                 {% endif %}
           </p>
           	{% if object.visitors %}
