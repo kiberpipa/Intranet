@@ -18,9 +18,9 @@
 
 {% block content-main %}
 <div class="module">
-    <h2>Članek: {{ article.title }}</h2>
+    <h2>Članek tralalala: {{ article.title }}</h2>
     <br>
-    {{ article.content }}
+    {{ article.content|safe }}
 </div>
 <div class="module">
     <h2>Metapodatki</h2>
