@@ -923,7 +923,9 @@ def kb_index(request):
 kb_index = login_required(kb_index)
 
 def kb_cat(request, kbcat):
-    pass
+	##AFAIK se ta funckija klice samo po tem ko shranis stvar v KB
+	return HttpResponseRedirect(KB.objects.filter(title=request.POST['title'])[0].get_absolute_url())
+
 kb_cat = login_required(kb_cat)
 
 def kb_article(request, kbcat, article):
@@ -932,6 +934,8 @@ def kb_article(request, kbcat, article):
                               {'article':article,},
                               context_instance=RequestContext(request))
 kb_article = login_required(kb_article)
+
+
 
 def kb_article_add(request):
     manipulator = KB.AddManipulator()
@@ -982,7 +986,7 @@ def kb_article_edit(request, id):
     return render_to_response('org/kb_add.html',
                            {'form': form},
                             context_instance=RequestContext(request))
-kb_article_edit = login_required(kb_article_edit)
+#kb_article_edit = login_required(kb_article_edit)
 
 def imenik(request):
     addressbook_dict = {

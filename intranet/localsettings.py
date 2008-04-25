@@ -15,13 +15,13 @@ MEDIA_ROOT = '/home/intranet/intranet2/media/'
 MEDIA_URL = 'https://www.kiberpipa.org/~intranet/media/'
 ADMIN_MEDIA_PREFIX = 'https://www.kiberpipa.org/~intranet/admin-media/'
 
-BASE_URL = 'http://www.kiberpipa.org'
+BASE_URL = 'http://stream.kiberpipa.org:9000'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates".
     # Always use forward slashes, even on Windows.
 #    '/home/intranet/intranet2/templates',
-	'/home/redduck666/i/templates/',
+    '/home/redduck666/i/svn/intranet/rd666/templates',
 )
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True

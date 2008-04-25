@@ -75,7 +75,8 @@ INSTALLED_APPS = (
 )
 
 TEMPLATE_DIRS = (
-    next_to_this_file(__file__, '../templates'),
+    #next_to_this_file(__file__, '../templates'),
+    '/home/redduck666/i/svn/intranet/rd666/templates',
 )
 
 AUTH_PROFILE_MODULE = "org.UserProfile"
