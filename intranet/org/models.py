@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib import admin
 from django.contrib.auth.models import User
 
 #from intranet.tags.models import Tag
@@ -16,8 +17,8 @@ class Tag(models.Model):
     total_ref = models.IntegerField(blank=True, default=0)
     font_size = models.IntegerField(blank=True, default=0)
 
-    class Admin:
-        pass
+#    class Admin:
+#        pass
 
     def __unicode__(self):
         return self.name
@@ -36,8 +37,8 @@ class UserProfile(models.Model):
 #    tasks = models.ManyToManyField(Task, blank=True, null=True)
 #    project = models.ManyToManyField(Project, blank=True, null=True)
 
-    class Admin:
-        pass
+#    class Admin:
+#        pass
 
     def __unicode__(self):
         return self.user.username
@@ -52,19 +53,28 @@ class Project(models.Model):
 
     tags = models.ManyToManyField(Tag, blank=True, null=True)
 
-    class Meta:
+    def __unicode__(self):
+        return self.name
+
+#    class Meta:
+#        verbose_name = 'Projekt'
+#        verbose_name_plural = 'Projekti'
+#
+#    class Admin:
+#        search_fields = ['note','name','responsible']
+#        list_display = ['name', 'responsible']
+#        js = (
+#              'js/tags.js',
+#              )
+class ProjectAdmin(admin.ModelAdmin):
         verbose_name = 'Projekt'
         verbose_name_plural = 'Projekti'
-
-    class Admin:
         search_fields = ['note','name','responsible']
         list_display = ['name', 'responsible']
         js = (
               'js/tags.js',
               )
 
-    def __unicode__(self):
-        return self.name
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -75,13 +85,19 @@ class Category(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
 
-    class Admin:
+    def __unicode__(self):
+        return self.name
+
+#    class Admin:
+#         js = (
+#              'js/tags.js',
+#              )
+
+class CategoryAdmin(admin.ModelAdmin):
          js = (
               'js/tags.js',
               )
 
-    def __unicode__(self):
-        return self.name
 
 class Place(models.Model):
     name = models.CharField(max_length=100)
@@ -90,13 +106,20 @@ class Place(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
 
-    class Admin:
+    def __unicode__(self):
+        return self.name
+
+#    class Admin:
+#         js = (
+#              'js/tags.js',
+#              )
+
+
+class PlaceAdmin(admin.ModelAdmin):
          js = (
               'js/tags.js',
               )
 
-    def __unicode__(self):
-        return self.name
 
 class PlaceInternal(models.Model):
     name = models.CharField(max_length=100)
@@ -106,13 +129,20 @@ class PlaceInternal(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
 
-    class Admin:
+    def __unicode__(self):
+        return self.name
+
+#    class Admin:
+#         js = (
+#              'js/tags.js',
+#              )
+
+class PlaceInternalAdmin(admin.ModelAdmin):
          js = (
               'js/tags.js',
               )
 
-    def __unicode__(self):
-        return self.name
+
 
 
 # koledar dogodkov
@@ -141,11 +171,32 @@ class Event(models.Model):
     category = models.ForeignKey(Category)
     tags = models.ManyToManyField(Tag, blank=True, null=True)
 
-    class Meta:
+
+    def get_absolute_url(self):
+        return "%s/intranet/events/%i/" % (settings.BASE_URL, self.id)
+
+    def __unicode__(self):
+        return self.title
+        #return "%s - (%s) %s" % (self.date.strftime('%x'), self.get_project().name, self.title)
+
+#    class Meta:
+#        verbose_name = 'Dogodek'
+#        verbose_name_plural = 'Dogodki'
+#
+#    class Admin:
+#        search_fields = ['note','title','project', 'announce']
+#        date_hierarchy = 'start_date'
+#        ordering = ['-start_date']
+#        list_filter = ['project', 'start_date']
+#        list_display = ['title', 'start_date', 'length']
+#        js = (
+#              'js/tags.js',
+#              )
+
+
+class EventAdmin(admin.ModelAdmin):
         verbose_name = 'Dogodek'
         verbose_name_plural = 'Dogodki'
-
-    class Admin:
         search_fields = ['note','title','project', 'announce']
         date_hierarchy = 'start_date'
         ordering = ['-start_date']
@@ -154,13 +205,6 @@ class Event(models.Model):
         js = (
               'js/tags.js',
               )
-
-    def get_absolute_url(self):
-        return "%s/intranet/events/%i/" % (settings.BASE_URL, self.id)
-
-    def __unicode__(self):
-        return self.title
-        #return "%s - (%s) %s" % (self.date.strftime('%x'), self.get_project().name, self.title)
 
 # opravila v pipi
 class Task(models.Model):
@@ -171,19 +215,30 @@ class Task(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
 
-    class Meta:
+
+    def __unicode__(self):
+        return self.title
+
+#    class Meta:
+#        verbose_name = 'Opravilo'
+#        verbose_name_plural = 'Opravila'
+#
+#    class Admin:
+#        search_fields = ['title','note']
+#        list_display = ['title', 'responsible']
+#        js = (
+#              'js/tags.js',
+#              )
+
+
+class TaskAdmin(admin.ModelAdmin):
         verbose_name = 'Opravilo'
         verbose_name_plural = 'Opravila'
-
-    class Admin:
         search_fields = ['title','note']
         list_display = ['title', 'responsible']
         js = (
               'js/tags.js',
               )
-
-    def __unicode__(self):
-        return self.title
 
 # dnevnik dezurnih
 class Diary(models.Model):
@@ -199,11 +254,30 @@ class Diary(models.Model):
     chg_date = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField(Tag, blank=True, null=True)
 
-    class Meta:
+    def __unicode__(self):
+        #return "%s - %s: %s... (%s)" % (self.date.strftime('%x'), self.get_author(), self.log_formal[:66], self.length)
+        return "%s" % self.log_formal
+
+    def get_absolute_url(self):
+        return "%s/diarys/%i/" % (settings.BASE_URL, self.id)
+
+
+#    class Meta:
+#        verbose_name = 'Dnevnik'
+#        verbose_name_plural = 'Dnevniki'
+#
+#    class Admin:
+#        search_fields = ['log_formal','person','task']
+#        date_hierarchy = 'date'
+#        list_filter = ['date', 'task', 'author']
+#        list_display = ('date', 'author', 'task', 'length')
+#        js = (
+#              'js/tags.js',
+#              )
+
+class DiaryAdmin(admin.ModelAdmin):
         verbose_name = 'Dnevnik'
         verbose_name_plural = 'Dnevniki'
-
-    class Admin:
         search_fields = ['log_formal','person','task']
         date_hierarchy = 'date'
         list_filter = ['date', 'task', 'author']
@@ -212,12 +286,6 @@ class Diary(models.Model):
               'js/tags.js',
               )
 
-    def __unicode__(self):
-        #return "%s - %s: %s... (%s)" % (self.date.strftime('%x'), self.get_author(), self.log_formal[:66], self.length)
-        return "%s" % self.log_formal
-
-    def get_absolute_url(self):
-        return "%s/diarys/%i/" % (settings.BASE_URL, self.id)
 
 # bugs
 class Bug(models.Model):
@@ -231,21 +299,31 @@ class Bug(models.Model):
     chg_date = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField(Tag, blank=True, null=True)
 
-    class Meta:
-        verbose_name = 'Hrosc'
-        verbose_name_plural = 'Hrosci'
-
-    class Admin:
-        search_fields = ['note','name','assign']
-        list_filter = ['resolved', 'assign']
-        list_display = ['name', 'id', 'resolved', 'author', 'assign']
-        ordering = ['resolved']
-
     def __unicode__(self):
       return self.name
 
     def get_absolute_url(self):
         return "%s/intranet/bugs/%i/" % (settings.BASE_URL, self.id)
+
+
+#    class Meta:
+#        verbose_name = 'Hrosc'
+#        verbose_name_plural = 'Hrosci'
+#
+#    class Admin:
+#        search_fields = ['note','name','assign']
+#        list_filter = ['resolved', 'assign']
+#        list_display = ['name', 'id', 'resolved', 'author', 'assign']
+#        ordering = ['resolved']
+
+class BugAdmin(admin.ModelAdmin):
+        verbose_name = 'Hrosc'
+        verbose_name_plural = 'Hrosci'
+        search_fields = ['note','name','assign']
+        list_filter = ['resolved', 'assign']
+        list_display = ['name', 'id', 'resolved', 'author', 'assign']
+        ordering = ['resolved']
+
 
 class StickyNote(models.Model):
     author = models.ForeignKey(User, related_name="message_author")
@@ -258,20 +336,30 @@ class StickyNote(models.Model):
     tags = models.ManyToManyField(Tag, blank=True, null=True)
 
 
-    class Meta:
+    def __unicode__ (self):
+        return "%s..." % (self.note[:50])
+
+#    class Meta:
+#        verbose_name = 'Sporocilo'
+#        verbose_name_plural = 'Sporocila'
+#
+#    class Admin:
+#        search_fields = ['note']
+#        date_hierarchy = 'due_date'
+#        list_filter = ['due_date', 'author']
+#        js = (
+#              'js/tags.js',
+#              )
+
+class StickyNoteAdmin(admin.ModelAdmin):
         verbose_name = 'Sporocilo'
         verbose_name_plural = 'Sporocila'
-
-    class Admin:
         search_fields = ['note']
         date_hierarchy = 'due_date'
         list_filter = ['due_date', 'author']
         js = (
               'js/tags.js',
               )
-
-    def __unicode__ (self):
-        return "%s..." % (self.note[:50])
 
 class Lend(models.Model):
     what = models.CharField(max_length=200, verbose_name='Predmet')
@@ -287,17 +375,23 @@ class Lend(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        verbose_name = 'Sposoja'
-        verbose_name_plural = 'Sposoja'
-
-    class Admin:
-        search_fields = ['to_who', 'why', 'note']
-        list_display = ['what', 'returned', 'from_who', 'to_who', 'from_date', 'due_date', 'why']
-
     def __unicode__ (self):
         return "%s (%s): %s" % (self.what, self.to_who, self.returned)
 
+
+#    class Meta:
+#        verbose_name = 'Sposoja'
+#        verbose_name_plural = 'Sposoja'
+#
+#    class Admin:
+#        search_fields = ['to_who', 'why', 'note']
+#        list_display = ['what', 'returned', 'from_who', 'to_who', 'from_date', 'due_date', 'why']
+
+class LendAdmin(admin.ModelAdmin):
+        search_fields = ['to_who', 'why', 'note']
+        list_display = ['what', 'returned', 'from_who', 'to_who', 'from_date', 'due_date', 'why']
+        verbose_name = 'Sposoja'
+        verbose_name_plural = 'Sposoja'
 
 class KbCategory(models.Model):
     title = models.CharField(max_length=150)
@@ -306,8 +400,8 @@ class KbCategory(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
 
-    class Admin:
-        pass
+#    class Admin:
+#        pass
 
     def __unicode__(self):
         return self.title
@@ -324,8 +418,8 @@ class KB(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
 
-    class Admin:
-        pass
+#    class Admin:
+#        pass
 
     def __unicode__(self):
         return self.title
@@ -351,8 +445,8 @@ class Shopping(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
 
-    class Admin:
-        pass
+#    class Admin:
+#        pass
 
     def __unicode__(self):
         return self.name
@@ -367,9 +461,11 @@ class Scratchpad(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
     
-    class Admin:
-        pass
-        
-    class Meta:
-        get_latest_by = "id"
+#    class Admin:
+#        pass
+#        
+#    class Meta:
+#        get_latest_by = "id"
     
+class Scratchpad(admin.ModelAdmin):
+        get_latest_by = "id"
