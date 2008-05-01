@@ -59,7 +59,6 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
-    'django.contrib.admin',
     'django.contrib.flatpages',
     'intranet.org',
     'intranet.web',
@@ -72,6 +71,10 @@ INSTALLED_APPS = (
 #    'intranet.kapelica',
 #    'intranet.video',
     'intranet.thumbnail',
+    'intranet.wiki',
+    'django.contrib.admin',
+    'django.contrib.markup',
+    'django_evolution',
 )
 
 TEMPLATE_DIRS = (

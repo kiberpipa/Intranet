@@ -85,7 +85,7 @@ register.inclusion_tag('org/box_bug_stats.html')(box_bug_stats)
 
 def box_scratchpad(user):
     try:
-      scratchpad = Scratchpad.objects.latest()
+      scratchpad = Scratchpad.objects.latest('id')
     except ObjectDoesNotExist:
       scratchpad = []
     

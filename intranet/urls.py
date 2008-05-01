@@ -4,6 +4,7 @@ from django.conf import settings
 urlpatterns = patterns('',
     (r'^video3/', include('intranet.video.urls')),
     (r'^intranet/', include('intranet.org.urls')),
+    (r'^wiki/', include('intranet.wiki.urls')),
 #    (r'^kiberpipa/', include('intranet.web.urls')),
     (r'^kapelica/', include('intranet.kapelica.urls')),
 #    (r'^slotechart/', include('intranet.slotechart.urls')),
