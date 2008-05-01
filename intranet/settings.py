@@ -63,14 +63,14 @@ INSTALLED_APPS = (
     'django.contrib.flatpages',
     'intranet.org',
     'intranet.web',
-    'intranet.k6_4',
+#    'intranet.k6_4',
 #    'intranet.slotechart',
     'django.contrib.comments',
 #    'intranet.mediarchive',
     'intranet.tags',
-    'intranet.k4',
-    'intranet.kapelica',
-    'intranet.video',
+#    'intranet.k4',
+#    'intranet.kapelica',
+#    'intranet.video',
     'intranet.thumbnail',
 )
 

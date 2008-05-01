@@ -301,7 +301,7 @@ class Lend(models.Model):
 
 class KbCategory(models.Model):
     title = models.CharField(max_length=150)
-    slug = models.SlugField(max_length=75, prepopulate_from=("title",))
+    slug = models.SlugField(max_length=75, )
 
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
@@ -314,7 +314,7 @@ class KbCategory(models.Model):
 
 class KB(models.Model):
     title = models.CharField(max_length=150)
-    slug = models.SlugField(max_length=75, prepopulate_from=("title",))
+    slug = models.SlugField(max_length=75, )
     category = models.ForeignKey(KbCategory)
     project = models. ManyToManyField(Project, blank=True, null=True)
     task = models.ManyToManyField(Task, blank=True, null=True)
