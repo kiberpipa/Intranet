@@ -3,8 +3,9 @@ import difflib
 
 from django.db import models
 from django.contrib.auth.models import User
+from intranet.org.models import UserProfile
 
-
+###FIXME -- write a proper user profile
 #class WikiUser(models.Model):
 #    """The wiki user profile.
 #    Set AUTH_PROFILE_MODULE = 'wiki.WikiUser'
@@ -62,6 +63,7 @@ class Article(models.Model):
 class ChangeSet(models.Model):
     """A report of an older version of an Article."""
     article = models.ForeignKey(Article, edit_inline=models.TABULAR)
+    #editor = models.ForeignKey(WikiUser)
     editor = models.ForeignKey(User)
     revision = models.IntegerField("Revision Number")
     old_title = models.CharField("Old Title", max_length=50, blank=True)
