@@ -1017,3 +1017,4 @@ def scratchpad_change(request):
             manipulator.save(new_data)
 
     return HttpResponseRedirect("/intranet/")
+

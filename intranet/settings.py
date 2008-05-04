@@ -34,6 +34,8 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    #'sphene.community.middleware.ThreadLocals',
+    #'sphene.community.middleware.GroupMiddleware',
     'intranet.psyco.PsycoMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -52,6 +54,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.i18n",
     'intranet.org.context_processors.media_url',
     'intranet.org.context_processors.admin_media_prefix',
+    #'sphene.community.context_processors.navigation',
 )
 
 INSTALLED_APPS = (
@@ -75,6 +78,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.markup',
     'django_evolution',
+    #'sphene.sphwiki',
+    #'sphene.community',
 )
 
 TEMPLATE_DIRS = (
