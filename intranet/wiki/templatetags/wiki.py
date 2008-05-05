@@ -18,3 +18,20 @@ def wikiwordfy(s):
 @register.filter
 def wikify(s):
     return markdown.markdown(s)
+
+#import StringIO
+#
+#from mwlib import uparser, htmlwriter, dummydb
+#def mwlib(value):
+#    out = StringIO.StringIO()
+#    p = uparser.parseString('test', raw=value, wikidb=dummydb.DummyDB())
+#    print list(p.allchildren())
+#    w = htmlwriter.HTMLWriter(out)
+#    w.write(p)
+#    return out.getvalue()
+#
+#
+from mw import parse
+register.filter('mw', parse)
+
+

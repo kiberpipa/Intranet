@@ -467,4 +467,4 @@ class Scratchpad(models.Model):
 #    class Meta:
 #        get_latest_by = "id"
     
-from admin import *
+from intranet.org.admin import *

@@ -15,3 +15,4 @@ class TagListObject(template.Node):
         return ''
 
 register.tag('get_tag_list', show_tag_list)
+

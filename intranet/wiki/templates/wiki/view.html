@@ -9,7 +9,8 @@
 		<p>This article does not exist, <a href="edit/">create it now</a>?</p>
 	{% endif %}
     {% autoescape off %}
-	    {{ article.content|escape|wikiwordfy|wikify|linebreaks }}
+	   {% comment %} {{ article.content|escape|wikiwordfy|wikify|linebreaks }} {% endcomment %}
+	   {{ article.content|mw }}
     {% endautoescape %}
 {% endblock %}
 
