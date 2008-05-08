@@ -72,12 +72,12 @@
         	{{ object.task }} ({{ object.length }})</A></h2>
       {% if object.log_formal %}
           <h5><b>Dnevnik:</b></h5>
-          <p dojoType="inlineEditBox" id="dn"><br />{{ object.log_formal|textile }}</p>
+          <p dojoType="inlineEditBox" id="dn"><br />{{ object.log_formal|linebreaks }}</p>
       {% endif %}
       {% if object.log_informal %}
           <h5><b>Blog:</b></h5>
           <p dojoType="inlineEditBox" mode="textarea" id="bl"><br />
-          {{ object.log_informal|textile }}</p>
+          {{ object.log_informal|linebreaks }}</p>
       {% endif %}
 	</div>
 {% endfor %}

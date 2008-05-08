@@ -4,7 +4,8 @@ from django import template
 
 import markdown
 
-WIKI_WORD = r'(?:[A-Z]+[a-z]+){2,}'
+#WIKI_WORD = r'(?:[A-Z]+[a-z]+){2,}'
+WIKI_WORD = r'(?:[^/]*)'
 
 wikiwordfier = re.compile(r'\b(%s)\b' % WIKI_WORD)
 

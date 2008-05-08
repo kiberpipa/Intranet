@@ -1,9 +1,0 @@
-{% extends 'wiki/base.html' %}
-
-
-{% block content %}
-	<h1>
-        <a href="../.."> {{ article_title }} </a>
-    </h1>
-    {{ changeset.diff|safe }}
-{% endblock %}

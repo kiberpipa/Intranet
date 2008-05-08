@@ -24,7 +24,16 @@ def view_article(request, title):
         article = Article.objects.get(title=title)
     except Article.DoesNotExist:
         article = Article(title=title)
-    return render_to_response('wiki/view.html', {'article': article})
+
+
+    ##najdi celo hiearhijo kateri pripada nas article
+    c = article.cat
+    parents = []
+    while c:
+        parents.insert(0, c.name)
+        c = c.parent
+
+    return render_to_response('wiki/view.html', {'article': article, 'parents': parents })
 
 def edit_article(request, title):
     try:

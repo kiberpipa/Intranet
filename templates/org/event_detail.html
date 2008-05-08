@@ -60,11 +60,11 @@
           	{% endif %}
           <h4>Vsebina:</h4>
           <p>
-            {{ object.announce|textile }}</p>
+            {{ object.announce|linebreaks }}</p>
 	
 	  <h4>Kratka vsebina:</h4>
           <p>
-            {{ object.short_announce|textile }}</p>          
+            {{ object.short_announce|linebreaks }}</p>          
     </div>
 
 {% endblock %}

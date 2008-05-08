@@ -9,7 +9,7 @@
                         {{ task.post_date|date:"j. M" }}, {{ task.author }}:
                 </a>
         </b>
-        <p>{{ task.note|textile }}</p>
+        <p>{{ task.note|linebreaks }}</p>
         </div>
 {% endfor %}
 </ul>

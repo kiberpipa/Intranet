@@ -1,3 +1,4 @@
+
 from datetime import datetime
 import difflib
 
@@ -19,12 +20,25 @@ from intranet.org.models import UserProfile
 #    def __unicode__(self):
 #        return unicode(self.user)
 
+class Category(models.Model):
+    order = models.PositiveIntegerField()
+    name = models.CharField(max_length=30)
+    parent = models.ForeignKey('self', blank=True, null=True)
+
+    def __unicode__(self):
+        return self.name
+
+#class CategoryAdmin(admin.ModelAdmin):
+#    ordering = ('order',)
+
 
 class Article(models.Model):
     """A wiki page.
     """
-    title = models.CharField("Article Title", max_length=50)
+    #title = models.CharField("Article Title", max_length=50)
+    title = models.CharField(max_length=50)
     content = models.TextField("Article Content")
+    cat = models.ForeignKey(Category)
 
 #    class Admin:
 #        pass
@@ -59,6 +73,8 @@ class Article(models.Model):
     def __unicode__(self):
         return self.title
 
+#class ArticleAdmin(admin.ModelAdmin):
+#    order_with_respect_to = 'cat'
 
 class ChangeSet(models.Model):
     """A report of an older version of an Article."""
@@ -66,9 +82,11 @@ class ChangeSet(models.Model):
     #editor = models.ForeignKey(WikiUser)
     editor = models.ForeignKey(User)
     revision = models.IntegerField("Revision Number")
-    old_title = models.CharField("Old Title", max_length=50, blank=True)
+    #old_title = models.CharField("Old Title", max_length=50, blank=True)
+    old_title = models.CharField(max_length=50, blank=True)
     old_content = models.TextField("Old Content", blank=True)
-    comment = models.CharField("Editor comment", max_length=50, blank=True)
+    #comment = models.CharField("Editor comment", max_length=50, blank=True)
+    comment = models.CharField(max_length=50, blank=True)
     modified = models.DateTimeField("Modified at", default=datetime.now,
                                     core=True)
 
@@ -95,3 +113,5 @@ class ChangeSet(models.Model):
         return difflib.HtmlDiff().make_table(self.old_content.splitlines(),
                                              new_content.splitlines())
 
+##FIXME, dodaj trunk admina
+#from admin import *
