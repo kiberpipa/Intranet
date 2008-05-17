@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 
 from forms import ArticleForm
-from models import Article, ChangeSet
+from models import Article, ChangeSet, Category
 
 
 def wiki_index(request):
@@ -18,6 +18,22 @@ def article_history(request, title):
     changes = article.changeset_set.all()
     return render_to_response('wiki/history.html', {'article': article,
                                                     'changes': changes})
+##najdi celo hiearhijo kateri pripada nas article
+def parents(article):
+    c = article.cat
+    parents = []
+    while c:
+        parents.insert(0, c.name)
+        c = c.parent
+
+    return parents
+
+
+def new_article(request, cat):
+    category = Category.objects.filter(pk=cat)[0]
+    article = Article(cat = category)
+
+    return render_to_response('wiki/create.html', {})
 
 def view_article(request, title):
     try:
@@ -26,14 +42,8 @@ def view_article(request, title):
         article = Article(title=title)
 
 
-    ##najdi celo hiearhijo kateri pripada nas article
-    c = article.cat
-    parents = []
-    while c:
-        parents.insert(0, c.name)
-        c = c.parent
 
-    return render_to_response('wiki/view.html', {'article': article, 'parents': parents })
+    return render_to_response('wiki/view.html', {'article': article, 'parents': parents(article) })
 
 def edit_article(request, title):
     try:

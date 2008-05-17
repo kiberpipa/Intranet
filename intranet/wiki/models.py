@@ -28,8 +28,13 @@ class Category(models.Model):
     def __unicode__(self):
         return self.name
 
-#class CategoryAdmin(admin.ModelAdmin):
-#    ordering = ('order',)
+
+    class Admin: 
+        pass
+
+
+    class Meta:
+        ordering = ('order',)
 
 
 class Article(models.Model):
@@ -40,8 +45,8 @@ class Article(models.Model):
     content = models.TextField("Article Content")
     cat = models.ForeignKey(Category)
 
-#    class Admin:
-#        pass
+    class Admin:
+        pass
 
     @models.permalink
     def get_absolute_url(self):
@@ -73,28 +78,26 @@ class Article(models.Model):
     def __unicode__(self):
         return self.title
 
-#class ArticleAdmin(admin.ModelAdmin):
-#    order_with_respect_to = 'cat'
-
 class ChangeSet(models.Model):
     """A report of an older version of an Article."""
-    article = models.ForeignKey(Article, edit_inline=models.TABULAR)
+    #article = models.ForeignKey(Article, edit_inline=models.TABULAR)
+    article = models.ForeignKey(Article)
     #editor = models.ForeignKey(WikiUser)
     editor = models.ForeignKey(User)
     revision = models.IntegerField("Revision Number")
-    #old_title = models.CharField("Old Title", max_length=50, blank=True)
-    old_title = models.CharField(max_length=50, blank=True)
+    old_title = models.CharField("Old Title", max_length=50, blank=True)
+    #old_title = models.CharField(max_length=50, blank=True)
     old_content = models.TextField("Old Content", blank=True)
-    #comment = models.CharField("Editor comment", max_length=50, blank=True)
-    comment = models.CharField(max_length=50, blank=True)
+    comment = models.CharField("Editor comment", max_length=50, blank=True)
+    #comment = models.CharField(max_length=50, blank=True)
     modified = models.DateTimeField("Modified at", default=datetime.now,
                                     core=True)
 
-#    class Meta:
-#        get_latest_by  = 'modified'
-#
-#    class Admin:
-#        pass
+    class Meta:
+        get_latest_by  = 'modified'
+
+    class Admin:
+        pass
 
     @models.permalink
     def get_absolute_url(self):
@@ -112,6 +115,3 @@ class ChangeSet(models.Model):
             new_content = self.article.content
         return difflib.HtmlDiff().make_table(self.old_content.splitlines(),
                                              new_content.splitlines())
-
-##FIXME, dodaj trunk admina
-#from admin import *

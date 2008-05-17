@@ -12,6 +12,8 @@ urlpatterns = patterns('',
     url(article_re + r'/$', views.view_article,
         name='wiki_article'),
 
+    url('^(?P<cat>[0-9]+)/new$', views.new_article),
+
     url(article_re + r'/edit/$', views.edit_article,
         name='wiki_edit_article'),
 
