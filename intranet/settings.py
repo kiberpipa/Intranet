@@ -83,5 +83,9 @@ TEMPLATE_DIRS = (
 
 AUTH_PROFILE_MODULE = "org.UserProfile"
 REQUIRE_LOGIN_PATH = '/intranet/accounts/login/'
+AUTHENTICATION_BACKENDS = (
+    'intranet.ldapbackend.backend',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 from localsettings import *

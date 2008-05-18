@@ -43,7 +43,7 @@ class Article(models.Model):
     #title = models.CharField("Article Title", max_length=50)
     title = models.CharField(max_length=50)
     content = models.TextField("Article Content")
-    cat = models.ForeignKey(Category)
+    cat = models.ForeignKey(Category, blank=True, null=True)
 
     class Admin:
         pass

@@ -29,21 +29,35 @@ def parents(article):
     return parents
 
 
-def new_article(request, cat):
-    category = Category.objects.filter(pk=cat)[0]
-    article = Article(cat = category)
 
-    return render_to_response('wiki/create.html', {})
-
-def view_article(request, title):
+def view_article(request, id):
     try:
-        article = Article.objects.get(title=title)
+        article = Article.objects.get(id= id )
     except Article.DoesNotExist:
-        article = Article(title=title)
-
-
+        article = Article(id=id)
 
     return render_to_response('wiki/view.html', {'article': article, 'parents': parents(article) })
+
+def new_article(request, cat):
+    category = Category.objects.filter(pk=cat)[0]
+
+    if request.method == 'POST':
+
+        article = Article()
+        form = ArticleForm(request.POST, instance=article)
+        if form.is_valid():
+            new_article = form.save()
+            new_article.cat = category
+            new_article.save()
+            editor = request.user.get_profile()
+            comment = form.cleaned_data.get('comment', '')
+            new_article.create_changeset(article, editor, comment)
+            return HttpResponseRedirect('../article/%s/' % new_article.id)
+    else:
+        form = ArticleForm()
+
+    return render_to_response('wiki/edit.html', {'form': form})
+
 
 def edit_article(request, title):
     try:

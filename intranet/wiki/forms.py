@@ -1,4 +1,3 @@
-
 from django import newforms as forms
 from django.newforms import widgets
 

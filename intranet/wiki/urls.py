@@ -3,7 +3,7 @@ from django.conf.urls.defaults import *
 from intranet.wiki.templatetags.wiki import WIKI_WORD
 from wiki import views
 
-article_re = r'^article/(?P<title>%s)' % WIKI_WORD
+article_re = r'^article/(?P<id>%s)' % WIKI_WORD
 
 urlpatterns = patterns('',
     url(r'^$', views.wiki_index,
