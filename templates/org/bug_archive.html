@@ -25,12 +25,13 @@
 {% block content-main %}
 	<div class="module">
     {% for log in latest %}
-    {% if not log.resolved %}
+    {% comment %} {% if not log.resolved %} {% endcomment %}
 			<h2><a class="h2" href="{{ log.get_absolute_url }}">{{ log.name }}</a>
           		{{ log.pub_date|date:"d.m.Y" }}</h2>
-        <h5>{{ log.author }} -> {{ log.assign }}</h5>
+        {% comment %} <h5>{{ log.author }} umm -> {% for guilty in log.assign.all %} {{ guilty }}, {% endfor %}</h5> {% endcomment %}
+        <b>{{ log.author }} -> {% for guilty in log.assign.all %} {{ guilty }}, {% endfor %}</b>
     	<p>{{ log.note|escape|linebreaks }}</p>
-	{% endif %}
+	{% comment %} {% endif %} {% endcomment %}
 	{% endfor %}
 	</div>
 {% endblock %}
@@ -43,6 +44,6 @@
 </div>-->
   <div class="module" id="recent-actions-module">
     <h2>Kazalo odprtih hroscev</h2>
-  	 {% box_list Bug "resolved__exact=False" "template=org/list_bugs.html" %}
+  	 {% comment %} {% box_list Bug "resolved__exact=False" "template=org/list_bugs.html" %} {% endcomment %}
 </div>
 {% endblock %}

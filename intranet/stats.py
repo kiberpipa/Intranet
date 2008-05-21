@@ -17,6 +17,8 @@ class StatsMiddleware(object):
 
         # time the view
         start = time()
+        #print view_args
+        #print view_kwargs
         response = view_func(request, *view_args, **view_kwargs)
         totTime = time() - start
 

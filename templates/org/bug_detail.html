@@ -12,14 +12,15 @@
   <div class="module" id="recent-actions-module">
     	    <h2>Urejanje</h2>
   	 <ul class="actionlist">
-  	 	{% if object.resolved %}
-			<li>Ta hrosc je ze odpravljen</li>
-		{% else %}
-			{% ifequal object.assign user %}
+  	 	{% comment %} {% if object.resolved %} {% endcomment %}
+  	 	{% if object.resolution__isnull  %}
+			{% comment %}{% if user in object.assign.all %} {% endcomment %}
 				<li><a href="/intranet/bugs/{{ object.id }}/done/">Oznaci kot opravljeno</a></li>
-			{% else %}
+			{% comment %}{% else %}
 				<li><a href="/intranet/bugs/{{ object.id }}/take/">Prevzami razresevanje</a></li>
-			{% endifequal %}
+			{% endifequal %} {% endcomment %}
+		{% else %}
+			<li>Ta hrosc je ze odpravljen</li>
 		{% endif %}
 			<li>
 		<form action = "move/" method="post" name="MoveBugForm">
@@ -32,6 +33,15 @@
 			<br>
 
 		</form>
+
+        <form action = "resolve/" method="post" name="BugResolutionForm">
+        <input type = "submit" value = "Resi"/>
+            <select name="status">
+            {% for resolution in resolutions %}
+                <option value="{{ resolution.id }}">{{ resolution.name }}</option>
+            {% endfor %}
+            </select>
+        </form>
 				</li>
 	</ul>
   </div>
@@ -40,7 +50,7 @@
 {% block content-main %}
 	<div class="module">
 	<h2>{{ object.name }}</h2>
-          <p>{{ object.author }} -> {{ object.assign }}
+          <p>{{ object.author }} -> {% for guilty in object.assign.all %} {{ guilty }}, {% endfor %}
              ({{ object.pub_date|date:"d.m.Y" }})</p>
           <p>{{ object.note|escape|linebreaks }}</p>
 	</div>
@@ -52,6 +62,7 @@
 {% block content-related-right %}
   <div class="module" id="recent-actions-module">
     <h2>Kazalo odprtih hroscev</h2>
-  	 {% box_list Bug "resolved__exact=False" "template=org/list_my_bugs.html" %}
+  	 {% comment %} {% box_list Bug "resolved__exact=False" "template=org/list_my_bugs.html" %} {% endcomment %}
+  	 {% box_list Bug "resolution__isnull=True" "template=org/list_my_bugs.html" %}
 </div>
 {% endblock %}

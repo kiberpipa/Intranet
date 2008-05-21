@@ -5,7 +5,7 @@ from django.forms import FormWrapper
 from django.template import resolve_variable
 from django.core.exceptions import ObjectDoesNotExist
 
-from intranet.org.models import Event, Bug, Scratchpad
+from intranet.org.models import Event, Bug, Scratchpad, Resolution
 from intranet.localsettings import MEDIA_URL
 import datetime
 
@@ -61,7 +61,8 @@ register.inclusion_tag('org/box_plache.html')(box_plache)
 def box_bug_stats(user):
     all = Bug.objects.all()
     allopen = all.count()
-    open = Bug.objects.filter(resolved__exact=False)
+    #open = Bug.objects.filter(resolved__exact=False)
+    open = Bug.objects.filter(resolution__isnull = True )
     count = open.count()
     my = open.filter(assign__exact=user).count()
     mine = all.filter(assign__exact=user).count()

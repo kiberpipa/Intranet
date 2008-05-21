@@ -19,7 +19,7 @@ import re
 
 from intranet.org.models import UserProfile, Project, Category
 from intranet.org.models import Place, PlaceInternal, Event, Shopping
-from intranet.org.models import Task, Diary, Bug, StickyNote, Lend
+from intranet.org.models import Task, Diary, Bug, StickyNote, Lend, Resolution
 from intranet.org.models import KbCategory, KB, Tag, Scratchpad
 from django.contrib.auth.models import User
 
@@ -529,13 +529,13 @@ def lend_back(request, id=None):
     return HttpResponseRedirect('../')
 lend_back = login_required(lend_back)
 
-def resolve_bug(request, id=None):
-    bug = get_object_or_404(Bug, pk=id)
-    if bug.assign == request.user:
-        bug.resolved = True
-        bug.save()
-    return HttpResponseRedirect('../')
-resolve_bug = login_required(resolve_bug)
+#def resolve_bug(request, id=None):
+#    bug = get_object_or_404(Bug, pk=id)
+#    if bug.assign == request.user:
+#        #bug.resolved = True
+#        bug.save()
+#    return HttpResponseRedirect('../')
+#resolve_bug = login_required(resolve_bug)
 
 def takeover_bug(request, id=None):
     bug = get_object_or_404(Bug, pk=id)
@@ -553,6 +553,12 @@ def move_bug(request, id=None):
     bug.save()
     return HttpResponseRedirect('../')
 move_bug = login_required(move_bug)
+
+def resolve_bug(request, id=None):
+    bug = get_object_or_404(Bug, pk=id)
+    bug.resolution = Resolution.objects.get(pk = request.POST['status'])
+    bug.save()
+    return HttpResponseRedirect('../')
 
 ##################################################
 

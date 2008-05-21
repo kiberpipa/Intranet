@@ -228,11 +228,23 @@ class Diary(models.Model):
 
 
 # bugs
+class Resolution(models.Model):
+    name = models.CharField(max_length = 30)
+
+
+    class Admin:
+        pass
+
+    def __unicode__(self):
+        return self.name
+
 class Bug(models.Model):
     name = models.CharField(max_length=100)
     author = models.ForeignKey(User, related_name="bug_author")
-    assign = models.ForeignKey(User,blank=True, null=True, related_name="bug_assign")
-    resolved = models.BooleanField()
+    #assign = models.ForeignKey(User,blank=True, null=True, related_name="bug_assign")
+    assign = models.ManyToManyField(User,blank=True, null=True, related_name="bug_assign")
+    #resolved = models.BooleanField()
+    resolution = models.ForeignKey(Resolution, blank = True, null = True)
     note = models.TextField()
 
     pub_date = models.DateTimeField(auto_now_add=True)
@@ -252,9 +264,12 @@ class Bug(models.Model):
 
     class Admin:
         search_fields = ['note','name','assign']
-        list_filter = ['resolved', 'assign']
-        list_display = ['name', 'id', 'resolved', 'author', 'assign']
-        ordering = ['resolved']
+        #list_filter = ['resolved', 'assign']
+        list_filter = ['assign']
+        #list_display = ['name', 'id', 'resolved', 'author', 'assign']
+        #list_display = ['name', 'id', 'author', 'assign']
+        list_display = ['name', 'id', 'author']
+        #ordering = ['resolved']
 
 
 class StickyNote(models.Model):

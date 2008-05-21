@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import *
-from intranet.org.models import Event, Bug, Diary, Lend, Shopping
+from intranet.org.models import Event, Bug, Diary, Lend, Shopping, Resolution
 from intranet.org.feeds import LatestBugs, LatestDiarys, BugsByUser, ToDo, LatestEvents
 from django.contrib.auth.models import User
 
@@ -92,6 +92,12 @@ diary_detail = {
 
 bug_detail = {
     'queryset': Bug.objects.all(),
+    'extra_context': { 
+        'resolutions': Resolution.objects.all(),
+    }
+}
+
+bug_extra = {
 }
 
 lend_detail = {
@@ -147,6 +153,7 @@ urlpatterns = patterns('',
     (r'^bugs/(?P<id>\d+)/take/$', 'intranet.org.views.takeover_bug'),
     (r'^bugs/(?P<id>\d+)/done/$', 'intranet.org.views.resolve_bug'),
     (r'^bugs/(?P<id>\d+)/move/$', 'intranet.org.views.move_bug'),
+    (r'^bugs/(?P<id>\d+)/resolve/$', 'intranet.org.views.resolve_bug'),
     (r'^bugs/(?P<object_id>\d+)/$', 'django.views.generic.list_detail.object_detail', bug_detail),
 
     (r'^tehniki/(?P<year>\d+)/(?P<month>[a-z]{3})/$', 'intranet.org.views.tehniki_monthly'),

@@ -50,7 +50,8 @@ class BugsByUser(Feed):
         return "Hrosci, ki so doloceni uporabniku %s" % obj.username
 
     def items(self, obj):
-        return Bug.objects.filter(assign__exact=obj.id).filter(resolved__exact=False).order_by('-pub_date')[:30]
+        #return Bug.objects.filter(assign__exact=obj.id).filter(resolved__exact=False).order_by('-pub_date')[:30]
+        return Bug.objects.filter(assign__exact=obj.id).filter(resolution__isnull = True).order_by('-pub_date')[:30]
 
 class ToDo(Feed):
     def get_object(self, bits):
@@ -70,4 +71,5 @@ class ToDo(Feed):
         return "Odgovonosti, ki so dolocene uporabniku %s" % obj.username
 
     def items(self, obj):
-        return Bug.objects.filter(assign__exact=obj.id).filter(resolved__exact=False).order_by('-pub_date')[:30]
+        #return Bug.objects.filter(assign__exact=obj.id).filter(resolved__exact=False).order_by('-pub_date')[:30]
+        return Bug.objects.filter(assign__exact=obj.id).filter(resolution__isnull = True).order_by('-pub_date')[:30]
