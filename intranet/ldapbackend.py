@@ -3,17 +3,19 @@ import ldap
 from django.contrib.auth.models import User
 
 # Constants
-AUTH_LDAP_SERVER = 'stream.kiberpipa.org'
+#AUTH_LDAP_SERVER = 'stream.kiberpipa.org'
+AUTH_LDAP_SERVER = 'localhost'
 #AUTH_LDAP_BASE_USER = "cn=Your, o=BaseUser"
 #AUTH_LDAP_BASE_PASS = "Your Base Password"
 
 class backend:
-    def authenticate(self, username=None, password=None):
+    ##return None if the username/password don't match or needed attributes if they do
+    def auth(self, username, password):
         ##define some vars we gonna use in this function
         base = "dc=kiberpipa,dc=org"
         #scope = ldap.SCOPE_SUBTREE
         user = 'uid=%s,ou=people,dc=kiberpipa,dc=org' % username
-        filter = "(&(intranet=TRUE)(uid=%s))" % username
+        filter = "(&(objectclass=jon)(uid=%s))" % username
         ret = ['dn']
         
         l = ldap.open(AUTH_LDAP_SERVER)
@@ -34,12 +36,78 @@ class backend:
 ##            print password
             _ = l.simple_bind_s(user, password)
             ##if the exception hasn't been raised so far it means the authorization succeded
-            return User.objects.get(username__exact=username)
+            #return User.objects.get(username__exact=username)
+            return result_data
 
         except ldap.INVALID_CREDENTIALS:
             return None
+
+
+    def luser(self, username, password):
+#        user = User(username=username, password="get from ldap") 
+        return User(username=username, password=password, user_id=username)
+    def authenticate(self, username=None, password=None):
+        print "authenticate"
+        ##make sure the user is authorized
+        params = self.auth(username, password)
+        if params == None:
+            return None
+
+        ###print "b00"
+        #print self.luser(username, password)
+        ###User(username=username, password=password)
+        return User(username=username, password=password)
+#        print "i"
+#        print i
+        #return self.luser(username, password)
+
+
+
+
+
+
+
+
+
+#        ##define some vars we gonna use in this function
+#        base = "dc=kiberpipa,dc=org"
+#        #scope = ldap.SCOPE_SUBTREE
+#        user = 'uid=%s,ou=people,dc=kiberpipa,dc=org' % username
+#        filter = "(&(objectclass=jon)(uid=%s))" % username
+#        ret = ['dn']
+#        
+#        l = ldap.open(AUTH_LDAP_SERVER)
+#        #print filter
+#
+#        ##step 1: make sure that the user matching the filter actually exists
+#        result_id = l.search(base, ldap.SCOPE_SUBTREE, filter, ret)
+#        result_type, result_data = l.result(result_id, 0)
+#        #print result_data
+#        
+#        ##make sure that the user satisfying our filter actually exists
+#        if not result_data:
+#            return None
+#            
+#        ##verify his/her password
+#        try:
+###            print user
+###            print password
+#            _ = l.simple_bind_s(user, password)
+#            ##if the exception hasn't been raised so far it means the authorization succeded
+#            return User.objects.get(username__exact=username)
+#
+#        except ldap.INVALID_CREDENTIALS:
+#            return None
         
 
+    def get_user(self, user_id):
+        #print "get_user"
+        #print user_id
+        try:
+         #   User.objects.get(pk=user_id)
+            return User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            return None
 
         
 ##        # Authenticate the base user so we can search
@@ -92,8 +160,3 @@ class backend:
 ##            # Name or password were bad. Fail.
 ##            return None
 
-    def get_user(self, user_id):
-        try:
-            return User.objects.get(pk=user_id)
-        except User.DoesNotExist:
-            return None
