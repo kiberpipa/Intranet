@@ -15,6 +15,7 @@ class Tag(models.Model):
     name = models.CharField(max_length=200, primary_key='True', core=True)
     total_ref = models.IntegerField(blank=True, default=0)
     font_size = models.IntegerField(blank=True, default=0)
+    parent = models.ForeignKey('self', blank=True, null=True)
 
     class Admin:
         pass
