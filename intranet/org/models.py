@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 
 from django.core import validators
 from datetime import date, time, timedelta
+import smtplib
 
 from django.conf import settings
 
@@ -258,7 +259,33 @@ class Bug(models.Model):
 
     def get_absolute_url(self):
         return "%s/intranet/bugs/%i/" % (settings.BASE_URL, self.id)
+    
+    def mail(self, message='', subject='you have new bug'):
 
+        ##the stuff we'll need to send mail
+        mail_from = 'intranet@kiberpipa.org'
+
+        ##get  a string of all assignees
+        assignees = ''
+        for assignee in self.assign.all():
+            assignees += assignee.__unicode__()
+
+        #send the mail to all the assignees
+        for assignee in self.assign.all():
+            to = assignee.get_profile().mail
+            info = 'bug: #%i\n' % self.id
+            info += 'bug url: %s\n' % self.get_absolute_url()
+            info += 'assigned to: %s\n' % assignees
+            info += 'reported by: %s\n' % self.author
+            ##separator
+            if message:
+                info += '-------------------------------------\n\n\n'
+            msg = "From: %s\nTo: %s\nSubject: %s\n\n%s\n%s"  % (mail_from, to, subject, info, message)
+
+
+            session = smtplib.SMTP('localhost')
+            session.sendmail(mail_from, to, msg)
+            session.close()
 
     class Meta:
         verbose_name = 'Hrosc'

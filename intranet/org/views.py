@@ -17,7 +17,6 @@ from datetime import date, time, timedelta
 import datetime
 import mx.DateTime
 import re
-import smtplib
 
 from intranet.org.models import UserProfile, Project, Category
 from intranet.org.models import Place, PlaceInternal, Event, Shopping
@@ -367,20 +366,7 @@ def box_bugs_add(request):
         if not errors:
             manipulator.do_html2python(new_data)
             new_bug = manipulator.save(new_data)
-
-
-            ##the stuff we'll need to send mail
-            mail_from = 'intranet@kiberpipa.org'
-
-            #send the mail to all the assignees
-            for assignee in new_bug.assign.all():
-                to = assignee.get_profile().mail
-                msg = "From: %s\nTo: %s\nSubject: #%i is waiting for you to fix it\n\nuser %s has assigned you a bug %i which can be viewed at %s , the content follows:\n\n%s"  % (mail_from, to, new_bug.id, new_bug.author, new_bug.id, new_bug.get_absolute_url(), new_bug.note)
-
-
-                session = smtplib.SMTP('localhost')
-                session.sendmail(mail_from, to, msg)
-                session.close()
+            new_bug.mail()
             return HttpResponseRedirect("/intranet/bugs/%i/" % new_bug.id)
     else:
         errors = new_data = {}
