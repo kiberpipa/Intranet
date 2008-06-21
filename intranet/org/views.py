@@ -2,6 +2,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.db.models.query import Q
 from django.forms import FormWrapper
 from django import forms
+from django import newforms
 from django.template import RequestContext, Context
 from django.template.defaultfilters import slugify
 from django.db.models import signals
@@ -19,7 +20,7 @@ import re
 
 from intranet.org.models import UserProfile, Project, Category
 from intranet.org.models import Place, PlaceInternal, Event, Shopping
-from intranet.org.models import Task, Diary, Bug, StickyNote, Lend, Resolution
+from intranet.org.models import Task, Diary, Bug, StickyNote, Lend, Resolution, Comment
 from intranet.org.models import KbCategory, KB, Tag, Scratchpad
 from django.contrib.auth.models import User
 
@@ -373,6 +374,47 @@ def box_bugs_add(request):
     return render_to_response('org/box_error.html',
                              {'form': form, 'template_file': 'org/box_bug.html'},
                              context_instance=RequestContext(request))
+
+
+
+class CommentBug(newforms.Form):
+    text = newforms.CharField(widget=newforms.Textarea)
+
+
+def view_bug(request, object_id):
+    #return list_detail.object_detail(object_id=object_id, extra_context=extra_context)
+
+#    if request.method == 'POST':
+#        form = ContactForm(request.POST)
+#        if form.is_valid():
+#            # Do form processing here...
+#            return HttpResponseRedirect('/url/on_success/')
+#    else:
+#        form = ContactForm()
+
+    if request.method == 'POST':
+        form = CommentBug(request.POST)
+        if form.is_valid():
+            # Do form processing here...
+            new_comment = Comment(bug=Bug.objects.get(pk=object_id), text=form.cleaned_data['text'])
+            #print form.cleaned_data['text']
+            new_comment.save()
+            #print request.COOKIES
+            return HttpResponseRedirect(request.META['PATH_INFO'])
+    else:
+        form = CommentBug()
+
+    bug_detail = {
+        'object_id': object_id,
+        'queryset': Bug.objects.all(),
+        'extra_context': {
+            'resolutions': Resolution.objects.all(),
+            'comments': Comment.objects.all(),
+        }
+    }
+
+    #return list_detail.object_detail(request, bug_detail)
+    return list_detail.object_detail(request, object_id=object_id, queryset= Bug.objects.all(), extra_context= { 'resolutions': Resolution.objects.all(), 'comments': Comment.objects.all(), 'form': form.as_p(), })
 
 ##################################################
 

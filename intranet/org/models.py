@@ -273,6 +273,15 @@ class Bug(models.Model):
         #ordering = ['resolved']
 
 
+class Comment(models.Model):
+    bug = models.ForeignKey(Bug)
+    date = models.DateField(auto_now = True)
+    text = models.TextField()
+
+
+    class Admin:
+        pass
+
 class StickyNote(models.Model):
     author = models.ForeignKey(User, related_name="message_author")
     post_date = models.DateField(default=date.today())

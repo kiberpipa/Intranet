@@ -1,3 +1,5 @@
+###RD666 note, to ne more properly delat dokler djangotovci ne popravijo multiauth thingyja.
+
 import ldap
 
 from django.contrib.auth.models import User

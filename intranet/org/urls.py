@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import *
-from intranet.org.models import Event, Bug, Diary, Lend, Shopping, Resolution
+from intranet.org.models import Event, Bug, Diary, Lend, Shopping, Resolution, Comment
 from intranet.org.feeds import LatestBugs, LatestDiarys, BugsByUser, ToDo, LatestEvents
 from django.contrib.auth.models import User
 
@@ -90,13 +90,6 @@ diary_detail = {
     'queryset': Diary.objects.all(),
 }
 
-bug_detail = {
-    'queryset': Bug.objects.all(),
-    'extra_context': { 
-        'resolutions': Resolution.objects.all(),
-    }
-}
-
 bug_extra = {
 }
 
@@ -154,7 +147,10 @@ urlpatterns = patterns('',
     (r'^bugs/(?P<id>\d+)/done/$', 'intranet.org.views.resolve_bug'),
     (r'^bugs/(?P<id>\d+)/move/$', 'intranet.org.views.move_bug'),
     (r'^bugs/(?P<id>\d+)/resolve/$', 'intranet.org.views.resolve_bug'),
-    (r'^bugs/(?P<object_id>\d+)/$', 'django.views.generic.list_detail.object_detail', bug_detail),
+    
+    #mali wraper okoli generic viewa da lahko procesiramo komentar 
+    #(r'^bugs/(?P<object_id>\d+)/$', 'django.views.generic.list_detail.object_detail', bug_detail),
+    (r'^bugs/(?P<object_id>\d+)/$', 'intranet.org.views.view_bug'),
 
     (r'^tehniki/(?P<year>\d+)/(?P<month>[a-z]{3})/$', 'intranet.org.views.tehniki_monthly'),
     (r'^tehniki/(?P<year>\d+)/(?P<week>\d+)/$', 'intranet.org.views.tehniki'),
