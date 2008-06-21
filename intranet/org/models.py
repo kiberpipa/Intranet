@@ -31,6 +31,7 @@ class Tag(models.Model):
 
 class UserProfile(models.Model):
     mobile = models.CharField(max_length=100)
+    mail = models.EmailField()
     im = models.TextField(blank=True, null=True)
     tags = models.ManyToManyField(Tag, blank=True, null=True)
     user = models.OneToOneField(User)

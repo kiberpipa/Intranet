@@ -17,6 +17,7 @@ from datetime import date, time, timedelta
 import datetime
 import mx.DateTime
 import re
+import smtplib
 
 from intranet.org.models import UserProfile, Project, Category
 from intranet.org.models import Place, PlaceInternal, Event, Shopping
@@ -366,6 +367,20 @@ def box_bugs_add(request):
         if not errors:
             manipulator.do_html2python(new_data)
             new_bug = manipulator.save(new_data)
+
+
+            ##the stuff we'll need to send mail
+            mail_from = 'intranet@kiberpipa.org'
+
+            #send the mail to all the assignees
+            for assignee in new_bug.assign.all():
+                to = assignee.get_profile().mail
+                msg = "From: %s\nTo: %s\nSubject: #%i is waiting for you to fix it\n\nuser %s has assigned you a bug %i which can be viewed at %s , the content follows:\n\n%s"  % (mail_from, to, new_bug.id, new_bug.author, new_bug.id, new_bug.get_absolute_url(), new_bug.note)
+
+
+                session = smtplib.SMTP('localhost')
+                session.sendmail(mail_from, to, msg)
+                session.close()
             return HttpResponseRedirect("/intranet/bugs/%i/" % new_bug.id)
     else:
         errors = new_data = {}
@@ -382,39 +397,24 @@ class CommentBug(newforms.Form):
 
 
 def view_bug(request, object_id):
-    #return list_detail.object_detail(object_id=object_id, extra_context=extra_context)
-
-#    if request.method == 'POST':
-#        form = ContactForm(request.POST)
-#        if form.is_valid():
-#            # Do form processing here...
-#            return HttpResponseRedirect('/url/on_success/')
-#    else:
-#        form = ContactForm()
 
     if request.method == 'POST':
         form = CommentBug(request.POST)
         if form.is_valid():
-            # Do form processing here...
             new_comment = Comment(bug=Bug.objects.get(pk=object_id), text=form.cleaned_data['text'])
-            #print form.cleaned_data['text']
             new_comment.save()
-            #print request.COOKIES
             return HttpResponseRedirect(request.META['PATH_INFO'])
     else:
         form = CommentBug()
 
-    bug_detail = {
-        'object_id': object_id,
-        'queryset': Bug.objects.all(),
-        'extra_context': {
-            'resolutions': Resolution.objects.all(),
-            'comments': Comment.objects.all(),
-        }
-    }
-
-    #return list_detail.object_detail(request, bug_detail)
-    return list_detail.object_detail(request, object_id=object_id, queryset= Bug.objects.all(), extra_context= { 'resolutions': Resolution.objects.all(), 'comments': Comment.objects.all(), 'form': form.as_p(), })
+    return list_detail.object_detail(request, 
+        object_id = object_id, 
+        queryset = Bug.objects.all(), 
+        extra_context = { 
+            'resolutions': Resolution.objects.all(), 
+            'comments': Comment.objects.all(), 
+            'form': form.as_p(), 
+        })
 
 ##################################################
 
