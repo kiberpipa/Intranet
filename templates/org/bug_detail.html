@@ -53,19 +53,29 @@
           <p>{{ object.author }} -> {% for guilty in object.assign.all %} {{ guilty }}, {% endfor %}
              ({{ object.pub_date|date:"d.m.Y" }})</p>
           <p>{{ object.note|escape|linebreaks }}</p>
-
+        
     </div>
-
-
-        {% for comment in comments %}
-            {% ifequal comment.bug object %}
+    {% if object.get_related %}
     <div class="module">
-                {{ comment.text }}
-    </div>
-            {% endifequal %}
+    <h2> related bugi </h2>
+        {% for bug in object.get_related %}
+            <a href="{{ bug.get_absolute_url }}"> {{ bug }} </a>
         {% endfor %}
-    <br><br><br>
+    </div>
+    {% endif %}
+    <br><br>
+
+    {% for comment in comments %}
+        {% ifequal comment.bug object %}
+        <div class="module">
+                {{ comment.text }}
+        </div>
+        {% endifequal %}
+    {% endfor %}
+    <br><br>
+
     <div class="module">
+    <h2> dodaj komentar </h2>
     <form method="post" action="">
     <table>{{ form }}</table>
     <input type="submit" value="comon, make my day"/>

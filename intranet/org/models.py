@@ -291,6 +291,37 @@ class Bug(models.Model):
             session.sendmail(mail_from, to, msg)
             session.close()
 
+    def get_related(self):
+    #get parent and children bugs
+        top = self
+        while top.parent != None:
+            top = top.parent
+
+        #print "top is: %s\n" % top
+        #print Bug.objects.get(pk=self)
+        children = top._children()
+        children.remove(self)
+        return children
+
+    def _children(self):
+        related = [self]
+        children = Bug.objects.filter(parent = self)
+        #print "children: %s\n" % children
+        for child in children:
+            second_level = Bug.objects.filter(parent = child)
+         #   print "second_level %s\n" % second_level
+
+            if second_level:
+                #related += [ child._children() ]
+                for s in child._children():
+                    related.append(s)
+            else:
+                #related += [ child ]
+                related.append(child)
+        
+        #print "near end: %s\n" % related
+        return related
+
     class Meta:
         verbose_name = 'Hrosc'
         verbose_name_plural = 'Hrosci'
