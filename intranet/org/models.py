@@ -249,6 +249,8 @@ class Bug(models.Model):
     #resolved = models.BooleanField()
     resolution = models.ForeignKey(Resolution, blank = True, null = True)
     note = models.TextField()
+    parent = models.ForeignKey('self', blank=True, null=True)
+    due_by = models.DateTimeField(null=True, blank=True)
 
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
@@ -277,6 +279,8 @@ class Bug(models.Model):
             info += 'bug url: %s\n' % self.get_absolute_url()
             info += 'assigned to: %s\n' % assignees
             info += 'reported by: %s\n' % self.author
+            if self.due_by:
+                info += 'DEADLINE: %s\n' % self.due_by
             ##separator
             if message:
                 info += '-------------------------------------\n\n\n'
