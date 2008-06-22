@@ -7,13 +7,18 @@
     {% endif %}
   </p>
   <p>
-    <label for="id_assign">Komu:</label>
+    <label for="id_assign">Komu:</label><br>
     {{ form.assign }}
     {% if form.assign.errors %}
       *** {{ form.assign.errors|join:", " }}
     {% endif %}
   </p>
   <p>
+		<label for="id_due_by"> Deadline:</label><br>
+    <input type="text" id="id_length" class="vDateField" name="length" size="8" maxlength="8" />
+    <input type="text" id="id_length" class="vTimeField" name="length" size="8" maxlength="8" />
+  </p>
+	<p>
     <label for="id_note">Opis:</label>
     {{ form.note }}
     {% if form.note.errors %}
