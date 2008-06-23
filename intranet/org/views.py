@@ -388,7 +388,7 @@ def view_bug(request, object_id):
         form = CommentBug(request.POST)
         if form.is_valid():
             new_comment = Comment(bug=Bug.objects.get(pk=object_id), text=form.cleaned_data['text'])
-            new_comment.save()
+            new_comment.save(request)
             return HttpResponseRedirect(request.META['PATH_INFO'])
     else:
         form = CommentBug()

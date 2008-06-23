@@ -338,8 +338,16 @@ class Bug(models.Model):
 
 class Comment(models.Model):
     bug = models.ForeignKey(Bug)
-    date = models.DateField(auto_now = True)
+    date = models.DateTimeField(auto_now = True)
     text = models.TextField()
+    author = models.ForeignKey(User, related_name="comment_author")
+
+
+    def save(self, request):
+        self.author = request.user
+        super(Comment, self).save()
+
+
 
 
     class Admin:
