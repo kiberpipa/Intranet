@@ -348,8 +348,6 @@ class Comment(models.Model):
         super(Comment, self).save()
 
 
-
-
     class Admin:
         pass
 

@@ -1,5 +1,8 @@
 {% extends "org/base_3col.html" %}
 {% block extrahead %}
+<script src="{{ media_url }}/MochiKit/MochiKit.js" type="text/javascript"></script>
+<script src="{{ media_url }}/MochiKit/Position.js" type="text/javascript"></script>
+<script src="{{ media_url }}/MochiKit/Visual.js" type="text/javascript"></script>
 {% endblock %}
 {% load box %}
 {% block title %}Hrošči in želje{% endblock %}
@@ -55,6 +58,8 @@
           <p>{{ object.note|escape|linebreaks }}</p>
         
     </div>
+
+
     {% if object.get_related %}
     <div class="module">
     <h2> related bugi </h2>
@@ -64,6 +69,11 @@
     </div>
     <br><br>
     {% endif %}
+
+  <div class="module">
+    <h2 class="expand"><img src="{{ media_url }}/img/expand.gif" alt="expand bug" />add subtask</h2>
+    <div id="bug_box" class="invisible">{% box_add Bug object.id %} </div>
+  </div>
 
     {% for comment in comments %}
         {% ifequal comment.bug object %}
@@ -86,6 +96,39 @@
 
 	{% comment %}{% loadcomments object user %}{% endcomment %}
 
+  <script type="text/javascript" charset="utf-8">
+  // <![CDATA[
+  function makeVisible(elem) {
+      removeElementClass(elem, "invisible");
+  }
+
+  function isVisible(elem) {
+      return !hasElementClass(elem, "invisible");
+  };
+      
+  var i = null;
+  box_list = new Object();
+    //box_list.diary_box = $("diary_box")
+    box_list.bug_box =  $("bug_box")
+   // box_list.lend_box =  $("lend_box")
+        
+  slide = function(e) {
+      for (var b in box_list){
+        if (box_list[b].parentNode == e.src() ){
+          box_div = box_list[b];
+        }
+      }
+      foo = box_div;
+      if (isVisible(foo) == false){
+        makeVisible(foo);
+      };
+  }  
+  for (var box in box_list){
+    connect(box_list[box].parentNode, 'onclick', slide);
+    log(box);
+  }
+  // ]]>
+  </script>
 {% endblock %}
 
 {% block content-related-right %}

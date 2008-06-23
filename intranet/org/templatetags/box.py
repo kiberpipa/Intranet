@@ -2,7 +2,7 @@ from django.template import Context, Library, RequestContext
 from django import template
 from django import forms
 from django.forms import FormWrapper
-from django.template import resolve_variable
+from django.template import resolve_variable, Variable
 from django.core.exceptions import ObjectDoesNotExist
 
 from intranet.org.models import Event, Bug, Scratchpad, Resolution
@@ -118,20 +118,30 @@ def box_reccurings(form):
 register.inclusion_tag('org/box_reccurings.html')(box_reccurings)
 
 class BoxAddNode(template.Node):
-    def __init__(self, object):
+    def __init__(self, object, parent=''):
         self.object = object
+        if parent:
+            self.parent = Variable(parent)
+        else:
+            self.parent = parent
 
     def render(self, context):
         manipulator = self.object.AddManipulator()
         form = forms.FormWrapper(manipulator, {}, {})
-        c = Context({'form':form,})
+        if self.parent:
+            self.parent =  self.parent.resolve(context)
+        c = Context({'form':form, 'parent': self.parent,})
         return template.loader.get_template('org/box_%s.html' % self.object._meta.object_name.lower()).render(c)
 
 def box_add(parser, token):
-    tag_name, box_name = token.split_contents()
+    args = token.split_contents()
+    box_name = args[1]
     m = __import__("intranet.org.models", '','', box_name)
     object = getattr(m, box_name)
-    return BoxAddNode(object)
+    if len(args) == 3:
+        return BoxAddNode(object, args[2])
+    else:
+        return BoxAddNode(object, '')
 register.tag('box_add', box_add)
 
 def parse(args):
