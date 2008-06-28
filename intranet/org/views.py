@@ -356,18 +356,28 @@ shopping_support = login_required(shopping_support)
 ##################################################
 
 def box_bugs_add(request):
-    manipulator = Bug.AddManipulator()
-
+    #print request.POST
     if request.POST:
         new_data = request.POST.copy()
         new_data['author'] = request.user.id
 
+        if 'edit' in new_data:
+                manipulator = Bug.ChangeManipulator(Bug.objects.get(name=new_data['name']).id)
+                #new_bug = 
+#                errors = manipulator.get_validation_errors(new_data)
+#                new_bug = manipulator.save(new_data)
+#                return HttpResponseRedirect("/intranet/bugs/%i/" % new_bug.id)
+        else:
+            manipulator = Bug.AddManipulator()
+
         errors = manipulator.get_validation_errors(new_data)
         if not errors:
             manipulator.do_html2python(new_data)
+            #print new_data
             new_bug = manipulator.save(new_data)
             new_bug.mail()
             return HttpResponseRedirect("/intranet/bugs/%i/" % new_bug.id)
+
     else:
         errors = new_data = {}
 
@@ -399,7 +409,7 @@ def view_bug(request, object_id):
         extra_context = { 
             'resolutions': Resolution.objects.all(), 
             'comments': Comment.objects.all(), 
-            'form': form.as_p(), 
+            'comment_form': form.as_p(), 
         })
 
 ##################################################

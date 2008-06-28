@@ -118,8 +118,11 @@ def box_reccurings(form):
 register.inclusion_tag('org/box_reccurings.html')(box_reccurings)
 
 class BoxAddNode(template.Node):
-    def __init__(self, object, parent=''):
+    def __init__(self, object, parent='', edit=False):
         self.object = object
+        #if sub:
+        #self.sub = sub
+        self.edit = edit
         if parent:
             self.parent = Variable(parent)
         else:
@@ -127,10 +130,14 @@ class BoxAddNode(template.Node):
 
     def render(self, context):
         manipulator = self.object.AddManipulator()
-        form = forms.FormWrapper(manipulator, {}, {})
         if self.parent:
             self.parent =  self.parent.resolve(context)
-        c = Context({'form':form, 'parent': self.parent,})
+        if self.edit:
+            form = forms.FormWrapper(manipulator, Bug.objects.get(pk=self.parent).__dict__, {})
+            c = Context({'form':form, 'edit': True})
+        else:
+            form = forms.FormWrapper(manipulator, {}, {})
+            c = Context({'form':form, 'parent': self.parent,})
         return template.loader.get_template('org/box_%s.html' % self.object._meta.object_name.lower()).render(c)
 
 def box_add(parser, token):
@@ -139,9 +146,17 @@ def box_add(parser, token):
     m = __import__("intranet.org.models", '','', box_name)
     object = getattr(m, box_name)
     if len(args) == 3:
-        return BoxAddNode(object, args[2])
+        #parent = args[2]
+        #if args[2] == 'edit':
+            #edit = True
+        #else:
+            #parent = args[2]
+        return BoxAddNode(object, parent=args[2])
+        #object = Bug.objects.get(pk=parent)
+    elif len(args) == 4:
+        return BoxAddNode(object, parent=args[2], edit=True)
     else:
-        return BoxAddNode(object, '')
+        return BoxAddNode(object)
 register.tag('box_add', box_add)
 
 def parse(args):

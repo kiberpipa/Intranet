@@ -14,7 +14,7 @@
 {% block content-related-left %}
   <div class="module" id="recent-actions-module">
     	    <h2>Urejanje</h2>
-  	 <ul class="actionlist">
+  	 <!--<ul class="actionlist">
   	 	{% comment %} {% if object.resolved %} {% endcomment %}
   	 	{% if object.resolution__isnull  %}
 			{% comment %}{% if user in object.assign.all %} {% endcomment %}
@@ -35,7 +35,10 @@
 			<textarea name="note" id="note" rows="5" cols="20"></textarea>
 			<br>
 
-		</form>
+		</form> -->
+
+		{% box_add Bug object.id edit %}
+
 
         <form action = "resolve/" method="post" name="BugResolutionForm">
         <input type = "submit" value = "Resi"/>
@@ -88,7 +91,7 @@
     <div class="module">
     <h2> dodaj komentar </h2>
     <form method="post" action="">
-    <table>{{ form }}</table>
+    <table>{{ comment_form }}</table>
     <input type="submit" value="comon, make my day"/>
     </form>
     </div>

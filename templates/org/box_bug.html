@@ -20,6 +20,9 @@
 		{% if parent %}
 				<input type="hidden" name="parent" value="{{ parent }}">
 		{% endif %}
+		{% if edit %}
+				<input type="hidden" name="edit" value="1">
+		{% endif %}
   </p>
 	<p>
     <label for="id_note">Opis:</label>
