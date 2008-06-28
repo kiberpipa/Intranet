@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <django-objects version="1.0">
+    <object pk="1" model="org.resolution">
+        <field type="CharField" name="name">WONTFIX</field>
+    </object>
+    <object pk="2" model="org.resolution">
+        <field type="CharField" name="name">CANTFIX</field>
+    </object>
+    <object pk="3" model="org.resolution">
+        <field type="CharField" name="name">WORKSFORME</field>
+    </object>
+    <object pk="4" model="org.resolution">
+        <field type="CharField" name="name">INVALID</field>
+    </object>
+    <object pk="5" model="org.resolution">
+        <field type="CharField" name="name">FIXED</field>
+    </object>
+    <object pk="6" model="org.resolution">
+        <field type="CharField" name="name">OPEN</field>
+    </object>
     <object pk="1" model="org.task">
         <field type="CharField" name="title">Dežuranje</field>
         <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
@@ -8,7 +26,7 @@
         <field type="DateTimeField" name="chg_date">2008-03-24 16:07:15</field>
     </object>
     <object pk="2" model="org.task">
-        <field type="CharField" name="title">Tehničarjenje</field>
+        <field type="CharField" name="title">Tehnicarjenje</field>
         <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
         <field type="TextField" name="note"></field>
         <field type="DateTimeField" name="pub_date">2008-03-24 16:08:10</field>

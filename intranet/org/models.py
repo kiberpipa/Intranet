@@ -254,7 +254,7 @@ class Bug(models.Model):
     author = models.ForeignKey(User, related_name="bug_author")
     #assign = models.ForeignKey(User,blank=True, null=True, related_name="bug_assign")
     assign = models.ManyToManyField(User,blank=True, null=True, related_name="bug_assign")
-    #resolved = models.BooleanField()
+    resolved = models.BooleanField()
     resolution = models.ForeignKey(Resolution, blank = True, null = True)
     note = models.TextField()
     parent = models.ForeignKey('self', blank=True, null=True)
@@ -329,6 +329,25 @@ class Bug(models.Model):
         
         #print "near end: %s\n" % related
         return related
+
+
+    def save(self):
+    ##the one and only place where we shall decide how bug is considered open
+#        id: 1, name: WONTFIX
+#        id: 2, name: CANTFIX
+#        id: 3, name: WORKSFORME
+#        id: 4, name: INVALID
+#        id: 5, name: FIXED
+#        id: 6, name: OPEN
+
+        if self.resolution == None:
+            self.resolution = Resolution.objects.get(pk=6)
+
+        if self.resolution.id <= 5:
+            self.resolved = True;
+        else:
+            self.resolved = False
+        super(Bug, self).save()
 
     class Meta:
         verbose_name = 'Hrosc'
