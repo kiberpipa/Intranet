@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 #from intranet.tags import fields
 
 from django.core import validators
-from datetime import date, time, timedelta
+from datetime import date, time, timedelta, datetime
 import smtplib
 
 from django.conf import settings
@@ -44,6 +44,14 @@ class UserProfile(models.Model):
 
     def __unicode__(self):
         return self.user.username
+
+    def is_active(self):
+        whine = datetime.today() - timedelta(60)
+        if Diary.objects.filter(author = self.user).filter(date__gt = whine):
+            return True
+        else:
+            return False
+
 
 class Project(models.Model):
     name = models.CharField(max_length=100)

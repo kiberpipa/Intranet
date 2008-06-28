@@ -28,6 +28,7 @@
 
 {% block content-main %}
         {% for user in object_list %}
+        {% if user.get_profile.is_active %}
 <div class="module">
     <h2><a name="{{ user.username }}">{{ user.first_name }} "{{ user.username }}" {{ user.last_name }}</a></h2>
         <div class="user">
@@ -42,6 +43,26 @@
             </ul>
         </div>
 </div>
+        {% endif %}
+        {% endfor %}
+        <br><br><br>not active users:<br>
+        {% for user in object_list %}
+        {% if not user.get_profile.is_active %}
+<div class="module">
+    <h2><a name="{{ user.username }}">{{ user.first_name }} "{{ user.username }}" {{ user.last_name }}</a></h2>
+        <div class="user">
+            <ul>
+                <li>E-pošta: <a href="mailto:{{ user.email }}">{{ user.email }}</a></li>
+                {% if user.get_profile %}
+                <li>Telefon: {{ user.get_profile.mobile }}</li>
+                <li>IM: {{ user.get_profile.im|linebreaksbr }}</li>
+                {% else %}
+                <li><a href="/intranet/admin/org/userprofile/add/">dodaj razširjen profil</a></li>
+                {% endif %}
+            </ul>
+        </div>
+</div>
+        {% endif %}
         {% endfor %}
 {% endblock %}
 
