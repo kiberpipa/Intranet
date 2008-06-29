@@ -126,6 +126,25 @@ class PlaceInternal(models.Model):
               'js/tags.js',
               )
 
+class Person(models.Model):
+    name = models.CharField(max_length=100)
+    note = models.CharField(max_length=230)
+    #najbrz bi blo pametno met poljubno stevilo teh stvari
+    #phone = models.CharField(max_length=40)
+    #mail = models.EmailField()
+    #organization = models.CharField(max_length=100)
+
+    ##TODO
+    #- eventi
+    #- projekti
+    #- tip sodelovanja (predavatelj, voditelj predavanja, sponzor .... )
+    #- `vloga' (a je tip/bejba novinar, direktor, marketingar...)
+
+    def __unicode__(self):
+        return self.name
+
+    class Admin:
+        pass
 
 # koledar dogodkov
 class Event(models.Model):

@@ -133,6 +133,7 @@ class BoxAddNode(template.Node):
         if self.parent:
             self.parent =  self.parent.resolve(context)
         if self.edit:
+            #print Bug.objects.get(pk=self.parent).__dict__
             form = forms.FormWrapper(manipulator, Bug.objects.get(pk=self.parent).__dict__, {})
             c = Context({'form':form, 'edit': True})
         else:

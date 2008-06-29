@@ -13,10 +13,11 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.views.generic import list_detail
 
-from datetime import date, time, timedelta
+from datetime import date, time, timedelta, datetime
 import datetime
 import mx.DateTime
 import re
+import string
 
 from intranet.org.models import UserProfile, Project, Category
 from intranet.org.models import Place, PlaceInternal, Event, Shopping
@@ -360,21 +361,29 @@ def box_bugs_add(request):
     if request.POST:
         new_data = request.POST.copy()
         new_data['author'] = request.user.id
+        #print new_data['length']
+        #print new_data.getlist('length')
+        #for i in new_data['length']:
+        #    print i
+        date = new_data.getlist('length')
+        timestamp = mx.DateTime.ISO.ParseAny(string.join(date, ' '))
+        due_by = datetime.datetime.fromtimestamp(timestamp)
+        
+        print new_data
 
         if 'edit' in new_data:
-                manipulator = Bug.ChangeManipulator(Bug.objects.get(name=new_data['name']).id)
-                #new_bug = 
-#                errors = manipulator.get_validation_errors(new_data)
-#                new_bug = manipulator.save(new_data)
-#                return HttpResponseRedirect("/intranet/bugs/%i/" % new_bug.id)
+            ###fails if you change the bug name
+            manipulator = Bug.ChangeManipulator(Bug.objects.get(name=new_data['name']).id)
         else:
             manipulator = Bug.AddManipulator()
 
         errors = manipulator.get_validation_errors(new_data)
         if not errors:
             manipulator.do_html2python(new_data)
-            #print new_data
             new_bug = manipulator.save(new_data)
+            new_bug.due_by = due_by
+            print new_bug.due_by
+            new_bug.save()
             new_bug.mail()
             return HttpResponseRedirect("/intranet/bugs/%i/" % new_bug.id)
 

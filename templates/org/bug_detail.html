@@ -44,7 +44,7 @@
         <input type = "submit" value = "Resi"/>
             <select name="status">
             {% for resolution in resolutions %}
-                <option value="{{ resolution.id }}">{{ resolution.name }}</option>
+                <option value="{{ resolution.id }}"{% ifequal object.resolution.id resolution.id %} selected="selected" {% endifequal %}>{{ resolution.name }}</option>
             {% endfor %}
             </select>
         </form>

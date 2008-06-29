@@ -15,8 +15,8 @@
   </p>
   <p>
 		<label for="id_due_by"> Deadline:</label><br>
-    <input type="text" id="id_length" class="vDateField" name="length" size="10" maxlength="10" /><br>
-    <input type="text" id="id_length" class="vTimeField" name="length" size="8" maxlength="8" />
+    <input type="text" id="id_length" class="vDateField" name="length" size="10" maxlength="10" value="{{ form.data.due_by|date:"Y-m-d" }}" /><br>
+    <input type="text" id="id_length" class="vTimeField" name="length" size="8" maxlength="8" value="{{ form.data.due_by|date:"H:i:s" }}"/>
 		{% if parent %}
 				<input type="hidden" name="parent" value="{{ parent }}">
 		{% endif %}
