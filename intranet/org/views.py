@@ -20,7 +20,7 @@ import re
 import string
 
 from intranet.org.models import UserProfile, Project, Category
-from intranet.org.models import Place, PlaceInternal, Event, Shopping
+from intranet.org.models import Place, Event, Shopping
 from intranet.org.models import Task, Diary, Bug, StickyNote, Lend, Resolution, Comment
 from intranet.org.models import KbCategory, KB, Tag, Scratchpad
 from django.contrib.auth.models import User
@@ -436,8 +436,6 @@ def event_create(request):
         # default to first place - should be Kiberpipa
         if not new_data.has_key('place'):
             new_data['place'] = 1 #Place.objects.get(pk=1)
-        if not new_data.has_key('place_internal'):
-            new_data['place_internal'] = 1 #Place.objects.get(pk=1)
         if not new_data.has_key('category'):
             new_data['category'] = 1 #Category.objects.get(pk=1)
 
@@ -478,6 +476,8 @@ def event_create(request):
                     rec_event.save() # for tags
 
             return HttpResponseRedirect("/intranet/events/%i/" % new_event.id)
+        else:
+            print errors
 
     # da selecti ostanejo taksni, kot so
         if new_data['project']:
@@ -514,8 +514,6 @@ def event_edit(request, event_id):
         # default to first place - should be Kiberpipa
         if not new_data.has_key('place'):
             new_data['place'] = 1 #Place.objects.get(pk=1)
-        if not new_data.has_key('place_internal'):
-            new_data['place_internal'] = 1 #Place.objects.get(pk=1)
         if not new_data.has_key('category'):
             new_data['category'] = 1 #Category.objects.get(pk=1)
 

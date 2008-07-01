@@ -78,11 +78,6 @@
     {% if form.place.errors %}
       *** {{ form.place.errors|join:", " }}
     {% endif %}
-    <label for="id_place_internal">place internal:</label>
-    {{ form.place_internal }}
-    {% if form.place_internal.errors %}
-      *** {{ form.place_internal.errors|join:", " }}
-    {% endif %}
   </p>
   <p>
     <label for="id_tags">tags:</label>

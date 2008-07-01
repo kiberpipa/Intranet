@@ -47,9 +47,8 @@
                 {% if object.require_video %}
                     ,video
                 {% endif %}
-                {% if object.place_internal %}
-                 {% comment %}   ,{{ object.place_internal.all }}{% endcomment %}
-                  {% for o in object.place_internal.all %}
+                {% if object.place%}
+                  {% for o in object.place.all %}
                     , {{ o }}
                   {% endfor %}
                 {% endif %}

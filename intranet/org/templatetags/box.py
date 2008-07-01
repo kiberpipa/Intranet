@@ -120,8 +120,6 @@ register.inclusion_tag('org/box_reccurings.html')(box_reccurings)
 class BoxAddNode(template.Node):
     def __init__(self, object, parent='', edit=False):
         self.object = object
-        #if sub:
-        #self.sub = sub
         self.edit = edit
         if parent:
             self.parent = Variable(parent)
@@ -133,8 +131,12 @@ class BoxAddNode(template.Node):
         if self.parent:
             self.parent =  self.parent.resolve(context)
         if self.edit:
-            #print Bug.objects.get(pk=self.parent).__dict__
             form = forms.FormWrapper(manipulator, Bug.objects.get(pk=self.parent).__dict__, {})
+            print 'teh form'
+            print Bug.objects.get(pk=self.parent).assign.all()
+            print form['assign']
+            #form['assign_id'] = form['assign']
+            #print form['assign_id']
             c = Context({'form':form, 'edit': True})
         else:
             form = forms.FormWrapper(manipulator, {}, {})
@@ -147,13 +149,7 @@ def box_add(parser, token):
     m = __import__("intranet.org.models", '','', box_name)
     object = getattr(m, box_name)
     if len(args) == 3:
-        #parent = args[2]
-        #if args[2] == 'edit':
-            #edit = True
-        #else:
-            #parent = args[2]
         return BoxAddNode(object, parent=args[2])
-        #object = Bug.objects.get(pk=parent)
     elif len(args) == 4:
         return BoxAddNode(object, parent=args[2], edit=True)
     else:
@@ -173,7 +169,6 @@ def parse(args):
             kw = kw.lower()
             kwargs[kw] = val
 
-#    print kwargs
     return kwargs
 
 class BoxListNode(template.Node):

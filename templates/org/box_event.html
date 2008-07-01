@@ -46,10 +46,10 @@
     {% endif %}
   </p>
   <p>
-    <label for="id_place_internal">place internal:</label>
-    {{ form.place_internal }}
-    {% if form.place_internal.errors %}
-      *** {{ form.place_internal.errors|join:", " }}
+    <label for="id_place">place:</label>
+    {{ form.place}}
+    {% if form.place.errors %}
+      *** {{ form.place.errors|join:", " }}
     {% endif %}
   </p>
   <p>

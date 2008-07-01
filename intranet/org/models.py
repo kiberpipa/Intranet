@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 from django.core import validators
 from datetime import date, time, timedelta, datetime
-import smtplib
+import smtplib, string
 
 from django.conf import settings
 
@@ -34,7 +34,7 @@ class UserProfile(models.Model):
     mobile = models.CharField(max_length=100)
     mail = models.EmailField()
     im = models.TextField(blank=True, null=True)
-    tags = models.ManyToManyField(Tag, blank=True, null=True)
+    #tags = models.ManyToManyField(Tag, blank=True, null=True)
     user = models.OneToOneField(User)
 #    tasks = models.ManyToManyField(Task, blank=True, null=True)
 #    project = models.ManyToManyField(Project, blank=True, null=True)
@@ -61,7 +61,7 @@ class Project(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
 
-    tags = models.ManyToManyField(Tag, blank=True, null=True)
+    #tags = models.ManyToManyField(Tag, blank=True, null=True)
 
     def __unicode__(self):
         return self.name
@@ -82,7 +82,7 @@ class Category(models.Model):
     name = models.CharField(max_length=100)
     note = models.TextField(blank=True, null=True)
 
-    tags = models.ManyToManyField(Tag, blank=True, null=True)
+    #tags = models.ManyToManyField(Tag, blank=True, null=True)
 
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
@@ -99,8 +99,8 @@ class Place(models.Model):
     name = models.CharField(max_length=100)
     note = models.TextField(blank=True, null=True)
 
-    pub_date = models.DateTimeField(auto_now_add=True)
-    chg_date = models.DateTimeField(auto_now=True)
+    #pub_date = models.DateTimeField(auto_now_add=True)
+    #chg_date = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return self.name
@@ -109,42 +109,6 @@ class Place(models.Model):
          js = (
               'js/tags.js',
               )
-
-class PlaceInternal(models.Model):
-    name = models.CharField(max_length=100)
-    responsible = models.ForeignKey(User)
-    note = models.TextField(blank=True, null=True)
-
-    pub_date = models.DateTimeField(auto_now_add=True)
-    chg_date = models.DateTimeField(auto_now=True)
-
-    def __unicode__(self):
-        return self.name
-
-    class Admin:
-         js = (
-              'js/tags.js',
-              )
-
-class Person(models.Model):
-    name = models.CharField(max_length=100)
-    note = models.CharField(max_length=230)
-    #najbrz bi blo pametno met poljubno stevilo teh stvari
-    #phone = models.CharField(max_length=40)
-    #mail = models.EmailField()
-    #organization = models.CharField(max_length=100)
-
-    ##TODO
-    #- eventi
-    #- projekti
-    #- tip sodelovanja (predavatelj, voditelj predavanja, sponzor .... )
-    #- `vloga' (a je tip/bejba novinar, direktor, marketingar...)
-
-    def __unicode__(self):
-        return self.name
-
-    class Admin:
-        pass
 
 # koledar dogodkov
 class Event(models.Model):
@@ -168,7 +132,6 @@ class Event(models.Model):
     chg_date = models.DateTimeField(auto_now=True)
 
     place = models.ForeignKey(Place)
-    place_internal = models.ManyToManyField(PlaceInternal)
     category = models.ForeignKey(Category)
     tags = models.ManyToManyField(Tag, blank=True, null=True)
 
@@ -195,6 +158,49 @@ class Event(models.Model):
               )
 
 
+class TipSodelovanja(models.Model):
+    name = models.CharField(max_length=40)
+
+
+    def __unicode__(self):
+        return self.name
+
+    class Admin:
+        pass
+
+
+class Person(models.Model):
+    name = models.CharField(max_length=100)
+    note = models.CharField(max_length=230, blank=True, null=True)
+    #sodelovanje = models.ManyToManyField(Sodelovanje, blank=True, null=True)
+    #najbrz bi blo pametno met poljubno stevilo teh stvari
+    #phone = models.CharField(max_length=40)
+    #mail = models.EmailField()
+    #organization = models.CharField(max_length=100)
+
+    ##TODO
+    #- eventi
+    #- projekti
+    #- tip sodelovanja (predavatelj, voditelj predavanja, sponzor .... )
+    #- `vloga' (a je tip/bejba novinar, direktor, marketingar...)
+
+    def __unicode__(self):
+        return self.name
+
+    class Admin:
+        pass
+
+class Sodelovanje(models.Model):
+    event = models.ForeignKey(Event, blank=True, null=True)
+    tip = models.ForeignKey(TipSodelovanja, blank=True, null=True)
+    person = models.ForeignKey(Person)
+
+    def __unicode__(self):
+        return "%s: %s @ %s" % (self.person, self.tip, self.event)
+
+
+    class Admin:
+        pass
 
 # opravila v pipi
 class Task(models.Model):
