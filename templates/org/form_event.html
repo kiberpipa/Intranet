@@ -5,6 +5,10 @@
       *** {{ form.title.errors|join:", " }}
     {% endif %}
   </p>
+	<p>
+		<label for="id_author">Avtor(ji?): </label>
+		    <input type="text" id="id_author" class="vTextField required" name="author" size="30" value="" maxlength="100" />
+				</p>
 <p>
     <label for="id_category">m3c kategorija:</label>
     {{ form.category }}

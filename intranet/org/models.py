@@ -114,7 +114,7 @@ class Place(models.Model):
 class Event(models.Model):
     responsible = models.ForeignKey(User)
     title = models.CharField(max_length=100)
-    author = models.CharField(max_length=100, blank=True, null=True)
+    #author = models.CharField(max_length=100, blank=True, null=True)
     start_date = models.DateTimeField()
     end_date = models.DateField(blank=True, null=True)
     length = models.TimeField()
@@ -157,7 +157,6 @@ class Event(models.Model):
               'js/tags.js',
               )
 
-
 class TipSodelovanja(models.Model):
     name = models.CharField(max_length=40)
 
@@ -169,19 +168,60 @@ class TipSodelovanja(models.Model):
         pass
 
 
+##there's gotta be a better way to do this
+class Emails(models.Model):
+    mail = models.EmailField()
+
+    def __unicode__(slef):
+        return mail
+
+class Phone(models.Model):
+    phone = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return self.phone
+
+class Organization(models.Model):
+    organization = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return self.organization
+
+class Title(models.Model):
+    title = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return self.title
+
+class Role(models.Model):
+    role = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return self.role
+
+
 class Person(models.Model):
     name = models.CharField(max_length=100)
     note = models.CharField(max_length=230, blank=True, null=True)
-    #sodelovanje = models.ManyToManyField(Sodelovanje, blank=True, null=True)
+
+    emails = models.ManyToManyField(Emails)
+    phone = models.ManyToManyField(Phone)
+    organization = models.ManyToManyField(Organization)
+    title = models.ManyToManyField(Title)
+    role = models.ManyToManyField(Role)
+
     #najbrz bi blo pametno met poljubno stevilo teh stvari
     #phone = models.CharField(max_length=40)
     #mail = models.EmailField()
     #organization = models.CharField(max_length=100)
 
-    ##TODO
+    #reseno z objektkom Sodelovanje
+    #sodelovanje = models.ManyToManyField(Sodelovanje, blank=True, null=True)
     #- eventi
-    #- projekti
     #- tip sodelovanja (predavatelj, voditelj predavanja, sponzor .... )
+
+    ##TODO
+    #- projekti ##should be parsed from Event, i think
     #- `vloga' (a je tip/bejba novinar, direktor, marketingar...)
 
     def __unicode__(self):

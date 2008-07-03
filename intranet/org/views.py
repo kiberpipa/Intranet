@@ -20,7 +20,7 @@ import re
 import string
 
 from intranet.org.models import UserProfile, Project, Category
-from intranet.org.models import Place, Event, Shopping
+from intranet.org.models import Place, Event, Shopping, Person, Sodelovanje, TipSodelovanja
 from intranet.org.models import Task, Diary, Bug, StickyNote, Lend, Resolution, Comment
 from intranet.org.models import KbCategory, KB, Tag, Scratchpad
 from django.contrib.auth.models import User
@@ -402,7 +402,6 @@ class CommentBug(newforms.Form):
 
 
 def view_bug(request, object_id):
-
     if request.method == 'POST':
         form = CommentBug(request.POST)
         if form.is_valid():
@@ -456,6 +455,21 @@ def event_create(request):
         if not errors:
             manipulator.do_html2python(new_data)
             new_event = manipulator.save(new_data)
+            ##auto magic author handling -- RD666
+            author = new_data['author']
+            #make sure the Person actually exists
+            try:
+                person = Person.objects.get(name=author)
+            except Person.DoesNotExist:
+                person = Person(name=author)
+                person.save()
+
+            tip = TipSodelovanja.objects.get(pk=1)
+
+            s = Sodelovanje(event=new_event, tip=tip, person=person)
+            s.save()
+            
+
             new_event.save() # to update tags
 
             # if defined reccurings rules...
