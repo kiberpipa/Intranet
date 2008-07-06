@@ -1,0 +1,206 @@
+{% extends "org/base_3col.html" %}
+{% block extrahead %}{% endblock %}
+{% block title %}Dogodki{% endblock %}
+{% load markup %}
+
+{% comment %}{% block toplinks %}
+    <div class="breadcrumbs">
+    <ul id="breadcrumbs">
+        <li>Arhiv: </li>
+        <li><a href="/intranet/events/arhiv/{{ object.start_date|date:"Y" }}/{{ object.start_date|date:"M"|lower }}">{{ object.start_date|date:"M" }}</a></li>
+        <li><a href="/intranet/events/arhiv/{{ object.start_date|date:"Y" }}">{{ object.start_date|date:"Y" }}</a></li>
+    </ul>
+    </div>
+{% endblock %} {% endcomment %}
+
+{% load box %}
+
+{% comment %}{% block heading %}
+    <h1>Dogodek</h1>
+{% endblock %} {% endcomment %}
+
+{% block content-related-left %}
+  <div class="module" id="recent-actions-module">
+    <h2>Ponavljanje</h2>
+	<form method="POST" action=".">
+		{% box_reccurings form %}
+	<h3> <input type="submit" value="Vpiši" /></h3>
+  </div>
+{% endblock %}
+
+{% block content-main %}
+<div class="module">
+	<h2>Dodaj dogodek v koledar</h2>
+{% if form.has_errors %}
+	<h3>Please correct the following error{{ form.error_dict|pluralize }}:</h3>
+{% endif %}
+  <p>
+    <label for="id_title">Naslov:</label>
+    {{ form.title }}
+    {% if form.title.errors %}
+      *** {{ form.title.errors|join:", " }}
+    {% endif %}
+  </p>
+	<p>
+		<label for="id_author">Avtor(ji?): </label>
+		   {% comment %} <input type="text" id="id_author" class="vTextField required" name="author" size="30" value="" maxlength="100" />{% endcomment %}
+			 {{ form.author }}
+				</p>
+<p>
+    <label for="id_category">m3c kategorija:</label>
+    {{ form.category }}
+    {% if form.category.errors %}
+      *** {{ form.category.errors|join:", " }}
+    {% endif %}
+<!--    <a href="/intranet/admin/auth/user/add/" class="add-another" id="add_id_responsible" onclick="return showAddAnotherPopup(this);"> <img src="/media/img/admin/icon_addlink.gif" width="10" height="10" alt="Add Another"/></a
+-->
+    </p>
+ <p>
+    <label for="id_project">Projekt:</label>
+    {{ form.project }}
+    {% if form.project.errors %}
+      *** {{ form.project.errors|join:", " }}
+    {% endif %}
+    <br />
+    <label for="id_responsible">Odgovorni:</label>
+    {{ form.responsible }}
+    {% if form.responsible.errors %}
+      *** {{ form.responsible.errors|join:", " }}
+    {% endif %}
+</p>
+<hr>
+   <p>
+	 <!-- PIMP ME -->
+    <label for="id_start_date">Začetni datum:</label>
+    {{ form.start_date }}
+    {% if form.start_date.errors %}
+      *** {{ form.start_date.errors|join:", " }}
+    {% endif %}
+    <br />
+     {% comment %}<label for="id_start_date_time">Ura začetka:</label>
+    {{ form.start_date_time }}
+    {% if form.start_date_time.errors %}
+      *** {{ form.start_date_time.errors|join:", " }}
+    {% endif %}  {% endcomment %}
+    <br /> 
+    <label for="id_length">Dolžina:</label>
+   	{% comment %}<select selected name="length" size="1">   	   
+            <option {% ifequal form.data.length '01:00:00' %}selected {% endifequal %}>1</option>
+            <option {% if not form.data.length%}selected{%endif%}{% ifequal form.data.length '02:00:00' %}selected {% endifequal %}>2</option>
+            <option {% ifequal form.data.length '03:00:00' %}selected {% endifequal %}>3</option>
+            <option {% ifequal form.data.length '04:00:00' %}selected {% endifequal %}>4</option>
+            <option {% ifequal form.data.length '05:00:00' %}selected {% endifequal %}>5</option>
+            <option {% ifequal form.data.length '06:00:00' %}selected {% endifequal%}>6</option>
+            <option {% ifequal form.data.length '07:00:00' %}selected {% endifequal %}>7</option>
+            <option {% ifequal form.data.length '08:00:00' %}selected {% endifequal %}>8</option>
+            <option {% ifequal form.data.length '09:00:00' %}selected {% endifequal %}>9</option>
+            <option {% ifequal form.data.length '10:00:00' %}selected {% endifequal %}>10</option>
+            <option {% ifequal form.data.length '11:00:00' %}selected {% endifequal %}>11</option>
+            <option {% ifequal form.data.length '12:00:00' %}selected {% endifequal%}>12</option>
+        </select>
+        ur {% endcomment %}
+				{{ form.length }}
+   </p>
+<hr>
+  <p>
+    <label for="id_require_technician">Dogodek potrebuje tehnika:</label>
+    {{ form.require_technician }}
+    {% if form.require_technician.errors %}
+      *** {{ form.require_technician.errors|join:", " }}
+    {% endif %}
+    <label for="id_technician">Tehnik:</label>
+    {{ form.technician }}
+    {% if form.technician.errors %}
+      *** {{ form.technician.errors|join:", " }}
+    {% endif %}  </p>
+  <p>
+    <label for="id_require_video">Dogodek je sneman:</label>
+    {{ form.require_video }}
+    {% if form.require_video.errors %}
+      *** {{ form.require_video.errors|join:", " }}
+    {% endif %}
+  </p>
+  <p>
+    <label for="id_place">Potrebuje prostore:</label>
+    {{ form.place}}
+    {% if form.place.errors %}
+      *** {{ form.place.errors|join:", " }}
+    {% endif %}
+    </p>
+<hr>
+ <p>
+    <label for="id_announce">Uradna najava:</label>
+    {{ form.announce }}
+    {% if form.announce.errors %}
+      *** {{ form.announce.errors|join:", " }}
+    {% endif %}
+  </p>
+  
+   <p>
+    <label for="id_short_announce">Kratka najava:</label>
+    {{ form.short_announce }}
+    {% if form.short_announce.errors %}
+      *** {{ form.short_announce.errors|join:", " }}
+    {% endif %}
+  </p>
+
+<hr>
+
+  <p>
+    <label for="id_note">Opombe:</label>
+    {{ form.note }}
+    {% if form.note.errors %}
+      *** {{ form.note.errors|join:", " }}
+    {% endif %}
+  </p>
+	</form>
+    {% comment %}<div class="module">
+        <h2>{{ object.title }}</h2>
+        <h4>{{ object.project }}</h4>
+            <p>{{ object.title }}</p>
+            <p>{{ object.start_date|date:"D d.m.Y" }} ({{ object.length }})</p>
+          <h4>Zahteve:</h4>
+          <p>
+                {% if object.require_technician %}
+                    tehnik
+                {% endif %}
+                {% if object.require_video %}
+                    ,video
+                {% endif %}
+                {% if object.place%}
+                  {% for o in object.place.all %}
+                    , {{ o }}
+                  {% endfor %}
+                {% endif %}
+          </p>
+          	{% if object.visitors %}
+          <h4>Število obiskovalcev:</h4>
+          <p>{{ object.visitors }}</p>
+          	{% endif %}
+          <h4>Vsebina:</h4>
+          <p>
+            {{ object.announce|linebreaks }}</p>
+	
+	  <h4>Kratka vsebina:</h4>
+          <p>
+            {{ object.short_announce|linebreaks }}</p>          
+    </div> 
+<form method="post" action="">
+{% comment %}<dl>
+{% for field in form %}
+    <dt>{{ field.label_tag }}{% if field.field.required %}*{% endif %}</dt>
+    <dd>{{ field }}</dd>
+    {% if field.help_text %}<dd>{{ field.help_text }}</dd>{% endif %}
+    {% if field.errors %}<dd class="myerrors">{{ field.errors }}</dd>{% endif %}
+{% endfor %}
+</dl> 
+{{ form.as_p }}
+<input type="submit" />
+</form>
+{% endcomment %}
+
+{% endblock %}
+
+{% block content-related-right %}
+
+{% endblock %}
