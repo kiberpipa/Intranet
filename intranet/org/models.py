@@ -204,11 +204,11 @@ class Person(models.Model):
     name = models.CharField(max_length=100)
     note = models.CharField(max_length=230, blank=True, null=True)
 
-    emails = models.ManyToManyField(Emails)
-    phone = models.ManyToManyField(Phone)
-    organization = models.ManyToManyField(Organization)
-    title = models.ManyToManyField(Title)
-    role = models.ManyToManyField(Role)
+    emails = models.ManyToManyField(Emails, blank=True, null=True)
+    phone = models.ManyToManyField(Phone, blank=True, null=True)
+    organization = models.ManyToManyField(Organization, blank=True, null=True)
+    title = models.ManyToManyField(Title, blank=True, null=True)
+    role = models.ManyToManyField(Role, blank=True, null=True)
 
     #najbrz bi blo pametno met poljubno stevilo teh stvari
     #phone = models.CharField(max_length=40)

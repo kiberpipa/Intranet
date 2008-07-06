@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import *
-from intranet.org.models import Event, Bug, Diary, Lend, Shopping, Resolution, Comment
+from intranet.org.models import Event, Bug, Diary, Lend, Shopping, Resolution, Comment, Sodelovanje
 from intranet.org.feeds import LatestBugs, LatestDiarys, BugsByUser, ToDo, LatestEvents
 from django.contrib.auth.models import User
 
@@ -76,6 +76,12 @@ lend_dict = {
     'allow_empty': 1,
 }
 
+sodelovanje_dict = {
+    'queryset': Sodelovanje.objects.all(),
+    'date_field': '',
+    'allow_empty': 1,
+}
+
 shopping_dict = {
     'queryset': Shopping.objects.filter(bought__exact=False).order_by('chg_date'),
     'date_field': 'chg_date',
@@ -97,6 +103,10 @@ lend_detail = {
     'queryset': Lend.objects.all(),
 }
 
+sodelovanje_detail = {
+    'queryset': Sodelovanje.objects.all(),
+}
+
 event_detail = {
     'queryset': Event.objects.all(),
 }
@@ -116,8 +126,8 @@ urlpatterns = patterns('',
     (r'^stats/text_log/$', 'intranet.org.views.text_log'),
 
 #    (r'events/$',    'django.views.generic.list_detail.object_list', event_list),
-    (r'^events/create/', 'intranet.org.views.event_create'),
-    (r'^events/(\d+)/edit/$', 'intranet.org.views.event_edit'),
+    (r'^events/create/', 'intranet.org.views.nf_event'),
+    (r'^events/(?P<event>\d+)/edit/$', 'intranet.org.views.nf_event'),
     (r'^events/(\d+)/count/$', 'intranet.org.views.event_count'),
     (r'^events/(?P<object_id>\d+)/$', 'django.views.generic.list_detail.object_detail', event_detail),
 
@@ -151,6 +161,9 @@ urlpatterns = patterns('',
     #mali wraper okoli generic viewa da lahko procesiramo komentar 
     #(r'^bugs/(?P<object_id>\d+)/$', 'django.views.generic.list_detail.object_detail', bug_detail),
     (r'^bugs/(?P<object_id>\d+)/$', 'intranet.org.views.view_bug'),
+
+    (r'^sodelovanja/', 'intranet.org.views.sodelovanja'),
+    #(r'^sodelovanja/(?P<object_id>\d+)', 'django.views.generic.list_detail.object_detail', sodelovanje_detail),
 
     (r'^tehniki/(?P<year>\d+)/(?P<month>[a-z]{3})/$', 'intranet.org.views.tehniki_monthly'),
     (r'^tehniki/(?P<year>\d+)/(?P<week>\d+)/$', 'intranet.org.views.tehniki'),

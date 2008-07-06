@@ -421,152 +421,26 @@ def view_bug(request, object_id):
         })
 
 ##################################################
+class EventForm(newforms.ModelForm):
+    author = newforms.CharField()
+    class Meta:
+        model = Event
 
-def event_create(request):
-    manipulator = Event.AddManipulator()
 
-    if request.POST:
-        new_data = request.POST.copy()
-
-        # autosensing if technician is defined
-        if new_data['technician']:
-            new_data['require_technician'] = True
-
-        # default to first place - should be Kiberpipa
-        if not new_data.has_key('place'):
-            new_data['place'] = 1 #Place.objects.get(pk=1)
-        if not new_data.has_key('category'):
-            new_data['category'] = 1 #Category.objects.get(pk=1)
-
-        # black magic for user friendly length input
-        if not new_data.has_key('length'):    # default to 2 hours
-            new_data['length'] = '02:00:00'
-        elif not re.match(r'\d\d\:00:00', new_data['length']):    # or parse full hours
-            if int(new_data['length']) < 10:
-              new_data['length'] = "0%s:00:00" % int(new_data['length'])
-            else:
-              new_data['length'] = "%s:00:00" % int(new_data['length'])
-
-        repeat = int(new_data['event_repeat'])
-        rec_freq = int(new_data['event_repeat_freq'])
-        rec_type = int(new_data['event_repeat_freq_type'])
-
-        errors = manipulator.get_validation_errors(new_data)
-        if not errors:
-            manipulator.do_html2python(new_data)
-            new_event = manipulator.save(new_data)
-            ##auto magic author handling -- RD666
-            author = new_data['author']
-            #make sure the Person actually exists
-            try:
-                person = Person.objects.get(name=author)
-            except Person.DoesNotExist:
-                person = Person(name=author)
-                person.save()
-
-            tip = TipSodelovanja.objects.get(pk=1)
-
-            s = Sodelovanje(event=new_event, tip=tip, person=person)
-            s.save()
-            
-
-            new_event.save() # to update tags
-
-            # if defined reccurings rules...
-            if repeat == 1:
-                end_day = new_data['end_date']
-                start_day = new_data['start_date_date']
-                while end_day > start_day:
-                    if rec_type == 0:    # days
-                        start_day = start_day + datetime.timedelta(days = rec_freq)
-                    elif rec_type == 1:    # weeks
-                        start_day = start_day + datetime.timedelta(days = (7 * rec_freq))
-                    elif rec_type == 2:    # monts
-                        start_day = start_day + datetime.timedelta(months = rec_freq)
-
-                    new_data['start_date_date'] = start_day
-                    print "%s -> %s\n" % (start_day, end_day)
-                    rec_event = manipulator.save(new_data)
-                    rec_event.save() # for tags
-
-            return HttpResponseRedirect("/intranet/events/%i/" % new_event.id)
-        else:
-            print errors
-
-    # da selecti ostanejo taksni, kot so
-        if new_data['project']:
-          new_data['project_id']= new_data['project']
-        if new_data['category']:
-          new_data['category_id']= new_data['category']
-        if new_data['technician']:
-          new_data['technician_id']= new_data['technician']
-        if new_data['responsible']:
-          new_data['responsible_id'] = new_data['responsible']
-
+def nf_event(request, event=''):
+    if event:
+        form = EventForm(instance=Event.objects.get(pk=event))
+    elif request.method == 'POST':
+        form = EventForm(request.POST)
     else:
-        errors = new_data = {}
+        form = EventForm()
 
-    form = forms.FormWrapper(manipulator, new_data, errors)
-    return render_to_response('org/form_add_event.html', {'form': form},
-                               context_instance=RequestContext(request))
+    if form.is_valid():
+        new_event = form.save()
+        return HttpResponseRedirect(new_event.get_absolute_url())
 
-##################################################
-
-def event_edit(request, event_id):
-    try:
-        manipulator = Event.ChangeManipulator(event_id)
-    except Event.DoesNotExist:
-        raise Http404
-
-    event = manipulator.original_object
-
-    if request.POST:
-        new_data = request.POST.copy()
-        if new_data['technician']:
-            new_data['require_technician'] = 'on'
-
-        # default to first place - should be Kiberpipa
-        if not new_data.has_key('place'):
-            new_data['place'] = 1 #Place.objects.get(pk=1)
-        if not new_data.has_key('category'):
-            new_data['category'] = 1 #Category.objects.get(pk=1)
-
-        # black magic for user friendly length input
-        if not new_data.has_key('length'):    # default to 2 hours
-            new_data['length'] = '02:00:00'
-        elif not re.match(r'\d\d\:00:00', new_data['length']):    # or parse full hours
-            if int(new_data['length']) < 10:
-              new_data['length'] = "0%s:00:00" % int(new_data['length'])
-            else:
-              new_data['length'] = "%s:00:00" % int(new_data['length'])
-
-        errors = manipulator.get_validation_errors(new_data)
-        if not errors:
-            manipulator.do_html2python(new_data)
-            manipulator.save(new_data)
-
-            return HttpResponseRedirect("/intranet/events/%i/" % event.id)
-
-        # da selecti ostanejo taksni, kot so
-        if new_data['project']:
-          new_data['project_id']= new_data['project']
-        if new_data['category']:
-          new_data['category_id']= new_data['category']
-        if new_data['technician']:
-          new_data['technician_id']= new_data['technician']
-        if new_data['responsible']:
-          new_data['responsible_id'] = new_data['responsible']
-
-
-    else:
-        errors = {}
-        new_data = manipulator.flatten_data()
-
-    form = forms.FormWrapper(manipulator, new_data, errors)
-    return render_to_response('org/form_edit_event.html',
-                             {'form': form,
-                             'event': event, },
-                              context_instance=RequestContext(request))
+    return render_to_response('org/nf_event.html', {'form': form}, 
+        context_instance=RequestContext(request))
 
 # dodaj podatek o obiskovalcih dogodka
 def event_count (request, id=None):
