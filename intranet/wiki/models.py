@@ -6,20 +6,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from intranet.org.models import UserProfile
 
-###FIXME -- write a proper user profile
-#class WikiUser(models.Model):
-#    """The wiki user profile.
-#    Set AUTH_PROFILE_MODULE = 'wiki.WikiUser'
-#    to use this class as the site user profile.
-#    """
-#    user = models.ForeignKey(User, unique=True)
-#
-##    class Admin:
-##        pass
-#
-#    def __unicode__(self):
-#        return unicode(self.user)
-
 class Category(models.Model):
     order = models.PositiveIntegerField()
     name = models.CharField(max_length=30)
@@ -31,7 +17,6 @@ class Category(models.Model):
 
     class Admin: 
         pass
-
 
     class Meta:
         ordering = ('order',)

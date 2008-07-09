@@ -38,7 +38,7 @@
         <h2>{{ object.title }}</h2>
         <h4>{{ object.project }}</h4>
             <p>{{ object.title }}</p>
-            <p>{{ object.start_date|date:"D d.m.Y" }} ({{ object.length }})</p>
+            <p>{{ object.start_date|date:"D d.m.Y H:i" }}  ({{ object.length }})</p>
           <h4>Zahteve:</h4>
           <p>
                 {% if object.require_technician %}
@@ -64,6 +64,10 @@
 	  <h4>Kratka vsebina:</h4>
           <p>
             {{ object.short_announce|linebreaks }}</p>          
+
+      <h4>Opomba:</h4>
+          <p>
+            {{ object.note|linebreaks }}</p>   
     </div>
 
 {% endblock %}

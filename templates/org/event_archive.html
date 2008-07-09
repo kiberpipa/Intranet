@@ -33,10 +33,49 @@
 {% endblock %}
 
 {% block content-main %}
+
+{% if event_last %}
 <div class="module">
-    <h2>Seznam dogodkov</h2>
-        {% for log in latest reversed %}
+    <h2>Prejšnji teden</h2>
+       {% for log in event_last %}  
                 {% print_event log %}
         {% endfor %}
 </div>
+<br/>
+{% endif %}
+
+
+
+{% if event_this %}
+<div class="module" style="background:#ffccff">
+    <h2>Ta teden</h2>
+       {% for log in event_this %}
+                {% print_event log %}
+        {% endfor %}
+</div>
+<br/>
+{% endif %}
+
+
+
+{% if event_next %}
+<div class="module">
+    <h2>Naslednji teden</h2>
+       {% for log in event_next %}  
+                {% print_event log %}
+        {% endfor %}
+</div>
+<br/>
+{% endif %}
+
+{% if event_next2 %}
+<div class="module">
+    <h2>Čez 2 tedna</h2>
+       {% for log in event_next2 %}
+                {% print_event log %}
+        {% endfor %}
+</div>
+<br/>
+{% endif %}
+
 {% endblock %}
