@@ -45,7 +45,16 @@
 		<label for="id_author">Avtor(ji?): </label>
 		   {% comment %} <input type="text" id="id_author" class="vTextField required" name="author" size="30" value="" maxlength="100" />{% endcomment %}
 			 {{ form.author }}
+			 <select name="tip" id="id_tip">
+			 {% for tip in tipi %}
+				<option value="{{ tip.id }}">{{ tip }}</option>
+				{% endfor %}
+				</select>
 				</p>
+	<!-- <p>
+		<label for="id_author">my first custom field: </label>
+		   {% comment %} <input type="text" id="id_author" class="vTextField required" name="author" size="30" value="" maxlength="100" />{% endcomment %}
+				</p> -->
 <p>
     <label for="id_category">m3c kategorija:</label>
     {{ form.category }}
@@ -153,7 +162,7 @@
       *** {{ form.note.errors|join:", " }}
     {% endif %}
   </p>
-	{{ f2 }}
+{% comment %}	{{ f2 }} {% endcomment %}
 	</form>
     {% comment %}<div class="module">
         <h2>{{ object.title }}</h2>

@@ -1,0 +1,23 @@
+{% extends 'wiki/base.html' %}
+
+{% load wiki %}
+
+{% block content %}
+    {% for parent in parents %}
+        {{ parent }} -->
+    {% endfor %}
+    {{ article.title }}
+
+    {% autoescape off %}
+	   {% comment %} {{ article.content|escape|wikiwordfy|wikify|linebreaks }} {% endcomment %}
+	   {{ article.content|mw }}
+    {% endautoescape %}
+{% endblock %}
+
+
+{% block footer %}
+		<a href="edit/">Edit this article</a>
+        |
+        <a href="history/">Editing history</a>
+    |
+{% endblock %}

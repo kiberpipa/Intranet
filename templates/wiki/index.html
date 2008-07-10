@@ -1,0 +1,47 @@
+{% extends 'wiki/base.html' %}
+
+{% load wiki %}
+
+{% block head %}
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <link rel="stylesheet" href="http://dev.jquery.com/view/trunk/plugins/treeview/jquery.treeview.css" type="text/css" media="screen" />
+  <script type="text/javascript" src="http://dev.jquery.com/view/trunk/plugins/treeview/jquery.treeview.js"></script>
+  <style type="text/css">
+  #browser {
+    font-family: Verdana, helvetica, arial, sans-serif;
+    font-size: 68.75%;
+  }
+  </style>
+  <script>
+  $(document).ready(function(){
+    $("#browser").treeview();
+ $("#add").click(function() {
+    var branches = $("<li><span class='folder'>New Sublist</span><ul>" + 
+        "<li><span class='file'>Item1</span></li>" + 
+        "<li><span class='file'>Item2</span></li>" +
+        "</ul></li>").appendTo("#browser");
+    $("#browser").treeview({
+        add: branches
+    });
+ });
+  });
+  </script>
+{% endblock %}
+
+{% block content %}
+	<h1>Index</h1>
+
+    {% wiki_index %}
+
+{% comment %}
+	{% if articles %}
+		<ul>
+			{% for article in articles %}
+				<li><a href="{{ article.title }}/">{{ article.title }}</a></li>
+			{% endfor %}
+		</ul>
+	{% else %}
+		<p><a href="NewArticle/edit/">Create a new article</a>.</p>
+	{% endif %}
+{% endcomment %}
+{% endblock %}
