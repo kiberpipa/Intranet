@@ -423,9 +423,10 @@ def view_bug(request, object_id):
 ##################################################
 class EventForm(newforms.ModelForm):
     author = newforms.CharField()
+    tip = newforms.ModelChoiceField(TipSodelovanja.objects.all())
+    
     class Meta:
         model = Event
-
 
 def nf_event(request, event=''):
     if event:
@@ -437,9 +438,22 @@ def nf_event(request, event=''):
 
     if form.is_valid():
         new_event = form.save()
+        ##auto magic author handling -- RD666 
+        author = form.cleaned_data['author'] 
+        tip = form.cleaned_data['tip']
+        #make sure the Person actually exists 
+        try: 
+            person = Person.objects.get(name=author) 
+        except Person.DoesNotExist: 
+            person = Person(name=author) 
+            person.save() 
+        s = Sodelovanje(event=new_event, tip=tip, person=person)
+        s.save() 
         return HttpResponseRedirect(new_event.get_absolute_url())
+    else:
+        print form.errors
 
-    return render_to_response('org/nf_event.html', {'form': form}, 
+    return render_to_response('org/nf_event.html', {'form': form, 'tipi': TipSodelovanja.objects.all()}, 
         context_instance=RequestContext(request))
 
 # dodaj podatek o obiskovalcih dogodka
