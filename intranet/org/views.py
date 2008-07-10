@@ -735,7 +735,8 @@ def dezurni_monthly(request, year=None, month=None):
 
         Time = mx.DateTime.Time
 
-        for i in [Time(hours=10), Time(hours=13), Time(hours=16), Time(hours=19)]:
+#        for i in [Time(hours=10), Time(hours=13), Time(hours=16), Time(hours=19)]:
+        for i in [Time(hours=11), Time(hours=16)]:
             dezurni_list = Diary.objects.filter(task=1, date__range=(month_now+i, month_now+i+Time(2.59))).order_by('date')
             dezurni_dict = {}
             if dezurni_list:
@@ -834,7 +835,7 @@ def dezurni(request, year=None, week=None, month=None):
                              'navigation':navigation,
                              'year': year,
                              'iso_week': week_number,
-			     'week_number':week_number,
+			     			 'week_number':week_number,
                              'nov_urnik': nov_urnik,
                              'start_date': week_start,
                              'end_date': week_end,
@@ -861,7 +862,7 @@ def dezurni_add(request):
               task=Task.objects.get(pk=1),
               log_formal=request['log_formal'],
               log_informal=request['log_informal'],
-              length=datetime.time(3,0),)
+              length=datetime.time(5,0),)
     p.save()
     return HttpResponseRedirect('../')
 dezurni_add = login_required(dezurni_add)

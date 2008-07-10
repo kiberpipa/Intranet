@@ -28,19 +28,15 @@ def box_plache(diarys, user):
     total = 0
     sum = 0
     for o in diarys:
-	if datetime.datetime(2008, 04, 14).date() <= o.date.date() and o.task.id == 1:
-		length = 5
-	else:
-		length = 3
 
         a = o.author.username
         if list.has_key(a):
-            list[a] += length
+            list[a] += o.length.hour 
         else:
-            list[a] = length
+            list[a] = o.length.hour 
             paylist[a] = 0
         if o.task.id <= 2:
-            paylist[a] += length
+            paylist[a] += o.length.hour 
 
     for o in list:
         a = {}

@@ -272,7 +272,7 @@ class Diary(models.Model):
     author = models.ForeignKey(User, related_name="diary_author")
     task = models.ForeignKey(Task)
     date = models.DateTimeField(default=date.today())
-    length = models.TimeField(default=time(3,0))
+    length = models.TimeField(default=time(5,0))
     event = models.ForeignKey(Event,blank=True, null=True)
     log_formal = models.TextField()
     log_informal = models.TextField(blank=True, null=True)

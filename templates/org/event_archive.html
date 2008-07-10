@@ -8,9 +8,8 @@
     <div class="breadcrumbs">
     <ul id="breadcrumbs">
         <li>Leta:</li>
-        <li><a href="arhiv/2006/">2006</a></li>
-        {% for obj in date_list %}
-            <li><a href="arhiv/{{ obj.year }}/">{{ obj.year }}</a></li>
+        {% for year in years %}
+            <li><a href="arhiv/{{ year }}/">{{ year }}</a></li>
         {% endfor %}
     </ul>
     </div>

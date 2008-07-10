@@ -13,6 +13,7 @@ today = datetime.date.today()
 yesterday = today - datetime.timedelta(days=3)
 nextday = today + datetime.timedelta(days=8)
 
+
 prev_week = today - datetime.timedelta(days=7)
 this_week = today + datetime.timedelta(days=7)
 next_week = this_week + datetime.timedelta(days=7)
@@ -22,6 +23,8 @@ event_last =  Event.objects.filter(start_date__gte=prev_week, start_date__lt=tod
 event_this =  Event.objects.filter(start_date__gte=today, start_date__lt=this_week)
 event_next =  Event.objects.filter(start_date__gte=this_week, start_date__lt=next_week)
 event_next2 =  Event.objects.filter(start_date__gte=next_week, start_date__lt=next_week2)
+
+
 
 event_dict = {
     'queryset': Event.objects.all().order_by('start_date'),
@@ -38,8 +41,7 @@ event_index = {
     'num_latest': 50,
     'template_name': 'org/event_archive.html',
     'extra_context': {'event_last': event_last, 'event_this': event_this,
-			'event_next': event_next, 'event_next2': event_next2,},
-
+		'event_next': event_next, 'event_next2': event_next2, 'years': range (2006, datetime.date.today().year+1)},
 }
 
 event_year = {
