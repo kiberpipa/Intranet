@@ -1,7 +1,7 @@
 from django.template import Context, Library, RequestContext
 from django import template
-from django import forms
-from django.forms import FormWrapper
+from django import oldforms as forms
+from django.oldforms import FormWrapper
 from django.template import resolve_variable, Variable
 from django.core.exceptions import ObjectDoesNotExist
 

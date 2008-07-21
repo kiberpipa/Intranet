@@ -239,8 +239,8 @@ class Sodelovanje(models.Model):
         return "%s: %s @ %s" % (self.person, self.tip, self.event)
 
 
-    class Admin:
-        pass
+    #class Admin:
+    #    pass
 
 # opravila v pipi
 class Task(models.Model):

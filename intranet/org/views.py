@@ -1,7 +1,7 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.db.models.query import Q
-from django.forms import FormWrapper
-from django import forms
+from django.oldforms import FormWrapper
+from django import oldforms as forms
 from django import newforms
 from django.template import RequestContext, Context
 from django.template.defaultfilters import slugify
@@ -18,6 +18,7 @@ import datetime
 import mx.DateTime
 import re
 import string
+from StringIO import StringIO
 
 from intranet.org.models import UserProfile, Project, Category
 from intranet.org.models import Place, Event, Shopping, Person, Sodelovanje, TipSodelovanja
@@ -429,14 +430,20 @@ class EventForm(newforms.ModelForm):
         model = Event
 
 def nf_event(request, event=''):
-    if event:
-        form = EventForm(instance=Event.objects.get(pk=event))
-    elif request.method == 'POST':
+    if request.method == 'POST':
         form = EventForm(request.POST)
+        #print 'assigned values from POST'
+    elif event:
+        ##not so good idea to use get(), will have to be fixed to support multiple authors
+        sodelovanje = Sodelovanje.objects.get(event = event)
+        form = EventForm(instance=Event.objects.get(pk=event), initial={'author': sodelovanje.person, 'tip': sodelovanje.tip})
+        #print 'ummm, in event?'
     else:
+        #print 'ugghh, everything else failed, i am yout last hope!'
         form = EventForm()
 
     if form.is_valid():
+        print 'form IS valid: %s' % form.cleaned_data
         new_event = form.save()
         ##auto magic author handling -- RD666 
         author = form.cleaned_data['author'] 
@@ -447,13 +454,30 @@ def nf_event(request, event=''):
         except Person.DoesNotExist: 
             person = Person(name=author) 
             person.save() 
-        s = Sodelovanje(event=new_event, tip=tip, person=person)
-        s.save() 
+
+
+        try:
+            Sodelovanje.objects.get(event=new_event, person=person, tip=tip)
+        except Sodelovanje.DoesNotExist:
+            s = Sodelovanje(event=new_event, tip=tip, person=person)
+            s.save() 
+
+        new_event.save()
         return HttpResponseRedirect(new_event.get_absolute_url())
     else:
-        print form.errors
+        print 'ooooo, form is not valid, errors: %s</end errors>' % form.errors
 
-    return render_to_response('org/nf_event.html', {'form': form, 'tipi': TipSodelovanja.objects.all()}, 
+    ##XXX there is probably a better way to do this
+    try:
+        sodelovanje
+    except NameError:
+        sodelovanje = None
+
+    if sodelovanje is not None:
+        return render_to_response('org/nf_event.html', {'form': form, 'tipi': TipSodelovanja.objects.all(), 'tip': sodelovanje.tip}, 
+        context_instance=RequestContext(request))
+    else:
+        return render_to_response('org/nf_event.html', {'form': form, 'tipi': TipSodelovanja.objects.all()}, 
         context_instance=RequestContext(request))
 
 # dodaj podatek o obiskovalcih dogodka
@@ -465,6 +489,42 @@ def event_count (request, id=None):
 event_count = login_required(event_count)
 
 ##################################################
+
+class SodelovanjeFilter(newforms.Form):
+    person = newforms.ModelChoiceField(Person.objects.all(), required=False)
+    tip = newforms.ModelChoiceField(TipSodelovanja.objects.all(), required=False)
+    c = [('', '---------'), ('txt', 'txt'), ('pdf', 'pdf')]
+    export = newforms.ChoiceField(choices=c, required=False)
+
+
+def sodelovanja(request):
+    sodelovanja = Sodelovanje.objects.all()
+    if request.method == 'POST':
+        form = SodelovanjeFilter(request.POST)
+        if form.is_valid():
+            for key, value in form.cleaned_data.items():
+                ##'**' rabis zato da ti python resolva spremenljivke (as opposed da passa dobesedni string)
+                if value and key != 'export':
+                    sodelovanja = sodelovanja.filter(**{key: value})
+
+    else:
+        form = SodelovanjeFilter()
+
+    try: 
+        if form.cleaned_data['export']:
+            output = StringIO()
+            for i in sodelovanja:
+                output.write("%s\n" % i)
+            #return HttpResponse(output.getvalue(), mimetype='application/octet-stream')
+            response = HttpResponse(mimetype='application/octet-stream')
+            response['Content-Disposition'] = "attachment; filename=" + 'export.txt'
+            response.write(output.getvalue())
+            return response
+    except AttributeError:
+        return render_to_response('org/sodelovanja.html', 
+        {'sodelovanja': sodelovanja, 'form': form},
+        context_instance=RequestContext(request))
+
 
 def lend_back(request, id=None):
     lend = get_object_or_404(Lend, pk=id)
