@@ -8,6 +8,7 @@ from django.template.defaultfilters import slugify
 from django.db.models import signals
 from django.dispatch import dispatcher
 from django.core import template_loader
+from django.utils.datastructures import MultiValueDictKeyError
 
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -424,8 +425,8 @@ def view_bug(request, object_id):
 
 ##################################################
 class EventForm(newforms.ModelForm):
-    author = newforms.CharField()
-    tip = newforms.ModelChoiceField(TipSodelovanja.objects.all())
+    author1 = newforms.CharField()
+    tip1 = newforms.ModelChoiceField(TipSodelovanja.objects.all())
     
     class Meta:
         model = Event
@@ -443,25 +444,34 @@ def nf_event(request, event=''):
         #print 'ugghh, everything else failed, i am yout last hope!'
         form = EventForm()
 
+    authors = []
+    i = 0
+    while 1:
+        i+=1
+        print i
+        try:
+            authors += [(request.POST['author%d' % i], TipSodelovanja.objects.get(pk=request.POST['tip%d' % i]))]
+        except MultiValueDictKeyError:
+            break
+
+
     if form.is_valid():
-        print 'form IS valid: %s' % form.cleaned_data
         new_event = form.save()
         ##auto magic author handling -- RD666 
-        author = form.cleaned_data['author'] 
-        tip = form.cleaned_data['tip']
-        #make sure the Person actually exists 
-        try: 
-            person = Person.objects.get(name=author) 
-        except Person.DoesNotExist: 
-            person = Person(name=author) 
-            person.save() 
+        for author, tip in authors:
+            #make sure the Person actually exists 
+            try: 
+                person = Person.objects.get(name=author) 
+            except Person.DoesNotExist: 
+                person = Person(name=author) 
+                person.save() 
 
 
-        try:
-            Sodelovanje.objects.get(event=new_event, person=person, tip=tip)
-        except Sodelovanje.DoesNotExist:
-            s = Sodelovanje(event=new_event, tip=tip, person=person)
-            s.save() 
+            try:
+                Sodelovanje.objects.get(event=new_event, person=person, tip=tip)
+            except Sodelovanje.DoesNotExist:
+                s = Sodelovanje(event=new_event, tip=tip, person=person)
+                s.save() 
 
         new_event.save()
         return HttpResponseRedirect(new_event.get_absolute_url())

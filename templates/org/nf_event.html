@@ -43,15 +43,28 @@
   </p>
 	<p>
 		<label for="id_author">Avtor(ji?): </label>
-			 {{ form.author }}
+			 {{ form.author1 }}
 		<label for="id_tip"></label>
-			 <select name="tip" id="id_tip">
+			 <select name="tip1" id="id_tip1">
 			 {% for t in tipi %}
 				<option {% ifequal t tip %} selected="selected" {% endifequal %} value="{{ t.id }}">{{ t }}</option>
 				{% endfor %}
 				</select> 
                 {% comment %}{{ form.tip }} {% endcomment %}
 				</p>
+                    <p>
+        <label for="id_author">Avtor(ji?): </label>
+             <input type="text" name="author2" id="id_author2" />
+        <label for="id_tip2"></label>
+
+             <select name="tip2" id="id_tip2">
+             
+                <option  value="1">predavatelj</option>
+                
+                </select> 
+                
+                </p>
+
 <p>
     <label for="id_category">m3c kategorija:</label>
     {{ form.category }}
