@@ -1,0 +1,37 @@
+{% extends "org/base_3col.html" %}
+{% comment %}{% block extrahead %}
+<script src="{{ media_url }}/MochiKit/MochiKit.js" type="text/javascript"></script>
+<script src="{{ media_url }}/MochiKit/Position.js" type="text/javascript"></script>
+<script src="{{ media_url }}/MochiKit/Visual.js" type="text/javascript"></script>
+{% endblock %}
+{% load box %} {% endcomment %}
+{% block title %}Sodelovanja{% endblock %}
+
+{% block heading %}
+        <h1>sodelovanja</h1>
+{% endblock %}
+
+{% block content-related-left %}
+    <form method="post" action="">
+    <table>{{ form }}</table>
+    <input type="submit" />
+    </form>
+
+{% endblock %} 
+
+{% block content-main %}
+    {% for sodelovanje in sodelovanja %}
+        <div class="module">
+            <h2>{{ sodelovanje }}</h2>
+
+            <p>Event: {{ sodelovanje.event }}</p>
+            <p>Osebek: {{ sodelovanje.person }}</p>
+            <p>Tip Sodelovanja: {{ sodelovanje.tip }}</p>
+        </div>
+        <br>
+    {% endfor %}
+{% endblock %}
+
+{% block content-related-right %}
+    woo, hooo, right!
+{% endblock %} 
