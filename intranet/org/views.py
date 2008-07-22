@@ -19,6 +19,7 @@ import mx.DateTime
 import re
 import string
 from StringIO import StringIO
+from reportlab.pdfgen.canvas import Canvas
 
 from intranet.org.models import UserProfile, Project, Category
 from intranet.org.models import Place, Event, Shopping, Person, Sodelovanje, TipSodelovanja
@@ -490,11 +491,16 @@ event_count = login_required(event_count)
 
 ##################################################
 
-class SodelovanjeFilter(newforms.Form):
+#class SodelovanjeFilter(newforms.Form):
+class SodelovanjeFilter(newforms.ModelForm):
+    ##override the person in 'Sodelovanje', as there is required
     person = newforms.ModelChoiceField(Person.objects.all(), required=False)
-    tip = newforms.ModelChoiceField(TipSodelovanja.objects.all(), required=False)
+    #tip = newforms.ModelChoiceField(TipSodelovanja.objects.all(), required=False)
     c = [('', '---------'), ('txt', 'txt'), ('pdf', 'pdf')]
     export = newforms.ChoiceField(choices=c, required=False)
+
+    class Meta:
+        model = Sodelovanje
 
 
 def sodelovanja(request):
@@ -511,17 +517,33 @@ def sodelovanja(request):
         form = SodelovanjeFilter()
 
     try: 
-        if form.cleaned_data['export']:
+        export =  form.cleaned_data['export']
+        if export:
             output = StringIO()
-            for i in sodelovanja:
-                output.write("%s\n" % i)
-            #return HttpResponse(output.getvalue(), mimetype='application/octet-stream')
+            if export == 'txt':
+                for i in sodelovanja:
+                    output.write("%s\n" % i)
+                print 'in txt'
+                print output.getvalue()
+            elif export == 'pdf':
+                print 'in pdf'
+                pdf = Canvas(output)
+                rhyme = pdf.beginText(30, 200)
+                for i in sodelovanja:
+                    rhyme.textLine(i.__unicode__())
+                    pdf.drawText(rhyme)
+                    pdf.showPage()
+                    pdf.save()
+                    
             response = HttpResponse(mimetype='application/octet-stream')
-            response['Content-Disposition'] = "attachment; filename=" + 'export.txt'
+            response['Content-Disposition'] = "attachment; filename=" + 'export.' + export
             response.write(output.getvalue())
             return response
+
     except AttributeError:
-        return render_to_response('org/sodelovanja.html', 
+        pass
+    
+    return render_to_response('org/sodelovanja.html', 
         {'sodelovanja': sodelovanja, 'form': form},
         context_instance=RequestContext(request))
 

@@ -227,13 +227,11 @@ class Person(models.Model):
     def __unicode__(self):
         return self.name
 
-    class Admin:
-        pass
-
 class Sodelovanje(models.Model):
     event = models.ForeignKey(Event, blank=True, null=True)
     tip = models.ForeignKey(TipSodelovanja, blank=True, null=True)
     person = models.ForeignKey(Person)
+    project = models.ForeignKey(Project, blank=True, null=True)
 
     def __unicode__(self):
         return "%s: %s @ %s" % (self.person, self.tip, self.event)
