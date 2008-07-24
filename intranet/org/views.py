@@ -359,6 +359,13 @@ shopping_support = login_required(shopping_support)
 
 ##################################################
 
+def autocomplete(request):
+    return render_to_response('org/autocomplete.html',
+                             {'completions': Person.objects.filter(name__startswith=request.GET['q'])},
+                             context_instance=RequestContext(request))
+
+##################################################
+
 def box_bugs_add(request):
     #print request.POST
     if request.POST:
@@ -422,6 +429,37 @@ def view_bug(request, object_id):
             'comments': Comment.objects.all(), 
             'comment_form': form.as_p(), 
         })
+
+#def resolve_bug(request, id=None):
+#    bug = get_object_or_404(Bug, pk=id)
+#    if bug.assign == request.user:
+#        #bug.resolved = True
+#        bug.save()
+#    return HttpResponseRedirect('../')
+#resolve_bug = login_required(resolve_bug)
+
+def takeover_bug(request, id=None):
+    bug = get_object_or_404(Bug, pk=id)
+    bug.assign = request.user
+    bug.save()
+    return HttpResponseRedirect('../')
+takeover_bug = login_required(takeover_bug)
+
+def move_bug(request, id=None):
+    bug = get_object_or_404(Bug, pk=id)
+    if not bug.note:
+        bug.note = ""
+    bug.note += "\n\n---\npreusmeril %s k %s z razlago:\n\n %s" % (request.user, request['assign'], request['note'])
+    bug.assign = User.objects.get(username__exact=request['assign'])
+    bug.save()
+    return HttpResponseRedirect('../')
+move_bug = login_required(move_bug)
+
+def resolve_bug(request, id=None):
+    bug = get_object_or_404(Bug, pk=id)
+    bug.resolution = Resolution.objects.get(pk = request.POST['status'])
+    bug.save()
+    return HttpResponseRedirect('../')
 
 ##################################################
 class EventForm(newforms.ModelForm):
@@ -567,37 +605,6 @@ def lend_back(request, id=None):
     lend.save()
     return HttpResponseRedirect('../')
 lend_back = login_required(lend_back)
-
-#def resolve_bug(request, id=None):
-#    bug = get_object_or_404(Bug, pk=id)
-#    if bug.assign == request.user:
-#        #bug.resolved = True
-#        bug.save()
-#    return HttpResponseRedirect('../')
-#resolve_bug = login_required(resolve_bug)
-
-def takeover_bug(request, id=None):
-    bug = get_object_or_404(Bug, pk=id)
-    bug.assign = request.user
-    bug.save()
-    return HttpResponseRedirect('../')
-takeover_bug = login_required(takeover_bug)
-
-def move_bug(request, id=None):
-    bug = get_object_or_404(Bug, pk=id)
-    if not bug.note:
-        bug.note = ""
-    bug.note += "\n\n---\npreusmeril %s k %s z razlago:\n\n %s" % (request.user, request['assign'], request['note'])
-    bug.assign = User.objects.get(username__exact=request['assign'])
-    bug.save()
-    return HttpResponseRedirect('../')
-move_bug = login_required(move_bug)
-
-def resolve_bug(request, id=None):
-    bug = get_object_or_404(Bug, pk=id)
-    bug.resolution = Resolution.objects.get(pk = request.POST['status'])
-    bug.save()
-    return HttpResponseRedirect('../')
 
 ##################################################
 

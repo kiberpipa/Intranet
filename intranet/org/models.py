@@ -343,33 +343,32 @@ class Bug(models.Model):
         for assignee in self.assign.all():
             assignees += assignee.__unicode__()
 
+        info = 'bug: #%i\n' % self.id
+        info += 'bug url: %s\n' % self.get_absolute_url()
+        info += 'assigned to: %s\n' % assignees
+        info += 'reported by: %s\n' % self.author
+        if self.due_by:
+            info += 'DEADLINE: %s\n' % self.due_by
+        ##separator
+
+        if message:
+            info += '-------------------------------------\n\n\n'
+
         #send the mail to all the assignees
         for assignee in self.assign.all():
             to = assignee.get_profile().mail
-            info = 'bug: #%i\n' % self.id
-            info += 'bug url: %s\n' % self.get_absolute_url()
-            info += 'assigned to: %s\n' % assignees
-            info += 'reported by: %s\n' % self.author
-            if self.due_by:
-                info += 'DEADLINE: %s\n' % self.due_by
-            ##separator
-            if message:
-                info += '-------------------------------------\n\n\n'
             msg = "From: %s\nTo: %s\nSubject: %s\n\n%s\n%s"  % (mail_from, to, subject, info, message)
-
 
             session = smtplib.SMTP('localhost')
             session.sendmail(mail_from, to, msg)
             session.close()
 
     def get_related(self):
-    #get parent and children bugs
+        #get parent and children bugs
         top = self
         while top.parent != None:
             top = top.parent
 
-        #print "top is: %s\n" % top
-        #print Bug.objects.get(pk=self)
         children = top._children()
         children.remove(self)
         return children
@@ -377,20 +376,15 @@ class Bug(models.Model):
     def _children(self):
         related = [self]
         children = Bug.objects.filter(parent = self)
-        #print "children: %s\n" % children
         for child in children:
             second_level = Bug.objects.filter(parent = child)
-         #   print "second_level %s\n" % second_level
 
             if second_level:
-                #related += [ child._children() ]
                 for s in child._children():
                     related.append(s)
             else:
-                #related += [ child ]
                 related.append(child)
         
-        #print "near end: %s\n" % related
         return related
 
 
@@ -411,19 +405,6 @@ class Bug(models.Model):
         else:
             self.resolved = False
         super(Bug, self).save()
-
-    class Meta:
-        verbose_name = 'Hrosc'
-        verbose_name_plural = 'Hrosci'
-
-    class Admin:
-        search_fields = ['note','name','assign']
-        #list_filter = ['resolved', 'assign']
-        list_filter = ['assign']
-        #list_display = ['name', 'id', 'resolved', 'author', 'assign']
-        #list_display = ['name', 'id', 'author', 'assign']
-        list_display = ['name', 'id', 'author']
-        #ordering = ['resolved']
 
 
 class Comment(models.Model):
