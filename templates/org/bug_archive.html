@@ -37,13 +37,8 @@
 {% endblock %}
 
 {% block content-related-right %}
-<!--  <div class="module" id="recent-actions-module">
-    <h2>Filtri</h2>
-  	 <ul class="actionlist">
-	</ul>
-</div>-->
-  <div class="module" id="recent-actions-module">
-    <h2>Kazalo odprtih hroscev</h2>
-  	 {% comment %} {% box_list Bug "resolved__exact=False" "template=org/list_bugs.html" %} {% endcomment %}
-</div>
+    (ja ja, enkrat bom to oblikovau)<br>
+    fields name: {{ filter.fields.name }}
+    name: {{ filter.fields.name }}
+    entire form:{{ filter }}
 {% endblock %}

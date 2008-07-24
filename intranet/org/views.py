@@ -2,17 +2,16 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.db.models.query import Q
 from django.oldforms import FormWrapper
 from django import oldforms as forms
-from django import newforms
 from django.template import RequestContext, Context
 from django.template.defaultfilters import slugify
 from django.db.models import signals
 from django.dispatch import dispatcher
 from django.core import template_loader
 from django.utils.datastructures import MultiValueDictKeyError
-
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.views.generic import list_detail
+from django.views.generic import list_detail, date_based
 
 from datetime import date, time, timedelta, datetime
 import datetime
@@ -26,7 +25,7 @@ from intranet.org.models import UserProfile, Project, Category
 from intranet.org.models import Place, Event, Shopping, Person, Sodelovanje, TipSodelovanja
 from intranet.org.models import Task, Diary, Bug, StickyNote, Lend, Resolution, Comment
 from intranet.org.models import KbCategory, KB, Tag, Scratchpad
-from django.contrib.auth.models import User
+from intranet.org.forms import *
 
 month_dict = { 'jan': 1, 'feb': 2, 'mar': 3,
                'apr': 4, 'maj': 5, 'jun': 6,
@@ -360,9 +359,60 @@ shopping_support = login_required(shopping_support)
 ##################################################
 
 def autocomplete(request):
-    return render_to_response('org/autocomplete.html',
-                             {'completions': Person.objects.filter(name__startswith=request.GET['q'])},
-                             context_instance=RequestContext(request))
+    output = StringIO()
+    for i in Person.objects.filter(name__startswith=request.GET['q']):
+        output.write('%s\n' % i)
+    response = HttpResponse(mimetype='text/plain')
+    response.write(output.getvalue())
+    return response
+
+
+#################################################
+
+def issues(request):
+    bugs = Bug.objects.all()
+    if request.POST:
+        pass
+    else:
+        bugs = bugs.filter(resolved=False)
+
+    filter = FilterBug()
+
+    return date_based.archive_index(request, 
+        queryset = bugs.order_by('chg_date'),
+        date_field = 'pub_date',
+        allow_empty = 1,
+        extra_context = {
+            'filter': filter,
+        }
+    )
+#view_bug
+###    if request.method == 'POST':
+###        form = CommentBug(request.POST)
+###        if form.is_valid():
+###            new_comment = Comment(bug=Bug.objects.get(pk=object_id), text=form.cleaned_data['text'])
+###            new_comment.save(request)
+###            return HttpResponseRedirect(request.META['PATH_INFO'])
+###    else:
+###        form = CommentBug()
+###
+###    return list_detail.object_detail(request, 
+###        object_id = object_id, 
+###        queryset = Bug.objects.all(), 
+###        extra_context = { 
+###            'resolutions': Resolution.objects.all(), 
+###            'comments': Comment.objects.all(), 
+###            'comment_form': form.as_p(), 
+###        })
+##issue_dict = {
+##    'queryset': Bug.objects.filter(resolved=False).order_by('chg_date'),
+##    'date_field': 'pub_date',
+##    'allow_empty': 1,
+##}
+
+
+
+
 
 ##################################################
 
@@ -404,11 +454,6 @@ def box_bugs_add(request):
     return render_to_response('org/box_error.html',
                              {'form': form, 'template_file': 'org/box_bug.html'},
                              context_instance=RequestContext(request))
-
-
-
-class CommentBug(newforms.Form):
-    text = newforms.CharField(widget=newforms.Textarea)
 
 
 def view_bug(request, object_id):
@@ -462,12 +507,6 @@ def resolve_bug(request, id=None):
     return HttpResponseRedirect('../')
 
 ##################################################
-class EventForm(newforms.ModelForm):
-    author1 = newforms.CharField()
-    tip1 = newforms.ModelChoiceField(TipSodelovanja.objects.all())
-    
-    class Meta:
-        model = Event
 
 def nf_event(request, event=''):
     if request.method == 'POST':
@@ -538,18 +577,6 @@ def event_count (request, id=None):
 event_count = login_required(event_count)
 
 ##################################################
-
-#class SodelovanjeFilter(newforms.Form):
-class SodelovanjeFilter(newforms.ModelForm):
-    ##override the person in 'Sodelovanje', as there is required
-    person = newforms.ModelChoiceField(Person.objects.all(), required=False)
-    #tip = newforms.ModelChoiceField(TipSodelovanja.objects.all(), required=False)
-    c = [('', '---------'), ('txt', 'txt'), ('pdf', 'pdf')]
-    export = newforms.ChoiceField(choices=c, required=False)
-
-    class Meta:
-        model = Sodelovanje
-
 
 def sodelovanja(request):
     sodelovanja = Sodelovanje.objects.all()

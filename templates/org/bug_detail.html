@@ -14,28 +14,6 @@
 {% block content-related-left %}
   <div class="module" id="recent-actions-module">
     	    <h2>Urejanje</h2>
-  	 <!--<ul class="actionlist">
-  	 	{% comment %} {% if object.resolved %} {% endcomment %}
-  	 	{% if object.resolution__isnull  %}
-			{% comment %}{% if user in object.assign.all %} {% endcomment %}
-				<li><a href="/intranet/bugs/{{ object.id }}/done/">Oznaci kot opravljeno</a></li>
-			{% comment %}{% else %}
-				<li><a href="/intranet/bugs/{{ object.id }}/take/">Prevzami razresevanje</a></li>
-			{% endifequal %} {% endcomment %}
-		{% else %}
-			<li>Ta hrosc je ze odpravljen</li>
-		{% endif %}
-			<li>
-		<form action = "move/" method="post" name="MoveBugForm">
-		<input type="submit" value="Preusmeri"/> k:
-			<select selected name="assign">
-				{% box_list User "" %}
-			</select>
-			, ker:
-			<textarea name="note" id="note" rows="5" cols="20"></textarea>
-			<br>
-
-		</form> -->
 
 		{% box_add Bug object.id edit %}
 
@@ -97,7 +75,6 @@
     </div>
 
 
-	{% comment %}{% loadcomments object user %}{% endcomment %}
 
   <script type="text/javascript" charset="utf-8">
   // <![CDATA[
