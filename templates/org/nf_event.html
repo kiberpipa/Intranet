@@ -42,22 +42,11 @@
     {% endif %}
   </p>
 	<p>
-		<label for="id_author">Avtor(ji?): </label>
-			 {{ form.author1 }}
-		<label for="id_tip"></label>
-			 <select name="tip1" id="id_tip1">
-			 {% for t in tipi %}
-				<option {% ifequal t tip %} selected="selected" {% endifequal %} value="{{ t.id }}">{{ t }}</option>
-				{% endfor %}
-				</select> 
-                {% comment %}{{ form.tip }} {% endcomment %}
-				</p>
-                    <p>
         <label for="id_author">Avtor(ji?): </label>
-             <input type="text" name="author2" id="id_author2" />
-        <label for="id_tip2"></label>
+             <input type="text" name="author1" class="input_author" id="id_author1" />
+        <label for="id_tip1"></label>
 
-             <select name="tip2" id="id_tip2">
+             <select name="tip1" id="id_tip1">
              
                 <option  value="1">predavatelj</option>
                 

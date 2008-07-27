@@ -74,7 +74,7 @@ INSTALLED_APPS = (
     'intranet.wiki',
     'django.contrib.admin',
     'django.contrib.markup',
-    'django_evolution',
+#    'django_evolution',
 )
 
 TEMPLATE_DIRS = (
