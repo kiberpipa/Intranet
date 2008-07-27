@@ -1,0 +1,68 @@
+ul.menu1 {
+	display: table;
+}
+
+ul.menu1 li {
+	position: relative;
+	display: table-cell;
+}
+
+ul { list-style-type: none; }
+
+/* common styling */
+.menu2{
+font-family: arial, sans-serif; width:100px; /* height:180px; */ position:relative; font-size:11px; margin:30px 0; z-index:100;
+}
+.menu2 ul {
+padding:0; margin:0; list-style-type: none; background:#bcbcbc; width:100px; /* height:180px; */ border:1px solid #606;
+}
+.menu2 ul li ul {
+visibility:hidden; position:absolute; height:0; overflow:hidden; top:0; left:100px;list-style-type: none;
+}
+.menu2 ul li {
+float:left; position:relative; background: #bcbcbc;
+}
+.menu2 ul li a, .menu2 ul li a:visited {
+display:block; float:left; text-decoration:none; color:#000; width:90px; height:30px; line-height:29px; font-size:11px; background:transparent; padding-left:10px;
+}
+* html .menu2 ul li a, * html .menu2 ul li a:visited {width:100px; w\idth:90px;}
+
+.menu2 table {
+border-collapse:collapse; border:0; margin:-1px; padding:0; font-size:1em;
+}
+
+/* first line for IE7 and non-IE browsers - second line for IE5.5 and IE6 */
+.menu2 ul li:hover a,
+.menu2 ul li a:hover{
+background:#efefef; color:#000000;
+}
+.menu2 ul li:hover ul,
+.menu2 ul li a:hover ul {
+visibility:visible; position:absolute; height:auto; border:1px solid #606; background:#bcbcbc; overflow:visible;list-style-type: none;
+}
+.menu2 ul li:hover ul li a,
+.menu2 ul li a:hover ul li a{
+display:block; background:transparent; color:#fff; line-height:15px; padding:5px 0 5px 10px; height:auto; text-decoration:none;
+}
+
+.menu2 ul li:hover ul li:hover a,
+.menu2 ul li a:hover ul li a:hover {
+background:#efefef; color:#000000;
+}
+.menu2 ul li:hover ul li ul,
+.menu2 ul li a:hover ul li a ul {
+visibility:hidden; position:absolute; height:0; overflow:hidden; top:0; left:100px; list-style-type: none;
+}
+.menu2 ul li:hover ul li:hover ul,
+.menu2 ul li a:hover ul li a:hover ul {
+visibility:visible; position:absolute; height:auto; color:#000; padding:0; border:1px solid #069; list-style-type:none; background:#bcbcbc;list-style-type: none;
+}
+.menu2 ul li:hover ul li:hover ul li a,
+.menu2 ul li a:hover ul li a:hover ul li a {
+display:block; background:transparent; color:#000000;
+}
+
+.menu2 ul li:hover ul li:hover ul li:hover a,
+.menu2 ul li a:hover ul li a:hover ul li a:hover {
+background:#efe; color:#000;
+}

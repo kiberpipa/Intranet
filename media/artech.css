@@ -1,0 +1,180 @@
+/* osnovna mreža */
+
+ul#mainmenu {
+/*	font-size:14px;
+	font-weight: bold;
+*/
+	position: absolute;
+	top: 42px;
+	left: 638px;
+	width: 100px;
+	font-stretch: expanded;
+	text-transform: uppercase;
+}
+
+div#admin_menu {
+	position: absolute;
+	top: 500px;
+	left: 638px;
+	font-stretch: expanded;
+	text-transform: uppercase;
+}
+
+ul#years, ul#months, ul#list {
+	padding: 3px 8px 3px 8px;
+	background-color: rgb(153,102,102);
+	opacity:.50;
+	position: absolute;
+	top: 124px;
+}
+
+ul#months {	left: 500px; }
+ul#years {	left: 551px; }
+ul#list {	left: 500px;
+	background-color: rgb(100,100,100);
+}
+
+h1 {
+	top: 42px;
+	position: absolute;
+	left: 29px;
+	font-size: 170%;
+}
+
+h2 {
+	position: absolute;
+	top: 62px;
+	left: 29px;
+	font-size: 130%;
+}
+
+div#main {
+	position: absolute;
+	width: 250px;
+	top: 132px;
+	left: 189px;
+}
+
+div#details {
+	font-size:12px;
+	font-weight: bold;
+	list-style-type: none;
+	position: absolute;
+	top: 124px;
+	width: 155px;
+	left: 29px;
+}
+
+/* najbolj splošne nastavitve gradnikov */
+
+body {
+	margin:0;
+	padding:0;
+	font-size:12px;
+	font-family:Verdana,Arial,sans-serif;
+/*	font-variant: small-caps;*/
+	background-color: rgb(7,7,7);
+	color: rgb(204,204,204);
+	background-image: url("img/tart2.png");
+	background-repeat: no-repeat;
+}
+
+img {
+	border: none;
+}
+
+a {
+	color: rgb(204,204,204);
+	text-decoration: none;
+}
+
+a:active, a:hover {
+	color: rgb(153,102,102);
+	text-decoration: none;
+	border-style: none;
+}
+
+ul {
+	list-style-type: none;
+	list-style-position: inside;
+}
+
+h1, h2, h3 {
+	color: rgb(102,102,102);
+}
+
+/* posebne nastavitve */
+
+img#firsttitle {
+	position: absolute;
+	top: -8px;
+}
+
+ul#mainmenu li a { display: block; background-repeat: no-repeat; }
+ul#mainmenu li a:hover { display: block; background-repeat: no-repeat; }
+
+a#domov { background: url("img/domov.png"); }
+a#domovakt { background: url("img/domovakt.png"); }
+a#domov:hover { background: url("img/domovakt.png"); }
+
+a#avtorji { background: url("img/avtorji.png"); }
+a#avtorjiakt { background: url("img/avtorjiakt.png"); }
+a#avtorji:hover { background: url("img/avtorjiakt.png"); }
+
+a#galerije { background: url("img/galerije.png"); }
+a#galerijeakt { background: url("img/galerijeakt.png"); }
+a#galerije:hover { background: url("img/galerijeakt.png"); }
+
+a#festivali { background: url("img/festivali.png"); }
+a#festivaliakt { background: url("img/festivaliakt.png"); }
+a#festivali:hover { background: url("img/festivaliakt.png"); }
+
+a#nagrade { background: url("img/nagrade.png"); }
+a#nagradeakt { background: url("img/nagradeakt.png"); }
+a#nagrade:hover { background: url("img/nagradeakt.png"); }
+
+a#producenti { background: url("img/producenti.png"); }
+a#producentiakt { background: url("img/producentiakt.png"); }
+a#producenti:hover { background: url("img/producentiakt.png"); }
+
+a#projekti { background: url("img/projekti.png"); }
+a#projektiakt { background: url("img/projektiakt.png"); }
+a#projekti:hover { background: url("img/projektiakt.png"); }
+
+ul#mainmenu.umetniki li a#avtorji { background: url("img/avtorjiakt.png"; }
+ul#mainmenu.galerije li a#galerije { background: url("img/galerijeakt.png"; }
+
+ul#mainmenu li a img { visibility: hidden; }
+
+ul#mainmenu li {
+	color: rgb(204,204,204);
+	margin-top: 5px;
+	height: 22px;
+}
+
+ul#years li, ul#months li {
+	font-weight: bold;
+	margin-bottom: 0.5em;
+}
+
+h1 img {
+	vertical-align: middle;
+}
+
+div#details img {
+	margin-top: 8px;
+}
+
+div#details ul {
+	margin-left: -11px;
+	margin-top: -5px;
+}
+
+div#details ul li {
+	color: rgb(204,204,204);
+	font-weight: normal;
+}
+
+div#blocks a:hover {
+	color: black;
+}

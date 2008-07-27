@@ -1,0 +1,27 @@
+body {
+	background-image: url(bcg.jpg);
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+body,td,th {
+	font-family: Tahoma;
+	font-size: x-small;
+	color: #676A59;
+}
+a:link {
+	color: #676A59;
+}
+a:visited {
+	color: #676A59;
+}
+a:hover {
+	color: #22231D;
+}
+a:active {
+	color: #676A59;
+}
+
+label {
+	margin-right: 100%;
