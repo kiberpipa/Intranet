@@ -198,7 +198,7 @@ urlpatterns = patterns('',
     (r'^imenik/$', 'intranet.org.views.imenik'),
 
 
-    (r'^autocomplete/$', 'intranet.org.views.autocomplete'),
+    (r'^autocomplete/(?P<search>[^/]*)$', 'intranet.org.views.autocomplete'),
 
     #scratchpad
     (r'^scratchpad/change/$', 'intranet.org.views.scratchpad_change'),

@@ -358,9 +358,9 @@ shopping_support = login_required(shopping_support)
 
 ##################################################
 
-def autocomplete(request):
+def autocomplete(request, search):
     output = StringIO()
-    for i in Person.objects.filter(name__startswith=request.GET['q']):
+    for i in Person.objects.filter(name__icontains=search):
         output.write('%s\n' % i)
     response = HttpResponse(mimetype='text/plain')
     response.write(output.getvalue())
@@ -372,11 +372,18 @@ def autocomplete(request):
 def issues(request):
     bugs = Bug.objects.all()
     if request.POST:
-        pass
+        filter = FilterBug(request.POST)
+        if filter.is_valid():
+            for key, value in filter.cleaned_data.items():
+                if value:
+                    if key == 'name':
+                        bugs = bugs.filter(name__icontains = value)
+                    else:
+                        ##'**' rabis zato da ti python resolva spremenljivke (as opposed da passa dobesedni string)
+                        bugs = bugs.filter(**{key: value})
     else:
-        bugs = bugs.filter(resolved=False)
-
-    filter = FilterBug()
+        bugs = bugs.filter(assign=request.user, resolved=False)
+        filter = FilterBug()
 
     return date_based.archive_index(request, 
         queryset = bugs.order_by('chg_date'),
@@ -386,45 +393,14 @@ def issues(request):
             'filter': filter,
         }
     )
-#view_bug
-###    if request.method == 'POST':
-###        form = CommentBug(request.POST)
-###        if form.is_valid():
-###            new_comment = Comment(bug=Bug.objects.get(pk=object_id), text=form.cleaned_data['text'])
-###            new_comment.save(request)
-###            return HttpResponseRedirect(request.META['PATH_INFO'])
-###    else:
-###        form = CommentBug()
-###
-###    return list_detail.object_detail(request, 
-###        object_id = object_id, 
-###        queryset = Bug.objects.all(), 
-###        extra_context = { 
-###            'resolutions': Resolution.objects.all(), 
-###            'comments': Comment.objects.all(), 
-###            'comment_form': form.as_p(), 
-###        })
-##issue_dict = {
-##    'queryset': Bug.objects.filter(resolved=False).order_by('chg_date'),
-##    'date_field': 'pub_date',
-##    'allow_empty': 1,
-##}
-
-
-
 
 
 ##################################################
 
 def box_bugs_add(request):
-    #print request.POST
     if request.POST:
         new_data = request.POST.copy()
         new_data['author'] = request.user.id
-        #print new_data['length']
-        #print new_data.getlist('length')
-        #for i in new_data['length']:
-        #    print i
         date = new_data.getlist('length')
         timestamp = mx.DateTime.ISO.ParseAny(string.join(date, ' '))
         due_by = datetime.datetime.fromtimestamp(timestamp)

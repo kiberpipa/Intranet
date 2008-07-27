@@ -37,8 +37,11 @@
 {% endblock %}
 
 {% block content-related-right %}
-    (ja ja, enkrat bom to oblikovau)<br>
-    fields name: {{ filter.fields.name }}
-    name: {{ filter.fields.name }}
-    entire form:{{ filter }}
+    <form method="post" action="">
+    {{ filter.name.label_tag }} {{ filter.name }}<br>
+    {{ filter.author.label_tag }} {{ filter.author }}<br>
+    {{ filter.due_by.label_tag }} {{ filter.due_by }}<br>
+    {{ filter.assign.label_tag }} {{ filter.assign }}<br>
+    {{ filter.resolution.label_tag }} {{ filter.resolution }}<br>
+    <input type="submit" />
 {% endblock %}
