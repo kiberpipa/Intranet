@@ -360,7 +360,9 @@ shopping_support = login_required(shopping_support)
 
 def autocomplete(request, search):
     output = StringIO()
-    for i in Person.objects.filter(name__icontains=search):
+    #print "in autocomplete: %s" % request.GET['q']
+    #for i in Person.objects.filter(name__icontains=request.GET['q']):
+    for i in Person.objects.filter(name__icontains=request.GET['q']):
         output.write('%s\n' % i)
     response = HttpResponse(mimetype='text/plain')
     response.write(output.getvalue())
@@ -431,16 +433,44 @@ def box_bugs_add(request):
                              {'form': form, 'template_file': 'org/box_bug.html'},
                              context_instance=RequestContext(request))
 
-
-def view_bug(request, object_id):
+def comment_add(request, bug_id):
+    bug = Bug.objects.get(pk=bug_id)
     if request.method == 'POST':
         form = CommentBug(request.POST)
         if form.is_valid():
-            new_comment = Comment(bug=Bug.objects.get(pk=object_id), text=form.cleaned_data['text'])
+            new_comment = Comment(bug=bug, text=form.cleaned_data['text'])
             new_comment.save(request)
-            return HttpResponseRedirect(request.META['PATH_INFO'])
-    else:
-        form = CommentBug()
+    
+    return HttpResponseRedirect(bug.get_absolute_url())
+
+def bug_edit(request, bug_id):
+    bug = Bug.objects.get(pk=bug_id)
+    if request.method == 'POST':
+        form = BugForm(request.POST, instance=bug)
+        if form.is_valid():
+            form.save()
+    return HttpResponseRedirect(bug.get_absolute_url())
+
+def bug_subtask(request, bug_id):
+    bug = Bug.objects.get(pk=bug_id)
+    if request.method == 'POST':
+        form = BugForm(request.POST)
+        if form.is_valid():
+            new_bug = form.save(commit=False)
+            new_bug.parent = bug
+            new_bug.author = request.user
+            new_bug.save()
+            form.save_m2m()
+            return HttpResponseRedirect(new_bug.get_absolute_url())
+
+    return HttpResponseRedirect(bug.get_absolute_url())
+
+
+
+def view_bug(request, object_id):
+    comment_form = CommentBug()
+    bug_form = BugForm(instance=Bug.objects.get(pk=object_id))
+    subtask_form = BugForm()
 
     return list_detail.object_detail(request, 
         object_id = object_id, 
@@ -448,16 +478,10 @@ def view_bug(request, object_id):
         extra_context = { 
             'resolutions': Resolution.objects.all(), 
             'comments': Comment.objects.all(), 
-            'comment_form': form.as_p(), 
+            'comment_form': comment_form.as_p(), 
+            'bug_form': bug_form.as_p(),
+            'subtask_form': subtask_form.as_p(),
         })
-
-#def resolve_bug(request, id=None):
-#    bug = get_object_or_404(Bug, pk=id)
-#    if bug.assign == request.user:
-#        #bug.resolved = True
-#        bug.save()
-#    return HttpResponseRedirect('../')
-#resolve_bug = login_required(resolve_bug)
 
 def takeover_bug(request, id=None):
     bug = get_object_or_404(Bug, pk=id)

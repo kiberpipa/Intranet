@@ -1,4 +1,4 @@
-{% extends "org/base_3col.html" %}
+{% extends "org/base_2col.html" %}
 {% block extrahead %}
 <script src="{{ media_url }}/MochiKit/MochiKit.js" type="text/javascript"></script>
 <script src="{{ media_url }}/MochiKit/Position.js" type="text/javascript"></script>
@@ -15,17 +15,20 @@
   <div class="module" id="recent-actions-module">
     	    <h2>Urejanje</h2>
 
-		{% box_add Bug object.id edit %}
+		{% comment %} {% box_add Bug object.id edit %} {% endcomment %}
+        <form action="edit/" method="post">
+       {{ bug_form }} 
+        <input type = "submit"/>
+        </form>
 
-
-        <form action = "resolve/" method="post" name="BugResolutionForm">
+        {% comment %}<form action = "resolve/" method="post" name="BugResolutionForm">
         <input type = "submit" value = "Resi"/>
             <select name="status">
             {% for resolution in resolutions %}
                 <option value="{{ resolution.id }}"{% ifequal object.resolution.id resolution.id %} selected="selected" {% endifequal %}>{{ resolution.name }}</option>
             {% endfor %}
             </select>
-        </form>
+        </form> {% endcomment %}
 				</li>
 	</ul>
   </div>
@@ -53,7 +56,12 @@
 
   <div class="module">
     <h2 class="expand"><img src="{{ media_url }}/img/expand.gif" alt="expand bug" />add subtask</h2>
-    <div id="bug_box" class="invisible">{% box_add Bug object.id %} </div>
+    <div id="bug_box" class="invisible">{% comment %}{% box_add Bug object.id %}{% endcomment %}
+        <form action="subtask/" method="post">
+       {{ subtask_form }} 
+        <input type = "submit"/>
+        </form>
+    </div>
   </div>
 
     {% for comment in comments %}
@@ -68,7 +76,7 @@
 
     <div class="module">
     <h2> dodaj komentar </h2>
-    <form method="post" action="">
+    <form method="post" action="comment/">
     <table>{{ comment_form }}</table>
     <input type="submit" value="comon, make my day"/>
     </form>
@@ -111,10 +119,10 @@
   </script>
 {% endblock %}
 
-{% block content-related-right %}
+{% comment %}{% block content-related-right %}
   <div class="module" id="recent-actions-module">
     <h2>Kazalo odprtih hroscev</h2>
-  	 {% comment %} {% box_list Bug "resolved__exact=False" "template=org/list_my_bugs.html" %} {% endcomment %}
+  	 {% comment %} {% box_list Bug "resolved__exact=False" "template=org/list_my_bugs.html" %} {% endcommen %}
   	 {% box_list Bug "resolution__isnull=True" "template=org/list_my_bugs.html" %}
 </div>
-{% endblock %}
+{% endblock %} {% endcomment %}

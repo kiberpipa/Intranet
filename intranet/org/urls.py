@@ -170,8 +170,10 @@ urlpatterns = patterns('',
     (r'^bugs/(?P<object_id>\d+)/$', 'intranet.org.views.view_bug'),
 
     ##issues, obsolotes bugs
-    #('issues/
-    (r'issues/?$',    'intranet.org.views.issues'),
+    (r'bugs/?$',    'intranet.org.views.issues'),
+    (r'bugs/(?P<bug_id>\d+)/comment/$',    'intranet.org.views.comment_add'),
+    (r'bugs/(?P<bug_id>\d+)/edit/$',    'intranet.org.views.bug_edit'),
+    (r'bugs/(?P<bug_id>\d+)/subtask/$',    'intranet.org.views.bug_subtask'),
 
     ##sodelovanja
     (r'^sodelovanja/', 'intranet.org.views.sodelovanja'),
@@ -237,7 +239,7 @@ urlpatterns += patterns('django.views.generic.date_based',
     (r'diarys/arhiv/(?P<year>\d{4})/$',    'archive_year',  diary_year),
     (r'diarys/?$',    'archive_index', diary_dict),
 
-    (r'bugs/?$',    'archive_index', bug_dict),
+    #(r'bugs/?$',    'archive_index', bug_dict),
     (r'lends/?$',    'archive_index', lend_dict),
 #    (r'shopping/?$',    'archive_index', shopping_dict),
 )

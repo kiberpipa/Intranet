@@ -396,6 +396,7 @@ class Bug(models.Model):
 #        id: 4, name: INVALID
 #        id: 5, name: FIXED
 #        id: 6, name: OPEN
+        #self.author = request.user
 
         if self.resolution == None:
             self.resolution = Resolution.objects.get(pk=6)

@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 
 from intranet.org.models import TipSodelovanja, Person, Event, Sodelovanje
-from intranet.org.models import Bug
+from intranet.org.models import Bug, Resolution
 
 
 
@@ -11,7 +11,7 @@ class EventForm(forms.ModelForm):
         model = Event
 
 class FilterBug(forms.Form):
-    resolution = forms.ModelChoiceField(TipSodelovanja.objects.all(), required=False)
+    resolution = forms.ModelChoiceField(Resolution.objects.all(), required=False)
     #assign = forms.ModelChoiceField(User.objects.all(), required=False, widget=forms.SelectMultiple)
     ##there's gotta be a better way to do this
     ids = []
@@ -26,10 +26,10 @@ class FilterBug(forms.Form):
 
     name = forms.CharField(required=False)
 
-    #resolution = 
-#    class Meta:
-#        model = Bug
-    
+class BugForm(forms.ModelForm):
+    class Meta:
+        exclude = ('resolved', 'tags', 'author',)
+        model = Bug
 
 class CommentBug(forms.Form):
     text = forms.CharField(widget=forms.Textarea)
