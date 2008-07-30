@@ -1,9 +1,9 @@
 $(document).ready(function() {
-   $("#diary_box, #bug_box, #lend_box").hide();
+   $(".hideme").hide();
    
    $(".expand").click(function() {
         //alert(1);
-        $(this).parent().children("div").toggle();
+        $(this).parent().children("div").toggle(); //To lahko bindamo tudi na class "hideme" :)
    });
 });
 

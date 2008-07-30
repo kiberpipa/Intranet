@@ -19,17 +19,17 @@
 {% block content-related-left %}
   <div class="module">
     <h2 class="expand"><img src="{{ media_url }}/img/expand.gif" alt="expand diary" />Dodaj dnevnik</h2>
-    <div id="diary_box">{% box_add Diary %}</div>
+    <div id="diary_box" class="hideMe">{% box_add Diary %}</div>
   </div>
 
   <div class="module">
     <h2 class="expand"><img src="{{ media_url }}/img/expand.gif" alt="expand bug" />Dodaj hrošča</h2>
-    <div id="bug_box">{% box_add Bug %}</div>
+    <div id="bug_box" class="hideMe">{% box_add Bug %}</div>
   </div>
 
   <div class="module">
     <h2 class="expand"><img src="{{ media_url }}/img/expand.gif" alt="expand lends" />Posodi opremo</h2>
-    <div id="lend_box">{% box_add Lend %}</div>
+    <div id="lend_box" class="hideMe">{% box_add Lend %}</div>
   </div>
   
   <div class="module">
