@@ -38,7 +38,7 @@ class CommentBug(forms.Form):
 class SodelovanjeFilter(forms.ModelForm):
     ##override the person in 'Sodelovanje', as there is required
     person = forms.ModelChoiceField(Person.objects.all(), required=False)
-    c = [('', '---------'), ('txt', 'txt'), ('pdf', 'pdf')]
+    c = [('', '---------'), ('txt', 'txt'), ('pdf', 'pdf'), ('csv', 'csv')]
     export = forms.ChoiceField(choices=c, required=False)
 
     class Meta:

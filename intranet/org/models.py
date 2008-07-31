@@ -235,9 +235,14 @@ class Sodelovanje(models.Model):
 
     def __unicode__(self):
         return "%s: %s @ %s" % (self.person, self.tip, self.event)
+    
+    def save(self):
+        if self.event:
+            self.project = self.event.project
 
+        super(Sodelovanje, self).save()
 
-    #class Admin:
+    #CLass Admin:
     #    pass
 
 # opravila v pipi

@@ -587,7 +587,9 @@ def sodelovanja(request):
         if form.is_valid():
             for key, value in form.cleaned_data.items():
                 ##'**' rabis zato da ti python resolva spremenljivke (as opposed da passa dobesedni string)
-                if value and key != 'export':
+                if key == 'project':
+                    pass
+                elif value and key != 'export':
                     sodelovanja = sodelovanja.filter(**{key: value})
 
     else:
@@ -600,17 +602,18 @@ def sodelovanja(request):
             if export == 'txt':
                 for i in sodelovanja:
                     output.write("%s\n" % i)
-                print 'in txt'
-                print output.getvalue()
             elif export == 'pdf':
-                print 'in pdf'
                 pdf = Canvas(output)
                 rhyme = pdf.beginText(30, 200)
                 for i in sodelovanja:
                     rhyme.textLine(i.__unicode__())
-                    pdf.drawText(rhyme)
-                    pdf.showPage()
-                    pdf.save()
+                pdf.drawText(rhyme)
+                pdf.showPage()
+                pdf.save()
+            elif export == 'csv':
+                for i in sodelovanja:
+                    output.write("%s\n" % i)
+
                     
             response = HttpResponse(mimetype='application/octet-stream')
             response['Content-Disposition'] = "attachment; filename=" + 'export.' + export
