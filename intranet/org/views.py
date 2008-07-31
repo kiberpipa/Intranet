@@ -440,6 +440,7 @@ def comment_add(request, bug_id):
         if form.is_valid():
             new_comment = Comment(bug=bug, text=form.cleaned_data['text'])
             new_comment.save(request)
+        bug.mail(message='new comment has been added', subject='new comment has been added to #' + bug.id.__str__())
     
     return HttpResponseRedirect(bug.get_absolute_url())
 
@@ -449,6 +450,7 @@ def bug_edit(request, bug_id):
         form = BugForm(request.POST, instance=bug)
         if form.is_valid():
             form.save()
+            bug.mail(subject='#%d has been edited' % bug.id)
     return HttpResponseRedirect(bug.get_absolute_url())
 
 def bug_subtask(request, bug_id):
