@@ -24,7 +24,7 @@ from reportlab.pdfgen.canvas import Canvas
 from intranet.org.models import UserProfile, Project, Category
 from intranet.org.models import Place, Event, Shopping, Person, Sodelovanje, TipSodelovanja
 from intranet.org.models import Task, Diary, Bug, StickyNote, Lend, Resolution, Comment
-from intranet.org.models import KbCategory, KB, Tag, Scratchpad
+from intranet.org.models import KbCategory, KB, Tag, Scratchpad, Clipping
 from intranet.org.forms import *
 
 month_dict = { 'jan': 1, 'feb': 2, 'mar': 3,
@@ -625,6 +625,32 @@ def sodelovanja(request):
     
     return render_to_response('org/sodelovanja.html', 
         {'sodelovanja': sodelovanja, 'form': form},
+        context_instance=RequestContext(request))
+
+def clipping(request):
+    clippings = Clipping.objects.all()
+    if request.method == 'POST':
+        form = ClippingFilter(request.POST)
+        if form.is_valid():
+            for key, value in form.cleaned_data.items():
+                ##'**' rabis zato da ti python resolva spremenljivke (as opposed da passa dobesedni string)
+####                if key == 'project':
+####                    pass
+####                elif value and key != 'export':
+####                    sodelovanja = sodelovanja.filter(**{key: value})
+                if key == 'medij':
+                    query = Q(medij=value)
+                    for i in value.children():
+                        query = query | Q(medij=i)
+                    clippings = clippings.filter(query)
+                else:
+                    clippings = clippings.filter(**{key: value})
+
+    else:
+        form = ClippingFilter()
+    return render_to_response('org/clipping.html', 
+        {'clippings': clippings, 'form': form},
+        #{'clippings': clippings},
         context_instance=RequestContext(request))
 
 

@@ -179,6 +179,9 @@ urlpatterns = patterns('',
     (r'^sodelovanja/', 'intranet.org.views.sodelovanja'),
     #(r'^sodelovanja/(?P<object_id>\d+)', 'django.views.generic.list_detail.object_detail', sodelovanje_detail),
 
+
+    (r'^clipping/', 'intranet.org.views.clipping'),
+
     (r'^tehniki/(?P<year>\d+)/(?P<month>[a-z]{3})/$', 'intranet.org.views.tehniki_monthly'),
     (r'^tehniki/(?P<year>\d+)/(?P<week>\d+)/$', 'intranet.org.views.tehniki'),
     (r'^tehniki/$', 'intranet.org.views.tehniki'),

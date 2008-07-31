@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 
 from intranet.org.models import TipSodelovanja, Person, Event, Sodelovanje
-from intranet.org.models import Bug, Resolution
+from intranet.org.models import Bug, Resolution, Clipping
 
 
 
@@ -43,3 +43,7 @@ class SodelovanjeFilter(forms.ModelForm):
 
     class Meta:
         model = Sodelovanje
+
+class ClippingFilter(forms.ModelForm):
+    class Meta:
+        model = Clipping

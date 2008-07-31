@@ -164,9 +164,6 @@ class TipSodelovanja(models.Model):
     def __unicode__(self):
         return self.name
 
-    class Admin:
-        pass
-
 
 ##there's gotta be a better way to do this
 class Emails(models.Model):
@@ -242,8 +239,56 @@ class Sodelovanje(models.Model):
 
         super(Sodelovanje, self).save()
 
-    #CLass Admin:
-    #    pass
+
+##clipping
+class Medij(models.Model):
+    parent = models.ForeignKey('self', blank=True, null=True)
+    name = models.CharField(max_length=40)
+
+    def children(self):
+        #related = [self]
+        related = []
+        children = Medij.objects.filter(parent = self)
+        for child in children:
+            second_level = Medij.objects.filter(parent = child)
+
+            if second_level:
+                for s in child.children():
+                    related.append(s)
+            else:
+                related.append(child)
+        
+        return related
+        
+
+    def __unicode__(self):
+        return self.name
+
+
+class TipMedija(models.Model):
+    name = models.CharField(max_length=40)
+
+
+    def __unicode__(self):
+        return self.name
+
+class TipPrispevka(models.Model):
+    name = models.CharField(max_length=40)
+
+    def __unicode__(self):
+        return self.name
+
+class Clipping(models.Model):
+    event = models.ForeignKey(Event, blank=True, null=True)
+    project = models.ForeignKey(Project, blank=True, null=True)
+    tip_medija = models.ForeignKey(TipMedija, blank=True, null=True)
+    medij = models.ForeignKey(Medij, blank=True, null=True)
+    tip_prispevka = models.ForeignKey(TipPrispevka, blank=True, null=True)
+    link = models.CharField(max_length=255, blank=True, null=True)
+
+    def __unicode__(self):
+        return "%s, %s @ %s" % (self.tip_prispevka, self.medij, self.event)
+
 
 # opravila v pipi
 class Task(models.Model):
