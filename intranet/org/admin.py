@@ -17,15 +17,30 @@ class BugAdmin(admin.ModelAdmin):
         list_display = ['name', 'id', 'author']
         #ordering = ['resolved']
 
-admin.site.register(Sodelovanje, SodelovanjeAdmin)
+
+class ClippingInline(admin.TabularInline):
+    model = Clipping
+
+class UploadAdmin(admin.ModelAdmin):
+    inlines = [ClippingInline]
+
+
 admin.site.register(Person)
 admin.site.register(UserProfile)
 admin.site.register(Category)
 admin.site.register(TipSodelovanja)
 admin.site.register(TipMedija)
 admin.site.register(TipPrispevka)
-admin.site.register(Clipping)
 admin.site.register(Medij)
 admin.site.register(Project)
 admin.site.register(Place)
+
+
+
 admin.site.register(Bug, BugAdmin)
+admin.site.register(Sodelovanje, SodelovanjeAdmin)
+
+
+
+admin.site.register(Clipping)
+admin.site.register(Upload, UploadAdmin)

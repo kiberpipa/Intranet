@@ -278,6 +278,13 @@ class TipPrispevka(models.Model):
     def __unicode__(self):
         return self.name
 
+class Upload(models.Model):
+    name = models.CharField(max_length=240)
+    file = models.FileField(upload_to='clipping/')
+
+    def __unicode__(self):  
+        return self.name
+
 class Clipping(models.Model):
     event = models.ForeignKey(Event, blank=True, null=True)
     project = models.ForeignKey(Project, blank=True, null=True)
@@ -285,6 +292,8 @@ class Clipping(models.Model):
     medij = models.ForeignKey(Medij, blank=True, null=True)
     tip_prispevka = models.ForeignKey(TipPrispevka, blank=True, null=True)
     link = models.CharField(max_length=255, blank=True, null=True)
+
+    upload = models.ForeignKey(Upload, blank=True, null=True)
 
     def __unicode__(self):
         return "%s, %s @ %s" % (self.tip_prispevka, self.medij, self.event)
