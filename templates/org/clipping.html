@@ -1,0 +1,36 @@
+{% extends "org/base_3col.html" %}
+{% block title %}Clipping{% endblock %}
+
+{% block heading %}
+        <h1>clipping</h1>
+{% endblock %}
+
+{% block content-related-left %}
+    <form method="post" action="">
+    <table>{{ form }}</table>
+    <input type="submit" />
+    </form> 
+
+{% endblock %} 
+
+{% block content-main %}
+    {% for clipping in clippings %}
+        <div class="module">
+            <h2>{{ clipping }}</h2>
+            {% if clipping.event %}
+            <p> Event{{ clipping.event }} </p>
+            {% endif %}
+            {% if clipping.project %}
+            <p>Project: {{ clipping.project }}</p>
+            {% endif %}
+            <p>Medij: {{ clipping.medij }}</p>
+            {% comment %}<p>Osebek: {{ sodelovanje.person }}</p>
+            <p>Tip Sodelovanja: {{ sodelovanje.tip }}</p>{% endcomment %}
+        </div>
+        <br>
+    {% endfor %}
+{% endblock %}
+
+{% block content-related-right %}
+    woo, hooo, right!
+{% endblock %} 

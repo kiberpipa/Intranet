@@ -513,21 +513,19 @@ def resolve_bug(request, id=None):
 def nf_event(request, event=''):
     if request.method == 'POST':
         form = EventForm(request.POST)
-        #print 'assigned values from POST'
     elif event:
         ##not so good idea to use get(), will have to be fixed to support multiple authors
         sodelovanje = Sodelovanje.objects.get(event = event)
         form = EventForm(instance=Event.objects.get(pk=event), initial={'author': sodelovanje.person, 'tip': sodelovanje.tip})
-        #print 'ummm, in event?'
     else:
-        #print 'ugghh, everything else failed, i am yout last hope!'
         form = EventForm()
 
+
+    ##handle multiple authors from form --> (author1, tip1), (author2, tip2)...
     authors = []
     i = 0
     while 1:
         i+=1
-        print i
         try:
             authors += [(request.POST['author%d' % i], TipSodelovanja.objects.get(pk=request.POST['tip%d' % i]))]
         except MultiValueDictKeyError:
@@ -536,7 +534,6 @@ def nf_event(request, event=''):
 
     if form.is_valid():
         new_event = form.save()
-        ##auto magic author handling -- RD666 
         for author, tip in authors:
             #make sure the Person actually exists 
             try: 
@@ -587,9 +584,7 @@ def sodelovanja(request):
         if form.is_valid():
             for key, value in form.cleaned_data.items():
                 ##'**' rabis zato da ti python resolva spremenljivke (as opposed da passa dobesedni string)
-                if key == 'project':
-                    pass
-                elif value and key != 'export':
+                if value and key != 'export':
                     sodelovanja = sodelovanja.filter(**{key: value})
 
     else:
@@ -638,6 +633,24 @@ def clipping(request):
 ####                    pass
 ####                elif value and key != 'export':
 ####                    sodelovanja = sodelovanja.filter(**{key: value})
+                if key == 'medij' and value:
+                    query = Q(medij=value)
+                    for i in value.children():
+                        query = query | Q(medij=i)
+                    clippings = clippings.filter(query)
+                elif value:
+                    clippings = clippings.filter(**{key: value})
+def clipping(request):
+    clippings = Clipping.objects.all()
+    if request.method == 'POST':
+        form = ClippingFilter(request.POST)
+        if form.is_valid():
+            for key, value in form.cleaned_data.items():
+                ##'**' rabis zato da ti python resolva spremenljivke (as opposed da passa dobesedni string)
+####                if key == 'project':
+####                    pass
+####                elif value and key != 'export':
+####                    sodelovanja = sodelovanja.filter(**{key: value})
                 if key == 'medij':
                     query = Q(medij=value)
                     for i in value.children():
@@ -645,14 +658,13 @@ def clipping(request):
                     clippings = clippings.filter(query)
                 else:
                     clippings = clippings.filter(**{key: value})
-
     else:
         form = ClippingFilter()
+
     return render_to_response('org/clipping.html', 
         {'clippings': clippings, 'form': form},
         #{'clippings': clippings},
         context_instance=RequestContext(request))
-
 
 def lend_back(request, id=None):
     lend = get_object_or_404(Lend, pk=id)
