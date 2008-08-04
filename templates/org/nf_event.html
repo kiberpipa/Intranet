@@ -42,16 +42,34 @@
     {% endif %}
   </p>
 	<p>
+
+    {% if sodelovanja %}
+        {% for sodelovanje in sodelovanja %}
+
+<p>        <label for="id_author">Avtor(ji?): </label>
+             <input type="text" name="author{{ forloop.counter }}" class="input_author" id="id_author{{ forloop.counter }}" value="{{ sodelovanje.person }}" />
+        <label for="id_tip{{ forloop.counter }}"></label>
+
+             <select name="tip{{ forloop.counter }}" id="id_tip{{ forloop.counter }}">
+              {% for t in tipi %}              
+                <option {% ifequal t sodelovanje.tip %}selected="selected"{% endifequal %} value="{{ t.id }}">{{ t }}</option>
+            {% endfor %}
+                
+                </select> 
+</p>
+        {% endfor %}
+    {% else %}
         <label for="id_author">Avtor(ji?): </label>
              <input type="text" name="author1" class="input_author" id="id_author1" />
         <label for="id_tip1"></label>
 
              <select name="tip1" id="id_tip1">
-             
-                <option  value="1">predavatelj</option>
+              {% for t in tipi %}              
+                <option {% ifequal t tip %}selected="selected"{% endifequal %} value="{{ t.id }}">{{ t }}</option>
+            {% endfor %}
                 
                 </select> 
-                
+    {% endif %}  
                 </p>
 
 <p>

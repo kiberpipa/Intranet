@@ -511,26 +511,20 @@ def resolve_bug(request, id=None):
 
 ##################################################
 
-def nf_event(request, event=''):
+def nf_event_create(request):
     if request.method == 'POST':
         form = EventForm(request.POST)
-    elif event:
-        ##not so good idea to use get(), will have to be fixed to support multiple authors
-        sodelovanje = Sodelovanje.objects.get(event = event)
-        form = EventForm(instance=Event.objects.get(pk=event), initial={'author': sodelovanje.person, 'tip': sodelovanje.tip})
+        ##handle multiple authors from form --> (author1, tip1), (author2, tip2)...
+        authors = []
+        i = 0
+        while 1:
+            i+=1
+            try:
+                authors += [(request.POST['author%d' % i], TipSodelovanja.objects.get(pk=request.POST['tip%d' % i]))]
+            except MultiValueDictKeyError:
+                break
     else:
         form = EventForm()
-
-
-    ##handle multiple authors from form --> (author1, tip1), (author2, tip2)...
-    authors = []
-    i = 0
-    while 1:
-        i+=1
-        try:
-            authors += [(request.POST['author%d' % i], TipSodelovanja.objects.get(pk=request.POST['tip%d' % i]))]
-        except MultiValueDictKeyError:
-            break
 
 
     if form.is_valid():
@@ -543,29 +537,63 @@ def nf_event(request, event=''):
                 person = Person(name=author) 
                 person.save() 
 
-
-            try:
-                Sodelovanje.objects.get(event=new_event, person=person, tip=tip)
-            except Sodelovanje.DoesNotExist:
-                s = Sodelovanje(event=new_event, tip=tip, person=person)
-                s.save() 
+            s = Sodelovanje(event=new_event, tip=tip, person=person)
+            s.save() 
 
         new_event.save()
         return HttpResponseRedirect(new_event.get_absolute_url())
-    else:
-        print 'ooooo, form is not valid, errors: %s</end errors>' % form.errors
 
-    ##XXX there is probably a better way to do this
-    try:
-        sodelovanje
-    except NameError:
-        sodelovanje = None
-
-    if sodelovanje is not None:
-        return render_to_response('org/nf_event.html', {'form': form, 'tipi': TipSodelovanja.objects.all(), 'tip': sodelovanje.tip}, 
+    return render_to_response('org/nf_event.html', {'form': form, 'tipi': TipSodelovanja.objects.all()},
         context_instance=RequestContext(request))
+
+def nf_event_edit(request, event):
+    event = Event.objects.get(pk=event)
+    old_sodelovanja = set(Sodelovanje.objects.filter(event=event))
+    if request.method == 'POST':
+        form = EventForm(request.POST, instance=event)
+        ##handle multiple authors from form --> (author1, tip1), (author2, tip2)...
+        authors = []
+        i = 0
+        while 1:
+            i+=1
+            try:
+                authors += [(request.POST['author%d' % i], TipSodelovanja.objects.get(pk=request.POST['tip%d' % i]))]
+            except MultiValueDictKeyError:
+                break
+
+        if form.is_valid():
+            new_event = form.save()
+            for author, tip in authors:
+                #make sure the Person actually exists 
+                try: 
+                    person = Person.objects.get(name=author) 
+                except Person.DoesNotExist: 
+                    person = Person(name=author) 
+                    person.save() 
+
+
+                try:
+                    Sodelovanje.objects.get(event=new_event, person=person, tip=tip)
+                except Sodelovanje.DoesNotExist:
+                    s = Sodelovanje(event=new_event, tip=tip, person=person)
+                    s.save() 
+
+            new_event.save()
+
+            sodelovanja = set(Sodelovanje.objects.filter(pk=event))
+            #delete everything that was in the old sodelovanja as is not in the new one
+            for i in old_sodelovanja & sodelovanja ^ old_sodelovanja:
+                i.delete()
+
+            return HttpResponseRedirect(new_event.get_absolute_url())
     else:
-        return render_to_response('org/nf_event.html', {'form': form, 'tipi': TipSodelovanja.objects.all()}, 
+        form = EventForm(instance=Event.objects.get(pk=event))
+
+
+
+
+    return render_to_response('org/nf_event.html', {'form': form, 'tipi': TipSodelovanja.objects.all(), 
+        'sodelovanja': Sodelovanje.objects.filter(event=event)}, 
         context_instance=RequestContext(request))
 
 # dodaj podatek o obiskovalcih dogodka
