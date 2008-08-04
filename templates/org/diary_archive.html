@@ -80,6 +80,9 @@
 {% block content-related-right %}
   <div class="module" id="recent-actions-module">
     <h2>Filtri</h2>
-       {% box_list Task "" "template=org/list_task_diary.html" %}
+        <form action="" method="post">
+        {{ filter.as_p }}
+        <input type="submit">
+        </form>
 </div>
 {% endblock %}

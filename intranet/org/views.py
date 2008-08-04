@@ -1045,6 +1045,30 @@ def dezurni_add(request):
     return HttpResponseRedirect('../')
 dezurni_add = login_required(dezurni_add)
 
+
+
+def diarys(request):
+    print 'in diarys view'
+    diarys = Diary.objects.all()
+    if request.POST:
+        filter = DiaryFilter(request.POST)
+        if filter.is_valid():
+            for key, value in filter.cleaned_data.items():
+                if value:
+                    ##'**' rabis zato da ti python resolva spremenljivke (as opposed da passa dobesedni string)
+                    diarys = diarys.filter(**{key: value})
+    else:
+        filter = DiaryFilter()
+
+    return date_based.archive_index(request, 
+        queryset = diarys.order_by('date'),
+        date_field = 'date',
+        allow_empty = 1,
+        extra_context = {
+            'filter': filter,
+        }
+    )
+
 ##################################################
 
 def kb_index(request):

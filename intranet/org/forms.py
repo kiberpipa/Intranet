@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 
 from intranet.org.models import TipSodelovanja, Person, Event, Sodelovanje
-from intranet.org.models import Bug, Resolution, Clipping
+from intranet.org.models import Bug, Resolution, Clipping, Task
 
 
 
@@ -43,6 +43,11 @@ class SodelovanjeFilter(forms.ModelForm):
 
     class Meta:
         model = Sodelovanje
+
+class DiaryFilter(forms.Form):
+    task = forms.ModelChoiceField(Task.objects.all(), required=False)
+    author = forms.ModelChoiceField(User.objects.all(), required=False)
+
 
 class ClippingFilter(forms.ModelForm):
     class Meta:
