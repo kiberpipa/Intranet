@@ -2,13 +2,20 @@ from django import forms
 from django.contrib.auth.models import User
 
 from intranet.org.models import TipSodelovanja, Person, Event, Sodelovanje
-from intranet.org.models import Bug, Resolution, Clipping, Task
+from intranet.org.models import Bug, Resolution, Clipping, Task, Project
+from intranet.org.models import Category
 
 
 
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
+
+
+class EventFilter(forms.Form):
+    title = forms.CharField(required=False)
+    project = forms.ModelChoiceField(Project.objects.all(), required=False)
+    category = forms.ModelChoiceField(Category.objects.all(), required=False)
 
 class FilterBug(forms.Form):
     resolution = forms.ModelChoiceField(Resolution.objects.all(), required=False)

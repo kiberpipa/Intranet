@@ -510,6 +510,29 @@ def resolve_bug(request, id=None):
     return HttpResponseRedirect('../')
 
 ##################################################
+def events(request):
+    events = Event.objects.all()
+    if request.POST:
+        filter = EventFilter(request.POST)
+        if filter.is_valid():
+            for key, value in filter.cleaned_data.items():
+                if value:
+                    if key == 'title':
+                        events = events.filter(name__icontains = value)
+                    else:
+                        ##'**' rabis zato da ti python resolva spremenljivke (as opposed da passa dobesedni string)
+                        events = events.filter(**{key: value})
+    else:
+        filter = EventFilter()
+
+    return date_based.archive_index(request, 
+        queryset = events.order_by('start_date'),
+        date_field = 'start_date',
+        allow_empty = 1,
+        extra_context = {
+            'filter': filter,
+        }
+    )
 
 def nf_event_create(request):
     if request.method == 'POST':

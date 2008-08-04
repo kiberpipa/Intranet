@@ -29,6 +29,10 @@
             <li>Manjka tehnik: <img src="{{ media_url }}img/help.png" alt="help" /></li>
         </ul>
   </div>
+  <form action="" method="post">
+  {{ filter.as_p }}
+  <input type="submit">
+  </form>
 {% endblock %}
 
 {% block content-main %}
