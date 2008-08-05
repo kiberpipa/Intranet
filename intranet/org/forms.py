@@ -59,3 +59,6 @@ class DiaryFilter(forms.Form):
 class ClippingFilter(forms.ModelForm):
     class Meta:
         model = Clipping
+
+class ImenikFilter(forms.Form):
+    project = forms.ModelChoiceField(Project.objects.all(), required=False)

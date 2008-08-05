@@ -1071,7 +1071,6 @@ dezurni_add = login_required(dezurni_add)
 
 
 def diarys(request):
-    print 'in diarys view'
     diarys = Diary.objects.all()
     if request.POST:
         filter = DiaryFilter(request.POST)
@@ -1168,11 +1167,28 @@ def kb_article_edit(request, id):
 #kb_article_edit = login_required(kb_article_edit)
 
 def imenik(request):
-    addressbook_dict = {
-        'queryset': User.objects.filter(is_active__exact=True),
-        'template_name': 'org/imenik_list.html',
-    }
-    return list_detail.object_list(request, **addressbook_dict)
+    folks = UserProfile.objects.filter(user__is_active__exact=True)
+    if request.POST:
+        filter = ImenikFilter(request.POST)
+        if filter.is_valid():
+            for key, value in filter.cleaned_data.items():
+                if key == 'project' and value:
+                    ##handle the recursion
+                    query = Q(project=value)
+                    for i in value.children():
+                        query = query | Q(project=i)
+
+                    folks = UserProfile.objects.filter(query).distinct().select_related('user')
+    else:
+        filter = ImenikFilter()
+
+    return list_detail.object_list(request, 
+        queryset = folks,
+        template_name = 'org/imenik_list.html',
+        extra_context = {
+            'filter': filter
+        })
+
 imenik = login_required(imenik)
 
 def timeline_xml(request):

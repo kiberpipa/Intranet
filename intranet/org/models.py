@@ -30,11 +30,54 @@ class Tag(models.Model):
     def __cmp__(self, other):
         return cmp(self.total_ref, other.total_ref)
 
+
+
+class Project(models.Model):
+    name = models.CharField(max_length=100)
+    responsible = models.ForeignKey(User)
+    note = models.TextField(blank=True, null=True)
+
+    parent = models.ForeignKey('self', blank=True, null=True)
+
+    pub_date = models.DateTimeField(auto_now_add=True)
+    chg_date = models.DateTimeField(auto_now=True)
+
+    #tags = models.ManyToManyField(Tag, blank=True, null=True)
+
+    def __unicode__(self):
+        return self.name
+
+    def children(self):
+        related = []
+        children = Project.objects.filter(parent = self)
+        for child in children:
+            second_level = Project.objects.filter(parent = child)
+
+            if second_level:
+                for s in child.children():
+                    related.append(s)
+            else:
+                related.append(child)
+        
+        return related
+
+    class Meta:
+        verbose_name = 'Projekt'
+        verbose_name_plural = 'Projekti'
+
+    class Admin:
+        search_fields = ['note','name','responsible']
+        list_display = ['name', 'responsible']
+        js = (
+              'js/tags.js',
+              )
+
 class UserProfile(models.Model):
     mobile = models.CharField(max_length=100)
     mail = models.EmailField()
     im = models.TextField(blank=True, null=True)
     #tags = models.ManyToManyField(Tag, blank=True, null=True)
+    project = models.ManyToManyField(Project, blank=True, null=True)
     user = models.OneToOneField(User)
 #    tasks = models.ManyToManyField(Task, blank=True, null=True)
 #    project = models.ManyToManyField(Project, blank=True, null=True)
@@ -51,32 +94,6 @@ class UserProfile(models.Model):
             return True
         else:
             return False
-
-
-class Project(models.Model):
-    name = models.CharField(max_length=100)
-    responsible = models.ForeignKey(User)
-    note = models.TextField(blank=True, null=True)
-
-    pub_date = models.DateTimeField(auto_now_add=True)
-    chg_date = models.DateTimeField(auto_now=True)
-
-    #tags = models.ManyToManyField(Tag, blank=True, null=True)
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = 'Projekt'
-        verbose_name_plural = 'Projekti'
-
-    class Admin:
-        search_fields = ['note','name','responsible']
-        list_display = ['name', 'responsible']
-        js = (
-              'js/tags.js',
-              )
-
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -246,7 +263,6 @@ class Medij(models.Model):
     name = models.CharField(max_length=40)
 
     def children(self):
-        #related = [self]
         related = []
         children = Medij.objects.filter(parent = self)
         for child in children:
@@ -300,6 +316,7 @@ class Clipping(models.Model):
 
 
 # opravila v pipi
+##XXX DEPRECIATED, use Project instead
 class Task(models.Model):
     title = models.CharField(max_length=100)
     responsible = models.ForeignKey(User,blank=True, null=True)
@@ -344,20 +361,6 @@ class Diary(models.Model):
 
     def get_absolute_url(self):
         return "%s/diarys/%i/" % (settings.BASE_URL, self.id)
-
-
-    class Meta:
-        verbose_name = 'Dnevnik'
-        verbose_name_plural = 'Dnevniki'
-
-    class Admin:
-        search_fields = ['log_formal','person','task']
-        date_hierarchy = 'date'
-        list_filter = ['date', 'task', 'author']
-        list_display = ('date', 'author', 'task', 'length')
-        js = (
-              'js/tags.js',
-              )
 
 
 # bugs

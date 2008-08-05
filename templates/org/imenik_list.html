@@ -24,19 +24,28 @@
             <li><a href="">Dodaj profil</a></li>-->
         </ul>
   </div>
+  <div>
+  <form method="post" action="">
+  {{ filter.as_p }}
+  <input type="submit">
+  </form>
+  </div>
 {% endblock %}
 
 {% block content-main %}
-        {% for user in object_list %}
-        {% if user.get_profile.is_active %}
+        {% for profile in object_list %}
+        {% if profile.user.get_profile.is_active %}
 <div class="module">
-    <h2><a name="{{ user.username }}">{{ user.first_name }} "{{ user.username }}" {{ user.last_name }}</a></h2>
+    <h2><a name="{{ profile.user.username }}">{{ profile.user.first_name }} "{{ profile.user.username }}" {{ profile.user.last_name }}</a></h2>
         <div class="user">
             <ul>
-                <li>E-pošta: <a href="mailto:{{ user.email }}">{{ user.email }}</a></li>
-                {% if user.get_profile %}
-                <li>Telefon: {{ user.get_profile.mobile }}</li>
-                <li>IM: {{ user.get_profile.im|linebreaksbr }}</li>
+                <li>E-pošta: <a href="mailto:{{ profile.user.email }}">{{ profile.user.email }}</a></li>
+                {% if profile.user.get_profile %}
+                <li>Telefon: {{ profile.user.get_profile.mobile }}</li>
+                <li>IM: {{ profile.user.get_profile.im|linebreaksbr }}</li>
+                {% for project in profile.project.all %}
+                <li>Projekt: {{ project }}</li>
+                {% endfor %}
                 {% else %}
                 <li><a href="/intranet/admin/org/userprofile/add/">dodaj razširjen profil</a></li>
                 {% endif %}
@@ -46,16 +55,16 @@
         {% endif %}
         {% endfor %}
         <br><br><br>not active users:<br>
-        {% for user in object_list %}
-        {% if not user.get_profile.is_active %}
+        {% for profile in object_list %}
+        {% if not profile.user.get_profile.is_active %}
 <div class="module">
-    <h2><a name="{{ user.username }}">{{ user.first_name }} "{{ user.username }}" {{ user.last_name }}</a></h2>
+    <h2><a name="{{ profile.user.username }}">{{ profile.user.first_name }} "{{ profile.user.username }}" {{ profile.user.last_name }}</a></h2>
         <div class="user">
             <ul>
-                <li>E-pošta: <a href="mailto:{{ user.email }}">{{ user.email }}</a></li>
-                {% if user.get_profile %}
-                <li>Telefon: {{ user.get_profile.mobile }}</li>
-                <li>IM: {{ user.get_profile.im|linebreaksbr }}</li>
+                <li>E-pošta: <a href="mailto:{{ profile.user.email }}">{{ profile.user.email }}</a></li>
+                {% if profile.user.get_profile %}
+                <li>Telefon: {{ profile.user.get_profile.mobile }}</li>
+                <li>IM: {{ profile.user.get_profile.im|linebreaksbr }}</li>
                 {% else %}
                 <li><a href="/intranet/admin/org/userprofile/add/">dodaj razširjen profil</a></li>
                 {% endif %}
@@ -70,8 +79,8 @@
 <div class="module">
     <h2>Kazalo</h2>
     <ul>
-    {% for user in object_list %}
-        <li><a href="#{{ user.username }}">{{ user.username }}</a></li>
+    {% for profile in object_list %}
+        <li><a href="#{{ profile.user.username }}">{{ profile.user.username }}</a></li>
     {% endfor %}
     </ul>
 </div>

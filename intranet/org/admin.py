@@ -25,6 +25,21 @@ class UploadAdmin(admin.ModelAdmin):
     inlines = [ClippingInline]
 
 
+class DiaryAdmin(admin.ModelAdmin):
+    verbose_name = 'Dnevnik'
+    verbose_name_plural = 'Dnevniki'
+
+    search_fields = ['log_formal','person','task']
+    date_hierarchy = 'date'
+    list_filter = ['date', 'task', 'author']
+    list_display = ('date', 'author', 'task', 'length')
+
+    class Media:
+        js = (
+              'js/tags.js',
+              )
+
+
 admin.site.register(Person)
 admin.site.register(UserProfile)
 admin.site.register(Category)
@@ -34,13 +49,11 @@ admin.site.register(TipPrispevka)
 admin.site.register(Medij)
 admin.site.register(Project)
 admin.site.register(Place)
+admin.site.register(Clipping)
 
 
 
 admin.site.register(Bug, BugAdmin)
 admin.site.register(Sodelovanje, SodelovanjeAdmin)
-
-
-
-admin.site.register(Clipping)
 admin.site.register(Upload, UploadAdmin)
+admin.site.register(Diary, DiaryAdmin)
