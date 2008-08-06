@@ -29,6 +29,15 @@
 	<h2>Plache</h2>
 	{% box_plache log_list user %}
 </div>
+{% if dezurni_taski %}
+<div>
+<ul>
+{% for task in dezurni_taski %}
+    <li><a href="{{ task.get_absolute_url }}">{{ task }}</a></li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
 {% endblock %}
 
 {% block content-main %}

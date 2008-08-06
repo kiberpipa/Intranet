@@ -1058,6 +1058,7 @@ def dezurni(request, year=None, week=None, month=None):
                              'nov_urnik': nov_urnik,
                              'start_date': week_start,
                              'end_date': week_end,
+                             'dezurni_taski': Bug.objects.filter(project=Project.objects.get(pk=1)), ##XXX
                              },
                        context_instance=RequestContext(request))
 dezurni = login_required(dezurni)
