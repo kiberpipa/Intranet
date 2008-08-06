@@ -18,7 +18,10 @@
   </div>
   <div class="module" id="recent-actions-module">
   	<h2>Dodaj hrošča</h2>
-		{% box_add Bug %}
+    <form method="post" action="add/">
+    {{ bug_form.as_p }}
+    <input type="submit">
+    </form>
   </div>
 {% endblock %}
 

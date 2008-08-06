@@ -38,10 +38,16 @@ month_dict = { 'jan': 1, 'feb': 2, 'mar': 3,
 def index(request):
     today = datetime.date.today()
     nextday = today + datetime.timedelta(days=8)
+    q= Q()
+    for i in request.user.get_profile().project.all(): 
+        q = q | Q(project=i)
+
+    project_bugs = Bug.objects.filter(q)
     return render_to_response('org/index.html',
                               { 'start_date': today,
                                 'end_date': nextday,
                                 'today': today,
+                                'project_bugs': project_bugs,
                               },
                               context_instance=RequestContext(request))
 index = login_required(index)
@@ -394,9 +400,21 @@ def issues(request):
         allow_empty = 1,
         extra_context = {
             'filter': filter,
+            'bug_form': BugForm(),
         }
     )
 
+def add_bug(request):
+    if request.POST:
+        form = BugForm(request.POST)
+        if form.is_valid():
+            new_bug = form.save(commit=False)
+            new_bug.author = request.user
+            new_bug.save()
+            form.save_m2m()
+            return HttpResponseRedirect(new_bug.get_absolute_url())
+
+    return HttpResponseRedirect("..")
 
 ##################################################
 

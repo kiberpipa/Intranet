@@ -34,8 +34,9 @@ class Tag(models.Model):
 
 class Project(models.Model):
     name = models.CharField(max_length=100)
-    responsible = models.ForeignKey(User)
+    responsible = models.ForeignKey(User, blank=True, null=True)
     note = models.TextField(blank=True, null=True)
+    mail = models.EmailField(blank=True, null=True)
 
     parent = models.ForeignKey('self', blank=True, null=True)
 
@@ -379,6 +380,7 @@ class Bug(models.Model):
     author = models.ForeignKey(User, related_name="bug_author")
     #assign = models.ForeignKey(User,blank=True, null=True, related_name="bug_assign")
     assign = models.ManyToManyField(User,blank=True, null=True, related_name="bug_assign")
+    project = models.ManyToManyField(Project, blank=True, null=True)
     resolved = models.BooleanField()
     resolution = models.ForeignKey(Resolution, blank = True, null = True)
     note = models.TextField()

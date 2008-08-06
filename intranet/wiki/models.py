@@ -1,4 +1,3 @@
-
 from datetime import datetime
 import difflib
 
@@ -14,14 +13,6 @@ class Category(models.Model):
     def __unicode__(self):
         return self.name
 
-
-    class Admin: 
-        pass
-
-    class Meta:
-        ordering = ('order',)
-
-
 class Article(models.Model):
     """A wiki page.
     """
@@ -29,9 +20,6 @@ class Article(models.Model):
     title = models.CharField(max_length=50)
     content = models.TextField("Article Content")
     cat = models.ForeignKey(Category, blank=True, null=True)
-
-    class Admin:
-        pass
 
     @models.permalink
     def get_absolute_url(self):
@@ -48,7 +36,7 @@ class Article(models.Model):
             revision = 1
 
         changes_args = {'article': self,
-                        'editor': editor,
+                        'editor': editor.user,
                         'comment': comment,
                         'revision': revision}
         try:
