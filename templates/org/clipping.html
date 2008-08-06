@@ -1,4 +1,4 @@
-{% extends "org/base_3col.html" %}
+{% extends "org/base_2col.html" %}
 {% block title %}Clipping{% endblock %}
 
 {% block heading %}
@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block content-related-left %}
+    <a href="{{ add_link }}">Dodaj novega</a>
     <form method="post" action="">
     <table>{{ form }}</table>
     <input type="submit" />
@@ -31,6 +32,3 @@
     {% endfor %}
 {% endblock %}
 
-{% block content-related-right %}
-    woo, hooo, right!
-{% endblock %} 

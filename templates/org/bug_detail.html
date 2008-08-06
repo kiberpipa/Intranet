@@ -15,20 +15,11 @@
   <div class="module" id="recent-actions-module">
     	    <h2>Urejanje</h2>
 
-		{% comment %} {% box_add Bug object.id edit %} {% endcomment %}
         <form action="edit/" method="post">
        {{ bug_form }} 
         <input type = "submit"/>
         </form>
 
-        {% comment %}<form action = "resolve/" method="post" name="BugResolutionForm">
-        <input type = "submit" value = "Resi"/>
-            <select name="status">
-            {% for resolution in resolutions %}
-                <option value="{{ resolution.id }}"{% ifequal object.resolution.id resolution.id %} selected="selected" {% endifequal %}>{{ resolution.name }}</option>
-            {% endfor %}
-            </select>
-        </form> {% endcomment %}
 				</li>
 	</ul>
   </div>
@@ -38,7 +29,10 @@
 	<div class="module">
 	<h2>{{ object.name }}</h2>
           <p>{{ object.author }} -> {% for guilty in object.assign.all %} {{ guilty }}, {% endfor %}
-             ({{ object.pub_date|date:"d.m.Y" }})</p>
+          {% for project in object.project.all %} {{ project }}, {% endfor %} <br></p>
+             <p>Deadline: {{ object.pub_date|date:"d.m.Y" }}</p>
+             <p> Resolution: {{ object.resolution }} </p>
+             <br><br>
           <p>{{ object.note|escape|linebreaks }}</p>
         
     </div>

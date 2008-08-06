@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.views.generic import list_detail, date_based
+from django.conf import settings
 
 from datetime import date, time, timedelta, datetime
 import datetime
@@ -689,7 +690,7 @@ def sodelovanja(request):
         pass
     
     return render_to_response('org/sodelovanja.html', 
-        {'sodelovanja': sodelovanja, 'form': form},
+        {'sodelovanja': sodelovanja, 'form': form, 'add_link': '%s/intranet/admin/org/sodelovanje/add/' % settings.BASE_URL },
         context_instance=RequestContext(request))
 
 def clipping(request):
@@ -713,7 +714,7 @@ def clipping(request):
         form = ClippingFilter()
 
     return render_to_response('org/clipping.html', 
-        {'clippings': clippings, 'form': form},
+        {'clippings': clippings, 'form': form, 'add_link': '%s/intranet/admin/org/clipping/add/' % settings.BASE_URL },
         context_instance=RequestContext(request))
 
 def lend_back(request, id=None):

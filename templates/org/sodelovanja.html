@@ -1,10 +1,4 @@
-{% extends "org/base_3col.html" %}
-{% comment %}{% block extrahead %}
-<script src="{{ media_url }}/MochiKit/MochiKit.js" type="text/javascript"></script>
-<script src="{{ media_url }}/MochiKit/Position.js" type="text/javascript"></script>
-<script src="{{ media_url }}/MochiKit/Visual.js" type="text/javascript"></script>
-{% endblock %}
-{% load box %} {% endcomment %}
+{% extends "org/base_2col.html" %}
 {% block title %}Sodelovanja{% endblock %}
 
 {% block heading %}
@@ -12,6 +6,7 @@
 {% endblock %}
 
 {% block content-related-left %}
+    <a href="{{ add_link }}">Dodaj novega</a>
     <form method="post" action="">
     <table>{{ form }}</table>
     <input type="submit" />
@@ -31,7 +26,3 @@
         <br>
     {% endfor %}
 {% endblock %}
-
-{% block content-related-right %}
-    woo, hooo, right!
-{% endblock %} 
