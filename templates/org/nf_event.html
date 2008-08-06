@@ -1,17 +1,29 @@
 {% extends "org/base_3col.html" %}
-{% block extrahead %}{% endblock %}
+{% block extrahead %}
+<script type="text/javascript" src="{{ media_url }}js/jquery.highlightFade.js" ></script>
+
+<script type="text/javascript">
+function addFormField() {
+    var id = document.getElementById("id").value;
+    $("#divTxt").append("<p id='row" + id + "'><label for='txt" + id + "'>Field " + id + "&nbsp;&nbsp;<input type='text' size='20' name='txt[]' id='txt" + id + "'>&nbsp;&nbsp<a href='#' onClick='removeFormField(\"#row" + id + "\"); return false;'>Remove</a><p>");
+    
+    
+    $('#row' + id).highlightFade({
+        speed:1000
+    });
+    
+    id = (id - 1) + 2;
+    document.getElementById("id").value = id;
+}
+
+function removeFormField(id) {
+    $(id).remove();
+}
+</script>
+
+{% endblock %}
 {% block title %}Dogodki{% endblock %}
 {% load markup %}
-
-{% comment %}{% block toplinks %}
-    <div class="breadcrumbs">
-    <ul id="breadcrumbs">
-        <li>Arhiv: </li>
-        <li><a href="/intranet/events/arhiv/{{ object.start_date|date:"Y" }}/{{ object.start_date|date:"M"|lower }}">{{ object.start_date|date:"M" }}</a></li>
-        <li><a href="/intranet/events/arhiv/{{ object.start_date|date:"Y" }}">{{ object.start_date|date:"Y" }}</a></li>
-    </ul>
-    </div>
-{% endblock %} {% endcomment %}
 
 {% load box %}
 
@@ -47,7 +59,8 @@
         {% for sodelovanje in sodelovanja %}
 
 <p>        <label for="id_author">Avtor(ji?): </label>
-             <input type="text" name="author{{ forloop.counter }}" class="input_author" id="id_author{{ forloop.counter }}" value="{{ sodelovanje.person }}" />
+             {% comment %}<input type="text" name="author{{ forloop.counter }}" class="input_author" id="id_author{{ forloop.counter }}" value="{{ sodelovanje.person }}" />{%  endcomment %}
+             <input type="text" name="author" class="input_author" id="id_author" value="{{ sodelovanje.person }}" />
         <label for="id_tip{{ forloop.counter }}"></label>
 
              <select name="tip{{ forloop.counter }}" id="id_tip{{ forloop.counter }}">

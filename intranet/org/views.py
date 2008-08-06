@@ -592,6 +592,7 @@ def nf_event_edit(request, event):
     event = Event.objects.get(pk=event)
     old_sodelovanja = set(Sodelovanje.objects.filter(event=event))
     if request.method == 'POST':
+        print request.POST.getlist('author')
         form = EventForm(request.POST, instance=event)
         ##handle multiple authors from form --> (author1, tip1), (author2, tip2)...
         authors = []
@@ -622,14 +623,14 @@ def nf_event_edit(request, event):
 
             new_event.save()
 
-            sodelovanja = set(Sodelovanje.objects.filter(pk=event))
+            sodelovanja = set(Sodelovanje.objects.filter(event=event))
             #delete everything that was in the old sodelovanja as is not in the new one
             for i in old_sodelovanja & sodelovanja ^ old_sodelovanja:
                 i.delete()
 
             return HttpResponseRedirect(new_event.get_absolute_url())
     else:
-        form = EventForm(instance=Event.objects.get(pk=event))
+        form = EventForm(instance=event)
 
 
 
@@ -645,6 +646,15 @@ def event_count (request, id=None):
     event.save()
     return HttpResponseRedirect('../')
 event_count = login_required(event_count)
+
+##############################
+
+def mercenaries(request):
+    
+    return render_to_response('org/mercenaries.html', 
+        #{'sodelovanja': sodelovanja, 'form': form, 'add_link': '%s/intranet/admin/org/sodelovanje/add/' % settings.BASE_URL },
+        {'add_link': '%s/intranet/admin/org/mercenary/add/' % settings.BASE_URL },
+        context_instance=RequestContext(request))
 
 ##################################################
 

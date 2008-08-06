@@ -183,6 +183,8 @@ urlpatterns = patterns('',
     #(r'^sodelovanja/(?P<object_id>\d+)', 'django.views.generic.list_detail.object_detail', sodelovanje_detail),
 
 
+    (r'^mercenaries/', 'intranet.org.views.mercenaries'),
+
     (r'^clipping/', 'intranet.org.views.clipping'),
 
     (r'^tehniki/(?P<year>\d+)/(?P<month>[a-z]{3})/$', 'intranet.org.views.tehniki_monthly'),

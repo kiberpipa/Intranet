@@ -363,6 +363,11 @@ class Diary(models.Model):
     def get_absolute_url(self):
         return "%s/diarys/%i/" % (settings.BASE_URL, self.id)
 
+#mercenaries
+class Mercenary(models.Model):
+    person = models.ForeignKey(User)
+    amount = models.IntegerField()
+    
 
 # bugs
 class Resolution(models.Model):
