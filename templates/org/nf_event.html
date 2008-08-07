@@ -6,41 +6,8 @@
 <script type="text/javascript">
 function addFormField() {
     var id = document.getElementById("id").value;
-{% comment %}    $("#divTxt").append("<p id='row" + id + "'><label for='txt" + id + "'>Field " + id + "&nbsp;&nbsp;<input type='text' size='20' name='txt' id='txt" + id + "'>&nbsp;&nbsp<a href='#' onClick='removeFormField(\"#row" + id + "\"); return false;'>Remove</a><p>"); {% endcomment %}
-
-{% comment %}
-<p>        <label for="id_author">Avtor(ji?): </label>
-             <input type="text" name="author" class="input_author" id="id_author" value="{{ sodelovanje.person }}" />
-        <label for="id_tip"></label>
-
-             <select name="tip" id="id_tip">
-              {% for t in tipi %}              
-                <option {% ifequal t sodelovanje.tip %}selected="selected"{% endifequal %} value="{{ t.id }}">{{ t }}</option>
-            {% endfor %}
-                
-                </select> 
-</p>
-{% endcomment %}
-
-
-    //$("#divTxt").append("<p id=\"row" + id + "\"><label for=\"id_author\">Avtor(ji?): </label><input type=\"text\" class=\"input_author\" id=\"id_author\" value=\"{{ sodelovanje.person }}\" /><label for=\"id_tip\"></label><select name=\"tip\" id=\"id_tip\">{% for t in tipi %}<option {% ifequal t sodelovanje.tip %}selected=\"selected\"{% endifequal %} value=\"{{ t.id }}\">{{ t }}</option>{% endfor %}</select><a href='#' onClick='removeFormField(\"#row" + id + "\"); return false;'>Remove</a></p>");
-
-
-
-
-
-
-    //$("#divTxt").append("<p id='row" + id + "'><label for='txt" + id + "'>Field " + id + "&nbsp;&nbsp;<input type='text' size='20' name='txt' id='txt" + id + "'>&nbsp;&nbsp<a href='#' onClick='removeFormField(\"#row" + id + "\"); return false;'>Remove</a><p>"); 
-    //$("#divTxt").append("<p id=\"row" + id + "\"><label for=\"id_author" + id + "\">Avtor(ji?): </label><input type=\"text\" class=\"input_author\" name=\"author" + id + "\" id=\"id_author" + id + "\" /><label for=\"id_tip" + id + "\"></label><select name=\"tip" + id + "\" id=\"id_tip" + id + "\">{% for t in tipi %}<option value=\"{{ t.id }}\">{{ t }}</option>{% endfor %}</select><a href='#' onClick='removeFormField(\"#row" + id + "\"); return false;'>Remove</a></p>");
     $("#divTxt").append("<p id=\"row" + id + "\"><label for=\"id_author\">Avtor(ji?): </label><input type=\"text\" class=\"input_author\" name=\"author\" id=\"id_author\" /><label for=\"id_tip\"></label><select name=\"tip\" id=\"id_tip\">{% for t in tipi %}<option value=\"{{ t.id }}\">{{ t }}</option>{% endfor %}</select><a href='#' onClick='removeFormField(\"#row" + id + "\"); return false;'>Remove</a></p>");
 
-
-
-
-
-
-    //$("#divTxt").append("<p id=\"row" + id + "\">Avtor(ji?): <input type=\"text\" class=\"input_author\" name=\"author\" id=\"id_author\" /><select name=\"tip\" id=\"id_tip\">{% for t in tipi %}<option value=\"{{ t.id }}\">{{ t }}</option>{% endfor %}</select><a href='#' onClick='removeFormField(\"#row" + id + "\"); return false;'>Remove</a></p>");
-    
     
     $('#row' + id).highlightFade({
         speed:1000
@@ -70,7 +37,6 @@ function removeFormField(id) {
 {% load box %}
 
 {% block content %}
-{% comment %}  <div class="module" id="recent-actions-module"> XXX {% endcomment %}
 <div id="content" class="colMS">
     <h2>Ponavljanje</h2>
     <form method="POST" action=""> 
@@ -84,7 +50,6 @@ function removeFormField(id) {
     <div id="content-full" class="flex">
     <div class="module">
 	<h2>Dodaj dogodek v koledar</h2>
-	{% comment %}<form method="POST" action=""> {% endcomment %}
 {% if form.has_errors %}
 	<h3>Please correct the following error{{ form.error_dict|pluralize }}:</h3>
 {% endif %}
@@ -98,7 +63,6 @@ function removeFormField(id) {
 	<p>
 <a href="#" onClick="addFormField(); return false;">Add</a></p>
     {% if sodelovanja %}
-{% comment %}    $("#divTxt").append("<p id=\"row\"><label for=\"id_author\">Avtor(ji?): </label><input type=\"text\" class=\"input_author\" name=\"author\" id=\"id_author\" /><label for=\"id_tip\"></label><select name=\"tip\" id=\"id_tip\">{% for t in tipi %}<option value=\"{{ t.id }}\">{{ t }}</option>{% endfor %}</select><a href='#' onClick='removeFormField(\"#row\"); return false;'>Remove</a></p>"); XXX {% endcomment %}
 <input type="hidden" id="id" value="{{ sodelovanja.count|add:"1"}}"> <!-- XXX -->
 <div id="divTxt">
         {% for sodelovanje in sodelovanja %}
@@ -158,7 +122,6 @@ function removeFormField(id) {
 </p>
 <hr>
    <p>
-	 <!-- PIMP ME -->
     <label for="id_start_date">Začetni datum:</label>
     {{ form.start_date }}
     {% comment %}<input type="text" name="start_date" id="id_start_date" />{% endcomment %}
