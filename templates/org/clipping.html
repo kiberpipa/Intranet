@@ -25,6 +25,7 @@
             <p>Project: {{ clipping.project }}</p>
             {% endif %}
             <p>Medij: {{ clipping.medij }}</p>
+            <p>Linki: {% for i in clipping.upload.all %}<a href="{{ media_url }}{{ i.file }}">{{ i }}</a> {% endfor %}</p>
             {% comment %}<p>Osebek: {{ sodelovanje.person }}</p>
             <p>Tip Sodelovanja: {{ sodelovanje.tip }}</p>{% endcomment %}
         </div>

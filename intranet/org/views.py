@@ -557,14 +557,7 @@ def nf_event_create(request):
     if request.method == 'POST':
         form = EventForm(request.POST)
         ##handle multiple authors from form --> (author1, tip1), (author2, tip2)...
-        authors = []
-        i = 0
-        while 1:
-            i+=1
-            try:
-                authors += [(request.POST['author%d' % i], TipSodelovanja.objects.get(pk=request.POST['tip%d' % i]))]
-            except MultiValueDictKeyError:
-                break
+        authors = zip(request.POST.getlist('author'), request.POST.getlist('tip'))
     else:
         form = EventForm()
 
@@ -572,6 +565,7 @@ def nf_event_create(request):
     if form.is_valid():
         new_event = form.save()
         for author, tip in authors:
+            tip = TipSodelovanja.objects.get(pk=tip)
             #make sure the Person actually exists 
             try: 
                 person = Person.objects.get(name=author) 
@@ -592,21 +586,14 @@ def nf_event_edit(request, event):
     event = Event.objects.get(pk=event)
     old_sodelovanja = set(Sodelovanje.objects.filter(event=event))
     if request.method == 'POST':
-        print request.POST.getlist('author')
         form = EventForm(request.POST, instance=event)
-        ##handle multiple authors from form --> (author1, tip1), (author2, tip2)...
-        authors = []
-        i = 0
-        while 1:
-            i+=1
-            try:
-                authors += [(request.POST['author%d' % i], TipSodelovanja.objects.get(pk=request.POST['tip%d' % i]))]
-            except MultiValueDictKeyError:
-                break
+        authors = zip(request.POST.getlist('author'), request.POST.getlist('tip'))
 
         if form.is_valid():
             new_event = form.save()
+            sodelovanja = set()
             for author, tip in authors:
+                tip = TipSodelovanja.objects.get(pk=tip)
                 #make sure the Person actually exists 
                 try: 
                     person = Person.objects.get(name=author) 
@@ -616,15 +603,18 @@ def nf_event_edit(request, event):
 
 
                 try:
-                    Sodelovanje.objects.get(event=new_event, person=person, tip=tip)
+                    s = Sodelovanje.objects.get(event=new_event, person=person, tip=tip)
                 except Sodelovanje.DoesNotExist:
                     s = Sodelovanje(event=new_event, tip=tip, person=person)
                     s.save() 
+                
+                sodelovanja.add(s)
+
 
             new_event.save()
 
-            sodelovanja = set(Sodelovanje.objects.filter(event=event))
             #delete everything that was in the old sodelovanja as is not in the new one
+            print "old: '%s', new: '%s'" % (old_sodelovanja, sodelovanja)
             for i in old_sodelovanja & sodelovanja ^ old_sodelovanja:
                 i.delete()
 

@@ -1,11 +1,45 @@
-{% extends "org/base_3col.html" %}
+{% extends "org/base.html" %}
 {% block extrahead %}
 <script type="text/javascript" src="{{ media_url }}js/jquery.highlightFade.js" ></script>
+<script src="{{ media_url }}/js/ui.datepicker.js"></script>
 
 <script type="text/javascript">
 function addFormField() {
     var id = document.getElementById("id").value;
-    $("#divTxt").append("<p id='row" + id + "'><label for='txt" + id + "'>Field " + id + "&nbsp;&nbsp;<input type='text' size='20' name='txt[]' id='txt" + id + "'>&nbsp;&nbsp<a href='#' onClick='removeFormField(\"#row" + id + "\"); return false;'>Remove</a><p>");
+{% comment %}    $("#divTxt").append("<p id='row" + id + "'><label for='txt" + id + "'>Field " + id + "&nbsp;&nbsp;<input type='text' size='20' name='txt' id='txt" + id + "'>&nbsp;&nbsp<a href='#' onClick='removeFormField(\"#row" + id + "\"); return false;'>Remove</a><p>"); {% endcomment %}
+
+{% comment %}
+<p>        <label for="id_author">Avtor(ji?): </label>
+             <input type="text" name="author" class="input_author" id="id_author" value="{{ sodelovanje.person }}" />
+        <label for="id_tip"></label>
+
+             <select name="tip" id="id_tip">
+              {% for t in tipi %}              
+                <option {% ifequal t sodelovanje.tip %}selected="selected"{% endifequal %} value="{{ t.id }}">{{ t }}</option>
+            {% endfor %}
+                
+                </select> 
+</p>
+{% endcomment %}
+
+
+    //$("#divTxt").append("<p id=\"row" + id + "\"><label for=\"id_author\">Avtor(ji?): </label><input type=\"text\" class=\"input_author\" id=\"id_author\" value=\"{{ sodelovanje.person }}\" /><label for=\"id_tip\"></label><select name=\"tip\" id=\"id_tip\">{% for t in tipi %}<option {% ifequal t sodelovanje.tip %}selected=\"selected\"{% endifequal %} value=\"{{ t.id }}\">{{ t }}</option>{% endfor %}</select><a href='#' onClick='removeFormField(\"#row" + id + "\"); return false;'>Remove</a></p>");
+
+
+
+
+
+
+    //$("#divTxt").append("<p id='row" + id + "'><label for='txt" + id + "'>Field " + id + "&nbsp;&nbsp;<input type='text' size='20' name='txt' id='txt" + id + "'>&nbsp;&nbsp<a href='#' onClick='removeFormField(\"#row" + id + "\"); return false;'>Remove</a><p>"); 
+    //$("#divTxt").append("<p id=\"row" + id + "\"><label for=\"id_author" + id + "\">Avtor(ji?): </label><input type=\"text\" class=\"input_author\" name=\"author" + id + "\" id=\"id_author" + id + "\" /><label for=\"id_tip" + id + "\"></label><select name=\"tip" + id + "\" id=\"id_tip" + id + "\">{% for t in tipi %}<option value=\"{{ t.id }}\">{{ t }}</option>{% endfor %}</select><a href='#' onClick='removeFormField(\"#row" + id + "\"); return false;'>Remove</a></p>");
+    $("#divTxt").append("<p id=\"row" + id + "\"><label for=\"id_author\">Avtor(ji?): </label><input type=\"text\" class=\"input_author\" name=\"author\" id=\"id_author\" /><label for=\"id_tip\"></label><select name=\"tip\" id=\"id_tip\">{% for t in tipi %}<option value=\"{{ t.id }}\">{{ t }}</option>{% endfor %}</select><a href='#' onClick='removeFormField(\"#row" + id + "\"); return false;'>Remove</a></p>");
+
+
+
+
+
+
+    //$("#divTxt").append("<p id=\"row" + id + "\">Avtor(ji?): <input type=\"text\" class=\"input_author\" name=\"author\" id=\"id_author\" /><select name=\"tip\" id=\"id_tip\">{% for t in tipi %}<option value=\"{{ t.id }}\">{{ t }}</option>{% endfor %}</select><a href='#' onClick='removeFormField(\"#row" + id + "\"); return false;'>Remove</a></p>");
     
     
     $('#row' + id).highlightFade({
@@ -21,28 +55,36 @@ function removeFormField(id) {
 }
 </script>
 
+  <script>
+  $(document).ready(function(){
+//$('#id_start_date').datepicker({firstDay: 1, dateFormat: 'yy-mm-dd'}); //XXX
+  });
+  </script>
+
+  <link rel="stylesheet" href="{{ media_url }}/css/flora.datepicker.css" type="text/css" media="screen" title="Flora (Default)">
+
 {% endblock %}
 {% block title %}Dogodki{% endblock %}
 {% load markup %}
 
 {% load box %}
 
-{% comment %}{% block heading %}
-    <h1>Dogodek</h1>
-{% endblock %} {% endcomment %}
-
-{% block content-related-left %}
-  <div class="module" id="recent-actions-module">
+{% block content %}
+{% comment %}  <div class="module" id="recent-actions-module"> XXX {% endcomment %}
+<div id="content" class="colMS">
     <h2>Ponavljanje</h2>
-	<form method="POST" action=".">
+    <form method="POST" action=""> 
+    <div id="content-related" class="sidebar">
+    <div  class="module" id="recent-actions-module">
 		{% box_reccurings form %}
 	<h3> <input type="submit" value="Vpiši" /></h3>
-  </div>
-{% endblock %}
+    </div>
+    </div>
 
-{% block content-main %}
-<div class="module">
+    <div id="content-full" class="flex">
+    <div class="module">
 	<h2>Dodaj dogodek v koledar</h2>
+	{% comment %}<form method="POST" action=""> {% endcomment %}
 {% if form.has_errors %}
 	<h3>Please correct the following error{{ form.error_dict|pluralize }}:</h3>
 {% endif %}
@@ -54,36 +96,43 @@ function removeFormField(id) {
     {% endif %}
   </p>
 	<p>
-
+<a href="#" onClick="addFormField(); return false;">Add</a></p>
     {% if sodelovanja %}
+{% comment %}    $("#divTxt").append("<p id=\"row\"><label for=\"id_author\">Avtor(ji?): </label><input type=\"text\" class=\"input_author\" name=\"author\" id=\"id_author\" /><label for=\"id_tip\"></label><select name=\"tip\" id=\"id_tip\">{% for t in tipi %}<option value=\"{{ t.id }}\">{{ t }}</option>{% endfor %}</select><a href='#' onClick='removeFormField(\"#row\"); return false;'>Remove</a></p>"); XXX {% endcomment %}
+<input type="hidden" id="id" value="{{ sodelovanja.count|add:"1"}}"> <!-- XXX -->
+<div id="divTxt">
         {% for sodelovanje in sodelovanja %}
-
-<p>        <label for="id_author">Avtor(ji?): </label>
-             {% comment %}<input type="text" name="author{{ forloop.counter }}" class="input_author" id="id_author{{ forloop.counter }}" value="{{ sodelovanje.person }}" />{%  endcomment %}
+<p id="row{{ forloop.counter }}">        <label for="id_author">Avtor(ji?): </label>
              <input type="text" name="author" class="input_author" id="id_author" value="{{ sodelovanje.person }}" />
-        <label for="id_tip{{ forloop.counter }}"></label>
+        <label for="id_tip"></label>
 
-             <select name="tip{{ forloop.counter }}" id="id_tip{{ forloop.counter }}">
+             <select name="tip" id="id_tip">
               {% for t in tipi %}              
                 <option {% ifequal t sodelovanje.tip %}selected="selected"{% endifequal %} value="{{ t.id }}">{{ t }}</option>
             {% endfor %}
                 
                 </select> 
+                <a href='#' onClick='removeFormField("#row{{ forloop.counter }}"); return false;'>Remove</a>
 </p>
         {% endfor %}
+</div>
     {% else %}
-        <label for="id_author">Avtor(ji?): </label>
-             <input type="text" name="author1" class="input_author" id="id_author1" />
-        <label for="id_tip1"></label>
+<input type="hidden" id="id" value="2">
+<div id="divTxt">
+        <p id="row1"><label for="id_author">Avtor(ji?): </label>
+             <input type="text" name="author" class="input_author" id="id_author" />
+        <label for="id_tip"></label>
 
-             <select name="tip1" id="id_tip1">
+             <select name="tip" id="id_tip">
               {% for t in tipi %}              
                 <option {% ifequal t tip %}selected="selected"{% endifequal %} value="{{ t.id }}">{{ t }}</option>
             {% endfor %}
                 
                 </select> 
-    {% endif %}  
+    <a href='#' onClick='removeFormField("#row1"); return false;'>Remove</a>
                 </p>
+                </div>
+    {% endif %}  
 
 <p>
     <label for="id_category">m3c kategorija:</label>
@@ -112,6 +161,8 @@ function removeFormField(id) {
 	 <!-- PIMP ME -->
     <label for="id_start_date">Začetni datum:</label>
     {{ form.start_date }}
+    {% comment %}<input type="text" name="start_date" id="id_start_date" />{% endcomment %}
+
     {% if form.start_date.errors %}
       *** {{ form.start_date.errors|join:", " }}
     {% endif %}
@@ -192,55 +243,8 @@ function removeFormField(id) {
       *** {{ form.note.errors|join:", " }}
     {% endif %}
   </p>
-{% comment %}	{{ f2 }} {% endcomment %}
+  </div>
+  </div>
 	</form>
-    {% comment %}<div class="module">
-        <h2>{{ object.title }}</h2>
-        <h4>{{ object.project }}</h4>
-            <p>{{ object.title }}</p>
-            <p>{{ object.start_date|date:"D d.m.Y" }} ({{ object.length }})</p>
-          <h4>Zahteve:</h4>
-          <p>
-                {% if object.require_technician %}
-                    tehnik
-                {% endif %}
-                {% if object.require_video %}
-                    ,video
-                {% endif %}
-                {% if object.place%}
-                  {% for o in object.place.all %}
-                    , {{ o }}
-                  {% endfor %}
-                {% endif %}
-          </p>
-          	{% if object.visitors %}
-          <h4>Število obiskovalcev:</h4>
-          <p>{{ object.visitors }}</p>
-          	{% endif %}
-          <h4>Vsebina:</h4>
-          <p>
-            {{ object.announce|linebreaks }}</p>
-	
-	  <h4>Kratka vsebina:</h4>
-          <p>
-            {{ object.short_announce|linebreaks }}</p>          
-    </div> 
-<form method="post" action="">
-{% comment %}<dl>
-{% for field in form %}
-    <dt>{{ field.label_tag }}{% if field.field.required %}*{% endif %}</dt>
-    <dd>{{ field }}</dd>
-    {% if field.help_text %}<dd>{{ field.help_text }}</dd>{% endif %}
-    {% if field.errors %}<dd class="myerrors">{{ field.errors }}</dd>{% endif %}
-{% endfor %}
-</dl> 
-{{ form.as_p }}
-<input type="submit" />
-</form>
-{% endcomment %}
-
-{% endblock %}
-
-{% block content-related-right %}
-
+</div>
 {% endblock %}

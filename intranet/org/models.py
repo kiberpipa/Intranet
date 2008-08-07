@@ -310,7 +310,7 @@ class Clipping(models.Model):
     tip_prispevka = models.ForeignKey(TipPrispevka, blank=True, null=True)
     link = models.CharField(max_length=255, blank=True, null=True)
 
-    upload = models.ForeignKey(Upload, blank=True, null=True)
+    upload = models.ManyToManyField(Upload, blank=True, null=True)
 
     def __unicode__(self):
         return "%s, %s @ %s" % (self.tip_prispevka, self.medij, self.event)

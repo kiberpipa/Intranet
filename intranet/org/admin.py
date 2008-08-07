@@ -18,11 +18,11 @@ class BugAdmin(admin.ModelAdmin):
         #ordering = ['resolved']
 
 
-class ClippingInline(admin.TabularInline):
-    model = Clipping
-
-class UploadAdmin(admin.ModelAdmin):
-    inlines = [ClippingInline]
+##class ClippingInline(admin.TabularInline):
+##    model = Clipping
+##
+##class UploadAdmin(admin.ModelAdmin):
+##    inlines = [ClippingInline]
 
 
 class DiaryAdmin(admin.ModelAdmin):
@@ -49,12 +49,14 @@ admin.site.register(TipPrispevka)
 admin.site.register(Medij)
 admin.site.register(Project)
 admin.site.register(Place)
-admin.site.register(Clipping)
 admin.site.register(Mercenary)
 
 
 
 admin.site.register(Bug, BugAdmin)
 admin.site.register(Sodelovanje, SodelovanjeAdmin)
-admin.site.register(Upload, UploadAdmin)
 admin.site.register(Diary, DiaryAdmin)
+
+
+admin.site.register(Clipping)
+admin.site.register(Upload)
