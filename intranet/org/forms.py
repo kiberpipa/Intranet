@@ -50,6 +50,7 @@ class SodelovanjeFilter(forms.ModelForm):
 
     class Meta:
         model = Sodelovanje
+        exclude = ('note',)
 
 class DiaryFilter(forms.Form):
     task = forms.ModelChoiceField(Task.objects.all(), required=False)
@@ -62,3 +63,15 @@ class ClippingFilter(forms.ModelForm):
 
 class ImenikFilter(forms.Form):
     project = forms.ModelChoiceField(Project.objects.all(), required=False)
+
+
+class PersonForm(forms.ModelForm):
+    name = forms.CharField(max_length=200)
+    email = forms.EmailField(required=False)
+    phone = forms.CharField(max_length=200, required=False)
+    organization = forms.CharField(max_length=200, required=False)
+    title = forms.CharField(max_length=200, required=False)
+
+    class Meta:
+        model = Person
+        fields = ('name', 'email', 'phone', 'organization', 'title', )

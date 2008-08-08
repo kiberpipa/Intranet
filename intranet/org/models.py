@@ -247,6 +247,7 @@ class Sodelovanje(models.Model):
     tip = models.ForeignKey(TipSodelovanja, blank=True, null=True)
     person = models.ForeignKey(Person)
     project = models.ForeignKey(Project, blank=True, null=True)
+    note = models.TextField(blank=True, null=True)
 
     def __unicode__(self):
         return "%s: %s @ %s" % (self.person, self.tip, self.event)
@@ -308,6 +309,7 @@ class Clipping(models.Model):
     tip_medija = models.ForeignKey(TipMedija, blank=True, null=True)
     medij = models.ForeignKey(Medij, blank=True, null=True)
     tip_prispevka = models.ForeignKey(TipPrispevka, blank=True, null=True)
+    rubrika = models.CharField(max_length=255, blank=True, null=True)
     link = models.CharField(max_length=255, blank=True, null=True)
 
     upload = models.ManyToManyField(Upload, blank=True, null=True)

@@ -648,8 +648,23 @@ def mercenaries(request):
 
 ##################################################
 
+def person(request):
+    print 'in person'
+    if request.method == 'POST':
+        form = PersonForm(request.POST)
+        if form.is_valid():
+            form.save()
+            #new_person = Person(form)
+            #new_person.save()
+            print 'ummm, what seems to be the officer problem?'
+        else:
+            print "muwhahahahah, form is not valid ''%s''" % form.errors
+
+    return HttpResponseRedirect('../')
+
 def sodelovanja(request):
     sodelovanja = Sodelovanje.objects.all()
+    person_form = PersonForm()
     if request.method == 'POST':
         form = SodelovanjeFilter(request.POST)
         if form.is_valid():
@@ -690,7 +705,9 @@ def sodelovanja(request):
         pass
     
     return render_to_response('org/sodelovanja.html', 
-        {'sodelovanja': sodelovanja, 'form': form, 'add_link': '%s/intranet/admin/org/sodelovanje/add/' % settings.BASE_URL },
+        {'sodelovanja': sodelovanja, 'form': form, 
+        'add_link': '%s/intranet/admin/org/sodelovanje/add/' % settings.BASE_URL,
+        'person_form': person_form },
         context_instance=RequestContext(request))
 
 def clipping(request):

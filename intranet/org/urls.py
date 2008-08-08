@@ -179,8 +179,9 @@ urlpatterns = patterns('',
     (r'bugs/(?P<bug_id>\d+)/subtask/$',    'intranet.org.views.bug_subtask'),
 
     ##sodelovanja
-    (r'^sodelovanja/', 'intranet.org.views.sodelovanja'),
+    (r'^sodelovanja/$', 'intranet.org.views.sodelovanja'),
     #(r'^sodelovanja/(?P<object_id>\d+)', 'django.views.generic.list_detail.object_detail', sodelovanje_detail),
+    (r'^sodelovanja/person/$', 'intranet.org.views.person'),
 
 
     (r'^mercenaries/', 'intranet.org.views.mercenaries'),

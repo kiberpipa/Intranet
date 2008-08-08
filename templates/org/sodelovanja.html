@@ -1,5 +1,41 @@
-{% extends "org/base_2col.html" %}
+{% extends "org/base_3col.html" %}
 {% block title %}Sodelovanja{% endblock %}
+
+{% block extrahead %}
+<script type="text/javascript" src="{{ media_url }}js/jquery.highlightFade.js" ></script>
+<script src="{{ media_url }}/js/ui.datepicker.js"></script>
+
+<script type="text/javascript">
+
+{% comment %} generate the JS functions for addition/removal of fields {% endcomment %}
+{% for field in person_form %}
+function add{{ field.name }}() {
+    var id = document.getElementById("add_{{ field.name }}").value;
+    $("#{{ field.name }}Div").append('<p id="row' + id + '">{{ field.label_tag }}: &nbsp; {{ field }}<a href="#" onClick="remove{{ field.name }}(\'#row' + id + '\'); return false;">Remove</a></p>');
+
+    
+    $('#row' + id).highlightFade({
+        speed:1000
+    });
+    
+    id = (id - 1) + 2;
+    document.getElementById("add_{{ field.name }}").value = id;
+}
+
+function remove{{ field.name }}(id) {
+    $(id).remove();
+}
+{% endfor %}
+</script>
+
+  <script>
+  $(document).ready(function(){
+//$('#id_start_date').datepicker({firstDay: 1, dateFormat: 'yy-mm-dd'}); //XXX
+  });
+  </script>
+
+  <link rel="stylesheet" href="{{ media_url }}/css/flora.datepicker.css" type="text/css" media="screen" title="Flora (Default)">
+{% endblock %}
 
 {% block heading %}
         <h1>sodelovanja</h1>
@@ -8,7 +44,11 @@
 {% block content-related-left %}
     <a href="{{ add_link }}">Dodaj novega</a>
     <form method="post" action="">
-    <table>{{ form }}</table>
+<table>
+{{ form }}
+
+</table>
+
     <input type="submit" />
     </form>
 
@@ -26,3 +66,20 @@
         <br>
     {% endfor %}
 {% endblock %}
+
+
+{% block content-related-right %}
+    <form method="post" action="person/">
+    <table>
+    {% for field in person_form %}
+<input type="hidden" id="add_{{ field.name }}" value="2"> 
+<div id="{{ field.name }}Div">
+    {% ifnotequal field.name 'name' %}<a href="#" onClick="add{{ field.name }}(); return false;">Add</a> &nbsp;{% endifnotequal %}{{ field.label_tag }}: &nbsp; {{ field }}
+</div>
+{% endfor %}
+
+    </table>
+    <input type="submit" />
+    </form>
+
+{% endblock %} 
