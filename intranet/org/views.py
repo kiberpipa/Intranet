@@ -649,16 +649,22 @@ def mercenaries(request):
 ##################################################
 
 def person(request):
-    print 'in person'
     if request.method == 'POST':
         form = PersonForm(request.POST)
         if form.is_valid():
-            form.save()
-            #new_person = Person(form)
-            #new_person.save()
-            print 'ummm, what seems to be the officer problem?'
-        else:
-            print "muwhahahahah, form is not valid ''%s''" % form.errors
+            person = Person(name=form.cleaned_data['name'])
+            person.save()
+            for key, value in form.cleaned_data.items():
+                if not value or key == 'name':
+                    continue
+
+                ##black magic. don't ask, don't touch.
+                clas = key[0].capitalize() + key[1:]
+                exec 'from intranet.org.models import ' + clas
+                for k in request.POST.getlist(key):
+                    new_var = locals()[clas](**{key: k})
+                    new_var.save()
+                    Person.__dict__[key].__get__(person, clas).add(new_var)
 
     return HttpResponseRedirect('../')
 

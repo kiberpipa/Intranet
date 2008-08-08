@@ -11,10 +11,10 @@
 {% for field in person_form %}
 function add{{ field.name }}() {
     var id = document.getElementById("add_{{ field.name }}").value;
-    $("#{{ field.name }}Div").append('<p id="row' + id + '">{{ field.label_tag }}: &nbsp; {{ field }}<a href="#" onClick="remove{{ field.name }}(\'#row' + id + '\'); return false;">Remove</a></p>');
+    $("#{{ field.name }}Div").append('<p id="row{{ field.name }}' + id + '">{{ field.label_tag }}: &nbsp; {{ field }}<a href="#" onClick="remove{{ field.name }}(\'#row{{ field.name }}' + id + '\'); return false;">Remove</a></p>');
 
     
-    $('#row' + id).highlightFade({
+    $('#row{{ field.name }}' + id).highlightFade({
         speed:1000
     });
     
@@ -74,7 +74,11 @@ function remove{{ field.name }}(id) {
     {% for field in person_form %}
 <input type="hidden" id="add_{{ field.name }}" value="2"> 
 <div id="{{ field.name }}Div">
-    {% ifnotequal field.name 'name' %}<a href="#" onClick="add{{ field.name }}(); return false;">Add</a> &nbsp;{% endifnotequal %}{{ field.label_tag }}: &nbsp; {{ field }}
+    {% ifnotequal field.name 'name' %}<a href="#" onClick="add{{ field.name }}(); return false;">Add</a>
+    <p id="row{{ field.name }}1">&nbsp;{% endifnotequal %}
+    {{ field.label_tag }}: &nbsp; {{ field }} &nbsp; 
+    {% ifnotequal field.name 'name' %}<a href="#" onClick="remove{{ field.name }}('#row{{ field.name }}1'); return false;">Remove</a> {% endifnotequal %}
+    </p>
 </div>
 {% endfor %}
 

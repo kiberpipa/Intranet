@@ -184,11 +184,11 @@ class TipSodelovanja(models.Model):
 
 
 ##there's gotta be a better way to do this
-class Emails(models.Model):
-    mail = models.EmailField()
+class Email(models.Model):
+    email = models.EmailField()
 
-    def __unicode__(slef):
-        return mail
+    def __unicode__(self):
+        return self.email
 
 class Phone(models.Model):
     phone = models.CharField(max_length=100)
@@ -219,7 +219,7 @@ class Person(models.Model):
     name = models.CharField(max_length=100)
     note = models.CharField(max_length=230, blank=True, null=True)
 
-    emails = models.ManyToManyField(Emails, blank=True, null=True)
+    email = models.ManyToManyField(Email, blank=True, null=True)
     phone = models.ManyToManyField(Phone, blank=True, null=True)
     organization = models.ManyToManyField(Organization, blank=True, null=True)
     title = models.ManyToManyField(Title, blank=True, null=True)

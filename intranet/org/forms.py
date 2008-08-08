@@ -19,13 +19,6 @@ class EventFilter(forms.Form):
 
 class FilterBug(forms.Form):
     resolution = forms.ModelChoiceField(Resolution.objects.all(), required=False)
-    #assign = forms.ModelChoiceField(User.objects.all(), required=False, widget=forms.SelectMultiple)
-    ##there's gotta be a better way to do this
-    ids = []
-    for u in User.objects.all():
-        ids += [(u.id, u)]
-
-    #assign = forms.MultipleChoiceField(ids, required=False)
     assign = forms.ModelChoiceField(User.objects.all(), required=False)
     author = forms.ModelChoiceField(User.objects.all(), required=False)
 
@@ -65,13 +58,10 @@ class ImenikFilter(forms.Form):
     project = forms.ModelChoiceField(Project.objects.all(), required=False)
 
 
-class PersonForm(forms.ModelForm):
+class PersonForm(forms.Form):
     name = forms.CharField(max_length=200)
     email = forms.EmailField(required=False)
     phone = forms.CharField(max_length=200, required=False)
     organization = forms.CharField(max_length=200, required=False)
     title = forms.CharField(max_length=200, required=False)
 
-    class Meta:
-        model = Person
-        fields = ('name', 'email', 'phone', 'organization', 'title', )
