@@ -1,7 +1,7 @@
 
 from django.conf import settings
 from django.core.cache import get_cache
-from django.db.models.fields import ImageField
+from django.db.models.fields.files import ImageField
 from intranet.thumbnail.text import URLify
 from PIL import Image
 import re, os, urlparse, fnmatch

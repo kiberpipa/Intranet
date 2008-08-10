@@ -50,6 +50,7 @@ admin.site.register(Medij)
 admin.site.register(Project)
 admin.site.register(Place)
 admin.site.register(Mercenary)
+admin.site.register(CostCenter)
 
 
 

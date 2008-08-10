@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 from django.core import validators
 from datetime import date, time, timedelta, datetime
-import smtplib, string
+import smtplib, string, audit
 
 from django.conf import settings
 
@@ -37,6 +37,7 @@ class Project(models.Model):
     responsible = models.ForeignKey(User, blank=True, null=True)
     note = models.TextField(blank=True, null=True)
     mail = models.EmailField(blank=True, null=True)
+    salary_rate = models.FloatField(blank=True, null=True)
 
     parent = models.ForeignKey('self', blank=True, null=True)
 
@@ -347,7 +348,7 @@ class Task(models.Model):
 # dnevnik dezurnih
 class Diary(models.Model):
     author = models.ForeignKey(User, related_name="diary_author")
-    task = models.ForeignKey(Task)
+    task = models.ForeignKey(Project) #retained name for backwards compatibility
     date = models.DateTimeField(default=date.today())
     length = models.TimeField(default=time(5,0))
     event = models.ForeignKey(Event,blank=True, null=True)
@@ -366,10 +367,23 @@ class Diary(models.Model):
         return "%s/diarys/%i/" % (settings.BASE_URL, self.id)
 
 #mercenaries
+class CostCenter(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __unicode__(self):
+        return self.name
+
 class Mercenary(models.Model):
     person = models.ForeignKey(User)
     amount = models.IntegerField()
-    
+    cost_center = models.ForeignKey(CostCenter)
+
+
+    history = audit.AuditTrail()
+
+    def __unicode__(self):
+        return '%s: %s' % (self.person, self.amount)
+
 
 # bugs
 class Resolution(models.Model):

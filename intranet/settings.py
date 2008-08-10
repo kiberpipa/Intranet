@@ -70,7 +70,7 @@ INSTALLED_APPS = (
 #    'intranet.k4',
 #    'intranet.kapelica',
 #    'intranet.video',
-    'intranet.thumbnail',
+    #'intranet.thumbnail',
     'intranet.wiki',
     'django.contrib.admin',
     'django.contrib.markup',

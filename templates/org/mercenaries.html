@@ -1,0 +1,31 @@
+{% extends "org/base_2col.html" %}
+{% block title %}Mercenaries{% endblock %}
+
+{% block heading %}
+        <h1>Pipa's mercenaries</h1>
+{% endblock %}
+
+{% block content-related-left %}
+    <a href="{{ add_link }}">Dodaj novega</a>
+    {% comment %}<form method="post" action="">
+    <table>{{ form }}</table>
+    <input type="submit" />
+    </form>{% endcomment %}
+
+{% endblock %} 
+
+{% block content-main %}
+    {% for mercenary, amount in mercenaries.items %}
+        {% comment %}<div class="module">
+            <h2>{{ sodelovanje }}</h2>
+
+            <p>Event: {{ sodelovanje.event }}</p>
+            <p>Osebek: {{ sodelovanje.person }}</p>
+            <p>Tip Sodelovanja: {{ sodelovanje.tip }}</p>
+        </div>
+        <br>{% endcomment %}
+        <div class="module">
+        {{ mercenary }} {{ amount }} &nbsp; <a href="{{ mercenary.id }}/placa">Obrazec</a>
+        </div>
+    {% endfor %}
+{% endblock %}

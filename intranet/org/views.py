@@ -14,8 +14,10 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import list_detail, date_based
 from django.conf import settings
 
-from datetime import date, time, timedelta, datetime
+##brain damaged.
 import datetime
+from datetime import date, time, timedelta, datetime
+
 import mx.DateTime
 import re
 import string
@@ -26,7 +28,7 @@ from reportlab.pdfgen.canvas import Canvas
 from intranet.org.models import UserProfile, Project, Category
 from intranet.org.models import Place, Event, Shopping, Person, Sodelovanje, TipSodelovanja
 from intranet.org.models import Task, Diary, Bug, StickyNote, Lend, Resolution, Comment
-from intranet.org.models import KbCategory, KB, Tag, Scratchpad, Clipping
+from intranet.org.models import KbCategory, KB, Tag, Scratchpad, Clipping, Mercenary
 from intranet.org.forms import *
 
 month_dict = { 'jan': 1, 'feb': 2, 'mar': 3,
@@ -639,12 +641,65 @@ event_count = login_required(event_count)
 
 ##############################
 
-def mercenaries(request):
+def _get_mercenaries(year=None, month=None):
+    if year == None:
+        year = datetime.today().year
+        month = datetime.today().month
+
+    year = int(year)
+    month = int(month)
     
+    begin = datetime(year, month, 1)
+    end = begin.replace(month=month+1)
+    #mercenaries = Mercenary.objects.all() 
+    mercenaries = {}
+    for i in Mercenary.objects.all():
+        #find the one that was active at the requested time
+        for j in i.history.all():
+            if end > j._audit_timestamp:
+                break
+            i = j
+        
+
+        try:
+            mercenaries[i.person]
+        except KeyError:
+            mercenaries[i.person] = 0
+
+
+        
+        mercenaries[i.person] += i.amount
+
+
+    for i in Diary.objects.filter(task__salary_rate__isnull = False, date__gte=begin, date__lt=end):
+        try:
+            mercenaries[i.author]
+        except KeyError:
+            mercenaries[i.author] = 0
+        
+        mercenaries[i.author] += i.length.hour * i.task.salary_rate
+
+    return mercenaries
+
+def mercenaries(request, year = None, month=None):
+
+
     return render_to_response('org/mercenaries.html', 
         #{'sodelovanja': sodelovanja, 'form': form, 'add_link': '%s/intranet/admin/org/sodelovanje/add/' % settings.BASE_URL },
-        {'add_link': '%s/intranet/admin/org/mercenary/add/' % settings.BASE_URL },
+        {'add_link': '%s/intranet/admin/org/mercenary/add/' % settings.BASE_URL,
+        'mercenaries': _get_mercenaries(year, month)},
         context_instance=RequestContext(request))
+
+def mercenary_salary(request, year, month, id):
+    #mercenary = Mercenary.objects.get(pk=id)
+    mercenary = User.objects.get(pk=id)
+    output = StringIO()
+    from xls import salary_xls
+    output.write(salary_xls(mercenary.get_full_name(), _get_mercenaries()[mercenary], request.user.get_full_name()))
+    response = HttpResponse(mimetype='application/octet-stream')
+    response['Content-Disposition'] = "attachment; filename=" + mercenary.__str__() + '.xls'
+    response.write(output.getvalue())
+    return response
 
 ##################################################
 
@@ -658,7 +713,6 @@ def person(request):
                 if not value or key == 'name':
                     continue
 
-                ##black magic. don't ask, don't touch.
                 clas = key[0].capitalize() + key[1:]
                 exec 'from intranet.org.models import ' + clas
                 for k in request.POST.getlist(key):

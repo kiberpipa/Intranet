@@ -1,4 +1,4 @@
-from django.db.models.fields import ImageField
+from django.db.models.fields.files import ImageField
 from utils import make_thumbnail, _remove_thumbnails, remove_model_thumbnails, rename_by_field
 from django.dispatch import dispatcher
 from django.db.models import signals
