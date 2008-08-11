@@ -28,6 +28,7 @@ from intranet.org.models import Place, Event, Shopping, Person, Sodelovanje, Tip
 from intranet.org.models import Task, Diary, Bug, StickyNote, Lend, Resolution, Comment
 from intranet.org.models import KbCategory, KB, Tag, Scratchpad, Clipping, Mercenary
 from intranet.org.forms import *
+from xls import salary_xls
 
 month_dict = { 'jan': 1, 'feb': 2, 'mar': 3,
                'apr': 4, 'maj': 5, 'jun': 6,
@@ -639,7 +640,7 @@ event_count = login_required(event_count)
 
 ##############################
 
-def _get_mercenaries(year=None, month=None):
+def _get_begin_end(year=None, month=None):
     if year == None:
         year = datetime.datetime.today().year
         month = datetime.datetime.today().month
@@ -648,7 +649,16 @@ def _get_mercenaries(year=None, month=None):
     month = int(month)
     
     begin = datetime.datetime(year, month, 1)
-    end = begin.replace(month=month+1)
+    if month == 12:
+        next = 1
+    else:
+        next = month+1
+
+    end = begin.replace(month=next)
+    return (begin, end)
+
+def _get_mercenaries(year=None, month=None):
+    begin, end = _get_begin_end(year, month)
     #mercenaries = Mercenary.objects.all() 
     mercenaries = {}
     for i in Mercenary.objects.all():
@@ -677,14 +687,14 @@ def _get_mercenaries(year=None, month=None):
        
         ##FIXME -- ?
         salary_rate = i.task.salary_rate
-        print salary_rate
-        for j in i.task.history.all():
-            print j.salary_rate
-            #if begin > j._audit_timestamp:
-            if i.date > j._audit_timestamp:
-                break
-            salary_rate = j.salary_rate
-            print salary_rate
+#        print salary_rate
+#        for j in i.task.history.all():
+#            print j.salary_rate
+#            #if begin > j._audit_timestamp:
+#            if i.date > j._audit_timestamp:
+#                break
+#            salary_rate = j.salary_rate
+#            print salary_rate
 
         #mercenaries[i.author] += i.length.hour * i.task.salary_rate
         mercenaries[i.author] += i.length.hour * salary_rate
@@ -700,15 +710,21 @@ def mercenaries(request, year = None, month=None):
     return render_to_response('org/mercenaries.html', 
         #{'sodelovanja': sodelovanja, 'form': form, 'add_link': '%s/intranet/admin/org/sodelovanje/add/' % settings.BASE_URL },
         {'add_link': '%s/intranet/admin/org/mercenary/add/' % settings.BASE_URL,
-        'mercenaries': _get_mercenaries(year, month)},
+        'mercenaries': _get_mercenaries(year, month), 'year': year, 'month': month},
         context_instance=RequestContext(request))
 
 def mercenary_salary(request, year, month, id):
     #mercenary = Mercenary.objects.get(pk=id)
     mercenary = User.objects.get(pk=id)
     output = StringIO()
-    from xls import salary_xls
-    output.write(salary_xls(mercenary.get_full_name(), _get_mercenaries()[mercenary], request.user.get_full_name()))
+    try:
+        m = Mercenary.objects.get(person=mercenary)
+        output.write(salary_xls(mercenary.get_full_name(), _get_mercenaries()[mercenary], request.user.get_full_name(), m.cost_center.__str__(), m.salary_type.__str__()))
+    except Mercenary.DoesNotExist:
+        begin, end = _get_begin_end(year, month)
+        project = Diary.objects.filter(author=mercenary, date__gte=begin, date__lt=end)[0].task
+        output.write(salary_xls(mercenary.get_full_name(), _get_mercenaries()[mercenary], request.user.get_full_name(), project.cost_center.__str__(), project.salary_type.__str__()))
+
     response = HttpResponse(mimetype='application/octet-stream')
     response['Content-Disposition'] = "attachment; filename=" + mercenary.__str__() + '.xls'
     response.write(output.getvalue())

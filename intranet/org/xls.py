@@ -3,7 +3,7 @@ from pyExcelerator import *
 from datetime import datetime
 
 
-def salary_xls(mercenary, amount, bureaucrat):
+def salary_xls(mercenary, amount, bureaucrat, cost_center, salary_type):
     wb = Workbook()
     ws = wb.add_sheet('place')
 
@@ -70,11 +70,10 @@ def salary_xls(mercenary, amount, bureaucrat):
 
     line += 2
     ws.write(line, 1, 'Stevilo ur', obican)
-    ws.write(line, 3, '', uline)
+    ws.write(line, 3, '', uline) #XXX
 
     line += 2
     ws.write(line, 1, 'Znesek', obican)
-    #ws.write(line, 3, '', uline)
     ws.write(line, 3, int(amount), obican)
 
     line += 2
@@ -85,9 +84,11 @@ def salary_xls(mercenary, amount, bureaucrat):
 
     line += 4
     ws.write_merge(line, line, 1, 2, 'Projekt/sluzba in stroskovno mesto:', obican) ##XXX
+    ws.write(line, 3, cost_center, obican)
 
     line += 3
     ws.write(line, 1, 'Nacin placila', obican)
+    ws.write(line, 3, salary_type, obican)
 
     line += 2
     ws.write(line, 1, 'Nalog izdal:', obican)

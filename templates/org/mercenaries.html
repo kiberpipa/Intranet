@@ -1,6 +1,8 @@
 {% extends "org/base_2col.html" %}
 {% block title %}Mercenaries{% endblock %}
 
+{% load math %}
+
 {% block heading %}
         <h1>Pipa's mercenaries</h1>
 {% endblock %}
@@ -15,15 +17,10 @@
 {% endblock %} 
 
 {% block content-main %}
+        <a href="{% ifequal month "1" %}../../{{ year|sub:"1" }}/12/{% else %}../../{{ year }}/{{ month|sub:"1" }}/{% endifequal %}">&lt;&lt;</a>
+        {{ year }} -- {{ month }}
+        <a href="{% ifequal month "12" %}../../{{ year|add:"1" }}/1/{% else %}../../{{ year }}/{{ month|add:"1" }}/{% endifequal %}">&gt;&gt;</a>
     {% for mercenary, amount in mercenaries.items %}
-        {% comment %}<div class="module">
-            <h2>{{ sodelovanje }}</h2>
-
-            <p>Event: {{ sodelovanje.event }}</p>
-            <p>Osebek: {{ sodelovanje.person }}</p>
-            <p>Tip Sodelovanja: {{ sodelovanje.tip }}</p>
-        </div>
-        <br>{% endcomment %}
         <div class="module">
         {{ mercenary }} {{ amount }} &nbsp; <a href="{{ mercenary.id }}/placa">Obrazec</a>
         </div>
