@@ -18,9 +18,6 @@ class Tag(models.Model):
     font_size = models.IntegerField(blank=True, default=0)
     parent = models.ForeignKey('self', blank=True, null=True)
 
-    class Admin:
-        pass
-
     def __unicode__(self):
         return self.name
 
@@ -31,6 +28,32 @@ class Tag(models.Model):
         return cmp(self.total_ref, other.total_ref)
 
 
+#mercenaries
+
+class SalaryType(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __unicode__(self):
+        return self.name
+
+class CostCenter(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __unicode__(self):
+        return self.name
+
+class Mercenary(models.Model):
+    person = models.ForeignKey(User)
+    amount = models.IntegerField()
+    salary_type = models.ForeignKey(SalaryType)
+    cost_center = models.ForeignKey(CostCenter)
+
+
+    history = audit.AuditTrail()
+
+    def __unicode__(self):
+        return '%s: %s' % (self.person, self.amount)
+
 
 class Project(models.Model):
     name = models.CharField(max_length=100)
@@ -40,6 +63,10 @@ class Project(models.Model):
     salary_rate = models.FloatField(blank=True, null=True)
 
     parent = models.ForeignKey('self', blank=True, null=True)
+    history = audit.AuditTrail()
+
+    salary_type = models.ForeignKey(SalaryType, blank=True, null=True)
+    cost_center = models.ForeignKey(CostCenter, blank=True, null=True)
 
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
@@ -142,6 +169,8 @@ class Event(models.Model):
     require_technician = models.BooleanField(default=False)
     require_video = models.BooleanField(default=False)
     visitors = models.IntegerField(default=0, blank=True, null=True)
+
+    slides = models.FileField(upload_to='slides/%Y/%m/', blank=True, null=True)
 
     announce = models.TextField(blank=True, null=True)
     short_announce = models.TextField(blank=True, null= True)
@@ -366,23 +395,6 @@ class Diary(models.Model):
     def get_absolute_url(self):
         return "%s/diarys/%i/" % (settings.BASE_URL, self.id)
 
-#mercenaries
-class CostCenter(models.Model):
-    name = models.CharField(max_length=200)
-
-    def __unicode__(self):
-        return self.name
-
-class Mercenary(models.Model):
-    person = models.ForeignKey(User)
-    amount = models.IntegerField()
-    cost_center = models.ForeignKey(CostCenter)
-
-
-    history = audit.AuditTrail()
-
-    def __unicode__(self):
-        return '%s: %s' % (self.person, self.amount)
 
 
 # bugs

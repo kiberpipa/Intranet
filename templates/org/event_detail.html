@@ -39,6 +39,8 @@
         <h4>{{ object.project }}</h4>
             <p>{{ object.title }}</p>
             <p>{{ object.start_date|date:"D d.m.Y H:i" }}  ({{ object.length }})</p>
+            <h4> Slajdi</h4>
+            {{ object.slides }}
           <h4>Zahteve:</h4>
           <p>
                 {% if object.require_technician %}

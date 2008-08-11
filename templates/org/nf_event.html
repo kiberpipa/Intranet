@@ -39,7 +39,7 @@ function removeFormField(id) {
 {% block content %}
 <div id="content" class="colMS">
     <h2>Ponavljanje</h2>
-    <form method="POST" action=""> 
+    <form method="POST" action="" enctype="multipart/form-data"> 
     <div id="content-related" class="sidebar">
     <div  class="module" id="recent-actions-module">
 		{% box_reccurings form %}
@@ -178,6 +178,14 @@ function removeFormField(id) {
     {{ form.place}}
     {% if form.place.errors %}
       *** {{ form.place.errors|join:", " }}
+    {% endif %}
+    </p>
+  <p>
+{% comment %}    <label for="id_slides" enctype="multipart/form-data">Slajdi:</label>{% endcomment %}
+    {{ form.slides.label_tag }}
+    {{ form.slides }} {{ form.slides_file }}
+    {% if form.slides.errors %}
+      *** {{ form.slides.errors|join:", " }}
     {% endif %}
     </p>
 <hr>

@@ -75,7 +75,7 @@ def salary_xls(mercenary, amount, bureaucrat):
     line += 2
     ws.write(line, 1, 'Znesek', obican)
     #ws.write(line, 3, '', uline)
-    ws.write(line, 3, amount, obican)
+    ws.write(line, 3, int(amount), obican)
 
     line += 2
     ws.write(line, 1, 'Za opravljeno delo (opis):', obican)

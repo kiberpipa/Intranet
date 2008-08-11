@@ -51,6 +51,7 @@ admin.site.register(Project)
 admin.site.register(Place)
 admin.site.register(Mercenary)
 admin.site.register(CostCenter)
+admin.site.register(SalaryType)
 
 
 

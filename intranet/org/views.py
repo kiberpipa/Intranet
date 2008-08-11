@@ -14,9 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import list_detail, date_based
 from django.conf import settings
 
-##brain damaged.
 import datetime
-from datetime import date, time, timedelta, datetime
 
 import mx.DateTime
 import re
@@ -39,7 +37,7 @@ month_dict = { 'jan': 1, 'feb': 2, 'mar': 3,
 # ------------------------------------
 
 def index(request):
-    today = datetime.date.today()
+    today = datetime.datetime.today()
     nextday = today + datetime.timedelta(days=8)
     q= Q()
     for i in request.user.get_profile().project.all(): 
@@ -249,8 +247,8 @@ def box_diary_add(request):
         new_data = request.POST.copy()
 
         new_data['author'] = request.user.id
-        new_data['date_date'] = date.today().strftime("%Y-%m-%d")
-        new_data['date_time'] = date.today().strftime("%H:%M")
+        new_data['date_date'] = datetime.date.today().strftime("%Y-%m-%d")
+        new_data['date_time'] = datetime.date.today().strftime("%H:%M")
         length = new_data['length']
         if not re.match(r'\d\d\:\d\d', length):
             length = "%s:00" % int(length)
@@ -557,8 +555,7 @@ def events(request):
 
 def nf_event_create(request):
     if request.method == 'POST':
-        form = EventForm(request.POST)
-        ##handle multiple authors from form --> (author1, tip1), (author2, tip2)...
+        form = EventForm(request.POST, request.FILES)
         authors = zip(request.POST.getlist('author'), request.POST.getlist('tip'))
     else:
         form = EventForm()
@@ -578,6 +575,7 @@ def nf_event_create(request):
             s = Sodelovanje(event=new_event, tip=tip, person=person)
             s.save() 
 
+
         new_event.save()
         return HttpResponseRedirect(new_event.get_absolute_url())
 
@@ -588,7 +586,7 @@ def nf_event_edit(request, event):
     event = Event.objects.get(pk=event)
     old_sodelovanja = set(Sodelovanje.objects.filter(event=event))
     if request.method == 'POST':
-        form = EventForm(request.POST, instance=event)
+        form = EventForm(request.POST, request.FILES, instance=event)
         authors = zip(request.POST.getlist('author'), request.POST.getlist('tip'))
 
         if form.is_valid():
@@ -643,20 +641,20 @@ event_count = login_required(event_count)
 
 def _get_mercenaries(year=None, month=None):
     if year == None:
-        year = datetime.today().year
-        month = datetime.today().month
+        year = datetime.datetime.today().year
+        month = datetime.datetime.today().month
 
     year = int(year)
     month = int(month)
     
-    begin = datetime(year, month, 1)
+    begin = datetime.datetime(year, month, 1)
     end = begin.replace(month=month+1)
     #mercenaries = Mercenary.objects.all() 
     mercenaries = {}
     for i in Mercenary.objects.all():
         #find the one that was active at the requested time
         for j in i.history.all():
-            if end > j._audit_timestamp:
+            if begin > j._audit_timestamp:
                 break
             i = j
         
@@ -676,12 +674,27 @@ def _get_mercenaries(year=None, month=None):
             mercenaries[i.author]
         except KeyError:
             mercenaries[i.author] = 0
-        
-        mercenaries[i.author] += i.length.hour * i.task.salary_rate
+       
+        ##FIXME -- ?
+        salary_rate = i.task.salary_rate
+        print salary_rate
+        for j in i.task.history.all():
+            print j.salary_rate
+            #if begin > j._audit_timestamp:
+            if i.date > j._audit_timestamp:
+                break
+            salary_rate = j.salary_rate
+            print salary_rate
+
+        #mercenaries[i.author] += i.length.hour * i.task.salary_rate
+        mercenaries[i.author] += i.length.hour * salary_rate
 
     return mercenaries
 
 def mercenaries(request, year = None, month=None):
+    if year == None:
+        return HttpResponseRedirect('%s/%s/' % (datetime.datetime.today().year, datetime.datetime.today().month))
+
 
 
     return render_to_response('org/mercenaries.html', 
