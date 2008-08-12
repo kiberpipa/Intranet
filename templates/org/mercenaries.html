@@ -18,11 +18,15 @@
 
 {% block content-main %}
         <a href="{% ifequal month "1" %}../../{{ year|sub:"1" }}/12/{% else %}../../{{ year }}/{{ month|sub:"1" }}/{% endifequal %}">&lt;&lt;</a>
-        {{ year }} -- {{ month }}
+        {{ year }} -- {{ hmonth }}
         <a href="{% ifequal month "12" %}../../{{ year|add:"1" }}/1/{% else %}../../{{ year }}/{{ month|add:"1" }}/{% endifequal %}">&gt;&gt;</a>
     {% for mercenary, amount in mercenaries.items %}
         <div class="module">
         {{ mercenary }} {{ amount }} &nbsp; <a href="{{ mercenary.id }}/placa">Obrazec</a>
         </div>
     {% endfor %}
+
+        <div class="module">
+        Vsi {{ all }} &nbsp; <a href="vsi/placa/">Obrazec</a>
+        </div>
 {% endblock %}

@@ -659,44 +659,57 @@ def _get_begin_end(year=None, month=None):
 
 def _get_mercenaries(year=None, month=None):
     begin, end = _get_begin_end(year, month)
-    #mercenaries = Mercenary.objects.all() 
     mercenaries = {}
     for i in Mercenary.objects.all():
         #find the one that was active at the requested time
-        for j in i.history.all():
-            if begin > j._audit_timestamp:
-                break
-            i = j
-        
+        history = i.history.all()
+        count = i.history.count()-1
+        for j in range(0, count+1):
+            if j == count:
+                i = history[count]
+            else:
+                if j == 0:
+                    if end > history[j]._audit_timestamp:
+                        i = history[j]
+                        break
+                if (history[j]._audit_timestamp > end) and (end > history[j+1]._audit_timestamp):
+                    i = history[j+1]
+                    break
 
         try:
             mercenaries[i.person]
         except KeyError:
             mercenaries[i.person] = 0
 
-
-        
         mercenaries[i.person] += i.amount
 
 
     for i in Diary.objects.filter(task__salary_rate__isnull = False, date__gte=begin, date__lt=end):
+        print i
         try:
             mercenaries[i.author]
         except KeyError:
             mercenaries[i.author] = 0
        
-        ##FIXME -- ?
         salary_rate = i.task.salary_rate
-#        print salary_rate
-#        for j in i.task.history.all():
-#            print j.salary_rate
-#            #if begin > j._audit_timestamp:
-#            if i.date > j._audit_timestamp:
-#                break
-#            salary_rate = j.salary_rate
-#            print salary_rate
+        history = i.task.history.all()
+        count = i.task.history.count()-1
+        for j in range(0, count+1):
+            if j == count:
+                salary_rate = history[count].salary_rate
+                print 'j = count "%s"' % salary_rate
+                break
+            else:
+                if j == 0:
+                    if end > history[j]._audit_timestamp:
+                        salary_rate = history[j].salary_rate
+                        print 'j = 0 "%s"' % salary_rate
+                        break
+                if (history[j]._audit_timestamp > end) and (end > history[j+1]._audit_timestamp):
+                    salary_rate = history[j+1].salary_rate
+                    print 'none of the above "%s"' % salary_rate
+                    break
 
-        #mercenaries[i.author] += i.length.hour * i.task.salary_rate
         mercenaries[i.author] += i.length.hour * salary_rate
 
     return mercenaries
@@ -705,28 +718,57 @@ def mercenaries(request, year = None, month=None):
     if year == None:
         return HttpResponseRedirect('%s/%s/' % (datetime.datetime.today().year, datetime.datetime.today().month))
 
+    mercenaries = _get_mercenaries(year, month)
+    all = 0
+    for m in mercenaries:
+        all += mercenaries[m]
 
 
     return render_to_response('org/mercenaries.html', 
-        #{'sodelovanja': sodelovanja, 'form': form, 'add_link': '%s/intranet/admin/org/sodelovanje/add/' % settings.BASE_URL },
         {'add_link': '%s/intranet/admin/org/mercenary/add/' % settings.BASE_URL,
-        'mercenaries': _get_mercenaries(year, month), 'year': year, 'month': month},
+        'mercenaries': mercenaries, 'year': year, 'month': month, 'all': all, 
+        'hmonth': datetime.datetime(int(year), int(month), 1).strftime('%B')},
         context_instance=RequestContext(request))
 
 def mercenary_salary(request, year, month, id):
-    #mercenary = Mercenary.objects.get(pk=id)
-    mercenary = User.objects.get(pk=id)
+    mercenaries = []
+    begin, end = _get_begin_end(year, month)
+    if id == 'vsi':
+        for i in _get_mercenaries(year, month):
+            mercenaries.append(i)
+        filename = 'place_%d_%d' % (begin.month, begin.year)
+    else:
+       mercenaries.append(User.objects.get(pk=id))
+       filename = mercenaries[0].__str__()
     output = StringIO()
-    try:
-        m = Mercenary.objects.get(person=mercenary)
-        output.write(salary_xls(mercenary.get_full_name(), _get_mercenaries()[mercenary], request.user.get_full_name(), m.cost_center.__str__(), m.salary_type.__str__()))
-    except Mercenary.DoesNotExist:
-        begin, end = _get_begin_end(year, month)
-        project = Diary.objects.filter(author=mercenary, date__gte=begin, date__lt=end)[0].task
-        output.write(salary_xls(mercenary.get_full_name(), _get_mercenaries()[mercenary], request.user.get_full_name(), project.cost_center.__str__(), project.salary_type.__str__()))
+    params = []
+    for mercenary in mercenaries:
+        try:
+            m = Mercenary.objects.get(person=mercenary)
+            params.append({'mercenary': mercenary.get_full_name(),
+                    'amount':  _get_mercenaries(year, month)[mercenary],
+                    'bureaucrat':  request.user.get_full_name(),
+                    'cost_center': m.cost_center.__str__(),
+                    'salary_type':  m.salary_type.__str__(),
+                    })
+        except Mercenary.DoesNotExist:
+            #project = Diary.objects.filter(author=mercenary, date__gte=begin, date__lt=end)[0].task
+            hours = 0
+            for d in Diary.objects.filter(author=mercenary, date__gte=begin, date__lt=end):
+                hours += d.length.hour
+            project = d.task
+            params.append({'mercenary': mercenary.get_full_name(),
+                    'amount':  _get_mercenaries(year, month)[mercenary],
+                    'bureaucrat':  request.user.get_full_name(),
+                    'cost_center': project.cost_center.__str__(),
+                    'salary_type':  project.salary_type.__str__(),
+                    'hours': hours,
+                    })
+    
+    output.write(salary_xls(params))
 
     response = HttpResponse(mimetype='application/octet-stream')
-    response['Content-Disposition'] = "attachment; filename=" + mercenary.__str__() + '.xls'
+    response['Content-Disposition'] = "attachment; filename=" + filename + '.xls'
     response.write(output.getvalue())
     return response
 

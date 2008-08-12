@@ -186,7 +186,7 @@ urlpatterns = patterns('',
 
     (r'^mercenaries/(?P<year>\d+)?/?(?P<month>\d+)?/?$', 'intranet.org.views.mercenaries'),
     #(r'^mercenaries/(<?P<id>\d+)/placa$', 'intranet.org.views.mercenary_salary'),
-    (r'^mercenaries/(?P<year>\d+)?/?(?P<month>\d+)?/?(?P<id>\d+)/placa/$', 'intranet.org.views.mercenary_salary'),
+    (r'^mercenaries/(?P<year>\d+)?/?(?P<month>\d+)?/?(?P<id>\d+|vsi)/placa/$', 'intranet.org.views.mercenary_salary'),
 
     (r'^clipping/', 'intranet.org.views.clipping'),
 
