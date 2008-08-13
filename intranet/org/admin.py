@@ -1,4 +1,3 @@
-#from intranet.org.models import Sodelovanje, Person, UserProfile
 from intranet.org.models import *
 from django.contrib import admin
 
@@ -18,13 +17,6 @@ class BugAdmin(admin.ModelAdmin):
         #ordering = ['resolved']
 
 
-##class ClippingInline(admin.TabularInline):
-##    model = Clipping
-##
-##class UploadAdmin(admin.ModelAdmin):
-##    inlines = [ClippingInline]
-
-
 class DiaryAdmin(admin.ModelAdmin):
     verbose_name = 'Dnevnik'
     verbose_name_plural = 'Dnevniki'
@@ -38,8 +30,6 @@ class DiaryAdmin(admin.ModelAdmin):
         js = (
               'js/tags.js',
               )
-
-
 admin.site.register(Person)
 admin.site.register(UserProfile)
 admin.site.register(Category)
@@ -52,13 +42,15 @@ admin.site.register(Place)
 admin.site.register(Mercenary)
 admin.site.register(CostCenter)
 admin.site.register(SalaryType)
-
+admin.site.register(Clipping)
+admin.site.register(Upload)
+admin.site.register(Email)
+admin.site.register(Phone)
+admin.site.register(Title)
+admin.site.register(Organization)
+admin.site.register(Role)
 
 
 admin.site.register(Bug, BugAdmin)
 admin.site.register(Sodelovanje, SodelovanjeAdmin)
 admin.site.register(Diary, DiaryAdmin)
-
-
-admin.site.register(Clipping)
-admin.site.register(Upload)

@@ -837,7 +837,7 @@ def sodelovanja(request):
     
     return render_to_response('org/sodelovanja.html', 
         {'sodelovanja': sodelovanja, 'form': form, 
-        'add_link': '%s/intranet/admin/org/sodelovanje/add/' % settings.BASE_URL,
+        'admin_org': '%s/intranet/admin/org/' % settings.BASE_URL,
         'person_form': person_form },
         context_instance=RequestContext(request))
 

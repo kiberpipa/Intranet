@@ -28,12 +28,6 @@ function removeFormField(id) {
     $(id).remove();
 }
   
-  
-  $(document).ready(function(){
-//$('#id_start_date_date').datepicker({firstDay: 1, dateFormat: 'yy-mm-dd'});
-  });
-
-
   </script>
 
 
@@ -130,25 +124,7 @@ function removeFormField(id) {
 <hr>
    <p>
     <label for="id_start_date">Začetni datum:</label>
-    {% comment %}{{ form.start_date }}
-    <input type="text" name="start_date" id="id_start_date" value="19:00:00" /> 
-    {{ form.start_date }}
-    {{ form.start_date }}{% endcomment %}
-    {% comment %}<input type="text" name="start_date_date" value="" id="id_start_date_date" />
-    {% if form.start_date_date.errors %}
-      *** {{ form.start_date_date.errors|join:", " }}
-    {% endif %}
-    <input type="text" name="start_date_time" value="19:00:00" id="id_start_date_time" />
-    {% if form.start_date_time.errors %}
-      *** {{ form.start_date_time.errors|join:", " }}
-    {% endif %} {% endcomment %}
-
     {{ form.start_date|safe }}
-
-
-    {% comment %}{% if form.start_date.errors %}
-      *** {{ form.start_date.errors|join:", " }}
-    {% endif %} {% endcomment %}
     <br />
     <br /> 
     <label for="id_length">Dolžina:</label>

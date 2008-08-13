@@ -5,24 +5,9 @@ from intranet.org.models import TipSodelovanja, Person, Event, Sodelovanje
 from intranet.org.models import Bug, Resolution, Clipping, Task, Project
 from intranet.org.models import Category
 
-
-# -*- coding: utf-8 -*-
-# widgets.py
-#
-# To use you have to put calendar/ (from http://www.dynarch.com/projects/calendar/)
-# to your MEDIA folder and then include such links on your page:
-# <!-- calendar -->
-# <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}calendar/calendar-win2k-cold-2.css" />
-#<script type="text/javascript" src="{{ MEDIA_URL }}calendar/calendar.js"></script>
-# <!-- this is translation file - choose your language here -->
-#<script type="text/javascript" src="{{ MEDIA_URL }}calendar/lang/calendar-pl.js"></script>
-#<script type="text/javascript" src="{{ MEDIA_URL }}calendar/calendar-setup.js"></script>
-#<!-- /calendar -->
-
 from django.utils.encoding import force_unicode
 from django.conf import settings
 from django import newforms as forms
-#from datetime import datetime, date
 import datetime
 import time
 
@@ -35,7 +20,7 @@ calbtn = u"""<img src="http://www.up-rs.si/up-rs/uprs.nsf/calendar.jpg" alt="cal
         ifFormat       :    "%s",
         button         :    "%s_btn",
         singleClick    :    true,
-        showsTime      :    true
+        showsTime      :    true,
     });
 </script>"""
 

@@ -26,12 +26,17 @@ function remove{{ field.name }}(id) {
     $(id).remove();
 }
 {% endfor %}
-</script>
 
-  <script>
-  $(document).ready(function(){
-//$('#id_start_date').datepicker({firstDay: 1, dateFormat: 'yy-mm-dd'}); //XXX
+{% for sodelovanje in sodelovanja %}
+$(document).ready(function() {
+  $('#slickbox{{ sodelovanje.id }}').hide();
+  $('a#slick-toggle{{ sodelovanje.id }}').click(function() {
+    $('#slickbox{{ sodelovanje.id }}').toggle(400);
+    return false;
   });
+});
+{% endfor %}
+
   </script>
 
   <link rel="stylesheet" href="{{ media_url }}/css/flora.datepicker.css" type="text/css" media="screen" title="Flora (Default)">
@@ -42,7 +47,7 @@ function remove{{ field.name }}(id) {
 {% endblock %}
 
 {% block content-related-left %}
-    <a href="{{ add_link }}">Dodaj novega</a>
+    <a href="{{ admin_org }}sodelovanje/add/">Dodaj novega</a>
     <form method="post" action="">
 <table>
 {{ form }}
@@ -58,9 +63,23 @@ function remove{{ field.name }}(id) {
     {% for sodelovanje in sodelovanja %}
         <div class="module">
             <h2>{{ sodelovanje }}</h2>
+            <p>Osebek: 
+            {% if sodelovanje.person.email.all or sodelovanje.person.phone.all or sodelovanje.person.organization.all or sodelovanje.person.title.all %}
+            <a href="#" id="slick-toggle{{ sodelovanje.id }}">{{ sodelovanje.person }}</a>
+            {% else %}
+            {{ sodelovanje.person }}
+            {% endif %}
+            <a href="{{ admin_org }}person/{{ sodelovanje.person.id }}/">[Uredi]</a>
+            </p>
+            <p id="slickbox{{ sodelovanje.id }}"> 
+{% for i in sodelovanje.person.email.all %}                Email: {{ i }}<br>{% endfor %}
+{% for i in sodelovanje.person.phone.all %}                Telefon: {{ i }}<br>{% endfor %}
+{% for i in sodelovanje.person.organization.all %}                Organizacija: {{ i }}<br>{% endfor %}
+{% for i in sodelovanje.person.title.all %}                Naziv: {{ i }}<br>{% endfor %}
+
+            </p>
 
             <p>Event: {{ sodelovanje.event }}</p>
-            <p>Osebek: {{ sodelovanje.person }}</p>
             <p>Tip Sodelovanja: {{ sodelovanje.tip }}</p>
         </div>
         <br>
