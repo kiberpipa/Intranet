@@ -3,6 +3,8 @@ from datetime import datetime
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
+from django.template import RequestContext
+from django.conf import settings
 
 from forms import ArticleForm
 from models import Article, ChangeSet, Category
@@ -10,20 +12,22 @@ from models import Article, ChangeSet, Category
 
 def wiki_index(request):
     articles = Article.objects.all()
-    return render_to_response('wiki/index.html', {'articles': articles})
+    return render_to_response('wiki/index.html', {'articles': articles,
+		'admin': '%s/intranet/admin/wiki/' % settings.BASE_URL}, context_instance=RequestContext(request))
 
-def article_history(request, title):
+def article_history(request, id):
     # TODO: use get_object_or_404
-    article = Article.objects.get(title=title)
+    article = Article.objects.get(pk=id)
     changes = article.changeset_set.all()
     return render_to_response('wiki/history.html', {'article': article,
-                                                    'changes': changes})
+				'changes': changes}, context_instance=RequestContext(request))
 ##najdi celo hiearhijo kateri pripada nas article
 def parents(article):
     c = article.cat
     parents = []
     while c:
-        parents.insert(0, c.name)
+        #parents.insert(0, c.name)
+        parents.insert(0, c)
         c = c.parent
 
     return parents
@@ -32,11 +36,11 @@ def parents(article):
 
 def view_article(request, id):
     try:
-        article = Article.objects.get(id= id )
+        article = Article.objects.get(pk = id)
     except Article.DoesNotExist:
         article = Article(id=id)
 
-    return render_to_response('wiki/view.html', {'article': article, 'parents': parents(article) })
+    return render_to_response('wiki/view.html', {'article': article, 'parents': parents(article) }, context_instance=RequestContext(request))
 
 def new_article(request, cat):
     category = Category.objects.filter(pk=cat)[0]
@@ -56,12 +60,13 @@ def new_article(request, cat):
     else:
         form = ArticleForm()
 
-    return render_to_response('wiki/edit.html', {'form': form})
+    return render_to_response('wiki/edit.html', {'form': form},
+		context_instance=RequestContext(request))
 
 
-def edit_article(request, title):
+def edit_article(request, id):
     try:
-        article = Article.objects.get(title=title)
+        article = Article.objects.get(pk=id)
     except Article.DoesNotExist:
         article = None
 
@@ -73,14 +78,16 @@ def edit_article(request, title):
             editor = request.user.get_profile()
             comment = form.cleaned_data.get('comment', '')
             new_article.create_changeset(article, editor, comment)
-            return HttpResponseRedirect('../../%s/' % new_article.title)
+            #return HttpResponseRedirect('../../%s/' % new_article.id)
+            return HttpResponseRedirect('../')
     else:
         if article is None:
             form = ArticleForm(initial={'title': title})
         else:
             form = ArticleForm(instance=article)
 
-    return render_to_response('wiki/edit.html', {'form': form})
+    return render_to_response('wiki/edit.html', {'form': form},
+		context_instance=RequestContext(request))
 
 def view_changeset(request, title, revision):
 
@@ -90,5 +97,5 @@ def view_changeset(request, title, revision):
 
     if request.method == "GET":
         return render_to_response('wiki/changeset.html',
-                                  {'article_title': title,
-                                   'changeset': changeset})
+                {'article_title': title, 'changeset': changeset},
+								context_instance=RequestContext(request))

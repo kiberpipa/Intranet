@@ -25,38 +25,45 @@ def wikify(s):
 from mw import parse
 register.filter('mw', parse)
 
-def recurse(category, counter=1):
+def recurse(category):
     ##prvo link z imenom kategorije
-    result = '		<li><span class="folder">&nbsp; <a href="%s/new">%s</a></span>\n' % (category.id, category.name )
+    result = '<li'
+    if category.parent:
+        result += ' class="closed"'
+    result += '><span class="folder">&nbsp; <a href="%s/new">%s</a></span>\n' % (category.id, category.name )
 
     articles = Article.objects.filter( cat = category)
+    children = Category.objects.order_by('order').filter(parent=category)
+
+    if articles or children:
+        result += '<ul>'
+
     ##clanki ki spadajo pod to kategorijo
     if articles:
-      result += '			' * counter
-      result += '<ul>\n'
-      for i in articles:
-        result += '			' * counter 
-        result += '	<li><span class="article">&nbsp;<a href="article/%s">%s</a></span></li>\n' % (i.id, i.title)
-      result += '			' * counter
-      result += '</ul>\n'
-#      result += '			</ul>\n'
+        for i in articles:
+            result += '	<li><span class="article">&nbsp;<a href="article/%s">%s</a></span></li>\n' % (i.id, i.title)
 
-
-    children = Category.objects.order_by('order').filter(parent=category)
     ##pod kategorije
     for i in children:
         if Category.objects.filter(parent=i):
-            result += '			' * counter
-            result += '<ul>\n'
-            result += recurse(i, counter+1)
-            result += '			' * counter
-            result += '</ul>\n'
+            if articles:
+                result += recurse(i)
+            else:
+                result += '<ul>\n'
+                result += recurse(i)
+                result += '</ul>\n'
         else:
-            result += '<ul><span class="folder">&nbsp; <a href="%s/new">%s</a></span>\n' % (i.id, i.name)    
-            for j in Article.objects.filter( cat = i):
-                result += '<li><a href="article/%s">%s</a></li>\n' % (j.id, j.title)
-            result += '</ul>\n'
+            result += '<li class="closed"><span class="folder">&nbsp; <a href="%s/new">%s</a></span>\n' % (i.id, i.name)    
+            articles2 = Article.objects.filter( cat = i)
+            if articles2:
+                result += '<ul>'
+                for j in Article.objects.filter( cat = i):
+                    result += '<li><a href="article/%s">%s</a></li>\n' % (j.id, j.title)
+                result += '</ul>'
+            result += '</li>\n'
     
+    if articles or children:
+        result += '</ul>\n'
 
     result += '		</li>\n'
 

@@ -2,11 +2,13 @@
 
 {% load wiki %}
 
-{% block content %}
-    {% for parent in parents %}
-        {{ parent }} -->
+{% block content-main %}
+    <a href="../../">Index</a>
+    <b>{% for parent in parents %}
+        <a href="../../{{ parent.id }}/new/">{{ parent }}</a> -->
     {% endfor %}
-    {{ article.title }}
+    {{ article.title }}</b>
+    <br><br>
 
     {% autoescape off %}
 	   {% comment %} {{ article.content|escape|wikiwordfy|wikify|linebreaks }} {% endcomment %}
@@ -19,5 +21,4 @@
 		<a href="edit/">Edit this article</a>
         |
         <a href="history/">Editing history</a>
-    |
 {% endblock %}

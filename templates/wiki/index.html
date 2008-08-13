@@ -2,7 +2,7 @@
 
 {% load wiki %}
 
-{% block head %}
+{% block extrahead %}
   <script src="http://code.jquery.com/jquery-latest.js"></script>
   <link rel="stylesheet" href="http://dev.jquery.com/view/trunk/plugins/treeview/jquery.treeview.css" type="text/css" media="screen" />
   <script type="text/javascript" src="http://dev.jquery.com/view/trunk/plugins/treeview/jquery.treeview.js"></script>
@@ -28,20 +28,9 @@
   </script>
 {% endblock %}
 
-{% block content %}
+{% block content-main %}
 	<h1>Index</h1>
-
+    <a href="{{ admin }}category/add/">Dodaj kategorijo</a>
     {% wiki_index %}
 
-{% comment %}
-	{% if articles %}
-		<ul>
-			{% for article in articles %}
-				<li><a href="{{ article.title }}/">{{ article.title }}</a></li>
-			{% endfor %}
-		</ul>
-	{% else %}
-		<p><a href="NewArticle/edit/">Create a new article</a>.</p>
-	{% endif %}
-{% endcomment %}
 {% endblock %}
