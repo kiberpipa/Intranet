@@ -56,7 +56,7 @@ def new_article(request, cat):
             editor = request.user.get_profile()
             comment = form.cleaned_data.get('comment', '')
             new_article.create_changeset(article, editor, comment)
-            return HttpResponseRedirect('../article/%s/' % new_article.id)
+            return HttpResponseRedirect('../../article/%s/' % new_article.id)
     else:
         form = ArticleForm()
 
@@ -67,18 +67,18 @@ def new_article(request, cat):
 def edit_article(request, id):
     try:
         article = Article.objects.get(pk=id)
+        cat = article.cat
     except Article.DoesNotExist:
         article = None
 
     if request.method == 'POST':
+        
 
         form = ArticleForm(request.POST, instance=article)
         if form.is_valid():
-            new_article = form.save()
-            editor = request.user.get_profile()
-            comment = form.cleaned_data.get('comment', '')
-            new_article.create_changeset(article, editor, comment)
-            #return HttpResponseRedirect('../../%s/' % new_article.id)
+            form.save()
+            article.cat = cat
+            article.save()
             return HttpResponseRedirect('../')
     else:
         if article is None:

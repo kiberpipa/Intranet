@@ -449,10 +449,7 @@ class Bug(models.Model):
         if message:
             info += '-------------------------------------\n\n\n'
 
-        #for comment in Comment.objects.filter(bug=self):
-        #    assignees += [comment.author]
         mails = list(self.assign.all())
-        #for i in bug.assign.all()
         for i in Comment.objects.filter(bug=self):
             if not i.author in mails:
                 mails += [i.author]
