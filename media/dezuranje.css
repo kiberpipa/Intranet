@@ -1,10 +1,10 @@
-#dezurni { background-color: #b4d929; 
+#dezurni { background-color: #0063ff; 
            margin: 0px auto;
            width: 50%;
            text-align: center;
          }
 
-th { background-color: #ff8200;}
+th { background-color: #e6e6e6;}
 
 #date { background-color: #fff;}
 
@@ -27,7 +27,7 @@ form { background-color: #efefef; }
 
 .dnevnikForm {  margin: 0px; padding: 5px 10px 10px 10px;}
 
-h3 { background: #b4d929; 
+h3 { background: #ff8200;  /* ozadje za "Med dežuranjem sem..." & "Random stuff" */
      color: #000; 
      margin: 5px 0 -1px 1px; 
      /* width: 20em; */ 
@@ -37,9 +37,9 @@ h3 { background: #b4d929;
 
 /*h4 { background: #7CA0C7; width: 120px;}*/
 
-#log {  margin: 10px 200px; background: #b4d929;}
+#log {  margin: 10px 200px; background: #0063ff;}
 
-.dnevnikVnos { background: #efefef; padding: 10px; border: 2px #7CA0C7; }
+.dnevnikVnos { background: #efefef; padding: 10px; border: 2px #0063ff; }
 /*.dnevnikVnos p { background: #7CA0C7; }*/
 
 div#sidebar {
@@ -54,5 +54,5 @@ div #rightbar {
 	background: #dedede;	
 }
 
-td.free { background: #FFCF9B; /*#ffc88e;*/ }
-td.reserved { background: #ff8200; /*#ffc88e;*/ }
+td.free { background: #f5f5f5; /*#ffc88e;*/ }
+td.reserved { background: #0063ff; /*#ffc88e;*/ }

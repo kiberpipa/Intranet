@@ -88,7 +88,7 @@ input[type=text], input[type=password], textarea, select, .vTextField { border:1
 /*  FORM BUTTONS  */
 input[type=submit], input[type=button], .submit-row input { background:white url(../img/admin/nav-bg.gif) bottom repeat-x; padding:3px; color:black; border:1px solid #bbb; border-color:#ddd #aaa #aaa #ddd; }
 input[type=submit]:active, input[type=button]:active { background-image:url(../img/admin/nav-bg-reverse.gif); background-position:top; }
-input[type=submit].default, .submit-row input.default { border:2px solid #5b80b2; background:#7CA0C7 url(../img/admin/default-bg.gif) bottom repeat-x; font-weight:bold; color:white; }
+input[type=submit].default, .submit-row input.default { border:2px solid #5b80b2; background:#7CA0C7 url(../img/admin/default-bg.gif) bottom repeat-x; font-weight:bold; color:#666; }
 input[type=submit].default:active { background-image:url(../img/admin/default-bg-reverse.gif); background-position:top; }
 
 /* MODULES */
@@ -97,7 +97,7 @@ input[type=submit].default:active { background-image:url(../img/admin/default-bg
 .module blockquote { margin-left:12px; }
 .module ul, .module ol { margin-left:1.5em; }
 .module h3 { margin-top:.6em; }
-.module h2, .module caption { margin:0; padding:2px 5px 3px 5px; font-size:11px; text-align:left; font-weight:bold; background:#7CA0C7 url(../img/admin/default-bg.gif) top left repeat-x; color:white; }
+.module h2, .module caption { margin:0; padding:2px 5px 3px 5px; font-size:11px; text-align:left; font-weight:bold; background:#7CA0C7 url(../img/admin/default-bg.gif) top left repeat-x; color: #666; }
 .module table { border-collapse: collapse; }
 
 /* MESSAGES & ERRORS */

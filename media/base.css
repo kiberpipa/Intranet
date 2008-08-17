@@ -2,7 +2,7 @@
 
 table {
     width: 100%;
-    background-color: #ecfdd8;
+    background-color: white;
 }
 
 img#logo {
@@ -11,7 +11,7 @@ img#logo {
 }
 
 div#header {
-    background: #b4d929;
+    background: #0063ff;
     background-image: url("img/grad.png");
     background-repeat: repeat-x;
     margin-bottom: 15px;
@@ -78,18 +78,18 @@ div#module ul li {
     background: #ecfdd8; /* #edf3fe; */
 }
 
-.module { background: #ecfdd8; /* #edf3fe; */ }
+.module { background: white; /* #edf3fe; */ }
 
 #recent-actions-module { background: #ffffff; }
 #messages-module { background: #ffef9b; }
 
-div.module h2 a { color: white; }
+div.module h2 a { color: #666; }
 
 h2.expand {
   cursor: pointer;
 }
 
-.module h2 { background-color: #ff8200; }
+.module h2 { background-color: #0063ff; }
 
 #breadcrumbs li {
     position: relative;

@@ -43,19 +43,20 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block heading %}
-        <h1>sodelovanja</h1>
+        <h1>Sodelovanja</h1><br />
 {% endblock %}
 
 {% block content-related-left %}
-    <a href="{{ admin_org }}sodelovanje/add/">Dodaj novega</a>
-    <form method="post" action="">
-<table>
-{{ form }}
 
-</table>
+    <a href="{{ admin_org }}sodelovanje/add/">Dodaj novega</a><br /><br />
+	
+	<div class="module" id="recent-actions-module">
+	<h2>Filtriraj</h2>	  
+    <form method="post" action="">
+	<table>{{ form }}</table>
 
     <input type="submit" />
-    </form>
+    </form></div>
 
 {% endblock %} 
 
@@ -88,12 +89,16 @@ $(document).ready(function() {
 
 
 {% block content-related-right %}
+	
+	<div class="module" id="recent-actions-module">
+	<h2>Dodaj osebo</h2>	  
+	
     <form method="post" action="person/">
     <table>
     {% for field in person_form %}
 <input type="hidden" id="add_{{ field.name }}" value="2"> 
 <div id="{{ field.name }}Div">
-    {% ifnotequal field.name 'name' %}<a href="#" onClick="add{{ field.name }}(); return false;">Add</a>
+    {% ifnotequal field.name 'name' %}<a href="#" onClick="add{{ field.name }}(); return false;">&nbsp;&nbsp;Add</a>
     <p id="row{{ field.name }}1">&nbsp;{% endifnotequal %}
     {{ field.label_tag }}: &nbsp; {{ field }} &nbsp; 
     {% ifnotequal field.name 'name' %}<a href="#" onClick="remove{{ field.name }}('#row{{ field.name }}1'); return false;">Remove</a> {% endifnotequal %}
@@ -104,5 +109,6 @@ $(document).ready(function() {
     </table>
     <input type="submit" />
     </form>
+	</div>
 
 {% endblock %} 

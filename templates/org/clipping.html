@@ -2,20 +2,31 @@
 {% block title %}Clipping{% endblock %}
 
 {% block heading %}
-        <h1>clipping</h1>
+        <h1>Clipping</h1><br/>
 {% endblock %}
 
+
+
 {% block content-related-left %}
-    <a href="{{ add_link }}">Dodaj novega</a>
+    <a href="{{ add_link }}">Dodaj novega</a><br /><br />
+	
+	<div class="module" id="recent-actions-module">
+	  <h2>Filtriraj</h2>	  
     <form method="post" action="">
     <table>{{ form }}</table>
     <input type="submit" />
-    </form> 
-
+    </form> </div>
+	
 {% endblock %} 
 
 {% block content-main %}
+
+
+	  
+
+
     {% for clipping in clippings %}
+
         <div class="module">
             <h2>{{ clipping }}</h2>
             {% if clipping.event %}
