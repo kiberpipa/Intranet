@@ -1,6 +1,6 @@
 {% extends "org/base_2col.html" %}
 {% block extrahead %}
-    <link rel="alternate" type="application/rss+xml" title="Events RSS Feed" href="/intranet/feeds/events/" />
+       <link rel="alternate" type="application/rss+xml" title="Events RSS Feed" href="/intranet/feeds/events/" />
 {% endblock %}
 {% block title %}Dogodki{% endblock %}
 {% load box %}
@@ -29,10 +29,14 @@
             <li>Manjka tehnik: <img src="{{ media_url }}img/help.png" alt="help" /></li>
         </ul>
   </div>
+
+  <div class="module" id="recent-actions-module">
+    <h2>Filtriranje</h2>
   <form action="" method="post">
   {{ filter.as_p }}
   <input type="submit">
   </form>
+  </div>
 {% endblock %}
 
 {% block content-main %}

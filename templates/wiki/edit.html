@@ -1,8 +1,24 @@
 {% extends 'wiki/base.html' %}
 
+{% block extrahead %}
+  
+<style type="text/css">
+  p.left {margin-left: 10px}
+  h1.left {margin-left: 10px}
+  a.left {margin-left: 10px}
+  div.field_wrapper {margin-left:10px; margin-right:10px;}
+
+</style>
+
+{% endblock %}
+
 
 {% block content %}
-	<h1>Edit</h1>
+
+	<h1 class="left">Edit/create article</h1>
+
+<div class="module" id="recent-actions-module">
+  <h2>&nbsp;</h2>
 
 	<form action="" method="post">
 
@@ -11,7 +27,7 @@
 			{% if form.title.errors %}{{ form.title.errors }}{% endif %}
 			<div class="field text_input">
 				{{ form.title }}
-			</div>
+			</div><br />
 		</div>
 
 		<div class="field_wrapper required{% if form.content.errors %} errors{% endif %}" id="field_content">
@@ -21,14 +37,14 @@
 				{{ form.content }}
 			</div>
             Use <a href="http://daringfireball.net/projects/markdown/">Markdown</a> syntax.
-		</div>
+		</div><br />
 
 		<div class="field_wrapper {% if form.comment.errors %} errors{% endif %}" id="field_comment">
 			<label for="id_comment" class="field_name"><strong>Comment</strong></label>
 			{% if form.comment.errors %}{{ form.commment.errors }}{% endif %}
 			<div class="field textinput">
 				{{ form.comment }}
-			</div>
+			</div><br />
 		</div>
 
 		<div class="submit">
@@ -36,5 +52,6 @@
 		</div>
 
 	</form>
+</div>
 {% endblock %}
 

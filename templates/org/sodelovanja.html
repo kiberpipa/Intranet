@@ -7,11 +7,12 @@
 
 <script type="text/javascript">
 
+
 {% comment %} generate the JS functions for addition/removal of fields {% endcomment %}
 {% for field in person_form %}
 function add{{ field.name }}() {
     var id = document.getElementById("add_{{ field.name }}").value;
-    $("#{{ field.name }}Div").append('<p id="row{{ field.name }}' + id + '">{{ field.label_tag }}: &nbsp; {{ field }}<a href="#" onClick="remove{{ field.name }}(\'#row{{ field.name }}' + id + '\'); return false;">Remove</a></p>');
+    $("#{{ field.name }}Div").append('<tr><td><p id="row{{ field.name }}' + id + '">{{ field.label_tag }}: &nbsp; {{ field }}<a href="#" onClick="remove{{ field.name }}(\'#row{{ field.name }}' + id + '\'); return false;">&nbsp;&nbsp;&nbsp;Remove</a></p></td></tr>');
 
     
     $('#row{{ field.name }}' + id).highlightFade({
@@ -40,6 +41,7 @@ $(document).ready(function() {
   </script>
 
   <link rel="stylesheet" href="{{ media_url }}/css/flora.datepicker.css" type="text/css" media="screen" title="Flora (Default)">
+  
 {% endblock %}
 
 {% block heading %}
@@ -94,8 +96,11 @@ $(document).ready(function() {
 	<h2>Dodaj osebo</h2>	  
 	
     <form method="post" action="person/">
-    <table>
-    {% for field in person_form %}
+    <table cellpadding="5px">
+     
+	{% for field in person_form %}
+      <tr>
+	<td>
 <input type="hidden" id="add_{{ field.name }}" value="2"> 
 <div id="{{ field.name }}Div">
     {% ifnotequal field.name 'name' %}<a href="#" onClick="add{{ field.name }}(); return false;">&nbsp;&nbsp;Add</a>
@@ -104,8 +109,10 @@ $(document).ready(function() {
     {% ifnotequal field.name 'name' %}<a href="#" onClick="remove{{ field.name }}('#row{{ field.name }}1'); return false;">Remove</a> {% endifnotequal %}
     </p>
 </div>
+  </td>
+</tr>
 {% endfor %}
-
+	
     </table>
     <input type="submit" />
     </form>

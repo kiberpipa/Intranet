@@ -7,11 +7,15 @@
   <link rel="stylesheet" href="http://dev.jquery.com/view/trunk/plugins/treeview/jquery.treeview.css" type="text/css" media="screen" />
   <script type="text/javascript" src="http://dev.jquery.com/view/trunk/plugins/treeview/jquery.treeview.js"></script>
   <style type="text/css">
-  #browser {
-    font-family: Verdana, helvetica, arial, sans-serif;
-    font-size: 68.75%;
-  }
+    #browser {font-family: Verdana, helvetica, arial, sans-serif; font-size: 68.75%;}
+  
+    p.left {margin-left: 10px}
+    h1.left {margin-left: 10px}
+    a.left {margin-left: 10px}
+    
+
   </style>
+
   <script>
   $(document).ready(function(){
     $("#browser").treeview();
@@ -29,8 +33,9 @@
 {% endblock %}
 
 {% block content-main %}
-	<h1>Index</h1>
-    <a href="{{ admin }}category/add/">Dodaj kategorijo</a>
-    {% wiki_index %}
+    <h1 class="left">Wiki index</h1>
+    <a class="left" href="{{ admin }}category/add/">Dodaj kategorijo</a><br /><br />
+    <div class="module" id="recent-actions-module">
+  	<h2>Za dodajanje člankov klikni na kategorijo</h2>{% wiki_index %}</div>
 
 {% endblock %}
