@@ -2,7 +2,7 @@ from intranet.video.models import Video, VideoCategory
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 
-from django import newforms as forms
+from django import forms
 
 # Create your views here.
 

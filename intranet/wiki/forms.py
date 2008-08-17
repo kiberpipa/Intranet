@@ -1,5 +1,5 @@
-from django import newforms as forms
-from django.newforms import widgets
+from django import forms
+from django.forms import widgets
 
 from models import Article
 
