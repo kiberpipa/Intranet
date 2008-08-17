@@ -545,12 +545,20 @@ def events(request):
     else:
         filter = EventFilter()
 
+    today = datetime.datetime.today()
+    week = datetime.timedelta(7)
+
     return date_based.archive_index(request, 
         queryset = events.order_by('start_date'),
         date_field = 'start_date',
         allow_empty = 1,
         extra_context = {
             'filter': filter,
+            'event_last': Event.objects.filter(start_date__lte=today, start_date__gt=today-week),
+            'event_this': Event.objects.filter(start_date__lte=today+week, start_date__gt=today),
+            'event_next': Event.objects.filter(start_date__lte=today+2*week, start_date__gt=today+week),
+            'event_next2': Event.objects.filter(start_date__lte=today+3*week, start_date__gt=today+2*week),
+            'years': range(2006, datetime.datetime.today().year+1),
         }
     )
 
@@ -847,19 +855,51 @@ def clipping(request):
         form = ClippingFilter(request.POST)
         if form.is_valid():
             for key, value in form.cleaned_data.items():
-                if key == 'medij' and value:
-                    ##handle the recursion
-                    query = Q(medij=value)
-                    for i in value.children():
-                        query = query | Q(medij=i)
-                    clippings = clippings.filter(query)
-                elif value and key == 'link':
-                    clippings = clippings.filter(link__icontains = value)
+                if value and key != 'export':
+                    if key == 'medij':
+                        ##handle the recursion
+                        query = Q(medij=value)
+                        for i in value.children():
+                            query = query | Q(medij=i)
+                        clippings = clippings.filter(query)
+                    elif key == 'link' or key == 'rubrika' or key == 'address':
+                        #clippings = clippings.filter(link__icontains = value)
+                        clippings = clippings.filter(**{key+'__icontains': value})
 
-                elif value:
-                    clippings = clippings.filter(**{key: value})
+                    else:
+                        clippings = clippings.filter(**{key: value})
     else:
         form = ClippingFilter()
+
+    try: 
+        export =  form.cleaned_data['export']
+        if export:
+            output = StringIO()
+
+###            output = StringIO()
+###            if export == 'txt':
+###                for i in sodelovanja:
+###                    output.write("%s\n" % i)
+###            elif export == 'pdf':
+###                pdf = Canvas(output)
+###                rhyme = pdf.beginText(30, 200)
+###                for i in sodelovanja:
+###                    rhyme.textLine(i.__unicode__())
+###                pdf.drawText(rhyme)
+###                pdf.showPage()
+###                pdf.save()
+###            elif export == 'csv':
+###                for i in sodelovanja:
+###                    output.write("%s\n" % i)
+###
+###                    
+###            response = HttpResponse(mimetype='application/octet-stream')
+###            response['Content-Disposition'] = "attachment; filename=" + 'export.' + export
+###            response.write(output.getvalue())
+###            return response
+
+    except AttributeError:
+        pass
 
     return render_to_response('org/clipping.html', 
         {'clippings': clippings, 'form': form, 'add_link': '%s/intranet/admin/org/clipping/add/' % settings.BASE_URL },
@@ -989,7 +1029,7 @@ def tehniki(request, year=None, week=None):
 
     week_now = week_start
     week = Event.objects.filter(start_date__range=(week_start, week_end), require_technician__exact=True).order_by('start_date')
-    log_list = Diary.objects.filter(task=2, date__range=(week_start, week_end))
+    log_list = Diary.objects.filter(task=23, date__range=(week_start, week_end))
 
     for e in week:
         try:
@@ -1178,7 +1218,7 @@ def dezurni(request, year=None, week=None, month=None):
     
 
         for i in time_list:
-            dezurni_list = Diary.objects.filter(task=1, date__range=(week_now+i, week_now+i+Time(2.59))).order_by('date')
+            dezurni_list = Diary.objects.filter(task=22, date__range=(week_now+i, week_now+i+Time(2.59))).order_by('date')
             dezurni_dict = {}
             if dezurni_list:
                 dezurni_obj = dezurni_list[0]
@@ -1192,9 +1232,8 @@ def dezurni(request, year=None, week=None, month=None):
         week.append(dict)
         week_now = week_now + mx.DateTime.oneDay
 
-    log_list = Diary.objects.filter(task__pk=1, date__range=(week_start, week_end)).order_by('-date')
+    log_list = Diary.objects.filter(task__pk=22, date__range=(week_start, week_end)).order_by('-date')
     navigation = weekly_navigation (year, week_number, week_start, week_end)
-    #print "%s %s" % (week_start, week_end)
     return render_to_response('org/dezuranje_index.html',
                              {'week': week,
                              'iso_week': week_number,
@@ -1207,7 +1246,7 @@ def dezurni(request, year=None, week=None, month=None):
                              'nov_urnik': nov_urnik,
                              'start_date': week_start,
                              'end_date': week_end,
-                             'dezurni_taski': Bug.objects.filter(project=Project.objects.get(pk=1)), ##XXX
+                             'dezurni_taski': Bug.objects.filter(project=Project.objects.get(pk=22)), 
                              },
                        context_instance=RequestContext(request))
 dezurni = login_required(dezurni)
@@ -1216,8 +1255,8 @@ def dezurni_add(request):
     new_data = request.POST.copy()
     if not request.POST or not new_data.has_key('uniqueSpot'):
         return HttpResponseRedirect('../')
-   
-    d = mx.DateTime.DateTimeFrom(request['uniqueSpot'].__str__())
+
+    d = mx.DateTime.DateTimeFrom(request.POST['uniqueSpot'].__str__())
     datum = datetime.datetime(year=d.year,
                               month=d.month,
                               day=d.day,
@@ -1228,10 +1267,10 @@ def dezurni_add(request):
 
     p = Diary(date=datum,
               author=request.user,
-              task=Task.objects.get(pk=1),
-              log_formal=request['log_formal'],
-              log_informal=request['log_informal'],
-              length=datetime.time(5,0),)
+              task=Project.objects.get(pk=22),
+              log_formal=request.POST['log_formal'],
+              log_informal=request.POST['log_informal'],
+              length=datetime.time(5,0),) #there's got to be better way to do this
     p.save()
     return HttpResponseRedirect('../')
 dezurni_add = login_required(dezurni_add)

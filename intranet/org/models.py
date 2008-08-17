@@ -103,7 +103,7 @@ class Project(models.Model):
 
 class UserProfile(models.Model):
     mobile = models.CharField(max_length=100)
-    mail = models.EmailField()
+    mail = models.EmailField(blank=True, null=True)
     im = models.TextField(blank=True, null=True)
     #tags = models.ManyToManyField(Tag, blank=True, null=True)
     project = models.ManyToManyField(Project, blank=True, null=True)
@@ -232,12 +232,6 @@ class Organization(models.Model):
     def __unicode__(self):
         return self.organization
 
-class Title(models.Model):
-    title = models.CharField(max_length=100)
-
-    def __unicode__(self):
-        return self.title
-
 class Role(models.Model):
     role = models.CharField(max_length=100)
 
@@ -248,11 +242,11 @@ class Role(models.Model):
 class Person(models.Model):
     name = models.CharField(max_length=100)
     note = models.CharField(max_length=230, blank=True, null=True)
+    title = models.CharField(max_length=100, blank=True, null=True)
 
     email = models.ManyToManyField(Email, blank=True, null=True)
     phone = models.ManyToManyField(Phone, blank=True, null=True)
     organization = models.ManyToManyField(Organization, blank=True, null=True)
-    title = models.ManyToManyField(Title, blank=True, null=True)
     role = models.ManyToManyField(Role, blank=True, null=True)
 
     #najbrz bi blo pametno met poljubno stevilo teh stvari
@@ -339,8 +333,12 @@ class Clipping(models.Model):
     tip_medija = models.ForeignKey(TipMedija, blank=True, null=True)
     medij = models.ForeignKey(Medij, blank=True, null=True)
     tip_prispevka = models.ForeignKey(TipPrispevka, blank=True, null=True)
+    person = models.ForeignKey(Person)
     rubrika = models.CharField(max_length=255, blank=True, null=True)
     link = models.CharField(max_length=255, blank=True, null=True)
+    deadline = models.CharField(max_length=255)
+    feedback = models.CharField(max_length=255)
+    address = models.CharField(max_length=255)
 
     upload = models.ManyToManyField(Upload, blank=True, null=True)
 

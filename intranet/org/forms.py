@@ -108,8 +108,11 @@ class DiaryFilter(forms.Form):
 
 
 class ClippingFilter(forms.ModelForm):
+    c = [('', '---------'), ('xls', 'xls')]
+    export = forms.ChoiceField(choices=c, required=False)
     class Meta:
         model = Clipping
+        exclude = ('upload', 'deadline', 'feedback',)
 
 class ImenikFilter(forms.Form):
     project = forms.ModelChoiceField(Project.objects.all(), required=False)
