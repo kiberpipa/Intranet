@@ -6,7 +6,7 @@ from wiki import views
 article_re = r'^article/(?P<id>%s)' % WIKI_WORD
 
 urlpatterns = patterns('',
-    url(r'^/$', views.wiki_index,
+    url(r'^$', views.wiki_index,
         name='wiki_index'),
 
     url(article_re + r'/$', views.view_article,

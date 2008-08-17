@@ -17,7 +17,7 @@ class RequireLoginMiddleware(object):
 	    self.require_login_path = getattr(settings, 'REQUIRE_LOGIN_PATH', '/accounts/login/')
 	
     def process_request(self, request):
-        excludes = ['/zavod/', '/intranet/feeds/', '/intranet/stats/text_log', '/smedia/', '/amedia/']
+        excludes = ['/zavod/', '/intranet/feeds/', '/intranet/stats/text_log', '/smedia/', '/amedia/', '/']
         for i in excludes:
           if i in request.path:
             return None
