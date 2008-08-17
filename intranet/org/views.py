@@ -1086,6 +1086,12 @@ tehniki_add = login_required(tehniki_add)
 def tehniki_take(request, id):
     e = Event.objects.get(pk=id)
     e.technician = request.user
+    week = datetime.timedelta(7)
+    if e.require_video:
+        new_bug = Bug(author=request.user, due_by = e.start_date + week, note='treba je zmontirat in objavit "%s" video!' % e.title)
+        new_bug.save()
+        new_bug.assign.add(request.user)
+        new_bug.save()
     e.save()
 
     return HttpResponseRedirect('../../')

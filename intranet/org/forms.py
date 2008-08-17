@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 
 from intranet.org.models import TipSodelovanja, Person, Event, Sodelovanje
-from intranet.org.models import Bug, Resolution, Clipping, Task, Project
+from intranet.org.models import Bug, Resolution, Clipping, Project
 from intranet.org.models import Category
 
 from django.utils.encoding import force_unicode
@@ -103,7 +103,7 @@ class SodelovanjeFilter(forms.ModelForm):
         exclude = ('note',)
 
 class DiaryFilter(forms.Form):
-    task = forms.ModelChoiceField(Task.objects.all(), required=False)
+    task = forms.ModelChoiceField(Project.objects.all(), required=False)
     author = forms.ModelChoiceField(User.objects.all(), required=False)
 
 

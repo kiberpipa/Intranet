@@ -46,7 +46,6 @@ admin.site.register(Clipping)
 admin.site.register(Upload)
 admin.site.register(Email)
 admin.site.register(Phone)
-admin.site.register(Title)
 admin.site.register(Organization)
 admin.site.register(Role)
 
