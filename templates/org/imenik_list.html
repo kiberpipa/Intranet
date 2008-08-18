@@ -80,7 +80,9 @@
     <h2>Kazalo</h2>
     <ul>
     {% for profile in object_list %}
+        {% if profile.is_active %}
         <li><a href="#{{ profile.user.username }}">{{ profile.user.username }}</a></li>
+        {% endif %}
     {% endfor %}
     </ul>
 </div>
