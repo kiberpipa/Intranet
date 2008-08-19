@@ -623,7 +623,6 @@ def nf_event_edit(request, event):
             new_event.save()
 
             #delete everything that was in the old sodelovanja as is not in the new one
-            print "old: '%s', new: '%s'" % (old_sodelovanja, sodelovanja)
             for i in old_sodelovanja & sodelovanja ^ old_sodelovanja:
                 i.delete()
 
