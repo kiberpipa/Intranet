@@ -74,7 +74,7 @@ INSTALLED_APPS = (
     'intranet.wiki',
     'django.contrib.admin',
     'django.contrib.markup',
-    'photologue',
+    #'photologue',
 )
 
 TEMPLATE_DIRS = (

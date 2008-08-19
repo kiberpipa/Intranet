@@ -224,6 +224,10 @@ urlpatterns = patterns('',
     (r'^comments/', include('django.contrib.comments.urls.comments')),
 
     #accounts
+    (r'^accounts/login/$', 'django.contrib.auth.views.login'),
+    (r'^accounts/profile/$', 'django.views.generic.simple.redirect_to', {'url': '/intranet/admin'}),
+    (r'^accounts/$', 'django.views.generic.simple.redirect_to', {'url': 'login/'}),
+    (r'^accounts/logout/$', 'django.contrib.auth.views.logout'),
     #(r'^$', 'django.views.generic.simple.redirect_to', {'url': 'accounts/login/'}),
 
     #rss
