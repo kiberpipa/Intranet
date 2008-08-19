@@ -74,6 +74,7 @@ INSTALLED_APPS = (
     'intranet.wiki',
     'django.contrib.admin',
     'django.contrib.markup',
+    'photologue',
 )
 
 TEMPLATE_DIRS = (
@@ -86,5 +87,6 @@ REQUIRE_LOGIN_PATH = '/intranet/accounts/login/'
 #    'intranet.ldapbackend.backend',
 #    'django.contrib.auth.backends.ModelBackend',
 #)
+PHOTOLOGUE_DIR = 'upload/photo/'
 
 from localsettings import *

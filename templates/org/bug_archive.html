@@ -1,14 +1,14 @@
 {% extends "org/base_3col.html" %}
 {% block extrahead %}
 		<link rel="alternate" type="application/rss+xml" title="Events RSS Feed" href="/intranet/feeds/bugs/" />
-  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <script src="{{ media_url }}/jquery-1.2.6.min.js"></script> 
           <script>
   $(document).ready(function(){
     $('#id_due_by').datepicker({firstDay: 1});
     });
     </script>
-  <link rel="stylesheet" href="http://dev.jquery.com/view/tags/ui/latest/themes/flora/flora.datepicker.css" type="text/css" media="screen" title="Flora (Default)">
-<script src="http://dev.jquery.com/view/tags/ui/latest/ui/ui.datepicker.js"></script>
+  <link rel="stylesheet" href="{{ media_url }}/css/flora.datepicker.css" type="text/css" media="screen" title="Flora (Default)">
+<script src="{{ media_url }}/js/ui.datepicker.js"></script>
 
 {% endblock %}
 

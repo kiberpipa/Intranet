@@ -2,12 +2,16 @@
 {% block extrahead %} {% endblock %}
 {% block title %}Dogodki{% endblock %}
 {% load box %}
+{% load math %}
 {% block toplinks %}
 	<div class="breadcrumbs">
 	<ul id="breadcrumbs">
-		<li><a href="../../{{ previous_month|date:"Y"}}/{{ previous_month|date:"M"|lower }}/">{{ previous_month|date:"F" }}</a></li>
+		{% for month in months %}
+			<li><a href="../{{ month|date:"m"}}/">{{ month|date:"F" }}</a></li>
+		{% endfor %}
+		{% comment %}<li><a href="../../{{ previous_month|date:"Y"}}/{{ previous_month|date:"m"|sub:"1" }}/">{{ previous_month|date:"F" }}</a></li>
 		<li>{{ month|date:"F" }}</li>
-		<li><a href="../../{{ next_month|date:"Y"}}/{{ next_month|date:"M"|lower }}/">{{ next_month|date:"F" }}</a></li>
+		<li><a href="../../{{ next_month|date:"Y"}}/{{ next_month|date:"m"|add:"1" }}/">{{ next_month|date:"F" }}</a></li>{% endcomment %}
 	</ul>
 	</div>
 {% endblock %}

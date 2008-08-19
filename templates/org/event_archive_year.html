@@ -5,16 +5,16 @@
 {% block toplinks %}
 	<div class="breadcrumbs">
 	<ul id="breadcrumbs">
-		<li>Meseci:</li>
+		<li>Meseci: </li>
 		{% for obj in date_list %}
-			<li><a href="{{ obj|date:"M"|lower}}/">{{ obj|date:"F" }}</a></li>
+			<li><a href="{{ obj|date:"m"}}/">{{ obj|date:"F" }}</a></li>
 		{% endfor %}
 	</ul>
 	</div>
 {% endblock %}
 
 {% block heading %}
-        <h1>Arhiv dogodkov - leto {{ year }} ({{ object_list|length }} dogodkov)</h1></h1>
+        <h1>Arhiv dogodkov - leto {{ year }} ({{ event_list|length }} dogodkov)</h1></h1>
 {% endblock %}
 
 {% block content-related-left %}

@@ -279,7 +279,7 @@ def box_lend_add(request):
         new_data = request.POST.copy()
 
         new_data['from_who'] = request.user.id
-        new_data['from_date'] = date.today().strftime("%Y-%m-%d")
+        new_data['from_date'] = datetime.date.today().strftime("%Y-%m-%d")
 
         errors = manipulator.get_validation_errors(new_data)
 
@@ -637,6 +637,15 @@ def nf_event_edit(request, event):
     return render_to_response('org/nf_event.html', {'form': form, 'tipi': TipSodelovanja.objects.all(), 
         'sodelovanja': Sodelovanje.objects.filter(event=event)}, 
         context_instance=RequestContext(request))
+
+def event(request, object_id):
+    return list_detail.object_detail(request,
+        queryset = Event.objects.all(),
+        object_id = object_id,
+        extra_context =  {
+            'sodelovanja': Sodelovanje.objects.filter(event=object_id)
+        }
+    )
 
 # dodaj podatek o obiskovalcih dogodka
 def event_count (request, id=None):

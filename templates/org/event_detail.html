@@ -39,8 +39,18 @@
         <h4>{{ object.project }}</h4>
             <p>{{ object.title }}</p>
             <p>{{ object.start_date|date:"D d.m.Y H:i" }}  ({{ object.length }})</p>
+            {% if object.slides %}
             <h4> Slajdi</h4>
             {{ object.slides }}
+            {% endif %}
+            {% if sodelovanja %}
+            <h4>Sodelovanja:</h4>
+            <p>
+            {% for sodelovanje in sodelovanja %}
+                {{ sodelovanje.tip }}: {{ sodelovanje.person }}
+            {% endfor %}
+            </p>
+            {% endif %}
           <h4>Zahteve:</h4>
           <p>
                 {% if object.require_technician %}

@@ -33,6 +33,14 @@ event_dict = {
     'allow_future': 1,
 }
 
+event_month = event_dict.copy()
+months = []
+for i in range(1,13):
+    months.append(datetime.datetime(2008, i, 1))
+
+event_month.update({'month_format': '%m', 
+    'extra_context': {'months': months}})
+
 event_index = {
     'queryset': Event.objects.filter(start_date__gte=today).order_by('start_date'),
     'date_field': 'start_date',
@@ -114,10 +122,6 @@ sodelovanje_detail = {
     'queryset': Sodelovanje.objects.all(),
 }
 
-event_detail = {
-    'queryset': Event.objects.all(),
-}
-
 feeds = {
     'bugs': LatestBugs,
     'diarys': LatestDiarys,
@@ -136,8 +140,8 @@ urlpatterns = patterns('',
     (r'^events/create/', 'intranet.org.views.nf_event_create'),
     (r'^events/(?P<event>\d+)/edit/$', 'intranet.org.views.nf_event_edit'),
     (r'^events/(\d+)/count/$', 'intranet.org.views.event_count'),
-    (r'^events/(?P<object_id>\d+)/$', 'django.views.generic.list_detail.object_detail', event_detail),
     (r'events/$',    'intranet.org.views.events'),
+    (r'^events/(?P<object_id>\d+)/$', 'intranet.org.views.event'),
 
     (r'^box/diary/add/$', 'intranet.org.views.box_diary_add'),
     (r'^diarys/(?P<id>\d+)/change/$', 'intranet.org.views.box_diary_change'),
@@ -221,10 +225,6 @@ urlpatterns = patterns('',
 
     #accounts
     #(r'^$', 'django.views.generic.simple.redirect_to', {'url': 'accounts/login/'}),
-    (r'^accounts/login/$', 'django.contrib.auth.views.login'),
-    (r'^accounts/profile/$', 'django.views.generic.simple.redirect_to', {'url': '/intranet/admin'}),
-    (r'^accounts/$', 'django.views.generic.simple.redirect_to', {'url': 'login/'}),
-    (r'^accounts/logout/$', 'django.contrib.auth.views.logout'),
 
     #rss
     (r'^feeds/$', 'django.views.generic.simple.direct_to_template', {'template': 'org/feeds_index.html'}),
@@ -240,7 +240,7 @@ urlpatterns += patterns('',
 
 urlpatterns += patterns('django.views.generic.date_based',
     (r'events/arhiv/(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\w{1,2})/$',    'archive_day',   event_dict),
-    (r'events/arhiv/(?P<year>\d{4})/(?P<month>[a-z]{3})/$',    'archive_month', event_dict),
+    (r'events/arhiv/(?P<year>\d{4})/(?P<month>[a-z]{3}|[0-9]{1,2})/$',    'archive_month', event_month),
     (r'events/arhiv/(?P<year>\d{4})/$',    'archive_year', event_dict),
     (r'events/$',    'archive_index', event_index),
     #(r'events/$',    'archive_index', event_index),
