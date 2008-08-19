@@ -33,6 +33,9 @@ event_dict = {
     'allow_future': 1,
 }
 
+event_year = event_dict.copy()
+event_year.update({'make_object_list': True})
+
 event_month = event_dict.copy()
 months = []
 for i in range(1,13):
@@ -245,7 +248,7 @@ urlpatterns += patterns('',
 urlpatterns += patterns('django.views.generic.date_based',
     (r'events/arhiv/(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\w{1,2})/$',    'archive_day',   event_dict),
     (r'events/arhiv/(?P<year>\d{4})/(?P<month>[a-z]{3}|[0-9]{1,2})/$',    'archive_month', event_month),
-    (r'events/arhiv/(?P<year>\d{4})/$',    'archive_year', event_dict),
+    (r'events/arhiv/(?P<year>\d{4})/$',    'archive_year', event_year),
     (r'events/$',    'archive_index', event_index),
     #(r'events/$',    'archive_index', event_index),
 #    (r'events/$',    'archive_year', event_index),

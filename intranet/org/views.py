@@ -248,7 +248,10 @@ def box_diary_add(request):
         new_data = request.POST.copy()
 
         new_data['author'] = request.user.id
-        new_data['date_date'] = datetime.date.today().strftime("%Y-%m-%d")
+        if request.POST.has_key('date'):
+            new_data['date_date'] = request.POST['date']
+        else:
+            new_data['date_date'] = datetime.date.today().strftime("%Y-%m-%d")
         new_data['date_time'] = datetime.date.today().strftime("%H:%M")
         length = new_data['length']
         if not re.match(r'\d\d\:\d\d', length):
