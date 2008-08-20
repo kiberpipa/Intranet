@@ -2,18 +2,27 @@ from django.conf.urls.defaults import *
 from django.conf import settings
 from django.contrib import admin
 
+from intranet.photologue.models import *
+
 admin.autodiscover()
+
+SAMPLE_SIZE = ":%s" % getattr(settings, 'GALLERY_SAMPLE_SIZE', 5)
+gallery_args = {'date_field': 'date_added', 'allow_empty': True, 'queryset': Gallery.objects.filter(is_public=True), 'extra_context':{'sample_size':SAMPLE_SIZE}}
 
 urlpatterns = patterns('',
     #(r'^video3/', include('intranet.video.urls')),
     (r'^intranet/', include('intranet.org.urls')),
     (r'^intranet/wiki/', include('intranet.wiki.urls')),
-    (r'^crkn/', include('intranet.photologue.urls')),
+    #(r'^crkn/', include('intranet.photologue.urls')),
     (r'^', include('intranet.www.urls')),
     (r'^accounts/login/$', 'django.contrib.auth.views.login'),
     (r'^accounts/profile/$', 'django.views.generic.simple.redirect_to', {'url': '/intranet/admin'}),
     (r'^accounts/$', 'django.views.generic.simple.redirect_to', {'url': 'login/'}),
     (r'^accounts/logout/$', 'django.contrib.auth.views.logout'),
+
+    url(r'^gallery/?$', 'django.views.generic.date_based.archive_index', gallery_args, name='pl-gallery-archive'),
+    url(r'^gallery/(?P<slug>[\-\d\w]+)/$', 'django.views.generic.list_detail.object_detail', {'slug_field': 'title_slug', 'queryset': Gallery.objects.filter(is_public=True), 'extra_context':{'sample_size':SAMPLE_SIZE}}, name='pl-gallery'),
+    url(r'^gallery/page/(?P<page>[0-9]+)/$', 'django.views.generic.list_detail.object_list', {'queryset': Gallery.objects.filter(is_public=True), 'allow_empty': True, 'paginate_by': 5, 'extra_context':{'sample_size':SAMPLE_SIZE}}, name='pl-gallery-list'),
     #(r'^kiberpipa/', include('intranet.web.urls')),
     #(r'^kapelica/', include('intranet.kapelica.urls')),
 #    (r'^slotechart/', include('intranet.slotechart.urls')),

@@ -125,3 +125,5 @@ class PersonForm(forms.Form):
     organization = forms.CharField(max_length=200, required=False)
     title = forms.CharField(max_length=200, required=False)
 
+class PipecForm(forms.Form):
+    pass

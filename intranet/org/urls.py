@@ -90,7 +90,7 @@ bug_dict = {
 
 responsible = []
 for l in Lend.objects.filter(returned=False):
-    if l not in responsible:
+    if l.from_who not in responsible:
         responsible.append(l.from_who)
 
 lend_dict = {

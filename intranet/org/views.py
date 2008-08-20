@@ -86,10 +86,15 @@ def search(request):
         return HttpResponseRedirect("/intranet/")
 
 def lends_by_user(request, username):
+    responsible = []
+    for l in Lend.objects.filter(returned=False):
+        if l.from_who not in responsible:
+            responsible.append(l.from_who)
     user = User.objects.get(username__exact=username)
     lend_list = Lend.objects.filter(returned__exact=False).filter(from_who__exact=user)
     return render_to_response('org/lend_archive.html',
                               { 'latest': lend_list,
+                                'responsible': responsible,
                               },
                               context_instance=RequestContext(request))
 lends_by_user = login_required(lends_by_user)
