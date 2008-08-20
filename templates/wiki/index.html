@@ -3,9 +3,19 @@
 {% load wiki %}
 
 {% block extrahead %}
+  <script src="{{ media_url }}/js/jquery-1.2.6.js"></script>
+  <link rel="stylesheet" href="{{ media_url }}/css//jquery.treeview.css" type="text/css" media="screen" />
+  <script type="text/javascript" src="{{ media_url }}/js/jquery.treeview.js"></script>
+  {% comment %}
   <script src="http://code.jquery.com/jquery-latest.js"></script>
   <link rel="stylesheet" href="http://dev.jquery.com/view/trunk/plugins/treeview/jquery.treeview.css" type="text/css" media="screen" />
   <script type="text/javascript" src="http://dev.jquery.com/view/trunk/plugins/treeview/jquery.treeview.js"></script>
+    {% endcomment %}
+  {% comment %}
+  <script src="{{ media_url }}/js/jquery-1.2.6.js"></script>
+  <link rel="stylesheet" href="{{ media_url }}/css//jquery.treeview.css" type="text/css" media="screen" />
+  <script type="text/javascript" src="{{ media_url }}/js/jquery.treeview.js"></script>
+  {% endcomment %}
   <style type="text/css">
     #browser {font-family: Verdana, helvetica, arial, sans-serif; font-size: 68.75%;}
   

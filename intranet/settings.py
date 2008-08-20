@@ -89,4 +89,5 @@ REQUIRE_LOGIN_PATH = '/intranet/accounts/login/'
 #)
 PHOTOLOGUE_DIR = 'upload/photo/'
 
+SESSION_COOKIE_AGE = 1800
 from localsettings import *
