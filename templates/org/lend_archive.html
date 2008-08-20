@@ -32,7 +32,11 @@
 {% block content-related-right %}
   <div class="module" id="recent-actions-module">
     <h2>Filter po izposojevalcih</h2>
-       {% box_list User "" "template=org/list_user_lend.html" %}
+    <ul>
+       {% for luser in responsible %}
+        <li><a href="{{ luser }}">{{ luser }}</a></li>
+        {% endfor %}
+        </ul>
 </div>
   <div class="module" id="recent-actions-module">
     <h2>Izposojena oprema</h2>
