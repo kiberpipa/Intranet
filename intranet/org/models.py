@@ -559,7 +559,7 @@ class Lend(models.Model):
     from_date = models.DateField(default=date.today())
     due_date = models.DateField(default=(date.today() + timedelta(days=1)))
     contact_info = models.CharField(max_length=100, verbose_name='Kontakt', blank=True, null=True)
-    why = models.CharField(max_length=200, verbose_name='Namen')
+    why = models.CharField(max_length=200, verbose_name='Namen', blank=True, null=True)
     returned = models.BooleanField(default=False)
     note = models.TextField(blank=True, null=True)
 
@@ -569,6 +569,8 @@ class Lend(models.Model):
     def __unicode__ (self):
         return "%s (%s): %s" % (self.what, self.to_who, self.returned)
 
+    def get_absolute_url(self):
+        return '%s/intranet/lends/%d' % (settings.BASE_URL, self.id)
 
     class Meta:
         verbose_name = 'Sposoja'

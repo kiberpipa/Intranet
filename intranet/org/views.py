@@ -85,6 +85,31 @@ def search(request):
     else:
         return HttpResponseRedirect("/intranet/")
 
+def lends(request):
+    if request.method == 'POST':     
+        form = LendForm(request.POST)
+        if form.is_valid():
+            new_lend = form.save()
+            if not form.cleaned_data.has_key('due_date'):
+                new_lend.due_date = datetime.datetime.today() + datetime.timedelta(7)
+
+            new_bug = Bug(author=request.user, due_by = new_lend.due_date, note='treba je vrnit %s, see: %s!' % (new_lend.what, new_lend.get_absolute_url()))
+            new_bug.save()
+            new_bug.assign.add(new_lend.from_who)
+            new_bug.save()
+            return HttpResponseRedirect(new_lend.get_absolute_url())
+    else:
+        form = LendForm()
+
+    return date_based.archive_index(request, 
+        queryset = Lend.objects.all().order_by('due_date'),
+        date_field = 'from_date',
+        allow_empty = 1,
+        extra_context = {
+            'form': form,
+        },
+    )
+
 def lends_by_user(request, username):
     responsible = []
     for l in Lend.objects.filter(returned=False):
@@ -450,7 +475,6 @@ def box_bugs_add(request):
             manipulator.do_html2python(new_data)
             new_bug = manipulator.save(new_data)
             new_bug.due_by = due_by
-            print new_bug.due_by
             new_bug.save()
             new_bug.mail()
             return HttpResponseRedirect("/intranet/bugs/%i/" % new_bug.id)

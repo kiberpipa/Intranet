@@ -175,6 +175,7 @@ urlpatterns = patterns('',
     (r'^lends/(?P<id>\d+)/back/$', 'intranet.org.views.lend_back'),
     (r'^lends/(?P<username>\w+)/$', 'intranet.org.views.lends_by_user'),
     (r'^box/lend/add/$', 'intranet.org.views.box_lend_add'),
+    (r'lends/?$',    'intranet.org.views.lends'),
 
     ##bugs
     (r'^box/bugs/add/$', 'intranet.org.views.box_bugs_add'),
@@ -268,6 +269,6 @@ urlpatterns += patterns('django.views.generic.date_based',
     #(r'diarys/?$',    'archive_index', diary_dict),
 
     #(r'bugs/?$',    'archive_index', bug_dict),
-    (r'lends/?$',    'archive_index', lend_dict),
+    #(r'lends/?$',    'archive_index', lend_dict),
 #    (r'shopping/?$',    'archive_index', shopping_dict),
 )

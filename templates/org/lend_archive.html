@@ -2,6 +2,13 @@
 {% block title %}Reverzi opreme{% endblock %}
 
 {% block extrahead %}
+          <script>
+  $(document).ready(function(){
+    $('#id_due_date').datepicker({firstDay: 1});
+    });
+    </script>
+  <link rel="stylesheet" href="{{ media_url }}/css/flora.datepicker.css" type="text/css" media="screen" title="Flora (Default)">
+<script src="{{ media_url }}/js/ui.datepicker.js"></script>
 {% endblock %}
 {% load box %}
 {% block heading %}
@@ -11,7 +18,11 @@
 {% block content-related-left %}
   <div class="module" id="recent-actions-module">
       <h2>Vpisi reverz</h2>
-        {% box_add Lend %}
+        {% comment %}{% box_add Lend %}{% endcomment %}
+        <form method="post" action=".">
+        {{ form.as_p }}
+        <input type="submit" value="Posodi">
+        </form>
   </div>
 {% endblock %}
 
