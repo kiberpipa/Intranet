@@ -273,7 +273,8 @@ def box_diary_add(request):
     else:
         errors = new_data = {}
 
-    form = forms.FormWrapper(manipulator, new_data, errors)
+    print new_data
+    form = FormWrapper(manipulator, new_data, errors)
     return render_to_response('org/box_error.html',
                              {'form': form, 'template_file': 'org/box_diary.html'},
                              context_instance=RequestContext(request))
@@ -1395,7 +1396,16 @@ def kb_article_edit(request, id):
                             context_instance=RequestContext(request))
 #kb_article_edit = login_required(kb_article_edit)
 
+def profile(request):
+    profile = UserProfile.objects.get(user=request.user)
+    if request.method == 'POST':
+        form = PipecForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+    return HttpResponseRedirect('..')
+
 def imenik(request):
+    profile = UserProfile.objects.get(user=request.user) 
     folks = UserProfile.objects.filter(user__is_active__exact=True)
     if request.POST:
         filter = ImenikFilter(request.POST)
@@ -1415,7 +1425,8 @@ def imenik(request):
         queryset = folks,
         template_name = 'org/imenik_list.html',
         extra_context = {
-            'filter': filter
+            'filter': filter,
+            'pipec_form': PipecForm(instance=profile)
         })
 
 imenik = login_required(imenik)

@@ -224,6 +224,7 @@ urlpatterns = patterns('',
     (r'^kb/$', 'intranet.org.views.kb_index'),
 
     (r'^imenik/$', 'intranet.org.views.imenik'),
+    (r'^imenik/profile/$', 'intranet.org.views.profile'),
 
 
     (r'^autocomplete/(?P<search>[^/]*)$', 'intranet.org.views.autocomplete'),

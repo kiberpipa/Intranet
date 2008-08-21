@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 from intranet.org.models import TipSodelovanja, Person, Event, Sodelovanje
 from intranet.org.models import Bug, Resolution, Clipping, Project
-from intranet.org.models import Category
+from intranet.org.models import Category, UserProfile
 
 from django.utils.encoding import force_unicode
 from django.conf import settings
@@ -125,5 +125,6 @@ class PersonForm(forms.Form):
     organization = forms.CharField(max_length=200, required=False)
     title = forms.CharField(max_length=200, required=False)
 
-class PipecForm(forms.Form):
-    pass
+class PipecForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
