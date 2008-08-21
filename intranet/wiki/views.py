@@ -12,7 +12,8 @@ from models import Article, ChangeSet, Category
 
 def wiki_index(request):
     articles = Article.objects.all()
-    return render_to_response('wiki/index.html', {'articles': articles,
+    categories = Category.objects.all()
+    return render_to_response('wiki/index.html', {'articles': articles, 'categories': categories,
 		'admin': '%s/intranet/admin/wiki/' % settings.BASE_URL}, context_instance=RequestContext(request))
 
 def article_history(request, id):
@@ -99,3 +100,15 @@ def view_changeset(request, title, revision):
         return render_to_response('wiki/changeset.html',
                 {'article_title': title, 'changeset': changeset},
 								context_instance=RequestContext(request))
+
+def new_cat(request):
+    c = Category(order=1, name=request.POST['cat'])
+    print 'before the if'
+    if request.POST.has_key('parent'):
+        p = Category.objects.get(pk=request.POST['parent'])
+        print p
+        print 'in the if'
+        c.parent= p
+        print c.parent
+    c.save()
+    return HttpResponseRedirect('..')

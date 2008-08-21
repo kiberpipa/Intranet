@@ -30,7 +30,8 @@ def recurse(category):
     result = '<li'
     if category.parent:
         result += ' class="closed"'
-    result += '><span class="folder">&nbsp; <a href="%s/new">%s</a></span>\n' % (category.id, category.name )
+    result += '><span class="folder">&nbsp; <a href="%s/new">%s</a>&nbsp;<a href="javascript:;" id="toggle%d">Podkategorija</a></span>\n' % (category.id, category.name, category.id )
+    result += '<div style="display: none;" id="toggleMe%d"><form method="post" action="cat/"><input type="text" name="cat"><input type="hidden" name="parent" value="%d"><input type="submit" value="Dodaj podkategorijo"></form></div>' % (category.id, category.id)
 
     articles = Article.objects.filter( cat = category)
     children = Category.objects.order_by('order').filter(parent=category)
@@ -53,7 +54,8 @@ def recurse(category):
                 result += recurse(i)
                 result += '</ul>\n'
         else:
-            result += '<li class="closed"><span class="folder">&nbsp; <a href="%s/new">%s</a></span>\n' % (i.id, i.name)    
+            result += '<li class="closed"><span class="folder">&nbsp; <a href="%s/new">%s</a>&nbsp;<a href="javascript:;" id="toggle%d">Podkategorija</a></span>\n' % (i.id, i.name, i.id)    
+            result += '<div style="display: none;" id="toggleMe%d"><form method="post" action="cat/"><input type="text" name="cat"><input type="hidden" name="parent" value="%d"><input type="submit" value="Dodaj podkategorijo"></form></div>' % (i.id, i.id)
             articles2 = Article.objects.filter( cat = i)
             if articles2:
                 result += '<ul>'

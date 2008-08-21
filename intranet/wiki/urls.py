@@ -6,8 +6,11 @@ from wiki import views
 article_re = r'^article/(?P<id>%s)' % WIKI_WORD
 
 urlpatterns = patterns('',
-    url(r'^$', views.wiki_index,
-        name='wiki_index'),
+    url(r'^$', views.wiki_index, name='wiki_index'),
+
+    url(r'^cat/$', views.new_cat),
+
+    
 
     url(article_re + r'/$', views.view_article,
         name='wiki_article'),

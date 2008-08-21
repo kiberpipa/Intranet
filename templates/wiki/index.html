@@ -6,16 +6,6 @@
   <script src="{{ media_url }}/js/jquery-1.2.6.js"></script>
   <link rel="stylesheet" href="{{ media_url }}/css//jquery.treeview.css" type="text/css" media="screen" />
   <script type="text/javascript" src="{{ media_url }}/js/jquery.treeview.js"></script>
-  {% comment %}
-  <script src="http://code.jquery.com/jquery-latest.js"></script>
-  <link rel="stylesheet" href="http://dev.jquery.com/view/trunk/plugins/treeview/jquery.treeview.css" type="text/css" media="screen" />
-  <script type="text/javascript" src="http://dev.jquery.com/view/trunk/plugins/treeview/jquery.treeview.js"></script>
-    {% endcomment %}
-  {% comment %}
-  <script src="{{ media_url }}/js/jquery-1.2.6.js"></script>
-  <link rel="stylesheet" href="{{ media_url }}/css//jquery.treeview.css" type="text/css" media="screen" />
-  <script type="text/javascript" src="{{ media_url }}/js/jquery.treeview.js"></script>
-  {% endcomment %}
   <style type="text/css">
     #browser {font-family: Verdana, helvetica, arial, sans-serif; font-size: 68.75%;}
   
@@ -38,13 +28,23 @@
         add: branches
     });
  });
+ {% for category in categories %}
+     $("#toggle{{ category.id }}").click(function () {
+      $("#toggleMe{{ category.id }}").toggle();
+    });
+    {% endfor %}
+     $("#toggle").click(function () {
+      $("#toggleMe").toggle();
+    });
+
   });
   </script>
 {% endblock %}
 
 {% block content-main %}
     <h1 class="left">Wiki index</h1>
-    <a class="left" href="{{ admin }}category/add/">Dodaj kategorijo</a><br /><br />
+    <a href="javascript:;" id="toggle">Dodaj kategorijo</a>
+    <div style="display: none;" id="toggleMe"><form method="post" action="cat/"><input type="text" name="cat"><input type="submit" value="Dodaj kategorijo"></form></div>
     <div class="module" id="recent-actions-module">
   	<h2>Za dodajanje člankov klikni na kategorijo</h2>{% wiki_index %}</div>
 
