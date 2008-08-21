@@ -27,6 +27,51 @@
     <script type="text/javascript" src="{{ media_url }}js/effects.js" ></script>
     <script type="text/javascript" src="{{ media_url }}js/engine.js" ></script>
 
+  <script>
+  $(document).ready(function(){
+
+     $("#togglePipci").click(function () {
+      $("#Dogajanje").hide();
+      $("#Znanje").hide();
+      $("#Sredstva").hide();
+      $("#Razno").hide();
+      $("#Pipci").toggle();
+    });
+
+     $("#toggleDogajanje").click(function () {
+      $("#Pipci").hide();
+      $("#Znanje").hide();
+      $("#Sredstva").hide();
+      $("#Razno").hide();
+      $("#Dogajanje").toggle();
+    });
+
+     $("#toggleZnanje").click(function () {
+      $("#Pipci").hide();
+      $("#Dogajanje").hide();
+      $("#Sredstva").hide();
+      $("#Razno").hide();
+      $("#Znanje").toggle();
+    });
+
+     $("#toggleSredstva").click(function () {
+      $("#Pipci").hide();
+      $("#Dogajanje").hide();
+      $("#Znanje").hide();
+      $("#Razno").hide();
+      $("#Sredstva").toggle();
+    });
+
+     $("#toggleRazno").click(function () {
+      $("#Pipci").hide();
+      $("#Dogajanje").hide();
+      $("#Znanje").hide();
+      $("#Sredstva").hide();
+      $("#Razno").toggle();
+    });
+
+  });
+  </script>
 
     {% block extrahead %}{% endblock %}
 </head>
@@ -34,27 +79,6 @@
     <div id="header">
         <!-- put some header here -->
     <div id="top">
-    <ul id="mainmenu">
-      <li><a href="/intranet/">
-              <img id="logo" alt="Kiberpipa" src="{{ media_url }}/kiberpipa-white.png" />
-              <br />nadzorna plo&#353;&#269;a
-          </a>
-      </li>
-      <li><a href="/intranet/dezurni/">De&#382;urni</a></li>
-      <li><a href="/intranet/tehniki/">Tehniki</a></li>
-      <li><a href="/intranet/diarys/">Dnevniki</a></li>
-      <li><a href="/intranet/bugs/">Hro&#353;&#269;i</a></li>
-      <li><a href="/intranet/lends/">Reverzi</a></li>
-      <li><a href="/intranet/events/">Dogodki</a></li>
-      <li><a href="/intranet/kb/">Znanje</a></li>
-      <li><a href="/intranet/wiki/">wiki</a></li>
-      <li><a href="/intranet/imenik/">Imenik</a></li>
-      <li><a href="/intranet/shopping/">Nakupi</a></li>
-      <li><a href="/intranet/sodelovanja/">Sodelovanja</a></li>
-      <li><a href="/intranet/clipping/">Clipping</a></li>
-      <li><a href="/intranet/mercenaries/">Mercenaries</a></li>
-      <li><a href="/intranet/admin">Administracija</a></li>
-    </ul>
     <ul id="login_info">
       <li>Pozdravljen {{ user.username }}!</li>
       <li><a href="/intranet/accounts/logout/">Odjava</a></li>
@@ -65,6 +89,47 @@
                         <input type="submit" value="Najdi">
                     </form>
       {% endcomment %}
+    </ul>
+    <ul id="mainmenu">
+      <li><a href="/intranet/">
+              <img id="logo" alt="Kiberpipa" src="{{ media_url }}/kiberpipa-white.png" />
+              <br />nadzorna plo&#353;&#269;a
+          </a>
+      </li>
+    <a href="javascript:;" id="togglePipci">Pipci</a>
+    <a href="javascript:;" id="toggleDogajanje">Dogajanje</a>
+    <a href="javascript:;" id="toggleZnanje">Znanje</a>
+    <a href="javascript:;" id="toggleSredstva">Sredstva</a>
+    <a href="javascript:;" id="toggleRazno">Razno</a>
+
+      <div id="Pipci" style="display: none;">
+      <li><a href="/intranet/dezurni/">De&#382;urni</a></li>
+      <li><a href="/intranet/tehniki/">Tehniki</a></li>
+      <li><a href="/intranet/imenik/">Imenik</a></li>
+      </div>
+
+      <div id="Dogajanje" style="display: none;">
+      <li><a href="/intranet/diarys/">Dnevniki</a></li>
+      <li><a href="/intranet/events/">Dogodki</a></li>
+      <li><a href="/intranet/bugs/">Hro&#353;&#269;i</a></li>
+      </div>
+
+      <div id="Znanje" style="display: none;">
+      <li><a href="/intranet/wiki/">wiki</a></li>
+      <li><a href="/intranet/sodelovanja/">Sodelovanja</a></li>
+      <li><a href="/intranet/clipping/">Clipping</a></li>
+      <li><a href="/intranet/kb/">Znanje</a></li>
+      </div>
+
+      <div id="Sredstva" style="display: none;">
+      <li><a href="/intranet/lends/">Reverzi</a></li>
+      <li><a href="/intranet/shopping/">Nakupi</a></li>
+      <li><a href="/intranet/mercenaries/">Mercenaries</a></li>
+      </div>
+
+      <div id="Razno" style="display: none;">
+      <li><a href="/intranet/admin">Administracija</a></li>
+      </div>
     </ul>
     </div>
     </div>

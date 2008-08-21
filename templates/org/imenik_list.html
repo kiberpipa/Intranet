@@ -43,10 +43,12 @@
     <h2><a name="{{ profile.user.username }}">{{ profile.user.first_name }} "{{ profile.user.username }}" {{ profile.user.last_name }}</a></h2>
         <div class="user">
             <ul>
-                <li>E-pošta: <a href="mailto:{{ profile.user.email }}">{{ profile.user.email }}</a></li>
-                {% if profile.user.get_profile %}
-                <li>Telefon: {{ profile.user.get_profile.mobile }}</li>
-                <li>IM: {{ profile.user.get_profile.im|linebreaksbr }}</li>
+                {% if profile %}
+                <li>E-pošta: <a href="mailto:{{ profile.mail }}">{{ profile.mail }}</a></li>
+                <li>Telefon: {{ profile.mobile }}</li>
+                {% if profile.im %}
+                <li>IM: {{ profile.im|linebreaksbr }}</li>
+                {% endif %}
                 {% for project in profile.project.all %}
                 <li>Projekt: {{ project }}</li>
                 {% endfor %}
