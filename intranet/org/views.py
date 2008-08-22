@@ -109,6 +109,7 @@ def lends(request):
             'form': form,
         },
     )
+lends= login_required(lends)
 
 def lends_by_user(request, username):
     responsible = []
@@ -439,6 +440,7 @@ def issues(request):
             'bug_form': BugForm(),
         }
     )
+issues = login_required(issues)
 
 def add_bug(request):
     if request.POST:
@@ -538,6 +540,7 @@ def view_bug(request, object_id):
             'bug_form': bug_form.as_p(),
             'subtask_form': subtask_form.as_p(),
         })
+view_bug = login_required(view_bug)
 
 def takeover_bug(request, id=None):
     bug = get_object_or_404(Bug, pk=id)
@@ -594,6 +597,7 @@ def events(request):
             'years': range(2006, datetime.datetime.today().year+1),
         }
     )
+events = login_required(events)
 
 def nf_event_create(request):
     if request.method == 'POST':
@@ -623,6 +627,7 @@ def nf_event_create(request):
 
     return render_to_response('org/nf_event.html', {'form': form, 'tipi': TipSodelovanja.objects.all()},
         context_instance=RequestContext(request))
+nf_event_create = login_required(nf_event_create)
 
 def nf_event_edit(request, event):
     event = Event.objects.get(pk=event)
@@ -669,6 +674,7 @@ def nf_event_edit(request, event):
     return render_to_response('org/nf_event.html', {'form': form, 'tipi': TipSodelovanja.objects.all(), 
         'sodelovanja': Sodelovanje.objects.filter(event=event)}, 
         context_instance=RequestContext(request))
+nf_event_edit = login_required(nf_event_edit)
 
 def event(request, object_id):
     return list_detail.object_detail(request,
@@ -678,6 +684,7 @@ def event(request, object_id):
             'sodelovanja': Sodelovanje.objects.filter(event=object_id)
         }
     )
+event = login_required(event)
 
 # dodaj podatek o obiskovalcih dogodka
 def event_count (request, id=None):
@@ -778,6 +785,7 @@ def mercenaries(request, year = None, month=None):
         'mercenaries': mercenaries, 'year': year, 'month': month, 'all': all, 
         'hmonth': datetime.datetime(int(year), int(month), 1).strftime('%B')},
         context_instance=RequestContext(request))
+mercenaries = login_required(mercenaries)
 
 def mercenary_salary(request, year, month, id):
     mercenaries = []
@@ -820,6 +828,7 @@ def mercenary_salary(request, year, month, id):
     response['Content-Disposition'] = "attachment; filename=" + filename + '.xls'
     response.write(output.getvalue())
     return response
+mercenary_salary = login_required(mercenary_salary)
 
 ##################################################
 
@@ -889,6 +898,7 @@ def sodelovanja(request):
         'admin_org': '%s/intranet/admin/org/' % settings.BASE_URL,
         'person_form': person_form },
         context_instance=RequestContext(request))
+sodelovanja = login_required(sodelovanja)
 
 def clipping(request):
     clippings = Clipping.objects.all()
@@ -945,6 +955,7 @@ def clipping(request):
     return render_to_response('org/clipping.html', 
         {'clippings': clippings, 'form': form, 'add_link': '%s/intranet/admin/org/clipping/add/' % settings.BASE_URL },
         context_instance=RequestContext(request))
+clipping = login_required(clipping)
 
 def lend_back(request, id=None):
     lend = get_object_or_404(Lend, pk=id)
@@ -1344,6 +1355,7 @@ def diarys(request):
             'filter': filter,
         }
     )
+diarys = login_required(diarys)
 
 ##################################################
 
@@ -1427,6 +1439,7 @@ def profile(request):
         if form.is_valid():
             form.save()
     return HttpResponseRedirect('..')
+profile = login_required(profile)
 
 def imenik(request):
     profile = UserProfile.objects.get(user=request.user) 
@@ -1476,4 +1489,5 @@ def scratchpad_change(request):
             manipulator.save(new_data)
 
     return HttpResponseRedirect("/intranet/")
+scratchpad_change = login_required(scratchpad_change)
 

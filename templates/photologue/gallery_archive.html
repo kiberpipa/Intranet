@@ -14,7 +14,7 @@
         {% for photo in gallery.sample|slice:sample_size %}
            <a href="{{ gallery.get_absolute_url }}"> 
             <img src="{{ photo.get_thumbnail_url }}" alt="{{ photo.title }}"/>
-           </a>
+           </a><br>
         {% endfor %}
     </div>
     {% endfor %}

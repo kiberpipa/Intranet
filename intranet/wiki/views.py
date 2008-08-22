@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 
 from forms import ArticleForm
 from models import Article, ChangeSet, Category
@@ -15,6 +16,7 @@ def wiki_index(request):
     categories = Category.objects.all()
     return render_to_response('wiki/index.html', {'articles': articles, 'categories': categories,
 		'admin': '%s/intranet/admin/wiki/' % settings.BASE_URL}, context_instance=RequestContext(request))
+wiki_index = login_required(wiki_index)
 
 def article_history(request, id):
     # TODO: use get_object_or_404
@@ -22,6 +24,8 @@ def article_history(request, id):
     changes = article.changeset_set.all()
     return render_to_response('wiki/history.html', {'article': article,
 				'changes': changes}, context_instance=RequestContext(request))
+article_history = login_required(article_history)
+
 ##najdi celo hiearhijo kateri pripada nas article
 def parents(article):
     c = article.cat
@@ -42,6 +46,7 @@ def view_article(request, id):
         article = Article(id=id)
 
     return render_to_response('wiki/view.html', {'article': article, 'parents': parents(article) }, context_instance=RequestContext(request))
+view_article = login_required(view_article)
 
 def new_article(request, cat):
     category = Category.objects.filter(pk=cat)[0]
@@ -63,6 +68,7 @@ def new_article(request, cat):
 
     return render_to_response('wiki/edit.html', {'form': form},
 		context_instance=RequestContext(request))
+new_article = login_required(new_article)
 
 
 def edit_article(request, id):
@@ -89,6 +95,7 @@ def edit_article(request, id):
 
     return render_to_response('wiki/edit.html', {'form': form},
 		context_instance=RequestContext(request))
+edit_article = login_required(edit_article)
 
 def view_changeset(request, title, revision):
 
@@ -100,6 +107,7 @@ def view_changeset(request, title, revision):
         return render_to_response('wiki/changeset.html',
                 {'article_title': title, 'changeset': changeset},
 								context_instance=RequestContext(request))
+view_changeset = login_required(view_changeset)
 
 def new_cat(request):
     c = Category(order=1, name=request.POST['cat'])
@@ -112,3 +120,4 @@ def new_cat(request):
         print c.parent
     c.save()
     return HttpResponseRedirect('..')
+new_cat = login_required(new_cat)

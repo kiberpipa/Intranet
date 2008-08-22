@@ -141,7 +141,8 @@ class Gallery(models.Model):
         return self.__unicode__()
 
     def get_absolute_url(self):
-        return reverse('pl-gallery', args=[self.title_slug])
+        #return reverse('pl-gallery', args=[self.title_slug])
+        return '%s/gallery/album/%s' % (settings.BASE_URL, self.id)
 
     def latest(self, limit=0, public=True):
         if limit == 0:
@@ -170,6 +171,39 @@ class Gallery(models.Model):
     def public(self):
         return self.photos.filter(is_public=True)
 
+class Category(models.Model):
+    name = models.CharField(max_length=120)
+    parent = models.ForeignKey('self', blank=True, null=True)
+    gallery = models.ManyToManyField(Gallery, blank=True, null=True)
+
+    def sample(self, count=0):
+        result = []
+        for i in self.gallery.all():
+            for j in i.sample():
+                if j not in result:
+                    result.append(j)
+
+        for i in Category.objects.filter(parent=self):
+            for j in i.sample():
+                if j not in result:
+                    result.append(j)
+        count = int(count)
+
+        if count == 0:
+            return result
+        else: 
+            return result[0:count]
+
+    def get_absolute_url(self):
+        #return reverse('pl-cat', args=[self.title_slug])
+        return '%s/gallery/%s' % (settings.BASE_URL, self.id)
+
+    def __unicode__(self):
+        return self.name
+
+    def __str__(self):
+        return self.name
+
 
 class GalleryUpload(models.Model):
     zip_file = models.FileField(_('images file (.zip)'), upload_to=PHOTOLOGUE_DIR+"/temp",
@@ -179,6 +213,7 @@ class GalleryUpload(models.Model):
     description = models.TextField(_('description'), blank=True, help_text=_('A description of this Gallery.'))
     is_public = models.BooleanField(_('is public'), default=True, help_text=_('Uncheck this to make the uploaded gallery and included photographs private.'))
     tags = models.CharField(max_length=255, blank=True, help_text=tagfield_help_text, verbose_name=_('tags'))
+    gallery = models.ForeignKey(Gallery, blank=True, null=True) 
 
     class Meta:
         verbose_name = _('gallery upload')
@@ -197,11 +232,14 @@ class GalleryUpload(models.Model):
             if bad_file:
                 raise Exception('"%s" in the .zip archive is corrupt.' % bad_file)
             count = 1
-            gallery = Gallery.objects.create(title=self.title,
-                                             title_slug=slugify(self.title),
-                                             description=self.description,
-                                             is_public=self.is_public,
-                                             tags=self.tags)
+            if self.gallery:
+                gallery = self.gallery
+            else:
+                gallery = Gallery.objects.create(title=self.title,
+                                                title_slug=slugify(self.title),
+                                                description=self.description,
+                                                is_public=self.is_public,
+                                                tags=self.tags)
             from cStringIO import StringIO
             for filename in zip.namelist():
                 if filename.startswith('__'): # do not process meta files
@@ -481,8 +519,8 @@ class Photo(ImageModel):
             self.title_slug = slugify(self.title)
         super(Photo, self).save(update)
 
-    def get_absolute_url(self):
-        return reverse('pl-photo', args=[self.title_slug])
+#    def get_absolute_url(self):
+#        return reverse('pl-photo', args=[self.title_slug])
 
     def public_galleries(self):
         """Return the public galleries to which this photo belongs."""
