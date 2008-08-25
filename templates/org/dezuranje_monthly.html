@@ -1,0 +1,92 @@
+{% extends "org/base_3col.html" %}
+
+{% load box %}
+{% load markup %}
+{% block title %}Dnevnik dežuranja{% endblock %}
+
+{% block toplinks %}
+	<div class="breadcrumbs">
+		<ul id="breadcrumbs">
+			<li>Pogledi:</li>
+			<li><a href="/intranet/dezurni/{{ year }}/{{ iso_week }}">Tedenski</a></li>
+			<li><a href="/intranet/dezurni/{{ year }}/{{ month_name }}">Mesecni</a></li>
+		</ul>
+	</div>
+{% endblock %}
+
+{% block extrahead %}
+    <script type="text/javascript" src="{{ media_url }}/dojo/dojo.js"></script>
+    <script type="text/javascript" src="{{ media_url }}/dojo/src/fx/html.js"></script>
+    <script type="text/javascript" language="javascript" src="{{ media_url }}/dezuranje.js"></script>
+{% endblock %}
+
+{% block heading %}
+        <h1>Dnevnik dezuranja - mesecni</h1>
+{% endblock %}
+
+{% block content-related-left %}
+  <div class="module" id="recent-actions-module">
+	<h2>Plache</h2>
+	{% box_plache log_list user %}
+</div>
+{% endblock %}
+
+{% block content-main %}
+	<div class="module">
+    	<table class="dezurni">
+    		<tr>
+				<th scope="col">
+					<a href="/intranet/dezurni/{{ navigation.prev }}">&lt;&lt;</a>|
+					{{ month_number }} |
+					<a href="/intranet/dezurni/{{ navigation.next }}">&gt;&gt;</a>
+				</th>
+        		<th scope="col">1000 - 1600</th>
+        		<th scope="col">1600 - 2100 </th>
+    		</tr>
+    {% for day in month %}
+    		<tr><td id='date'>{{ day.date }}</td>
+    {% for dezurni in day.dezurni %}
+      	{% if dezurni.name %}
+            <td id='dezurni{{ forloop.counter }}'>
+				<a href="/intranet/diarys/{{ dezurni.admin_id }}">{{ dezurni.name }}</a>
+			</td>
+        {% else %}
+            <td id='dezurni{{ forloop.counter }}' class="free">
+				<a href="javascript:;" onclick="formExplode(this, '{{ dezurni.unique }}')">
+					Vpiši</a>
+			</td>
+        {% endif %}
+    {% endfor %}
+    		</tr>
+    {% endfor %}
+    	</table>
+    </div>
+<p><br></p>
+
+{% for object in log_list %}
+	<div class="module">
+        <h2><a href="/intranet/diarys/{{ object.id }}" class="h2">
+        {{ object.author }}: {{ object.date|date:"D d.m.Y" }},
+        	{{ object.task }} ({{ object.length }})</A></h2>
+      {% if object.log_formal %}
+          <h5><b>Dnevnik:</b></h5>
+          <p dojoType="inlineEditBox" id="dn"><br />{{ object.log_formal|linebreaks }}</p>
+      {% endif %}
+      {% if object.log_informal %}
+          <h5><b>Blog:</b></h5>
+          <p dojoType="inlineEditBox" mode="textarea" id="bl"><br />
+          {{ object.log_informal|linebreaks }}</p>
+      {% endif %}
+	</div>
+{% endfor %}
+
+{% endblock %}
+
+{% block content-related-right %}
+  <div class="module" id="recent-actions-module">
+    <h2>Dogodki meseca</h2>
+  	 <ul class="actionlist">
+	    {% box_list Event "start_date__gte=start_date,start_date__lte=end_date" "template=org/list_event.html,order_by=start_date" %}
+	    </ul>
+  </div>
+{% endblock %}

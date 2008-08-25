@@ -1,0 +1,22 @@
+{% extends "www/base.html" %}
+{% block content %}
+{% comment %}<div style="text-align: left;">left</div>
+<div style="text-align: center;">center</div>
+<div style="text-align: right;">right</div> {% endcomment %}
+<table width="70%" style="align: center; margin-left:auto; margin-right:auto;">
+<tr>
+{% for last in last3 %}
+<td style="width: 21%"> {{ last }} </td>
+{% endfor %}
+</tr>
+</table>
+
+<table width="70%" style="align: center; margin-left:auto; margin-right:auto;">
+<tr>
+<td style="width: 21%"> {% for pre in pre6 %} {{ pre }} <br> {% endfor %} </td>
+
+<td style="width: 21%"> {{ last }} </td>
+</tr>
+</table>
+
+{% endblock %}

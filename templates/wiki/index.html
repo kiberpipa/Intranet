@@ -1,0 +1,51 @@
+{% extends 'wiki/base.html' %}
+
+{% load wiki %}
+
+{% block extrahead %}
+  <script src="{{ media_url }}/js/jquery-1.2.6.js"></script>
+  <link rel="stylesheet" href="{{ media_url }}/css//jquery.treeview.css" type="text/css" media="screen" />
+  <script type="text/javascript" src="{{ media_url }}/js/jquery.treeview.js"></script>
+  <style type="text/css">
+    #browser {font-family: Verdana, helvetica, arial, sans-serif; font-size: 68.75%;}
+  
+    p.left {margin-left: 10px}
+    h1.left {margin-left: 10px}
+    a.left {margin-left: 10px}
+    
+
+  </style>
+
+  <script>
+  $(document).ready(function(){
+    $("#browser").treeview();
+ $("#add").click(function() {
+    var branches = $("<li><span class='folder'>New Sublist</span><ul>" + 
+        "<li><span class='file'>Item1</span></li>" + 
+        "<li><span class='file'>Item2</span></li>" +
+        "</ul></li>").appendTo("#browser");
+    $("#browser").treeview({
+        add: branches
+    });
+ });
+ {% for category in categories %}
+     $("#toggle{{ category.id }}").click(function () {
+      $("#toggleMe{{ category.id }}").toggle();
+    });
+    {% endfor %}
+     $("#toggle").click(function () {
+      $("#toggleMe").toggle();
+    });
+
+  });
+  </script>
+{% endblock %}
+
+{% block content-main %}
+    <h1 class="left">Wiki index</h1>
+    <a href="javascript:;" id="toggle">Dodaj kategorijo</a>
+    <div style="display: none;" id="toggleMe"><form method="post" action="cat/"><input type="text" name="cat"><input type="submit" value="Dodaj kategorijo"></form></div>
+    <div class="module" id="recent-actions-module">
+  	<h2>Za dodajanje člankov klikni na kategorijo</h2>{% wiki_index %}</div>
+
+{% endblock %}

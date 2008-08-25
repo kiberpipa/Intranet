@@ -1,0 +1,38 @@
+{% extends 'wiki/base.html' %}
+
+{% load wiki %}
+
+{% block extrahead %}
+
+<style type="text/css">
+ p.left {margin-left: 10px}
+ h1.left {margin-left: 10px}
+ a.left {margin-left: 10px}
+ div.module {margin-left: 20px; margin-top: 10px; margin-bottom: 10px;}
+</style>
+
+{% endblock %}
+
+{% block content-main %}
+    <h1 class="left">
+      <a href="../../">Wiki index</a>&nbsp;>
+    {% for parent in parents %}
+      {{ parent }} > {{ article.title }}</h1>
+    {% endfor %}
+
+     <div class="module" id="recent-actions-module">
+    <h2 class="left">{{ article.title }}</h2>
+    
+    {% autoescape off %}
+	   {% comment %} {{ article.content|escape|wikiwordfy|wikify|linebreaks }} {% endcomment %}
+	   {{ article.content|mw|escape|linebreaks }}
+    {% endautoescape %}
+</div>
+{% endblock %}
+
+
+{% block footer %}
+	<a class="left" href="edit/">Edit this article</a>
+        |
+        <a class="left" href="history/">Editing history</a>
+{% endblock %}

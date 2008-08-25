@@ -1,0 +1,46 @@
+{% extends "org/base_2col.html" %}
+{% block title %}Clipping{% endblock %}
+
+{% block heading %}
+        <h1>Clipping</h1><br/>
+{% endblock %}
+
+
+
+{% block content-related-left %}
+    <a href="{{ add_link }}">Dodaj novega</a><br /><br />
+	
+	<div class="module" id="recent-actions-module">
+	  <h2>Filtriraj</h2>	  
+    <form method="post" action="">
+    <table>{{ form }}</table>
+    <input type="submit" />
+    </form> </div>
+	
+{% endblock %} 
+
+{% block content-main %}
+
+
+	  
+
+
+    {% for clipping in clippings %}
+
+        <div class="module">
+            <h2>{{ clipping }}</h2>
+            {% if clipping.event %}
+            <p> Event{{ clipping.event }} </p>
+            {% endif %}
+            {% if clipping.project %}
+            <p>Project: {{ clipping.project }}</p>
+            {% endif %}
+            <p>Medij: {{ clipping.medij }}</p>
+            <p>Linki: {% for i in clipping.upload.all %}<a href="{{ media_url }}{{ i.file }}">{{ i }}</a> {% endfor %}</p>
+            {% comment %}<p>Osebek: {{ sodelovanje.person }}</p>
+            <p>Tip Sodelovanja: {{ sodelovanje.tip }}</p>{% endcomment %}
+        </div>
+        <br>
+    {% endfor %}
+{% endblock %}
+

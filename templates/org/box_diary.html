@@ -1,0 +1,32 @@
+<form method="post" action="/intranet/box/diary/add/">
+  <p>
+    <label for="id_task">Naloga:</label>
+    {{ form.task }}
+    {% if form.task.errors %}
+      *** {{ form.task.errors|join:", " }}
+    {% endif %}
+  </p>
+  <p>
+    <label for="id_date">Datum:</label>
+    <input type="text" id="id_date" name="date" size="10" maxlength="10" />
+    {% if form.date.errors %}
+      *** {{ form.date.errors|join:", " }}
+    {% endif %}
+	
+    <label for="id_length">Trajanje:</label>
+    {% comment %}{{ form.length }}{% endcomment %}
+    <input type="text" id="id_length" name="length" size="8" value="01:00" maxlength="8" />
+    {% if form.length.errors %}
+      *** {{ form.length.errors|join:", " }}
+    {% endif %}
+  </p>
+  <p>
+    <label for="id_note">Opis:</label>
+    {{ form.log_formal }}
+    {% if form.log_formal.errors %}
+      *** {{ form.log_formal.errors|join:", " }}
+    {% endif %}
+  </p>
+  <p><input type="submit" value="Objavi" /></p>
+</form>
+

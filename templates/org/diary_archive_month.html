@@ -1,0 +1,81 @@
+{% extends "org/base_3col.html" %}
+{% block extrahead %} 
+    <link rel="alternate" type="application/rss+xml" title="Diarys RSS Feed" href="/intranet/feeds/diarys/" />
+    <script type="text/javascript">
+  //<!--
+    function getElementsByClassName(oElm, strTagName, strClassName){
+        // Written by Jonathan Snook, http://www.snook.ca/jon; Add-ons by Robert Nyman, http://www.robertnyman.com
+        var arrElements = (strTagName == "*" && document.all)? document.all :
+        oElm.getElementsByTagName(strTagName);
+        var arrReturnElements = new Array();
+        strClassName = strClassName.replace(/\-/g, "\-");
+//        var oRegExp = new RegExp("(^|\s)" + strClassName + "(\s|$)");
+        var oRegExp = new RegExp(strClassName);
+        var oElement;
+        for(var i=0; i<arrElements.length; i++){
+            oElement = arrElements[i];
+            if(oRegExp.test(oElement.className)){
+                arrReturnElements.push(oElement);
+            }
+        }
+        return (arrReturnElements)
+    }
+    function hideAll(elems) {
+      for (var e = 0; e < elems.length; e++) {
+        elems[e].style.display = 'none';
+      }
+    }
+//    window.onload = function() {
+//      hideAll(getElementsByClassName(document, 'div', 'diary'));
+//      hideAll(getElementsByClassName(document, 'li', 'diary'));
+//    }
+    function toggle() {
+      for (var i = 0; i < arguments.length; i++) {
+        var arrElements = getElementsByClassName(document, 'div', arguments[i]);
+        for(var i=0; i<arrElements.length; i++){
+          e = arrElements[i];
+          e.style.display = e.style.display == 'none' ? 'block' : 'none';
+        }
+      }
+      return false;
+    }
+    //-->
+  </script>
+   {% endblock %}
+{% block title %}Dnevniki{% endblock %}
+{% load markup %}
+{% load box %}
+{% block toplinks %}
+    <div class="breadcrumbs">
+    <ul id="breadcrumbs">
+        <li>Dnevi:</li>
+        {% for obj in date_list %}
+            <li><a href="{{ obj|date:"D"|lower }}/">{{ obj.day }}</a></li>
+        {% endfor %}
+    </ul>
+    </div>
+{% endblock %}
+
+{% block heading %}
+        <h1>Arhiv Dnevnikov - mesec {{ month|date:"m" }}</h1>
+{% endblock %}
+
+{% block content-related-left %}
+  <div class="module" id="recent-actions-module">
+    <h2>Plache</h2>
+    {% box_plache object_list user %}
+</div>
+{% endblock %}
+
+{% block content-main %}
+        {% for object in object_list %}
+            {% print_diary object %}
+        {% endfor %}
+{% endblock %}
+
+{% block content-related-right %}
+  <div class="module" id="recent-actions-module">
+    <h2>Filtri</h2>
+       {% box_list Task "" "template=org/list_task_diary.html" %}
+</div>
+{% endblock %}

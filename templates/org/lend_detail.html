@@ -1,0 +1,45 @@
+{% extends "org/base_3col.html" %}
+{% block title %}Reverzi opreme{% endblock %}
+
+{% block extrahead %}
+{% load box %}
+{% endblock %}
+
+{% block heading %}
+        <h1>Reverz</h1>
+{% endblock %}
+
+{% block content-related-left %}
+  <div class="module" id="recent-actions-module">
+    <h2>Urejanje</h2>
+        <ul class="actionlist">
+                {% if object.returned %}
+                        <li>Ta predmet je ze vrnjen</li>
+                {% else %}
+                        <li><a href="/intranet/lends/{{ object.id }}/back/">Vrni!</a></li>
+                {% endif %}
+        </ul>
+  </div>
+{% endblock %}
+
+{% block content-main %}
+	<div class="module">
+			<h2><a class="h2" href="/intranet/admin/org/lends/{{ object.id }}">
+				{{ object.what }}</a>
+          		do {{ object.due_date|date:"d.m.Y" }}</h2>
+        <h5>{{ object.from_who }} -> {{ object.to_who }}</h5>
+    	<p>{{ object.why|escape|linebreaks }}</p>
+    	<p>{{ object.note|escape|linebreaks }}</p>
+	</div>
+{% endblock %}
+
+{% block content-related-right %}
+  <div class="module" id="recent-actions-module">
+</div>
+  <div class="module" id="recent-actions-module">
+    <h2>Izposojena oprema</h2>
+  	 <ul class="actionlist">
+		{% box_list Lend "returned=False" "template=org/list_lend.html" %}
+	</ul>
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+<form method="post" action="/intranet/box/lend/add/">
+  <p>
+    <label for="id_what">Predmet:</label>
+    {{ form.what }}
+    {% if form.what.errors %}
+      *** {{ form.what.errors|join:", " }}
+    {% endif %}
+  </p>
+  <p>
+    <label for="id_to_who">Komu:</label>
+    {{ form.to_who }}
+    {% if form.to_who.errors %}
+      *** {{ form.to_who.errors|join:", " }}
+    {% endif %}
+  </p>
+  <p>
+    <label for="id_why">Namen:</label>
+    {{ form.why }}
+    {% if form.why.errors %}
+      *** {{ form.why.errors|join:", " }}
+    {% endif %}
+  </p>
+  <p>
+    <label for="id_due_date">Do kdaj:</label>
+    {{ form.due_date }}
+    {% if form.due_date.errors %}
+      *** {{ form.due_date.errors|join:", " }}
+    {% endif %}
+  </p>
+  <p>
+    <label for="id_contact_info">Kontakt:</label>
+    {{ form.contact_info }}
+    {% if form.contact_info.errors %}
+      *** {{ form.contact_info.errors|join:", " }}
+    {% endif %}
+  </p>
+  <p><input type="submit" value="Posodi" /></p>
+</form>
+

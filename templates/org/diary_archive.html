@@ -1,0 +1,56 @@
+{% extends "org/base_3col.html" %}
+
+
+{% block title %}Dnevniki{% endblock %}
+{% load box %}
+{% load markup 
+
+{% block extrahead %}
+  <script src="{{ media_url }}/jquery-1.2.6.min.js"></script> 
+          <script>
+  $(document).ready(function(){
+    $('#id_date').datepicker({firstDay: 1, dateFormat: "yy-mm-dd"});
+    });
+    </script>
+  <link rel="stylesheet" href="{{ media_url }}/css/flora.datepicker.css" type="text/css" media="screen" title="Flora (Default)">
+<script src="{{ media_url }}/js/ui.datepicker.js"></script>
+    <link rel="alternate" type="application/rss+xml" title="Diarys RSS Feed" href="/intranet/feeds/diarys/" />
+{% endblock %}
+
+{% block toplinks %}
+    <div class="breadcrumbs">
+    <ul id="breadcrumbs">
+        <li>Leta:</li>
+        {% for obj in date_list %}
+            <li><a href="arhiv/{{ obj.year }}/">{{ obj.year }}</a></li>
+        {% endfor %}
+    </ul>
+    </div>
+{% endblock %}
+
+{% block heading %}
+    <h1>Arhiv dnevnikov - zadnjih 15</h1>
+{% endblock %}
+
+{% block content-related-left %}
+  <div class="module" id="recent-actions-module">
+    <h2>Dodaj dnevnik</h2>
+    {% box_add Diary %}
+  </div>
+{% endblock %}
+
+{% block content-main %}
+        {% for object in latest %}
+            {% print_diary object%}
+        {% endfor %}
+{% endblock %}
+
+{% block content-related-right %}
+  <div class="module" id="recent-actions-module">
+    <h2>Filtri</h2>
+        <form action="" method="post">
+        {{ filter.as_p }}
+        <input type="submit">
+        </form>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+<div class="{{ event.project.name|slugify }}">
+<ul class="event">
+{% if event.require_video %}
+<li><img src="{{ media_url }}img/camera.png" alt="video" /></li>
+{% endif %}
+
+{% if event.require_technician %}
+    {% if event.technician %}
+        <li><img src="{{ media_url }}img/tools.png" alt="tech" /></li>
+    {% else %}
+        <li><a href="/intranet/tehniki/add/{{ event.id }}" alt="addtech"><img src="{{ media_url }}img/help.png" alt="help" /></a></li>
+    {% endif %}
+{% endif %}
+
+<li>{{ event.start_date|date:"d.m.Y D, H:i" }}</li>
+<li><i>{{ event.project }}</i></li>
+<li><a href="/intranet/events/{{ event.id }}">{{ event.title }}</a></li>
+<li>({{ event.length|time:"H:i" }})</li>
+<li><a href="/intranet/events/{{ event.id }}/edit/">[Uredi]</a></li>
+</ul>
+</div>

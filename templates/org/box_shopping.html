@@ -1,0 +1,39 @@
+<form method="post" action="/intranet/box/shopping/add/">
+  <p>
+    <label for="id_name">Kaj:</label>
+    {{ form.name }}
+    {% if form.name.errors %}
+      *** {{ form.name.errors|join:", " }}
+    {% endif %}
+  </p>
+  <p>
+    <label for="id_explanation">Zakaj:</label>
+    {{ form.explanation }}
+    {% if form.explanation.errors %}
+      *** {{ form.explanation.errors|join:", " }}
+    {% endif %}
+  </p>
+  <p>
+    <label for="id_cost">Cena:</label>
+    {{ form.cost }}
+    {% if form.cost.errors %}
+      *** {{ form.cost.errors|join:", " }}
+    {% endif %}
+  </p>
+  <p>Potrebujemo za...</p>
+  <p>
+    <label for="id_project">Projekte:</label>
+    {{ form.project }}
+    {% if form.project.errors %}
+      *** {{ form.project.errors|join:", " }}
+    {% endif %}
+  </p>
+  <p>
+    <label for="id_task">Opravila:</label>
+    {{ form.task }}
+    {% if form.task.errors %}
+      *** {{ form.task.errors|join:", " }}
+    {% endif %}
+  </p>
+  <p><input type="submit" value="Objavi" /></p>
+</form>

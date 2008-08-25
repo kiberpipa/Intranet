@@ -1,0 +1,149 @@
+<!doctype html public '-//W3C//DTD HTML 4.01//EN' 'http://www.w3.org/TR/html4/strict.dtd'>
+
+<html>
+<head>
+<meta http-equiv=content-type content="text/html; charset=utf-8">
+<title>DHTML Widget : Accordion Menu 2.0</title>
+
+
+<!--required library-->
+	<!--Yahoo! User Interface Library : http://developer.yahoo.com/yui/index.html-->
+	<script type="text/javascript" src="http://us.js2.yimg.com/us.js.yimg.com/lib/common/utils/2/yahoo_2.0.0-b2.js"></script>
+	<script type="text/javascript" src="http://us.js2.yimg.com/us.js.yimg.com/lib/common/utils/2/event_2.0.0-b2.js" ></script>
+	<script type="text/javascript" src="http://us.js2.yimg.com/us.js.yimg.com/lib/common/utils/2/dom_2.0.2-b3.js"></script>
+	<script type="text/javascript" src="http://us.js2.yimg.com/us.js.yimg.com/lib/common/utils/2/animation_2.0.0-b3.js"></script>
+
+	<!-- FIXME, dej to kam lokalno -->
+	<script type="text/javascript" src="http://www.hedgerwow.com/360/mwd/accordion/accordion-menu-v2.js"></script>
+	<link rel="stylesheet" type="text/css" href="http://www.hedgerwow.com/360/mwd/accordion/accordion-menu-v2.css" />
+<!--//required library-->
+
+
+<style>
+body{font-family:Verdana;font-size:0.78em;background:white;padding:30px;background:black;color:white;}
+dl.accordion-menu dd .bd{font-size:0.75em;color:#aaaaaa;}
+xmp{color:#FF0099;margin:2em 0;font-size:1em;font-family:Tahoma;letter-spacing:1px;}
+div xmp{color:white;}
+a{color:#CCFF00}
+address{float:right;
+address a{color:white;}
+h3{color:#66CCFF;}
+h4{color:#FFCC66;}
+</style>
+
+
+</head>
+
+<body>
+
+<h1>DHTML Widget :Accordion Menu 2.0</h1>
+
+
+<h3>Use Optional Settings and callbacks</h3>
+<dl class="accordion-menu" id="my-dl">
+	
+	
+	<dt class="a-m-t" id="my-dt-1">test title 1 </dt>
+	<dd class="a-m-d"><div class="bd">
+	Lorem ipsum dolor sit amet, consectetuer adipnia. Vestibulum pellentesque porta enim. Curabitur elementum vulputate lacus. Donec quis ipsum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam dignissim sagittis purus. Nulla sollicitudin mauris sit amet purus. 
+	</div>
+	</dd>
+	
+	
+	
+	<dt class="a-m-t" id="my-dt-2">test title 2 </dt>
+	<dd class="a-m-d"><div class="bd">
+	Lorem ipsum dolor sit amet, consectetuer adipnia. Vestibulum pellentesque porta enim. Curabitur elementum vulputate lacus. Donec quis ipsum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam dignissim sagittis purus. Nulla sollicitudin mauris sit amet purus. 
+	</div>
+	</dd>
+	
+	
+	
+	<dt class="a-m-t" id="my-dt-3">test title 3 </dt>
+	<dd class="a-m-d"><div class="bd">
+	Lorem ipsum dolor sit amet, consectetuer adipnia. Vestibulum pellentesque porta enim. Curabitur elementum vulputate lacus. Donec quis ipsum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam dignissim sagittis purus. Nulla sollicitudin mauris sit amet purus. 
+	</div>
+	</dd>
+	
+	
+	
+	<dt class="a-m-t" id="my-dt-4">test title 4 </dt>
+	<dd class="a-m-d"><div class="bd">
+	Lorem ipsum dolor sit amet, consectetuer adipnia. Vestibulum pellentesque porta enim. Curabitur elementum vulputate lacus. Donec quis ipsum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam dignissim sagittis purus. Nulla sollicitudin mauris sit amet purus. 
+	</div>
+	</dd>
+	
+	
+	
+	<dt class="a-m-t" id="my-dt-5">test title 5 </dt>
+	<dd class="a-m-d"><div class="bd">
+	Lorem ipsum dolor sit amet, consectetuer adipnia. Vestibulum pellentesque porta enim. Curabitur elementum vulputate lacus. Donec quis ipsum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam dignissim sagittis purus. Nulla sollicitudin mauris sit amet purus. 
+	</div>
+	</dd>
+	
+	
+</dl>
+
+<style>
+div.debug{color:green;border:solid 1px red;margin:3px;padding:0.3em;} 
+</style>
+
+<script>
+function onMyMenuOpen(obj)
+{		
+	var dl = obj.dl;
+	var dt = obj.dt;
+	var dd = obj.dd;
+	var d = document.createElement('div');
+	d.className = 'debug';
+	d.innerHTML =  dt.innerHTML + ' is opened' ;
+	document.body.insertBefore( d , dl.nextSibling);
+};
+
+function onMyMenuClose(obj)
+{
+	var dl = obj.dl;
+	var dt = obj.dt;
+	var dd = obj.dd;
+	var d = document.createElement('div');
+	d.className = 'debug';
+	d.innerHTML =  dt.innerHTML + ' is closed' ;
+	document.body.insertBefore( d , dl.nextSibling);
+};
+
+var oOptions=
+{	
+	/*all options are optional*/
+	/* [ bool ] if dependent is false, then each menu open/close independently*/
+	dependent:false,
+	
+	/* [function] callback when a menu is opened*/
+	/* onOpen:onMyMenuOpen, */
+	
+	/* [function] ccallback when a menu is closed*/
+	/* onClose:onMyMenuClose, */
+	
+	/* [array] cdefault ids of opened menues' <dt>*/
+	/* openedIds:['my-dt-1','my-dt-3'], */
+	/* openedIds:[], */
+	
+	/* [number ] seconds for animations*/
+	seconds:0.2,
+	
+	/*[ bool ] set true if the animation is to be played slower and slower and vise versa*/
+	easeOut:false,
+	
+	/*[ bool ] set true if the animation is to be played*/
+	/* animation:true */
+	 animation:false
+}
+var setting = new AccordionMenu.setting('my-dl',oOptions);
+
+</script>
+
+
+
+</body>
+</html>
+
+

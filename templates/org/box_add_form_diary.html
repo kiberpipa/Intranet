@@ -1,0 +1,11 @@
+<div id="dnevnikForm">
+    <form action="/intranet/dezurni/add/" method="post" name="dnevnikForm" class="dnevnikForm">
+       <h3>Med dežuranjem sem počel naslednje stvari:</h3>
+          <input type="hidden" name="uniqueSpot" value="" />
+          <textarea name="log_formal" id="log_f" rows="10"></textarea>
+       <h3>Random stuff:</h3>
+          <textarea name="log_informal" id="log_if" rows="5"></textarea>
+          <input type="button" value="Vnesi" onclick="formSave(this)" /> 
+          <input type="reset" value="Obupaj" onclick="formImplode(this)" />
+    </form>
+</div>

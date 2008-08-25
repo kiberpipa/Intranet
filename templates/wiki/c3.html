@@ -1,0 +1,26 @@
+<html>
+<body>
+<ol>
+ <li><a href="#">Link1</a></li>
+ <li><a href="#" 
+ onclick="d=this.parentNode.getElementsByTagName('ol')[0];d.style.display=d.style.display=='none'?'block':'none';
+ return false">Link2</a>
+  <ol style="display:none"> 
+   <li><a href="#"
+ onclick="d=this.parentNode.getElementsByTagName('ol')[0];d.style.display=d.style.display=='none'?'block':'none';
+return false">Link2_1</a>
+     <ol style="display:none">
+	<li> <a href="#"> link 2_1_1</a></li>
+	<li> <a href="#"> link 2_1_2</a></li>
+     </ol>
+   <li><a href="#">Link2_2</a></li>
+   <li><a href="#">Link2_3</a></li>
+   <li><a href="#">Link2_4</a></li>
+  </ol>
+  </li>
+ </li>
+ <li><a href="#">Link3</a></li>
+ <li><a href="#">Link4</a></li>
+</ol>
+</body>
+</html>
