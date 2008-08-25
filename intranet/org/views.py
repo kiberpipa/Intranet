@@ -299,7 +299,6 @@ def box_diary_add(request):
     else:
         errors = new_data = {}
 
-    print new_data
     form = FormWrapper(manipulator, new_data, errors)
     return render_to_response('org/box_error.html',
                              {'form': form, 'template_file': 'org/box_diary.html'},

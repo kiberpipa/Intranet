@@ -20,6 +20,8 @@ urlpatterns = patterns('',
     (r'^accounts/$', 'django.views.generic.simple.redirect_to', {'url': 'login/'}),
     (r'^accounts/logout/$', 'django.contrib.auth.views.logout'),
 
+    (r'^planet/', include('intranet.feedjack.urls')),
+
     #url(r'^gallery/?$', 'django.views.generic.date_based.archive_index', 
     #    gallery_args, name='pl-gallery-archive'),
 
