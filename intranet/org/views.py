@@ -403,6 +403,8 @@ shopping_support = login_required(shopping_support)
 
 def autocomplete(request, search):
     output = StringIO()
+    if search is None and request.GET.has_key('q'):
+        search = request.GET['q']
     for i in Person.objects.filter(name__icontains=search):
         output.write('%s\n' % i)
     response = HttpResponse(mimetype='text/plain')

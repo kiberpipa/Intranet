@@ -9,6 +9,7 @@
     <script type="text/javascript" src="{{ media_url }}js/cal/calendar.js"></script>
     <script type="text/javascript" src="{{ media_url }}js/cal/lang/calendar-en.js"></script>
     <script type="text/javascript" src="{{ media_url }}js/cal/calendar-setup.js"></script>
+    <script type="text/javascript" src="{{ media_url }}js/jquery.suggest.js" ></script>
 
 <script type="text/javascript">
 function addFormField() {
@@ -27,6 +28,11 @@ function addFormField() {
 function removeFormField(id) {
     $(id).remove();
 }
+
+$(document).ready(function() {
+   $(".input_author").suggest("/intranet/autocomplete/");
+
+});
   
   </script>
 
