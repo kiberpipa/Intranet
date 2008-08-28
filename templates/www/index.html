@@ -1,22 +1,75 @@
 {% extends "www/base.html" %}
+
+{% block extrahead %}
+<link href='{{ media_url }}/www/scroll.css' type='text/css' rel='stylesheet' />
+<script type='text/javascript' src='{{ media_url }}/js/jquery.scrollTo-min.js'></script>
+<script type='text/javascript' src='{{ media_url }}/js/jquery.serialScroll-min.js'></script>
+<script type='text/javascript' src='{{ media_url }}/js/www-init.js'></script>
+{% endblock %}
 {% block content %}
-{% comment %}<div style="text-align: left;">left</div>
-<div style="text-align: center;">center</div>
-<div style="text-align: right;">right</div> {% endcomment %}
-<table width="70%" style="align: center; margin-left:auto; margin-right:auto;">
-<tr>
-{% for last in last3 %}
-<td style="width: 21%"> {{ last }} </td>
-{% endfor %}
-</tr>
-</table>
+		<div id="threeboxes">
+			<div class="box mr20">
+				Event 1
+			</div><div class="box mr20">
+				Event 2
+			</div><div class="box">
+				Event 3
+			</div>
+		</div>
 
-<table width="70%" style="align: center; margin-left:auto; margin-right:auto;">
-<tr>
-<td style="width: 21%"> {% for pre in pre6 %} {{ pre }} <br> {% endfor %} </td>
+		<div id="doubleboxandaticker">
+			<div class="box">
+				Event 4-5
+			</div><div class="box mr20">
+				Event 6-7
+			</div><div class="box ticker">
+		<div id="screen">
+		<div id="navigation">
+			<ul>
+				<li><a id="stop1" href="#">1</a></li>
+				<li><a id="stop2" href="#">2</a></li>
+				<li><a id="stop3" href="#">3</a></li>
+				<li><a id="stop4" href="#">4</a></li>
+				<li><a id="stop5" href="#">5</a></li>
+			</ul>
+		</div>
+		<div id="sections">
+			<ul>
+				<li>
+					<h2>Section 1</h2>
+					<p>crkn</p>
+				</li>
+				<li>
+					<h2>Section 2</h2>
+					<p>crkn</p>
+				</li>
+				<li>
+					<h2>Section 3</h2>
+					<p>crkn</p>
+				</li>				
+				<li>
+					<h2>Section 4</h2>
+					<p>crkn</p>
+				</li>
+				<li>
+					<h2>Section 5</h2>
+					<p>crkn</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+				
+			</div>
+		</div>
 
-<td style="width: 21%"> {{ last }} </td>
-</tr>
-</table>
-
+		<div id="threerectangles">
+			<div class="box mr20">
+				{{ gallery.0 }} {{ gallery.1 }}
+			</div><div class="box mr20">
+				Videoarhiv
+			</div><div class="box">
+				<a href="{{ planet.0.get_absolute_url }}">{{ planet.0 }}</a>
+				<a href="{{ planet.1.get_absolute_url }}">{{ planet.1 }}</a>
+			</div>
+		</div>
 {% endblock %}

@@ -1,0 +1,27 @@
+body { font-size: 62.5%; font-family: Freesans, Helvetica, sans-serif; }
+h1, h2, h3, h4, h5 { margin-top: 0; margin-bottom: 0; }
+
+div#wrapper { width: 1000px; margin: 20px 0px 0px 40px; padding: 0pt; }
+
+div#header { margin-bottom: 20px; height: 75px; }
+div#header h1, div#header div, div#header form { display: inline-block; float: left; height: 73px; }
+/* image replacement for logo*/
+div#header #logo { width: 300px; height:73px; background-image:url("images/kiberpipa.png"); background-repeat:no-repeat;  } 
+div#header #logo span { display: none; }
+div#headerlinks { width: 450px; text-align: right; padding: 20px 20px 0px 0px; font-size: 1.2em; }	
+div#headerlinks a { padding-left: 20px; padding: 6px; border-right: 2pt dotted lightgray; font-variant: small-caps; background: lightgray; }
+form#headersearch { width: 200px; padding: 13px 0px 0px 0px; }	
+input#q { width: 200px; }
+
+div#threeboxes { height: 302px; margin-bottom: 20px; }
+div.box { background: lightgrey; width: 298px; height: 280px; border: 1pt solid black; padding: 10px; display: inline-block; font-size: 150%; }
+.mr20 { margin-right: 20px; }
+
+div#doubleboxandaticker { margin-bottom: 20px; }
+div#doubleboxandaticker div.box { width: 218px; height: 150px; }
+div#doubleboxandaticker div.ticker { width: 478px; background: yellow; display: inline-block; }
+
+div#threerectangles { height: 77px; margin-bottom: 20px; }
+div#threerectangles div.box { height: 55px; background: lightblue; }
+
+div#footer { background: green; padding: 10px; }

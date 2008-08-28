@@ -1,16 +1,39 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>Kiberpipa.org booo whoo</title>
-{% block extrahead %}
-{% endblock %}
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<title>Kiberpipa the new way, layout by ike</title>
+	<link rel="stylesheet" href="{{ media_url }}/www/kiberpipa_new.css">
+    <script type='text/javascript' src='{{ media_url }}/js/jquery-1.2.6.js'></script>
+    {% block extrahead %}{% endblock %}
 </head>
 
 <body>
-{% comment %}<div>some header<br>with<br>several<br>lines<br></div>{% endcomment %}
+	<div id="wrapper">
+		<div id="header">
+			<h1 id="logo">
+				<span>Kiberpipa</span>
+			</h1><div id="headerlinks">
+				<a href="1">O nas</a>
+				<a href="2">Skupnost</a>
+				<a href="3">Multimedija</a>
+				<a href="4">Umetnost</a>
+			</div><form id="headersearch" action="/search" method="post">
+				<input type="text" id="q" size="20" value="">
+			</form>
+		</div>
+		
+{% block content %}{%endblock %}
+		<div id="footer">
+			<img src="images/zavod2k5.png" alt="Vsi zavodovi možje">
+			
+			<p><b>Mnogo linkova</b></p>
 
-{% block content %} {% endblock %}
+			<ul>
+				<li><a href="nekam.html">Nekam</a></li>
+			</ul>
+		</div>
 
+	</div>
 </body>
 </html>
