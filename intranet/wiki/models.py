@@ -36,7 +36,7 @@ class Article(models.Model):
             revision = 1
 
         changes_args = {'article': self,
-                        'editor': editor.user,
+                        'editor': editor,
                         'comment': comment,
                         'revision': revision}
         try:

@@ -1,4 +1,5 @@
 from datetime import datetime
+import copy
 
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
@@ -49,7 +50,7 @@ def view_article(request, id):
 view_article = login_required(view_article)
 
 def new_article(request, cat):
-    category = Category.objects.filter(pk=cat)[0]
+    category = Category.objects.get(pk=cat)
 
     if request.method == 'POST':
 
@@ -77,6 +78,7 @@ def edit_article(request, id):
         cat = article.cat
     except Article.DoesNotExist:
         article = None
+    old = copy.deepcopy(article)
 
     if request.method == 'POST':
         
@@ -86,6 +88,7 @@ def edit_article(request, id):
             form.save()
             article.cat = cat
             article.save()
+            article.create_changeset(old, request.user, form.cleaned_data['comment'])
             return HttpResponseRedirect('../')
     else:
         if article is None:
