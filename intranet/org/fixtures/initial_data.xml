@@ -4,7 +4,7 @@
   <field type="CharField" name="name">POT</field>
   <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
   <field type="TextField" name="note">Kiberpipini odprti termin. Predviden ?as je vsak torek ob 19h.</field>
-  <field type="CharField" name="mail"><None></None></field>
+  <field type="CharField" name="email"><None></None></field>
   <field to="org.project" name="parent" rel="ManyToOneRel"><None></None></field>
   <field type="DateTimeField" name="pub_date">2006-11-03 14:14:42</field>
   <field type="DateTimeField" name="chg_date">2006-11-03 14:14:42</field>
@@ -13,7 +13,7 @@
   <field type="CharField" name="name">Intranet</field>
   <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
   <field type="TextField" name="note">Kiberpipin novi portal za interno organizacijo.</field>
-  <field type="CharField" name="mail"><None></None></field>
+  <field type="CharField" name="email"><None></None></field>
   <field to="org.project" name="parent" rel="ManyToOneRel"><None></None></field>
   <field type="DateTimeField" name="pub_date">2006-11-03 14:14:42</field>
   <field type="DateTimeField" name="chg_date">2006-11-03 14:14:42</field>
@@ -22,7 +22,7 @@
   <field type="CharField" name="name">Delavnice</field>
   <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
   <field type="TextField" name="note"></field>
-  <field type="CharField" name="mail"><None></None></field>
+  <field type="CharField" name="email"><None></None></field>
   <field to="org.project" name="parent" rel="ManyToOneRel"><None></None></field>
   <field type="DateTimeField" name="pub_date">2006-11-03 14:14:42</field>
   <field type="DateTimeField" name="chg_date">2006-11-03 14:14:42</field>
@@ -31,7 +31,7 @@
   <field type="CharField" name="name">Filmšteka</field>
   <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
   <field type="TextField" name="note"></field>
-  <field type="CharField" name="mail"><None></None></field>
+  <field type="CharField" name="email"><None></None></field>
   <field to="org.project" name="parent" rel="ManyToOneRel"><None></None></field>
   <field type="DateTimeField" name="pub_date">2006-11-03 14:14:42</field>
   <field type="DateTimeField" name="chg_date">2006-11-03 14:14:42</field>
@@ -40,7 +40,7 @@
   <field type="CharField" name="name">Err0r</field>
   <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
   <field type="TextField" name="note"></field>
-  <field type="CharField" name="mail"><None></None></field>
+  <field type="CharField" name="email"><None></None></field>
   <field to="org.project" name="parent" rel="ManyToOneRel"><None></None></field>
   <field type="DateTimeField" name="pub_date">2006-11-03 14:14:42</field>
   <field type="DateTimeField" name="chg_date">2006-11-03 14:14:42</field>
@@ -49,7 +49,7 @@
   <field type="CharField" name="name">Spletne urice</field>
   <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
   <field type="TextField" name="note"></field>
-  <field type="CharField" name="mail"><None></None></field>
+  <field type="CharField" name="email"><None></None></field>
   <field to="org.project" name="parent" rel="ManyToOneRel"><None></None></field>
   <field type="DateTimeField" name="pub_date">2006-11-03 14:14:42</field>
   <field type="DateTimeField" name="chg_date">2006-11-03 14:14:42</field>
@@ -60,7 +60,7 @@
   <field type="TextField" name="note">http://www.kiberpipa.org/muzej 
 
 Najbolj kul ra?unalniški muzej dalec naokoli :D</field>
-  <field type="CharField" name="mail"><None></None></field>
+  <field type="CharField" name="email"><None></None></field>
   <field to="org.project" name="parent" rel="ManyToOneRel"><None></None></field>
   <field type="DateTimeField" name="pub_date">2006-11-03 14:14:42</field>
   <field type="DateTimeField" name="chg_date">2006-11-03 14:14:42</field>
@@ -69,7 +69,7 @@ Najbolj kul ra?unalniški muzej dalec naokoli :D</field>
   <field type="CharField" name="name">Kiberpipa</field>
   <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
   <field type="TextField" name="note">Karkoli nima posebno definiranega projekta, spada sem</field>
-  <field type="CharField" name="mail"><None></None></field>
+  <field type="CharField" name="email"><None></None></field>
   <field to="org.project" name="parent" rel="ManyToOneRel"><None></None></field>
   <field type="DateTimeField" name="pub_date">2006-11-11 22:44:50</field>
   <field type="DateTimeField" name="chg_date">2006-11-11 22:44:50</field>
@@ -78,7 +78,7 @@ Najbolj kul ra?unalniški muzej dalec naokoli :D</field>
   <field type="CharField" name="name">Hidden1</field>
   <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
   <field type="TextField" name="note">To je za dogodke, ki se jih ne oglasuje</field>
-  <field type="CharField" name="mail"><None></None></field>
+  <field type="CharField" name="email"><None></None></field>
   <field to="org.project" name="parent" rel="ManyToOneRel"><None></None></field>
   <field type="DateTimeField" name="pub_date">2006-11-03 14:14:42</field>
   <field type="DateTimeField" name="chg_date">2007-01-07 00:24:00</field>
@@ -87,7 +87,7 @@ Najbolj kul ra?unalniški muzej dalec naokoli :D</field>
   <field type="CharField" name="name">G404</field>
   <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
   <field type="TextField" name="note"></field>
-  <field type="CharField" name="mail"><None></None></field>
+  <field type="CharField" name="email"><None></None></field>
   <field to="org.project" name="parent" rel="ManyToOneRel"><None></None></field>
   <field type="DateTimeField" name="pub_date">2006-11-03 14:14:42</field>
   <field type="DateTimeField" name="chg_date">2006-11-03 14:14:42</field>
@@ -96,7 +96,7 @@ Najbolj kul ra?unalniški muzej dalec naokoli :D</field>
   <field type="CharField" name="name">PostLAB</field>
   <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
   <field type="TextField" name="note"></field>
-  <field type="CharField" name="mail"><None></None></field>
+  <field type="CharField" name="email"><None></None></field>
   <field to="org.project" name="parent" rel="ManyToOneRel"><None></None></field>
   <field type="DateTimeField" name="pub_date">2006-11-03 14:14:42</field>
   <field type="DateTimeField" name="chg_date">2006-11-03 14:14:42</field>
@@ -105,7 +105,7 @@ Najbolj kul ra?unalniški muzej dalec naokoli :D</field>
   <field type="CharField" name="name">V.I.P.</field>
   <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
   <field type="TextField" name="note"></field>
-  <field type="CharField" name="mail"><None></None></field>
+  <field type="CharField" name="email"><None></None></field>
   <field to="org.project" name="parent" rel="ManyToOneRel"><None></None></field>
   <field type="DateTimeField" name="pub_date">2006-11-03 14:14:42</field>
   <field type="DateTimeField" name="chg_date">2006-11-03 14:14:42</field>
@@ -114,7 +114,7 @@ Najbolj kul ra?unalniški muzej dalec naokoli :D</field>
   <field type="CharField" name="name">HAIP</field>
   <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
   <field type="TextField" name="note"></field>
-  <field type="CharField" name="mail"><None></None></field>
+  <field type="CharField" name="email"><None></None></field>
   <field to="org.project" name="parent" rel="ManyToOneRel"><None></None></field>
   <field type="DateTimeField" name="pub_date">2006-11-03 14:14:42</field>
   <field type="DateTimeField" name="chg_date">2006-11-03 14:14:42</field>
@@ -123,7 +123,7 @@ Najbolj kul ra?unalniški muzej dalec naokoli :D</field>
   <field type="CharField" name="name">Zunanji</field>
   <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
   <field type="TextField" name="note"></field>
-  <field type="CharField" name="mail"><None></None></field>
+  <field type="CharField" name="email"><None></None></field>
   <field to="org.project" name="parent" rel="ManyToOneRel"><None></None></field>
   <field type="DateTimeField" name="pub_date">2006-11-03 14:14:42</field>
   <field type="DateTimeField" name="chg_date">2006-11-03 14:14:42</field>
@@ -132,7 +132,7 @@ Najbolj kul ra?unalniški muzej dalec naokoli :D</field>
   <field type="CharField" name="name">Neznano</field>
   <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
   <field type="TextField" name="note"></field>
-  <field type="CharField" name="mail"><None></None></field>
+  <field type="CharField" name="email"><None></None></field>
   <field to="org.project" name="parent" rel="ManyToOneRel"><None></None></field>
   <field type="DateTimeField" name="pub_date">2007-03-24 23:02:13</field>
   <field type="DateTimeField" name="chg_date">2007-03-24 23:02:13</field>
@@ -141,7 +141,7 @@ Najbolj kul ra?unalniški muzej dalec naokoli :D</field>
   <field type="CharField" name="name">C3</field>
   <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
   <field type="TextField" name="note"></field>
-  <field type="CharField" name="mail"><None></None></field>
+  <field type="CharField" name="email"><None></None></field>
   <field to="org.project" name="parent" rel="ManyToOneRel"><None></None></field>
   <field type="DateTimeField" name="pub_date">2008-01-16 01:55:25</field>
   <field type="DateTimeField" name="chg_date">2008-01-16 01:55:25</field>
@@ -150,7 +150,7 @@ Najbolj kul ra?unalniški muzej dalec naokoli :D</field>
   <field type="CharField" name="name">Videoarhiv</field>
   <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
   <field type="TextField" name="note"></field>
-  <field type="CharField" name="mail"><None></None></field>
+  <field type="CharField" name="email"><None></None></field>
   <field to="org.project" name="parent" rel="ManyToOneRel"><None></None></field>
   <field type="DateTimeField" name="pub_date">2008-04-07 13:57:35</field>
   <field type="DateTimeField" name="chg_date">2008-04-07 13:57:35</field>
@@ -159,7 +159,7 @@ Najbolj kul ra?unalniški muzej dalec naokoli :D</field>
   <field type="CharField" name="name">Media ekipa</field>
   <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
   <field type="TextField" name="note"></field>
-  <field type="CharField" name="mail"><None></None></field>
+  <field type="CharField" name="email"><None></None></field>
   <field to="org.project" name="parent" rel="ManyToOneRel"><None></None></field>
   <field type="DateTimeField" name="pub_date">2008-04-07 13:57:59</field>
   <field type="DateTimeField" name="chg_date">2008-04-07 13:57:59</field>
@@ -168,7 +168,7 @@ Najbolj kul ra?unalniški muzej dalec naokoli :D</field>
   <field type="CharField" name="name">Dežuranje</field>
   <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
   <field type="TextField" name="note"></field>
-  <field type="CharField" name="mail"></field>
+  <field type="CharField" name="email"></field>
   <field to="org.project" name="parent" rel="ManyToOneRel"><None></None></field>
   <field type="DateTimeField" name="pub_date">2008-08-10 12:52:40</field>
   <field type="DateTimeField" name="chg_date">2008-08-10 12:52:40</field>
@@ -177,7 +177,7 @@ Najbolj kul ra?unalniški muzej dalec naokoli :D</field>
   <field type="CharField" name="name">Tehnicarjenje</field>
   <field to="auth.user" name="responsible" rel="ManyToOneRel"><None></None></field>
   <field type="TextField" name="note"></field>
-  <field type="CharField" name="mail"></field>
+  <field type="CharField" name="email"></field>
   <field to="org.project" name="parent" rel="ManyToOneRel"><None></None></field>
   <field type="DateTimeField" name="pub_date">2008-08-10 12:53:50</field>
   <field type="DateTimeField" name="chg_date">2008-08-10 12:55:48</field>

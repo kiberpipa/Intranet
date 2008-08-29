@@ -59,7 +59,7 @@ class Project(models.Model):
     name = models.CharField(max_length=100)
     responsible = models.ForeignKey(User, blank=True, null=True)
     note = models.TextField(blank=True, null=True)
-    mail = models.EmailField(blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
     salary_rate = models.FloatField(blank=True, null=True)
 
     parent = models.ForeignKey('self', blank=True, null=True)
@@ -103,7 +103,6 @@ class Project(models.Model):
 
 class UserProfile(models.Model):
     mobile = models.CharField(max_length=100)
-    mail = models.EmailField(blank=True, null=True)
     im = models.TextField(blank=True, null=True)
     #tags = models.ManyToManyField(Tag, blank=True, null=True)
     project = models.ManyToManyField(Project, blank=True, null=True)
@@ -438,9 +437,16 @@ class Bug(models.Model):
         for assignee in self.assign.all():
             assignees += assignee.__unicode__()
 
+        projects = ''
+        for project in self.project.all():
+            projects += project.__unicode__()
+
         info = 'bug: #%i\n' % self.id
         info += 'bug url: %s\n' % self.get_absolute_url()
-        info += 'assigned to: %s\n' % assignees
+        if assignees:
+            info += 'assigned to: %s\n' % assignees
+        if projects:
+            info += 'assigned to (projects): %s\n' % projects
         info += 'reported by: %s\n' % self.author
         if self.due_by:
             info += 'DEADLINE: %s\n' % self.due_by
@@ -456,10 +462,13 @@ class Bug(models.Model):
 
         if self.author not in mails:
             mails += [self.author]
+
+        for i in self.project.all():
+            if not i in mails:
+                mails += [i]
         #send the mail to all the assignees
         for assignee in mails:
-            print assignee
-            to = assignee.get_profile().mail
+            to = assignee.email
             msg = "From: %s\nTo: %s\nSubject: %s\n\n%s\n%s"  % (mail_from, to, subject, info, message)
 
             session = smtplib.SMTP('localhost')

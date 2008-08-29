@@ -449,6 +449,7 @@ def add_bug(request):
             new_bug.author = request.user
             new_bug.save()
             form.save_m2m()
+            new_bug.mail()
             return HttpResponseRedirect(new_bug.get_absolute_url())
 
     return HttpResponseRedirect("..")
