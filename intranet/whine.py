@@ -30,8 +30,8 @@ for bug in bugz:
     for assignee in bug.assign.all():
         assignees += assignee.__unicode__()
 
-    for assignee in bug.assign.all():
-        mail = assignee.get_profile().mail
+    for assignee in list(bug.assign.all()) + list(bug.project.all()):
+        mail = assignee.email
         try:
             mails[mail] += 'bug #%i\n' % bug.id
         except KeyError:

@@ -450,8 +450,8 @@ class Bug(models.Model):
         info += 'reported by: %s\n' % self.author
         if self.due_by:
             info += 'DEADLINE: %s\n' % self.due_by
-        ##separator
 
+        ##separator
         if message:
             info += '-------------------------------------\n\n\n'
 
