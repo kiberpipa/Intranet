@@ -568,11 +568,13 @@ def resolve_bug(request, id=None):
 ##################################################
 def events(request):
     events = Event.objects.all()
+    filtered = False
     if request.POST:
         filter = EventFilter(request.POST)
         if filter.is_valid():
             for key, value in filter.cleaned_data.items():
                 if value:
+                    filtered = True
                     if key == 'title':
                         events = events.filter(title__icontains = value)
                     else:
@@ -583,19 +585,21 @@ def events(request):
 
     today = datetime.datetime.today()
     week = datetime.timedelta(7)
-
+    print 'end: %s' % events
     return date_based.archive_index(request, 
-        queryset = events.order_by('start_date'),
+        queryset = events,
         date_field = 'start_date',
         allow_empty = 1,
         extra_context = {
             'filter': filter,
+            'filtered': filtered,
+            'events': events,
             'event_last': Event.objects.filter(start_date__lte=today, start_date__gt=today-week),
             'event_this': Event.objects.filter(start_date__lte=today+week, start_date__gt=today),
             'event_next': Event.objects.filter(start_date__lte=today+2*week, start_date__gt=today+week),
             'event_next2': Event.objects.filter(start_date__lte=today+3*week, start_date__gt=today+2*week),
             'years': range(2006, datetime.datetime.today().year+1),
-        }
+        },
     )
 events = login_required(events)
 

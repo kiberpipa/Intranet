@@ -41,6 +41,16 @@
 
 {% block content-main %}
 
+
+{% if filtered %}
+<div class="module" style="background:#ffccff">
+    <h2>Eventi</h2>
+       {% for log in events %}
+                {% print_event log %}
+        {% endfor %}
+</div>
+<br/>
+{% else %}
 {% if event_last %}
 <div class="module">
     <h2>Prejšnji teden</h2>
@@ -50,8 +60,6 @@
 </div>
 <br/>
 {% endif %}
-
-
 
 {% if event_this %}
 <div class="module" style="background:#ffccff">
@@ -83,6 +91,7 @@
         {% endfor %}
 </div>
 <br/>
+{% endif %}
 {% endif %}
 
 {% endblock %}
