@@ -13,7 +13,7 @@ from django.conf import settings
 # Create your models here.
 
 class Tag(models.Model):
-    name = models.CharField(max_length=200, primary_key='True', core=True)
+    name = models.CharField(max_length=200, primary_key='True')
     total_ref = models.IntegerField(blank=True, default=0)
     font_size = models.IntegerField(blank=True, default=0)
     parent = models.ForeignKey('self', blank=True, null=True)
@@ -134,6 +134,10 @@ class Category(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'm3c kategorija'
+        verbose_name_plural = 'm3c kategorije'
 
     class Admin:
          js = (

@@ -27,7 +27,7 @@ event_next2 =  Event.objects.filter(start_date__gte=next_week, start_date__lt=ne
 
 
 event_dict = {
-    'queryset': Event.objects.all().order_by('start_date'),
+    'queryset': Event.objects.all().order_by('-start_date'),
     'date_field': 'start_date',
     'allow_empty': 1,
     'allow_future': 1,

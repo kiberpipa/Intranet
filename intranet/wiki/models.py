@@ -63,8 +63,7 @@ class ChangeSet(models.Model):
     old_content = models.TextField("Old Content", blank=True)
     comment = models.CharField("Editor comment", max_length=50, blank=True)
     #comment = models.CharField(max_length=50, blank=True)
-    modified = models.DateTimeField("Modified at", default=datetime.now,
-                                    core=True)
+    modified = models.DateTimeField("Modified at", default=datetime.now)
 
     class Meta:
         get_latest_by  = 'modified'

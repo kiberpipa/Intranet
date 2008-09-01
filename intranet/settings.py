@@ -84,12 +84,13 @@ TEMPLATE_DIRS = (
 
 AUTH_PROFILE_MODULE = "org.UserProfile"
 REQUIRE_LOGIN_PATH = '/intranet/accounts/login/'
-#AUTHENTICATION_BACKENDS = (
-#    'intranet.ldapbackend.backend',
-#    'django.contrib.auth.backends.ModelBackend',
-#)
+AUTHENTICATION_BACKENDS = (
+    'intranet.ldapbackend.backend',
+    #'django.contrib.auth.backends.ModelBackend',
+)
 #PHOTOLOGUE_DIR = 'photo/'
 
 SESSION_COOKIE_AGE = 1800
 GALLERY_SAMPLE_SIZE = 1
+LDAP_SERVER='ldap://localhost'
 from localsettings import *

@@ -574,7 +574,7 @@ def events(request):
             for key, value in filter.cleaned_data.items():
                 if value:
                     if key == 'title':
-                        events = events.filter(name__icontains = value)
+                        events = events.filter(title__icontains = value)
                     else:
                         ##'**' rabis zato da ti python resolva spremenljivke (as opposed da passa dobesedni string)
                         events = events.filter(**{key: value})
