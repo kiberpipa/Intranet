@@ -4,6 +4,7 @@ from django.template import RequestContext
 
 from intranet.feedjack.models import Post
 from intranet.photologue.models import Photo
+from intranet.www.models import News
 
 def index(request):
     last9 = Event.objects.all().order_by('-start_date')[0:8] 
@@ -12,5 +13,6 @@ def index(request):
         'pre6': last9[3:],
         'planet': Post.objects.all().order_by('date_modified')[0:2],
         'gallery': Photo.objects.all().order_by('date_added')[0:2],
+        'news': News.objects.filter(is_active=True),
         },
         context_instance=RequestContext(request))
