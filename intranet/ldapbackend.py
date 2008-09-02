@@ -18,13 +18,17 @@ class backend:
         l = ldap.initialize(settings.LDAP_SERVER)
 
         ##step 1: make sure that the user matching the filter actually exists
-        result_id = l.search(base, ldap.SCOPE_SUBTREE, filter, ret)
-        result_type, result_data = l.result(result_id, 0)
+        try:
+            result_id = l.search(base, ldap.SCOPE_SUBTREE, filter, ret)
+            result_type, result_data = l.result(result_id, 0)
+        except ldap.SERVER_DOWN:
+            return None
+
         if not result_data:
             return None
             
         try:
-            _ = l.simple_bind_s(user, password)
+            l.simple_bind_s(user, password)
             ##if the exception hasn't been raised so far it means the authorization succeded
             return result_data
 

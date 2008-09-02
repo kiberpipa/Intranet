@@ -40,7 +40,7 @@ month_dict = { 'jan': 1, 'feb': 2, 'mar': 3,
 def index(request):
     today = datetime.datetime.today()
     nextday = today + datetime.timedelta(days=8)
-    q= Q()
+    q= Q(resolved=False)
     for i in request.user.get_profile().project.all(): 
         q = q | Q(project=i)
 
