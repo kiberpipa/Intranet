@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 
 import datetime
 
+
 today = datetime.date.today()
 yesterday = today - datetime.timedelta(days=3)
 nextday = today + datetime.timedelta(days=8)

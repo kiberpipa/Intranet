@@ -94,13 +94,6 @@ class Project(models.Model):
         verbose_name = 'Projekt'
         verbose_name_plural = 'Projekti'
 
-    class Admin:
-        search_fields = ['note','name','responsible']
-        list_display = ['name', 'responsible']
-        js = (
-              'js/tags.js',
-              )
-
 class UserProfile(models.Model):
     mobile = models.CharField(max_length=100)
     im = models.TextField(blank=True, null=True)
@@ -109,9 +102,6 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
 #    tasks = models.ManyToManyField(Task, blank=True, null=True)
 #    project = models.ManyToManyField(Project, blank=True, null=True)
-
-    class Admin:
-        pass
 
     def __unicode__(self):
         return self.user.username
@@ -172,6 +162,7 @@ class Event(models.Model):
     require_technician = models.BooleanField(default=False)
     require_video = models.BooleanField(default=False)
     visitors = models.IntegerField(default=0, blank=True, null=True)
+    image = models.ImageField(blank=True, null=True, upload_to='events/%Y/%m/')
 
     slides = models.FileField(upload_to='slides/%Y/%m/', blank=True, null=True)
 
@@ -192,21 +183,11 @@ class Event(models.Model):
 
     def __unicode__(self):
         return self.title
-        #return "%s - (%s) %s" % (self.date.strftime('%x'), self.get_project().name, self.title)
+
 
     class Meta:
         verbose_name = 'Dogodek'
         verbose_name_plural = 'Dogodki'
-
-    class Admin:
-        search_fields = ['note','title','project', 'announce']
-        date_hierarchy = 'start_date'
-        ordering = ['-start_date']
-        list_filter = ['project', 'start_date']
-        list_display = ['title', 'start_date', 'length']
-        js = (
-              'js/tags.js',
-              )
 
 class TipSodelovanja(models.Model):
     name = models.CharField(max_length=40)
@@ -396,15 +377,15 @@ class Diary(models.Model):
     def get_absolute_url(self):
         return "%s/diarys/%i/" % (settings.BASE_URL, self.id)
 
+    class Meta:
+        verbose_name = 'Dnevnik'
+        verbose_name_plural = 'Dnevniki'
+
 
 
 # bugs
 class Resolution(models.Model):
     name = models.CharField(max_length = 30)
-
-
-    class Admin:
-        pass
 
     def __unicode__(self):
         return self.name
@@ -523,6 +504,10 @@ class Bug(models.Model):
             self.resolved = False
         super(Bug, self).save()
 
+    class Meta:
+        verbose_name = 'Hrosc'
+        verbose_name_plural = 'Hrosci'
+
 
 class Comment(models.Model):
     bug = models.ForeignKey(Bug)
@@ -534,10 +519,6 @@ class Comment(models.Model):
     def save(self, request):
         self.author = request.user
         super(Comment, self).save()
-
-
-    class Admin:
-        pass
 
 class StickyNote(models.Model):
     author = models.ForeignKey(User, related_name="message_author")
@@ -556,14 +537,6 @@ class StickyNote(models.Model):
     class Meta:
         verbose_name = 'Sporocilo'
         verbose_name_plural = 'Sporocila'
-
-    class Admin:
-        search_fields = ['note']
-        date_hierarchy = 'due_date'
-        list_filter = ['due_date', 'author']
-        js = (
-              'js/tags.js',
-              )
 
 class Lend(models.Model):
     what = models.CharField(max_length=200, verbose_name='Predmet')
@@ -588,10 +561,6 @@ class Lend(models.Model):
     class Meta:
         verbose_name = 'Sposoja'
         verbose_name_plural = 'Sposoja'
-
-    class Admin:
-        search_fields = ['to_who', 'why', 'note']
-        list_display = ['what', 'returned', 'from_who', 'to_who', 'from_date', 'due_date', 'why']
 
 class KbCategory(models.Model):
     title = models.CharField(max_length=150)
@@ -645,9 +614,6 @@ class Shopping(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
 
-    class Admin:
-        pass
-
     def __unicode__(self):
         return self.name
 
@@ -661,8 +627,6 @@ class Scratchpad(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
     
-    class Admin:
-        pass
-        
     class Meta:
-        get_latest_by = "id"
+        verbose_name = 'Kracarka'
+        verbose_name_plural = 'Kracarka'

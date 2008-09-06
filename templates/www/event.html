@@ -1,0 +1,12 @@
+{% extends "www/base.html" %}
+{% block extrahead %}{% endblock %}
+{% block title %}{{ event }}{% endblock %}
+{% load markup %}
+
+{% block heading %}
+    <h1>{{ event }}</h1>
+{% endblock %}
+
+{% block content%}
+b00 wh000 teh {{ event }} and it starts on {{ event.start_date }}
+{% endblock %}

@@ -6,6 +6,7 @@ def next_to_this_file(this_file, additional_path):
 
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
+    ('Almir Karic', 'almir@kiberpipa.org'),
 )
 
 MANAGERS = ADMINS
@@ -94,4 +95,8 @@ AUTHENTICATION_BACKENDS = (
 SESSION_COOKIE_AGE = 1800
 GALLERY_SAMPLE_SIZE = 1
 LDAP_SERVER='ldap://localhost'
+SEND_BROKEN_LINK_EMAILS = True
+DEFAULT_FROM_EMAIL = 'intranet@kiberpipa.org'
+EMAIL_SUBJECT_PREFIX = '[intranet] '
+
 from localsettings import *

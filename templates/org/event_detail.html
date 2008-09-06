@@ -43,6 +43,10 @@
             <h4> Slajdi</h4>
             {{ object.slides }}
             {% endif %}
+            {% if object.image %}
+                <h4> uploaded image</h4>
+                <img src="{{media_url }}{{ object.image }}" alt="boo wh000"></img>
+            {% endif %}
             <h4>M3C kategorija</h4>
             <p>
                 {{ object.category }}

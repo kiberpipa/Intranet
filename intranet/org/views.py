@@ -139,7 +139,6 @@ def shopping_by_cost(request, cost):
         list = list.filter(cost__gte=50000)
     else:
         list = []
-        print "not found"
     return render_to_response('org/shopping_archive.html',
                               { 'latest': list,
                               },
@@ -464,7 +463,6 @@ def box_bugs_add(request):
         timestamp = mx.DateTime.ISO.ParseAny(string.join(date, ' '))
         due_by = datetime.datetime.fromtimestamp(timestamp)
         
-        print new_data
 
         if 'edit' in new_data:
             ###fails if you change the bug name
@@ -585,7 +583,6 @@ def events(request):
 
     today = datetime.datetime.today()
     week = datetime.timedelta(7)
-    print 'end: %s' % events
     return date_based.archive_index(request, 
         queryset = events,
         date_field = 'start_date',
@@ -745,7 +742,6 @@ def _get_mercenaries(year=None, month=None):
 
 
     for i in Diary.objects.filter(task__salary_rate__isnull = False, date__gte=begin, date__lt=end):
-        print i
         try:
             mercenaries[i.author]
         except KeyError:
@@ -757,17 +753,14 @@ def _get_mercenaries(year=None, month=None):
         for j in range(0, count+1):
             if j == count:
                 salary_rate = history[count].salary_rate
-                print 'j = count "%s"' % salary_rate
                 break
             else:
                 if j == 0:
                     if end > history[j]._audit_timestamp:
                         salary_rate = history[j].salary_rate
-                        print 'j = 0 "%s"' % salary_rate
                         break
                 if (history[j]._audit_timestamp > end) and (end > history[j+1]._audit_timestamp):
                     salary_rate = history[j+1].salary_rate
-                    print 'none of the above "%s"' % salary_rate
                     break
 
         mercenaries[i.author] += i.length.hour * salary_rate
@@ -1393,7 +1386,6 @@ def kb_article_add(request):
         if not new_data.has_key('slug') and new_data.has_key('title'):
             new_data['slug'] = slugify(new_data['title'])
         errors = manipulator.get_validation_errors(new_data)
-        print errors
         if not errors:
             manipulator.do_html2python(new_data)
             new_article = manipulator.save(new_data)
@@ -1421,7 +1413,6 @@ def kb_article_edit(request, id):
         new_data['slug'] = slugify(new_data['title'])
 
       errors = manipulator.get_validation_errors(new_data)
-      print errors
       if not errors:
           manipulator.do_html2python(new_data)
           new_article = manipulator.save(new_data)
@@ -1482,12 +1473,10 @@ def timeline_xml(request):
 def scratchpad_change(request):
     scratchpad = Scratchpad.objects.latest()
     manipulator = Scratchpad.ChangeManipulator(scratchpad.id)
-    print request.POST
     if request.POST:
         new_data = request.POST.copy()
         new_data['author'] = request.user.id
         errors = manipulator.get_validation_errors(new_data)
-        print errors
         if not errors:
             manipulator.do_html2python(new_data)
             manipulator.save(new_data)

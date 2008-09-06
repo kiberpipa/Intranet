@@ -197,11 +197,17 @@ $(document).ready(function() {
     {% endif %}
     </p>
   <p>
-{% comment %}    <label for="id_slides" enctype="multipart/form-data">Slajdi:</label>{% endcomment %}
     {{ form.slides.label_tag }}
     {{ form.slides }} {{ form.slides_file }}
     {% if form.slides.errors %}
       *** {{ form.slides.errors|join:", " }}
+    {% endif %}
+    </p>
+  <p>
+    {{ form.image.label_tag }}
+    {{ form.image }} {{ form.image_file }}
+    {% if form.image.errors %}
+      *** {{ form.image.errors|join:", " }}
     {% endif %}
     </p>
 <hr>
