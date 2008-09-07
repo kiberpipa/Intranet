@@ -1,7 +1,8 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.db.models.query import Q
-from django.oldforms import FormWrapper
-from django import oldforms as forms
+#from django.oldforms import FormWrapper
+#from django import oldforms as forms
+from django import forms
 from django.template import RequestContext, Context
 from django.template.defaultfilters import slugify
 from django.db.models import signals
@@ -41,8 +42,12 @@ def index(request):
     today = datetime.datetime.today()
     nextday = today + datetime.timedelta(days=8)
     q= Q(resolved=False)
-    for i in request.user.get_profile().project.all(): 
+
+    try:
+      for i in request.user.get_profile().project.all(): 
         q = q | Q(project=i)
+    except UserProfile.DoesNotExist:
+      pass
 
     project_bugs = Bug.objects.filter(q)
     return render_to_response('org/index.html',
