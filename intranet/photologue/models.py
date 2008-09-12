@@ -141,7 +141,6 @@ class Gallery(models.Model):
         return self.__unicode__()
 
     def get_absolute_url(self):
-        #return reverse('pl-gallery', args=[self.title_slug])
         return '%s/gallery/album/%s' % (settings.BASE_URL, self.id)
 
     def latest(self, limit=0, public=True):
@@ -171,49 +170,16 @@ class Gallery(models.Model):
     def public(self):
         return self.photos.filter(is_public=True)
 
-class Category(models.Model):
-    name = models.CharField(max_length=120)
-    parent = models.ForeignKey('self', blank=True, null=True)
-    gallery = models.ManyToManyField(Gallery, blank=True, null=True)
-
-    def sample(self, count=0):
-        result = []
-        for i in self.gallery.all():
-            for j in i.sample():
-                if j not in result:
-                    result.append(j)
-
-        for i in Category.objects.filter(parent=self):
-            for j in i.sample():
-                if j not in result:
-                    result.append(j)
-        count = int(count)
-
-        if count == 0:
-            return result
-        else: 
-            return result[0:count]
-
-    def get_absolute_url(self):
-        #return reverse('pl-cat', args=[self.title_slug])
-        return '%s/gallery/%s' % (settings.BASE_URL, self.id)
-
-    def __unicode__(self):
-        return self.name
-
-    def __str__(self):
-        return self.name
-
 
 class GalleryUpload(models.Model):
     zip_file = models.FileField(_('images file (.zip)'), upload_to=PHOTOLOGUE_DIR+"/temp",
                                 help_text=_('Select a .zip file of images to upload into a new Gallery.'))
     title = models.CharField(_('title'), max_length=75, help_text=_('All photos in the gallery will be given a title made up of the gallery title + a sequential number.'))
+    gallery = models.ForeignKey(Gallery, blank=True, null=True) 
     caption = models.TextField(_('caption'), blank=True, help_text=_('Caption will be added to all photos.'))
     description = models.TextField(_('description'), blank=True, help_text=_('A description of this Gallery.'))
     is_public = models.BooleanField(_('is public'), default=True, help_text=_('Uncheck this to make the uploaded gallery and included photographs private.'))
     tags = models.CharField(max_length=255, blank=True, help_text=tagfield_help_text, verbose_name=_('tags'))
-    gallery = models.ForeignKey(Gallery, blank=True, null=True) 
 
     class Meta:
         verbose_name = _('gallery upload')
@@ -269,6 +235,41 @@ class GalleryUpload(models.Model):
                     gallery.photos.add(photo)
                     count = count + 1
             zip.close()
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=120)
+    parent = models.ForeignKey('self', blank=True, null=True)
+    gallery = models.ManyToManyField(Gallery, blank=True, null=True)
+
+    def sample(self, count=0):
+        result = []
+        for i in self.gallery.all():
+            for j in i.sample():
+                if j not in result:
+                    result.append(j)
+
+        for i in Category.objects.filter(parent=self):
+            for j in i.sample():
+                if j not in result:
+                    result.append(j)
+        count = int(count)
+
+        if count == 0:
+            return result
+        else: 
+            return result[0:count]
+
+    def get_absolute_url(self):
+        #return reverse('pl-cat', args=[self.title_slug])
+        return '%s/gallery/%s' % (settings.BASE_URL, self.id)
+
+    def __unicode__(self):
+        return self.name
+
+    def __str__(self):
+        return self.name
+
 
 class ImageModel(models.Model):
     image = models.ImageField(_('image'), upload_to=get_storage_path)

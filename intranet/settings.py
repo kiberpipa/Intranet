@@ -42,7 +42,7 @@ MIDDLEWARE_CLASSES = (
     'intranet.middleware.requirelogin.RequireLoginMiddleware',
     'django.middleware.doc.XViewMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
-    'intranet.stats.StatsMiddleware',
+    #'intranet.stats.StatsMiddleware',
 )
 
 ROOT_URLCONF = 'intranet.urls'

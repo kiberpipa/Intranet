@@ -1,17 +1,20 @@
 import re
 
 from django import template
+from django.conf import settings
 
 from intranet.photologue.models import Category, Gallery
 
 register = template.Library()
+
+url = settings.BASE_URL + '/gallery/'
 
 def recurse(category):
     ##prvo link z imenom kategorije
     result = '<li'
     if category.parent:
         result += ' class="closed"'
-    result += '>'
+    result += '><span class="folder">&nbsp; <a href="%s%d">%s</a></span>\n' % (url, category.id, category.name)
     #result += '><span class="folder">&nbsp; <a href="%s/new">%s</a>&nbsp;<a href="javascript:;" id="toggle%d">Podkategorija</a></span>\n' % (category.id, category.name, category.id )
     #result += '<div style="display: none;" id="toggleMe%d"><form method="post" action="cat/"><input type="text" name="cat"><input type="hidden" name="parent" value="%d"><input type="submit" value="Dodaj podkategorijo"></form></div>' % (category.id, category.id)
 
@@ -21,10 +24,10 @@ def recurse(category):
     if galleries or children:
         result += '<ul>'
 
-    ##clanki ki spadajo pod to kategorijo
+    ##albumi ki spadajo pod to kategorijo
     if galleries:
         for i in galleries:
-            result += '	<li><span class="article">&nbsp;<a href="article/%s">%s</a></span></li>\n' % (i.id, i.title)
+            result += '	<li><span class="article">&nbsp;<a href="%salbum/%d">%s</a></span></li>\n' % (url, i.id, i.title)
 
     ##pod kategorije
     for i in children:
@@ -36,13 +39,13 @@ def recurse(category):
                 result += recurse(i)
                 result += '</ul>\n'
         else:
-            result += '<li class="closed"><span class="folder">&nbsp; <a href="%s/new">%s</a>&nbsp;</span>\n' % (i.id, i.name, i.id)    
+            result += '<li class="closed"><span class="folder">&nbsp; <a href="%s%d">%s</a>&nbsp;</span>\n' % (url, i.id, i.name)    
             #result += '<div style="display: none;" id="toggleMe%d"><form method="post" action="cat/"><input type="text" name="cat"><input type="hidden" name="parent" value="%d"><input type="submit" value="Dodaj podkategorijo"></form></div>' % (i.id, i.id)
             galleries2 = i.gallery.all()
-            if articles2:
+            if galleries2:
                 result += '<ul>'
                 for j in galleries2:
-                    result += '<li><a href="article/%s">%s</a></li>\n' % (j.id, j.title)
+                    result += '<li><a href="%salbum/%d">%s</a></li>\n' % (url, j.id, j.title)
                 result += '</ul>'
             result += '</li>\n'
     

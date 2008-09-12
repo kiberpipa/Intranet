@@ -25,6 +25,9 @@ class DiaryAdmin(admin.ModelAdmin):
         js = (
               'js/tags.js',
               )
+class PersonAdmin(admin.ModelAdmin):
+    ordering = ('name',)
+    search_fields = ('name',)
 
 
 class EventAdmin(admin.ModelAdmin):
@@ -66,7 +69,6 @@ class ProjectAdmin(admin.ModelAdmin):
 
 
 admin.site.register(UserProfile)
-admin.site.register(Person)
 admin.site.register(Category)
 admin.site.register(TipSodelovanja)
 admin.site.register(TipMedija)
@@ -90,6 +92,7 @@ admin.site.register(Shopping)
 admin.site.register(Bug, BugAdmin)
 admin.site.register(Sodelovanje, SodelovanjeAdmin)
 admin.site.register(Diary, DiaryAdmin)
+admin.site.register(Person, PersonAdmin)
 admin.site.register(Event, EventAdmin)
 admin.site.register(Lend, LendAdmin)
 admin.site.register(StickyNote, StickyNoteAdmin)
