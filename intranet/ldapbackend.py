@@ -43,6 +43,7 @@ class backend:
         if params == None:
             return None
 
+        #create User from ldap credentials if it doesn't exist
         try:
             user = User.objects.get(username=username)
         except User.DoesNotExist:

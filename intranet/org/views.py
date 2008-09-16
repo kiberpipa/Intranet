@@ -16,12 +16,12 @@ from django.views.generic import list_detail, date_based
 from django.conf import settings
 
 import datetime
-
 import mx.DateTime
 import re
 import string
 from StringIO import StringIO
 from reportlab.pdfgen.canvas import Canvas
+import ldap
 
 
 from intranet.org.models import UserProfile, Project, Category
@@ -1463,10 +1463,24 @@ def imenik(request):
         template_name = 'org/imenik_list.html',
         extra_context = {
             'filter': filter,
-            'pipec_form': PipecForm(instance=profile)
+            'pipec_form': PipecForm(instance=profile),
+            'change_pass': ChangePw,
         })
 
 imenik = login_required(imenik)
+
+def change_pw(request):
+    if request.method == 'POST':
+        form = ChangePw(request.POST)
+        if form.is_valid():
+            if form.cleaned_data['newpass1'] != form.cleaned_data['newpass2']:
+                return HttpResponseRedirect('..')
+            l = ldap.initialize(settings.LDAP_SERVER)
+            dn = 'uid=%s,ou=people,dc=kiberpipa,dc=org' % request.user.username
+            l.simple_bind_s(dn, form.cleaned_data['oldpass'])
+            l.passwd_s(dn, form.cleaned_data['oldpass'], form.cleaned_data['newpass1'])
+            return HttpResponseRedirect('..')
+
 
 def timeline_xml(request):
   #diary_list = Diary.objects.filter(task__id__gt=2)

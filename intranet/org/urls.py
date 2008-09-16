@@ -226,6 +226,7 @@ urlpatterns = patterns('',
     (r'^kb/$', 'intranet.org.views.kb_index'),
 
     (r'^imenik/$', 'intranet.org.views.imenik'),
+    (r'^imenik/pass/$', 'intranet.org.views.change_pw'),
     (r'^imenik/profile/$', 'intranet.org.views.profile'),
 
 

@@ -125,6 +125,11 @@ class PersonForm(forms.Form):
     organization = forms.CharField(max_length=200, required=False)
     title = forms.CharField(max_length=200, required=False)
 
+class ChangePw(forms.Form):
+    oldpass = forms.CharField(max_length='200', widget=forms.PasswordInput)
+    newpass1 = forms.CharField(max_length='200', widget=forms.PasswordInput)
+    newpass2 = forms.CharField(max_length='200', widget=forms.PasswordInput)
+
 class PipecForm(forms.ModelForm):
     class Meta:
         model = UserProfile
