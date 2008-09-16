@@ -1269,9 +1269,12 @@ def dezurni(request, year=None, week=None, month=None):
 	Time = mx.DateTime.Time
 
 	###od tega datuma naprej velja nov urnik
-	if mx.DateTime.Date(2008, 04, 14) <= week_start:
+	if mx.DateTime.Date(2008, 04, 14) <= week_start and mx.DateTime.Date(2008, 9, 14) > week_start:
 		nov_urnik = 1
 		time_list = [Time(11), Time(16)]
+	elif mx.DateTime.Date(2008, 9, 14) <= week_start:
+		nov_urnik = 2
+		time_list = [Time(10), Time(14), Time(18)]
 	else:
 		nov_urnik = 0
 		time_list = [Time(10), Time(13), Time(16), Time(19)]
