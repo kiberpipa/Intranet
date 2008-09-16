@@ -153,6 +153,7 @@ class Place(models.Model):
 class Event(models.Model):
     responsible = models.ForeignKey(User)
     title = models.CharField(max_length=100)
+    slug = models.SlugField("event_slug",max_length=150,unique=True, blank=True, null=True)
     #author = models.CharField(max_length=100, blank=True, null=True)
     start_date = models.DateTimeField()
     end_date = models.DateField(blank=True, null=True)

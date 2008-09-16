@@ -45,17 +45,20 @@ jQuery(function( $ ){
 {% block content %}
 		<div id="threeboxes">
 			<div class="box mr20">
-				{% if events.0 %}<a href="/event/{{ events.0.id }}">{{ events.0 }}</a>
+				{% if events.0 %}<a href="/event/{{ events.0.title|slugify }}">{{ events.0 }}</a>
                 {% else %}
                 bummer no event here
                 {% endif %}
 			</div><div class="box mr20">
-				{% if events.1 %}<a href="/event/{{ events.1.id }}">{{ events.1 }}</a>
+				{% if events.1 %}<a href="/event/{{ events.1.title|slugify }}">{{ events.1 }}</a>
                 {% else %}
                 bummer no event here
                 {% endif %}
 			</div><div class="box">
-				{{ events.2|default:"crkn!!" }}
+				{% if events.2 %}<a href="/event/{{ events.2.title|slugify }}">{{ events.2 }}</a>
+                {% else %}
+                bummer no event here
+                {% endif %}
 			</div>
 		</div>
 

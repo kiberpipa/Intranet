@@ -18,8 +18,8 @@ def index(request):
         context_instance=RequestContext(request))
 
 
-def event(request, id):
+def event(request, slug):
     return render_to_response('www/event.html', {
-        'event': Event.objects.get(pk=id),
+        'event': Event.objects.get(slug=slug),
         }, 
         context_instance=RequestContext(request))

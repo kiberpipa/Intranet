@@ -1,7 +1,6 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.db.models.query import Q
-#from django.oldforms import FormWrapper
-#from django import oldforms as forms
+from django.template.defaultfilters import slugify
 from django import forms
 from django.template import RequestContext, Context
 from django.template.defaultfilters import slugify
@@ -626,8 +625,7 @@ def nf_event_create(request):
 
             s = Sodelovanje(event=new_event, tip=tip, person=person)
             s.save() 
-
-
+        new_event.slug = slugify(new_event.title)
         new_event.save()
         return HttpResponseRedirect(new_event.get_absolute_url())
 
@@ -664,6 +662,7 @@ def nf_event_edit(request, event):
                 sodelovanja.add(s)
 
 
+            new_event.slug = slugify(new_event.title)
             new_event.save()
 
             #delete everything that was in the old sodelovanja as is not in the new one
