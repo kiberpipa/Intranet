@@ -46,15 +46,23 @@
         <table class="dezurni">
     <tr>
         <th scope="col"><a href="/intranet/dezurni/{{ navigation.prev }}">&lt;&lt;</a>| {{ week_number }} |<a href="/intranet/dezurni/{{ navigation.next }}">&gt;&gt;</a></th>
-	{% if nov_urnik %}
+	{% ifequal nov_urnik 1 %}
         <th scope="col">1100 - 1600</th>
         <th scope="col">1600 - 2100 </th>
-	{% else %}
+	{% endifequal %}
+    {% ifequal nov_urnik 2 %}
+        <th scope="col">1000 - 1400</th>
+        <th scope="col">1400 - 1800</th>
+        <th scope="col">1800 - 2200 </th>
+	{% endifequal %}
+	{% ifnotequal nov_urnik 2 %}
+	{% ifnotequal nov_urnik 1 %}
         <th scope="col">1000 - 1300 </th>
         <th scope="col">1300 - 1600 </th>
         <th scope="col">1600 - 1900</th>
         <th scope="col">1900 - 2200 </th>
-	{% endif %}
+	{% endifnotequal %}
+	{% endifnotequal %}
     </tr>
     {% for day in week %}
     <tr>

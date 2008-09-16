@@ -25,6 +25,14 @@
         </ul>
   </div>
   <div>
+  <div class="module" id="recent-actions-module">
+  <h2>Spreminjanje LDAP passworda</h2>
+  <em>min 8 znakov!!</em>
+  <form method="post" action="pass/">
+  {{ change_pass.as_p }}
+  <input type="submit">
+  </form>
+  </div>
   <form method="post" action="">
   {{ filter.as_p }}
   <input type="submit">
