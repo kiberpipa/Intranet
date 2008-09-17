@@ -214,7 +214,7 @@ def text_log(request):
     dogodki = Event.objects.filter(start_date__range=(today, tomorow))
     novo = Event.objects.filter(pub_date__range=(yesterday, today))
     dogodki_vceraj = Event.objects.filter(start_date__range=(yesterday, today))
-    scratchpad = Scratchpad.objects.latest()
+    scratchpad = Scratchpad.objects.latest('id')
     return render_to_response('feeds/nightly_report.html',
                               { 'today': today,
                                 'dnevniki': dnevniki,
@@ -395,9 +395,9 @@ def shopping_support (request, id=None):
     event = get_object_or_404(Shopping, pk=id)
     if request.has_key('support'):
         event.supporters.add(request.user)
-        event.explanation += "\n\n Predlog podprl %s z razlago:\n\n" % (request.user.username) + request['note']
+        event.explanation += "\n\n Predlog podprl %s z razlago:\n\n" % (request.user.username) + request.POST['note']
     elif request.has_key('comment'):
-        event.explanation += "\n\n %s komentira:\n\n" % (request.user.username) + request['note']
+        event.explanation += "\n\n %s komentira:\n\n" % (request.user.username) + request.POST['note']
     event.save()
     return HttpResponseRedirect('../')
 shopping_support = login_required(shopping_support)
@@ -555,8 +555,8 @@ def move_bug(request, id=None):
     bug = get_object_or_404(Bug, pk=id)
     if not bug.note:
         bug.note = ""
-    bug.note += "\n\n---\npreusmeril %s k %s z razlago:\n\n %s" % (request.user, request['assign'], request['note'])
-    bug.assign = User.objects.get(username__exact=request['assign'])
+    bug.note += "\n\n---\npreusmeril %s k %s z razlago:\n\n %s" % (request.user, request.POST['assign'], request.POST['note'])
+    bug.assign = User.objects.get(username__exact=request.POST['assign'])
     bug.save()
     return HttpResponseRedirect('../')
 move_bug = login_required(move_bug)
@@ -1117,7 +1117,7 @@ def tehniki(request, year=None, week=None):
 tehniki = login_required(tehniki)
 
 def tehniki_add(request):
-    id = request['uniqueSpot']
+    id = request.POST['uniqueSpot']
     if not id:
         return HttpResponseRedirect('../')
 
@@ -1126,10 +1126,10 @@ def tehniki_add(request):
     p = Diary(      date=event.start_date,
                     event=event,
                     author=request.user,
-                    task=Task.objects.get(pk=2),
-                    log_formal=request['log_formal'],
-                    log_informal=request['log_informal'],
-                    length=datetime.time(int(request['length']),0),
+                    task=Project.objects.get(pk=23),
+                    log_formal=request.POST['log_formal'],
+                    log_informal=request.POST['log_informal'],
+                    length=datetime.time(int(request.POST['length']),0),
                     )
     p.save()
 
@@ -1492,7 +1492,7 @@ def timeline_xml(request):
   return HttpResponse(t.render(c), 'application/xml')
 
 def scratchpad_change(request):
-    scratchpad = Scratchpad.objects.latest()
+    scratchpad = Scratchpad.objects.latest('id')
     manipulator = Scratchpad.ChangeManipulator(scratchpad.id)
     if request.POST:
         new_data = request.POST.copy()
