@@ -3,6 +3,14 @@
 <script src="{{ media_url }}/MochiKit/MochiKit.js" type="text/javascript"></script>
 <script src="{{ media_url }}/MochiKit/Position.js" type="text/javascript"></script>
 <script src="{{ media_url }}/MochiKit/Visual.js" type="text/javascript"></script>
+<script src="{{ media_url }}/jquery-1.2.6.min.js"></script> 
+<script>
+  $(document).ready(function(){
+    $('#id_due_by').datepicker({firstDay: 1});
+    });
+</script>
+<link rel="stylesheet" href="{{ media_url }}/css/flora.datepicker.css" type="text/css" media="screen" title="Flora (Default)">
+<script src="{{ media_url }}/js/ui.datepicker.js"></script>
 {% endblock %}
 {% load box %}
 {% block title %}Hrošči in želje{% endblock %}
