@@ -1436,7 +1436,7 @@ def kb_article_edit(request, id):
 
 def imenik(request):
     profile = UserProfile.objects.get(user=request.user) 
-    pipec_form = PipecForm(instance=profile, prefix='pipec')
+    pipec_form = PipecForm(instance=profile, prefix='pipec', initial={'email': request.user.email})
 
     change_pass_message = ''
     changepw = ChangePw(prefix='changepw')
@@ -1486,6 +1486,8 @@ def imenik(request):
                 change_pass_message = 'sorry, the two new passwords don\'t match'
 
         if pipec_form.is_valid():
+            request.user.email = pipec_form.cleaned_data['email']
+            request.user.save()
             pipec_form.save()
 
                

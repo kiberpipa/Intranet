@@ -131,6 +131,7 @@ class ChangePw(forms.Form):
     newpass2 = forms.CharField(max_length='200', widget=forms.PasswordInput)
 
 class PipecForm(forms.ModelForm):
+    email = forms.EmailField()
     class Meta:
         model = UserProfile
 
