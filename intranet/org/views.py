@@ -1434,20 +1434,29 @@ def kb_article_edit(request, id):
                             context_instance=RequestContext(request))
 #kb_article_edit = login_required(kb_article_edit)
 
-def profile(request):
-    profile = UserProfile.objects.get(user=request.user)
-    if request.method == 'POST':
-        form = PipecForm(request.POST, instance=profile)
-        if form.is_valid():
-            form.save()
-    return HttpResponseRedirect('..')
-profile = login_required(profile)
-
 def imenik(request):
     profile = UserProfile.objects.get(user=request.user) 
+    pipec_form = PipecForm(instance=profile, prefix='pipec')
+
+    change_pass_message = ''
+    changepw = ChangePw(prefix='changepw')
+
     folks = UserProfile.objects.filter(user__is_active__exact=True)
+    filter = ImenikFilter(prefix='filter')
+
     if request.POST:
-        filter = ImenikFilter(request.POST)
+        #figure out which form was submited
+        for key in request.POST:
+            if key > 'pipec':
+                pipec_form = PipecForm(request.POST, instance=profile, prefix='pipec')
+                break
+            elif key > 'changepw':
+                changepw = ChangePw(request.POST, prefix='changepw')
+                break
+            elif key > 'filter': 
+                filter = ImenikFilter(request.POST, prefix='filter')
+                break
+
         if filter.is_valid():
             for key, value in filter.cleaned_data.items():
                 if key == 'project' and value:
@@ -1457,32 +1466,41 @@ def imenik(request):
                         query = query | Q(project=i)
 
                     folks = UserProfile.objects.filter(query).distinct().select_related('user')
-    else:
-        filter = ImenikFilter()
+        
+        if changepw.is_valid():
+            #some additional custom error checking
+            if changepw.cleaned_data['newpass1'] == changepw.cleaned_data['newpass2']:
+                change_pass_message = 'congrats, changed your pass'
+                try:
+                    l = ldap.initialize(settings.LDAP_SERVER)
+                    dn = 'uid=%s,ou=people,dc=kiberpipa,dc=org' % request.user.username
+                    l.simple_bind_s(dn, changepw.cleaned_data['oldpass'])
+                    l.passwd_s(dn, changepw.cleaned_data['oldpass'], changepw.cleaned_data['newpass1'])
+                except ldap.SERVER_DOWN:
+                    change_pass_message = 'uggghhh, ldap server down???'
+                except ldap.CONSTRAINT_VIOLATION, e:
+                    change_pass_message = e[0]['info']
+                except ldap.INVALID_CREDENTIALS:
+                    change_pass_message = 'sorry buddy, wrong password'
+            else:
+                change_pass_message = 'sorry, the two new passwords don\'t match'
+
+        if pipec_form.is_valid():
+            pipec_form.save()
+
+               
 
     return list_detail.object_list(request, 
         queryset = folks,
         template_name = 'org/imenik_list.html',
         extra_context = {
             'filter': filter,
-            'pipec_form': PipecForm(instance=profile),
-            'change_pass': ChangePw,
+            'pipec_form': pipec_form,
+            'change_pass': changepw,
+            'change_pass_message': change_pass_message,
         })
 
 imenik = login_required(imenik)
-
-def change_pw(request):
-    if request.method == 'POST':
-        form = ChangePw(request.POST)
-        if form.is_valid():
-            if form.cleaned_data['newpass1'] != form.cleaned_data['newpass2']:
-                return HttpResponseRedirect('..')
-            l = ldap.initialize(settings.LDAP_SERVER)
-            dn = 'uid=%s,ou=people,dc=kiberpipa,dc=org' % request.user.username
-            l.simple_bind_s(dn, form.cleaned_data['oldpass'])
-            l.passwd_s(dn, form.cleaned_data['oldpass'], form.cleaned_data['newpass1'])
-            return HttpResponseRedirect('..')
-
 
 def timeline_xml(request):
   #diary_list = Diary.objects.filter(task__id__gt=2)

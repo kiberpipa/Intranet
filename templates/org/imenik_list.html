@@ -7,40 +7,31 @@
 {% endblock %}
 
 {% block content-related-left %}
-  <div class="module" id="recent-actions-module">
-    <h2>Urejanje</h2>
-        <ul class="actionlist">
-            <li>{{ user.username }}:</li>
-            <li><a href="/intranet/admin/auth/user/{{ user.id }}/">Uredi svoje podatke</a></li>
-            {% if user.get_profile %}
-                <li><a href="/intranet/admin/org/userprofile/{{ user.id }}/">Uredi svoj profil</a></li>
-            {% else %}
-                <li><a href="/intranet/admin/org/userprofile/add/">Dodaj profil uporabnika</a></li>
-            {% endif %}
-
-            <!--
-            <hr>
-            <li><a href="/intranet/admin/auth/user/add/">Dodaj uporabnika</a></li>
-            <li><a href="">Dodaj profil</a></li>-->
-        </ul>
-  </div>
   <div>
   <div class="module" id="recent-actions-module">
   <h2>Spreminjanje LDAP passworda</h2>
-  <em>min 8 znakov!!</em>
-  <form method="post" action="pass/">
+  {% if change_pass_message %}
+    <em>{{ change_pass_message }}</em>
+  {% endif %}
+  <form method="post" action=".">
   {{ change_pass.as_p }}
   <input type="submit">
   </form>
   </div>
+  <div class="module" id="recent-actions-module">
+    <h2>Filter</h2>
   <form method="post" action="">
   {{ filter.as_p }}
   <input type="submit">
   </form>
-        <form method="post" action="profile/">
-        {{ pipec_form.as_p }}
-        <input type="submit">
-        </form>
+  </div>
+  <div class="module" id="recent-actions-module">
+    <h2>Moj Profil</h2>
+    <form method="post" action=".">
+    {{ pipec_form.as_p }}
+    <input type="submit">
+    </form>
+    </div>
   </div>
 {% endblock %}
 
