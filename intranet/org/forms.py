@@ -132,6 +132,8 @@ class ChangePw(forms.Form):
 
 class PipecForm(forms.ModelForm):
     email = forms.EmailField()
+    first_name = forms.CharField(max_length=30)
+    last_name = forms.CharField(max_length=30)
     class Meta:
         model = UserProfile
 

@@ -28,7 +28,12 @@
   <div class="module" id="recent-actions-module">
     <h2>Moj Profil</h2>
     <form method="post" action=".">
-    {{ pipec_form.as_p }}
+    <p>{{ pipec_form.first_name.label_tag }} {{ pipec_form.first_name }}</p>
+    <p>{{ pipec_form.last_name.label_tag }} {{ pipec_form.last_name }}</p>
+    <p>{{ pipec_form.email.label_tag }} {{ pipec_form.email }}</p>
+    <p>{{ pipec_form.mobile.label_tag }} {{ pipec_form.mobile }}</p>
+    <p>{{ pipec_form.im.label_tag }} {{ pipec_form.im }}</p>
+    <p>{{ pipec_form.project.label_tag }} {{ pipec_form.project }}</p>
     <input type="submit">
     </form>
     </div>

@@ -1436,7 +1436,7 @@ def kb_article_edit(request, id):
 
 def imenik(request):
     profile = UserProfile.objects.get(user=request.user) 
-    pipec_form = PipecForm(instance=profile, prefix='pipec', initial={'email': request.user.email})
+    pipec_form = PipecForm(instance=profile, prefix='pipec', initial={'email': request.user.email, 'first_name': request.user.first_name, 'last_name': request.user.last_name})
 
     change_pass_message = ''
     changepw = ChangePw(prefix='changepw')
@@ -1487,6 +1487,8 @@ def imenik(request):
 
         if pipec_form.is_valid():
             request.user.email = pipec_form.cleaned_data['email']
+            request.user.first_name = pipec_form.cleaned_data['first_name']
+            request.user.last_name = pipec_form.cleaned_data['last_name']
             request.user.save()
             pipec_form.save()
 
