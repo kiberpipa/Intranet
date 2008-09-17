@@ -61,7 +61,7 @@ class ScratchpadAdmin(admin.ModelAdmin):
 
 class ProjectAdmin(admin.ModelAdmin):
     search_fields = ['note','name','responsible']
-    list_display = ['name', 'responsible']
+    list_display = ['name', 'responsible', 'parent', 'note']
     js = (
             'js/tags.js',
             )

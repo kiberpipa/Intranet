@@ -1447,13 +1447,16 @@ def imenik(request):
     if request.POST:
         #figure out which form was submited
         for key in request.POST:
-            if key > 'pipec':
+            pipec = re.compile('^pipec')
+            chgpw = re.compile('^changepw')
+            imenik_filter = re.compile('^filter')
+            if  pipec.match(key):
                 pipec_form = PipecForm(request.POST, instance=profile, prefix='pipec')
                 break
-            elif key > 'changepw':
+            elif chgpw.match(key):
                 changepw = ChangePw(request.POST, prefix='changepw')
                 break
-            elif key > 'filter': 
+            elif imenik_filter.match(key):
                 filter = ImenikFilter(request.POST, prefix='filter')
                 break
 
