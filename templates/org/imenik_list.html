@@ -43,7 +43,7 @@
         <div class="user">
             <ul>
                 {% if profile %}
-                <li>E-pošta: <a href="mailto:{{ profile.mail }}">{{ profile.mail }}</a></li>
+                <li>E-pošta: <a href="mailto:{{ profile.muser.email }}">{{ profile.user.email }}</a></li>
                 <li>Telefon: {{ profile.mobile }}</li>
                 {% if profile.im %}
                 <li>IM: {{ profile.im|linebreaksbr }}</li>
@@ -51,8 +51,6 @@
                 {% for project in profile.project.all %}
                 <li>Projekt: {{ project }}</li>
                 {% endfor %}
-                {% else %}
-                <li><a href="/intranet/admin/org/userprofile/add/">dodaj razširjen profil</a></li>
                 {% endif %}
             </ul>
         </div>
@@ -69,10 +67,13 @@
                 <li>E-pošta: <a href="mailto:{{ profile.user.email }}">{{ profile.user.email }}</a></li>
                 {% if profile.user.get_profile %}
                 <li>Telefon: {{ profile.user.get_profile.mobile }}</li>
-                <li>IM: {{ profile.user.get_profile.im|linebreaksbr }}</li>
-                {% else %}
-                <li><a href="/intranet/admin/org/userprofile/add/">dodaj razširjen profil</a></li>
+                {% if profile.im %}
+                <li>IM: {{ profile.im|linebreaksbr }}</li>
                 {% endif %}
+                {% endif %}
+                {% for project in profile.project.all %}
+                <li>Projekt: {{ project }}</li>
+                {% endfor %}
             </ul>
         </div>
 </div>
