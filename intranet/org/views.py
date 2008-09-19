@@ -1331,8 +1331,7 @@ def dezurni_add(request):
               author=request.user,
               task=Project.objects.get(pk=22),
               log_formal=request.POST['log_formal'],
-              log_informal=request.POST['log_informal'],
-              length=datetime.time(5,0),) #there's got to be better way to do this
+              log_informal=request.POST['log_informal'],)
     p.save()
     return HttpResponseRedirect('../')
 dezurni_add = login_required(dezurni_add)
