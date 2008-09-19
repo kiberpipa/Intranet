@@ -42,11 +42,8 @@ def index(request):
     nextday = today + datetime.timedelta(days=8)
     q= Q(resolved=False)
 
-    try:
-      for i in request.user.get_profile().project.all(): 
-        q = q | Q(project=i)
-    except UserProfile.DoesNotExist:
-      pass
+    for i in request.user.get_profile().project.all(): 
+        q = q & Q(project=i)
 
     project_bugs = Bug.objects.filter(q)
     return render_to_response('org/index.html',

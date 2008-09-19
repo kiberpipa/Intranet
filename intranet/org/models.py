@@ -441,20 +441,25 @@ class Bug(models.Model):
         if message:
             info += '-------------------------------------\n\n\n'
 
-        mails = list(self.assign.all())
-        for i in Comment.objects.filter(bug=self):
-            if not i.author in mails:
-                mails += [i.author]
+        #construct a list of all mails to which to compailn
+        mails = []
+        for i in self.assign.all():
+            if i.email not in mails and i.email:
+             mails += i.email
 
-        if self.author not in mails:
-            mails += [self.author]
+        for i in Comment.objects.filter(bug=self):
+            if not i.author.email in mails and i.author.email:
+                mails += [i.author.email]
+
+        if self.author.email not in mails and self.author.email:
+            mails += [self.author.email]
 
         for i in self.project.all():
-            if not i in mails:
-                mails += [i]
+            if not i.email in mails and i.email:
+                mails += [i.email]
+
         #send the mail to all the assignees
-        for assignee in mails:
-            to = assignee.email
+        for to in mails:
             msg = "From: %s\nTo: %s\nSubject: %s\n\n%s\n%s"  % (mail_from, to, subject, info, message)
 
             session = smtplib.SMTP('localhost')
