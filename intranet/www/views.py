@@ -3,7 +3,7 @@ import re
 
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.http import HttpResponseRedirect
+from django.http import HttpResponsePermanentRedirect
 
 from intranet.org.models import Event
 from intranet.feedjack.models import Post
@@ -34,6 +34,34 @@ def news(request, slug):
 
 def compat(request):
     if request.GET.has_key('sid'):
-        return HttpResponseRedirect('/news/' + News.objects.get(id=request.GET['sid']).slug)
+        return HttpResponsePermanentRedirect('/news/' + News.objects.get(id=request.GET['sid']).slug)
     else:
-        return HttpResponseRedirect('/')
+        #if we get to here we have a problem
+        return HttpResponsePermanentRedirect('/')
+
+def calendar(request):
+    #construct a array of dates (from the begening of prev week for next 4 weeks)
+    begin = datetime.date.today()
+    day = datetime.timedelta(1)
+
+    #find the begening of the prev week
+    first = 0
+    while 1:
+        if begin.weekday() == 0:
+            first = first  + 1
+
+        if first == 2:
+            break
+
+        begin = begin - day
+    
+    #append next 4 weeks
+    dates = []
+    for i in range(28):
+        dates += [(begin, Event.objects.filter(start_date__year = begin.year, start_date__month = begin.month, start_date__day = begin.day))]
+        begin = begin + day
+
+    return render_to_response('www/calendar.html', {
+        'dates': dates,
+        },
+        context_instance=RequestContext(request))

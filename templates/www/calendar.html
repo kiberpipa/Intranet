@@ -1,0 +1,38 @@
+{% extends "www/base.html" %}
+{% block extrahead %}{% endblock %}
+{% block title %} Kiberpipin koledar dogodkov {% endblock %}
+{% load markup %}
+{% load calendar %}
+
+{% block heading %}
+    <h1>Kiberpipin koledar dogodkov</h1>
+{% endblock %}
+
+{% block content%}
+<table border="1">
+{% for date, events in dates %}
+    {% ifequal date.weekday 0 %}
+        <tr>
+    {% endifequal %}
+
+    {% comment %}
+        mozni classi so:
+        prev -- prejsnji mesec
+        past -- pred danasnjim dnem ta mesec
+        today -- danes
+        future -- po danasnjem dnevu do konca meseca
+        next -- naslednji mesec
+    {% endcomment %}
+    <td class="{% calclass date %}">
+    {{ date.day }}
+    {% for event in events %}
+        {{ event }}
+    {% endfor %}
+    </td>
+
+    {% ifequal date.weekday 6 %}
+        </tr>
+    {% endifequal %}
+{% endfor %}
+<table>
+{% endblock %}
