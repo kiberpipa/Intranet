@@ -8,21 +8,22 @@
     <h1>Kiberpipin koledar dogodkov</h1>
 {% endblock %}
 
-{% block content%}
+{% block content %}
+<a href="{% url intranet.www.views.ical %}">gimme the vCalendar for current month bitch</a>
 <table border="1">
 {% for date, events in dates %}
     {% ifequal date.weekday 0 %}
         <tr>
     {% endifequal %}
 
-    {% comment %}
+    {#
         mozni classi so:
         prev -- prejsnji mesec
         past -- pred danasnjim dnem ta mesec
         today -- danes
         future -- po danasnjem dnevu do konca meseca
         next -- naslednji mesec
-    {% endcomment %}
+    #}
     <td class="{% calclass date %}">
     {{ date.day }}
     {% for event in events %}

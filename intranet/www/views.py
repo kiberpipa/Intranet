@@ -1,9 +1,10 @@
 import datetime
 import re
+from StringIO import StringIO
 
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.http import HttpResponsePermanentRedirect
+from django.http import HttpResponsePermanentRedirect, HttpResponse
 
 from intranet.org.models import Event
 from intranet.feedjack.models import Post
@@ -65,3 +66,21 @@ def calendar(request):
         'dates': dates,
         },
         context_instance=RequestContext(request))
+
+def ical(request):
+    cal = 'BEGIN:VCALENDAR\r\n'
+    cal += 'SUMMARY:%s -- Dogodki v Kiberpipi\r\n' % datetime.datetime.today().strftime('%B')
+
+    for e in Event.objects.filter(start_date__month=datetime.datetime.today().month):
+        cal += 'BEGIN:VEVENT\r\n'
+        cal +=  e.start_date.strftime('DTSTART:%Y%m%dT%H%M%S\r\n')
+        cal += 'SUMMARY:%s\r\n' % e.title
+        cal += 'END:VEVENT\r\n'
+
+    cal += 'END:VCALENDAR\r\n'
+    output = StringIO(cal)
+    response = HttpResponse(mimetype='application/octet-stream')
+    response['Content-Disposition'] = "attachment; filename=" + datetime.datetime.today().strftime('%B') + '.vcs'
+    response.write(output.getvalue())
+    return response
+
