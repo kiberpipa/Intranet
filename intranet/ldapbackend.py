@@ -37,7 +37,6 @@ class backend:
 
 
     def authenticate(self, username=None, password=None):
-        print "authenticate"
         ##make sure the user is authorized
         params = self.auth(username, password)
         if params == None:

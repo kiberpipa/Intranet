@@ -60,7 +60,7 @@ def new_article(request, cat):
             new_article = form.save()
             new_article.cat = category
             new_article.save()
-            editor = request.user.get_profile()
+            editor = request.user
             comment = form.cleaned_data.get('comment', '')
             new_article.create_changeset(article, editor, comment)
             return HttpResponseRedirect('../../article/%s/' % new_article.id)
@@ -114,13 +114,9 @@ view_changeset = login_required(view_changeset)
 
 def new_cat(request):
     c = Category(order=1, name=request.POST['cat'])
-    print 'before the if'
     if request.POST.has_key('parent'):
         p = Category.objects.get(pk=request.POST['parent'])
-        print p
-        print 'in the if'
         c.parent= p
-        print c.parent
     c.save()
     return HttpResponseRedirect('..')
 new_cat = login_required(new_cat)
