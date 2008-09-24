@@ -53,7 +53,7 @@
         Moje odgovornosti
     </h2>
     <h4>Moji hrošči: <a href="/intranet/feeds/userbugs/{{ user }}"><img src="{{ media_url }}/img/rss.gif" alt="rss bugs" /></a></h4>
-    {% box_list Bug "assign__exact=user.id, resolution__isnull=True" "template=org/list_my_bugs.html" %}
+    {% box_list Bug "assign__exact=user.id" "template=org/list_my_bugs.html" %}
 
     <h4>Bugi mojim projektom:</h4>
     <ul>
@@ -63,7 +63,7 @@
     </ul>
 
     <h4>Hrošči, ki sem jih jaz objavil:</h4>
-    {% box_list Bug "author__exact=user.id, resolution__isnull=True" "template=org/list_bugs.html" %}
+    {% box_list Bug "author__exact=user.id" "template=org/list_bugs.html" %}
     <h4>Sem posodil:</h4>
     {% box_list Lend "from_who__exact=user.id, returned__exact=False" "template=org/list_lend.html" %}
     <h4>Moji dogodki:</h4>

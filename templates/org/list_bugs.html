@@ -3,7 +3,10 @@
 {% for task in object_list %}
         <li
            {% ifequal task.chg_date.date today %}class="today">! {% else %}>{% endifequal %}
-            <a href="{{ base_url }}/intranet/bugs/{{ task.id }}">{{ task.name }}</a> rešuje {{ task.assign }}
+            <a href="{{ base_url }}/intranet/bugs/{{ task.id }}">{{ task.name }}</a> rešuje
+	    	{% for assaignee in task.assign.all %}
+			{{ assaignee }},
+		{% endfor %}
         </li>
 {% endfor %}
 </ul>
