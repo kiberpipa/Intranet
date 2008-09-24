@@ -445,7 +445,7 @@ class Bug(models.Model):
         mails = []
         for i in self.assign.all():
             if i.email not in mails and i.email:
-             mails += i.email
+             mails += [i.email]
 
         for i in Comment.objects.filter(bug=self):
             if not i.author.email in mails and i.author.email:
