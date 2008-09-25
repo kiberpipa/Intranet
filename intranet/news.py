@@ -1,12 +1,15 @@
 #!/usr/bin/env python
 
 import MySQLdb
+import sys
 
 from intranet.www.models import News
 
 from django.template.defaultfilters import slugify
 
-con = MySQLdb.connect('127.0.0.1', 'root', 'b4l00n', 'webpage')
+pw = sys.stdin.readline()
+
+con = MySQLdb.connect('127.0.0.1', 'root', pw.strip(), 'webpage')
 cur = con.cursor()
 
 cur.execute('select pn_title, pn_time, pn_hometext, pn_sid from nuke_stories')

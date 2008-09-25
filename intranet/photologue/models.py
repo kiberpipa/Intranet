@@ -128,6 +128,8 @@ class Gallery(models.Model):
                                     null=True, blank=True)
     tags = TagField(help_text=tagfield_help_text, verbose_name=_('tags'))
 
+    parent = models.ForeignKey('self', blank=True, null=True)
+
     class Meta:
         ordering = ['-date_added']
         get_latest_by = 'date_added'
@@ -141,7 +143,7 @@ class Gallery(models.Model):
         return self.__unicode__()
 
     def get_absolute_url(self):
-        return '%s/gallery/album/%s' % (settings.BASE_URL, self.id)
+        return reverse('pl-gallery-detail', args=[self.title_slug])
 
     def latest(self, limit=0, public=True):
         if limit == 0:
@@ -169,6 +171,9 @@ class Gallery(models.Model):
 
     def public(self):
         return self.photos.filter(is_public=True)
+
+    def children(self):
+        return Gallery.objects.filter(parent=self)
 
 
 class GalleryUpload(models.Model):
@@ -231,44 +236,10 @@ class GalleryUpload(models.Model):
                                   caption=self.caption,
                                   is_public=self.is_public,
                                   tags=self.tags)
-                    photo.image.save(filename, ContentFile(data))
+                    photo.image.save(gallery.title + '/' + filename, ContentFile(data))
                     gallery.photos.add(photo)
                     count = count + 1
             zip.close()
-
-
-class Category(models.Model):
-    name = models.CharField(max_length=120)
-    parent = models.ForeignKey('self', blank=True, null=True)
-    gallery = models.ManyToManyField(Gallery, blank=True, null=True)
-
-    def sample(self, count=0):
-        result = []
-        for i in self.gallery.all():
-            for j in i.sample():
-                if j not in result:
-                    result.append(j)
-
-        for i in Category.objects.filter(parent=self):
-            for j in i.sample():
-                if j not in result:
-                    result.append(j)
-        count = int(count)
-
-        if count == 0:
-            return result
-        else: 
-            return result[0:count]
-
-    def get_absolute_url(self):
-        #return reverse('pl-cat', args=[self.title_slug])
-        return '%s/gallery/%s' % (settings.BASE_URL, self.id)
-
-    def __unicode__(self):
-        return self.name
-
-    def __str__(self):
-        return self.name
 
 
 class ImageModel(models.Model):

@@ -21,15 +21,10 @@ urlpatterns = patterns('',
 
     (r'^planet/', include('intranet.feedjack.urls')),
 
-##i lost the intranet.photologue.views :/
-##    url(r'^gallery/?$', 'intranet.photologue.views.index'),
-##    url(r'^gallery/(?P<id>\d+)/?$', 'intranet.photologue.views.category'),
-##    url(r'^gallery/album/(?P<object_id>\d+)/$', 'django.views.generic.list_detail.object_detail', 
-##        {'queryset': Gallery.objects.filter(is_public=True), 
-##        'extra_context':{'sample_size':SAMPLE_SIZE}}, name='pl-gallery-list'),
 
+    (r'^gallery/', include('intranet.photologue.urls')),
 
-     (r'^intranet/admin/(.*)', admin.site.root),
+    (r'^intranet/admin/(.*)', admin.site.root),
 )
 
 if settings.DEBUG:
