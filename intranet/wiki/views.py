@@ -16,7 +16,7 @@ def wiki_index(request):
     articles = Article.objects.all()
     categories = Category.objects.all()
     return render_to_response('wiki/index.html', {'articles': articles, 'categories': categories,
-		'admin': '%s/intranet/admin/wiki/' % settings.BASE_URL}, context_instance=RequestContext(request))
+		'admin': '%s/intranet/admin/wiki/' % settings.BASE_URL, 'top': Category.objects.filter(parent__isnull=True)}, context_instance=RequestContext(request))
 wiki_index = login_required(wiki_index)
 
 def article_history(request, id):

@@ -160,7 +160,7 @@ class Gallery(models.Model):
             photo_set = self.public()
         else:
             photo_set = self.photos.all()
-        return random.sample(photo_set, count)
+        return random.sample(photo_set, 1)[0]
 
     def photo_count(self, public=True):
         if public:
@@ -172,11 +172,9 @@ class Gallery(models.Model):
     def public(self):
         return self.photos.filter(is_public=True)
 
-    def children(self):
-        return Gallery.objects.filter(parent=self)
-
 
 class GalleryUpload(models.Model):
+    parent = models.ForeignKey(Gallery, blank=True, null=True, related_name='crkn')
     zip_file = models.FileField(_('images file (.zip)'), upload_to=PHOTOLOGUE_DIR+"/temp",
                                 help_text=_('Select a .zip file of images to upload into a new Gallery.'))
     title = models.CharField(_('title'), max_length=75, help_text=_('All photos in the gallery will be given a title made up of the gallery title + a sequential number.'))
@@ -211,6 +209,11 @@ class GalleryUpload(models.Model):
                                                 description=self.description,
                                                 is_public=self.is_public,
                                                 tags=self.tags)
+
+            if self.parent:
+                gallery.parent=self.parent
+                gallery.save()
+
             from cStringIO import StringIO
             for filename in zip.namelist():
                 if filename.startswith('__'): # do not process meta files

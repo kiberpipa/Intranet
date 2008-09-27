@@ -54,7 +54,6 @@ class WatermarkAdmin(admin.ModelAdmin):
 
 admin.site.register(Gallery, GalleryAdmin)
 admin.site.register(GalleryUpload)
-admin.site.register(Category)
 admin.site.register(Photo, PhotoAdmin)
 admin.site.register(PhotoEffect, PhotoEffectAdmin)
 admin.site.register(PhotoSize, PhotoSizeAdmin)

@@ -526,6 +526,9 @@ class Comment(models.Model):
         self.author = request.user
         super(Comment, self).save()
 
+    def __unicode__(self):
+        return self.text
+
 class StickyNote(models.Model):
     author = models.ForeignKey(User, related_name="message_author")
     post_date = models.DateField(default=date.today())

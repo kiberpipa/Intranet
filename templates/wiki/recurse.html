@@ -1,0 +1,32 @@
+<li {% if cat.parent %} class="closed"{% endif %}>
+		<span class="folder">
+				&nbsp;<a href="{{ cat.id }}/new">{{ cat.name }}</a>
+				&nbsp;<a href="javascript:;" id="toggle{{ cat.id }}">Podkategorija</a>
+		</span> 
+		<div style="display: none;" id="toggleMe{{ cat.id }}">
+				<form method="post" action="cat/">
+						<input type="text" name="cat">
+						<input type="hidden" name="parent" value="{{ cat.id }}">
+						<input type="submit" value="Dodaj podkategorijo">
+				</form>
+		</div> 
+
+		{% if cat.article_set.all or cat.category_set.all %}
+				<ul>
+		{% endif %}
+
+		{% for article in cat.article_set.all %}
+				<li><span class="article">&nbsp;<a href="article/{{ article.id }}">{{ article.title }}</a></span></li>
+		{% endfor %}
+
+		{% for c in cat.category_set.all %}
+				{% with "wiki/recurse.html" as filename %}
+				{% with c as cat %}
+						{% include filename %}
+				{% endwith %}
+				{% endwith %}
+		{% endfor %}
+		{% if cat.article_set.all or cat.category_set.all %}
+				</ul>
+		{% endif %}
+</li>

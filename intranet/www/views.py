@@ -37,14 +37,14 @@ def compat(request):
     if request.GET.has_key('sid'):
         #`normal news links'
         return HttpResponsePermanentRedirect('/news/' + News.objects.get(id=request.GET['sid']).slug)
-    elif request.GET.has_key('set_albumName')
-        #`gallery crap'
-        if request.GET.has_key('id'):
-            #image has been requested
-           pass 
-        else:
-            #album has been requested
-            pass
+#    elif request.GET.has_key('set_albumName')
+#        #`gallery crap'
+#        if request.GET.has_key('id'):
+#            #image has been requested
+#           pass 
+#        else:
+#            #album has been requested
+#            pass
     else:
         #if we get to here we have a problem
         return HttpResponsePermanentRedirect('/')

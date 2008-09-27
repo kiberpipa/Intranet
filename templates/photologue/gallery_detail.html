@@ -100,17 +100,27 @@
 <h1>{{ object.title }}</h1>
 <h2>Originally published {{ object.date_added|date:"l, F jS, Y" }}</h2>
 {% if object.description %}<p>{{ object.description }}</p>{% endif %}
-<table><tr><td>{% tree %}</td><td>
+<table><tr><td>{# {% tree %} #}</td><td>
 <div class="demo">
 <p class="nav"><a href="#" onclick="$.galleria.prev(); return false;">&laquo; previous</a> 
 |
 <a href="#" onclick="$.galleria.next(); return false;">next &raquo;</a></p>
 <div id="main_image"></div>
+{% if object.children %}
+<ul>
+    {% for subalbum in object.children %}
+    <li{% ifequal forloop.counter 1%} class="active"{% endifequal %}><a href="{{ subalbum.get_absolute_url }}"><img src="{{ subalbum.sample.get_thumbnail_url }}"></a></li>
+    {% endfor %}
+</ul>
+<br><br><br><br>
+{% endif %}
+{% if object.photos.all %}
 <ul class="gallery_demo_unstyled">
     {% for photo in object.photos.all %}
     <li{% ifequal forloop.counter 1%} class="active"{% endifequal %}><img src="{{ photo.get_normal_url }}"></li>
     {% endfor %}
 </ul>
+{% endif %}
 </div>
 </td></tr></table>
 <p><a href="{% url pl-gallery-list 1 %}">View all galleries</a></p>
