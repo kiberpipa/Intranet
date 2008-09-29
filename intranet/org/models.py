@@ -376,7 +376,7 @@ class Diary(models.Model):
         return "%s" % self.log_formal
 
     def get_absolute_url(self):
-        return "%s/diarys/%i/" % (settings.BASE_URL, self.id)
+        return "%s/intranet/diarys/%i/" % (settings.BASE_URL, self.id)
 
     class Meta:
         verbose_name = 'Dnevnik'

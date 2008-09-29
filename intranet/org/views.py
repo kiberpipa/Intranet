@@ -14,6 +14,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.views.generic import list_detail, date_based
 from django.conf import settings
+from django.core.urlresolvers import reverse
 
 import datetime
 import mx.DateTime
@@ -58,6 +59,7 @@ def index(request):
                                 'end_date': nextday,
                                 'today': today,
                                 'project_bugs': project_bugs,
+                                'diary_form': DiaryForm(),
                               },
                               context_instance=RequestContext(request))
 index = login_required(index)
@@ -268,48 +270,53 @@ def process_cloud_tag(instance):
 
 ##################################################
 
-def box_diary_change (request, id=None):
-    diary = get_object_or_404(Diary, pk=id)
-    today = datetime.date.today()
-    if request.user == diary.author:
-        diary.log_formal = "%s \n\nrazsirjeno: %s \n%s" % (diary.log_formal, today, request.POST['log_formal'])
-        diary.log_informal = "%s \n\nrazsirjeno: %s \n%s" % (diary.log_informal, today, request.POST['log_informal'])
-        diary.save()
-    return HttpResponseRedirect('../')
-box_diary_change = login_required(box_diary_change)
-
-
-def box_diary_add(request):
-    manipulator = Diary.AddManipulator()
-
-    if request.POST:
-        new_data = request.POST.copy()
-
-        new_data['author'] = request.user.id
-        if request.POST.has_key('date'):
-            new_data['date_date'] = request.POST['date']
-        else:
-            new_data['date_date'] = datetime.date.today().strftime("%Y-%m-%d")
-        new_data['date_time'] = datetime.date.today().strftime("%H:%M")
-        length = new_data['length']
-        if not re.match(r'\d\d\:\d\d', length):
-            length = "%s:00" % int(length)
-            new_data['length'] = length
-
-        errors = manipulator.get_validation_errors(new_data)
-
-        if not errors:
-            manipulator.do_html2python(new_data)
-            new_diary = manipulator.save(new_data)
-            new_diary.save()
-            return HttpResponseRedirect("/intranet/diarys/%i/" % new_diary.id)
+def diarys_form(request, object_id):
+    if object_id == 'add':
+        if request.method == 'POST':
+            diary_form = DiaryForm(request.POST)
+        diary = None
     else:
-        errors = new_data = {}
+        diary = Diary.objects.get(pk=object_id)
+        if request.method == 'POST':
+            diary_form = DiaryForm(request.POST, instance=diary)
+        else:
+            diary_form = DiaryForm(instance=diary)
 
-    form = FormWrapper(manipulator, new_data, errors)
-    return render_to_response('org/box_error.html',
-                             {'form': form, 'template_file': 'org/box_diary.html'},
-                             context_instance=RequestContext(request))
+    if diary_form.is_valid():
+        diary = diary_form.save(commit=False)
+        diary.author = request.user
+        diary.save()
+        return HttpResponseRedirect(diary.get_absolute_url())
+
+    return render_to_response('org/diary.html', {
+        'object': diary,
+        'diary_form': diary_form,
+        }, context_instance=RequestContext(request)
+    )
+diarys_form = login_required(diarys_form)
+
+def diarys(request):
+    diarys = Diary.objects.all()
+    if request.POST:
+        filter = DiaryFilter(request.POST)
+        if filter.is_valid():
+            for key, value in filter.cleaned_data.items():
+                if value:
+                    ##'**' rabis zato da ti python resolva spremenljivke (as opposed da passa dobesedni string)
+                    diarys = diarys.filter(**{key: value})
+    else:
+        filter = DiaryFilter()
+
+    return date_based.archive_index(request, 
+        queryset = diarys.order_by('date'),
+        date_field = 'date',
+        allow_empty = 1,
+        extra_context = {
+            'filter': filter,
+            'diary_form': DiaryForm(),
+        }
+    )
+diarys = login_required(diarys)
 
 ##################################################
 
@@ -1342,27 +1349,6 @@ dezurni_add = login_required(dezurni_add)
 
 
 
-def diarys(request):
-    diarys = Diary.objects.all()
-    if request.POST:
-        filter = DiaryFilter(request.POST)
-        if filter.is_valid():
-            for key, value in filter.cleaned_data.items():
-                if value:
-                    ##'**' rabis zato da ti python resolva spremenljivke (as opposed da passa dobesedni string)
-                    diarys = diarys.filter(**{key: value})
-    else:
-        filter = DiaryFilter()
-
-    return date_based.archive_index(request, 
-        queryset = diarys.order_by('date'),
-        date_field = 'date',
-        allow_empty = 1,
-        extra_context = {
-            'filter': filter,
-        }
-    )
-diarys = login_required(diarys)
 
 ##################################################
 

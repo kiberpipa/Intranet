@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 from intranet.org.models import TipSodelovanja, Person, Event, Sodelovanje
 from intranet.org.models import Bug, Resolution, Clipping, Project
-from intranet.org.models import Category, UserProfile, Lend
+from intranet.org.models import Category, UserProfile, Lend, Diary
 
 from django.utils.encoding import force_unicode
 from django.conf import settings
@@ -63,12 +63,6 @@ class DateTimeWidget(forms.widgets.TextInput):
                 continue
         return None
 
-class EventForm(forms.ModelForm):
-    start_date = forms.DateTimeField(widget=DateTimeWidget)
-    class Meta:
-        model = Event
-
-
 class EventFilter(forms.Form):
     title = forms.CharField(required=False)
     project = forms.ModelChoiceField(Project.objects.all(), required=False)
@@ -83,40 +77,15 @@ class FilterBug(forms.Form):
 
     name = forms.CharField(required=False)
 
-class BugForm(forms.ModelForm):
-    class Meta:
-        exclude = ('resolved', 'tags', 'author',)
-        model = Bug
-
 class CommentBug(forms.Form):
     text = forms.CharField(widget=forms.Textarea)
-
-
-class SodelovanjeFilter(forms.ModelForm):
-    ##override the person in 'Sodelovanje', as there is required
-    person = forms.ModelChoiceField(Person.objects.all(), required=False)
-    c = [('', '---------'), ('txt', 'txt'), ('pdf', 'pdf'), ('csv', 'csv')]
-    export = forms.ChoiceField(choices=c, required=False)
-
-    class Meta:
-        model = Sodelovanje
-        exclude = ('note',)
 
 class DiaryFilter(forms.Form):
     task = forms.ModelChoiceField(Project.objects.all(), required=False)
     author = forms.ModelChoiceField(User.objects.all(), required=False)
 
-
-class ClippingFilter(forms.ModelForm):
-    c = [('', '---------'), ('xls', 'xls')]
-    export = forms.ChoiceField(choices=c, required=False)
-    class Meta:
-        model = Clipping
-        exclude = ('upload', 'deadline', 'feedback',)
-
 class ImenikFilter(forms.Form):
     project = forms.ModelChoiceField(Project.objects.all(), required=False)
-
 
 class PersonForm(forms.Form):
     name = forms.CharField(max_length=200)
@@ -130,6 +99,35 @@ class ChangePw(forms.Form):
     newpass1 = forms.CharField(max_length='200', widget=forms.PasswordInput)
     newpass2 = forms.CharField(max_length='200', widget=forms.PasswordInput)
 
+
+
+class EventForm(forms.ModelForm):
+    start_date = forms.DateTimeField(widget=DateTimeWidget)
+    class Meta:
+        model = Event
+
+class BugForm(forms.ModelForm):
+    class Meta:
+        exclude = ('resolved', 'tags', 'author',)
+        model = Bug
+
+class SodelovanjeFilter(forms.ModelForm):
+    ##override the person in 'Sodelovanje', as there is required
+    person = forms.ModelChoiceField(Person.objects.all(), required=False)
+    c = [('', '---------'), ('txt', 'txt'), ('pdf', 'pdf'), ('csv', 'csv')]
+    export = forms.ChoiceField(choices=c, required=False)
+
+    class Meta:
+        model = Sodelovanje
+        exclude = ('note',)
+
+class ClippingFilter(forms.ModelForm):
+    c = [('', '---------'), ('xls', 'xls')]
+    export = forms.ChoiceField(choices=c, required=False)
+    class Meta:
+        model = Clipping
+        exclude = ('upload', 'deadline', 'feedback',)
+
 class PipecForm(forms.ModelForm):
     email = forms.EmailField()
     first_name = forms.CharField(max_length=30)
@@ -141,3 +139,8 @@ class LendForm(forms.ModelForm):
     class Meta:
         model = Lend
         fields = ('what','to_who', 'from_who', 'contact_info', 'due_date',)
+
+class DiaryForm(forms.ModelForm):
+    class Meta:
+        model = Diary
+        fields = ('task', 'date', 'length', 'log_formal', 'log_informal',)

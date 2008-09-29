@@ -1,7 +1,15 @@
 {% extends "org/base_3col.html" %}
 {% load box %}
-    {% block extrahead %}
-    {% endblock %}
+{% block extrahead %}
+<script src="{{ media_url }}/jquery-1.2.6.min.js"></script> 
+<link rel="stylesheet" href="{{ media_url }}/css/flora.datepicker.css" type="text/css" media="screen" title="Flora (Default)">
+<script src="{{ media_url }}/js/ui.datepicker.js"></script>
+<script>
+  $(document).ready(function(){
+    $('#id_date').datepicker({firstDay: 1});
+    });
+</script>
+{% endblock %}
 {% block title %}Dnevnik{% endblock %}
 
 {% load markup %}
@@ -24,8 +32,7 @@
 {% ifequal object.author user %}
 <div class="module" id="recent-actions-module">
       <h2>Uredi dnevnik</h2>
-      <ul><li><a href="/intranet/admin/org/diary/{{ object.id }}/">Uredi dnevnik</a></li></ul>
-      {% box_change_diary %}
+      {% include "org/content/diary_form.html" %}
 </div>
 {% endifequal %}
 {% endblock %}

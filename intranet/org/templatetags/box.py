@@ -17,10 +17,6 @@ def loadcomments(object, user):
     return {'object': object, 'user': user }
 register.inclusion_tag('org/showcomments.html')(loadcomments)
 
-def box_change_diary():
-    return { }
-register.inclusion_tag('org/box_diary_change.html')(box_change_diary)
-
 def box_plache(diarys, user):
     list = {}
     paylist = {}
@@ -88,10 +84,6 @@ def box_scratchpad(user):
     
     return {'object': scratchpad}
 register.inclusion_tag('org/box_scratchpad.html')(box_scratchpad)   
-
-def print_diary(form):
-    return {'object': form }
-register.inclusion_tag('org/print_diary.html')(print_diary)
 
 def print_shopping(object):
     return {'object': object }

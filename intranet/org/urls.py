@@ -119,10 +119,6 @@ shopping_detail = {
     'queryset': Shopping.objects.all(),
 }
 
-diary_detail = {
-    'queryset': Diary.objects.all(),
-}
-
 bug_extra = {
 }
 
@@ -158,7 +154,7 @@ urlpatterns = patterns('',
     (r'^box/diary/add/$', 'intranet.org.views.box_diary_add'),
     (r'^diarys/(?P<id>\d+)/change/$', 'intranet.org.views.box_diary_change'),
     #(r'^diarys/(?P<task>\w+)/$', 'intranet.org.views.diarys_by_task'),
-    (r'^diarys/(?P<object_id>\d+)/$', 'django.views.generic.list_detail.object_detail', diary_detail),
+    (r'^diarys/(?P<object_id>\d+|add)/$', 'intranet.org.views.diarys_form'),
     (r'diarys/?$',    'intranet.org.views.diarys'),
 
     (r'^shopping/$', 'intranet.org.views.shopping_index'),
