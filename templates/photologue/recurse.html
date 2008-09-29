@@ -1,0 +1,20 @@
+<li {% if gallery.parent %} class="closed"{% endif %}>
+		<span class="folder">
+				&nbsp;<a href="{{ gallery.get_absolute_url }}">{{ gallery.title }}</a>
+		</span> 
+
+		{% if gallery.gallery_set.all %}
+				<ul>
+		{% endif %}
+
+		{% for g in gallery.gallery_set.all %}
+				{% with "photologue/recurse.html" as filename %}
+				{% with g as gallery %}
+						{% include filename %}
+				{% endwith %}
+				{% endwith %}
+		{% endfor %}
+		{% if gallery.gallery_set.all %}
+				</ul>
+		{% endif %}
+</li>

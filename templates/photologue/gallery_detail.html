@@ -6,9 +6,28 @@
 
 	<link href="{{ media_url }}/css/galleria.css" rel="stylesheet" type="text/css" media="screen">
 	<script type="text/javascript" src="{{ media_url }}/js/jquery.galleria.js"></script>
-  <link rel="stylesheet" href="{{ media_url }}/css//jquery.treeview.css" type="text/css" media="screen" />
+	<script type="text/javascript" src="{{ media_url }}/js/jquery.scrollTo-min.js"></script>
+    <link rel="stylesheet" href="{{ media_url }}/css//jquery.treeview.css" type="text/css" media="screen" />
+    <link href='{{ media_url }}/css/scrollto.css' type='text/css' rel='stylesheet' />
   <script type="text/javascript" src="{{ media_url }}/js/jquery.treeview.js"></script>
 	<script type="text/javascript">
+jQuery(function( $ ){
+	//by default, the scroll is only done vertically ('y'), change it to both.
+	$.scrollTo.defaults.axis = 'x'; 			
+	//this one is important, many browsers don't reset scroll on refreshes
+	$('div.pane').scrollTo( 0 );//reset all scrollable panes to (0,0)
+	$.scrollTo( 0 );//reset the screen to (0,0)
+	
+	//Target examples bindings
+	var $paneTarget = $('#pane-target');			
+	
+	$('#relative-position').click(function(){
+		$paneTarget.stop().scrollTo( '+=100', 500 );
+	});
+	$('#relative-position-back').click(function(){
+		$paneTarget.stop().scrollTo( '-=100', 500 );
+	});
+});
 	
 	$(document).ready(function(){
 		
@@ -94,24 +113,38 @@
     </style>
 
 {% endblock %}
-{% load tree %}
 {% block content %}
 
 <h1>{{ object.title }}</h1>
 <h2>Originally published {{ object.date_added|date:"l, F jS, Y" }}</h2>
 {% if object.description %}<p>{{ object.description }}</p>{% endif %}
-<table><tr><td>{# {% tree %} #}</td><td>
+<table><tr><td>
+    <ul id="browser" class="filetree">
+        {% for gallery in top %}
+            {% with gallery as gallery %}
+            {% with "photologue/recurse.html" as filename %}
+                {% include filename %}
+            {% endwith %}
+            {% endwith %}
+        {% endfor %} 
+    <ul>
+</td><td>
+
 <div class="demo">
 <p class="nav"><a href="#" onclick="$.galleria.prev(); return false;">&laquo; previous</a> 
 |
 <a href="#" onclick="$.galleria.next(); return false;">next &raquo;</a></p>
 <div id="main_image"></div>
-{% if object.children %}
-<ul>
-    {% for subalbum in object.children %}
+{% if object.gallery_set.all %}
+			<li><a title="$(...).scrollTo( '+=100px' );" id="relative-position" href="#">forward</a></li>
+			<li><a title="$(...).scrollTo( '-=100px' );" id="relative-position-back" href="#">back</a></li>
+		<div id="pane-target" class="pane">
+			<ul class="elements" style="height:101px; width:1820px;">
+    {% for subalbum in object.gallery_set.all %}
     <li{% ifequal forloop.counter 1%} class="active"{% endifequal %}><a href="{{ subalbum.get_absolute_url }}"><img src="{{ subalbum.sample.get_thumbnail_url }}"></a></li>
     {% endfor %}
-</ul>
+			</ul>
+		</div>
 <br><br><br><br>
 {% endif %}
 {% if object.photos.all %}

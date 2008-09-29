@@ -48,13 +48,13 @@
     <div class="module" id="recent-actions-module">
   	<h2>Za dodajanje člankov klikni na kategorijo</h2>
     <ul id="browser" class="filetree">
-				{% for cat in top %}
-						{% with cat as cat %}
-						{% with "wiki/recurse.html" as filename %}
-								{% include filename %}
-						{% endwith %}
-						{% endwith %}
-				{% endfor %} 
+        {% for cat in top %}
+            {% with cat as cat %}
+            {% with "wiki/recurse.html" as filename %}
+                {% include filename %}
+            {% endwith %}
+            {% endwith %}
+        {% endfor %} 
     <ul>
     </div>
 

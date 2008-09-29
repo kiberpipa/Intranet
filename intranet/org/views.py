@@ -41,12 +41,18 @@ month_dict = { 'jan': 1, 'feb': 2, 'mar': 3,
 def index(request):
     today = datetime.datetime.today()
     nextday = today + datetime.timedelta(days=8)
-    q= Q(resolved=False)
 
-    for i in request.user.get_profile().project.all(): 
-        q = q & Q(project=i)
+    if request.user.get_profile().project.all():
 
-    project_bugs = Bug.objects.filter(q)
+        q = Q()
+        for i in request.user.get_profile().project.all(): 
+            q = q | Q(project=i)
+
+        project_bugs = Bug.objects.filter(q, resolved=False)
+
+    else:
+        project_bugs = None
+
     return render_to_response('org/index.html',
                               { 'start_date': today,
                                 'end_date': nextday,
