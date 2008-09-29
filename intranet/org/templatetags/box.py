@@ -89,6 +89,11 @@ def print_shopping(object):
     return {'object': object }
 register.inclusion_tag('org/print_shopping.html')(print_shopping)
 
+def print_diary(form):
+    return {'object': form }
+register.inclusion_tag('org/print_diary.html')(print_diary)
+
+
 def print_event(form):
     return {'event': form, 'media_url': MEDIA_URL }
 register.inclusion_tag('org/print_event.html')(print_event)
