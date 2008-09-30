@@ -36,7 +36,7 @@ TEMPLATE_LOADERS = (
 
 MIDDLEWARE_CLASSES = (
     'intranet.middleware.exception.StandardExceptionMiddleware',
-    'intranet.middleware.psyco_middleware.PsycoMiddleware',
+    #'intranet.middleware.psyco_middleware.PsycoMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
