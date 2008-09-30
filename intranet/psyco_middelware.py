@@ -1,4 +1,4 @@
-
+import psyco
 
 class PsycoMiddleware(object):
     """
@@ -6,11 +6,7 @@ class PsycoMiddleware(object):
         speed up the execution of any Python code.
     """
     def process_request(self, request):
-      try:
-        from psyco import psyco
         psyco.profile()
-      except ImportError:
-        pass
-      return None
+        return None
                                                                                 
                                                                                 
