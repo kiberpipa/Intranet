@@ -13,7 +13,7 @@ class backend:
         base = "dc=kiberpipa,dc=org"
         user = 'uid=%s,ou=people,dc=kiberpipa,dc=org' % username
         filter = "(&(objectclass=intranet)(uid=%s))" % username
-        ret = ['dn']
+        ret = ['uid']
         
         l = ldap.initialize(settings.LDAP_SERVER)
 
@@ -26,6 +26,11 @@ class backend:
 
         if not result_data:
             return None
+
+	#example result_data: [('uid=puffs,ou=People,dc=kiberpipa,dc=org', {'uid': ['puffs']})]
+	#compensate for ldap's case insensitivity
+	if result_data[0][1]['uid'][0] != username:
+	   return None
             
         try:
             l.simple_bind_s(user, password)
