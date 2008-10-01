@@ -108,7 +108,7 @@ class EventForm(forms.ModelForm):
 
 class BugForm(forms.ModelForm):
     class Meta:
-        exclude = ('resolved', 'tags', 'author',)
+        exclude = ('resolved', 'tags', 'author','parent',)
         model = Bug
 
 class SodelovanjeFilter(forms.ModelForm):

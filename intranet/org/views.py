@@ -60,6 +60,9 @@ def index(request):
                                 'today': today,
                                 'project_bugs': project_bugs,
                                 'diary_form': DiaryForm(),
+                                'diary_edit': False,
+                                'bug_form': BugForm(),
+                                'bug_edit': False,
                               },
                               context_instance=RequestContext(request))
 index = login_required(index)
@@ -270,27 +273,27 @@ def process_cloud_tag(instance):
 
 ##################################################
 
-def diarys_form(request, object_id):
-    if object_id == 'add':
-        if request.method == 'POST':
-            diary_form = DiaryForm(request.POST)
-        diary = None
-    else:
-        diary = Diary.objects.get(pk=object_id)
-        if request.method == 'POST':
-            diary_form = DiaryForm(request.POST, instance=diary)
+def diarys_form(request, id=None, action=None):
+    if request.method == 'POST':
+        if id:
+            diary_form = DiaryForm(request.POST, instance=Diary.objects.get(id=id))
         else:
-            diary_form = DiaryForm(instance=diary)
+            diary_form = DiaryForm(request.POST)
 
-    if diary_form.is_valid():
-        diary = diary_form.save(commit=False)
-        diary.author = request.user
-        diary.save()
-        return HttpResponseRedirect(diary.get_absolute_url())
+        if diary_form.is_valid():
+            diary = diary_form.save(commit=False)
+            diary.author = request.user
+            diary.save()
+            return HttpResponseRedirect(diary.get_absolute_url())
+    else:
+        if id:
+            diary_form = DiaryForm(instance=Diary.objects.get(id=id))
+        else:
+            diary_form = DiaryForm()
 
     return render_to_response('org/diary.html', {
-        'object': diary,
         'diary_form': diary_form,
+        'diary_edit': True,
         }, context_instance=RequestContext(request)
     )
 diarys_form = login_required(diarys_form)
@@ -470,38 +473,6 @@ def add_bug(request):
 
 ##################################################
 
-def box_bugs_add(request):
-    if request.POST:
-        new_data = request.POST.copy()
-        new_data['author'] = request.user.id
-        date = new_data.getlist('length')
-        timestamp = mx.DateTime.ISO.ParseAny(string.join(date, ' '))
-        due_by = datetime.datetime.fromtimestamp(timestamp)
-        
-
-        if 'edit' in new_data:
-            ###fails if you change the bug name
-            manipulator = Bug.ChangeManipulator(Bug.objects.get(name=new_data['name']).id)
-        else:
-            manipulator = Bug.AddManipulator()
-
-        errors = manipulator.get_validation_errors(new_data)
-        if not errors:
-            manipulator.do_html2python(new_data)
-            new_bug = manipulator.save(new_data)
-            new_bug.due_by = due_by
-            new_bug.save()
-            new_bug.mail()
-            return HttpResponseRedirect("/intranet/bugs/%i/" % new_bug.id)
-
-    else:
-        errors = new_data = {}
-
-    form = forms.FormWrapper(manipulator, new_data, errors)
-    return render_to_response('org/box_error.html',
-                             {'form': form, 'template_file': 'org/box_bug.html'},
-                             context_instance=RequestContext(request))
-
 def comment_add(request, bug_id):
     bug = Bug.objects.get(pk=bug_id)
     if request.method == 'POST':
@@ -550,33 +521,11 @@ def view_bug(request, object_id):
             'resolutions': Resolution.objects.all(), 
             'comments': Comment.objects.all(), 
             'comment_form': comment_form.as_p(), 
-            'bug_form': bug_form.as_p(),
+            'bug_form': bug_form,
+            'bug_edit': True,
             'subtask_form': subtask_form.as_p(),
         })
 view_bug = login_required(view_bug)
-
-def takeover_bug(request, id=None):
-    bug = get_object_or_404(Bug, pk=id)
-    bug.assign = request.user
-    bug.save()
-    return HttpResponseRedirect('../')
-takeover_bug = login_required(takeover_bug)
-
-def move_bug(request, id=None):
-    bug = get_object_or_404(Bug, pk=id)
-    if not bug.note:
-        bug.note = ""
-    bug.note += "\n\n---\npreusmeril %s k %s z razlago:\n\n %s" % (request.user, request.POST['assign'], request.POST['note'])
-    bug.assign = User.objects.get(username__exact=request.POST['assign'])
-    bug.save()
-    return HttpResponseRedirect('../')
-move_bug = login_required(move_bug)
-
-def resolve_bug(request, id=None):
-    bug = get_object_or_404(Bug, pk=id)
-    bug.resolution = Resolution.objects.get(pk = request.POST['status'])
-    bug.save()
-    return HttpResponseRedirect('../')
 
 ##################################################
 def events(request):

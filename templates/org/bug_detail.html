@@ -23,10 +23,11 @@
   <div class="module" id="recent-actions-module">
     	    <h2>Urejanje</h2>
 
-        <form action="edit/" method="post">
+        {% comment %}<form action="edit/" method="post">
        {{ bug_form }} 
         <input type = "submit"/>
-        </form>
+        </form> {% endcomment %}
+				{% include "org/content/bug_form.html" %}
 
 				</li>
 	</ul>

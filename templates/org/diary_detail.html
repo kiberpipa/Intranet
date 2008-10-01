@@ -14,6 +14,16 @@
 
 {% load markup %}
 
+{% block toplinks %}
+    <div class="breadcrumbs">
+    <ul id="breadcrumbs">
+        <li>Arhiv: </li>
+        <li><a href="/intranet/diarys/arhiv/{{ object.date|date:"Y" }}/{{ object.date|date:"M"|lower }}">{{ object.date|date:"M" }}</a></li>
+        <li><a href="/intranet/diarys/arhiv/{{ object.date|date:"Y" }}">{{ object.date|date:"Y" }}</a></li>
+    </ul>
+    </div>
+{% endblock %}
+
 {% block heading %}
     <h1>Dnevnik</h1>
 {% endblock %}
@@ -22,11 +32,9 @@
 {% endblock %}
 
 {% block content-main %}
-<div class="module" id="recent-actions-module">
-      <h2>Uredi dnevnik</h2>
-      {% include "org/content/diary_form.html" %}
-</div>
-{% endblock %} 
+		<a href="edit/">Edit me</a>
+    {% print_diary object%}
+{% endblock %}
 
 {% block content-related-right %}
 {% endblock %}
