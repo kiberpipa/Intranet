@@ -50,6 +50,8 @@ class backend:
         
         #insert any ldap logic here
         user.set_password(password)
+	#if a user still exists in ldap AND trys to log in, should be safe to set he active flag
+	user.is_active = True
         user.save()
 
         try:
