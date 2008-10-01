@@ -2,7 +2,7 @@
 
 from django.conf import settings
 from django import http
-from django.core.mail import mail_admins
+from django.core.mail import send_mail
 
 
 import sys
@@ -23,6 +23,7 @@ def resolver(request):
 
 class StandardExceptionMiddleware(object):
     def process_exception(self, request, exception):
+        self.log_exception(request, exception, sys.exc_info())
         # Get the exception info now, in case another exception is thrown later.
         if isinstance(exception, http.Http404):
             return self.handle_404(request, exception)
@@ -42,10 +43,8 @@ class StandardExceptionMiddleware(object):
     def handle_500(self, request, exception):
         exc_info = sys.exc_info()
         if settings.DEBUG:
-            self.log_exception(request, exception, exc_info)
             return self.debug_500_response(request, exception, exc_info)
         else:
-            self.log_exception(request, exception, exc_info)
             return self.production_500_response(request, exception, exc_info)
 
 
@@ -72,7 +71,7 @@ class StandardExceptionMiddleware(object):
 
     def log_exception(self, request, exception, exc_info):
         subject, message = self.exception_email(request, exc_info)
-        mail_admins(subject, message, fail_silently=True)
+        send_mail(subject, message, 'intranet@kiberpipa.org', [a[1] for a in settings.ADMINS])
 
 
 
