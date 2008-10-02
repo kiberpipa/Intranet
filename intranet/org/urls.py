@@ -20,10 +20,10 @@ this_week = today + datetime.timedelta(days=7)
 next_week = this_week + datetime.timedelta(days=7)
 next_week2 = next_week + datetime.timedelta(days=7)
 
-event_last =  Event.objects.filter(start_date__gte=prev_week, start_date__lt=today)
-event_this =  Event.objects.filter(start_date__gte=today, start_date__lt=this_week)
-event_next =  Event.objects.filter(start_date__gte=this_week, start_date__lt=next_week)
-event_next2 =  Event.objects.filter(start_date__gte=next_week, start_date__lt=next_week2)
+event_last =  Event.objects.filter(start_date__gte=prev_week, start_date__lt=today).order_by('start_date')
+event_this =  Event.objects.filter(start_date__gte=today, start_date__lt=this_week).order_by('start_date')
+event_next =  Event.objects.filter(start_date__gte=this_week, start_date__lt=next_week).order_by('start_date')
+event_next2 =  Event.objects.filter(start_date__gte=next_week, start_date__lt=next_week2).order_by('start_date')
 
 
 
