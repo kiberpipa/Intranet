@@ -546,6 +546,9 @@ def events(request):
         filter = EventFilter()
 
     today = datetime.datetime.today()
+    while today.weekday() != 0:
+        today = today - datetime.timedelta(1)
+
     week = datetime.timedelta(7)
     return date_based.archive_index(request, 
         queryset = events,
