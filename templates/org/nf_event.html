@@ -132,31 +132,20 @@ $(document).ready(function() {
     <br /> 
     {{ form.length.errors }}
     <label for="id_length">Dolžina:</label>
+    {{ form.data.length }}
    	<select selected name="length" size="1">   	   
-            {% comment %}<option {% ifequal form.data.length '01:00:00' %}selected {% endifequal %}>1</option>
-            <option {% if not form.data.length%}selected{%endif%}{% ifequal form.data.length '02:00:00' %}selected {% endifequal %}>2</option>
-            <option {% ifequal form.data.length '03:00:00' %}selected {% endifequal %}>3</option>
-            <option {% ifequal form.data.length '04:00:00' %}selected {% endifequal %}>4</option>
-            <option {% ifequal form.data.length '05:00:00' %}selected {% endifequal %}>5</option>
-            <option {% ifequal form.data.length '06:00:00' %}selected {% endifequal%}>6</option>
-            <option {% ifequal form.data.length '07:00:00' %}selected {% endifequal %}>7</option>
-            <option {% ifequal form.data.length '08:00:00' %}selected {% endifequal %}>8</option>
-            <option {% ifequal form.data.length '09:00:00' %}selected {% endifequal %}>9</option>
-            <option {% ifequal form.data.length '10:00:00' %}selected {% endifequal %}>10</option>
-            <option {% ifequal form.data.length '11:00:00' %}selected {% endifequal %}>11</option>
-            <option {% ifequal form.data.length '12:00:00' %}selected {% endifequal%}>12</option>{% endcomment %}
-            <option value="01:00:00">1</option>
-            <option value="02:00:00">2</option>
-            <option value="03:00:00">3</option>
-            <option value="04:00:00">4</option>
-            <option value="05:00:00">5</option>
-            <option value="06:00:00">6</option>
-            <option value="07:00:00">7</option>
-            <option value="08:00:00">8</option>
-            <option value="09:00:00">9</option>
-            <option value="10:00:00">10</option>
-            <option value="11:00:00">11</option>
-            <option value="12:00:00">12</option>
+            <option {% ifequal '01:00:00' form.data.length %}selected {% endifequal %} value="01:00:00">1</option>
+            <option {% ifequal '02:00:00' form.data.length %}selected {% endifequal %} value="02:00:00">2</option>
+            <option {% ifequal '03:00:00' form.data.length %}selected {% endifequal %} value="03:00:00">3</option>
+            <option {% ifequal '04:00:00' form.data.length %}selected {% endifequal %} value="04:00:00">4</option>
+            <option {% ifequal '05:00:00' form.data.length %}selected {% endifequal %} value="05:00:00">5</option>
+            <option {% ifequal '06:00:00' form.data.length %}selected {% endifequal %} value="06:00:00">6</option>
+            <option {% ifequal '07:00:00' form.data.length %}selected {% endifequal %} value="07:00:00">7</option>
+            <option {% ifequal '08:00:00' form.data.length %}selected {% endifequal %} value="08:00:00">8</option>
+            <option {% ifequal '09:00:00' form.data.length %}selected {% endifequal %} value="09:00:00">9</option>
+            <option {% ifequal '10:00:00' form.data.length %}selected {% endifequal %} value="10:00:00">10</option>
+            <option {% ifequal '11:00:00' form.data.length %}selected {% endifequal %} value="11:00:00">11</option>
+            option {% ifequal '12:00:00' form.data.length %}selected {% endifequal %} value="12:00:00">12</option>
         </select>
         ur 
 				{% comment %}{{ form.length }} {% endcomment %}
