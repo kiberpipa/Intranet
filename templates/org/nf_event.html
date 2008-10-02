@@ -68,11 +68,9 @@ $(document).ready(function() {
 	<h3>Please correct the following error{{ form.error_dict|pluralize }}:</h3>
 {% endif %}
   <p>
+    {{ form.title.errors }}
     <label for="id_title">Naslov:</label>
     {{ form.title }}
-    {% if form.title.errors %}
-      *** {{ form.title.errors|join:", " }}
-    {% endif %}
   </p>
 	<p>
 <a href="#" onClick="addFormField(); return false;">Add</a></p>
@@ -113,26 +111,18 @@ $(document).ready(function() {
     {% endif %}  
 
 <p>
+    {{ form.category.errors }}
     <label for="id_category">m3c kategorija:</label>
     {{ form.category }}
-    {% if form.category.errors %}
-      *** {{ form.category.errors|join:", " }}
-    {% endif %}
-<!--    <a href="/intranet/admin/auth/user/add/" class="add-another" id="add_id_responsible" onclick="return showAddAnotherPopup(this);"> <img src="/media/img/admin/icon_addlink.gif" width="10" height="10" alt="Add Another"/></a
--->
     </p>
  <p>
-    <label for="id_project">Projekt:</label>
+    {{ form.project.errors }}
+    <label for="id_project">Projekti:<label>
     {{ form.project }}
-    {% if form.project.errors %}
-      *** {{ form.project.errors|join:", " }}
-    {% endif %}
     <br />
-    <label for="id_responsible">Odgovorni:</label>
+    {{ form.responsible.errors }}
+    <label for="id_responsible">Odgovorni:<label>
     {{ form.responsible }}
-    {% if form.responsible.errors %}
-      *** {{ form.responsible.errors|join:", " }}
-    {% endif %}
 </p>
 <hr>
    <p>
@@ -140,6 +130,7 @@ $(document).ready(function() {
     {{ form.start_date|safe }}
     <br />
     <br /> 
+    {{ form.length.errors }}
     <label for="id_length">Dolžina:</label>
    	<select selected name="length" size="1">   	   
             {% comment %}<option {% ifequal form.data.length '01:00:00' %}selected {% endifequal %}>1</option>
@@ -172,69 +163,51 @@ $(document).ready(function() {
    </p>
 <hr>
   <p>
+    {{ form.require_technician.errors }}
     <label for="id_require_technician">Dogodek potrebuje tehnika:</label>
     {{ form.require_technician }}
-    {% if form.require_technician.errors %}
-      *** {{ form.require_technician.errors|join:", " }}
-    {% endif %}
     <label for="id_technician">Tehnik:</label>
+    {{ form.technician.errors }}
     {{ form.technician }}
-    {% if form.technician.errors %}
-      *** {{ form.technician.errors|join:", " }}
-    {% endif %}  </p>
   <p>
+    {{ form.require_video.errors }}
     <label for="id_require_video">Dogodek je sneman:</label>
     {{ form.require_video }}
-    {% if form.require_video.errors %}
-      *** {{ form.require_video.errors|join:", " }}
-    {% endif %}
   </p>
   <p>
+    {{ form.place.errors }}
     <label for="id_place">Potrebuje prostore:</label>
     {{ form.place}}
-    {% if form.place.errors %}
-      *** {{ form.place.errors|join:", " }}
-    {% endif %}
     </p>
   <p>
+    {{ form.slides.errors }}
     {{ form.slides.label_tag }}
     {{ form.slides }} {{ form.slides_file }}
-    {% if form.slides.errors %}
-      *** {{ form.slides.errors|join:", " }}
-    {% endif %}
     </p>
   <p>
+    {{ form.image.errors }}
     {{ form.image.label_tag }}
     {{ form.image }} {{ form.image_file }}
-    {% if form.image.errors %}
-      *** {{ form.image.errors|join:", " }}
-    {% endif %}
     </p>
 <hr>
  <p>
+    {{ form.announce.errors }}
     <label for="id_announce">Uradna najava:</label>
     {{ form.announce }}
-    {% if form.announce.errors %}
-      *** {{ form.announce.errors|join:", " }}
-    {% endif %}
   </p>
   
    <p>
+    {{ form.short_announce.errors }}
     <label for="id_short_announce">Kratka najava:</label>
     {{ form.short_announce }}
-    {% if form.short_announce.errors %}
-      *** {{ form.short_announce.errors|join:", " }}
-    {% endif %}
   </p>
 
 <hr>
 
   <p>
+    {{ form.note.errors }}
     <label for="id_note">Opombe:</label>
     {{ form.note }}
-    {% if form.note.errors %}
-      *** {{ form.note.errors|join:", " }}
-    {% endif %}
   </p>
   </div>
   </div>
