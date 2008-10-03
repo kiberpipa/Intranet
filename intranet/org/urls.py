@@ -178,11 +178,6 @@ urlpatterns = patterns('',
     (r'lends/?$',    'intranet.org.views.lends'),
 
     ##bugs
-    (r'^box/bugs/add/$', 'intranet.org.views.box_bugs_add'),
-    (r'^bugs/(?P<id>\d+)/take/$', 'intranet.org.views.takeover_bug'),
-    (r'^bugs/(?P<id>\d+)/done/$', 'intranet.org.views.resolve_bug'),
-    (r'^bugs/(?P<id>\d+)/move/$', 'intranet.org.views.move_bug'),
-    (r'^bugs/(?P<id>\d+)/resolve/$', 'intranet.org.views.resolve_bug'),
     #mali wraper okoli generic viewa da lahko procesiramo komentar 
     #(r'^bugs/(?P<object_id>\d+)/$', 'django.views.generic.list_detail.object_detail', bug_detail),
     (r'^bugs/(?P<object_id>\d+)/$', 'intranet.org.views.view_bug'),
@@ -222,8 +217,6 @@ urlpatterns = patterns('',
     (r'^kb/$', 'intranet.org.views.kb_index'),
 
     (r'^imenik/$', 'intranet.org.views.imenik'),
-    (r'^imenik/pass/$', 'intranet.org.views.change_pw'),
-    (r'^imenik/profile/$', 'intranet.org.views.profile'),
 
 
     (r'^autocomplete/(?P<search>[^/]*)$', 'intranet.org.views.autocomplete'),

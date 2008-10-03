@@ -23,8 +23,10 @@ def article_history(request, id):
     # TODO: use get_object_or_404
     article = Article.objects.get(pk=id)
     changes = article.changeset_set.all()
-    return render_to_response('wiki/history.html', {'article': article,
-				'changes': changes}, context_instance=RequestContext(request))
+    return render_to_response('wiki/history.html', {'article': article, 'changes': changes}, context_instance=RequestContext(request))
+    #return render_to_response('wiki/history.html', {'article': article, 'changes': changes})
+    #return render_to_response('wiki/history.html', {'article': article})
+
 article_history = login_required(article_history)
 
 ##najdi celo hiearhijo kateri pripada nas article
