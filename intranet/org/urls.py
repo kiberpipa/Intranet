@@ -218,10 +218,7 @@ urlpatterns = patterns('',
     (r'^dezurni/add/$', 'intranet.org.views.dezurni_add'),
     (r'^dezurni/$', 'intranet.org.views.dezurni'),
 
-    (r'^kb/edit/(?P<id>[-\w]+)', 'intranet.org.views.kb_article_edit'),
     (r'^kb/(?P<kbcat>[-\w]+)/(?P<article>[-\w]+)', 'intranet.org.views.kb_article'),
-    (r'^kb/add/$', 'intranet.org.views.kb_article_add'),
-    (r'^kb/(?P<kbcat>[-\w]+)', 'intranet.org.views.kb_cat'),
     (r'^kb/$', 'intranet.org.views.kb_index'),
 
     (r'^imenik/$', 'intranet.org.views.imenik'),

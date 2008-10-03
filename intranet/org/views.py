@@ -1311,69 +1311,12 @@ def kb_index(request):
                               context_instance=RequestContext(request))
 kb_index = login_required(kb_index)
 
-def kb_cat(request, kbcat):
-	##AFAIK se ta funckija klice samo po tem ko shranis stvar v KB
-	return HttpResponseRedirect(KB.objects.filter(title=request.POST['title'])[0].get_absolute_url())
-
-kb_cat = login_required(kb_cat)
-
 def kb_article(request, kbcat, article):
     article = get_object_or_404(KB, slug=article)
     return render_to_response('org/kb_article.html',
                               {'article':article,},
                               context_instance=RequestContext(request))
 kb_article = login_required(kb_article)
-
-
-
-def kb_article_add(request):
-    manipulator = KB.AddManipulator()
-    if request.POST:
-        new_data = request.POST.copy()
-        new_data['editor'] = request.user.id
-        if not new_data.has_key('slug') and new_data.has_key('title'):
-            new_data['slug'] = slugify(new_data['title'])
-        errors = manipulator.get_validation_errors(new_data)
-        if not errors:
-            manipulator.do_html2python(new_data)
-            new_article = manipulator.save(new_data)
-            return HttpResponseRedirect(new_article.get_absolute_url())
-    else:
-        errors = new_data = {}
-
-    form = forms.FormWrapper(manipulator, new_data, errors)
-    return render_to_response('org/kb_add.html',
-                             {'form': form},
-                              context_instance=RequestContext(request))
-kb_article_add = login_required(kb_article_add)
-
-def kb_article_edit(request, id):
-    manipulator = KB.ChangeManipulator(id)
-    kb = manipulator.original_object
-
-    if request.POST:
-      new_data = request.POST.copy()
-      new_data['editor'] = request.user.id
-
-      if kb.slug:
-        new_data['slug'] = kb.slug
-      else:
-        new_data['slug'] = slugify(new_data['title'])
-
-      errors = manipulator.get_validation_errors(new_data)
-      if not errors:
-          manipulator.do_html2python(new_data)
-          new_article = manipulator.save(new_data)
-          return HttpResponseRedirect(new_article.get_absolute_url())
-    else:
-      errors = {}
-      new_data = manipulator.flatten_data()
-
-    form = forms.FormWrapper(manipulator, new_data, errors)
-    return render_to_response('org/kb_add.html',
-                           {'form': form},
-                            context_instance=RequestContext(request))
-#kb_article_edit = login_required(kb_article_edit)
 
 def imenik(request):
     profile = UserProfile.objects.get(user=request.user) 
