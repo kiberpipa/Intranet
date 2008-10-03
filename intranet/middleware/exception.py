@@ -71,7 +71,7 @@ class StandardExceptionMiddleware(object):
 
     def log_exception(self, request, exception, exc_info):
         subject, message = self.exception_email(request, exc_info)
-        send_mail(subject, message, 'intranet@kiberpipa.org', [a[1] for a in settings.ADMINS])
+        send_mail(subject, message, 'intranet@kiberpipa.org', [a[1] for a in settings.ADMINS], fail_silently=True)
 
 
 

@@ -70,8 +70,8 @@ class EventFilter(forms.Form):
 
 class FilterBug(forms.Form):
     resolution = forms.ModelChoiceField(Resolution.objects.all(), required=False)
-    assign = forms.ModelChoiceField(User.objects.all(), required=False)
-    author = forms.ModelChoiceField(User.objects.all(), required=False)
+    assign = forms.ModelChoiceField(User.objects.filter(is_active=True).order_by('username'), required=False)
+    author = forms.ModelChoiceField(User.objects.filter(is_active=True).order_by('username'), required=False)
 
     due_by = forms.DateTimeField(required=False)
 
@@ -82,7 +82,7 @@ class CommentBug(forms.Form):
 
 class DiaryFilter(forms.Form):
     task = forms.ModelChoiceField(Project.objects.all(), required=False)
-    author = forms.ModelChoiceField(User.objects.all(), required=False)
+    author = forms.ModelChoiceField(User.objects.filter(is_active=True).order_by('username'), required=False)
 
 class ImenikFilter(forms.Form):
     project = forms.ModelChoiceField(Project.objects.all(), required=False)

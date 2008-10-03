@@ -71,7 +71,7 @@ diary_dict = {
 }
 
 addressbook_dict = {
-    'queryset': User.objects.all(),
+    'queryset': User.objects.filter(is_active=True).order_by('username'),
     'template_name': 'org/imenik_list.html',
 }
 

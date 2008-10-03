@@ -23,6 +23,7 @@ import string
 from StringIO import StringIO
 from reportlab.pdfgen.canvas import Canvas
 import ldap
+from copy import deepcopy
 
 
 from intranet.org.models import UserProfile, Project, Category
@@ -480,7 +481,7 @@ def comment_add(request, bug_id):
         if form.is_valid():
             new_comment = Comment(bug=bug, text=form.cleaned_data['text'])
             new_comment.save(request)
-        bug.mail(message='new comment has been added', subject='new comment has been added to #' + bug.id.__str__())
+        bug.mail(message=new_comment.text, subject='new comment has been added to #' + bug.id.__str__())
     
     return HttpResponseRedirect(bug.get_absolute_url())
 
@@ -489,8 +490,17 @@ def bug_edit(request, bug_id):
     if request.method == 'POST':
         form = BugForm(request.POST, instance=bug)
         if form.is_valid():
+            old = deepcopy(bug)
             form.save()
-            bug.mail(subject='#%d has been edited' % bug.id)
+            bug.save()
+            message = ''
+            for (i, j) in bug.__dict__.items():
+                try:
+                    if bug.__dict__[i] != old.__dict__[i] and i != 'chg_date':
+                        message += '- %s changed from "%s" to "%s"\n' % (i, old.__dict__[i], bug.__dict__[i])
+                except KeyError:
+                    pass
+            bug.mail(subject='#%d has been edited' % bug.id, message=message)
     return HttpResponseRedirect(bug.get_absolute_url())
 
 def bug_subtask(request, bug_id):

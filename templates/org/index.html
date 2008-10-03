@@ -67,7 +67,7 @@
     <h4>Bugi mojim projektom:</h4>
     <ul>
     {% for i in project_bugs %}
-        <li><a href="{{ i.get_absolute_url }}">{{ i }}</a> resuje {{ i.assign.all|join:"," }}</li>
+        <li><a href="{{ i.get_absolute_url }}">{{ i }}</a> {% if i.assign.all %}resuje {{ i.assign.all|join:"," }}{% endif %}</li>
     {% endfor %}
     </ul>
 
