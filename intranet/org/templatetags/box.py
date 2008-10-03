@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
+
 from django.template import Context, Library, RequestContext
 from django import template
 from django import oldforms as forms
@@ -17,36 +20,52 @@ def loadcomments(object, user):
     return {'object': object, 'user': user }
 register.inclusion_tag('org/showcomments.html')(loadcomments)
 
+# summarize paid, unpaid time for given period of diaries
 def box_plache(diarys, user):
-    list = {}
-    paylist = {}
-    objects = []
-    total = 0
-    sum = 0
-    for o in diarys:
+    list = {} 		# Hash<author.username, hours unpaid>
+    paylist = {} 	# Hash<author.username, hours paid>
+    objects = []	# List<Hash<String, Object>> - summaries per person 
+    billable_hours = 0	# total paid time, in hours
+    total_hours = 0	# total paid+unpaid time, in hours
+    sum = 0		# total to be paid (= total paid time * tariff)
 
+    # pupulate list, paylist from diaries
+    for o in diarys:
+        print "DEBUG: God diary for event %s by %s, date %s" % (o.id, o.author.username, o.date)
         a = o.author.username
         if list.has_key(a):
             list[a] += o.length.hour 
         else:
             list[a] = o.length.hour 
             paylist[a] = 0
-        if o.task.id <= 2:
-            paylist[a] += o.length.hour 
+        total_hours += o.length.hour        
+        
+        # paid projects are dezuranje (22) and tehnicarjenje (23)
+        # they must reference an event that requires a technician, also
+        if ( (o.task.id == 22) or (o.task.id == 23 and o.event != None and (o.event.require_technician or o.event.require_video)) ):
+            paylist[a] += o.length.hour
+            billable_hours += o.length.hour
+        
 
-    for o in list:
-        a = {}
+    # compute per-person summaries
+    tariff = 3.13				# EUR/hour
+    for o in list:				# for every author.username
+        a = {}					# his summary
         a['name'] = o
-        a['time'] = list[o]
-        a['paytime'] = paylist[o]
-        a['money'] = paylist[o] * 3.13
+        a['time'] = list[o]			# unpaid time in hours
+        a['paytime'] = paylist[o]		# paid time in hours
+        a['money'] = paylist[o] * tariff		# paid time * tariff (3.13€/h currently)
         objects.append(a)
-        total += list[o]
-        sum += (paylist[o] * 3.13)
+
+        # add to totals
+        sum += (paylist[o] * tariff)
+
     return {'objects': objects,
             'user': user,
-            'total': total,
+            'billable_hours': billable_hours,
+            'total_hours': total_hours,
             'sum': sum }
+
 
 register.inclusion_tag('org/box_plache.html')(box_plache)
 

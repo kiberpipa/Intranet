@@ -960,7 +960,9 @@ def tehniki_monthly(request, year=None, month=None):
 
     month_number = month
     month = Event.objects.filter(start_date__range=(month_start, month_end), require_technician__exact=True).order_by('start_date')
-    log_list = Diary.objects.filter(task=2, date__range=(month_start, month_end))
+    log_list = Diary.objects.filter(task=23, date__range=(month_start, month_end))
+    for log in log_list:
+      print "Found billable technician log #%s: %s on %s for %s hours" % (log.pk, log.author, log.date, log.length)
 
     for e in month:
         try:
@@ -1176,8 +1178,9 @@ def dezurni_monthly(request, year=None, month=None):
         Time = mx.DateTime.Time
 
 #        for i in [Time(hours=10), Time(hours=13), Time(hours=16), Time(hours=19)]:
-        for i in [Time(hours=11), Time(hours=16)]:
-            dezurni_list = Diary.objects.filter(task=1, date__range=(month_now+i, month_now+i+Time(2.59))).order_by('date')
+#        for i in [Time(hours=11), Time(hours=16)]:
+        for i in [Time(hours=10), Time(hours=14), Time(hours=18)]:
+            dezurni_list = Diary.objects.filter(task=22, date__range=(month_now+i, month_now+i+Time(3.59))).order_by('date')
             dezurni_dict = {}
             if dezurni_list:
                 dezurni_obj = dezurni_list[0]
@@ -1191,7 +1194,7 @@ def dezurni_monthly(request, year=None, month=None):
         month.append(dict)
         month_now = month_now + mx.DateTime.oneDay
 
-    log_list = Diary.objects.filter(task=1, date__range=(month_start, month_end)).order_by('-date')
+    log_list = Diary.objects.filter(task=22, date__range=(month_start, month_end)).order_by('-date')
 
     navigation = monthly_navigation (year, month_number)
 

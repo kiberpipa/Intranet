@@ -3,7 +3,7 @@
 	<tr>
 		<td>Oseba</td>
 		<td><acronym title="Skupno stevilo delovnih ur">ur</acronym></td>
-		<td><acronym title="Stevilo placanih delovnih ur">€ ur</acronym></td>
+		<td><acronym title="Stevilo placanih delovnih ur">&euro; ur</acronym></td>
 		<td><acronym title="Zasluzek">denarja</acronym></td>
 	</tr>
 
@@ -12,9 +12,9 @@
 		<td>{{ o.name}}</td>
 		<td>{{ o.time }}</td>
 		<td>{{ o.paytime }}</td>
-		<td>{{o.money}}</td>
+		<td>{{ o.money }}</td>
 	</tr>
 {% endfor %}
 
 </table>
-<p>Skupno {{ total }} ur dela za {{ sum }} €. </p>
+<p>Skupno {{ total_hours }} ur dela, od tega {{ billable_hours }} &euro; ur za {{ sum }} &euro;. </p>
