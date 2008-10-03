@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import datetime
+import sys
 
 from django.db.models import Q
 from django.core.mail import send_mail
@@ -20,7 +21,11 @@ for lend in Lend.objects.filter(returned=False):
 
 result += '\n\n\nDnevniki:\n\n'
 
-for diary in Diary.objects.filter(date__year=now.year, date__month=now.month, date__day=now.day):
+diarys = Diary.objects.filter(date__year=now.year, date__month=now.month, date__day=now.day)
+if not diarys:
+    sys.exit(0)
+
+for diary in diarys:
     result  += '[ %s - %s - %s - %s ]\n --\n %s \n--\n %s\n\n' % (diary.date, diary.author, diary.task.__unicode__(), diary.length, diary.log_formal, diary.log_informal)
 
 send_mail('<insert something smart> %d-%d-%d' % (now.year, now.month, now.day), result, 'intranet@kiberpipa.org', ['pipa-org@list.kiss.si'])

@@ -62,7 +62,9 @@
 </div>
         {% endif %}
         {% endfor %}
-        <br><br><br>not active users:<br>
+        <div style="margin-left:10px;">
+            <img width="540" src="{{ media_url }}/img/nonact.jpg">
+        </div>
         {% for profile in object_list %}
         {% if not profile.user.get_profile.is_active %}
 <div class="module">
