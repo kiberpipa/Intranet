@@ -27,15 +27,7 @@
   </div>
   <div class="module" id="recent-actions-module">
   	<h2>Dodaj hrošča</h2>
-    <form method="post" action="add/">
-    <p>{{ bug_form.name.label_tag }} {{ bug_form.name }}</p>
-    <p>{{ bug_form.note.label_tag }} {{ bug_form.note }}</p>
-    <p>{{ bug_form.parent.label_tag }} {{ bug_form.parent }}</p>
-    <p>{{ bug_form.due_by.label_tag }} {{ bug_form.due_by }}</p>
-    <p>{{ bug_form.assign.label_tag }} {{ bug_form.assign }}</p>
-    <p>{{ bug_form.project.label_tag }} {{ bug_form.project }}</p>
-    <input type="submit">
-    </form>
+    {% include "org/content/bug_form.html" %}
   </div>
 {% endblock %}
 

@@ -402,6 +402,7 @@ class Bug(models.Model):
     note = models.TextField()
     parent = models.ForeignKey('self', blank=True, null=True)
     due_by = models.DateTimeField(null=True, blank=True)
+    watchers = models.ManyToManyField(User, blank=True, null=True, related_name="watchers")
 
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
@@ -444,6 +445,11 @@ class Bug(models.Model):
         #construct a list of all mails to which to compailn
         mails = []
         for i in self.assign.all():
+            if i.email not in mails and i.email:
+             mails += [i.email]
+
+
+        for i in self.watchers.all():
             if i.email not in mails and i.email:
              mails += [i.email]
 
