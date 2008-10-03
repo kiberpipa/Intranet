@@ -11,6 +11,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from intranet.org.models import Event, Bug, Scratchpad, Resolution
 from intranet.localsettings import MEDIA_URL
 import datetime
+import math
 
 register = Library()
 
@@ -24,7 +25,6 @@ register.inclusion_tag('org/showcomments.html')(loadcomments)
 def box_plache(diarys, user):
     list = {} 		# Hash<author.username, hours unpaid>
     paylist = {} 	# Hash<author.username, hours paid>
-    objects = []	# List<Hash<String, Object>> - summaries per person 
     billable_hours = 0	# total paid time, in hours
     total_hours = 0	# total paid+unpaid time, in hours
     sum = 0		# total to be paid (= total paid time * tariff)
@@ -49,16 +49,20 @@ def box_plache(diarys, user):
 
     # compute per-person summaries
     tariff = 3.13				# EUR/hour
+    objects = []				# List<Hash<String, Object>> - summaries per person 
     for o in list:				# for every author.username
         a = {}					# his summary
         a['name'] = o
         a['time'] = list[o]			# unpaid time in hours
         a['paytime'] = paylist[o]		# paid time in hours
-        a['money'] = paylist[o] * tariff		# paid time * tariff (3.13€/h currently)
+        a['money'] = paylist[o] * tariff	# paid time * tariff (3.13eur/h currently)
         objects.append(a)
 
         # add to totals
         sum += (paylist[o] * tariff)
+
+    # sort by a['money']
+    objects.sort(lambda a, b: int( b['money'] - a['money'] ))
 
     return {'objects': objects,
             'user': user,
