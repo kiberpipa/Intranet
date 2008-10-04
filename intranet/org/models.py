@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.core import validators
 from datetime import date, time, timedelta, datetime
 import smtplib, string, audit
+import socket
 
 from django.conf import settings
 
@@ -70,6 +71,9 @@ class Project(models.Model):
 
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
+    
+    #if True email all people which have this project set, if false email only Project.email
+    email_members = models.BooleanField(default=True)
 
     #tags = models.ManyToManyField(Tag, blank=True, null=True)
 
@@ -461,16 +465,22 @@ class Bug(models.Model):
             mails += [self.author.email]
 
         for i in self.project.all():
-            if not i.email in mails and i.email:
+            if i.email_members:
+                for mail in [j.user.email for j in i.userprofile_set.all()]:
+                    if mail and not mail in mails:
+                        mails += [mail]
+            elif not i.email in mails and i.email:
                 mails += [i.email]
 
         #send the mail to all the assignees
         for to in mails:
             msg = "From: %s\nTo: %s\nSubject: %s\n\n%s\n%s"  % (mail_from, to, subject, info, message)
-
-            session = smtplib.SMTP('localhost')
-            session.sendmail(mail_from, to, msg)
-            session.close()
+            try: 
+                session = smtplib.SMTP('localhost')
+                session.sendmail(mail_from, to, msg)
+                session.close()
+            except socket.error: 
+                pass
 
     def get_related(self):
         #get parent and children bugs

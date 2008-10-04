@@ -59,7 +59,7 @@
 
   <div class="module">
     <h2 class="expand"><img src="{{ media_url }}/img/expand.gif" alt="expand bug" />add subtask</h2>
-    <div id="bug_box" class="invisible">{% comment %}{% box_add Bug object.id %}{% endcomment %}
+    <div id="bug_box" class="invisible">
         <form action="subtask/" method="post">
        {{ subtask_form }} 
         <input type = "submit"/>
@@ -71,7 +71,7 @@
         {% ifequal comment.bug object %}
         <div class="module">
             <h2> {{ comment.author }} @ {{ comment.date }} </h2>
-                {{ comment.text }}
+                {{ comment.text|linebreaks }}
         </div>
         {% endifequal %}
     {% endfor %}
