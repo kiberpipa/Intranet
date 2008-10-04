@@ -48,7 +48,7 @@ def box_plache(diarys, user):
         
 
     # compute per-person summaries
-    tariff = 3.13				# EUR/hour
+    tariff = 3.50				# EUR/hour
     objects = []				# List<Hash<String, Object>> - summaries per person 
     for o in list:				# for every author.username
         a = {}					# his summary
@@ -203,6 +203,7 @@ class BoxListNode(template.Node):
 
     def render(self, context):
         kwargs = parse(self.queryset)
+        pargs = parse(self.params)
 
         for i in kwargs:
             if kwargs[i] == 'False':
@@ -214,8 +215,7 @@ class BoxListNode(template.Node):
         kwargs = dict([(str(x),kwargs[x]) for x in kwargs.keys()]) 
         
         new_queryset = self.object.objects.filter(**kwargs)
-        
-        pargs = parse(self.params)
+
         if pargs.has_key('order_by'):
             new_queryset = new_queryset.order_by(pargs['order_by'])
 
