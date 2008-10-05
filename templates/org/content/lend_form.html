@@ -1,4 +1,4 @@
-<form method="post" action="/intranet/lend/add/">
+<form method="post" action="{% if lend_edit %}edit/{% else %}/intranet/lends/add/{% endif %}">
 	{{ lend_form.as_p }}
   <p><input type="submit" value="Posodi" /></p>
 </form>
