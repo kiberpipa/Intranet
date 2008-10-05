@@ -122,10 +122,6 @@ shopping_detail = {
 bug_extra = {
 }
 
-lend_detail = {
-    'queryset': Lend.objects.all(),
-}
-
 sodelovanje_detail = {
     'queryset': Sodelovanje.objects.all(),
 }
@@ -167,7 +163,8 @@ urlpatterns = patterns('',
     (r'^shopping/(?P<event_id>\d+)/edit/$', 'intranet.org.views.shopping_edit'),
     (r'^box/shopping/add/$', 'intranet.org.views.box_shopping_add'),
 
-    (r'^lends/(?P<object_id>\d+)/$', 'django.views.generic.list_detail.object_detail', lend_detail),
+    (r'^lends/(?P<id>\d+)?/?(?P<action>(add|edit))/$', 'intranet.org.views.lends_form'),
+    (r'^lends/(?P<object_id>\d+)/$', 'intranet.org.views.lend_detail'),
     (r'^lends/(?P<id>\d+)/back/$', 'intranet.org.views.lend_back'),
     (r'^lends/(?P<username>\w+)/$', 'intranet.org.views.lends_by_user'),
     (r'^box/lend/add/$', 'intranet.org.views.box_lend_add'),

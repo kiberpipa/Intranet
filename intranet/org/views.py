@@ -127,6 +127,40 @@ def lends(request):
     )
 lends= login_required(lends)
 
+def lends_form(request, id=None, action=None):
+    #process the add/edit requests, redirect to full url if successful, display form with errors if not.
+    if request.method == 'POST':
+        if id:
+            lend_form = LendForm(request.POST, instance=Lend.objects.get(id=id))
+        else:
+            lend_form = LendForm(request.POST)
+
+        if lend_form.is_valid():
+            lend = lend_form.save()
+            return HttpResponseRedirect(lend.get_absolute_url())
+    else:
+        if id:
+            lend_form = LendForm(instance=Lend.objects.get(id=id))
+        else:
+            lend_form = LendForm()
+
+    return render_to_response('org/lend.html', {
+        'lend_form': lend_form,
+        'lend_edit': True,
+        }, context_instance=RequestContext(request)
+    )
+lends_form = login_required(lends_form)
+
+def lend_detail(request, object_id):
+    return list_detail.object_detail(request, 
+        object_id = object_id, 
+        queryset = Lend.objects.all(), 
+        extra_context = { 
+            'lend_form': LendForm(instance=Lend.objects.get(id=object_id)),
+            'lend_edit': True,
+        })
+lend_detail = login_required(lend_detail)
+
 def lends_by_user(request, username):
     responsible = []
     for l in Lend.objects.filter(returned=False):
@@ -329,35 +363,13 @@ def diary_detail(request, object_id):
         object_id = object_id, 
         queryset = Diary.objects.all(), 
         extra_context = { 
+            #the next line is the reason for wrapper function, dunno how to 
+            #pass generic view dynamic form.
             'diary_form': DiaryForm(instance=Diary.objects.get(id=object_id)),
             'diary_edit': True,
         })
+diary_detail = login_required(diary_detail)
 
-
-##################################################
-
-def box_lend_add(request):
-    manipulator = Lend.AddManipulator()
-
-    if request.POST:
-        new_data = request.POST.copy()
-
-        new_data['from_who'] = request.user.id
-        new_data['from_date'] = datetime.date.today().strftime("%Y-%m-%d")
-
-        errors = manipulator.get_validation_errors(new_data)
-
-        if not errors:
-            manipulator.do_html2python(new_data)
-            new_lend = manipulator.save(new_data)
-            return HttpResponseRedirect("/intranet/lends/%i/" % new_lend.id)
-    else:
-        errors = new_data = {}
-
-    form = forms.FormWrapper(manipulator, new_data, errors)
-    return render_to_response('org/box_error.html',
-                             {'form': form, 'template_file': 'org/box_lend.html'},
-                             context_instance=RequestContext(request))
 
 ##################################################
 
