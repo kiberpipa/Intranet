@@ -11,44 +11,26 @@
 {% block content-related-left %}
   <div class="module" id="recent-actions-module">
       <h2>Vpisi željo</h2>
-        {% box_add Shopping %}
+        {% include "org/content/shopping_form.html" %}
   </div>
 {% endblock %}
 
 {% block content-main %}
     <div class="module">
     <h2>Predlogi za nakupe</h2>
-    <h4>Projekti</h4>
-    <ul>
-    {% for p in projects_shop %}
-    <li>{{ p }}
-        <ul>
-        {% for log in p.Shopping %}
-            <li><a href="/intranet/shopping/{{ log.id }}">{{ log.name }}</a> ({{ log.cost }} SIT)</li>
-        {% endfor %}
-        </ul>
-    </li>
+    <table>
+    <tr><th>Avtor</th><th>Kaj</th><th>Cena</th></tr>
+    {% for wish in wishes %}
+    <tr><td>{{ wish.author }}</td><td><a href="{{ wish.get_absolute_url }}"> {{ wish }}</a></td><td>{{ wish.cost }}</td></tr>
     {% endfor %}
-    </ul>
+    </table>
 
-    <h4>Opravila</h4>
-    <ul>
-    {% for p in tasks_shop %}
-    <li>{{ p }}
-        <ul>
-        {% for log in p.Shopping %}
-            <li><a href="/intranet/shopping/{{ log.id }}">{{ log.name }}</a> ({{ log.cost }} SIT)</li>
-        {% endfor %}
-        </ul>
-    </li>
-    {% endfor %}
-    </ul>
     </div>
 {% endblock %}
 
 {% block content-related-right %}
 
-  <div class="module">
+  {% comment %} <div class="module">
   <h2>Filtri</h2>
     <h2>Po ceni</h2>
         <ul class="actionlist">
@@ -58,5 +40,5 @@
             <li><a href="/intranet/shopping/cost/4/">20k - 50k</a></li>
             <li><a href="/intranet/shopping/cost/5/">50k -> </a></li>
         </ul>
-</div>
+</div> {% endcomment %}
 {% endblock %}

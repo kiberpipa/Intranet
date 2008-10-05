@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 #from intranet.tags.models import Tag
 #from intranet.tags import fields
 
-from django.core import validators
 from datetime import date, time, timedelta, datetime
 import smtplib, string, audit
 import socket
@@ -633,7 +632,6 @@ class Shopping(models.Model):
     responsible = models.ForeignKey(User, blank=True, null=True, related_name="shopping_responsible")
 
     project = models.ManyToManyField(Project, blank=True, null=True)
-    task = models.ManyToManyField(Task, blank=True, null=True)
     tags = models.ManyToManyField(Tag, blank=True, null=True)
 
     pub_date = models.DateTimeField(auto_now_add=True)

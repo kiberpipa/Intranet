@@ -3,8 +3,6 @@
 
 from django.template import Context, Library, RequestContext
 from django import template
-from django import oldforms as forms
-from django.oldforms import FormWrapper
 from django.template import resolve_variable, Variable
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -131,45 +129,6 @@ register.inclusion_tag('org/form_shopping.html')(form_shopping)
 def box_reccurings(form):
     return {'form': form }
 register.inclusion_tag('org/box_reccurings.html')(box_reccurings)
-
-class BoxAddNode(template.Node):
-    def __init__(self, object, parent='', edit=False):
-        self.object = object
-        self.edit = edit
-        if parent:
-            self.parent = Variable(parent)
-        else:
-            self.parent = parent
-
-    def render(self, context):
-        manipulator = self.object.AddManipulator()
-        if self.parent:
-            self.parent =  self.parent.resolve(context)
-        if self.edit:
-            form = forms.FormWrapper(manipulator, Bug.objects.get(pk=self.parent).__dict__, {})
-            print 'teh form'
-            print Bug.objects.get(pk=self.parent).assign.all()
-            print form['assign']
-            #form['assign_id'] = form['assign']
-            #print form['assign_id']
-            c = Context({'form':form, 'edit': True})
-        else:
-            form = forms.FormWrapper(manipulator, {}, {})
-            c = Context({'form':form, 'parent': self.parent,})
-        return template.loader.get_template('org/box_%s.html' % self.object._meta.object_name.lower()).render(c)
-
-def box_add(parser, token):
-    args = token.split_contents()
-    box_name = args[1]
-    m = __import__("intranet.org.models", '','', box_name)
-    object = getattr(m, box_name)
-    if len(args) == 3:
-        return BoxAddNode(object, parent=args[2])
-    elif len(args) == 4:
-        return BoxAddNode(object, parent=args[2], edit=True)
-    else:
-        return BoxAddNode(object)
-register.tag('box_add', box_add)
 
 def parse(args):
     kwargs = {}

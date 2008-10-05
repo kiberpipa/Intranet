@@ -1,0 +1,5 @@
+<form method="post" action="{% if shopping_edit %}edit/{% else %}/intranet/shopping/add/{% endif %}">
+	{{ shopping_form.as_p }}
+  <p><input type="submit" value="{% if shopping_edit %}Uredi{% else %}Dodaj{% endif %}" /></p>
+</form>
+

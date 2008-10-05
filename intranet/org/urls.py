@@ -115,10 +115,6 @@ shopping_dict = {
     'allow_empty': 1,
 }
 
-shopping_detail = {
-    'queryset': Shopping.objects.all(),
-}
-
 bug_extra = {
 }
 
@@ -153,15 +149,14 @@ urlpatterns = patterns('',
     (r'^diarys/?$',    'intranet.org.views.diarys'),
 
     (r'^shopping/$', 'intranet.org.views.shopping_index'),
-    (r'^shopping/(?P<object_id>\d+)/$', 'django.views.generic.list_detail.object_detail', shopping_detail),
+    (r'^shopping/(?P<id>\d+)?/?(?P<action>(add|edit))/$', 'intranet.org.views.shoppings_form'),
+    (r'^shopping/(?P<object_id>\d+)/$', 'intranet.org.views.shopping_detail'),
     (r'^shopping/cost/(?P<cost>\d+)/$', 'intranet.org.views.shopping_by_cost'),
     (r'^shopping/task/(?P<task>\d+)/$', 'intranet.org.views.shopping_by_task'),
     (r'^shopping/user/(?P<user>\d+)/$', 'intranet.org.views.shopping_by_user'),
     (r'^shopping/proj/(?P<project>\d+)/$', 'intranet.org.views.shopping_by_project'),
     (r'^shopping/(?P<id>\d+)/buy/$', 'intranet.org.views.shopping_buy'),
     (r'^shopping/(?P<id>\d+)/support/$', 'intranet.org.views.shopping_support'),
-    (r'^shopping/(?P<event_id>\d+)/edit/$', 'intranet.org.views.shopping_edit'),
-    (r'^box/shopping/add/$', 'intranet.org.views.box_shopping_add'),
 
     (r'^lends/(?P<id>\d+)?/?(?P<action>(add|edit))/$', 'intranet.org.views.lends_form'),
     (r'^lends/(?P<object_id>\d+)/$', 'intranet.org.views.lend_detail'),

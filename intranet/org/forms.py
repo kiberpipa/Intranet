@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 from intranet.org.models import TipSodelovanja, Person, Event, Sodelovanje
 from intranet.org.models import Bug, Resolution, Clipping, Project
-from intranet.org.models import Category, UserProfile, Lend, Diary
+from intranet.org.models import Category, UserProfile, Lend, Diary, Shopping
 
 from django.utils.encoding import force_unicode
 from django.conf import settings
@@ -139,6 +139,11 @@ class LendForm(forms.ModelForm):
     class Meta:
         model = Lend
         fields = ('what','to_who', 'from_who', 'contact_info', 'due_date',)
+
+class ShoppingForm(forms.ModelForm):
+    class Meta:
+        model = Shopping
+        fields = ('name', 'explanation', 'cost', 'project', )
 
 class DiaryForm(forms.ModelForm):
     class Meta:

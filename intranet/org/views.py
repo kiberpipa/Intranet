@@ -1,5 +1,4 @@
 from django.shortcuts import render_to_response, get_object_or_404
-from django.oldforms import FormWrapper
 from django.db.models.query import Q
 from django.template.defaultfilters import slugify
 from django import forms
@@ -175,6 +174,34 @@ def lends_by_user(request, username):
                               context_instance=RequestContext(request))
 lends_by_user = login_required(lends_by_user)
 
+################################################################################
+
+def shoppings_form(request, id=None, action=None):
+    #process the add/edit requests, redirect to full url if successful, display form with errors if not.
+    if request.method == 'POST':
+        if id:
+            shopping_form = ShoppingForm(request.POST, instance=Shopping.objects.get(pk=id))
+        else:
+            shopping_form = ShoppingForm(request.POST)
+
+        if shopping_form.is_valid():
+            shopping = shopping_form.save(commit=False)
+            shopping.author = request.user
+            shopping.save()
+            return HttpResponseRedirect(shopping.get_absolute_url())
+    else:
+        if id:
+            shopping_form = ShoppingForm(instance=shopping.objects.get(id=id))
+        else:
+            shopping_form = ShoppingForm()
+
+    return render_to_response('org/shopping.html', {
+        'shopping_form': shopping_form,
+        'shopping_edit': True,
+        }, context_instance=RequestContext(request)
+    )
+shoppings_form = login_required(shoppings_form)
+
 def shopping_by_cost(request, cost):
     list = Shopping.objects.filter(bought__exact=False)
     if int(cost) == 1:
@@ -196,23 +223,11 @@ def shopping_by_cost(request, cost):
 shopping_by_cost = login_required(shopping_by_cost)
 
 def shopping_index(request):
-    projects = Project.objects.all()
-    tasks = Task.objects.all()
-    projects_shop = []
-    tasks_shop = []
-    for p in projects:
-        s = p.shopping_set.filter(bought__exact=False)
-        if s.count() > 0:
-            p.Shopping = s
-            projects_shop.append(p)
-    for p in tasks:
-        s = p.shopping_set.filter(bought__exact=False)
-        if s.count() > 0:
-            p.Shopping = s
-            tasks_shop.append(p)
+    wishes = Shopping.objects.filter(bought=False)
     return render_to_response('org/shopping_index.html',
-                              { 'projects_shop': projects_shop,
-                                'tasks_shop': tasks_shop,
+                              { 'wishes': wishes,
+                              'shopping_form': ShoppingForm(),
+                              'shopping_edit': False,
                               },
                               context_instance=RequestContext(request))
 shopping_index = login_required(shopping_index)
@@ -373,54 +388,6 @@ diary_detail = login_required(diary_detail)
 
 ##################################################
 
-def box_shopping_add(request):
-    manipulator = Shopping.AddManipulator()
-
-    if request.POST:
-        new_data = request.POST.copy()
-
-        new_data['author'] = request.user.id
-
-        errors = manipulator.get_validation_errors(new_data)
-
-        if not errors:
-            manipulator.do_html2python(new_data)
-            new_lend = manipulator.save(new_data)
-            return HttpResponseRedirect("/intranet/shopping/%i/" % new_lend.id)
-    else:
-        errors = new_data = {}
-
-    form = forms.FormWrapper(manipulator, new_data, errors)
-    return render_to_response('org/box_error.html',
-                             {'form': form, 'template_file': 'org/box_shopping.html'},
-                             context_instance=RequestContext(request))
-
-def shopping_edit(request, event_id):
-    try:
-        manipulator = Shopping.ChangeManipulator(event_id)
-    except Shopping.DoesNotExist:
-        raise Http404
-    event = manipulator.original_object
-
-    if request.POST:
-        new_data = request.POST.copy()
-
-        errors = manipulator.get_validation_errors(new_data)
-        if not errors:
-            manipulator.do_html2python(new_data)
-            manipulator.save(new_data)
-            return HttpResponseRedirect("/intranet/shopping/%i/" % event.id)
-
-    else:
-        errors = {}
-        new_data = manipulator.flatten_data()
-
-    form = forms.FormWrapper(manipulator, new_data, errors)
-
-    return render_to_response('org/form_edit_shopping.html',
-                             {'form': form,
-                             'event': event, },
-                              context_instance=RequestContext(request))
 
 # dodaj podatek o obiskovalcih dogodka
 def shopping_buy (request, id=None):
@@ -431,15 +398,23 @@ def shopping_buy (request, id=None):
 shopping_buy = login_required(shopping_buy)
 
 def shopping_support (request, id=None):
-    event = get_object_or_404(Shopping, pk=id)
-    if request.has_key('support'):
-        event.supporters.add(request.user)
-        event.explanation += "\n\n Predlog podprl %s z razlago:\n\n" % (request.user.username) + request.POST['note']
-    elif request.has_key('comment'):
-        event.explanation += "\n\n %s komentira:\n\n" % (request.user.username) + request.POST['note']
-    event.save()
-    return HttpResponseRedirect('../')
+    wish = get_object_or_404(Shopping, pk=id)
+    wish.supporters.add(request.user)
+    wish.save()
+    return HttpResponseRedirect(wish.get_absolute_url())
 shopping_support = login_required(shopping_support)
+
+def shopping_detail(request, object_id):
+    return list_detail.object_detail(request, 
+        object_id = object_id, 
+        queryset = Shopping.objects.all(), 
+        extra_context = { 
+            #the next line is the reason for wrapper function, dunno how to 
+            #pass generic view dynamic form.
+            'shopping_form': ShoppingForm(instance=Shopping.objects.get(id=object_id)),
+            'shopping_edit': True,
+        })
+shopping_detail = login_required(shopping_detail)
 
 ##################################################
 
