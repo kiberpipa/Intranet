@@ -1413,16 +1413,11 @@ def timeline_xml(request):
   return HttpResponse(t.render(c), 'application/xml')
 
 def scratchpad_change(request):
-    scratchpad = Scratchpad.objects.latest('id')
-    manipulator = Scratchpad.ChangeManipulator(scratchpad.id)
     if request.POST:
-        new_data = request.POST.copy()
-        new_data['author'] = request.user.id
-        errors = manipulator.get_validation_errors(new_data)
-        if not errors:
-            manipulator.do_html2python(new_data)
-            manipulator.save(new_data)
-
+        scratchpad = Scratchpad.objects.latest('id')
+        scratchpad.author = request.user
+        scratchpad.content = request.POST['content']
+        scratchpad.save()
     return HttpResponseRedirect("/intranet/")
 scratchpad_change = login_required(scratchpad_change)
 
