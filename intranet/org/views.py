@@ -64,6 +64,8 @@ def index(request):
                                 'diary_edit': False,
                                 'bug_form': BugForm(),
                                 'bug_edit': False,
+                                'lend_form': LendForm(),
+                                'lend_edit': False,
                               },
                               context_instance=RequestContext(request))
 index = login_required(index)
@@ -321,6 +323,16 @@ def diarys(request):
         }
     )
 diarys = login_required(diarys)
+
+def diary_detail(request, object_id):
+    return list_detail.object_detail(request, 
+        object_id = object_id, 
+        queryset = Diary.objects.all(), 
+        extra_context = { 
+            'diary_form': DiaryForm(instance=Diary.objects.get(id=object_id)),
+            'diary_edit': True,
+        })
+
 
 ##################################################
 

@@ -8,6 +8,7 @@
   $(document).ready(function(){
     $('#id_date').datepicker({firstDay: 1});
     $('#id_due_by').datepicker({firstDay: 1});
+    $('#id_due_date').datepicker({firstDay: 1});
     });
 </script>
 <!--
@@ -38,7 +39,9 @@
 
   <div class="module">
     <h2 class="expand"><img src="{{ media_url }}/img/expand.gif" alt="expand lends" />Posodi opremo</h2>
-    <div id="lend_box" class="hideme">{% box_add Lend %}</div>
+    <div id="lend_box" class="hideme">
+    {% include "org/content/lend_form.html" %}
+    </div>
   </div>
   
   <div class="module">

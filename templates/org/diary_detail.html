@@ -29,10 +29,10 @@
 {% endblock %}
 
 {% block content-related-left %}
+		{% include "org/content/diary_form.html" %}
 {% endblock %}
 
 {% block content-main %}
-		<a href="edit/">Edit me</a>
     {% print_diary object%}
 {% endblock %}
 

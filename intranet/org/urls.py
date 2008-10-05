@@ -138,10 +138,6 @@ feeds = {
     'events': LatestEvents,
 }
 
-diary_detail = {
-    'queryset': Diary.objects.all(),
-}
-
 urlpatterns = patterns('',
     (r'^search/$', 'intranet.org.views.search'),
     (r'^$', 'intranet.org.views.index'),
@@ -152,13 +148,13 @@ urlpatterns = patterns('',
     (r'^events/create/', 'intranet.org.views.nf_event_create'),
     (r'^events/(?P<event>\d+)/edit/$', 'intranet.org.views.nf_event_edit'),
     (r'^events/(\d+)/count/$', 'intranet.org.views.event_count'),
-    (r'events/$',    'intranet.org.views.events'),
+    (r'^events/$',    'intranet.org.views.events'),
     (r'^events/(?P<object_id>\d+)/$', 'intranet.org.views.event'),
 
     #(r'^diarys/(?P<task>\w+)/$', 'intranet.org.views.diarys_by_task'),
     (r'^diarys/(?P<id>\d+)?/?(?P<action>(add|edit))/$', 'intranet.org.views.diarys_form'),
-    (r'^diarys/(?P<object_id>\d+)/$', 'django.views.generic.list_detail.object_detail', diary_detail),
-    (r'diarys/?$',    'intranet.org.views.diarys'),
+    (r'^diarys/(?P<object_id>\d+)/$', 'intranet.org.views.diary_detail'),
+    (r'^diarys/?$',    'intranet.org.views.diarys'),
 
     (r'^shopping/$', 'intranet.org.views.shopping_index'),
     (r'^shopping/(?P<object_id>\d+)/$', 'django.views.generic.list_detail.object_detail', shopping_detail),
