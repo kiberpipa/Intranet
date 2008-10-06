@@ -45,14 +45,16 @@ def compact_salary_xls(params):
         ws.write(line, 3, 'Kiberpipa', obican)
         ws.write(line, 4, i['cost_center'], obican)
         ws.write(line, 5, float(i['amount']), obican)
+
         amount += i['amount']
+        bureaucrat = i['bureaucrat']
 
     line += 2
     ws.write(line, 5, amount, bold)
 
     line +=2 
     ws.write(line, 0,'Nalog Izdal', obican)
-    ws.write_merge(line, line, 1, 2, i['bureaucrat'], obican)
+    ws.write_merge(line, line, 1, 2, bureaucrat, obican)
 
 
     date = datetime.today()

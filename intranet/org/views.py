@@ -793,7 +793,7 @@ def mercenary_salary(request, year, month, id):
                             'cost_center': unicode(project.cost_center),
                             'salary_type':  unicode(project.salary_type),
                             'hours': hours,
-                            'desription': unicode(project),
+                            'description': unicode(project),
                             })
             output.write(compact_salary_xls(params))
             response = HttpResponse(mimetype='application/octet-stream')
