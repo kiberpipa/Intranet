@@ -74,7 +74,7 @@ register.inclusion_tag('org/box_plache.html')(box_plache)
 def box_bug_stats(user):
     all = Bug.objects.all()
     allopen = all.count()
-    open = Bug.objects.filter(resolved=False)
+    open = Bug.objects.filter(resolution__resolved=False)
     count = open.count()
     my = open.filter(assign__exact=user).count()
     mine = all.filter(assign__exact=user).count()

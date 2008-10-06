@@ -390,6 +390,7 @@ class Diary(models.Model):
 # bugs
 class Resolution(models.Model):
     name = models.CharField(max_length = 30)
+    resolved = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.name
@@ -400,7 +401,6 @@ class Bug(models.Model):
     #assign = models.ForeignKey(User,blank=True, null=True, related_name="bug_assign")
     assign = models.ManyToManyField(User,blank=True, null=True, related_name="bug_assign")
     project = models.ManyToManyField(Project, blank=True, null=True)
-    resolved = models.BooleanField()
     resolution = models.ForeignKey(Resolution, blank = True, null = True)
     note = models.TextField()
     parent = models.ForeignKey('self', blank=True, null=True)
@@ -507,22 +507,9 @@ class Bug(models.Model):
 
 
     def save(self):
-    ##the one and only place where we shall decide how bug is considered open
-#        id: 1, name: WONTFIX
-#        id: 2, name: CANTFIX
-#        id: 3, name: WORKSFORME
-#        id: 4, name: INVALID
-#        id: 5, name: FIXED
-#        id: 6, name: OPEN
-        #self.author = request.user
-
         if self.resolution == None:
             self.resolution = Resolution.objects.get(pk=6)
 
-        if self.resolution.id <= 5:
-            self.resolved = True;
-        else:
-            self.resolved = False
         super(Bug, self).save()
 
     class Meta:

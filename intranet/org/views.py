@@ -49,7 +49,7 @@ def index(request):
         for i in request.user.get_profile().project.all(): 
             q = q | Q(project=i)
 
-        project_bugs = Bug.objects.filter(q, resolved=False)
+        project_bugs = Bug.objects.filter(q, resolution__resolved=False)
 
     else:
         project_bugs = None
@@ -444,7 +444,7 @@ def issues(request):
                         ##'**' rabis zato da ti python resolva spremenljivke (as opposed da passa dobesedni string)
                         bugs = bugs.filter(**{key: value})
     else:
-        bugs = bugs.filter(assign=request.user, resolved=False)
+        bugs = bugs.filter(assign=request.user, resolution__resolved=False)
         filter = FilterBug()
 
     return date_based.archive_index(request, 

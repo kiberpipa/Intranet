@@ -51,7 +51,7 @@
     <div class="module">
     <h2> related bugi </h2>
         {% for bug in object.get_related %}
-           <a href="{{ bug.get_absolute_url }}"> <font color="{% if bug.resolved %}green{% else %}red{% endif %}">{{ bug }} </font></a>
+           <a href="{{ bug.get_absolute_url }}"> <font color="{% if bug.resolution.resolved %}green{% else %}red{% endif %}">{{ bug }} </font></a>
         {% endfor %}
     </div>
     <br><br>
