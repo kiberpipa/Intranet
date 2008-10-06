@@ -47,6 +47,7 @@ class Mercenary(models.Model):
     amount = models.IntegerField()
     salary_type = models.ForeignKey(SalaryType)
     cost_center = models.ForeignKey(CostCenter)
+    description = models.TextField()
 
 
     history = audit.AuditTrail()

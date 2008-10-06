@@ -30,7 +30,7 @@ from intranet.org.models import Place, Event, Shopping, Person, Sodelovanje, Tip
 from intranet.org.models import Task, Diary, Bug, StickyNote, Lend, Resolution, Comment
 from intranet.org.models import KbCategory, KB, Tag, Scratchpad, Clipping, Mercenary
 from intranet.org.forms import *
-from xls import salary_xls
+from xls import salary_xls, compact_salary_xls
 
 month_dict = { 'jan': 1, 'feb': 2, 'mar': 3,
                'apr': 4, 'maj': 5, 'jun': 6,
@@ -763,15 +763,46 @@ mercenaries = login_required(mercenaries)
 def mercenary_salary(request, year, month, id):
     mercenaries = []
     begin, end = _get_begin_end(year, month)
-    if id == 'vsi':
+    output = StringIO()
+    params = []
+    if id == 'vsi' or id == 'compact':
         for i in _get_mercenaries(year, month):
             mercenaries.append(i)
         filename = 'place_%d_%d' % (begin.month, begin.year)
+        compact_filename = 'compact_place_%d_%d' % (begin.month, begin.year)
+        if id == 'compact':
+            for mercenary in mercenaries:
+                try:
+                    m = Mercenary.objects.get(person=mercenary)
+                    params.append({'mercenary': mercenary.get_full_name(),
+                            'amount':  _get_mercenaries(year, month)[mercenary],
+                            'bureaucrat':  request.user.get_full_name(),
+                            'cost_center': unicode(m.cost_center),
+                            'salary_type':  unicode(m.salary_type),
+                            'description': unicode(m.description),
+                            })
+                except Mercenary.DoesNotExist:
+                    #project = Diary.objects.filter(author=mercenary, date__gte=begin, date__lt=end)[0].task
+                    hours = 0
+                    for d in Diary.objects.filter(author=mercenary, date__gte=begin, date__lt=end):
+                        hours += d.length.hour
+                    project = d.task
+                    params.append({'mercenary': mercenary.get_full_name(),
+                            'amount':  _get_mercenaries(year, month)[mercenary],
+                            'bureaucrat':  request.user.get_full_name(),
+                            'cost_center': unicode(project.cost_center),
+                            'salary_type':  unicode(project.salary_type),
+                            'hours': hours,
+                            'desription': unicode(project),
+                            })
+            output.write(compact_salary_xls(params))
+            response = HttpResponse(mimetype='application/octet-stream')
+            response['Content-Disposition'] = "attachment; filename=" + compact_filename + '.xls'
+            response.write(output.getvalue())
+            return response
     else:
        mercenaries.append(User.objects.get(pk=id))
        filename = mercenaries[0].__str__()
-    output = StringIO()
-    params = []
     for mercenary in mercenaries:
         try:
             m = Mercenary.objects.get(person=mercenary)
