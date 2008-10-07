@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
 
 #from intranet.tags.models import Tag
 #from intranet.tags import fields
@@ -473,14 +474,7 @@ class Bug(models.Model):
                 mails += [i.email]
 
         #send the mail to all the assignees
-        for to in mails:
-            msg = "From: %s\nTo: %s\nSubject: %s\n\n%s\n%s"  % (mail_from, to, subject, info, message)
-            try: 
-                session = smtplib.SMTP('localhost')
-                session.sendmail(mail_from, to, msg)
-                session.close()
-            except socket.error: 
-                pass
+        send_mail(subject, '%s\n%s' % (info, message), 'intranet@kiberpipa.org', mails, fail_silently=True)
 
     def get_related(self):
         #get parent and children bugs

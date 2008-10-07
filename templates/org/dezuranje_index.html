@@ -30,7 +30,8 @@
 	{% box_plache log_list user %}
 </div>
 {% if dezurni_taski %}
-<div>
+<div class="module">
+<h2>TODO</h2>
 <ul>
 {% for task in dezurni_taski %}
     <li><a href="{{ task.get_absolute_url }}">{{ task }}</a></li>
