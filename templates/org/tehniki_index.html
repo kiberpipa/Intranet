@@ -42,7 +42,7 @@
         <th scope="col">Dogodek</th>
         <th scope="col">Tehnik</th>
             </tr>
-        {% for authors, e in month %}
+        {% for non_diary, e in month %}
             <tr>
                 <td class="date">{{ e.start_date|date:"D j. M H:i" }} ({{ e.length|time:"f" }}h)</td>
                 <td>
@@ -51,12 +51,12 @@
                     </a>
                 </td>
                 <td>
-                    {% for technician in e.technician.all %}
-                        {% if technician|in_list:authors %}
-                            <a href="/intranet/diarys/{{ e.diary }}">
-                                {{ diary.author }} ({{ diary.length }})
-                            </a>
-                        {% endif %}
+                    {% for diary in e.diary_set.all %}
+                        <a href="/intranet/diarys/{{ diary.id }}">
+                            {{ diary.author }} ({{ diary.length }})
+                        </a><br>
+                    {% endfor %}
+                    {% for technician in non_diary %}
                         {% ifequal technician user %}
                             <a href="javascript:;" onclick="formExplode(this, '{{ e.id }}')">{{ technician }}</a> (<a href="/intranet/tehniki/cancel/{{ e.id }}">odjavi</a>)
                         {% else %}

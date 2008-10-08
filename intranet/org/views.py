@@ -1067,8 +1067,10 @@ def tehniki(request, year=None, week=None):
 
     week = []
     for e in events:
+        authors = [a.author for a in e.diary_set.all()]
+        non_diary = set(e.technician.all()) - set(authors)
         #(<array of authors of diarys>, event)
-        week += [([a.author for a in e.diary_set.all()], e)]
+        week += [(non_diary, e)]
 
     navigation = weekly_navigation (year, week_number, week_start, week_end)
 
