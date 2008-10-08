@@ -15,6 +15,11 @@ register = Library()
 
 from django.views.generic.list_detail import object_list
 
+@register.filter
+def in_list(value,arg):
+    return value in arg
+
+
 def loadcomments(object, user):
     return {'object': object, 'user': user }
 register.inclusion_tag('org/showcomments.html')(loadcomments)

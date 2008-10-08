@@ -159,12 +159,11 @@ class Event(models.Model):
     responsible = models.ForeignKey(User)
     title = models.CharField(max_length=100)
     slug = models.SlugField("event_slug",max_length=150,unique=True, blank=True, null=True)
-    #author = models.CharField(max_length=100, blank=True, null=True)
     start_date = models.DateTimeField()
     end_date = models.DateField(blank=True, null=True)
     length = models.TimeField()
     project = models.ForeignKey(Project)
-    technician = models.ForeignKey(User,blank=True, null=True,verbose_name="Tehnik", related_name="event_technican")
+    technician = models.ManyToManyField(User,blank=True, null=True,verbose_name="Tehnik", related_name="event_technican")
     require_technician = models.BooleanField(default=False)
     require_video = models.BooleanField(default=False)
     visitors = models.IntegerField(default=0, blank=True, null=True)
@@ -501,11 +500,11 @@ class Bug(models.Model):
         return related
 
 
-    def save(self):
+    def save(self, *args, **kwargs):
         if self.resolution == None:
             self.resolution = Resolution.objects.get(pk=6)
 
-        super(Bug, self).save()
+        super(Bug, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Hrosc'

@@ -1062,21 +1062,13 @@ def tehniki(request, year=None, week=None):
     week_number = i
 
     week_now = week_start
-    week = Event.objects.filter(start_date__range=(week_start, week_end), require_technician__exact=True).order_by('start_date')
+    events = Event.objects.filter(start_date__range=(week_start, week_end), require_technician__exact=True).order_by('start_date')
     log_list = Diary.objects.filter(task=23, date__range=(week_start, week_end))
 
-    for e in week:
-        try:
-            diary = e.diary_set.get()
-            e.diary = diary.id
-            e.diary_length = diary.length
-        except:
-            e.diary = 0
-
-        try:
-            e.tech = e.technician.username
-        except:
-            e.tech = 0
+    week = []
+    for e in events:
+        #(<array of authors of diarys>, event)
+        week += [([a.author for a in e.diary_set.all()], e)]
 
     navigation = weekly_navigation (year, week_number, week_start, week_end)
 
@@ -1119,11 +1111,13 @@ tehniki_add = login_required(tehniki_add)
 
 def tehniki_take(request, id):
     e = Event.objects.get(pk=id)
-    e.technician = request.user
+    e.technician.add(request.user)
     week = datetime.timedelta(7)
     if e.require_video:
-        new_bug = Bug(author=request.user, due_by = e.start_date + week, note='treba je zmontirat in objavit "%s" video!' % e.title)
+        new_bug = Bug.objects.get_or_create(name = e.title, defaults={'author': request.user})[0]
         new_bug.save()
+        new_bug.due_by = e.start_date + week
+        new_bug.note='treba je zmontirat in objavit "%s" video!' % e.title
         new_bug.assign.add(request.user)
         new_bug.save()
     e.save()
@@ -1133,8 +1127,11 @@ tehniki_take = login_required(tehniki_take)
 
 def tehniki_cancel(request, id):
     e = Event.objects.get(pk=id)
-    e.technician = None
+    e.technician.remove(request.user)
     e.save()
+    bug = Bug.objects.get(name=e.title)
+    bug.assign.remove(request.user)
+    bug.save()
 
     return HttpResponseRedirect('../../')
 tehniki_take = login_required(tehniki_take)

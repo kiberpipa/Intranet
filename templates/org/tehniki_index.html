@@ -42,7 +42,7 @@
         <th scope="col">Dogodek</th>
         <th scope="col">Tehnik</th>
             </tr>
-        {% for e in month %}
+        {% for authors, e in month %}
             <tr>
                 <td class="date">{{ e.start_date|date:"D j. M H:i" }} ({{ e.length|time:"f" }}h)</td>
                 <td>
@@ -50,21 +50,21 @@
                         {{ e.get_project }} {{ e.title }} {% if e.require_video %}<img src="{{ media_url }}img/camera.png" alt="help" />{% endif %}
                     </a>
                 </td>
-                <td{% if e.diary %}>
-                        <a href="/intranet/diarys/{{ e.diary }}">
-                            {{ e.technician }} ({{ e.diary_length }})
-                        </a>
-                    {% else %}
-                        {% if e.tech %} class="reserved">
-                            {% ifequal e.tech user.username %}
-                                <a href="javascript:;" onclick="formExplode(this, '{{ e.id }}')">{{ e.technician }}</a> (<a href="/intranet/tehniki/cancel/{{ e.id }}">odjavi</a>)
-                            {% else %}
-                                {{ e.technician }}
-                            {% endifequal %}
-                        {% else %} class="free">
-                            <a href="/intranet/tehniki/add/{{ e.id }}">Javi se</a>
+                <td>
+                    {% for technician in e.technician.all %}
+                        {% if technician|in_list:authors %}
+                            <a href="/intranet/diarys/{{ e.diary }}">
+                                {{ diary.author }} ({{ diary.length }})
+                            </a>
                         {% endif %}
-                    {% endif %}
+                        {% ifequal technician user %}
+                            <a href="javascript:;" onclick="formExplode(this, '{{ e.id }}')">{{ technician }}</a> (<a href="/intranet/tehniki/cancel/{{ e.id }}">odjavi</a>)
+                        {% else %}
+                            {{ technician }}
+                        {% endifequal %}
+                        <br>
+                    {% endfor %}
+                    <a href="/intranet/tehniki/add/{{ e.id }}">Javi se</a>
                 </td>
             </tr>
         {% endfor %}
