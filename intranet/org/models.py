@@ -418,7 +418,9 @@ class Bug(models.Model):
     def get_absolute_url(self):
         return "%s/intranet/bugs/%i/" % (settings.BASE_URL, self.id)
     
-    def mail(self, message='', subject='you have new bug'):
+    def mail(self, message=None, subject='you have new bug'):
+        if message is None:
+            message = self.note  
 
         ##the stuff we'll need to send mail
         mail_from = 'intranet@kiberpipa.org'
