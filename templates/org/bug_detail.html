@@ -13,7 +13,7 @@
 <script src="{{ media_url }}/js/ui.datepicker.js"></script>
 {% endblock %}
 {% load box %}
-{% block title %}Hrošči in želje{% endblock %}
+{% block title %}#{{ object.id }} -- {{ object.name }}{% endblock %}
 
 {% block heading %}
         <h1>Hrošči</h1>
@@ -21,16 +21,12 @@
 
 {% block content-related-left %}
   <div class="module" id="recent-actions-module">
+	<h2>Quick links</h2>
+	<a href="resolve/">Resolve</a>
+  </div>
+  <div class="module" id="recent-actions-module">
     	    <h2>Urejanje</h2>
-
-        {% comment %}<form action="edit/" method="post">
-       {{ bug_form }} 
-        <input type = "submit"/>
-        </form> {% endcomment %}
-				{% include "org/content/bug_form.html" %}
-
-				</li>
-	</ul>
+		{% include "org/content/bug_form.html" %}
   </div>
 {% endblock %}
 

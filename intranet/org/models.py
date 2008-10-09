@@ -421,9 +421,8 @@ class Bug(models.Model):
     def mail(self, message=None, subject='you have new bug'):
         if message is None:
             message = self.note  
-
-        ##the stuff we'll need to send mail
-        mail_from = 'intranet@kiberpipa.org'
+        
+        subject = '[#%d - %s] %s' % (self.id, self.name, subject)
 
         ##get  a string of all assignees
         assignees = ''

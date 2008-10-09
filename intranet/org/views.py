@@ -458,6 +458,13 @@ def issues(request):
     )
 issues = login_required(issues)
 
+def resolve_bug(request, id):
+    bug = Bug.objects.get(pk=id)
+    bug.resolution = Resolution.objects.get(pk=5) #FIXED
+    bug.save()
+    return  HttpResponseRedirect('..')
+resolve_bug = login_required(resolve_bug)
+
 def add_bug(request):
     if request.POST:
         form = BugForm(request.POST)
@@ -470,6 +477,8 @@ def add_bug(request):
             return HttpResponseRedirect(new_bug.get_absolute_url())
 
     return HttpResponseRedirect("..")
+add_bug = login_required(add_bug)
+
 
 ##################################################
 

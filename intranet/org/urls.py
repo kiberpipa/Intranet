@@ -170,6 +170,7 @@ urlpatterns = patterns('',
     #(r'^bugs/(?P<object_id>\d+)/$', 'django.views.generic.list_detail.object_detail', bug_detail),
     (r'^bugs/(?P<object_id>\d+)/$', 'intranet.org.views.view_bug'),
     (r'^bugs/add/$', 'intranet.org.views.add_bug'),
+    (r'^bugs/(?P<id>\d+)/resolve/$', 'intranet.org.views.resolve_bug'),
 
     ##issues, obsolotes bugs
     (r'bugs/?$',    'intranet.org.views.issues'),
