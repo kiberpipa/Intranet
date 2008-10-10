@@ -100,6 +100,19 @@ def search(request):
     else:
         return HttpResponseRedirect("/intranet/")
 
+def lend_back(request, id=None):
+    lend = get_object_or_404(Lend, pk=id)
+    if not lend.note:
+        lend.note = ""
+    bug = Bug.objects.get(name=lend.what)
+    bug.resolution = Resolution.objects.get(pk=5) #FIXED
+    bug.save()
+    lend.note += "\n\n---\nvrnitev potrdil %s, %s " % (request.user, datetime.date.today())
+    lend.returned = True
+    lend.save()
+    return HttpResponseRedirect('../')
+lend_back = login_required(lend_back)
+
 def lends(request):
     if request.method == 'POST':     
         form = LendForm(request.POST)
@@ -108,10 +121,6 @@ def lends(request):
             if not form.cleaned_data.has_key('due_date'):
                 new_lend.due_date = datetime.datetime.today() + datetime.timedelta(7)
 
-            new_bug = Bug(author=request.user, due_by = new_lend.due_date, note='treba je vrnit %s, see: %s!' % (new_lend.what, new_lend.get_absolute_url()))
-            new_bug.save()
-            new_bug.assign.add(new_lend.from_who)
-            new_bug.save()
             return HttpResponseRedirect(new_lend.get_absolute_url())
     else:
         form = LendForm()
@@ -136,6 +145,10 @@ def lends_form(request, id=None, action=None):
 
         if lend_form.is_valid():
             lend = lend_form.save()
+            new_bug = Bug(author=request.user, due_by = lend.due_date, name=lend.what, note='treba je vrnit %s, see: %s!' % (lend.what, lend.get_absolute_url()))
+            new_bug.save()
+            new_bug.assign.add(lend.from_who)
+            new_bug.save()
             return HttpResponseRedirect(lend.get_absolute_url())
     else:
         if id:
@@ -945,16 +958,6 @@ def clipping(request):
         {'clippings': clippings, 'form': form, 'add_link': '%s/intranet/admin/org/clipping/add/' % settings.BASE_URL },
         context_instance=RequestContext(request))
 clipping = login_required(clipping)
-
-def lend_back(request, id=None):
-    lend = get_object_or_404(Lend, pk=id)
-    if not lend.note:
-        lend.note = ""
-    lend.note += "\n\n---\nvrnitev potrdil %s, %s " % (request.user, datetime.date.today())
-    lend.returned = True
-    lend.save()
-    return HttpResponseRedirect('../')
-lend_back = login_required(lend_back)
 
 ##################################################
 

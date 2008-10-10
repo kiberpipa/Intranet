@@ -4,9 +4,8 @@
 
 
 from datetime import datetime, timedelta
-import smtplib, sys
+import sys
 
-from django.db.models import Q
 from django.core.mail import send_mail
 
 from intranet.org.models import Bug
@@ -21,7 +20,7 @@ except IndexError:
 today = datetime.today()
 whine = today - timedelta(days)
 
-bugz = Bug.objects.filter(Q(due_by__gt = whine) | Q(due_by__lt = today)).filter(resolution__resolved=False)
+bugz = Bug.objects.filter(due_by__lte = whine, resolution__resolved=False)
 
 for bug in bugz:
-    bug.mail(subject='reminder, you lazy bastard')
+    bug.mail(subject='reminder')
