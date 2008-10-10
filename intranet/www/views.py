@@ -16,30 +16,20 @@ def index(request):
     #forcing the evalutation of query set :-/. anyone got better ideas?
     events = list(Event.objects.order_by('start_date'))
     position = events.index(next)
-    #if we keep "natural" order of elements there is no point in AJAX
-    prev = ['"%s"' % a for a in events[position-3:position]]
-    prev.reverse()
+    jsevents = ''
+    for e in events[position-100:]:
+        tmp= re.sub('"', '\\"', e.__unicode__())
+        jsevents += '"%s",' % tmp
+    jsevents = re.sub(',$', '', jsevents)
+        
     return render_to_response('www/index.html', {
         'events': events[position:position+8],
-        'prev': ','.join(prev),
-        'next': ','.join(['"%s"' % a for a in events[position+3:position+6]]),
+        'jsevents': jsevents,
         'planet': Post.objects.all().order_by('date_modified')[0:2],
         'gallery': Photo.objects.all().order_by('date_added')[0:2],
         'news': Ticker.objects.filter(is_active=True),
         },
         context_instance=RequestContext(request))
-
-def timeline_events(request, position, offset, num):
-    next = Event.objects.filter(start_date__gte=datetime.datetime.today()).order_by('start_date')[0]
-    #forcing the evalutation of query set :-/. anyone got better ideas?
-    all_events = list(Event.objects.order_by('start_date'))
-    index = all_events.index(next)
-    begin = index + int(position) + int(offset)
-    end = index + int(position) + int(num) + int(offset)
-    events = all_events[begin:end]
-    #print '\n'.join(events)
-    print events
-    return HttpResponse(events)
 
 def event(request, slug):
     return render_to_response('www/event.html', {
