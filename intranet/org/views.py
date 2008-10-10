@@ -104,9 +104,12 @@ def lend_back(request, id=None):
     lend = get_object_or_404(Lend, pk=id)
     if not lend.note:
         lend.note = ""
-    bug = Bug.objects.get(name=lend.what)
-    bug.resolution = Resolution.objects.get(pk=5) #FIXED
-    bug.save()
+    try:    
+        bug = Bug.objects.get(name=lend.what)
+        bug.resolution = Resolution.objects.get(pk=5) #FIXED
+        bug.save()
+    except Bug.DoesNotExist:
+        pass 
     lend.note += "\n\n---\nvrnitev potrdil %s, %s " % (request.user, datetime.date.today())
     lend.returned = True
     lend.save()
