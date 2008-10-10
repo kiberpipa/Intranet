@@ -87,6 +87,8 @@ admin.site.register(Role)
 admin.site.register(Resolution)
 admin.site.register(Comment)
 admin.site.register(Shopping)
+admin.site.register(KB)
+admin.site.register(KbCategory)
 
 
 admin.site.register(Bug, BugAdmin)

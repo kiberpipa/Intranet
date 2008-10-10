@@ -40,9 +40,54 @@ jQuery(function( $ ){
         });
     {% endfor %}
     });
+    i = 0;
+    $(document).ready(function() {
+        next = new Array({{ next|safe }});
+        prev = new Array({{ prev|safe }});
+
+        $("#next_one").click(function(){
+            i++;
+            $("#one").html($("#two").html());
+            $("#two").html($("#three").html());
+            $("#three").html(next[0]);
+            next.shift();
+            $.ajax({
+                url: "http://rtv:8000/event/next/"+i+"/5/1/", 
+                success: function(html){
+                    next.push(html);
+                }
+            
+             });
+        });
+
+        $("#prev_one").click(function(){
+            i--;
+            $("#three").html($("#two").html());
+            $("#two").html($("#one").html());
+            $("#one").html(prev[0]);
+            prev.shift();
+            $.ajax({
+                url: "http://rtv:8000/event/next/"+i+"/-3/1/", 
+                success: function(html){
+                    prev.push(html);
+                }
+            
+             });
+        });
+        
+    });
 </script>
 {% endblock %}
 {% block content %}
+<!-- BEGIN timeline ajax testing (RD666) -->
+<<< <a href="#" id="prev_one"><</a>
+<table width="960"><tr>
+    <td id="one">{{ events.0 }}</td>
+    <td id="two">{{ events.1 }}</td>
+    <td id="three">{{ events.2 }}</td>
+</tr></table>
+<a href="#" id="next_one">></a>  >>>
+<!-- END timeline testing -->
 		<div id="threeboxes">
 			<div class="box mr20">
 				{% if events.0 %}<a href="/event/{{ events.0.title|slugify }}">{{ events.0 }}</a>
