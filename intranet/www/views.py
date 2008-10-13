@@ -12,6 +12,7 @@ from intranet.photologue.models import Photo
 from intranet.www.models import Ticker, News
 
 def index(request):
+    # FIXME: next line throws an error on empty db
     next = Event.objects.filter(start_date__gte=datetime.datetime.today()).order_by('start_date')[0]
     #forcing the evalutation of query set :-/. anyone got better ideas?
     events = list(Event.objects.order_by('start_date'))
@@ -87,19 +88,18 @@ def calendar(request):
         context_instance=RequestContext(request))
 
 def ical(request):
-    cal = 'BEGIN:VCALENDAR\r\n'
-    cal += 'SUMMARY:%s -- Dogodki v Kiberpipi\r\n' % datetime.datetime.today().strftime('%B')
+    cal = ['BEGIN:VCALENDAR', 'SUMMARY:%s -- Dogodki v Kiberpipi' % datetime.datetime.today().strftime('%B') ]
 
     for e in Event.objects.filter(start_date__month=datetime.datetime.today().month):
-        cal += 'BEGIN:VEVENT\r\n'
-        cal +=  e.start_date.strftime('DTSTART:%Y%m%dT%H%M%S\r\n')
-        cal += 'SUMMARY:%s\r\n' % e.title
-        cal += 'END:VEVENT\r\n'
+        cal.extend((
+            'BEGIN:VEVENT',
+            e.start_date.strftime('DTSTART:%Y%m%dT%H%M%S'),
+            'SUMMARY:%s' % e.title,
+            'END:VEVENT'))
 
-    cal += 'END:VCALENDAR\r\n'
-    output = StringIO(cal)
+    cal.append('END:VCALENDAR')
     response = HttpResponse(mimetype='application/octet-stream')
     response['Content-Disposition'] = "attachment; filename=" + datetime.datetime.today().strftime('%B') + '.vcs'
-    response.write(output.getvalue())
+    response.write("\r\n".join(cal))
     return response
 
