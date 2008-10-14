@@ -16,6 +16,7 @@ planet_dict = {
 
 urlpatterns = patterns('',
     #(r'^video3/', include('intranet.video.urls')),
+    (r'^comments/', include('django.contrib.comments.urls')),
     (r'^intranet/', include('intranet.org.urls')),
     (r'^intranet/wiki/', include('intranet.wiki.urls')),
     (r'^', include('intranet.www.urls')),

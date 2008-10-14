@@ -11,6 +11,10 @@
     <link href='{{ media_url }}/css/scrollto.css' type='text/css' rel='stylesheet' />
   <script type="text/javascript" src="{{ media_url }}/js/jquery.treeview.js"></script>
 	<script type="text/javascript">
+        function menuToggle(me) {
+            $(".menu").hide();
+            $(".parent"+me).show();
+        }
 jQuery(function( $ ){
 	//by default, the scroll is only done vertically ('y'), change it to both.
 	$.scrollTo.defaults.axis = 'x'; 			
@@ -30,6 +34,9 @@ jQuery(function( $ ){
 });
 	
 	$(document).ready(function(){
+        $(".menu").hide();
+        $(".parent0").show();
+
 		
 		$('.gallery_demo_unstyled').addClass('gallery_demo'); // adds new class name to maintain degradability
 		
@@ -118,6 +125,7 @@ jQuery(function( $ ){
 <h1>{{ object.title }}</h1>
 <h2>Originally published {{ object.date_added|date:"l, F jS, Y" }}</h2>
 {% if object.description %}<p>{{ object.description }}</p>{% endif %}
+{% comment %}
 <table><tr><td>
     <ul id="browser" class="filetree">
         {% for gallery in top %}
@@ -129,6 +137,7 @@ jQuery(function( $ ){
         {% endfor %} 
     <ul>
 </td><td>
+{% endcomment %}
 
 <div class="demo">
 <p class="nav"><a href="#" onclick="$.galleria.prev(); return false;">&laquo; previous</a> 
@@ -156,6 +165,11 @@ jQuery(function( $ ){
 {% endif %}
 </div>
 </td></tr></table>
-<p><a href="{% url pl-gallery-list %}">View all galleries</a></p>
+<p><a href="/gallery">View all galleries</a></p>
+
+{% for g in ordered %}
+    {# <a href="{{ g.get_absolute_url }}" class="{{ g.classes }}" onclick="menuToggle({{ g.id }});">{{ g|safe }}<br></a>  #}
+    <a href="#" class="{{ g.classes }}" onclick="menuToggle({{ g.id }});">{{ g|safe }}<br></a>
+{% endfor %}
 
 {% endblock %}

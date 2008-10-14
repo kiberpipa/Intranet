@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 
+#blog posts
 class News(models.Model):
     title = models.CharField(max_length=150)
     text = models.TextField()

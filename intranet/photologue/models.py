@@ -143,7 +143,8 @@ class Gallery(models.Model):
         return self.__unicode__()
 
     def get_absolute_url(self):
-        return reverse('pl-gallery-detail', args=[self.title_slug])
+        #return reverse('pl-gallery-detail', args=[self.id])
+        return '%s/gallery/%s/' % (settings.BASE_URL, self.title_slug)
 
     def latest(self, limit=0, public=True):
         if limit == 0:
@@ -160,7 +161,10 @@ class Gallery(models.Model):
             photo_set = self.public()
         else:
             photo_set = self.photos.all()
-        return random.sample(photo_set, 1)[0]
+        if photo_set:
+            return random.sample(photo_set, 1)
+        else:
+            return None
 
     def photo_count(self, public=True):
         if public:
@@ -168,6 +172,19 @@ class Gallery(models.Model):
         else:
             return self.photos.all().count()
     photo_count.short_description = _('count')
+
+    def classes(self):
+        i = self
+        count = 0
+        while i.parent:
+            i = i.parent
+            count += 1
+
+        if self.parent:
+            parent = 'parent%s' % self.parent.id
+        else:
+            parent = 'parent0'
+        return u'menu %s depth%s' % (parent, count)
 
     def public(self):
         return self.photos.filter(is_public=True)

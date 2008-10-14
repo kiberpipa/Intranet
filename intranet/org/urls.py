@@ -162,7 +162,6 @@ urlpatterns = patterns('',
     (r'^lends/(?P<object_id>\d+)/$', 'intranet.org.views.lend_detail'),
     (r'^lends/(?P<id>\d+)/back/$', 'intranet.org.views.lend_back'),
     (r'^lends/(?P<username>\w+)/$', 'intranet.org.views.lends_by_user'),
-    (r'^box/lend/add/$', 'intranet.org.views.box_lend_add'),
     (r'lends/?$',    'intranet.org.views.lends'),
 
     ##bugs
@@ -212,9 +211,6 @@ urlpatterns = patterns('',
 
     #scratchpad
     (r'^scratchpad/change/$', 'intranet.org.views.scratchpad_change'),
-
-    #comments
-    (r'^comments/', include('django.contrib.comments.urls.comments')),
 
     #accounts
     (r'^accounts/login/$', 'django.contrib.auth.views.login'),
