@@ -2,7 +2,6 @@ import re
 
 from django import template
 
-import markdown
 from intranet.wiki.models import Category, Article
 
 #WIKI_WORD = r'(?:[A-Z]+[a-z]+){2,}'
@@ -17,9 +16,11 @@ def wikiwordfy(s):
     return wikiwordfier.sub(r'<a href="../\1/">\1</a>', s)
 
 
-@register.filter
-def wikify(s):
-    return markdown.markdown(s)
+#not used and unncessary dependency at this point
+#import markdown
+#@register.filter
+#def wikify(s):
+#    return markdown.markdown(s)
 
 ##mw wiki syntax parser
 from mw import parse

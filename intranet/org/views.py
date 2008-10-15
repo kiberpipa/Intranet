@@ -21,7 +21,6 @@ import re
 import string
 from StringIO import StringIO
 from reportlab.pdfgen.canvas import Canvas
-import ldap
 from copy import deepcopy
 
 
@@ -1388,6 +1387,7 @@ def imenik(request):
                     folks = UserProfile.objects.filter(query).distinct().select_related('user')
         
         if changepw.is_valid():
+            import ldap
             #some additional custom error checking
             if changepw.cleaned_data['newpass1'] == changepw.cleaned_data['newpass2']:
                 change_pass_message = 'congrats, changed your pass'

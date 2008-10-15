@@ -1,5 +1,3 @@
-import ldap
-
 from django.contrib.auth.models import User
 from django.conf import settings
 
@@ -42,6 +40,10 @@ class backend:
 
 
     def authenticate(self, username=None, password=None):
+        try:
+            import ldap
+        except ImportError:
+            return None
         ##make sure the user is authorized
         params = self.auth(username, password)
         if params == None:
