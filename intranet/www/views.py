@@ -59,9 +59,9 @@ def compat(request):
     if request.GET.has_key('ceid'):
         ceid = request.GET['ceid']
         if ceid == 11:
-            return HttpResponsePermanentRedirect(News.objects.get('/community/'))
+            return HttpResponsePermanentRedirect('/community/')
         else:
-            return HttpResponsePermanentRedirect(News.objects.get('/about/'))
+            return HttpResponsePermanentRedirect('/about/')
 
 #    elif request.GET.has_key('set_albumName')
 #        #`gallery crap'
@@ -77,24 +77,18 @@ def compat(request):
     return HttpResponsePermanentRedirect('/')
 
 def calendar(request):
-    #construct a array of dates (from the begening of prev week for next 4 weeks)
-    begin = datetime.date.today()
     day = datetime.timedelta(1)
+    today = datetime.date.today()
 
-    #find the begening of the prev week
-    first = 0
-    while 1:
-        if begin.weekday() == 0:
-            first = first  + 1
+    begin= datetime.date(today.year, today.month, 1)
 
-        if first == 2:
-            break
-
+    #find the begening of the week in which this month starts
+    while begin.weekday() != 0:
         begin = begin - day
-    
-    #append next 4 weeks
+
     dates = []
-    for i in range(28):
+    #loop till the end of the week in which this months ends
+    while not ( begin.month == today.month + 1 and begin.weekday() == 6):
         dates += [(begin, Event.objects.filter(start_date__year = begin.year, start_date__month = begin.month, start_date__day = begin.day))]
         begin = begin + day
 
