@@ -1,4 +1,5 @@
 {% extends "www/base.html" %}
+{% load www %}
 
 {% block extrahead %}
 <link href='{{ media_url }}/www/scroll.css' type='text/css' rel='stylesheet' />
@@ -33,7 +34,7 @@ jQuery(function( $ ){
 		},function(){
 		$('#sections').trigger('start');
 	});
-    {% for i in news %}
+    {% for i in ticker %}
         $('#stop{{ forloop.counter }}').click(function(){
             $('#sections').trigger('stop');
         });
@@ -46,15 +47,15 @@ jQuery(function( $ ){
         i = 101;
         events = new Array({{ jsevents|safe }});
         function redraw(){
-            $("#one").html(events[i-1]);
-            $("#two").html(events[i]);
-            $("#three").html(events[i+1]);
+            $(".present-now").html(events[i-1]);
+            $(".present-now2").html(events[i]);
+            $(".present-now3").html(events[i+1]);
         }
-        $("#next_one").click(function(){
+        $(".future").click(function(){
             i++;
             redraw();
         });
-        $("#prev_one").click(function(){
+        $(".past").click(function(){
             i--;
             redraw();
         });
@@ -70,33 +71,24 @@ jQuery(function( $ ){
 </script>
 {% endblock %}
 {% block content %}
-{% comment %}
-<!-- works, will migrate it to real events, once they are up -->
-<!-- TODO add sliding effect -->
-<a href="#" id="prev_three"><<<</a> <a href="#" id="prev_one"><</a>
-<table width="960"><tr>
-    <td id="one">{{ events.0 }}</td>
-    <td id="two">{{ events.1 }}</td>
-    <td id="three">{{ events.2 }}</td>
-</tr></table>
-<a href="#" id="next_one">></a>  <a href="#" id="next_three">>>></a>
-<!-- END timeline testing -->
-{% endcomment %}
     <div id="upcoming">
     	<div class="next3">
-        	<div class="past"><img src="{{ media_url }}www/images/puscica-levo.gif" alt="slika" /></div>
+        	<div class="past"><a href="#"><img src="{{ media_url }}www/images/puscica-levo.gif" alt="slika" /></a></div>
             <div class="present">
             	<div class="present-now">
-                	<img src="{{ media_url }}www/images/img-upcoming.gif" alt="slika" />
+                	<img width="274" height="200" src="{{ media_url }}www/images/img-upcoming.gif" alt="slika" />
+                    <div class="present-event-text">{{ events.0 }}</div>
                 </div>
                 <div class="present-now2">
-                    <img src="{{ media_url }}www/images/img-upcoming.gif" alt="slika" />
+                	<img width="274" height="200" src="{{ media_url }}www/images/img-upcoming.gif" alt="slika" />
+                    <div class="present-event-text">{{ events.1 }}</div>
                 </div>
                 <div class="present-now3">
-                    <img src="{{ media_url }}www/images/img-upcoming.gif" alt="slika" />
+                	<img width="274" height="200" src="{{ media_url }}www/images/img-upcoming.gif" alt="slika" />
+                    <div class="present-event-text">{{ events.2 }}</div>
                 </div>
              </div>
-             <div class="future"><img src="{{ media_url }}www/images/puscica-desno.gif" alt="slika" /></div>
+             <div class="future"><a href="#"><img src="{{ media_url }}www/images/puscica-desno.gif" alt="slika" /></a></div>
          </div>
       </div>
     
@@ -126,14 +118,14 @@ jQuery(function( $ ){
        <div id="screen" class="notifier-chamber">
          <div id="navigation">
             <ul>
-                {% for i in news %}
+                {% for i in ticker %}
                     <li><a id="stop{{ forloop.counter }}" href="#">{{ i.name }}</a></li>
                 {% endfor %}
             </ul>
          </div>
          <div id="sections">
             <ul>
-                {% for i in news %}
+                {% for i in ticker %}
                     <li>
                         <h2>{{ i.name }}</h2>
                         <p>{{ i.note }}</p>
@@ -152,35 +144,39 @@ jQuery(function( $ ){
     	<div class="blog-cp-title">
         Kiberpipin blog
         </div>
-        <div class="blog-cp-news-title">
-        News title 01
-        </div>
-        <div class="blog-cp-publish">
-        Published by John Doe on 14. 10. 2008
-        </div>
-        <div class="blog-cp-content">
-        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam tortor est, vulputate quis, rutrum tempus, pharetra suscipit, dolor. Sed nec velit. Nunc accumsan. Vivamus sollicitudin elit vel arcu. Proin sagittis facilisis mi. Fusce lectus orci, iaculis sed, congue nec, sollicitudin quis, lacus. Duis consectetuer.
-        </div>
-        <div class="blog-cp-more">
-        more >>
-        </div>
+        {% for i in news %}
+            <div class="blog-cp-news-title">
+            {{ i.title }}
+            </div>
+            <div class="blog-cp-publish">
+            Published by John Doe on {{ i.date }}
+            </div>
+            <div class="blog-cp-content">
+            {{ i.text|santize|truncatewords:"40" }}
+            </div>
+            <div class="blog-cp-more">
+            more &gt;&gt;
+            </div>
+        {% endfor %}
     </div>
     
     <div id="planet">
     	<div class="planet-title">
         Planet
         </div>
-        <div class="planet-news-title">
-        Planet title 01
-        </div>
-        <div class="planet-publish">
-        Published by John Doe on 14. 10. 2008
-        </div>
-        <div class="planet-content">
-        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam tortor est, vulputate quis, rutrum tempus, pharetra suscipit, dolor. Sed nec velit. Nunc accumsan. Vivamus sollicitudin elit vel arcu. Proin sagittis facilisis mi. Fusce lectus orci, iaculis sed, congue nec, sollicitudin quis, lacus. Duis consectetuer.
-        </div>
-        <div class="planet-more">
-        more >>
-        </div>
+        {% for post in planet %}
+            <div class="planet-news-title">
+            <a href="{{ post.link }}">{{ post.title }}</a>
+            </div>
+            <div class="planet-publish">
+            Published by {{ post.author }} on {{ post.date_modified }}
+            </div>
+            <div class="planet-content">
+            {{ post.content|santize|truncatewords:"40" }}
+            </div>
+            <div class="planet-more">
+            more &gt;&gt;
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}

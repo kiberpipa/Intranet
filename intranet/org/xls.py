@@ -1,9 +1,11 @@
-from pyExcelerator import *
-
 from datetime import datetime
 
 
 def salary_xls(compact, bureaucrat, params):
+    try:
+        from pyExcelerator import *
+    except ImportError:
+        return None
     title = Font()
     title.name = 'Arial'
     title.bold = True

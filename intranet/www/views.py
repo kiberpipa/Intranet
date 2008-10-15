@@ -5,6 +5,7 @@ from StringIO import StringIO
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.http import HttpResponsePermanentRedirect, HttpResponse
+from django.conf import settings
 
 from intranet.org.models import Event
 from intranet.feedjack.models import Post
@@ -20,15 +21,16 @@ def index(request):
     jsevents = ''
     for e in events[position-100:]:
         tmp= re.sub('"', '\\"', e.__unicode__())
-        jsevents += '"%s",' % tmp
+        jsevents += '"<img width=\\"274\\" height=\\"200\\" src=\\"%swww/images/img-upcoming.gif\\" alt=\\"slika\\" /><div class=\\"present-event-text\\">%s</div>",' % (settings.MEDIA_URL, tmp)
     jsevents = re.sub(',$', '', jsevents)
         
     return render_to_response('www/index.html', {
         'events': events[position:position+8],
         'jsevents': jsevents,
-        'planet': Post.objects.all().order_by('date_modified')[0:2],
+        'planet': Post.objects.all().order_by('-date_modified')[0:7],
         'gallery': Photo.objects.all().order_by('date_added')[0:2],
-        'news': Ticker.objects.filter(is_active=True),
+        'ticker': Ticker.objects.filter(is_active=True),
+        'news': News.objects.order_by('-date')[0:7],
         },
         context_instance=RequestContext(request))
 

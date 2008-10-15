@@ -93,6 +93,10 @@ body {
 	padding-left: 10px;
 	padding-right: 10px;
 	}
+
+.present-event-text {
+  width: 270px;
+  }
 	
 .present-now img {
 	border: 1px solid #000;

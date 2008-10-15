@@ -8,6 +8,7 @@ class News(models.Model):
     text = models.TextField()
     date = models.DateTimeField(auto_now=True)
     slug = models.SlugField(max_length=150)
+    #author = models.ForeignKey(User)
 
     def __unicode__(self):
         return self.title
