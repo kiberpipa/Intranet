@@ -9,7 +9,8 @@
 {% block content-related-left %}
   <div>
   <div class="module" id="recent-actions-module">
-  <h2>Spreminjanje LDAP passworda</h2>
+  <h2 class="expand">Spreminjanje LDAP passworda</h2>
+  <div class="hideme">
   {% if change_pass_message %}
     <em>{{ change_pass_message }}</em>
   {% endif %}
@@ -18,15 +19,19 @@
   <input type="submit">
   </form>
   </div>
+  </div>
   <div class="module" id="recent-actions-module">
-    <h2>Filter</h2>
+    <h2 class="expand">Filter</h2>
+  <div class="hideme">
   <form method="post" action="">
   {{ filter.as_p }}
   <input type="submit">
   </form>
   </div>
+  </div>
   <div class="module" id="recent-actions-module">
-    <h2>Moj Profil</h2>
+    <h2 class="expand">Moj Profil</h2>
+    <div class="hideme">
     <form method="post" action=".">
     <p>{{ pipec_form.first_name.label_tag }} {{ pipec_form.first_name }}</p>
     <p>{{ pipec_form.last_name.label_tag }} {{ pipec_form.last_name }}</p>
@@ -36,6 +41,7 @@
     <p>{{ pipec_form.project.label_tag }} {{ pipec_form.project }}</p>
     <input type="submit">
     </form>
+    </div>
     </div>
   </div>
 {% endblock %}

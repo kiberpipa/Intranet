@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 
 from intranet.org.models import TipSodelovanja, Person, Event, Sodelovanje
-from intranet.org.models import Bug, Resolution, Clipping, Project
+from intranet.org.models import Bug, Resolution, Clipping, Project, Alumni
 from intranet.org.models import Category, UserProfile, Lend, Diary, Shopping
 
 from django.utils.encoding import force_unicode
@@ -149,3 +149,7 @@ class DiaryForm(forms.ModelForm):
     class Meta:
         model = Diary
         fields = ('task', 'date', 'length', 'log_formal', 'log_informal',)
+
+class AlumniForm(forms.ModelForm):
+    class Meta:
+        model = Alumni

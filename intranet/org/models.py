@@ -635,3 +635,12 @@ class Scratchpad(models.Model):
     class Meta:
         verbose_name = 'Kracarka'
         verbose_name_plural = 'Kracarka'
+
+
+class Alumni(models.Model):
+    facebook = models.CharField(max_length=150)
+    twitter = models.CharField(max_length=150)
+    linkedin = models.CharField(max_length=150)
+    phone = models.CharField(max_length=150)
+    mail = models.CharField(max_length=150)
+    text = models.CharField(max_length=255)

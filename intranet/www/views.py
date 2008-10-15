@@ -6,6 +6,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.http import HttpResponsePermanentRedirect, HttpResponse
 from django.conf import settings
+from django.core.mail import send_mail
 
 from intranet.org.models import Event
 from intranet.feedjack.models import Post
@@ -55,6 +56,12 @@ def compat(request):
     if request.GET.has_key('eid'):
         #calendar crap
         return HttpResponsePermanentRedirect(News.objects.get(calendar_id=request.GET['eid']).get_absolute_url())
+    if request.GET.has_key('ceid'):
+        ceid = request.GET['ceid']
+        if ceid == 11:
+            return HttpResponsePermanentRedirect(News.objects.get('/community/'))
+        else:
+            return HttpResponsePermanentRedirect(News.objects.get('/about/'))
 
 #    elif request.GET.has_key('set_albumName')
 #        #`gallery crap'
@@ -64,9 +71,10 @@ def compat(request):
 #        else:
 #            #album has been requested
 #            pass
-    else:
-        #if we get to here we have a problem
-        return HttpResponsePermanentRedirect('/')
+#
+    #we have a problem
+    send_mail('404 b!tch', 'PATH_INFO: %s\nQUERY_STRING: %s' % (request.META['PATH_INFO'], request.META['QUERY_STRING']), 'intranet@kiberpipa.org', [a[1] for a in settings.ADMINS], fail_silently=True)
+    return HttpResponsePermanentRedirect('/')
 
 def calendar(request):
     #construct a array of dates (from the begening of prev week for next 4 weeks)
