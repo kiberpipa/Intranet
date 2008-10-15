@@ -7,6 +7,10 @@ from intranet.org.models import UserProfile
 class backend:
     ##return None if the username/password don't match or needed attributes if they do
     def auth(self, username, password):
+        try:
+            import ldap
+        except ImportError:
+            return None
         ##define some vars we gonna use in this function
         base = "dc=kiberpipa,dc=org"
         user = 'uid=%s,ou=people,dc=kiberpipa,dc=org' % username
@@ -40,10 +44,6 @@ class backend:
 
 
     def authenticate(self, username=None, password=None):
-        try:
-            import ldap
-        except ImportError:
-            return None
         ##make sure the user is authorized
         params = self.auth(username, password)
         if params == None:
