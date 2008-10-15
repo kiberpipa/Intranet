@@ -31,6 +31,8 @@ def index(request):
         'gallery': Photo.objects.all().order_by('date_added')[0:2],
         'ticker': Ticker.objects.filter(is_active=True),
         'news': News.objects.order_by('-date')[0:7],
+        'planet': Post.objects.order_by('-date_modified')[:10],
+        'blog': News.objects.order_by('-date')[:10],
         },
         context_instance=RequestContext(request))
 
@@ -49,7 +51,11 @@ def news(request, slug):
 def compat(request):
     if request.GET.has_key('sid'):
         #`normal news links'
-        return HttpResponsePermanentRedirect('/news/' + News.objects.get(id=request.GET['sid']).slug)
+        return HttpResponsePermanentRedirect(News.objects.get(id=request.GET['sid']).get_absolute_url())
+    if request.GET.has_key('eid'):
+        #calendar crap
+        return HttpResponsePermanentRedirect(News.objects.get(calendar_id=request.GET['eid']).get_absolute_url())
+
 #    elif request.GET.has_key('set_albumName')
 #        #`gallery crap'
 #        if request.GET.has_key('id'):

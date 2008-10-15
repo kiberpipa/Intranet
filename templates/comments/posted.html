@@ -1,14 +1,8 @@
-{% extends "org/base_3col.html" %}
+{% extends "comments/base.html" %}
+{% load i18n %}
 
-{% block content-main %}
-<div class="module">
-<h2>Uspešno objavljen komentar</h2>
+{% block title %}{% trans "Thanks for commenting" %}.{% endblock %}
 
-{% if object %}
-<ul>
-<li><a href="{{ object.get_absolute_url }}">Ogled komentarja</a></li>
-</ul>
-
-{% endif %}
-</div>
+{% block content %}
+<meta http-equiv="refresh" content="0;url={{ comment.get_absolute_url }}"/>
 {% endblock %}

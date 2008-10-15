@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
 # Create your models here.
@@ -12,6 +13,9 @@ class News(models.Model):
     #author = models.ForeignKey(User)
     #the field for calendar id's which can not be matched by  title to stories
     calendar_id = models.IntegerField(blank=True, null=True)
+
+    def get_absolute_url(self):
+        return reverse('intranet.www.views.news', args=[self.slug])
 
     def __unicode__(self):
         return self.title

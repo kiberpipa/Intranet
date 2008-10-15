@@ -11,7 +11,7 @@ SAMPLE_SIZE = ":%s" % getattr(settings, 'GALLERY_SAMPLE_SIZE', 5)
 gallery_args = {'date_field': 'date_added', 'allow_empty': True, 'queryset': Gallery.objects.filter(is_public=True), 'extra_context':{'sample_size':SAMPLE_SIZE}}
 
 planet_dict = {
-    'queryset': Post.objects.order_by('-date_created')[:30],
+    'queryset': Post.objects.order_by('-date_modified')[:30],
 }
 
 urlpatterns = patterns('',
