@@ -89,6 +89,7 @@ admin.site.register(Comment)
 admin.site.register(Shopping)
 admin.site.register(KB)
 admin.site.register(KbCategory)
+admin.site.register(Alumni)
 
 
 admin.site.register(Bug, BugAdmin)

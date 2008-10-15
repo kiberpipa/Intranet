@@ -16,14 +16,14 @@
         <tr>
     {% endifequal %}
 
-    {#
+    {% comment %}
         mozni classi so:
         prev -- prejsnji mesec
         past -- pred danasnjim dnem ta mesec
         today -- danes
         future -- po danasnjem dnevu do konca meseca
         next -- naslednji mesec
-    #}
+    {% endcomment %}
     <td class="{% calclass date %}">
     {{ date.day }}
     {% for event in events %}

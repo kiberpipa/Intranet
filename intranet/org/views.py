@@ -1360,12 +1360,18 @@ def imenik(request):
     folks = UserProfile.objects.filter(user__is_active__exact=True)
     filter = ImenikFilter(prefix='filter')
 
+    try:
+        alumni_form = AlumniForm(instance=Alumni.objects.get(user=request.user), prefix='alumni')
+    except Alumni.DoesNotExist:
+        alumni_form = AlumniForm(prefix='alumni')
+
     if request.POST:
-        #figure out which form was submited
+        #figure out which form was submited -- ther's gotta be better way to do this
         for key in request.POST:
             pipec = re.compile('^pipec')
             chgpw = re.compile('^changepw')
             imenik_filter = re.compile('^filter')
+            alumni = re.compile('^alumni')
             if  pipec.match(key):
                 pipec_form = PipecForm(request.POST, instance=profile, prefix='pipec')
                 break
@@ -1374,6 +1380,12 @@ def imenik(request):
                 break
             elif imenik_filter.match(key):
                 filter = ImenikFilter(request.POST, prefix='filter')
+                break
+            elif alumni.match(key):
+                try:
+                    alumni_form = AlumniForm(request.POST, instance=Alumni.objects.get(user=request.user), prefix='alumni')
+                except Alumni.DoesNotExist:
+                    alumni_form = AlumniForm(request.POST, prefix='alumni')
                 break
 
         if filter.is_valid():
@@ -1412,6 +1424,11 @@ def imenik(request):
             request.user.save()
             pipec_form.save()
 
+        if alumni_form.is_valid():
+            alumni = alumni_form.save()
+            alumni.user = request.user
+            alumni.save()
+
                
 
     return list_detail.object_list(request, 
@@ -1422,6 +1439,7 @@ def imenik(request):
             'pipec_form': pipec_form,
             'change_pass': changepw,
             'change_pass_message': change_pass_message,
+            'alumni_form': alumni_form,
         })
 
 imenik = login_required(imenik)

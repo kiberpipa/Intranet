@@ -1,0 +1,8 @@
+{% extends "www/base.html" %}
+
+{% block content %}
+    <h1>teh alumnis</h1>
+    {% for alumni in object_list %}
+        {{ alumni }} -- {{ alumni.text }}
+    {% endfor %}
+{% endblock %}

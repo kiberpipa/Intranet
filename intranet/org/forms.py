@@ -134,6 +134,7 @@ class PipecForm(forms.ModelForm):
     last_name = forms.CharField(max_length=30)
     class Meta:
         model = UserProfile
+        exclude = ('user',)
 
 class LendForm(forms.ModelForm):
     class Meta:
@@ -153,3 +154,4 @@ class DiaryForm(forms.ModelForm):
 class AlumniForm(forms.ModelForm):
     class Meta:
         model = Alumni
+        exclude = ('user',)

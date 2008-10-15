@@ -638,9 +638,16 @@ class Scratchpad(models.Model):
 
 
 class Alumni(models.Model):
-    facebook = models.CharField(max_length=150)
-    twitter = models.CharField(max_length=150)
-    linkedin = models.CharField(max_length=150)
-    phone = models.CharField(max_length=150)
-    mail = models.CharField(max_length=150)
+    facebook = models.CharField(max_length=150, blank=True, null=True)
+    twitter = models.CharField(max_length=150, blank=True, null=True)
+    linkedin = models.CharField(max_length=150, blank=True, null=True)
+    phone = models.CharField(max_length=150, blank=True, null=True)
+    mail = models.CharField(max_length=150, blank=True, null=True)
     text = models.CharField(max_length=255)
+    user = models.ForeignKey(User, blank=True, null=True)
+
+    def __unicode__(self):
+        if self.user:
+            return unicode(self.user)
+        else:
+            return self.text
