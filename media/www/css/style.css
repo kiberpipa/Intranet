@@ -1,0 +1,437 @@
+/* Kiberpipa CSS */
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: #fff; 
+	color: #000; 
+	padding: 0; 
+	margin: 0; 
+	text-align: center;
+	}
+	
+#container {
+	background: #fff; 
+	width: 960px;
+	text-align: left;
+  	margin-left: auto;
+ 	margin-right: auto;
+	}
+	
+/* Header styling */
+	
+#header {
+	width: 960px;
+	height: 60px;
+	border-bottom: 2px solid #000;
+	}
+	
+.header-logo {
+	width: 153px;
+	height: 45px;
+	padding-top: 8px;
+	padding-left: 10px;
+	float: left;
+	}
+	
+.primary-nav {
+	float:left; 
+	width: 310px; 
+	padding-top: 21px; 
+	padding-left: 200px;
+	color: #000;
+	}
+		
+.searchbox {
+	float:left; 
+	width: 70px; 
+	padding-top: 15px; 
+	padding-left: 15px;
+	background: #fff; 
+	}
+
+.searchbox-form {
+	margin: 5px 10px 5px 10px;
+	}
+	
+.language {
+	padding-top: 21px;
+	padding-right: 5px;
+	float: right;
+	}
+	
+/* End of header styling*/
+
+/* Upcoming and notifier ala 3 slikice, ki se izmenjujejo */
+
+#upcoming {
+	width: 960px;
+	height: 334px;
+	}
+	
+.next3 {
+	width: 960px;
+	height: 274px;
+	padding-top: 60px;
+	padding-left: 10px;
+	}
+	
+.past {
+	float: left;
+	width: 27px;
+	height: 171px;
+	padding-top: 105px;
+	}
+	
+.present {
+	float: left;
+	width: 888px;
+	height: 274px;
+	}
+	
+.present-now {
+	float: left;
+	padding-left: 10px;
+	padding-right: 10px;
+	}
+	
+.present-now img {
+	border: 1px solid #000;
+	}
+	
+.present-now2 {
+	float: left;
+	padding-left: 10px;
+	padding-right: 10px;
+	}
+	
+.present-now2 img {
+	border: 1px solid #000;
+	}
+
+.present-now3 {
+	float: left;
+	padding-left: 10px;
+	padding-right: 10px;
+	}
+	
+.present-now3 img {
+	border: 1px solid #000;
+	}
+	
+.future {
+	float: left;
+	width: 27px;
+	height: 171px;
+	padding-top: 105px;
+	}
+	
+#notifier {
+	width: 960px;
+	height: 260px;
+	padding-left: 80px;
+	}
+	
+.button-chamber {	
+	float: left;
+	width: 450px;
+	height: 200px;
+	padding-top: 60px;
+	}
+	
+.gallery {
+	float: left;
+	width: 100px;
+	height: 67px;
+	text-align: left;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	}
+	
+.gallery-button {
+	float: left;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	}
+	
+.gallery-button img {
+	border: 1px solid #000;
+	}
+	
+.gallery-button2 {
+	float: left;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	}
+
+.gallery-button2 img {
+	border: 1px solid #000;
+	}
+	
+.gallery-button3 {
+	float: left;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	}
+	
+.gallery-button3 img {
+	border: 1px solid #000;
+	}
+	
+.video {
+	float: left;
+	width: 100px;
+	height: 67px;
+	text-align: left;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	}
+	
+.video-button {
+	float: left;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	}
+	
+.video-button img {
+	border: 1px solid #000;
+	}
+	
+.video-button2 {
+	float: left;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	}
+	
+.video-button2 img {
+	border: 1px solid #000;
+	}
+	
+.video-button3 {
+	float: left;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	}
+	
+.video-button3 img {
+	border: 1px solid #000;
+	}
+	
+.notifier-chamber {	
+	float: left;
+	width: 350px;
+	height: 200px;
+	padding-top: 70px;
+	}
+	
+.notifier-chamber img {
+	border: 1px solid #000;
+	}
+	
+/* End of upcoming and notifier */
+	
+/* Secondary navigation */
+
+#second-nav {
+	float:left; 
+	width: 960px;
+	height: 20px;
+	padding-top: 15px;
+	text-align: center;
+	color: #000;
+	}
+	
+/* End of secondary navigation */
+
+/* Kiberpipin blog in Planet */
+
+#blog-cp {
+	float: left;
+	width: 480px;
+	height: 100%;
+	padding-bottom: 25px;
+	}
+	
+.blog-cp-title {
+	font-size: 16px;
+	font-weight: bold;
+	padding-top: 25px;
+	padding-bottom: 5px;
+	}
+	
+.blog-cp-news-title {
+	font-size: 20px;
+	font-weight: normal;
+	text-decoration: underline;
+	padding-top: 0px;
+	padding-bottom: 5px;
+	}
+	
+.blog-cp-publish {
+	font-size: 11px;
+	font-weight: normal;
+	font-style: italic;
+	padding-top: 0px;
+	padding-bottom: 5px;
+	}
+	
+.blog-cp-content {
+	font-size: 12px;
+	font-weight: normal;
+	padding-top: 0px;
+	padding-bottom: 5px;
+	padding-right: 10px;
+	}
+	
+.blog-cp-more {
+	font-size: 12px;
+	font-weight: normal;
+	padding-top: 0px;
+	padding-bottom: 5px;
+	padding-right: 10px;
+	float: right;
+	}
+	
+#planet {
+	float: left;
+	width: 480px;
+	height: 100%;
+	padding-bottom: 25px;
+	}
+	
+.planet-title {
+	font-size: 16px;
+	font-weight: bold;
+	padding-top: 25px;
+	padding-bottom: 5px;
+	}
+
+.planet-news-title {
+	font-size: 20px;
+	font-weight: normal;
+	text-decoration: underline;
+	padding-top: 0px;
+	padding-bottom: 5px;
+	}
+	
+.planet-publish {
+	font-size: 11px;
+	font-weight: normal;
+	font-style: italic;
+	padding-top: 0px;
+	padding-bottom: 5px;
+	}
+	
+.planet-content {
+	font-size: 12px;
+	font-weight: normal;
+	padding-top: 0px;
+	padding-bottom: 5px;
+	padding-right: 10px;
+	}
+	
+.planet-more {
+	font-size: 12px;
+	font-weight: normal;
+	padding-top: 0px;
+	padding-bottom: 5px;
+	padding-right: 10px;
+	float: right;
+	}
+
+/* End of Kiberpipin blog in Planet */
+
+/* Footer */
+
+#footer {
+	width: 960px;
+	height: 240px;
+	float: left;
+	padding-top: 25px;
+	padding-bottom: 25px;
+	border-top: 2px solid #000;
+	}
+	
+.footer-cp-logo {
+	width: 153px;
+	float: left;
+	margin-left: 180px;
+	}
+	
+.footer-text {
+	font-size: 12px;
+	font-weight: normal;
+	padding-top: 0px;
+	padding-bottom: 5px;
+	padding-right: 10px;
+	margin-left: 40px;
+	float: left;
+	}
+	
+.footer-text2 {
+	font-size: 12px;
+	font-weight: normal;
+	padding-top: 0px;
+	padding-bottom: 5px;
+	padding-right: 10px;
+	margin-left: 40px;
+	float: left;
+	}
+	
+.footer-text3 {
+	font-size: 12px;
+	font-weight: normal;
+	padding-top: 0px;
+	padding-bottom: 5px;
+	padding-right: 10px;
+	margin-left: 40px;
+	float: left;
+	}
+	
+.footer-support {
+	width: 760px;
+	padding-left: 200px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	float: left;
+	}
+	
+.footer-support-mol {
+	width: 228px;
+	height: 94px;
+	border: 1px solid #000;
+	float: left;
+	margin-left: 80px;
+	}
+	
+.footer-support-kultura {
+	width: 228px;
+	height: 94px;
+	border: 1px solid #000;
+	float: left;
+	margin-left: 45px;
+	}
+	
+.footer-support-eu {
+	width: 228px;
+	height: 94px;
+	border: 1px solid #000;
+	float: left;
+	margin-left: 45px;
+	}
+

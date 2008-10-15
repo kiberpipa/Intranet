@@ -5,6 +5,8 @@
 <script type='text/javascript' src='{{ media_url }}/js/jquery.scrollTo-min.js'></script>
 <script type='text/javascript' src='{{ media_url }}/js/jquery.serialScroll-min.js'></script>
 <script type='text/javascript'>
+<!-- TODO create init.js -->
+
 jQuery.easing.easeOutQuart = function (x, t, b, c, d) {
 	return -c * ((t=t/d-1)*t*t*t - 1) + b;
 };
@@ -68,7 +70,9 @@ jQuery(function( $ ){
 </script>
 {% endblock %}
 {% block content %}
-<!-- BEGIN timeline ajax testing (RD666) -->
+{% comment %}
+<!-- works, will migrate it to real events, once they are up -->
+<!-- TODO add sliding effect -->
 <a href="#" id="prev_three"><<<</a> <a href="#" id="prev_one"><</a>
 <table width="960"><tr>
     <td id="one">{{ events.0 }}</td>
@@ -77,66 +81,106 @@ jQuery(function( $ ){
 </tr></table>
 <a href="#" id="next_one">></a>  <a href="#" id="next_three">>>></a>
 <!-- END timeline testing -->
-		<div id="threeboxes">
-			<div class="box mr20">
-				{% if events.0 %}<a href="/event/{{ events.0.title|slugify }}">{{ events.0 }}</a>
-                {% else %}
-                bummer no event here
-                {% endif %}
-			</div><div class="box mr20">
-				{% if events.1 %}<a href="/event/{{ events.1.title|slugify }}">{{ events.1 }}</a>
-                {% else %}
-                bummer no event here
-                {% endif %}
-			</div><div class="box">
-				{% if events.2 %}<a href="/event/{{ events.2.title|slugify }}">{{ events.2 }}</a>
-                {% else %}
-                bummer no event here
-                {% endif %}
-			</div>
-		</div>
-
-		<div id="doubleboxandaticker">
-			<div class="box">
-            {{ events.3|default:"crkn" }}<br>
-            {{ events.4|default:"crkn" }}<br>
-            {{ events.5|default:"crkn" }}<br>
-			</div><div class="box mr20">
-            {{ events.6|default:"crkn" }}<br>
-            {{ events.7|default:"crkn" }}<br>
-            {{ events.8|default:"crkn" }}<br>
-			</div><div class="box ticker">
-		<div id="screen">
-		<div id="navigation">
-			<ul>
+{% endcomment %}
+    <div id="upcoming">
+    	<div class="next3">
+        	<div class="past"><img src="{{ media_url }}www/images/puscica-levo.gif" alt="slika" /></div>
+            <div class="present">
+            	<div class="present-now">
+                	<img src="{{ media_url }}www/images/img-upcoming.gif" alt="slika" />
+                </div>
+                <div class="present-now2">
+                    <img src="{{ media_url }}www/images/img-upcoming.gif" alt="slika" />
+                </div>
+                <div class="present-now3">
+                    <img src="{{ media_url }}www/images/img-upcoming.gif" alt="slika" />
+                </div>
+             </div>
+             <div class="future"><img src="{{ media_url }}www/images/puscica-desno.gif" alt="slika" /></div>
+         </div>
+      </div>
+    
+    <div id="notifier">
+    	<div class="button-chamber">
+        	<div class="gallery">gallery</div>
+            <div class="gallery-button">
+            	<img src="{{ media_url }}www/images/picture-small.gif" alt="slika" />
+            </div>
+            <div class="gallery-button2">
+            	<img src="{{ media_url }}www/images/picture-small.gif" alt="slika" />
+            </div>
+            <div class="gallery-button3">
+            	<img src="{{ media_url }}www/images/picture-small.gif" alt="slika" />
+            </div>
+            <div class="video">video arhiv</div>
+            <div class="video-button">
+            	<img src="{{ media_url }}www/images/video-small.gif" alt="slika" />
+            </div>
+            <div class="video-button2">
+            	<img src="{{ media_url }}www/images/video-small.gif" alt="slika" />
+            </div>
+            <div class="video-button3">
+            	<img src="{{ media_url }}www/images/video-small.gif" alt="slika" />
+            </div>
+         </div>
+       <div id="screen" class="notifier-chamber">
+         <div id="navigation">
+            <ul>
                 {% for i in news %}
                     <li><a id="stop{{ forloop.counter }}" href="#">{{ i.name }}</a></li>
                 {% endfor %}
-			</ul>
-		</div>
-		<div id="sections">
-			<ul>
+            </ul>
+         </div>
+         <div id="sections">
+            <ul>
                 {% for i in news %}
                     <li>
                         <h2>{{ i.name }}</h2>
                         <p>{{ i.note }}</p>
                     </li>
                 {% endfor %}
-			</ul>
-		</div>
-	</div>
-				
-			</div>
-		</div>
-
-		<div id="threerectangles">
-			<div class="box mr20">
-				{{ gallery.0 }} {{ gallery.1 }}
-			</div><div class="box mr20">
-				Videoarhiv
-			</div><div class="box">
-				<a href="{{ planet.0.get_absolute_url }}">{{ planet.0 }}</a>
-				<a href="{{ planet.1.get_absolute_url }}">{{ planet.1 }}</a>
-			</div>
-		</div>
+            </ul>
+         </div>
+       </div>
+    </div>
+    
+    <div id="second-nav">
+    muzej | g404 | err0r | postlab | haip | filmšteka | POT | SU | VIP | NET
+    </div>
+    
+    <div id="blog-cp">
+    	<div class="blog-cp-title">
+        Kiberpipin blog
+        </div>
+        <div class="blog-cp-news-title">
+        News title 01
+        </div>
+        <div class="blog-cp-publish">
+        Published by John Doe on 14. 10. 2008
+        </div>
+        <div class="blog-cp-content">
+        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam tortor est, vulputate quis, rutrum tempus, pharetra suscipit, dolor. Sed nec velit. Nunc accumsan. Vivamus sollicitudin elit vel arcu. Proin sagittis facilisis mi. Fusce lectus orci, iaculis sed, congue nec, sollicitudin quis, lacus. Duis consectetuer.
+        </div>
+        <div class="blog-cp-more">
+        more >>
+        </div>
+    </div>
+    
+    <div id="planet">
+    	<div class="planet-title">
+        Planet
+        </div>
+        <div class="planet-news-title">
+        Planet title 01
+        </div>
+        <div class="planet-publish">
+        Published by John Doe on 14. 10. 2008
+        </div>
+        <div class="planet-content">
+        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam tortor est, vulputate quis, rutrum tempus, pharetra suscipit, dolor. Sed nec velit. Nunc accumsan. Vivamus sollicitudin elit vel arcu. Proin sagittis facilisis mi. Fusce lectus orci, iaculis sed, congue nec, sollicitudin quis, lacus. Duis consectetuer.
+        </div>
+        <div class="planet-more">
+        more >>
+        </div>
+    </div>
 {% endblock %}

@@ -1,39 +1,61 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<title>Kiberpipa the new way, layout by ike</title>
-	<link rel="stylesheet" href="{{ media_url }}/www/kiberpipa_new.css">
-    <script type='text/javascript' src='{{ media_url }}/js/jquery-1.2.6.js'></script>
-    {% block extrahead %}{% endblock %}
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Kiberpipa.org</title>
+
+<link rel="stylesheet" href="{{ media_url }}www/css/style.css" type="text/css" />
+<script type='text/javascript' src='{{ media_url }}/js/jquery-1.2.6.js'></script>
+{% block extrahead %}{% endblock %}
+
 </head>
 
 <body>
-	<div id="wrapper">
-		<div id="header">
-			<h1 id="logo">
-				<span>Kiberpipa</span>
-			</h1><div id="headerlinks">
-				<a href="1">O nas</a>
-				<a href="2">Skupnost</a>
-				<a href="3">Multimedija</a>
-				<a href="4">Umetnost</a>
-			</div><form id="headersearch" action="/search" method="post">
-				<input type="text" id="q" size="20" value="">
-			</form>
-		</div>
-		
-{% block content %}{%endblock %}
-		<div id="footer">
-			<img src="images/zavod2k5.png" alt="Vsi zavodovi možje">
-			
-			<p><b>Mnogo linkova</b></p>
+<div id="container">
 
-			<ul>
-				<li><a href="nekam.html">Nekam</a></li>
-			</ul>
-		</div>
+	<div id="header">
+    	<div class="header-logo"><a href="#"><img src="{{ media_url }}www/images/logo.png" border="0" alt="slika" /></a></div>
+        	<div class="primary-nav"><a href="/about/">o nas</a> | skupnost | <a href="/calendar/">koledar</a> | sponzorji | <a href="/press">press</a></div>
+        	<div class="searchbox"><img src="{{ media_url }}www/images/searchbox.gif" border="0" alt="slika" /></div>
+            	<div class="language">slo | eng</div>
+    </div>
 
-	</div>
+{% block content %} {% endblock %}
+
+    <div id="footer">
+    	<div class="footer-cp-logo">
+        	<img src="{{ media_url }}www/images/logo.png" border="0" alt="slika" />
+        </div>
+        <div class="footer-text">
+        Kiberpipa<br />
+        Kersnikova 6<br />
+        1000 Ljubljana<br />
+        Slovenija<br />
+        </div>
+        <div class="footer-text2">
+        Pon. - Pet.<br />
+        10.00 - 22.00<br /><br />
+        Mon. - Fri.<br />
+        10am - 10pm<br />
+        </div>
+        <div class="footer-text3">
+        info@kiberpipa.org<br />
+        +386 1 438 03 05<br />
+        </div>
+        <div class="footer-support">
+        	<img src="{{ media_url }}www/images/podporniki.gif" alt="slika" />
+        </div>
+        <div class="footer-support-mol">
+        	<img src="{{ media_url }}www/images/sponzorji-footer.gif" alt="slika" />
+        </div>
+        <div class="footer-support-kultura">
+        	<img src="{{ media_url }}www/images/sponzorji-footer.gif" alt="slika" />
+        </div>
+        <div class="footer-support-eu">
+        	<img src="{{ media_url }}www/images/sponzorji-footer.gif" alt="slika" />
+        </div>
+    </div>
+    
+</div>
 </body>
 </html>
