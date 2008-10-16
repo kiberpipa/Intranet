@@ -39,7 +39,7 @@
 
 {% block content %}
 {% for g in ordered %}
-    <a href="#" id="gallery{{ g.id }}" class="{{ g.classes }}" onclick="menuToggle({{ g.id }});">{{ g|safe }}<br></a>
+    <a style="cursor: pointer; text-decoration: underline; color:blue;" id="gallery{{ g.id }}" class="{{ g.classes }}" onclick="menuToggle({{ g.id }}); return false;">{{ g|safe }}<br></a>
 {% endfor %}
 
 
