@@ -117,13 +117,17 @@ $(document).ready(function() {
     </p>
  <p>
     {{ form.project.errors }}
-    <label for="id_project">Projekti:<label>
+    <label for="id_project">Projekti:</label>
     {{ form.project }}
     <br />
     {{ form.responsible.errors }}
-    <label for="id_responsible">Odgovorni:<label>
+    <label for="id_responsible">Odgovorni:</label>
     {{ form.responsible }}
 </p>
+<p>
+    {{ form.public.errors }}
+    <label for="id_public">Javen:</label>
+    {{ form.public }}
 <hr>
    <p>
     <label for="id_start_date">Začetni datum:</label>

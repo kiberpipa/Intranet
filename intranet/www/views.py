@@ -15,9 +15,9 @@ from intranet.www.models import Ticker, News
 
 def index(request):
     # FIXME: next line throws an error on empty db
-    next = Event.objects.filter(start_date__gte=datetime.datetime.today()).order_by('start_date')[0]
+    next = Event.objects.filter(public=True, start_date__gte=datetime.datetime.today()).order_by('start_date')[0]
     #forcing the evalutation of query set :-/. anyone got better ideas?
-    events = list(Event.objects.order_by('start_date'))
+    events = list(Event.objects.filter(public=True).order_by('start_date'))
     position = events.index(next)
     jsevents = ''
     for e in events[position-100:]:
@@ -28,14 +28,11 @@ def index(request):
     return render_to_response('www/index.html', {
         'events': events[position:position+8],
         'jsevents': jsevents,
-        'planet': Post.objects.all().order_by('-date_modified')[0:7],
         'gallery': Photo.objects.all().order_by('date_added')[0:2],
         'ticker': Ticker.objects.filter(is_active=True),
-        'news': News.objects.order_by('-date')[0:7],
-        'planet': Post.objects.order_by('-date_modified')[:10],
-        'blog': News.objects.order_by('-date')[:10],
-        },
-        context_instance=RequestContext(request))
+        'news': News.objects.order_by('-date')[0:4],
+        'planet': Post.objects.order_by('-date_modified')[:4],
+    }, context_instance=RequestContext(request))
 
 def event(request, slug):
     return render_to_response('www/event.html', {
@@ -89,7 +86,7 @@ def calendar(request):
     dates = []
     #loop till the end of the week in which this months ends
     while not ( begin.month == today.month + 1 and begin.weekday() == 6):
-        dates += [(begin, Event.objects.filter(start_date__year = begin.year, start_date__month = begin.month, start_date__day = begin.day))]
+        dates += [(begin, Event.objects.filter(public=True, start_date__year = begin.year, start_date__month = begin.month, start_date__day = begin.day))]
         begin = begin + day
 
     return render_to_response('www/calendar.html', {
@@ -100,7 +97,7 @@ def calendar(request):
 def ical(request):
     cal = ['BEGIN:VCALENDAR', 'SUMMARY:%s -- Dogodki v Kiberpipi' % datetime.datetime.today().strftime('%B') ]
 
-    for e in Event.objects.filter(start_date__month=datetime.datetime.today().month):
+    for e in Event.objects.filter(public=True, start_date__year=datetime.datetime.today().year, start_date__month=datetime.datetime.today().month):
         cal.extend((
             'BEGIN:VEVENT',
             e.start_date.strftime('DTSTART:%Y%m%dT%H%M%S'),

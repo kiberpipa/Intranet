@@ -168,6 +168,7 @@ class Event(models.Model):
     require_video = models.BooleanField(default=False)
     visitors = models.IntegerField(default=0, blank=True, null=True)
     image = models.ImageField(blank=True, null=True, upload_to='events/%Y/%m/')
+    public = models.BooleanField(default=True)
 
     slides = models.FileField(upload_to='slides/%Y/%m/', blank=True, null=True)
 
