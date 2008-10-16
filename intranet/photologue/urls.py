@@ -25,7 +25,7 @@ urlpatterns = patterns('django.views.generic.list_detail',
     url(r'^$', 'object_list', {
         'queryset': Gallery.objects.filter(parent__isnull = True), 
         'allow_empty': True, 
-        'extra_context': {'top': top},}, 
+        'extra_context': {'top': top, 'ordered': ordered, },}, 
         name='pl-gallery-list'),
     url(r'^(?P<slug>[-\w\d]+)/$', 'object_detail', {
         'slug_field': 'title_slug', 

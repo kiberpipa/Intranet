@@ -181,10 +181,11 @@ class Gallery(models.Model):
             count += 1
 
         if self.parent:
-            parent = 'parent%s' % self.parent.id
+            parent = 'nontop parent%s' % self.parent.id
         else:
             parent = 'parent0'
-        return u'menu %s depth%s' % (parent, count)
+
+        return u'%s depth%s' % (parent, count)
 
     def public(self):
         return self.photos.filter(is_public=True)

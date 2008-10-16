@@ -27,7 +27,11 @@
     <td class="{% calclass date %}">
     {{ date.day }}
     {% for event in events %}
-        {{ event }}
+        {% if event.public %}
+            {{ event }}
+        {% else %}
+            PRIVATE!!
+        {% endif %}
     {% endfor %}
     </td>
 

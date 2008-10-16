@@ -2,9 +2,50 @@
 
 {% block title %}All Galleries{% endblock %}
 
+{% block extrahead %}
+	<script type="text/javascript">
+    function recurse(me) {
+        var classes = $("#gallery"+me).attr("class").split(' ');
+        var num = "";
+        for (i=0; i < classes.length; i++) {
+            if (classes[i] > "parent") {
+                num = classes[i].slice(6); 
+                $("#gallery"+num).show();
+                return num;
+            }
+        }
+
+        return -1;
+    }
+    function menuToggle(me) {
+        $(".nontop").hide();
+        //show callers children..
+        $(".parent"+me).show();
+        //..and the caller itself...
+        $("#gallery"+me).show();
+        //...and its parents
+        num = me;
+        while (num != -1) {
+            num = recurse(num);
+        }
+    }
+	$(document).ready(function(){
+        //show only the top galleries
+        $(".nontop").hide();
+    })
+    </script>
+
+{% endblock %}
+
 {% block content %}
+{% for g in ordered %}
+    <a href="#" id="gallery{{ g.id }}" class="{{ g.classes }}" onclick="menuToggle({{ g.id }});">{{ g|safe }}<br></a>
+{% endfor %}
+
 
 <h1>All galleries</h1>
+
+
 
 {% if object_list %}
     {% for gallery in object_list %}

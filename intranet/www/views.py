@@ -86,7 +86,7 @@ def calendar(request):
     dates = []
     #loop till the end of the week in which this months ends
     while not ( begin.month == today.month + 1 and begin.weekday() == 6):
-        dates += [(begin, Event.objects.filter(public=True, start_date__year = begin.year, start_date__month = begin.month, start_date__day = begin.day))]
+        dates += [(begin, Event.objects.filter(start_date__year = begin.year, start_date__month = begin.month, start_date__day = begin.day))]
         begin = begin + day
 
     return render_to_response('www/calendar.html', {
