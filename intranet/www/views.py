@@ -70,7 +70,7 @@ def compat(request):
 #            pass
 #
     #we have a problem
-    send_mail('404 b!tch', 'PATH_INFO: %s\nQUERY_STRING: %s' % (request.META['PATH_INFO'], request.META['QUERY_STRING']), 'intranet@kiberpipa.org', [a[1] for a in settings.ADMINS], fail_silently=True)
+    send_mail('b00, wh00, 404', 'PATH_INFO: %s\nQUERY_STRING: %s' % (request.META['PATH_INFO'], request.META['QUERY_STRING']), 'intranet@kiberpipa.org', [a[1] for a in settings.ADMINS], fail_silently=True)
     return HttpResponsePermanentRedirect('/')
 
 def calendar(request):
@@ -94,10 +94,17 @@ def calendar(request):
         },
         context_instance=RequestContext(request))
 
-def ical(request):
+def ical(request, month=None):
     cal = ['BEGIN:VCALENDAR', 'SUMMARY:%s -- Dogodki v Kiberpipi' % datetime.datetime.today().strftime('%B') ]
+    if month:
+        events = Event.objects.filter(public=True, start_date__year=datetime.datetime.today().year, start_date__month=datetime.datetime.today().month).order_by('start_date')
+        response = HttpResponse(mimetype='application/octet-stream')
+        response['Content-Disposition'] = "attachment; filename=" + datetime.datetime.today().strftime('%B') + '.vcs'
+    else: 
+        events = Event.objects.order_by('start_date')
+        response = HttpResponse()
 
-    for e in Event.objects.filter(public=True, start_date__year=datetime.datetime.today().year, start_date__month=datetime.datetime.today().month):
+    for e in events:
         cal.extend((
             'BEGIN:VEVENT',
             e.start_date.strftime('DTSTART:%Y%m%dT%H%M%S'),
@@ -105,8 +112,6 @@ def ical(request):
             'END:VEVENT'))
 
     cal.append('END:VCALENDAR')
-    response = HttpResponse(mimetype='application/octet-stream')
-    response['Content-Disposition'] = "attachment; filename=" + datetime.datetime.today().strftime('%B') + '.vcs'
     response.write("\r\n".join(cal))
     return response
 

@@ -9,7 +9,8 @@
 {% endblock %}
 
 {% block content %}
-<a href="{% url intranet.www.views.ical %}">vCalendar for current month</a>
+<a href="{% url intranet.www.views.ical "month" %}">vCalendar for current month</a>
+<a href="{% url intranet.www.views.ical %}">self updating vCalendar</a>
 <table border="1">
 {% for date, events in dates %}
     {% ifequal date.weekday 0 %}
