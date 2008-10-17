@@ -10,8 +10,16 @@ from django.core.mail import send_mail
 
 from intranet.org.models import Event
 from intranet.feedjack.models import Post
-from intranet.photologue.models import Photo
+from intranet.photologue.models import Photo, Gallery
 from intranet.www.models import Ticker, News
+
+def gallery(request, id):
+    ret = ''
+    for g in Gallery.objects.get(pk=id).photos.all():
+        #<li><img src="img/flowing-rock.jpg" alt="Flowing Rock" title="Flowing Rock Caption"></li>
+        ret += '<li><img src="%s"></li>\n' % (g.get_normal_url())
+
+    return HttpResponse(ret)
 
 def index(request):
     # FIXME: next line throws an error on empty db
@@ -85,9 +93,11 @@ def calendar(request):
 
     dates = []
     #loop till the end of the week in which this months ends
-    while not ( begin.month == today.month + 1 and begin.weekday() == 6):
+    while not ( begin.month == today.month + 1 and begin.weekday() == 0):
         dates += [(begin, Event.objects.filter(start_date__year = begin.year, start_date__month = begin.month, start_date__day = begin.day))]
         begin = begin + day
+    #begin = begin + day
+
 
     return render_to_response('www/calendar.html', {
         'dates': dates,
