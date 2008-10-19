@@ -96,7 +96,6 @@ def calendar(request):
     while not ( begin.month == today.month + 1 and begin.weekday() == 0):
         dates += [(begin, Event.objects.filter(start_date__year = begin.year, start_date__month = begin.month, start_date__day = begin.day))]
         begin = begin + day
-    #begin = begin + day
 
 
     return render_to_response('www/calendar.html', {
@@ -104,10 +103,22 @@ def calendar(request):
         },
         context_instance=RequestContext(request))
 
+def utcize(date):
+    from pytz import timezone, utc
+    lj = timezone('Europe/Ljubljana')
+    tmp = datetime.datetime(date.year, date.month, date.day, date.hour, date.minute, date.second, tzinfo=lj)
+    return tmp.astimezone(utc) #rfc wants utc here
+
+
 def ical(request, month=None):
-    cal = ['BEGIN:VCALENDAR', 'SUMMARY:%s -- Dogodki v Kiberpipi' % datetime.datetime.today().strftime('%B') ]
+    from django.utils.encoding import *
+    encoding = 'latin2'
+    cal = ['BEGIN:VCALENDAR', 
+        'SUMMARY:%s -- Dogodki v Kiberpipi' % datetime.datetime.today().strftime('%B'), 
+        'PRODID: -//Kiberpipa//NONSGML intranet//EN', 
+        'VERSION:2.0', '']
     if month:
-        events = Event.objects.filter(public=True, start_date__year=datetime.datetime.today().year, start_date__month=datetime.datetime.today().month).order_by('start_date')
+        events = Event.objects.filter(public=True, start_date__year=datetime.datetime.today().year, start_date__month=datetime.datetime.today().month).order_by('chg_date')
         response = HttpResponse(mimetype='application/octet-stream')
         response['Content-Disposition'] = "attachment; filename=" + datetime.datetime.today().strftime('%B') + '.vcs'
     else: 
@@ -115,13 +126,28 @@ def ical(request, month=None):
         response = HttpResponse()
 
     for e in events:
+        #ther's gotta be a nicer way to do this
+        end_date = e.start_date + datetime.timedelta(hours=e.length.hour,  minutes=e.length.minute)
+        last_mod = utcize(e.chg_date)
+        pub_date = utcize(e.pub_date)
+
         cal.extend((
             'BEGIN:VEVENT',
+            'ORGANIZER;CN=Kiberpipa:MAILTO:info@kiberpipa.org',
+            pub_date.strftime('DTSTAMP:%Y%m%dT%H%M%SZ'),
+            pub_date.strftime('CREATED:%Y%m%dT%H%M%SZ'),
             e.start_date.strftime('DTSTART:%Y%m%dT%H%M%S'),
+            e.start_date.strftime('UID:events@kiberpipa.org-%Y%m%dT%H%M%S'),
+            end_date.strftime('DTEND:%Y%m%dT%H%M%S'),
+            last_mod.strftime('LAST-MODIFIED:%Y%m%dT%H%M%SZ'),
             'SUMMARY:%s' % e.title,
-            'END:VEVENT'))
+            'TRANSP:OPAQUE',
+            'END:VEVENT',
+            ''))
 
     cal.append('END:VCALENDAR')
-    response.write("\r\n".join(cal))
+    ret = "\r\n".join(cal)
+    ret = smart_unicode("\r\n".join(cal), encoding=encoding, strings_only=False, errors='strict')
+    response.write(ret)
     return response
 

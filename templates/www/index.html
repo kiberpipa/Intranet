@@ -5,6 +5,7 @@
 <link href='{{ media_url }}/www/scroll.css' type='text/css' rel='stylesheet' />
 <script type='text/javascript' src='{{ media_url }}/js/jquery.scrollTo-min.js'></script>
 <script type='text/javascript' src='{{ media_url }}/js/jquery.serialScroll-min.js'></script>
+<script type='text/javascript' src='http://www.malsup.com/jquery/cycle/jquery.cycle.all.min.js?v2.28'></script>
 <script type='text/javascript'>
 <!-- TODO create init.js -->
 
@@ -59,11 +60,11 @@ jQuery(function( $ ){
             i--;
             redraw();
         });
-        $("#prev_three").click(function(){
+        $(".past3").click(function(){
             i-=3;
             redraw();
         });
-        $("#next_three").click(function(){
+        $(".future3").click(function(){
             i+=3;
             redraw();
         });
@@ -74,6 +75,7 @@ jQuery(function( $ ){
     <div id="upcoming">
     	<div class="next3">
         	<div class="past"><a href="#" onclick="return false;"><img src="{{ media_url }}www/images/puscica-levo.gif" alt="slika" /></a></div>
+        	<div class="past3"><a href="#" onclick="return false;">&lt; &lt;</a></div>
             <div class="present">
             	<div class="present-now">
                 	<img width="274" height="200" src="{{ media_url }}www/images/img-upcoming.gif" alt="slika" />
@@ -89,6 +91,7 @@ jQuery(function( $ ){
                 </div>
              </div>
              <div class="future"><a href="#" onclick="return false;"><img src="{{ media_url }}www/images/puscica-desno.gif" alt="slika" /></a></div>
+             <div class="future3"><a href="#" onclick="return false;">&gt; &gt;</a></div>
          </div>
       </div>
     
@@ -146,7 +149,7 @@ jQuery(function( $ ){
         </div>
         {% for i in news %}
             <div class="blog-cp-news-title">
-            {{ i.title }}
+            <a href="{{ i.get_absolute_url }}">{{ i.title }}</a>
             </div>
             <div class="blog-cp-publish">
             Published by John Doe on {{ i.date }}
