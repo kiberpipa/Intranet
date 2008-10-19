@@ -14,10 +14,18 @@ from intranet.photologue.models import Photo, Gallery
 from intranet.www.models import Ticker, News
 
 def gallery(request, id):
+    try:
+        gallery = Gallery.objects.get(title=id)
+    except Gallery.DoesNotExist:
+        gallery = Gallery.objects.get(pk=id)
     ret = ''
-    for g in Gallery.objects.get(pk=id).photos.all():
-        #<li><img src="img/flowing-rock.jpg" alt="Flowing Rock" title="Flowing Rock Caption"></li>
-        ret += '<li><img src="%s"></li>\n' % (g.get_normal_url())
+    i = 0
+    for g in gallery.photos.all():
+        i += 1
+        ret += '<li'
+        if i == 1:
+            ret += ' id="active"'
+        ret += '><img src="%s"></li>\n' % (g.get_normal_url())
 
     return HttpResponse(ret)
 

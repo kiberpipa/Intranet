@@ -18,5 +18,5 @@ urlpatterns = patterns('',
     url(r'^calendar/', 'intranet.www.views.calendar'),
     url(r'^index\.php', 'intranet.www.views.compat'),
     url(r'^alumni/', 'django.views.generic.list_detail.object_list', alumni_dict),
-    url(r'^ajax/gallery/(?P<id>\d+)$', 'intranet.www.views.gallery'),
+    url(r'^ajax/gallery/(?P<id>\d+|[\w-]+)/$', 'intranet.www.views.gallery'),
 )

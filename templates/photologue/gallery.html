@@ -60,7 +60,6 @@
                 if (classes[i] > "parent") {
                     num = classes[i].slice(6); 
                     if (num != 0) {
-                        alert('me: ' + me);
                         $("#gallery"+num).show();
                         return num;
                     }
@@ -84,13 +83,27 @@
                 url: "/ajax/gallery/"+me,
                 cache: false,
                 success: function(html){
-                    $(".gallery_demo_unstyled").html(html);
                     $(".galleria_wrapper").remove();
+                    $(".gallery_demo_unstyled").html(html);
                     gallery_init();
+                    $("#active").addClass("active");
                 }
             });
         }
         $(document).ready(function(){
+            //make copy/pastable urls work
+            bits = location.hash.split('/');
+            if (bits[2] != "") {
+                $.ajax({
+                    url: "/ajax/gallery/"+bits[2],
+                    cache: false,
+                    success: function(html){
+                        $(".galleria_wrapper").remove();
+                        $(".gallery_demo_unstyled").html(html);
+                        gallery_init();
+                    }
+                });
+            }
             //show only the top galleries a first
             $(".nontop").hide();
             $('.gallery_demo_unstyled').addClass('gallery_demo'); // adds new class name to maintain degradability
