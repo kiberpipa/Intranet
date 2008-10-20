@@ -6,7 +6,6 @@
     <script type="text/javascript" src="{{ media_url }}/www/js/jquery.galleria.min.js"></script>
 	<script type="text/javascript">
         function gallery_init() {
-            $('.nav').css('display','none'); // hides the nav initially
             $('ul.gallery_demo').galleria({
                 history   : true, // deactivates the history object for bookmarking, back-button etc.
                 clickNext : false, // helper for making the image clickable. Let's not have that in this example.
@@ -50,6 +49,18 @@
                         function() { thumb.fadeTo('fast',1); },
                         function() { _li.not('.active').children('img').fadeTo('fast',0.3); } // don't fade out if the parent is active
                     )
+
+                    thumb.click(
+                        function() { 
+                            url = thumb.attr("src");
+                            /*hackery i'm not particually proud of
+                            example input:
+                            /img/wireframes/cache/cp-wire-kiberpipin-blog02_normal.png
+                            example output:
+                            /img/wireframes/cp-wire-kiberpipin-blog02.png */
+                            new_url = url.replace(/(.*)\/cache(.*)_[^.]*(\..*)/, '$1$2$3');
+                            $("#full_size").attr("href", new_url) }
+                    );
                 }
             });
         }
@@ -86,7 +97,11 @@
                     $(".galleria_wrapper").remove();
                     $(".gallery_demo_unstyled").html(html);
                     gallery_init();
+                    //a hack, gallery_init overrides if i push it .active from
+                    //server, point being to display the first image on gallery
+                    //load
                     $("#active").addClass("active");
+                    $("#full_size").show();
                 }
             });
         }
@@ -98,16 +113,20 @@
                     url: "/ajax/gallery/"+bits[2],
                     cache: false,
                     success: function(html){
+                        //the gallery_init() bellow creates a new one
                         $(".galleria_wrapper").remove();
+                        //push the recieved content
                         $(".gallery_demo_unstyled").html(html);
                         gallery_init();
+                        //now makes sense to display the full size link
+                        $("#full_size").show();
                     }
                 });
             } else {
+                //display default image if none has been requested
                 $(".gallery_demo_unstyled").html('<img src="http://www.screensite.org/courses/Jbutler/T340/TreasonOfImagesShadow.jpg">');
             }
-            //show only the top galleries a first
-            $(".nontop").hide();
+            $(".nontop").hide(); //show only the top galleries a first
             $('.gallery_demo_unstyled').addClass('gallery_demo'); // adds new class name to maintain degradability
             gallery_init();
         });
@@ -149,6 +168,7 @@
 </div>
 
 <div class="demo">
+<a href="" style="display: none"  id="full_size" target="_blank">Full size</a.
 <div id="main_image">
 </div>
     <ul class="gallery_demo_unstyled">
