@@ -1,0 +1,71 @@
+#!/usr/bin/python
+
+import sys
+import re
+from time import ctime
+
+from parse import *
+
+def album_prop():
+
+        album = unserialize_file(sys.argv[1])
+
+        aldict = album[1]
+        #print aldict
+        
+        #for i in aldict:
+        #    print i
+
+        #for i in aldict['album']['fields']:
+        #       print i
+        
+        #c_date = ctime(aldict['album']['fields']['creation_date'])
+        
+        print 'Album name: ' + aldict['album']['fields']['name']
+        print 'Next name: ' + aldict['album']['fields']['nextname']
+        print 'Title: ' + aldict['album']['fields']['title']
+        print 'Parent name: ' + aldict['album']['fields']['parentAlbumName']
+        #print 'Create date : %s' % c_date
+        print 'Summary: ' + aldict['album']['fields']['summary']
+        print '\n'
+        
+
+        #for i in aldict['album']['updateSerial']:
+        #       print i
+
+def photo_prop():
+        photo = unserialize_file(sys.argv[1])
+        
+        for i in photo[1]:
+            #print i
+        # Se sprehodim skoz kljuce dicta z informacijami
+            photoitems = photo[1][i]['albumitem']  
+            
+            print 'Image name: %s' % photoitems['image']['image']['name']
+            print 'Caption: %s' % photoitems['caption']
+            print 'Upload date: %s' % photoitems['uploadDate']
+            print 'Keywords: %s' % photoitems['keywords']
+            print '\n'
+            #print 'Album name: ' + photoitems['isAlbumName']
+        
+a = re.compile('album.dat')
+p = re.compile('photos.dat')
+
+
+if len(sys.argv) < 2:
+    print 'Must pass a command line parameter'
+
+elif a.search(sys.argv[1]):
+    album_prop()
+
+elif p.search(sys.argv[1]):
+    photo_prop()
+
+
+else:
+    print "Invalid command line parameter (must be file album.dat or photos.dat)"
+
+               
+
+#album_prop()
+#photo_prop()
