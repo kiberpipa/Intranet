@@ -1,44 +1,81 @@
 #!/usr/bin/python
 
+
 import sys
 import re
 from time import ctime
 
 from parse import *
+from django.template.defaultfilters import slugify
+
+
 
 def album_prop():
 
+        # Naredimo nekaj uporabnega iz json fajla
         album = unserialize_file(sys.argv[1])
-
+        
+        # V tole tlacim zanimive vrednosti iz dicta, loopi pa so za sprehajanje preko podatkovne strukture
+        # Precej uporabno, ko nimas pojma, kaj je kje
         aldict = album[1]
         #print aldict
-        
+        #
         #for i in aldict:
         #    print i
-
+        #
         #for i in aldict['album']['fields']:
         #       print i
         
         #c_date = ctime(aldict['album']['fields']['creation_date'])
         
-        print 'Album name: ' + aldict['album']['fields']['name']
-        print 'Next name: ' + aldict['album']['fields']['nextname']
-        print 'Title: ' + aldict['album']['fields']['title']
-        print 'Parent name: ' + aldict['album']['fields']['parentAlbumName']
-        #print 'Create date : %s' % c_date
-        print 'Summary: ' + aldict['album']['fields']['summary']
-        print '\n'
+        # se znebimo zlobnih c-jec s stresico, in to se ni vse!
+        ccc = re.compile('&#269;')
         
-
-        #for i in aldict['album']['updateSerial']:
-        #       print i
+        # Ce mamo kljuce, poberemo vrednosti, jih pretvorimo v tha unicode in se kak replace naredim zraven
+        # Ce kljuca/vrednosti ni, bo tudi prazen string OK
+        
+        if aldict['album']['fields'].has_key('name'):
+            a_name = unicode(aldict['album']['fields']['name'], 'iso8859-2')
+            a_name = re.sub(ccc, u'\u010d', a_name)
+        else:
+            a_name = ""
+        
+        if aldict['album']['fields'].has_key('title'):
+            a_title  = unicode(aldict['album']['fields']['title'], 'iso8859-2')
+            a_title = re.sub(ccc, u'\u010d', a_title)
+            a_title_slug = slugify(a_title)
+        else:
+            a_title = ""
+            a_title_slug = ""
+            
+        if aldict['album']['fields'].has_key('creation_date'):
+            a_date = aldict['album']['fields']['creation_date']
+        else:
+            a_date = ""
+            
+        if aldict['album']['fields'].has_key('summary'):
+            a_desc = unicode(aldict['album']['fields']['summary'], 'iso8859-2')
+            a_desc = re.sub(ccc, u'\u010d', a_desc)
+        else:
+            a_desc = ""
+        
+        # Ce print crkne, daj to v error log
+        try:
+            print "Album: %s, title: %s, slug: %s, album date: %s, album desc: %s" % (a_name, a_title, a_title_slug, a_date, a_desc)
+        except:
+            f=open('errors.log', 'aw')
+            f.write('Album %s has an error \n' % (a_name) )
+            f.close
+            print "\n Album %s has an error \n" % (a_name)
+            
 
 def photo_prop():
         photo = unserialize_file(sys.argv[1])
         
         for i in photo[1]:
+            
             #print i
-        # Se sprehodim skoz kljuce dicta z informacijami
+            #Se sprehodim skoz kljuce dicta z informacijami
             photoitems = photo[1][i]['albumitem']  
             
             print 'Image name: %s' % photoitems['image']['image']['name']
@@ -64,8 +101,3 @@ elif p.search(sys.argv[1]):
 
 else:
     print "Invalid command line parameter (must be file album.dat or photos.dat)"
-
-               
-
-#album_prop()
-#photo_prop()
