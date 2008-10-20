@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# Migracija starih novic v novo bazo, the Django waii
+
 import MySQLdb
 import sys
 
@@ -9,17 +11,22 @@ from django.template.defaultfilters import slugify
 
 #pw = sys.stdin.readline()
 
+# Connect more bit unicode free (default forca utf-8), zato use_unicode=False
+# V nasprotnem primeru se ze tu polomijo podatki zaradi razlicnega charseta
+
 con = MySQLdb.connect('127.0.0.1', 'root', '', 'webpage', use_unicode=False)
 cur = con.cursor()
 
 cur.execute('select pn_title, pn_time, pn_hometext, pn_sid from nuke_stories')
 
+# Tole je Almir while while zanke...strange, but works
 while 1:
     row = cur.fetchone()
     if not row: break
-    encoding = 'latin2'
+    encoding = 'latin2' # Precej pomembna rec... encoding podatkov v nasi bazi - ce je to narobe, se stvari zbrejkajo
     
-    row0 = smart_unicode(row[0], encoding=encoding, strings_only=False, errors='strict')
+    # Za smart_unicode funkcijo glej django unicode dokumentacijo
+    row0 = smart_unicode(row[0], encoding=encoding, strings_only=False, errors='strict') 
     row1 = smart_unicode(row[1], encoding=encoding, strings_only=False, errors='strict')
     row2 = smart_unicode(row[2], encoding=encoding, strings_only=False, errors='strict')
     row3 = smart_unicode(row[3], encoding=encoding, strings_only=False, errors='strict')
