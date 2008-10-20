@@ -131,7 +131,7 @@ def ical(request, month=None):
         response['Content-Disposition'] = "attachment; filename=" + datetime.datetime.today().strftime('%B') + '.vcs'
     else: 
         events = Event.objects.order_by('start_date')
-        response = HttpResponse()
+        response = HttpResponse(mimetype='text/calendar')
 
     for e in events:
         #ther's gotta be a nicer way to do this

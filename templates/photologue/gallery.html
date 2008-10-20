@@ -93,7 +93,7 @@
         $(document).ready(function(){
             //make copy/pastable urls work
             bits = location.hash.split('/');
-            if (bits[2] != "") {
+            if (bits[2]) {
                 $.ajax({
                     url: "/ajax/gallery/"+bits[2],
                     cache: false,
@@ -103,6 +103,8 @@
                         gallery_init();
                     }
                 });
+            } else {
+                $(".gallery_demo_unstyled").html('<img src="http://www.screensite.org/courses/Jbutler/T340/TreasonOfImagesShadow.jpg">');
             }
             //show only the top galleries a first
             $(".nontop").hide();
@@ -150,7 +152,6 @@
 <div id="main_image">
 </div>
     <ul class="gallery_demo_unstyled">
-       <img src="http://www.screensite.org/courses/Jbutler/T340/TreasonOfImagesShadow.jpg">
     </ul>
     <p class="nav"><a href="#" onclick="$.galleria.prev(); return false;">previous</a> | <a href="#" onclick="$.galleria.next(); return false;">next</a></p>
 </div>

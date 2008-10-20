@@ -1092,7 +1092,7 @@ def tehniki(request, year=None, week=None):
                              {'month':week,
                              'log_list':log_list,
                              'month_number':week_number,
-                             'month_name': month_to_string(month),
+                             'month_name': month,
                              'what': 'teden',
                              'iso_week': week_number,
                              'year': year,
