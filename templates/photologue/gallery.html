@@ -59,7 +59,14 @@
                             example output:
                             /img/wireframes/cp-wire-kiberpipin-blog02.png */
                             new_url = url.replace(/(.*)\/cache(.*)_[^.]*(\..*)/, '$1$2$3');
-                            $("#full_size").attr("href", new_url) }
+                            $("#full_size").attr("href", new_url);
+                            //alert("#" + thumb.attr("src"));
+                            //alert($("#" + thumb.attr("src") + " " + "#exif").text());
+                            //alert("#" + thumb.attr("class"));
+                            //alert($("#"+thumb.attr("src")));
+                            //alert($('#' + thumb.attr("class").slice(' ')[0]).html());
+                            //$("#"+thumb.attr("src")).hide();
+                            }
                     );
                 }
             });
@@ -109,18 +116,22 @@
             //make copy/pastable urls work
             bits = location.hash.split('/');
             if (bits[2]) {
-                $.ajax({
-                    url: "/ajax/gallery/"+bits[2],
-                    cache: false,
-                    success: function(html){
+                $.getJSON("/ajax/gallery/"+bits[2], {
+                    cache: false
+                }, function(data){ 
                         //the gallery_init() bellow creates a new one
                         $(".galleria_wrapper").remove();
-                        //push the recieved content
-                        $(".gallery_demo_unstyled").html(html);
+                        //console.log(data);
+                        
+                        for(var i=0;i<data.length;i++){
+                            list_elem = $("<li><img src='"+data[i]["normal_url"]+"' /></li>");
+                           
+                            $(".gallery_demo_unstyled").append(list_elem);
+                        }
+
                         gallery_init();
                         //now makes sense to display the full size link
                         $("#full_size").show();
-                    }
                 });
             } else {
                 //display default image if none has been requested
@@ -168,7 +179,7 @@
 </div>
 
 <div class="demo">
-<a href="" style="display: none"  id="full_size" target="_blank">Full size</a.
+<a href="" style="display: none"  id="full_size" target="_blank">Full size</a>
 <div id="main_image">
 </div>
     <ul class="gallery_demo_unstyled">

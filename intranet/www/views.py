@@ -7,11 +7,13 @@ from django.template import RequestContext
 from django.http import HttpResponsePermanentRedirect, HttpResponse
 from django.conf import settings
 from django.core.mail import send_mail
+from django.core import serializers
 
 from intranet.org.models import Event
 from intranet.feedjack.models import Post
 from intranet.photologue.models import Photo, Gallery
 from intranet.www.models import Ticker, News
+import simplejson
 
 def gallery(request, id):
     try:
@@ -20,12 +22,27 @@ def gallery(request, id):
         gallery = Gallery.objects.get(pk=id)
     ret = ''
     i = 0
-    for g in gallery.photos.all():
-        i += 1
-        ret += '<li'
-        if i == 1:
-            ret += ' id="active"'
-        ret += '><img src="%s"></li>\n' % (g.get_normal_url())
+
+    #return HttpResponse(serializers.serialize("json", [x.get_normal_url() for x in gallery.photos.all()]))
+    #return HttpResponse([x.get_normal_url() for x in gallery.photos.all()])
+    
+    nice_pictures = list()
+    for p in gallery.photos.all():
+        nice_pictures.append({'normal_url':p.get_normal_url(),
+                                'full_url':p.image.url,
+                                'exif':p.EXIF})
+
+    print nice_pictures
+    return HttpResponse(simplejson.dumps(nice_pictures))
+    #for g in gallery.photos.all():
+    #    i += 1
+    #    ret += '<li'
+    #    if i == 1:
+    #        ret += ' id="active"'
+    #    ret += '><img src="%s" class="img%s"></li>\n' % (g.get_normal_url(), g.id)
+
+        #ret += '<div id="%s" style="display: none"><div id="exif">b00 wh00 %s</div></div>' % (g.get_normal_url(), g.title)
+    #    ret += '<div id="img%s" style="display: none">b00 wh00 %s</div>' % (g.id, g.title)
 
     return HttpResponse(ret)
 
