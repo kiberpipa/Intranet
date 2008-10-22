@@ -4,6 +4,7 @@ from django.contrib import admin
 
 from intranet.photologue.models import *
 from intranet.feedjack.models import Post
+from intranet.www.feeds import *
 
 admin.autodiscover()
 
@@ -12,6 +13,10 @@ gallery_args = {'date_field': 'date_added', 'allow_empty': True, 'queryset': Gal
 
 planet_dict = {
     'queryset': Post.objects.order_by('-date_modified')[:30],
+}
+
+feeds = {
+    'all': AllInOne,
 }
 
 urlpatterns = patterns('',
@@ -28,6 +33,7 @@ urlpatterns = patterns('',
     #(r'^planet/', include('intranet.feedjack.urls')),
     (r'^planet/', 'django.views.generic.list_detail.object_list', planet_dict),
 
+    (r'^feeds/(?P<url>.*)', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
 
     (r'^gallery/', include('intranet.photologue.urls')),
 

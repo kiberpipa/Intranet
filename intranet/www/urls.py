@@ -10,9 +10,9 @@ alumni_dict = {
 
 urlpatterns = patterns('',
     url(r'^$', 'intranet.www.views.index'),
+    url(r'^rss/?$', 'intranet.www.views.rss'),
     url(r'^event/(?P<slug>[-\w]+)$', 'intranet.www.views.event'),
     #url(r'^event/next/(?P<position>[\d-]+)/(?P<offset>[\d-]+)/(?P<num>\d+)/$', 'intranet.www.views.timeline_events'),
-    url(r'^news/(?P<slug>[-\w]+)$', 'intranet.www.views.news'),
     url(r'^news/(?P<slug>[-\w]+)$', 'intranet.www.views.news'),
     url(r'^calendar/ical/?(?P<month>month)?/?$', 'intranet.www.views.ical'),
     url(r'^calendar/', 'intranet.www.views.calendar'),

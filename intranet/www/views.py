@@ -176,3 +176,6 @@ def ical(request, month=None):
     response.write(ret)
     return response
 
+
+def rss(request):
+	return render_to_response('www/rss.html', context_instance=RequestContext(request))

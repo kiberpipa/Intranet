@@ -1,0 +1,37 @@
+{% extends "www/base.html" %}
+
+{% block extrahead %}
+<script type="text/javascript">
+$(document).ready(function(){
+    var feeds = Array();
+    $('input[type=checkbox]').click(function(){
+        if ($(this).is(":checked")) {
+                feeds.push($(this).attr("id"));
+        } else if($(this).not(":checked")) {
+            index = feeds.indexOf($(this).attr("id"));
+            feeds.splice(index, 1);
+        }
+
+        if (feeds[0]){ 
+            $("#rss").html('<a href="http://rtv:8000/feeds/all/' + feeds.join('/')+'">rss</a>'); 
+        } else {
+            $("#rss").html('');
+        } 
+    });
+
+});
+</script>
+
+{% endblock %}
+
+{% block content %}
+<div>
+<form>
+<input type="checkbox" id="news"  />Novice<br />
+<input type="checkbox" id="events"  />Dogodki<br />
+<input type="checkbox" id="albums" />Galerija<br />
+</form>
+<div id="rss">
+</div>
+</div>
+{% endblock %}
