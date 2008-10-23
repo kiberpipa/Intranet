@@ -1,6 +1,19 @@
-{{ news }}
-
-{{ news.text|safe }}
+{% extends "www/base.html" %}
+{% block content %}
+    <div id="blog-news">
+    	<div class="blog-news-title">
+        Kiberpipin blog
+        </div>
+        <div class="blog-news-en-title">
+        {{ news }}
+        </div>
+        <div class="blog-news-publish">
+        Published by John Doe on 21. 10. 2008
+        </div>
+        <div class="blog-news-content">
+        <div class="blog-news-content img"></div>
+						{{ news.text|safe }}
+        </div>
 
 {% load comments %}
 
@@ -20,3 +33,4 @@ komentarji:
     <input type="submit" name="submit" class="submit-post" value="Preview">
   </p>
 </form>
+{% endblock %}

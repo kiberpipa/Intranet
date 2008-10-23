@@ -6,8 +6,11 @@ import MySQLdb
 import sys
 
 from intranet.www.models import News
+
+
 from django.utils.encoding import *
 from django.template.defaultfilters import slugify
+from django.contrib.auth.models import User
 
 #pw = sys.stdin.readline()
 
@@ -17,7 +20,9 @@ from django.template.defaultfilters import slugify
 con = MySQLdb.connect('127.0.0.1', 'root', '', 'webpage', use_unicode=False)
 cur = con.cursor()
 
-cur.execute('select pn_title, pn_time, pn_hometext, pn_sid from nuke_stories')
+katja = User.objects.get(pk=19)
+
+cur.execute('select pn_title, pn_time, pn_hometext, pn_sid, pn_informant from nuke_stories')
 
 # Tole je Almir while while zanke...strange, but works
 while 1:
@@ -30,8 +35,13 @@ while 1:
     row1 = smart_unicode(row[1], encoding=encoding, strings_only=False, errors='strict')
     row2 = smart_unicode(row[2], encoding=encoding, strings_only=False, errors='strict')
     row3 = smart_unicode(row[3], encoding=encoding, strings_only=False, errors='strict')
+    row4 = smart_unicode(row[4], encoding=encoding, strings_only=False, errors='strict')
+    try:
+        user = User.objects.get(username=row4)
+    except User.DoesNotExist:
+        user = katja
     
-    News.objects.create(id=row3, title=row0, date=row1.__str__(), text=row2, slug=slugify(row0) )
+    News.objects.create(id=row3, title=row0, date=row1.__str__(), text=row2, slug=slugify(row0), author=user)
 
 ##handle the calendar entries with the same title's as news
 equal=[]
@@ -45,7 +55,8 @@ while 1:
     n.calendar_id = row[1]
     n.save()
 
-cur.execute('select pc_eid, pc_title, pc_time, pc_hometext from `nuke_postcalendar_events` where pc_eid not in ('+ ','.join(equal) +')')
+#na koncu se calendar entryje ki jih ni ratalo zlinkat z novicami
+cur.execute('select pc_eid, pc_title, pc_time, pc_hometext, pc_informant from `nuke_postcalendar_events` where pc_eid not in ('+ ','.join(equal) +')')
 
 while 1:
     row = cur.fetchone()
@@ -56,5 +67,11 @@ while 1:
     title = smart_unicode(row[1], encoding=encoding, strings_only=False, errors='strict')
     time = smart_unicode(row[2], encoding=encoding, strings_only=False, errors='strict')
     text = smart_unicode(row[3], encoding=encoding, strings_only=False, errors='strict')
+    username = smart_unicode(row[3], encoding=encoding, strings_only=False, errors='strict')
 
-    News.objects.create(calendar_id=calendar_id, title=title, date=time.__str__(), text=text, slug=slugify(title) )
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        user = katja
+
+    News.objects.create(calendar_id=calendar_id, title=title, date=time.__str__(), text=text, slug=slugify(title), author=user)

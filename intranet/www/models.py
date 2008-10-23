@@ -10,7 +10,7 @@ class News(models.Model):
     text = models.TextField()
     date = models.DateTimeField(auto_now=True)
     slug = models.SlugField(max_length=150)
-    #author = models.ForeignKey(User)
+    author = models.ForeignKey(User)
     #the field for calendar id's which can not be matched by  title to stories
     calendar_id = models.IntegerField(blank=True, null=True)
 

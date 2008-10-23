@@ -32,7 +32,6 @@ def gallery(request, id):
                                 'full_url':p.image.url,
                                 'exif':p.EXIF})
 
-    print nice_pictures
     return HttpResponse(simplejson.dumps(nice_pictures))
     #for g in gallery.photos.all():
     #    i += 1
@@ -68,7 +67,6 @@ def index(request):
     }, context_instance=RequestContext(request))
 
 def event(request, slug):
-    print Event.objects.get(slug=slug).id
     return render_to_response('www/event.html', {
         'event': Event.objects.get(slug=slug),
         }, 
