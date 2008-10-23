@@ -1,8 +1,42 @@
 {% extends "www/base.html" %}
 
 {% block content %}
-    <h1>teh alumnis</h1>
-    {% for alumni in object_list %}
-        {{ alumni }} -- {{ alumni.text }}
-    {% endfor %}
+    <div id="community">
+    	<div class="community-title">
+        Skupnost
+        </div>
+        <div class="community-title2">
+        Aktivni
+        </div>
+            <div class="community-content">
+        {% for alumni in object_list %}
+            <div class="community-person">
+            <div class="community-content-img"><img src="{{ media_url }}/www/images/picture-skupnost.gif" /></div>
+            <div class="community-details">
+            {{ alumni.user.get_full_name }}<br />
+            2001 - 2004<br />
+            {{ alumni.mail }}<br /><br />
+            </div>
+            <div class="community-img-s"><img src="{{ media_url }}/www/images/sm-skupnost.gif" /></div>
+            <div class="community-img-s"><img src="{{ media_url }}/www/images/sm-skupnost.gif" /></div>
+            <div class="community-img-s"><img src="{{ media_url }}/www/images/sm-skupnost.gif" /></div>
+            <div class="community-img-s"><img src="{{ media_url }}/www/images/sm-skupnost.gif" /></div>
+            </div>
+        {% endfor %}
+        <div class="community-title2">
+        Pretekli
+        </div>
+        <div class="community-person">
+        <div class="community-content-img"><img src="{{ media_url }}/www/images/picture-skupnost.gif" /></div>
+        <div class="community-details">
+        John Doe<br />
+        2001 - 2004<br />
+        john.doe@kiberpipa.org<br /><br />
+        </div>
+        <div class="community-img-s"><img src="{{ media_url }}/www/images/sm-skupnost.gif" /></div>
+        <div class="community-img-s"><img src="{{ media_url }}/www/images/sm-skupnost.gif" /></div>
+        <div class="community-img-s"><img src="{{ media_url }}/www/images/sm-skupnost.gif" /></div>
+        <div class="community-img-s"><img src="{{ media_url }}/www/images/sm-skupnost.gif" /></div>
+        </div>
+		</div>
 {% endblock %}
