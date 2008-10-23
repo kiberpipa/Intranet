@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
+from django.core.urlresolvers import reverse
 
 #from intranet.tags.models import Tag
 #from intranet.tags import fields
@@ -186,6 +187,9 @@ class Event(models.Model):
 
     def get_absolute_url(self):
         return "%s/intranet/events/%i/" % (settings.BASE_URL, self.id)
+
+    def get_public_url(self):
+        return reverse('intranet.www.views.event', args=[self.slug])
 
     def __unicode__(self):
         return self.title

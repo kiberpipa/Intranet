@@ -68,6 +68,7 @@ def index(request):
     }, context_instance=RequestContext(request))
 
 def event(request, slug):
+    print Event.objects.get(slug=slug).id
     return render_to_response('www/event.html', {
         'event': Event.objects.get(slug=slug),
         }, 
@@ -136,7 +137,7 @@ def utcize(date):
 
 
 def ical(request, month=None):
-    from django.utils.encoding import *
+    from django.utils.encoding import smart_unicode
     encoding = 'latin2'
     cal = ['BEGIN:VCALENDAR', 
         'SUMMARY:%s -- Dogodki v Kiberpipi' % datetime.datetime.today().strftime('%B'), 
