@@ -695,6 +695,8 @@ def nf_event_edit(request, event):
                 i.delete()
 
             return HttpResponseRedirect(new_event.get_absolute_url())
+        else:
+            print form.errors
     else:
         form = EventForm(instance=event)
 

@@ -1,4 +1,5 @@
 from django.db import models
+from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
@@ -172,6 +173,9 @@ class Event(models.Model):
     index_image = models.ImageField(blank=True, null=True, upload_to='events/%Y/%m/', verbose_name="Slikca za front page")
     public = models.BooleanField(default=True)
 
+    #for iCal
+    sequence = models.PositiveIntegerField(default=0)
+
     slides = models.FileField(upload_to='slides/%Y/%m/', blank=True, null=True)
 
     announce = models.TextField(blank=True, null=True)
@@ -194,6 +198,15 @@ class Event(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    def save(self):
+        self.slug = slugify(self.title)
+        try:
+            if Event.objects.get(pk=self.id).__dict__ != self.__dict__:
+                self.sequence += 1
+        except Event.DoesNotExist:
+            pass
+        super(Event, self).save()
 
 
     class Meta:

@@ -8,6 +8,7 @@ from django.http import HttpResponsePermanentRedirect, HttpResponse
 from django.conf import settings
 from django.core.mail import send_mail
 from django.core import serializers
+from django.utils.encoding import smart_unicode
 
 from intranet.org.models import Event
 from intranet.feedjack.models import Post
@@ -135,19 +136,20 @@ def utcize(date):
 
 
 def ical(request, month=None):
-    from django.utils.encoding import smart_unicode
     encoding = 'latin2'
     cal = ['BEGIN:VCALENDAR', 
-        'SUMMARY:%s -- Dogodki v Kiberpipi' % datetime.datetime.today().strftime('%B'), 
         'PRODID: -//Kiberpipa//NONSGML intranet//EN', 
-        'VERSION:2.0', '']
+        'VERSION:2.0']
     if month:
+        cal.append('SUMMARY:%s -- Dogodki v Kiberpipi' % datetime.datetime.today().strftime('%B'))
         events = Event.objects.filter(public=True, start_date__year=datetime.datetime.today().year, start_date__month=datetime.datetime.today().month).order_by('chg_date')[:20]
         response = HttpResponse(mimetype='application/octet-stream')
         response['Content-Disposition'] = "attachment; filename=" + datetime.datetime.today().strftime('%B') + '.vcs'
     else: 
+        cal.append('SUMMARY:Dogodki v Kiberpipi')
         events = Event.objects.order_by('-chg_date')[:20]
         response = HttpResponse(mimetype='text/calendar')
+    cal.append('')
 
     for e in events:
         #ther's gotta be a nicer way to do this
@@ -158,7 +160,7 @@ def ical(request, month=None):
         cal.extend((
             'BEGIN:VEVENT',
             'METHOD:REQUEST',
-            'SEQUENCE:0',
+            'SEQUENCE:%s' % e.sequence,
             'ORGANIZER;CN=Kiberpipa:MAILTO:info@kiberpipa.org',
             e.start_date.strftime('DTSTAMP:%Y%m%dT%H%M%SZ'),
             #pub_date.strftime('CREATED:%Y%m%dT%H%M%SZ'),

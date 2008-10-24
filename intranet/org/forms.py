@@ -113,6 +113,7 @@ class EventForm(forms.ModelForm):
     start_date = forms.DateTimeField(widget=DateTimeWidget)
     class Meta:
         model = Event
+        exclude = ('sequence')
 
 class BugForm(forms.ModelForm):
     class Meta:
