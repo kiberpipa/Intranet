@@ -956,10 +956,22 @@ def clipping(request):
     except AttributeError:
         pass
 
-    return render_to_response('org/clipping.html', 
-        {'clippings': clippings, 'form': form, 'add_link': '%s/intranet/admin/org/clipping/add/' % settings.BASE_URL },
+    return render_to_response('org/clipping.html', {
+        'clippings': clippings, 
+        'form': form, 
+        'add_form': ClippingAdd(),},
         context_instance=RequestContext(request))
 clipping = login_required(clipping)
+
+def clipping_add(request):
+    if request.method == 'POST':
+        form = ClippingAdd(request.POST)
+        if form.is_valid():
+            form.save()
+    
+    return HttpResponseRedirect('..')
+
+clipping_add = login_required(clipping_add)
 
 ##################################################
 

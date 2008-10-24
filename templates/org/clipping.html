@@ -5,17 +5,36 @@
         <h1>Clipping</h1><br/>
 {% endblock %}
 
-
+{% block extrahead%}
+    <link rel="stylesheet" href="{{ media_url }}/css/flora.datepicker.css" type="text/css" media="screen" title="Flora (Default)">
+    <script src="{{ media_url }}/js/ui.datepicker.js"></script>
+    <script>
+    $(document).ready(function(){
+        $('#id_date').datepicker({firstDay: 1});
+        });
+    </script>
+{% endblock %}
 
 {% block content-related-left %}
-    <a href="{{ add_link }}">Dodaj novega</a><br /><br />
+	<div class="module" id="recent-actions-module">
+        <h2 class="expand">Dodaj Novega</h2>	  
+        <div class="hideme">
+            <form method="post" action="add/">
+                <table>{{ add_form }}</table>
+                <input type="submit" />
+            </form> 
+        </div>
+    </div>
 	
 	<div class="module" id="recent-actions-module">
-	  <h2>Filtriraj</h2>	  
-    <form method="post" action="">
-    <table>{{ form }}</table>
-    <input type="submit" />
-    </form> </div>
+        <h2 class="expand">Filtriraj</h2>	  
+        <div class="hideme">
+            <form method="post" action="">
+                <table>{{ form }}</table>
+                <input type="submit" />
+            </form> 
+        </div>
+    </div>
 	
 {% endblock %} 
 

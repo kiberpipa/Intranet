@@ -1,11 +1,15 @@
 from django.conf.urls.defaults import *
 
 from intranet.www.models import News
-from intranet.org.models import Alumni
+from intranet.org.models import Alumni, Clipping
 
 alumni_dict = {
     'queryset': Alumni.objects.all(),
     'template_name': 'www/alumni.html',
+}
+
+press_dict = {
+    'queryset': Clipping.objects.order_by('-date')[:15],
 }
 
 urlpatterns = patterns('',
@@ -18,5 +22,6 @@ urlpatterns = patterns('',
     url(r'^calendar/', 'intranet.www.views.calendar'),
     url(r'^index\.php', 'intranet.www.views.compat'),
     url(r'^alumni/', 'django.views.generic.list_detail.object_list', alumni_dict),
+    url(r'^press/', 'django.views.generic.list_detail.object_list', press_dict),
     url(r'^ajax/gallery/(?P<id>\d+|[\w-]+)/$', 'intranet.www.views.gallery'),
 )

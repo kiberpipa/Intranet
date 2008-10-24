@@ -1,0 +1,51 @@
+{% extends "www/base.html" %}
+{% block content %}
+    <div class="kiberpipa-press">
+
+    	<div class="kiberpipa-press-title">
+
+        Objave o Kiberpipi v medijih
+
+        </div>
+
+        <div class="kiberpipa-press-news-title">
+        {% for clipping in object_list %}
+            {{ clipping.name }} &gt;&gt; {% if clipping.article_name %}{{ clipping.article_name }} - {% endif %}{{ clipping.medij }}, {{ clipping.date }}<br />
+        {% endfor %}
+        </div>
+
+        <div class="kiberpipa-press-more">
+
+        more >>
+
+        </div>
+
+    </div>
+
+    
+
+    <div id="press-kit">
+
+    	<div class="press-kit-title">
+
+        Press kit
+
+        </div>
+
+        <div class="press-kit-content">
+
+        Logo CP 01 - vektor 300dpi<br /><br />
+
+        Logo CP 01 - vektor 300dpi<br /><br />
+
+        Logo CP 01 - vektor 300dpi<br /><br />
+
+        Logo CP 01 - vektor 300dpi<br /><br />
+
+        Logo CP 01 - vektor 300dpi<br /><br />
+
+        </div>
+
+    </div>
+
+{% endblock %}

@@ -168,7 +168,8 @@ class Event(models.Model):
     require_technician = models.BooleanField(default=False)
     require_video = models.BooleanField(default=False)
     visitors = models.IntegerField(default=0, blank=True, null=True)
-    image = models.ImageField(blank=True, null=True, upload_to='events/%Y/%m/')
+    image = models.ImageField(blank=True, null=True, upload_to='events/%Y/%m/', verbose_name="Slikca za Event page")
+    index_image = models.ImageField(blank=True, null=True, upload_to='events/%Y/%m/', verbose_name="Slikca za front page")
     public = models.BooleanField(default=True)
 
     slides = models.FileField(upload_to='slides/%Y/%m/', blank=True, null=True)
@@ -322,17 +323,22 @@ class Upload(models.Model):
         return self.name
 
 class Clipping(models.Model):
+    article_name = models.CharField(max_length=255, blank=True, null=True)
+    name = models.CharField(max_length=255)
+    medij = models.ForeignKey(Medij, blank=True, null=True)
+    date = models.DateTimeField()
+    
+
     event = models.ForeignKey(Event, blank=True, null=True)
     project = models.ForeignKey(Project, blank=True, null=True)
     tip_medija = models.ForeignKey(TipMedija, blank=True, null=True)
-    medij = models.ForeignKey(Medij, blank=True, null=True)
     tip_prispevka = models.ForeignKey(TipPrispevka, blank=True, null=True)
-    person = models.ForeignKey(Person)
+    person = models.ForeignKey(Person, blank=True, null=True)
     rubrika = models.CharField(max_length=255, blank=True, null=True)
     link = models.CharField(max_length=255, blank=True, null=True)
-    deadline = models.CharField(max_length=255)
-    feedback = models.CharField(max_length=255)
-    address = models.CharField(max_length=255)
+    deadline = models.CharField(max_length=255, blank=True, null=True)
+    feedback = models.CharField(max_length=255, blank=True, null=True)
+    address = models.CharField(max_length=255, blank=True, null=True)
 
     upload = models.ManyToManyField(Upload, blank=True, null=True)
 

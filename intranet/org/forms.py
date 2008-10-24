@@ -128,6 +128,11 @@ class ClippingFilter(forms.ModelForm):
         model = Clipping
         exclude = ('upload', 'deadline', 'feedback',)
 
+class ClippingAdd(forms.ModelForm):
+    class Meta:
+        model = Clipping
+        fields = ('name', 'article_name', 'medij', 'date')
+
 class PipecForm(forms.ModelForm):
     email = forms.EmailField()
     first_name = forms.CharField(max_length=30)
