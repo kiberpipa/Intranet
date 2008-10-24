@@ -8,6 +8,8 @@ body {
 	margin: 0; 
 	text-align: center;
 	}
+
+a img {border: none;}
 	
 #container {
 	background: #fff; 
@@ -1069,15 +1071,16 @@ body {
 	width: 960px;
 	height: 100%;
 	float: left;
-	padding-top: 25px;
-	margin-bottom: 25px;
+	padding-top: 20px;
+	margin-bottom: 10px;
 	border-top: 2px solid #000;
 	}
 	
 .footer-cp-logo {
 	width: 153px;
 	float: left;
-	margin-left: 180px;
+	margin-left: 205px;
+	padding-top: 7px;
 	}
 	
 .footer-text {
@@ -1099,6 +1102,8 @@ body {
 	margin-left: 40px;
 	float: left;
 	}
+
+.footer-text2 p.italic {padding: 0; margin: 0; font-style: italic; font-weight: bold;}
 	
 .footer-text3 {
 	font-size: 12px;
@@ -1109,35 +1114,13 @@ body {
 	margin-left: 40px;
 	float: left;
 	}
-	
+		
 .footer-support {
-	width: 760px;
-	padding-left: 200px;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	float: left;
+	padding-top: 20px;
+	clear:left;
+	text-align: center;
+	position: relative;
+	margin: 0 auto;
 	}
-	
-.footer-support-mol {
-	width: 228px;
-	height: 94px;
-	border: 1px solid #000;
-	float: left;
-	margin-left: 80px;
-	}
-	
-.footer-support-kultura {
-	width: 228px;
-	height: 94px;
-	border: 1px solid #000;
-	float: left;
-	margin-left: 45px;
-	}
-	
-.footer-support-eu {
-	width: 228px;
-	height: 94px;
-	border: 1px solid #000;
-	float: left;
-	margin-left: 45px;
-	}
+
+.footer-support img {margin: 0 10px 0 10px;}
