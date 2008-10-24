@@ -38,7 +38,7 @@ a img {border: none;}
 .primary-nav {
 	float:left; 
 	width: 330px; 
-	padding-top: 21px; 
+	padding-top: 26px; 
 	padding-left: 200px;
 	color: #000;
 	}
@@ -56,7 +56,7 @@ a img {border: none;}
 	}
 	
 .language {
-	padding-top: 21px;
+	padding-top: 26px;
 	padding-right: 5px;
 	float: right;
 	}
@@ -259,8 +259,7 @@ a img {border: none;}
 	float:left; 
 	width: 960px;
 	height: 20px;
-	padding-top: 15px;
-	padding-bottom: 15px;
+	padding-bottom: 20px;
 	text-align: center;
 	color: #000;
 	}
@@ -396,6 +395,8 @@ a img {border: none;}
 	padding-bottom: 5px;
 	padding-right: 10px;
 	}
+
+.kiberpipa-content p {margin-top: 0;}
 	
 #projekti {
 	float: left;
@@ -426,6 +427,8 @@ a img {border: none;}
 	padding-bottom: 5px;
 	padding-right: 10px;
 	}
+
+.projekti-content p {margin-top: 0;}
 	
 /* End of O nas */
 
