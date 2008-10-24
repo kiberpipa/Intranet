@@ -12,7 +12,13 @@
         {{ event }}
         </div>
         <div class="dogodek-content">
-        <div class="dogoodek-content img"><img src="{{ event.image.url }}" alt="slika" /></div>
+        <div class="dogoodek-content img">
+        {% if event.image %}
+            <img src="{{ event.image.url }}" alt="slika" />
+        {% else %}
+            <img src="http://upload.wikimedia.org/wikipedia/commons/4/47/Placeholder.png" />
+        {% endif %}
+        </div>
         {{ event.announce|linebreaks }}
         </div>
         <div class="dogodek-tags">Znake: Lorem, Ipsum, Dolor, Sit, Amet</div>
@@ -20,22 +26,18 @@
         	<div class="dogodek-gallery-title">
             Pictures from Gallery
             </div>
-        	<div class="dogodek-gallery-button">
-            	<img src="images/img-s-dogodek.gif" alt="slika" />
-            </div>
-            <div class="dogodek-gallery-button2">
-            	<img src="images/img-s-dogodek.gif" alt="slika" />
-            </div>
-            <div class="dogodek-gallery-button3">
-            	<img src="images/img-s-dogodek.gif" alt="slika" />
-            </div>
-            <div class="dogodek-gallery-button4">
-            	<img src="images/img-s-dogodek.gif" alt="slika" />
-            </div>
-            <div class="dogodek-gallery-button5">
-            	<img src="images/img-s-dogodek.gif" alt="slika" />
-            </div>
+            {% if event.gallery_set.all %}
+                {% for gallery in event.gallery_set.all %}
+                    {% for photo in gallery.photos.all %}
+                        <div class="dogodek-gallery-button{{ forloop.counter }}">
+                            <img src="{{ photo.get_normal_url }}" alt="slika" />
+                        </div>
+                    {% endfor %}
+                {% endfor %}
         	<div class="dogodek-gallery-more">See more in Gallery &gt;&gt;</div>
+            {% else %}
+                uggh, dezurni should be spanked.
+            {% endif %}
         </div>
         <div class="dogodek-video">
         	<div class="dogodek-video-title">

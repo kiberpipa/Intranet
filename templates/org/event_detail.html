@@ -44,7 +44,7 @@
     <div class="module">
         <h2>{{ object.title }}</h2>
         <h4>{{ object.project }}</h4>
-            <p>{{ object.title }}</p>
+            <p><a href="{{ object.get_public_url }}">{{ object.title }}</a></p>
             <p>{{ object.start_date|date:"D d.m.Y H:i" }}  ({{ object.length }})</p>
             {% if object.slides %}
             <h4> Slajdi</h4>
