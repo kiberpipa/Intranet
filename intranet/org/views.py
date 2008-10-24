@@ -31,6 +31,8 @@ from intranet.org.models import KbCategory, KB, Tag, Scratchpad, Clipping, Merce
 from intranet.org.forms import *
 from xls import salary_xls
 
+from intranet.photologue.models import Gallery, GalleryUpload
+
 month_dict = { 'jan': 1, 'feb': 2, 'mar': 3,
                'apr': 4, 'maj': 5, 'jun': 6,
                'jul': 7, 'avg': 8, 'sep': 9,
@@ -600,6 +602,33 @@ def events(request):
     )
 events = login_required(events)
 
+def event_photos(request, event_id):
+    if request.method == 'POST':
+        form = FileForm(request.POST, request.FILES)
+        if form.is_valid():
+            event = Event.objects.get(pk=event_id)
+            program = Gallery.objects.get(pk=12)
+            try:
+                old = Gallery.objects.get(event=event)
+            except Gallery.DoesNotExist:
+                old = None
+            if form.is_valid():
+                upload = form.save(commit=False)
+                if old:
+                    upload.gallery = old
+                    upload.save()
+                else:
+                    upload.title = event.title
+                    upload.title_slug = slugify(event.title)
+                    upload.save()
+
+                    gallery = Gallery.objects.get(title=event.title)
+                    gallery.event = event
+                    gallery.save()
+
+    return HttpResponseRedirect('..')
+event_photos = login_required(event_photos)
+
 def nf_event_create(request):
     if request.method == 'POST':
         form = EventForm(request.POST, request.FILES)
@@ -682,7 +711,8 @@ def event(request, object_id):
         queryset = Event.objects.all(),
         object_id = object_id,
         extra_context =  {
-            'sodelovanja': Sodelovanje.objects.filter(event=object_id)
+            'sodelovanja': Sodelovanje.objects.filter(event=object_id),
+            'file_form': FileForm(),
         }
     )
 event = login_required(event)

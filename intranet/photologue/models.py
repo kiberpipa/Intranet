@@ -50,6 +50,8 @@ from utils import EXIF
 from utils.reflection import add_reflection
 from utils.watermark import apply_watermark
 
+from intranet.org.models import Event
+
 # Path to sample image
 SAMPLE_IMAGE_PATH = getattr(settings, 'SAMPLE_IMAGE_PATH', os.path.join(os.path.dirname(__file__), 'res', 'sample.jpg')) # os.path.join(settings.PROJECT_PATH, 'photologue', 'res', 'sample.jpg'
 
@@ -129,6 +131,7 @@ class Gallery(models.Model):
     tags = TagField(help_text=tagfield_help_text, verbose_name=_('tags'))
 
     parent = models.ForeignKey('self', blank=True, null=True)
+    event = models.ForeignKey(Event, blank=True, null=True)
 
     class Meta:
         ordering = ['-date_added']

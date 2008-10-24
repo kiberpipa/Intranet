@@ -21,6 +21,13 @@
   <div class="module" id="recent-actions-module">
     <h2>Urejanje</h2>
         <ul class="actionlist">
+            <li>
+                <h3>Dodaj .zip slikc</h3>
+                <form action="photos/" method="POST" enctype="multipart/form-data">
+                    {{ file_form }}
+                    <input type="submit" value="uploadaj slikce">
+                </form>
+            </li>
             <li><a href="edit/">Uredi podatke</a></li>
             <li><a href="../create/">Dodaj novega</a></li>
             <li>Preštej obisk:

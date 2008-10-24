@@ -5,6 +5,8 @@ from intranet.org.models import TipSodelovanja, Person, Event, Sodelovanje
 from intranet.org.models import Bug, Resolution, Clipping, Project, Alumni
 from intranet.org.models import Category, UserProfile, Lend, Diary, Shopping
 
+from intranet.photologue.models import GalleryUpload
+
 from django.utils.encoding import force_unicode
 from django.conf import settings
 from django import forms
@@ -77,6 +79,7 @@ class FilterBug(forms.Form):
 
     name = forms.CharField(required=False)
 
+
 class CommentBug(forms.Form):
     text = forms.CharField(widget=forms.Textarea)
 
@@ -100,6 +103,11 @@ class ChangePw(forms.Form):
     newpass2 = forms.CharField(max_length='200', widget=forms.PasswordInput)
 
 
+
+class FileForm(forms.ModelForm):
+    class Meta:
+        model = GalleryUpload
+        fields = ('zip_file')
 
 class EventForm(forms.ModelForm):
     start_date = forms.DateTimeField(widget=DateTimeWidget)

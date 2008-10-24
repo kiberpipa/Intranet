@@ -142,11 +142,11 @@ def ical(request, month=None):
         'PRODID: -//Kiberpipa//NONSGML intranet//EN', 
         'VERSION:2.0', '']
     if month:
-        events = Event.objects.filter(public=True, start_date__year=datetime.datetime.today().year, start_date__month=datetime.datetime.today().month).order_by('chg_date')
+        events = Event.objects.filter(public=True, start_date__year=datetime.datetime.today().year, start_date__month=datetime.datetime.today().month).order_by('chg_date')[:20]
         response = HttpResponse(mimetype='application/octet-stream')
         response['Content-Disposition'] = "attachment; filename=" + datetime.datetime.today().strftime('%B') + '.vcs'
     else: 
-        events = Event.objects.order_by('start_date')
+        events = Event.objects.order_by('-chg_date')[:20]
         response = HttpResponse(mimetype='text/calendar')
 
     for e in events:
@@ -157,11 +157,13 @@ def ical(request, month=None):
 
         cal.extend((
             'BEGIN:VEVENT',
+            'METHOD:REQUEST',
+            'SEQUENCE:0',
             'ORGANIZER;CN=Kiberpipa:MAILTO:info@kiberpipa.org',
-            pub_date.strftime('DTSTAMP:%Y%m%dT%H%M%SZ'),
-            pub_date.strftime('CREATED:%Y%m%dT%H%M%SZ'),
+            e.start_date.strftime('DTSTAMP:%Y%m%dT%H%M%SZ'),
+            #pub_date.strftime('CREATED:%Y%m%dT%H%M%SZ'),
             e.start_date.strftime('DTSTART:%Y%m%dT%H%M%S'),
-            e.start_date.strftime('UID:events@kiberpipa.org-%Y%m%dT%H%M%S'),
+            'UID:event-%s@kiberpipa.org' % e.id,
             end_date.strftime('DTEND:%Y%m%dT%H%M%S'),
             last_mod.strftime('LAST-MODIFIED:%Y%m%dT%H%M%SZ'),
             'SUMMARY:%s' % e.title,
