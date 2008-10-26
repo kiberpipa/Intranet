@@ -52,15 +52,9 @@ def index(request):
     #forcing the evalutation of query set :-/. anyone got better ideas?
     events = list(Event.objects.filter(public=True).order_by('start_date'))
     position = events.index(next)
-    jsevents = ''
-    for e in events[position-100:]:
-        tmp= re.sub('"', '\\"', e.__unicode__())
-        jsevents += '"<img width=\\"274\\" height=\\"200\\" src=\\"%swww/images/img-upcoming.gif\\" alt=\\"slika\\" /><div class=\\"present-event-text\\">%s</div>",' % (settings.MEDIA_URL, tmp)
-    jsevents = re.sub(',$', '', jsevents)
-        
+
     return render_to_response('www/index.html', {
-        'events': events[position:position+8],
-        'jsevents': jsevents,
+        'events': events[position-100:],
         'gallery': Photo.objects.all().order_by('date_added')[0:2],
         'ticker': Ticker.objects.filter(is_active=True),
         'news': News.objects.order_by('-date')[0:4],

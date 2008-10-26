@@ -5,6 +5,7 @@
 <link href='{{ media_url }}/www/scroll.css' type='text/css' rel='stylesheet' />
 <script type='text/javascript' src='{{ media_url }}/js/jquery.scrollTo-min.js'></script>
 <script type='text/javascript' src='{{ media_url }}/js/jquery.serialScroll-min.js'></script>
+<script type='text/javascript' src='{{ media_url }}/www/js/jquery.scrollable.min.js'></script>
 <script type='text/javascript'>
 <!-- TODO create init.js -->
 
@@ -44,28 +45,20 @@ jQuery(function( $ ){
     {% endfor %}
     });
     $(document).ready(function() {
-        i = 101;
-        events = new Array({{ jsevents|safe }});
-        function redraw(){
-            $(".present-now").html(events[i-1]);
-            $(".present-now2").html(events[i]);
-            $(".present-now3").html(events[i+1]);
-        }
+        scroll = $(".present")
+        scroll.scrollable({horizontal:true, speed:500, size:3 });
+        scroll.scrollable("seekTo", 99, 1)
         $(".future").click(function(){
-            i++;
-            redraw();
+            scroll.scrollable("next");
         });
         $(".past").click(function(){
-            i--;
-            redraw();
+            scroll.scrollable("prev");
         });
         $(".past3").click(function(){
-            i-=3;
-            redraw();
+            scroll.scrollable("prevPage");
         });
         $(".future3").click(function(){
-            i+=3;
-            redraw();
+            scroll.scrollable("nextPage");
         });
     });
 </script>
@@ -79,43 +72,23 @@ jQuery(function( $ ){
 		</div>
 
             <div class="present">
-            	<div class="present-now">
-					<div class="present-event-text"><a href="{{ events.0.get_public_url }}">{{ events.0 }}</a></div>
-					<div class="present-event-date">Torek, 28. Oktober 2008</div>
-                    {% if events.0.index_image %}
-                	    <a href="{{ events.0.get_public_url }}"><img width="250" height="130" src="{{ events.0.index_image.url }}" alt="slika dogodka" /></a>
-                    {% else %}
-                	    <a href="{{ events.0.get_public_url }}"><img width="250" height="130" src="{{ media_url }}www/images/img-upcoming.gif" alt="slika" /></a>
-                    {% endif %}
-                    <div class="present-event-desc-ime">Tokrat na HAIPu:</div>
-                    <div class="present-event-desc">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis.</div>
-                </div>
-                
-                
-                <div class="present-now2">
-                <div class="present-event-text"><a href="{{ events.1.get_public_url }}">{{ events.1 }}</a></div>
-					<div class="present-event-date">Torek, 28. Oktober 2008</div>
-                    {% if events.1.index_image %}
-                	    <a href="{{ events.1.get_public_url }}"><img width="250" height="130" src="{{ events.1.index_image.url }}" alt="slika dogodka" /></a>
-                    {% else %}
-                	    <a href="{{ events.1.get_public_url }}"><img width="250" height="130" src="{{ media_url }}www/images/img-upcoming.gif" alt="slika" /></a>
-                    {% endif %}
-                    <div class="present-event-desc-ime">Pipin Odprti Termin predstavlja:</div>
-                    <div class="present-event-desc">Poplava spletnih aplikacij prinese tudi veliko število uporabniških imen, gesel in skrb za njihovo varnost. Spoznali bomo tehnologijo SimpleSAMLphp, ki omogoča enotno prijavo (angl. Single Sign On - SSO) v spletne aplikacije.</div>                    
-                </div>
-                
-                
-                <div class="present-now3">
-                <div class="present-event-text"><a href="{{ events.2.get_public_url }}">{{ events.2 }}</a></div>
-					<div class="present-event-date">Sreda, 29. Oktober 2008</div>
-                    {% if events.2.index_image %}
-                	    <a href="{{ events.2.get_public_url }}"><img width="250" height="130" src="{{ events.2.index_image.url }}" alt="slika dogodka" /></a>
-                    {% else %}
-                	    <a href="{{ events.2.get_public_url }}"><img width="250" height="130" src="{{ media_url }}www/images/img-upcoming.gif" alt="slika" /></a>
-                    {% endif %}
-                    <div class="present-event-desc-ime">Ta teden na Spletnih Uricah:</div>
-                    <div class="present-event-desc">In April this year, Elliot gave a talk at Future of Web Design London entitled 'Print Is The New Web'. In it, he looked at how we could - and /should/ - draw influence from the print design industry to broaden our creative horizons.</div>                    
-                </div>
+                {% for event in events %}
+                    <div id="event{{ event.id }}" class="present-now">
+                        <div class="present-event-text"><a href="{{ event.get_public_url }}">{{ event }}</a></div>
+                        <div class="present-event-date">{{ event.start_date|date:"l, d. "|capfirst }}{{ event.start_date|date:"F Y"|capfirst }}</div>
+                        {% if event.index_image %}
+                            <a href="{{ event.get_public_url }}">
+                                <img width="250" height="130" src="{{ event.index_image.url }}" alt="slika dogodka" />
+                            </a>
+                        {% else %}
+                            <a href="{{ event.get_public_url }}">
+                                <img width="250" height="130" src="{{ media_url }}www/images/img-upcoming.gif" alt="slika" />
+                            </a>
+                        {% endif %}
+                        <div class="present-event-desc-ime">{{ event }}</div>
+                        <div class="present-event-desc">{{ event.announce|truncatewords:"15" }}</div>
+                    </div>
+                {% endfor %}
              </div>
                 
          <div class="next3-right">
