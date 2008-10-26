@@ -86,7 +86,7 @@ jQuery(function( $ ){
                             </a>
                         {% endif %}
                         <div class="present-event-desc-ime">{{ event }}</div>
-                        <div class="present-event-desc">{{ event.announce|truncatewords:"15" }}</div>
+                        <div class="present-event-desc">{{ event.announce|truncchar:"250" }}</div>
                     </div>
                 {% endfor %}
              </div>

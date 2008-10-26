@@ -45,14 +45,18 @@ class AllInOne(Feed):
         items.sort()
         items.reverse()
         self.items = [feed for date, feed in items]
-        for date, feed in items:
-            print date
         
 
         #pimp me
-        self.title = 'crkn'
-        self.description = 'crkn'
-        self.link = '/blog/crkn'
+        self.title = ' | '.join(new_bits)
+        self.description = ' | '.join(new_bits)
+        self.link = request.path
 
     def items(self):
         return self.items
+
+    def item_link(self, obj):
+        if isinstance(obj, Event):
+            return obj.get_public_url()
+        else:
+            return obj.get_absolute_url()

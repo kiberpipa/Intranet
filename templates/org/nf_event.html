@@ -1,5 +1,9 @@
 {% extends "org/base.html" %}
 {% block extrahead %}
+<script type="text/javascript" src="{{ media_url }}markitup/jquery.markitup.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ media_url }}markitup/skins/markitup/style.css" />
+<link rel="stylesheet" type="text/css" href="{{ media_url }}markitup/sets/html/style.css" />
+<script type="text/javascript" src="{{ media_url }}markitup/sets/html/set.js"></script>
 <script type="text/javascript" src="{{ media_url }}js/jquery.highlightFade.js" ></script>
 <script src="{{ media_url }}/js/ui.datepicker.js"></script>
 <!-- jquery date picker -->
@@ -33,7 +37,7 @@ function removeFormField(id) {
 
 $(document).ready(function() {
    $(".input_author").suggest("/intranet/autocomplete/");
-
+   $('#id_announce').markItUp(mySettings);
 });
   
   </script>
