@@ -67,39 +67,65 @@ a img {border: none;}
 
 #upcoming {
 	width: 960px;
-	height: 334px;
+	height: 380px;
+	margin-top: 80px;
 	}
 	
-.next3 {
-	width: 960px;
-	height: 274px;
-	padding-top: 60px;
-	padding-left: 10px;
+.next3-left {
+float: left;
 	}
+
+.next3-right {
+float: left;
+	}
+
 	
+.past3 {
+	float: left;
+	width: 27px;
+	margin: 98px 10px 0 0;
+	}
+
 .past {
 	float: left;
 	width: 27px;
-	height: 171px;
-	padding-top: 105px;
+	margin-top: 85px;
 	}
+
 	
 .present {
 	float: left;
-	width: 888px;
-	height: 274px;
+	height: 250px;
 	}
 
 
 .present-event-text {
-  width: 270px;
+  width: 250px;
   }
 
+.present-event-date {
+  width: 250px;
+  padding:5px 0;
+  font-size: 12px;
+  }
+
+.present-event-desc {
+  width: 250px;
+  padding:5px 0;
+  font-size: 12px;
+  }
+
+.present-event-desc-ime {
+  width: 250px;
+  padding-top:5px;
+  font-size: 12px;
+  font-weight: bold;
+  }
 	
 .present-now {
 	float: left;
-	padding-left: 10px;
-	padding-right: 10px;
+	padding-left: 12px;
+	padding-right: 15px;
 	}
 	
 .present-now img {
@@ -109,7 +135,7 @@ a img {border: none;}
 .present-now2 {
 	float: left;
 	padding-left: 10px;
-	padding-right: 10px;
+	padding-right: 15px;
 	}
 	
 .present-now2 img {
@@ -119,20 +145,25 @@ a img {border: none;}
 .present-now3 {
 	float: left;
 	padding-left: 10px;
-	padding-right: 10px;
+	padding-right: 12px;
 	}
 	
 .present-now3 img {
 	border: 1px solid #000;
 	}
 	
+.future3 {
+	float: left;
+	width: 27px;
+	margin-top: 98px;
+	}
+
 .future {
 	float: left;
 	width: 27px;
-	height: 171px;
-	padding-top: 105px;
+	margin: 85px 10px 0 0;
 	}
-	
+		
 #notifier {
 	width: 960px;
 	height: 260px;
@@ -260,6 +291,15 @@ a img {border: none;}
 	width: 960px;
 	height: 20px;
 	padding-bottom: 20px;
+	text-align: center;
+	color: #000;
+	}
+
+#second-nav-front {
+	float:left; 
+	width: 960px;
+	height: 20px;
+	padding-bottom: 50px;
 	text-align: center;
 	color: #000;
 	}
@@ -831,7 +871,7 @@ a img {border: none;}
 	
 .sponsors-left {
 	float: left;
-	width: 400px;
+	width: 600px;
 	height: 100%;
 	padding-bottom: 25px;
 	}
@@ -841,6 +881,7 @@ a img {border: none;}
 	font-weight: bold;
 	padding-top: 25px;
 	padding-bottom: 5px;
+	clear:left;
 	}
 		
 .sponsors-button {
@@ -883,7 +924,7 @@ a img {border: none;}
 	
 #sponsors-right {
 	float: left;
-	width: 400px;
+	width: 200px;
 	height: 100%;
 	padding-bottom: 25px;
 	text-align: right;
