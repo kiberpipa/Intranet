@@ -123,6 +123,8 @@ class Gallery(models.Model):
     title = models.CharField(_('title'), max_length=100, unique=True)
     title_slug = models.SlugField(_('title slug'), unique=True,
                                   help_text=_('A "slug" is a unique URL-friendly title for an object.'))
+    album_name= models.CharField(max_length=50)
+
     description = models.TextField(_('description'), blank=True)
     is_public = models.BooleanField(_('is public'), default=True,
                                     help_text=_('Public galleries will be displayed in the default views.'))
@@ -492,8 +494,8 @@ class ImageModel(models.Model):
 
 
 class Photo(ImageModel):
-    title = models.CharField(_('title'), max_length=100, unique=True)
-    title_slug = models.SlugField(_('slug'), unique=True,
+    title = models.CharField(_('title'), max_length=100, blank=True, null=True)
+    title_slug = models.SlugField(_('slug'), blank=True, null=True,
                                   help_text=('A "slug" is a unique URL-friendly title for an object.'), max_length=150)
     caption = models.TextField(_('caption'), blank=True)
     date_added = models.DateTimeField(_('date added'), default=datetime.now, editable=False)
