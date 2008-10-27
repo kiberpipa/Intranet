@@ -856,11 +856,20 @@ float: left;
 	}
 	
 .sponsors-content {
-	font-size: 12px;
+	font-size: 14px;
 	font-weight: normal;
 	padding-top: 0px;
 	padding-bottom: 25px;
 	padding-right: 10px;
+	}
+	
+.sponsors-donate {
+	font-weight: bold;
+	margin-bottom: 10px;
+	}
+
+.sponsors-donate-img {
+	padding-bottom: 20px;
 	}
 	
 .sponsors-content img {
@@ -1165,10 +1174,13 @@ float: left;
 	padding: 5px;
 	margin-right: 5px;
 	margin-bottom: 5px;
+	font-size: 10px;
 }
 
 .koledar-box-num {
-	text-align: right;
+	float: right;
+	font-size: 15px;
+	margin-left: 10px;
 }
 
 .koledar-previous {
