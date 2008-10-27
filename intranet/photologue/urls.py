@@ -21,6 +21,7 @@ ordered = []
 for g in top:
     ordered += recurse(g)
 
+
 urlpatterns = patterns('django.views.generic.simple',
     (r'^',             'direct_to_template', {
         'template': 'photologue/gallery.html',
