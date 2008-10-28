@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.syndication.feeds import Feed
 from django.core.urlresolvers import reverse
 
@@ -8,15 +10,18 @@ from intranet.feedjack.models import Post
 
 class AllInOne(Feed):
     def __init__(self, slug, request):
-        #dokler ne zna sortirat po datumu spremembe je useless
         Feed.__init__(self, slug, request)
         
         bits = request.path.split('/')
 
+        today = datetime.datetime.today()
+        push = datetime.timedelta(2)
 
-        pot = [(e.start_date, e) for e in Event.objects.filter(public=True, project=Project.objects.get(pk=1)).order_by('-start_date')[:15]]
-        su = [(e.start_date, e) for e in Event.objects.filter(public=True, project=Project.objects.get(pk=6)).order_by('-start_date')[:15]]
-        events = [(e.start_date, e) for e in Event.objects.filter(public=True).order_by('-start_date')[:15]]
+        events = Event.objects.filter(public=True, start_date__range=(today, today + push))
+        
+        pot = [(e.start_date-push, e) for e in events.filter(project=Project.objects.get(pk=1)).order_by('-start_date')]
+        su = [(e.start_date-push, e) for e in events.filter(project=Project.objects.get(pk=6)).order_by('-start_date')]
+        events = [(e.start_date-push, e) for e in events.order_by('-start_date')]
         news =  [(n.date, n) for n in News.objects.order_by('-date')[:15]]
         albums =  [(g.date_added, g) for g in Gallery.objects.order_by('-date_added')[:15]]
         planet =  [(p.date_modified, p) for p in Post.objects.order_by('-date_modified')[:15]]
@@ -47,10 +52,10 @@ class AllInOne(Feed):
         self.items = [feed for date, feed in items]
         
 
-        #pimp me
         self.title = ' | '.join(new_bits)
-        self.description = ' | '.join(new_bits)
         self.link = request.path
+        #pimp me
+        self.description = ' | '.join(new_bits)
 
     def items(self):
         return self.items
