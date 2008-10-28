@@ -6,10 +6,10 @@
     <script type="text/javascript" src="{{ media_url }}/www/js/jquery.galleria.min.js"></script>
 	<script type="text/javascript">
         function gallery_init() {
-            $('ul.gallery_demo').galleria({
+            $('.gallery_demo').galleria({
                 history   : true, // deactivates the history object for bookmarking, back-button etc.
                 clickNext : false, // helper for making the image clickable. Let's not have that in this example.
-                insert    : "#main_image", // the containing selector for our main image. 
+                insert    : ".galerija-content", // the containing selector for our main image. 
                                         // If not found or undefined (like here), galleria will create a container 
                                         // before the ul with the class .galleria_container (see CSS)
                 //onImage   : function() { $('.nav').css('display','block'); } // shows the nav when the image is showing
@@ -22,7 +22,7 @@
                     caption.css('display','none').fadeIn(1000);
                     
                     // fetch the thumbnail container
-                    var _li = thumb.parents('li');
+                    var _li = thumb.parent('div');
                     
                     // fade out inactive thumbnail
                     _li.siblings().children('img.selected').fadeTo(500,0.3);
@@ -36,7 +36,7 @@
                 onThumb : function(thumb) { // thumbnail effects goes here
                     
                     // fetch the thumbnail container
-                    var _li = thumb.parents('li');
+                    var _li = thumb.parent('div');
                     
                     // if thumbnail is active, fade all the way.
                     var _fadeTo = _li.is('.active') ? '1' : '0.3';
@@ -97,19 +97,22 @@
             while (num != -1) {
                 num = recurse(num);
             }
-            $.ajax({
-                url: "/ajax/gallery/"+me,
-                cache: false,
-                success: function(html){
+            $.getJSON("/ajax/gallery/"+me, {
+                cache: false
+            }, function(data){ 
+                    //the gallery_init() bellow creates a new one
                     $(".galleria_wrapper").remove();
-                    $(".gallery_demo_unstyled").html(html);
+                    //console.log(data);
+                    
+                    for(var i=0;i<data.length;i++){
+                        list_elem = $("<div class=\"galerija-button\"><img class=\"thumb\" width=\"100\" height=\"100\" src='"+data[i]["normal_url"]+"' /></div>");
+                        
+                        $(".galerija-content2").prepend(list_elem);
+                    }
+
                     gallery_init();
-                    //a hack, gallery_init overrides if i push it .active from
-                    //server, point being to display the first image on gallery
-                    //load
-                    $("#active").addClass("active");
+                    //now makes sense to display the full size link
                     $("#full_size").show();
-                }
             });
         }
         $(document).ready(function(){
@@ -124,9 +127,9 @@
                         //console.log(data);
                         
                         for(var i=0;i<data.length;i++){
-                            list_elem = $("<li><img src='"+data[i]["normal_url"]+"' /></li>");
+                            list_elem = $("<div class=\"galerija-button\"><img width=\"100\" height=\"100\"  src='"+data[i]["normal_url"]+"' /></div>");
                            
-                            $(".gallery_demo_unstyled").append(list_elem);
+                            $(".galerija-content2").append(list_elem);
                         }
 
                         gallery_init();
@@ -135,55 +138,42 @@
                 });
             } else {
                 //display default image if none has been requested
-                $(".gallery_demo_unstyled").html('<img src="http://www.screensite.org/courses/Jbutler/T340/TreasonOfImagesShadow.jpg">');
+                $(".galerija-content").html('<img src="http://www.screensite.org/courses/Jbutler/T340/TreasonOfImagesShadow.jpg">');
             }
             $(".nontop").hide(); //show only the top galleries a first
-            $('.gallery_demo_unstyled').addClass('gallery_demo'); // adds new class name to maintain degradability
+            $('.galerija-content').addClass('gallery_demo'); // adds new class name to maintain degradability
             gallery_init();
         });
     </script>
-    <link href="http://devkick.com/lab/galleria/galleria.css" rel="stylesheet" type="text/css" media="screen">
-    <style media="screen,projection" type="text/css">
-        /* BEGIN DEMO STYLE */
-        *{margin:0;padding:0}
-        body{padding:20px;background:white;background:white;color:#555;font:80%/140% 'helvetica neue',sans-serif;width:900px;margin: 0 auto;}
-        h1,h2{font:bold 80% 'helvetica neue',sans-serif;letter-spacing:3px;text-transform:uppercase;}
-        a{color:#348;text-decoration:none;outline:none;}
-        a:hover{color:#67a;}
-        .caption{color:#888;position:absolute;top:250px;left:3px;width:200px;}
-        .demo{position:relative;margin-top:2em;}
-        .gallery_demo{width:200px;float:left;}
-        .gallery_demo li{width:55px;height:70px;border:3px double #eee;margin: 0 2px 2px 0;background:#eee;}
-        .gallery_demo li.hover{border-color:#bbb;}
-        .gallery_demo li.active{border-style:solid;border-color:#222;}
-        .gallery_demo li div{left:240px}
-        .gallery_demo li div .caption{font:italic 0.7em/1.4 georgia,serif;}
-
-        .galleria_container{margin:0 auto 60px auto;height:438px;width:700px;float:right;}
-
-        .nav{padding-top:15px;clear:both;}
-
-        .info{text-align:left;margin:30px 0;border-top:1px dotted #221;padding-top:30px;clear:both;}
-        .info p{margin-top:1.6em;}
-
-        .nav{position:absolute;top:410px;left:0;}
-    </style>
-
 {% endblock %}
 
 {% block content %}
-<div id="menu">
+    <div id="galerija">
+    	<div class="galerija-title">
+        full size | exif data
+        </div>
+        <div class="galerija-nav">
 {% for g in ordered %}
     <a style="cursor: pointer; text-decoration: underline; color:blue;" id="gallery{{ g.id }}" class="{{ g.classes }}" onclick="menuToggle({{ g.id }}); return false;">{{ g|safe }}<br></a>
 {% endfor %}
-</div>
-
-<div class="demo">
-<a href="" style="display: none"  id="full_size" target="_blank">Full size</a>
-<div id="main_image">
-</div>
-    <ul class="gallery_demo_unstyled">
-    </ul>
-    <p class="nav"><a href="#" onclick="$.galleria.prev(); return false;">previous</a> | <a href="#" onclick="$.galleria.next(); return false;">next</a></p>
-</div>
+        </div>
+        <div class="galerija-levo">
+            	<img src="{{ media_url }}/www/images/puscica-levo.gif" alt="levo" />
+            </div>
+         <div class="galerija-content">
+        		<img src="{{ media_url }}/www/images/galerija-slika.gif" alt="galerija" />
+         </div>
+         <div class="galerija-desno">
+            	<img src="{{ media_url }}/www/images/puscica-desno.gif" alt="desno" />
+            </div>
+         <div class="galerija-content2">
+            <div class="galerija-button">
+                <img src="{{ media_url }}/www/images/galerija-button.gif" alt="button" />
+            </div>
+            <div class="galerija-lnav">
+                <img src="{{ media_url }}/www/images/galerija-nav.gif" alt="nav" />
+            </div>
+         </div>
+    </div>
+    
 {% endblock %}

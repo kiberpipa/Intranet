@@ -74,8 +74,8 @@ jQuery(function( $ ){
             <div class="present">
                 {% for event in events %}
                     <div id="event{{ event.id }}" class="present-now">
-                        <div class="present-event-text"><a href="{{ event.get_public_url }}">{{ event }}</a></div>
-                        <div class="present-event-date">{{ event.start_date|date:"l, d. "|capfirst }}{{ event.start_date|date:"F Y"|capfirst }}</div>
+                       
+                        <div class="present-event-date"><strong>{{ event.project }}: </strong>{{ event.start_date|date:"l, d. "|capfirst }}{{ event.start_date|date:"F Y"|capfirst }}</div>
                         {% if event.index_image %}
                             <a href="{{ event.get_public_url }}">
                                 <img width="250" height="130" src="{{ event.index_image.url }}" alt="slika dogodka" />
@@ -85,7 +85,8 @@ jQuery(function( $ ){
                                 <img width="250" height="130" src="{{ media_url }}www/images/img-upcoming.gif" alt="slika" />
                             </a>
                         {% endif %}
-                        <div class="present-event-desc-ime">{{ event }}</div>
+                         <div class="present-event-text"><a href="{{ event.get_public_url }}">{{ event }}</a></div>
+
                         <div class="present-event-desc">{{ event.announce|truncchar:"250" }}</div>
                     </div>
                 {% endfor %}
@@ -151,7 +152,7 @@ jQuery(function( $ ){
     
     <div id="blog-cp">
     	<div class="blog-cp-title">
-        Kiberpipin blog
+        Zapisi iz sveta brez oken
         </div>
         {% for i in news %}
             <div class="blog-cp-news-title">
@@ -173,7 +174,7 @@ jQuery(function( $ ){
     
     <div id="planet">
     	<div class="planet-title">
-        Planet
+        Razmišljanja iz /dev/random
         </div>
         {% for post in planet %}
             <div class="planet-news-title">
