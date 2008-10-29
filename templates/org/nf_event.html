@@ -1,5 +1,35 @@
 {% extends "org/base.html" %}
 {% block extrahead %}
+<script language = "Javascript">
+/**
+ * DHTML textbox character counter script. Courtesy of SmartWebby.com (http://www.smartwebby.com/dhtml/)
+ */
+
+maxL=64;
+var bName = navigator.appName;
+function taLimit(taObj) {
+    if (taObj.value.length==maxL) return false;
+    return true;
+}
+
+function taCount(taObj,Cnt) { 
+    objCnt=createObject(Cnt);
+    objVal=taObj.value;
+    if (objVal.length>maxL) objVal=objVal.substring(0,maxL);
+    if (objCnt) {
+        if(bName == "Netscape"){    
+            objCnt.textContent=maxL-objVal.length;}
+        else{objCnt.innerText=maxL-objVal.length;}
+    }
+    return true;
+}
+function createObject(objId) {
+    if (document.getElementById) return document.getElementById(objId);
+    else if (document.layers) return eval("document." + objId);
+    else if (document.all) return eval("document.all." + objId);
+    else return eval("document." + objId);
+}
+</script>
 <script type="text/javascript" src="{{ media_url }}markitup/jquery.markitup.js"></script>
 <link rel="stylesheet" type="text/css" href="{{ media_url }}markitup/skins/markitup/style.css" />
 <link rel="stylesheet" type="text/css" href="{{ media_url }}markitup/sets/html/style.css" />
@@ -74,7 +104,8 @@ $(document).ready(function() {
   <p>
     {{ form.title.errors }}
     <label for="id_title">Naslov:</label>
-    {{ form.title }}
+    <input id="id_title" type="text" name="title" maxlength="64" onKeyPress="return taLimit(this)" onKeyUp="return taCount(this,'myCounter')" /> 
+    <SPAN id=myCounter>64</SPAN> left
   </p>
 	<p>
 <a href="#" onClick="addFormField(); return false;">Add</a></p>
