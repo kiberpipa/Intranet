@@ -667,8 +667,13 @@ class Alumni(models.Model):
     linkedin = models.CharField(max_length=150, blank=True, null=True)
     phone = models.CharField(max_length=150, blank=True, null=True)
     mail = models.CharField(max_length=150, blank=True, null=True)
+    jabber = models.CharField(max_length=150, blank=True, null=True)
+    msn = models.CharField(max_length=150, blank=True, null=True)
+    yahoo = models.CharField(max_length=150, blank=True, null=True)
+
     text = models.CharField(max_length=255)
     user = models.ForeignKey(User, blank=True, null=True)
+    image = models.ImageField(upload_to='alumni/', blank=True, null=True)
 
     def __unicode__(self):
         if self.user:

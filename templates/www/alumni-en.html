@@ -11,9 +11,10 @@
             <div class="community-content">
         {% for alumni in object_list %}
             <div class="community-person">
-            <div class="community-content-img"><img src="{% if alumni.image %}{{ alumni.image.url }}{% else %}{{ media_url }}/www/images/picture-skupnost.gif{% endif %}" /></div>
+            <div class="community-content-img"><img src="{{ media_url }}/www/images/picture-skupnost.gif" /></div>
             <div class="community-details">
             {{ alumni.user.get_full_name }}<br />
+            2001 - 2004<br />
             {{ alumni.mail }}<br /><br />
             </div>
             <div class="community-img-s"><img src="{{ media_url }}/www/images/sm-skupnost.gif" /></div>
@@ -29,6 +30,7 @@
         <div class="community-content-img"><img src="{{ media_url }}/www/images/picture-skupnost.gif" /></div>
         <div class="community-details">
         John Doe<br />
+        2001 - 2004<br />
         john.doe@kiberpipa.org<br /><br />
         </div>
         <div class="community-img-s"><img src="{{ media_url }}/www/images/sm-skupnost.gif" /></div>

@@ -8,6 +8,11 @@ alumni_dict = {
     'template_name': 'www/alumni.html',
 }
 
+alumni_dict_en = {
+    'queryset': Alumni.objects.all(),
+    'template_name': 'www/alumni-en.html',
+}
+
 press_dict = {
     'queryset': Clipping.objects.order_by('-date')[:15],
 }
@@ -22,6 +27,7 @@ urlpatterns = patterns('',
     url(r'^calendar/', 'intranet.www.views.calendar'),
     url(r'^index\.php', 'intranet.www.views.compat'),
     url(r'^alumni/', 'django.views.generic.list_detail.object_list', alumni_dict),
+    url(r'^alumni-en/', 'django.views.generic.list_detail.object_list', alumni_dict_en),
     url(r'^press/', 'django.views.generic.list_detail.object_list', press_dict),
     url(r'^ajax/gallery/(?P<id>\d+|[\w-]+)/$', 'intranet.www.views.gallery'),
 )

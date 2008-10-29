@@ -1427,9 +1427,9 @@ def imenik(request):
                 break
             elif alumni.match(key):
                 try:
-                    alumni_form = AlumniForm(request.POST, instance=Alumni.objects.get(user=request.user), prefix='alumni')
+                    alumni_form = AlumniForm(request.POST, request.FILES, instance=Alumni.objects.get(user=request.user), prefix='alumni')
                 except Alumni.DoesNotExist:
-                    alumni_form = AlumniForm(request.POST, prefix='alumni')
+                    alumni_form = AlumniForm(request.POST, request.FILES, prefix='alumni')
                 break
 
         if filter.is_valid():

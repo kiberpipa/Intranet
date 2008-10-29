@@ -166,6 +166,7 @@ class DiaryForm(forms.ModelForm):
         fields = ('task', 'date', 'length', 'log_formal', 'log_informal',)
 
 class AlumniForm(forms.ModelForm):
+    text = forms.CharField(widget=forms.Textarea)
     class Meta:
         model = Alumni
         exclude = ('user',)
