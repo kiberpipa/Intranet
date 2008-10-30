@@ -27,6 +27,8 @@ class AllInOne(Feed):
         news =  [(n.date, n) for n in News.objects.order_by('-date')[:15]]
         albums =  [(g.date_added, g) for g in Gallery.objects.order_by('-date_added')[:15]]
         planet =  [(p.date_modified, p) for p in Post.objects.order_by('-date_modified')[:15]]
+        muzej =  [(p.date_modified, p) for p in Post.objects.filter(feed=12).order_by('-date_modified')[:15]]
+
     
 
         feeds = {
@@ -36,7 +38,9 @@ class AllInOne(Feed):
             'albums': albums,
             'pot': pot,
             'su': su,
-            'all': events + news + albums + pot + su,
+            'vip': vip,
+            'muzej': muzej,
+            'all': events + news + albums + pot + su + muzej,
         }
 
         items = []
