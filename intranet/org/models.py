@@ -194,7 +194,7 @@ class Event(models.Model):
         return "%s/intranet/events/%i/" % (settings.BASE_URL, self.id)
 
     def get_public_url(self):
-        return reverse('intranet.www.views.event', args=[self.slug])
+        return settings.BASE_URL + reverse('intranet.www.views.event', args=[self.slug])
 
     def __unicode__(self):
         return self.title
@@ -670,6 +670,7 @@ class Alumni(models.Model):
     jabber = models.CharField(max_length=150, blank=True, null=True)
     msn = models.CharField(max_length=150, blank=True, null=True)
     yahoo = models.CharField(max_length=150, blank=True, null=True)
+    skype = models.CharField(max_length=150, blank=True, null=True)
 
     text = models.CharField(max_length=255)
     user = models.ForeignKey(User, blank=True, null=True)

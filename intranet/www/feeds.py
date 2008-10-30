@@ -10,6 +10,7 @@ from intranet.feedjack.models import Post
 
 class AllInOne(Feed):
     def __init__(self, slug, request):
+        #paintully slow, cache me!!
         Feed.__init__(self, slug, request)
         
         bits = request.path.split('/')
@@ -21,6 +22,7 @@ class AllInOne(Feed):
         
         pot = [(e.start_date-push, e) for e in events.filter(project=Project.objects.get(pk=1)).order_by('-start_date')]
         su = [(e.start_date-push, e) for e in events.filter(project=Project.objects.get(pk=6)).order_by('-start_date')]
+        vip = [(e.start_date-push, e) for e in events.filter(project=Project.objects.get(pk=14)).order_by('-start_date')]
         events = [(e.start_date-push, e) for e in events.order_by('-start_date')]
         news =  [(n.date, n) for n in News.objects.order_by('-date')[:15]]
         albums =  [(g.date_added, g) for g in Gallery.objects.order_by('-date_added')[:15]]
@@ -49,7 +51,10 @@ class AllInOne(Feed):
 
         items.sort()
         items.reverse()
-        self.items = [feed for date, feed in items]
+        self.items = []
+        for date, feed in items:
+            if feed not in self.items:
+                self.items.append(feed)
         
 
         self.title = ' | '.join(new_bits)
