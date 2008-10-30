@@ -70,6 +70,10 @@
             {% endfor %}
             </p>
             {% endif %}
+            <h4>Jezik</h4>
+            <p>
+                {{ object.language }}
+            </p>
           <h4>Zahteve:</h4>
           <p>
                 {% if object.require_technician %}
@@ -90,7 +94,7 @@
           	{% endif %}
           <h4>Vsebina:</h4>
           <p>
-            {{ object.announce|linebreaks }}</p>
+            {{ object.announce|safe }}</p>
 	
 	  <h4>Kratka vsebina:</h4>
           <p>

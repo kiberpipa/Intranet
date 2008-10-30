@@ -161,7 +161,7 @@ def ical(request, month=None):
             'UID:event-%s@kiberpipa.org' % e.id,
             end_date.strftime('DTEND:%Y%m%dT%H%M%S'),
             last_mod.strftime('LAST-MODIFIED:%Y%m%dT%H%M%SZ'),
-            'SUMMARY:%s' % e.title,
+            'SUMMARY:%s: %s' % (e.project, e.title),
             'TRANSP:OPAQUE',
             'END:VEVENT',
             ''))

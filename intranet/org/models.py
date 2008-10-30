@@ -13,6 +13,12 @@ import socket
 
 from django.conf import settings
 
+LANGUAGES = (
+    ('SI', 'Slovenian'),
+    ('EN', 'English'),
+)
+
+
 # Create your models here.
 
 class Tag(models.Model):
@@ -172,6 +178,8 @@ class Event(models.Model):
     image = models.ImageField(blank=True, null=True, upload_to='events/%Y/%m/', verbose_name="Slikca za Event page")
     index_image = models.ImageField(blank=True, null=True, upload_to='events/%Y/%m/', verbose_name="Slikca za front page")
     public = models.BooleanField(default=True)
+
+    language = models.CharField(max_length=2, default='SI', choices=LANGUAGES, blank=True, null=True)
 
     #for iCal
     sequence = models.PositiveIntegerField(default=0)

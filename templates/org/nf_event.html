@@ -151,6 +151,12 @@ $(document).ready(function() {
     {{ form.category }}
     </p>
  <p>
+<p>
+    {{ form.language.errors }}
+    {{ form.language.label_tag }}
+    {{ form.language }}
+    </p>
+ <p>
     {{ form.project.errors }}
     <label for="id_project">Projekti:</label>
     {{ form.project }}
