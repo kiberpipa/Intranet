@@ -1,4 +1,5 @@
 import datetime
+import re
 
 from django.template import Library
 register = Library()
@@ -54,3 +55,6 @@ def truncchar(value, arg):
     else:
         return value[:arg] + '...'
 
+@register.filter
+def spam(value):
+   return re.sub('(?P<user>.*)@(?P<domain>.*)', '\g<user>REMOVE@ME\g<domain>', value)

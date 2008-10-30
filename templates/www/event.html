@@ -19,9 +19,9 @@
             <img src="http://upload.wikimedia.org/wikipedia/commons/4/47/Placeholder.png" />
         {% endif %}
         </div>
-        {{ event.announce|linebreaks }}
+        {{ event.announce|safe|linebreaks }}
         </div>
-        <div class="dogodek-tags">Znake: Lorem, Ipsum, Dolor, Sit, Amet</div>
+        {% comment %} <div class="dogodek-tags">Znake: Lorem, Ipsum, Dolor, Sit, Amet</div> {% endcomment %}
         <div class="dogodek-gallery">
         	<div class="dogodek-gallery-title">
             Pictures from Gallery
@@ -39,6 +39,7 @@
                 uggh, dezurni should be spanked.
             {% endif %}
         </div>
+        {% comment %}
         <div class="dogodek-video">
         	<div class="dogodek-video-title">
         	Video arhiv
@@ -71,6 +72,7 @@
             	<li>Related article 05</li>
         	</ul>
         </div>
+        {% endcomment %}
     </div>
     
 {% endblock %}

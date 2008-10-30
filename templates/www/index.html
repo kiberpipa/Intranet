@@ -87,7 +87,7 @@ jQuery(function( $ ){
                         {% endif %}
                          <div class="present-event-text"><a href="{{ event.get_public_url }}">{{ event }}</a></div>
 
-                        <div class="present-event-desc">{{ event.announce|truncchar:"250" }}</div>
+                        <div class="present-event-desc">{{ event.announce|safe|truncchar:"250" }}</div>
                     </div>
                 {% endfor %}
              </div>

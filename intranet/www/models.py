@@ -2,6 +2,8 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
+from intranet.org.models import Event
+
 # Create your models here.
 
 #blog posts
@@ -26,3 +28,12 @@ class Ticker(models.Model):
 
     def __unicode__(self):
         return self.name
+
+class Video(models.Model):
+    #compatiblity layer with current video archive
+    event = models.ForeignKey(Event, blank=True, null=True)
+    #unique video identifier, requested by ike
+    videodir = models.CharField(max_length=100)
+    image_url = models.CharField(max_length=240)
+    play_url = models.CharField(max_length=240)
+    pub_date = models.DateTimeField()

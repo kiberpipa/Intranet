@@ -1,5 +1,7 @@
 {% extends "www/base-second.html" %}
 
+{% load www %}
+
 {% block content %}
     <div id="community">
     	<div class="community-title">
@@ -14,7 +16,7 @@
             <div class="community-content-img"><img src="{% if alumni.image %}{{ alumni.image.url }}{% else %}{{ media_url }}/www/images/picture-skupnost.gif{% endif %}" /></div>
             <div class="community-details">
             {{ alumni.user.get_full_name }}<br />
-            {{ alumni.mail }}<br /><br />
+            {{ alumni.mail|spam }}<br /><br />
             </div>
             <div class="community-img-s"><img src="{{ media_url }}/www/images/sm-skupnost.gif" /></div>
             <div class="community-img-s"><img src="{{ media_url }}/www/images/sm-skupnost.gif" /></div>
