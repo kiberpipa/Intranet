@@ -1,17 +1,18 @@
+import datetime
+import time
+
 from django import forms
 from django.contrib.auth.models import User
+from django.utils.encoding import force_unicode
+from django.conf import settings
+from django import forms
+from django.forms.util import ErrorList
+
 
 from intranet.org.models import TipSodelovanja, Person, Event, Sodelovanje
 from intranet.org.models import Bug, Resolution, Clipping, Project, Alumni
 from intranet.org.models import Category, UserProfile, Lend, Diary, Shopping
-
 from intranet.photologue.models import GalleryUpload
-
-from django.utils.encoding import force_unicode
-from django.conf import settings
-from django import forms
-import datetime
-import time
 
 # DATETIMEWIDGET
 calbtn = u"""<img src="http://www.up-rs.si/up-rs/uprs.nsf/calendar.jpg" alt="calendar" id="%s_btn" style="cursor: pointer; border: 1px solid #8888aa;" title="Select date and time"
@@ -114,6 +115,18 @@ class EventForm(forms.ModelForm):
     class Meta:
         model = Event
         exclude = ('sequence')
+
+    def clean(self):
+        cleaned_data = self.cleaned_data
+        public = cleaned_data.get("public")
+        if public:
+            if not cleaned_data.get("image"):
+                self._errors["image"] = ErrorList(['ako je event public mores uploadat slikco'])
+
+            if not cleaned_data.get("announce"):
+                self._errors["announce"] = ErrorList(['ako je event public mores napisat najavo'])
+        
+        return cleaned_data
 
 class BugForm(forms.ModelForm):
     class Meta:

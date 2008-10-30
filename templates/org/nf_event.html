@@ -68,6 +68,8 @@ function removeFormField(id) {
 $(document).ready(function() {
    $(".input_author").suggest("/intranet/autocomplete/");
    $('#id_announce').markItUp(mySettings);
+   $('#id_title').KeyPress(function() { return taLimit(this)  });
+   $('#id_title').KeyUp(function() { return taCount(this,'myCounter') });
 });
   
   </script>
@@ -103,8 +105,8 @@ $(document).ready(function() {
 {% endif %}
   <p>
     {{ form.title.errors }}
-    <label for="id_title">Naslov:</label>
-    <input id="id_title" type="text" name="title" maxlength="64" onKeyPress="return taLimit(this)" onKeyUp="return taCount(this,'myCounter')" /> 
+    {{ form.title.label_tag }}
+    {{ form.title }}
     <SPAN id=myCounter>64</SPAN> left
   </p>
 	<p>
