@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 shopt -s extglob
 shopt -s nullglob
-for i in */; do 
-#for i in Aktivizem/; do 
+#for i in */; do 
+for i in album06/; do 
     [[ -f $i/photos.dat ]] && { 
         echo '# -*- coding: utf-8 -*-' 
         echo 'from intranet.photologue.models import Gallery, Photo'
@@ -27,5 +27,5 @@ for i in */; do
             if [[ $caption != $title && $caption ]]; then cap=", caption=u'$caption'"; fi
             printf "p=Photo.objects.create(image='$j'$cap)\np.save()\ngallery.photos.add(p)\n"
         done
-    } | iconv -f latin2 -t utf8 > "/home/intranet/gallery_migrate/6/${i%/}"
+    } | iconv -f latin1 -t utf8 > "/home/intranet/gallery_migrate/7/${i%/}"
 done 

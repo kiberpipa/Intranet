@@ -155,13 +155,13 @@ float: left;
 .future3 {
 	float: left;
 	width: 27px;
-	margin-top: 98px;
+	margin-top: 78px;
 	}
 
 .future {
 	float: left;
 	width: 27px;
-	margin: 85px 10px 0 0;
+	margin: 65px 10px 0 0;
 	}
 		
 #notifier {
@@ -1009,24 +1009,32 @@ float: left;
 .community-details {
 	font-size: 14px;
 	float: left;
-	width: 320px;
-	padding-top: 0px;
-	padding-bottom: 25px;
+	width: 350px;
 	padding-left: 20px;
 }
 
-.community-img-s {
-	width: 40px;
-	float: left;
-	margin-left: 20px;
+.alumni-text {width: 400px; clear: left;}
+
+.community-details p {padding: 0; margin: 0;}
+.alumni-desc {font-size: 12px; line-height: 18px;}
+.alumni-title-p {line-height: 20px; font-weight: bold;}
+
+.community-img-s {clear: left;}
+
+.community-img-s img {
+	width: 20px;
+	margin-right: 10px;
 	border: 1px solid #000000;
+	float: left;
 }
 	
 .community-content-img {
-	width: 124px;
+	width: 80px;
 	float: left;
 	border: 1px solid #000000;
 	padding: 0;
+	margin-top: 6px;
+	margin-bottom: 10px;
 	}
 	
 /* End of community */

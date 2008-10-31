@@ -13,30 +13,54 @@
             <div class="community-content">
         {% for alumni in object_list %}
             <div class="community-person">
-            <div class="community-content-img"><img src="{% if alumni.image %}{{ alumni.image.url }}{% else %}{{ media_url }}/www/images/picture-skupnost.gif{% endif %}" /></div>
+            <div class="community-content-img"><img src="{% if alumni.image %}{{ alumni.image.url }}{% else %}{{ media_url }}/www/images/picture-skupnost.gif{% endif %}" width="80px" height="80px" /></div>
             <div class="community-details">
-            {{ alumni.user.get_full_name }}<br />
-            {{ alumni.mail|spam }}<br /><br />
+            <p class="alumni-title-p">{{ alumni.user.get_full_name }}</p>
+            <p class="alumni-desc">Mail: {{ alumni.mail|spam }}</p>
+            <p class="alumni-desc">Web: <a href="#">www.myname.org</a></p>
+            <p class="alumni-desc">Blog: <a href="#">www.kiberpipa.org/blog</a></p>
+            <p class="alumni-desc">Tel: +386 (0)31 200 200</p>
             </div>
-            <div class="community-img-s"><img src="{{ media_url }}/www/images/sm-skupnost.gif" /></div>
-            <div class="community-img-s"><img src="{{ media_url }}/www/images/sm-skupnost.gif" /></div>
-            <div class="community-img-s"><img src="{{ media_url }}/www/images/sm-skupnost.gif" /></div>
-            <div class="community-img-s"><img src="{{ media_url }}/www/images/sm-skupnost.gif" /></div>
+            <div class="alumni-text">
+            <p>Going around and living in a fantasy world. On a normal day I make elephants or go to see squirrels in the park. If need be I also make other animals, like turtles, penguins and bears...</p>
+            </div>
+            <div class="community-img-s">
+            <a href="#"><img src="{{ media_url }}/www/images/twitter20x20.png" alt="Twitter" title="Twitter" /></a>
+            <a href="#"><img src="{{ media_url }}/www/images/facebook20x20.png" alt="Facebook" title="Facebook" /></a>
+            <a href="#"><img src="{{ media_url }}/www/images/linkedin20x20.png" alt="LinkedIn" title="LikedIn" /></a>
+            <a href="#"><img src="{{ media_url }}/www/images/flickr20x20.png" alt="Flickr" title="Flickr" /></a>
+            <a href="#"><img src="{{ media_url }}/www/images/gtalk20x20.png" alt="Google Talk" title="Google Talk" /></a>
+            <a href="#"><img src="{{ media_url }}/www/images/msn20x20.png" alt="MSN Chat" title="MSN Chat" /></a>
+            <a href="#"><img src="{{ media_url }}/www/images/yahoo20x20.png" alt="Yahoo" title="Yahoo" /></a>
+            <a href="#"><img src="{{ media_url }}/www/images/skype20x20.png" alt="Skype" /</a>
+            </div>
             </div>
         {% endfor %}
+
         <div class="community-title2">
-        Pretekli
+        Počivajo
         </div>
-        <div class="community-person">
-        <div class="community-content-img"><img src="{{ media_url }}/www/images/picture-skupnost.gif" /></div>
-        <div class="community-details">
-        John Doe<br />
-        john.doe@kiberpipa.org<br /><br />
-        </div>
-        <div class="community-img-s"><img src="{{ media_url }}/www/images/sm-skupnost.gif" /></div>
-        <div class="community-img-s"><img src="{{ media_url }}/www/images/sm-skupnost.gif" /></div>
-        <div class="community-img-s"><img src="{{ media_url }}/www/images/sm-skupnost.gif" /></div>
-        <div class="community-img-s"><img src="{{ media_url }}/www/images/sm-skupnost.gif" /></div>
-        </div>
-		</div>
+
+            <div class="community-person">
+            <div class="community-content-img"><img src="{{ media_url }}/www/images/picture-skupnost.gif" width="80px" height="80px" /></div>
+            <div class="community-details">
+            <p class="alumni-title-p">John Doe</p>
+            <p class="alumni-desc">Mail: John[at]Doe.com</p>
+            <p class="alumni-desc">Web: <a href="#">www.myname.org</a></p>
+            <p class="alumni-desc">Blog: <a href="#">www.kiberpipa.org/blog</a></p>
+            <p class="alumni-desc">Tel: +386 (0)31 200 200</p>
+            </div>
+            <div class="community-img-s">
+            <a href="#"><img src="{{ media_url }}/www/images/twitter20x20.png" alt="Twitter" title="Twitter" /></a>
+            <a href="#"><img src="{{ media_url }}/www/images/facebook20x20.png" alt="Facebook" title="Facebook" /></a>
+            <a href="#"><img src="{{ media_url }}/www/images/linkedin20x20.png" alt="LinkedIn" title="LikedIn" /></a>
+            <a href="#"><img src="{{ media_url }}/www/images/flickr20x20.png" alt="Flickr" title="Flickr" /></a>
+            <a href="#"><img src="{{ media_url }}/www/images/gtalk20x20.png" alt="Google Talk" title="Google Talk" /></a>
+            <a href="#"><img src="{{ media_url }}/www/images/msn20x20.png" alt="MSN Chat" title="MSN Chat" /></a>
+            <a href="#"><img src="{{ media_url }}/www/images/yahoo20x20.png" alt="Yahoo" title="Yahoo" /></a>
+            <a href="#"><img src="{{ media_url }}/www/images/skype20x20.png" alt="Skype" /</a>
+            </div>
+            </div>
+        
+        
 {% endblock %}
