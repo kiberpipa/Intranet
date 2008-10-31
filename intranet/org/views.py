@@ -20,7 +20,6 @@ import mx.DateTime
 import re
 import string
 from StringIO import StringIO
-from reportlab.pdfgen.canvas import Canvas
 from copy import deepcopy
 
 
@@ -888,6 +887,7 @@ def person(request):
     return HttpResponseRedirect('../')
 
 def sodelovanja(request):
+    from reportlab.pdfgen.canvas import Canvas
     sodelovanja = Sodelovanje.objects.all()
     person_form = PersonForm()
     if request.method == 'POST':
