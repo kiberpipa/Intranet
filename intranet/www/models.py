@@ -37,3 +37,6 @@ class Video(models.Model):
     image_url = models.CharField(max_length=240)
     play_url = models.CharField(max_length=240)
     pub_date = models.DateTimeField()
+
+    def __unicode__(self):
+        return self.videodir

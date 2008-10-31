@@ -679,6 +679,9 @@ class Alumni(models.Model):
     msn = models.CharField(max_length=150, blank=True, null=True)
     yahoo = models.CharField(max_length=150, blank=True, null=True)
     skype = models.CharField(max_length=150, blank=True, null=True)
+    www = models.CharField(max_length=150, blank=True, null=True)
+    blog = models.CharField(max_length=150, blank=True, null=True)
+    flickr = models.CharField(max_length=150, blank=True, null=True)
 
     text = models.CharField(max_length=255)
     user = models.ForeignKey(User, blank=True, null=True)
