@@ -48,12 +48,14 @@ def gallery(request, id):
 def index(request):
     # FIXME: next line throws an error on empty db
     next = Event.objects.filter(public=True, start_date__gte=datetime.datetime.today()).order_by('start_date')[0]
+    month = datetime.datetime.today() - datetime.timedelta(30)
     #forcing the evalutation of query set :-/. anyone got better ideas?
-    events = list(Event.objects.filter(public=True).order_by('start_date'))
-    position = events.index(next)
+    events = list(Event.objects.filter(public=True, start_date__gte=month).order_by('start_date'))
+    position = events.index(next) - 2
 
     return render_to_response('www/index.html', {
-        'events': events[position-100:],
+        'position': position,
+        'events': events,
         'gallery': Photo.objects.all().order_by('date_added')[0:2],
         'ticker': Ticker.objects.filter(is_active=True),
         'news': News.objects.order_by('-date')[0:4],

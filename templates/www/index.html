@@ -47,7 +47,7 @@ jQuery(function( $ ){
     $(document).ready(function() {
         scroll = $(".present")
         scroll.scrollable({horizontal:true, speed:500, size:3 });
-        scroll.scrollable("seekTo", 99, 1)
+        scroll.scrollable("seekTo", {{ position }}, 1)
         $(".future").click(function(){
             scroll.scrollable("next");
         });
@@ -75,7 +75,11 @@ jQuery(function( $ ){
                 {% for event in events %}
                     <div id="event{{ event.id }}" class="present-now">
                        
-                        <div class="present-event-date"><strong>{{ event.project }}: </strong>{{ event.start_date|date:"l, d. "|capfirst }}{{ event.start_date|date:"F Y"|capfirst }}</div>
+                        <div class="present-event-date">
+                            <strong>{{ event.project }}: </strong>
+                                {{ event.start_date|date:"l, d. "|capfirst }}
+                                {{ event.start_date|date:"F Y"|capfirst }}
+                        </div>
                         {% if event.index_image %}
                             <a href="{{ event.get_public_url }}">
                                 <img width="250" height="130" src="{{ event.index_image.url }}" alt="slika dogodka" />
