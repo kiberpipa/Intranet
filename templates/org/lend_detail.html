@@ -28,9 +28,7 @@
 			<h2><a class="h2">
 				{{ object.what }}</a>
           		do {{ object.due_date|date:"d.m.Y" }}</h2>
-        <h5>{{ object.from_who }} -> {{ object.to_who }}</h5>
-    	<p>{{ object.why|escape|linebreaks }}</p>
-    	<p>{{ object.note|escape|linebreaks }}</p>
+        <h5>{{ object.from_who }} -> {{ object.to_who }} {% if log.contact_info %} ({{log.contact_info}}) {% endif %}</h5>
 	</div>
 {% endblock %}
 

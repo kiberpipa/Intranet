@@ -30,11 +30,9 @@
     <div class="module">
     {% for log in latest %}
     {% if not log.returned %}
-            <h2><a class="h2" href="{{ log.id }}">{{ log.what }}</a>
+    		<h2><a class="h2" href="{{ log.id }}">{{ log.what }}</a>
                   do {{ log.due_date|date:"d.m.Y" }}</h2>
-        <h5>{{ log.from_who }} -> {{ log.to_who }}</h5>
-        <p>{{ log.why|escape|linebreaks }}</p>
-        <p>{{ log.note|escape|linebreaks }}</p>
+        <h5>{{ log.from_who }} -> {{ log.to_who }} {% if log.contact_info %} ({{log.contact_info}}) {% endif %}</h5>
     {% endif %}
     {% endfor %}
     </div>
