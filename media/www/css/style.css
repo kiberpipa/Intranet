@@ -71,6 +71,8 @@ a img {border: none;}
 	margin-top: 80px;
 	}
 	
+.rss-index {float: right; margin: 10px;}
+	
 .next3-left {
 float: left;
 	}
@@ -516,7 +518,7 @@ float: left;
 	
 #press-kit {
 	float: left;
-	width: 400px;
+	width: 550px;
 	height: 100%;
 	padding-bottom: 25px;
 	}
@@ -543,6 +545,11 @@ float: left;
 	padding-bottom: 5px;
 	padding-right: 10px;
 	}
+
+.press-kit-content p {padding-bottom: 10px; margin: 0;}
+
+.press-kit-content ul {margin: 0;}
+.press-kit-content li {line-height: 18px;}
 	
 /* Dogodek */
 
@@ -987,9 +994,12 @@ float: left;
 	width: 480px;
 	font-size: 14px;
 	font-weight: bold;
+	text-decoration: underline;
 	padding-top: 10px;
 	padding-bottom: 0px;
 	}
+
+.community-text {font-size: 14px; margin: 5px 0 5px 0;}
 	
 .community-content {
 	width: 960px;
@@ -1004,6 +1014,7 @@ float: left;
 	float: left;
 	padding-top: 10px;
 	padding-bottom: 25px;
+	min-height: 150px;
 }
 
 .community-details {
@@ -1057,10 +1068,9 @@ float: left;
 	}
 		
 .rss-content {
-	font-size: 12px;
+	font-size: 14px;
 	font-weight: normal;
 	padding-top: 0px;
-	padding-bottom: 5px;
 	padding-right: 10px;
 	}
 	
@@ -1071,17 +1081,19 @@ float: left;
 	}
 	
 .rss-related {
-	font-size: 12px;
+	font-size: 14px;
 	font-weight: normal;
-	padding-top: 5px;
 	padding-bottom: 5px;
 }
+
+.rss-related li {list-style: none; line-height: 25px;}
+.rss-related input {margin-right: 10px;}
+.rss-vse {border-top:1px solid #000000; width: 175px;}
 
 .rss-signup {
 	font-size: 14px;
 	font-weight: bold;
-	padding-top: 5px;
-	padding-bottom: 5px;
+	margin-left: 40px;
 }
 	
 /* End of RSS seznam */
@@ -1151,6 +1163,8 @@ float: left;
 	padding-top: 0px;
 	padding-bottom: 5px;
 	padding-right: 5px;
+	font-size: 14px;
+	line-height: 16px;
 }
 	
 

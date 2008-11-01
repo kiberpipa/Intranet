@@ -1,5 +1,6 @@
 from django.core.cache import cache
 import settings
+import re
 
 class NginxMemCacheMiddleWare:
     def process_response(self, request, response):
@@ -8,7 +9,7 @@ class NginxMemCacheMiddleWare:
             theUrl = request.get_full_path()
 
             for exp in settings.CACHE_INCLUDE_REGEXPS:
-                if exp == theUrl:
+                if re.match(exp,theUrl):
                     cacheIt = True
 
             # if it's a GET then store it in the cache:
