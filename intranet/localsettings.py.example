@@ -15,4 +15,3 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 #priporocam, ker ce mas smtpd ti bo intranet poslau mail za vsak error
 ADMINS = ()
-CACHE_BACKEND = 'dummy:///'
