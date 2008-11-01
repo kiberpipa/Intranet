@@ -64,8 +64,8 @@ jQuery(function( $ ){
 </script>
 {% endblock %}
 {% block content %}
+	<div class="rss-index"><a href="/rss/" ><img src="{{ media_url }}www/images/rss20x20.png" alt="RSS Feeds" /></a></div>
     <div id="upcoming">
-    
     	<div class="next3-left">
         	<div class="past3"><a href="#" onclick="return false;"><img src="{{ media_url }}www/images/puscica-3levo.gif" alt="tri dogodke nazaj" /></a></div>
         	<div class="past"><a href="#" onclick="return false;"><img src="{{ media_url }}www/images/puscica-levo.gif" alt="en dogodek nazaj" /></a></div>
@@ -127,6 +127,9 @@ jQuery(function( $ ){
             	<img src="{{ media_url }}www/images/video-small.gif" alt="slika" />
             </div>
          </div>
+
+{% endcomment %}
+
        <div id="screen" class="notifier-chamber">
          <div id="navigation">
             <ul>
@@ -148,12 +151,11 @@ jQuery(function( $ ){
        </div>
     </div>
     
-{% endcomment %}
+
     
     <div id="second-nav-front">
     <a href="http://muzej.kiberpipa.org/">muzej</a> | g404 | <a href="http://www.kiberpipa.org/err0r/">err0r</a> | <a href="http://www.kiberpipa.org/postlab/">postlab</a> | <a href="http://www.kiberpipa.org/haip">haip</a> | filmšteka | <a href="http://pot.kiberpipa.org/">POT</a> | <a href="http://web.zen.si/">SU</a> | VIP | <a href="http://www.kiberpipa.net/">NET</a>
     </div>
-    
     <div id="blog-cp">
     	<div class="blog-cp-title">
         Zapisi iz sveta brez oken

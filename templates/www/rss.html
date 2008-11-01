@@ -27,22 +27,20 @@ $(document).ready(function(){
 {% block content %}
     <div id="rss">
         <div class="rss-news-title">
-        RSS seznam
+        Seznam RSS Feedov
         </div>
         <div class="rss-content">
-        Lorss.htmlrem ipsum dolor sit amet, consectetuer adipiscing elit. Sed viverra venenatis massa. Proin non augue a ligula viverra gravida. Aliquam at dui et nisi iaculis condimentum. Pellentesque in quam. In hac habitasse platea dictumst. Curabitur dignissim, tortor eget bibendum ullamcorper, urna neque tincidunt massa, a ultrices metus quam ut augue. Praesent pretium, libero eget molestie lacinia, est nibh eleifend mauris, ut condimentum libero ipsum at diam. Nulla id risus. Vestibulum ornare, felis vitae vehicula volutpat, elit velit imperdiet ipsum, eget semper magna pede nec odio. Nulla lobortis.
-<br /><br />
-Fusce id felis. Praesent sed mi id velit tempus lacinia. Aliquam erat volutpat. Vestibulum eu lectus vitae eros pharetra mattis. Sed congue imperdiet nunc. Aliquam erat volutpat. Aliquam erat volutpat. Quisque vehicula interdum velit. Integer condimentum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec lacus lectus, tincidunt porta, laoreet at, volutpat ac, tortor. Donec luctus volutpat odio.
+<p>V Kiberpipi poteka veliko različnih dogodkov na katere se lahko naročite preko RSS feedov. Izberite za katere dogodke želite prejemati obvestila in dobili boste le tiste. Če si želite obveščanja o vsem dogajanju v Kiberpipi se naročite na vse. Predvsem pa boste na tekočem z vsem kar se bo dogajalo v prostorih Kiberpipe.</p>
         </div>
         <div class="rss-related">
             <ul>
                 <form>
-                    <input type="checkbox" id="news"  />Novice<br />
-                    <input type="checkbox" id="events" />dogodki<br />
-                    <input type="checkbox" id="pot" />POT<br />
-                    <input type="checkbox" id="su" />SU<br />
-                    <input type="checkbox" id="planet" />planet<br />
-                    <input type="checkbox" id="all" />vse<br />
+                    <li><input type="checkbox" id="news"  />Novice</li>
+                    <li><input type="checkbox" id="events" />Dogodki</li>
+                    <li><input type="checkbox" id="pot" />POT - Pipini Odprti Termini</li>
+                    <li><input type="checkbox" id="su" />SU - Spletne Urice</li>
+                    <li><input type="checkbox" id="planet" />Planet</li>
+                    <li class="rss-vse"><input type="checkbox" id="all" />Vse</li>
                 </form>
                     <!-- 
                     <li>muzej</li>
