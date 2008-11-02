@@ -134,7 +134,7 @@ $(document).ready(function() {
                 {% for i in ticker %}
                     <li>
                         <h2>{{ i.name }}</h2>
-                        <p>{{ i.note }}</p>
+                        <p>{{ i.note|safe }}</p>
                     </li>
                 {% endfor %}
             </ul>
@@ -166,7 +166,7 @@ $(document).ready(function() {
             <a href="{{ i.get_absolute_url }}">{{ i.title }}</a>
             </div>
             <div class="blog-cp-publish">
-            Published by John Doe on {{ i.date }}
+            Published by {{ i.author }} on {{ i.date }}
             </div>
             <div class="blog-cp-content">
             {{ i.text|santize|truncatewords:"60" }}

@@ -120,7 +120,7 @@ class EventForm(forms.ModelForm):
         cleaned_data = self.cleaned_data
         public = cleaned_data.get("public")
         if public:
-            if not cleaned_data.get("image"):
+            if not ( cleaned_data.get("image") or self.instance.sequence > 0 ):
                 self._errors["image"] = ErrorList(['ako je event public mores uploadat slikco'])
 
             if not cleaned_data.get("announce"):

@@ -47,7 +47,7 @@
                 </div>
                 {% for event in events %}
                     {% if event.public %}
-                        {{ event }}
+                        <a href="{{ event.get_public_url }}">{{ event.title|truncchar:"64" }}</a>
                     {% else %}
                         PRIVATE!!
                     {% endif %}

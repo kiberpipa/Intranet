@@ -11,6 +11,7 @@ from django.core.urlresolvers import reverse
 from datetime import date, time, timedelta, datetime
 import smtplib, string, audit
 import socket
+from PIL import Image
 
 
 LANGUAGES = (
@@ -176,7 +177,6 @@ class Event(models.Model):
     require_video = models.BooleanField(default=False)
     visitors = models.IntegerField(default=0, blank=True, null=True)
     image = models.ImageField(blank=True, null=True, upload_to='events/%Y/%m/', verbose_name="Slikca za Event page")
-    index_image = models.ImageField(blank=True, null=True, upload_to='events/%Y/%m/', verbose_name="Slikca za front page")
     public = models.BooleanField(default=True)
 
     language = models.CharField(max_length=2, default='SI', choices=LANGUAGES, blank=True, null=True)
@@ -215,7 +215,22 @@ class Event(models.Model):
         except Event.DoesNotExist:
             pass
         super(Event, self).save()
+        filename = settings.MEDIA_ROOT + '/' + self.image._get_name()
+        pic = Image.open(filename)
+        width, height = pic.size
+        width = float(width)
+        height = float(height)
+        q1 = width/400
+        q2 = height/300
+        if q1 > q2:
+            new_width = width/q1
+            new_height = height/q1
+        else:
+            new_width = width/q2
+            new_height = height/q2
 
+        new = pic.resize((int(new_width), int(new_height)))
+        new.save(filename)
 
     class Meta:
         verbose_name = 'Dogodek'
