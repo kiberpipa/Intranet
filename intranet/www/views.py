@@ -8,6 +8,7 @@ from django.http import HttpResponsePermanentRedirect, HttpResponse
 from django.conf import settings
 from django.core.mail import send_mail
 from django.core import serializers
+from django.core.urlresolvers import reverse
 
 from intranet.org.models import Event
 from intranet.feedjack.models import Post
@@ -101,11 +102,13 @@ def compat(request):
     send_mail('b00, wh00, 404', 'PATH_INFO: %s\nQUERY_STRING: %s' % (request.META['PATH_INFO'], request.META['QUERY_STRING']), 'intranet@kiberpipa.org', [a[1] for a in settings.ADMINS], fail_silently=True)
     return HttpResponsePermanentRedirect('/')
 
-def calendar(request, en=False):
+def calendar(request, year=None, month=None, en=False):
     day = datetime.timedelta(1)
     today = datetime.date.today()
+    if month:
+        today = datetime.date(int(year), int(month), 1)
 
-    begin= datetime.date(today.year, today.month, 1)
+    begin = datetime.date(today.year, today.month, 1)
 
     #find the begening of the week in which this month starts
     while begin.weekday() != 0:
@@ -113,7 +116,22 @@ def calendar(request, en=False):
 
     dates = []
     #loop till the end of the week in which this months ends
-    while not ( begin.month == today.month + 1 and begin.weekday() == 0):
+    if today.month == 12:
+        next_month = 1
+        next_year = today.year + 1
+        prev_month = today.month - 1
+        prev_year = today.year
+    elif today.month == 1:
+        next_month = today.month + 1
+        next_year = today.year
+        prev_month = 12
+        prev_year = today.year - 1
+    else:
+        next_month = today.month + 1
+        next_year = today.year
+        prev_year = today.year
+        prev_month = today.month - 1
+    while not ( begin.month == next_month and begin.weekday() == 0):
         dates += [(begin, Event.objects.filter(start_date__year = begin.year, start_date__month = begin.month, start_date__day = begin.day))]
         begin = begin + day
 
@@ -125,6 +143,8 @@ def calendar(request, en=False):
 
     return render_to_response(template, {
         'dates': dates,
+        'prev': reverse('intranet.www.views.calendar', args=['%s/%s' % (prev_year, prev_month)]),
+        'next': reverse('intranet.www.views.calendar', args=['%s/%s' % (next_year, next_month)]),
         },
         context_instance=RequestContext(request))
 
