@@ -2,6 +2,7 @@ from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
+from django.conf import settings
 from django.core.urlresolvers import reverse
 
 #from intranet.tags.models import Tag
@@ -11,7 +12,6 @@ from datetime import date, time, timedelta, datetime
 import smtplib, string, audit
 import socket
 
-from django.conf import settings
 
 LANGUAGES = (
     ('SI', 'Slovenian'),

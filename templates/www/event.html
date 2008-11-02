@@ -22,6 +22,7 @@
         {{ event.announce|safe|linebreaks }}
         </div>
         {% comment %} <div class="dogodek-tags">Znake: Lorem, Ipsum, Dolor, Sit, Amet</div> {% endcomment %}
+        {% comment %}
         <div class="dogodek-gallery">
         	<div class="dogodek-gallery-title">
             Pictures from Gallery
@@ -39,27 +40,18 @@
                 uggh, dezurni should be spanked.
             {% endif %}
         </div>
-        {% comment %}
+        {% endcomment %}
         <div class="dogodek-video">
         	<div class="dogodek-video-title">
-        	Video arhiv
+        	<a href="http://video.kiberpipa.org">Video arhiv</a>
             </div>
-        	<div class="dogodek-video-button">
-            	<img src="images/vid-s-dogodek.gif" alt="slika" />
-            </div>
-            <div class="dogodek-video-button2">
-            	<img src="images/vid-s-dogodek.gif" alt="slika" />
-            </div>
-            <div class="dogodek-video-button3">
-            	<img src="images/vid-s-dogodek.gif" alt="slika" />
-            </div>
-            <div class="dogodek-video-button4">
-            	<img src="images/vid-s-dogodek.gif" alt="slika" />
-            </div>
-            <div class="dogodek-video-button5">
-            	<img src="images/vid-s-dogodek.gif" alt="slika" />
-            </div>
+            {% for video in event.video_set.all %}
+                <div class="dogodek-video-button">
+                    <a href="{{ video.play_url }}"><img width="80" height="80" src="{{ video.image_url }}" alt="slika" /></a>
+                </div>
+            {% endfor %}
         </div>
+        {% comment %}
         <div class="dogodek-related">
         	<div class="dogodek-related-title">
             Related articles:

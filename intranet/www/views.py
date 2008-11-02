@@ -8,7 +8,6 @@ from django.http import HttpResponsePermanentRedirect, HttpResponse
 from django.conf import settings
 from django.core.mail import send_mail
 from django.core import serializers
-from django.utils.encoding import smart_unicode
 
 from intranet.org.models import Event
 from intranet.feedjack.models import Post
@@ -132,7 +131,6 @@ def utcize(date):
 
 
 def ical(request, month=None):
-    encoding = 'latin2'
     cal = ['BEGIN:VCALENDAR', 
         'PRODID: -//Kiberpipa//NONSGML intranet//EN', 
         'VERSION:2.0']
@@ -165,13 +163,13 @@ def ical(request, month=None):
             end_date.strftime('DTEND:%Y%m%dT%H%M%S'),
             last_mod.strftime('LAST-MODIFIED:%Y%m%dT%H%M%SZ'),
             'SUMMARY:%s: %s' % (e.project, e.title),
+            'DESCRIPTION:%s' % e.get_public_url,
             'TRANSP:OPAQUE',
             'END:VEVENT',
             ''))
 
     cal.append('END:VCALENDAR')
-    ret = "\r\n".join(cal)
-    ret = smart_unicode("\r\n".join(cal), encoding=encoding, strings_only=False, errors='strict')
+    ret = u'\r\n'.join(cal)
     response.write(ret)
     return response
 

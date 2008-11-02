@@ -3,10 +3,6 @@
 
 {% block extrahead %}
 <link href='{{ media_url }}/www/scroll.css' type='text/css' rel='stylesheet' />
-{% comment %}
-<script type='text/javascript' src='{{ media_url }}/js/jquery.scrollTo-min.js'></script>
-<script type='text/javascript' src='{{ media_url }}/js/jquery.serialScroll-min.js'></script>
-{% endcomment %}
 <script type='text/javascript' src='{{ media_url }}/www/js/jquery.scrollable.js'></script>
 <script type='text/javascript' src='{{ media_url }}/www/js/jquery.serialScroll-1.2.1.js'></script>
 <script type='text/javascript' src='{{ media_url }}/www/js/jquery.scrollTo-1.4.0.js'></script>
@@ -92,7 +88,7 @@ $(document).ready(function() {
                         {% endif %}
                          <div class="present-event-text"><a href="{{ event.get_public_url }}">{{ event }}</a></div>
 
-                        <div class="present-event-desc">{{ event.announce|safe|truncchar:"250" }}</div>
+                        <div class="present-event-desc">{{ event.announce|truncchar:"250"|safe }}</div>
                     </div>
                 {% endfor %}
              </div>
@@ -106,6 +102,7 @@ $(document).ready(function() {
 
     <div id="notifier">
     	<div class="button-chamber">
+        {% comment %}
         	<div class="gallery"><a href="/gallery/">gallery</a></div>
             <div class="gallery-button">
             	<img src="{{ media_url }}www/images/picture-small.gif" alt="slika" />
@@ -116,23 +113,13 @@ $(document).ready(function() {
             <div class="gallery-button3">
             	<img src="{{ media_url }}www/images/picture-small.gif" alt="slika" />
             </div>
+            {% endcomment %}
             <div class="video"><a href="http://video.kiberpipa.org/">video arhiv</a></div>
             {% for video in videos %}
             <div class="video-button">
             	<a href="{{ video.play_url }}"><img width="67" height="67" src="{{ video.image_url }}" alt="slika" /></a>
             </div>
             {% endfor %}
-            {% comment %}
-            <div class="video-button">
-            	<a href="{{ videos.0.play_url }}"><img width="67" height="67" src="{{ videos.0.image_url }}" alt="slika" /></a>
-            </div>
-            <div class="video-button2">
-            	<a href="{{ videos.1.play_url }}"><img width="67" height="67" src="{{ videos.1.image_url }}" alt="slika" /></a>
-            </div>
-            <div class="video-button3">
-            	<a href="{{ videos.2.play_url }}"><img width="67" height="67" src="{{ videos.2.image_url }}" alt="slika" /></a>
-            </div>
-            {% endcomment %}
          </div>
 
        <div id="screen" class="notifier-chamber">

@@ -47,13 +47,13 @@ register.filter('santize', sanitize_html)
 
 register.simple_tag(calclass)
 
-@register.filter
 # truncate after a certain number of characters
+@register.filter
 def truncchar(value, arg):
-    if len(value) < arg:
+    if len(value) > arg:
         return value
     else:
-        return value[:arg] + '...'
+        return value[:int(arg)] + '...'
 
 @register.filter
 def spam(value):
