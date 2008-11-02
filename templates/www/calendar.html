@@ -40,6 +40,30 @@
         <div class="koledar-title">
         Nedelja
         </div>
+        <table border="1">
+{% for date, events in dates %}
+    {% ifequal date.weekday 0 %}
+        <tr>
+    {% endifequal %}
+
+    <td class="{% calclass date %}">
+    {{ date.day }}
+        {% for event in events %}
+            {% if event.public %}
+                <a href="{{ event.get_public_url }}">{{ event.title|truncchar:"64" }}</a>
+            {% else %}
+                PRIVATE!!
+            {% endif %}
+        {% endfor %}
+    </td>
+
+    {% ifequal date.weekday 6 %}
+        </tr>
+    {% endifequal %}
+{% endfor %}
+<table>
+
+{% comment %}
         {% for date, events in dates %}
             <div class="koledar-box">
                 <div class="koledar-box-num">
@@ -61,6 +85,7 @@
         <div class="koledar-next">
         Next month &gt;&gt;
         </div>    
+{% endcomment %}
     </div>
     {% comment %}
 find me a home:

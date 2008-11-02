@@ -168,13 +168,13 @@ def ical(request, month=None):
             end_date.strftime('DTEND:%Y%m%dT%H%M%S'),
             last_mod.strftime('LAST-MODIFIED:%Y%m%dT%H%M%SZ'),
             'SUMMARY:%s: %s' % (e.project, e.title),
-            'DESCRIPTION:%s' % e.get_public_url,
+            'DESCRIPTION:%s' % e.get_public_url(),
             'TRANSP:OPAQUE',
             'END:VEVENT',
             ''))
 
     cal.append('END:VCALENDAR')
-    ret = u'\r\n'.join(unicode(cal))
+    ret = u'\r\n'.join(cal)
     response.write(ret)
     return response
 

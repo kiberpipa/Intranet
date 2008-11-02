@@ -72,6 +72,7 @@ class Project(models.Model):
     note = models.TextField(blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     salary_rate = models.FloatField(blank=True, null=True)
+    verbose_name = models.CharField(max_length=255, blank=True, null=True)
 
     parent = models.ForeignKey('self', blank=True, null=True)
     history = audit.AuditTrail()
