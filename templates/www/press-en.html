@@ -1,0 +1,78 @@
+{% extends "www/base-english.html" %}
+{% block content %}
+    <div class="kiberpipa-press">
+
+    	<div class="kiberpipa-press-title">
+
+        About Kiberpipa in Media
+
+        </div>
+
+        <div class="kiberpipa-press-news-title">
+        {% for clipping in object_list %}
+            {{ clipping.name }} &gt;&gt; {% if clipping.article_name %}{{ clipping.article_name }} - {% endif %}{{ clipping.medij }}, {{ clipping.date }}<br />
+        {% endfor %}
+        </div>
+
+        {% comment %}
+        <div class="kiberpipa-press-more">
+
+        more >>
+
+        </div>
+        {% endcomment %}
+
+    </div>
+
+    
+
+    <div id="press-kit">
+
+    	<div class="press-kit-title">
+
+        Press kit
+
+        </div>
+
+        <div class="press-kit-content">
+        
+        <p><strong>Kiberpipa Logo</strong></p>
+        <p><img src="{{ media_url }}/www/images/press-kit/kiberpipa-logo-preview.png" alt="Kiberpipa Logo"></p>
+        <p><a href="{{ media_url }}/www/images/press-kit/kiberpipa-logo.svg">SVG</a>, <a href="{{ media_url }}/www/images/press-kit/kiberpipa-logo.eps">EPS</a>, <a href="{{ media_url }}/www/images/press-kit/kiberpipa-logo.pdf">PDF</a>, <a href="{{ media_url }}/www/images/press-kit/kiberpipa-logo-300dpi.png">PNG</a> (300dpi), <a href="{{ media_url }}/www/images/press-kit/kiberpipa-logo-72dpi.png">PNG</a> (72dpi)</p>
+		
+		<p><strong>Supporters of Kiberpipa Banner</strong></p>
+        <p><img src="{{ media_url }}/www/images/press-kit/podporniki-pasica-preview.png" alt="Podporniki pasica"></p>
+        <p><a href="{{ media_url }}/www/images/press-kit/podporniki-pasica.svg">SVG</a>, <a href="{{ media_url }}/www/images/press-kit/podporniki-pasica.eps">EPS</a>, <a href="{{ media_url }}/www/images/press-kit/podporniki-pasica.pdf">PDF</a>, <a href="{{ media_url }}/www/images/press-kit/podporniki-pasica-300dpi.png">PNG</a> (300dpi), <a href="{{ media_url }}/www/images/press-kit/podporniki-pasica-72dpi.png">PNG</a> (72dpi),</p>
+        
+        <p><strong>Text about Kiberpipa</strong></p>
+        <p>Established in 2001 as a part of the K6/4 Institute, Kiberpipa ('Cyberpipe') is an important catalyst for the Slovene cybernetic scene and fosters creative and critical approaches in the age of an information society. Operating as a cultural centre, computer laboratory and Internet café (with free wireless access), Cyberpipe engages primarily in open code programming and the recycling of computer devices, it organises workshops (for example, Linux workshops, drawing and painting in DTP with free programmes, E-mail culture, Linux video editing and Mozilla Composer workshop), lectures, and entertainment and information events. Cyberpipe also runs Net Art Pipe (NAP), which is dedicated to the exploration of computer-based art and to facilitating discussions on this topic. The programme also features so-called Open Dates - weekly meetings for information exchange - and a monthly LAMM (LinuxAudioMeetMe) that focuses on issues and sound/music production connected with the Linux platform.</p>
+
+<p>Kiberpipa co-operates with numerous organisations in Slovenia, eg the Slo-Tech and 3delavnica teams, regional multimedia centres (including Ljudmila - Ljubljana Digital Media Lab, KIBLA Multimedia Centre) and organisations abroad (Mama New Media Centre in Zagreb, HackLab in Pula for example).</p>
+
+<p>Kiberpipa organises the biennial HAIP Festival (Hack/Act/Interact/Progress Festival).</p>
+
+<p>Kiberpipa is a member of the m3c Multimedia Centres Network of Slovenia.</p>
+
+
+</p>
+
+<p><strong>Projects in Kiberpipa</strong></p>
+<ul>
+<li><a href="http://pot.kiberpipa.org/">POT - Pipini odprti termini</a></li>
+<li><a href="http://web.zen.si/">SU - Spletne urice</a></li>
+<li>VIP - Večeri za Inovativne in Podjetne</li>
+<li>Filmšteka</li>
+<li><a href="http://muzej.kiberpipa.org/">Kiberpipin Računalniški Muzej</a></li>
+<li><a href="http://www.kiberpipa.org/err0r/">Err0r</a></li>
+<li><a href="http://www.kiberpipa.org/haip/">Multimedijski festival odprtih tehnologij HAIP</a></li>
+<li><a href="http://www.kiberpipa.org/kontaminator/">Kontaminator</a></li>
+<li>Galerija g404</li>
+<li><a href="http://video.kiberpipa.org/">Kiberpipin videoarhiv</a></li>
+<li>Odprte izobraževalne delavnice</li>
+</ul>
+        
+        </div>
+
+    </div>
+
+{% endblock %}

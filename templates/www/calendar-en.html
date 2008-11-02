@@ -1,0 +1,83 @@
+{% extends "www/base-english.html" %}
+{% block extrahead %}{% endblock %}
+{% block title %} Calendar of Events in Kiberpipa {% endblock %}
+{% load markup %}
+{% load www %}
+
+{% block heading %}
+    <h1>Calendar of Events in Kiberpipa</h1>
+{% endblock %}
+
+{% block content %}
+    <div id="koledar">
+    	<div class="koledar-title-main">
+        Calendar - {{ now|date:"F Y"|capfirst }}
+        </div>
+
+        <div class="koledar-img">
+    	<a href="#">iCal</a>, <a href="/rss/" ><img src="{{ media_url }}www/images/rss20x20.png" alt="RSS Feeds" /></a>
+    	</div>
+
+    <div id="koledar-wrapper">
+    	<div class="koledar-title">
+        Monday
+        </div>
+        <div class="koledar-title">
+        Tuesday
+        </div>
+        <div class="koledar-title">
+        Wednesday
+        </div>
+        <div class="koledar-title">
+        Thursday
+        </div>
+        <div class="koledar-title">
+        Friday
+        </div>
+        <div class="koledar-title">
+        Saturday
+        </div>
+        <div class="koledar-title">
+        Sunday
+        </div>
+        {% for date, events in dates %}
+            <div class="koledar-box">
+                <div class="koledar-box-num">
+                    {{ date.day }}
+                </div>
+                    <ul>
+                {% for event in events %}
+                    {% if event.public %}
+
+                       <li><a href="{{ event.get_public_url }}">{{ event.title|truncchar:"32" }}</a></li>
+
+                    {% else %}
+                     <li>PRIVATE!!</li>
+                    {% endif %}
+                {% endfor %}
+                     </ul>
+            </div>
+        {% endfor %}
+    </div>
+        <div class="koledar-previous">
+        <a href="{{ prev }}">&lt;&lt; Previous month</a>
+        </div>
+        <div class="koledar-next">
+        <a href="{{ next }}">Next month &gt;&gt;</a>
+        </div>    
+    </div>
+    {% comment %}
+find me a home:
+<a href="{% url intranet.www.views.ical "month" %}">vCalendar for current month</a>
+<a href="{% url intranet.www.views.ical %}">self updating vCalendar</a>
+
+
+    {% calclass date %}:
+        mozni classi so:
+        prev -- prejsnji mesec
+        past -- pred danasnjim dnem ta mesec
+        today -- danes
+        future -- po danasnjem dnevu do konca meseca
+        next -- naslednji mesec
+    {% endcomment %}
+{% endblock %}

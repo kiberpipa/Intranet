@@ -8,9 +8,9 @@
 {% endblock %}
 {% block content%}
 <div id="kiberpipa-content">
-<h2>English news</h2>
+<h3>English news</h3>
 {% for i in object_list %}
- <h3><a href="{{ i.get_public_url }}">{{ i }}</a></h3>
+ <h4><a href="{{ i.get_public_url }}">{{ i }}</a></h4>
 <p>{{ i.announce }}</p>
 {% endfor %}
 </a>

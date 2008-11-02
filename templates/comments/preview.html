@@ -1,0 +1,39 @@
+{% extends "www/base-second.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Preview your comment" %}{% endblock %}
+
+{% block content %}
+  {% load comments %}
+<div class="dogodek-komentarji">
+  <form action="{% comment_form_target %}" method="post">
+<ul>
+    {% if form.errors %}
+    <h2>{% blocktrans count form.errors|length as counter %}Please correct the error below{% plural %}Please correct the errors below{% endblocktrans %}</h1>
+    {% else %}
+    <h1>{% trans "Preview your comment" %}</h1>
+      <blockquote>{{ comment|linebreaks }}</blockquote>
+      <li>
+      {% trans "and" %} <input type="submit" name="submit" class="submit-post" value="{% trans "Post your comment" %}" id="submit" /> {% trans "or make changes" %}:
+      </li>
+    {% endif %}
+    {% for field in form %}
+      {% if field.is_hidden %}
+        {{ field }}
+      {% else %}
+        <li>
+          {% if field.errors %} {% endif %}
+          {% ifequal field.name "honeypot" %} {% endifequal %}
+          {% if field.errors %}{{ field.errors }}{% endif %}
+          {{ field.label_tag }} {{ field }}
+        </li>
+      {% endif %}
+    {% endfor %}
+    <li class="submit">
+    <input type="submit" name="submit" class="submit-post" value="{% trans "Pošlji komentar" %}" />
+{% comment %}    <input type="submit" name="preview" class="submit-preview" value="{% trans "Preview" %}" />{% endcomment %}
+    </li>
+    </ul>
+  </form>
+  </div>
+{% endblock %}
