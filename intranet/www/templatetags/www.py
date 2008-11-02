@@ -49,7 +49,8 @@ register.simple_tag(calclass)
 
 # truncate after a certain number of characters
 @register.filter
-def truncchar(value, arg):
+def truncchar(value, **args):
+    arg, num = args.split(' ')
     if len(value) > arg:
         return value
     else:

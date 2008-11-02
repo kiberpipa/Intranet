@@ -77,9 +77,9 @@ $(document).ready(function() {
                                 {{ event.start_date|date:"l, d. "|capfirst }}
                                 {{ event.start_date|date:"F Y"|capfirst }}
                         </div>
-                        {% if event.index_image %}
+                        {% if event.image %}
                             <a href="{{ event.get_public_url }}">
-                                <img width="250" height="130" src="{{ event.index_image.url }}" alt="slika dogodka" />
+                                <img width="250" height="130" src="{{ event.image.url }}" alt="slika dogodka" />
                             </a>
                         {% else %}
                             <a href="{{ event.get_public_url }}">

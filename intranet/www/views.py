@@ -174,7 +174,7 @@ def ical(request, month=None):
             ''))
 
     cal.append('END:VCALENDAR')
-    ret = u'\r\n'.join(cal)
+    ret = u'\r\n'.join(unicode(cal))
     response.write(ret)
     return response
 

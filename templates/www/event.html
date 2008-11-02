@@ -66,5 +66,23 @@
         </div>
         {% endcomment %}
     </div>
+{% load comments %}
+
+komentarji:
+
+{% get_comment_list for event as comment_list %}
+{% for comment in comment_list %}
+	{{ comment }}
+{% endfor %}
+
+
+
+{% get_comment_form for event as form %}
+<form action="{% comment_form_target %}" method="POST">
+  {{ form.as_p }}
+  <p class="submit">
+    <input type="submit" name="submit" class="submit-post" value="Preview">
+  </p>
+</form>
     
 {% endblock %}
