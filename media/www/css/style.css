@@ -738,7 +738,16 @@ float: left;
 	padding-bottom: 5px;
 }
 
-.title-kom {font-size: 16px; font-weight: bold;}
+
+.dogodek-komentarji p {margin:0;}
+
+.title-kom {font-size: 16px; font-weight: bold; padding-bottom: 3px; border-bottom: 1px solid black;}
+.errorlist {color: red;}
+
+.komentar-avtor {padding: 3px 0; font-size: 13px; font-style: italic; font-weight: bold;}
+.date-kom {font-size: 11px;}
+.komentar-vsebina {border-bottom: 1px solid black; padding: 5px 0;}
+
 .dogodek-komentarji {font-size: 14px;}
 .dogodek-komentarji ul {list-style: none; margin: 0;padding: 0;}
 .dogodek-komentarji li {margin:0;padding:0;display:block;clear:both;padding:.5em 0;}

@@ -73,7 +73,9 @@
 
 {% get_comment_list for event as comment_list %}
 {% for comment in comment_list %}
-	{{ comment }}
+	<p class="komentar-avtor"><a href="{{ comment.url }}">{{ comment.name }}</a> je napisal:</p>
+	<p class="date-kom">{{ comment.submit_date|date:"j N Y, H:i" }}</p>
+	<p class="komentar-vsebina">{{ comment.comment }}</p>
 {% endfor %}
 
 
@@ -82,7 +84,7 @@
 <form action="{% comment_form_target %}" method="POST">
   {{ form.as_ul }}
   <li class="submit">
-    <input type="submit" name="submit" class="submit-post" value="Preview">
+    <input type="submit" name="submit" class="submit-post" value="Pošlji komentar">
   </li>
 </form>
     </div>
