@@ -35,9 +35,9 @@ $(document).ready(function() {
 		prev:'img.prev',// Selector to the 'prev' button (absolute!, meaning it's relative to the document)
 		next:'img.next',// Selector to the 'next' button (absolute too)
 		navigation:'#navigation li a',
-		duration:700,// Length of the animation (if you scroll 2 axes and use queue, then each axis take half this time)
+		duration:2000,// Length of the animation (if you scroll 2 axes and use queue, then each axis take half this time)
 		force:true, // Force a scroll to the element specified by 'start' (some browsers don't reset on refreshes)
-		interval:1987, // It's the number of milliseconds to automatically go to the next
+		interval:10000, // It's the number of milliseconds to automatically go to the next
 		
 		onBefore:function( e, elem, $pane, $items, pos ){
 			e.preventDefault();
@@ -114,22 +114,21 @@ $(document).ready(function() {
             	<img src="{{ media_url }}www/images/picture-small.gif" alt="slika" />
             </div>
             {% endcomment %}
-            <div class="video"><a href="http://video.kiberpipa.org/">video arhiv</a></div>
+            
+            <div class="video">
+            <p><a href="http://video.kiberpipa.org/">Zadnji dodani posnetki v Video arhiv</a></p>
+            </div>
+            
             {% for video in videos %}
             <div class="video-button">
             	<a href="{{ video.play_url }}"><img width="67" height="67" src="{{ video.image_url }}" alt="slika" /></a>
             </div>
             {% endfor %}
+            
          </div>
 
        <div id="screen" class="notifier-chamber">
-         <div id="navigation">
-            <ul>
-                {% for i in ticker %}
-                    <li><a id="stop{{ forloop.counter }}" href="#">{{ i.name }}</a></li>
-                {% endfor %}
-            </ul>
-         </div>
+
          <div id="sections">
             <ul>
                 {% for i in ticker %}
@@ -140,6 +139,16 @@ $(document).ready(function() {
                 {% endfor %}
             </ul>
          </div>
+{% comment %}
+         <div id="navigation">
+            <ul>
+                {% for i in ticker %}
+                    <li><a id="stop{{ forloop.counter }}" href="#">{{ i.name }}</a></li>
+                {% endfor %}
+            </ul>
+         </div>
+{% endcomment %}				
+         
        </div>
     </div>
     

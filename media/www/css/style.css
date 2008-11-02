@@ -67,8 +67,8 @@ a img {border: none;}
 
 #upcoming {
 	width: 960px;
-	height: 380px;
-	margin-top: 80px;
+	height: 320px;
+	margin-top: 50px;
 	}
 	
 .rss-index {float: right; margin: 10px;}
@@ -97,7 +97,6 @@ float: left;
 	
 .present {
 	float: left;
-	height: 250px;
 	}
 
 
@@ -168,15 +167,14 @@ float: left;
 		
 #notifier {
 	width: 960px;
-	height: 260px;
-	padding-left: 80px;
+	padding: 30px 0 20px 75px;
+	height: 150px;
 	}
 	
 .button-chamber {	
+	width: 400px;
 	float: left;
-	width: 450px;
-	height: 200px;
-	padding-top: 60px;
+	margin-right: 10px;
 	}
 	
 .gallery {
@@ -227,22 +225,15 @@ float: left;
 	}
 	
 .video {
-	float: left;
-	width: 100px;
-	height: 67px;
 	text-align: left;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-bottom: 10px;
-	padding-top: 10px;
 	}
+
+.video p {font-size: 16px; font-weight: bold; margin: 0 0 10px 0;}
 	
 .video-button {
 	float: left;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-bottom: 10px;
-	padding-top: 10px;
+	margin-right: 10px;
+		border: 1px solid black;
 	}
 	
 .video-button img {
@@ -275,14 +266,16 @@ float: left;
 	
 .notifier-chamber {	
 	float: left;
-	width: 350px;
-	height: 200px;
-	padding-top: 70px;
+	width: 400px;
 	}
 	
 .notifier-chamber img {
 	border: 1px solid #000;
 	}
+
+#sections ul {margin: 0; padding: 0;}
+#sections li {font-size: 14px; padding: 0 10px; list-style: none;}
+#sections li p {width: 370px;}
 	
 /* End of upcoming and notifier */
 	

@@ -31,14 +31,12 @@
 		}
 			#sections p{
 				width:550px;
-				margin:16px 0;
 				font-size:85%;
 				line-height:1.4em;
 			}
 			
 			#sections h2{
-				color:#993333;
-				margin:20px 0pt;
+				font-size: 16px; font-weight: bold; margin: 0 0 10px 0; text-decoration: underline;
 			}
 			#sections a{
 				color:#777;
