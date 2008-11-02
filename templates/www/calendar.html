@@ -11,7 +11,7 @@
 {% block content %}
     <div id="koledar">
     	<div class="koledar-title-main">
-        Koledar - {% now "F Y" %}
+        Koledar - {{ now|date:"F Y"|capfirst }}
         </div>
 
         <div class="koledar-img">

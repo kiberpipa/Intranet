@@ -145,6 +145,7 @@ def calendar(request, year=None, month=None, en=False):
         'dates': dates,
         'prev': reverse('intranet.www.views.calendar', args=['%s/%s' % (prev_year, prev_month)]),
         'next': reverse('intranet.www.views.calendar', args=['%s/%s' % (next_year, next_month)]),
+        'now': today,
         },
         context_instance=RequestContext(request))
 

@@ -1,0 +1,16 @@
+{% extends "www/base-second.html" %}
+{% block extrahead %}{% endblock %}
+{% block title %}{{ event }}{% endblock %}
+{% load markup %}
+
+{% block heading %}
+    <h1>{{ event }}</h1>
+{% endblock %}
+{% block content%}
+<div id="kiberpipa-content">
+{% for i in object_list %}
+ <a href="{{ i.get_public_url }}">{{ i }}</a>
+opis: {{ i.announce }}
+{% endfor %}
+</a>
+{% endblock %}

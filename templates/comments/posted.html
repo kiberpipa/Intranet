@@ -4,5 +4,5 @@
 {% block title %}{% trans "Thanks for commenting" %}.{% endblock %}
 
 {% block content %}
-<meta http-equiv="refresh" content="0;url={{ comment.get_absolute_url }}"/>
+<meta http-equiv="refresh" content="0;url={% if comment.content_object.get_public_url %}{{ comment.content_object.get_public_url }}{% else %}{{ comment.get_absolute_url }}{% endif %}"/>
 {% endblock %}
