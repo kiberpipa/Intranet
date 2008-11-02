@@ -15,7 +15,7 @@
         </div>
 
         <div class="koledar-img">
-    	<a href="#">iCal</a>, <a href="/rss/" ><img src="{{ media_url }}www/images/rss20x20.png" alt="RSS Feeds" /></a>
+    	<a href="/ical/">iCal</a>, <a href="/rss/" ><img src="{{ media_url }}www/images/rss20x20.png" alt="RSS Feeds" /></a>
     	</div>
 
     <div id="koledar-wrapper">
@@ -69,15 +69,20 @@
                 <div class="koledar-box-num">
                     {{ date.day }}
                 </div>
+                    <ul>
                 {% for event in events %}
                     {% if event.public %}
-                        <a href="{{ event.get_public_url }}">{{ event.title|truncchar:"64" }}</a>
+
+                       <li><a href="{{ event.get_public_url }}">{{ event.title|truncchar:"64" }}</a></li>
+
                     {% else %}
                         PRIVATE!!
                     {% endif %}
                 {% endfor %}
+                     </ul>
             </div>
         {% endfor %}
+        
     </div>
         <div class="koledar-previous">
         &lt;&lt; Previous month
