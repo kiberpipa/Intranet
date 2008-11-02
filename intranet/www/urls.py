@@ -17,6 +17,11 @@ press_dict = {
     'queryset': Clipping.objects.order_by('-date')[:15],
 }
 
+press_dict_en = {
+    'queryset': Clipping.objects.order_by('-date')[:15],
+    'template_name': 'www/press-en.html',
+}
+
 news_en_dict = {
     'queryset': Event.objects.filter(language='EN'),
     'template_name': 'www/news-en.html',
@@ -36,5 +41,6 @@ urlpatterns = patterns('',
     url(r'^news-en/', 'django.views.generic.list_detail.object_list', news_en_dict),
     url(r'^alumni-en/', 'django.views.generic.list_detail.object_list', alumni_dict_en),
     url(r'^press/', 'django.views.generic.list_detail.object_list', press_dict),
+    url(r'^press-en/', 'django.views.generic.list_detail.object_list', press_dict_en),
     url(r'^ajax/gallery/(?P<id>\d+|[\w-]+)/$', 'intranet.www.views.gallery'),
 )

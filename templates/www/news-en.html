@@ -1,4 +1,4 @@
-{% extends "www/base-second.html" %}
+{% extends "www/base-english.html" %}
 {% block extrahead %}{% endblock %}
 {% block title %}{{ event }}{% endblock %}
 {% load markup %}
@@ -8,9 +8,10 @@
 {% endblock %}
 {% block content%}
 <div id="kiberpipa-content">
+<h2>English news</h2>
 {% for i in object_list %}
- <a href="{{ i.get_public_url }}">{{ i }}</a>
-opis: {{ i.announce }}
+ <h3><a href="{{ i.get_public_url }}">{{ i }}</a></h3>
+<p>{{ i.announce }}</p>
 {% endfor %}
 </a>
 {% endblock %}

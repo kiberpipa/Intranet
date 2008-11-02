@@ -15,7 +15,7 @@
         </div>
 
         <div class="koledar-img">
-    	<a href="/ical/">iCal</a>, <a href="/rss/" ><img src="{{ media_url }}www/images/rss20x20.png" alt="RSS Feeds" /></a>
+    	<a href="/calendar/ical/">iCal</a>, <a href="/rss/" ><img src="{{ media_url }}www/images/rss20x20.png" alt="RSS Feeds" /></a>
     	</div>
 
     <div id="koledar-wrapper">
@@ -40,6 +40,7 @@
         <div class="koledar-title">
         Nedelja
         </div>
+{% comment %}
         <table border="1">
 {% for date, events in dates %}
     {% ifequal date.weekday 0 %}
@@ -62,8 +63,8 @@
     {% endifequal %}
 {% endfor %}
 </table>
+{% endcomment %}
 
-{% comment %}
         {% for date, events in dates %}
             <div class="koledar-box">
                 <div class="koledar-box-num">
@@ -73,10 +74,10 @@
                 {% for event in events %}
                     {% if event.public %}
 
-                       <li><a href="{{ event.get_public_url }}">{{ event.title|truncchar:"64" }}</a></li>
+                       <li><a href="{{ event.get_public_url }}">{{ event.title|truncchar:"32" }}</a></li>
 
                     {% else %}
-                        PRIVATE!!
+                     <li>PRIVATE!!</li>
                     {% endif %}
                 {% endfor %}
                      </ul>
@@ -84,13 +85,13 @@
         {% endfor %}
         
     </div>
-{% endcomment %}
         <div class="koledar-previous">
-        <a href="{{ prev }}">&lt;&lt; Previous month</a>
+       <a href="{{ prev }}"> &lt;&lt; Prejšnji mesec</a>
         </div>
         <div class="koledar-next">
         <a href="{{ next }}">Next month &gt;&gt;</a>
         </div>    
+
     </div>
     {% comment %}
 find me a home:

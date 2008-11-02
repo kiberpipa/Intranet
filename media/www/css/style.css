@@ -1186,6 +1186,8 @@ float: left;
 	padding-bottom: 25px;
 	padding-left: 50px;
 	}
+
+#koledar-wrapper li {margin-left: -30px; margin-bottom: 5px; list-style: disc inside; padding: 0;}
 	
 .koledar-title {
 	font-size: 16px;
@@ -1199,7 +1201,7 @@ float: left;
 .koledar-box {
 	width: 105px;
 	height: 100%;
-	min-height: 140px;
+	min-height: 170px;
 	border: 1px solid #000000;
 	float: left;
 	padding: 5px;
@@ -1227,6 +1229,7 @@ float: left;
 	text-align: right;
 	vertical-align: top;
 }
+
 	
 /* End of koledar */
 
