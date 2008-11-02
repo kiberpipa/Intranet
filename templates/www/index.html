@@ -3,9 +3,13 @@
 
 {% block extrahead %}
 <link href='{{ media_url }}/www/scroll.css' type='text/css' rel='stylesheet' />
+{% comment %}
 <script type='text/javascript' src='{{ media_url }}/js/jquery.scrollTo-min.js'></script>
 <script type='text/javascript' src='{{ media_url }}/js/jquery.serialScroll-min.js'></script>
-<script type='text/javascript' src='{{ media_url }}/www/js/jquery.scrollable.min.js'></script>
+{% endcomment %}
+<script type='text/javascript' src='{{ media_url }}/www/js/jquery.scrollable.js'></script>
+<script type='text/javascript' src='{{ media_url }}/www/js/jquery.serialScroll-1.2.1.js'></script>
+<script type='text/javascript' src='{{ media_url }}/www/js/jquery.scrollTo-1.4.0.js'></script>
 <script type='text/javascript'>
 <!-- TODO create init.js -->
 
@@ -13,7 +17,22 @@ jQuery.easing.easeOutQuart = function (x, t, b, c, d) {
 	return -c * ((t=t/d-1)*t*t*t - 1) + b;
 };
 
-jQuery(function( $ ){
+$(document).ready(function() {
+        scroll = $(".present")
+        scroll.scrollable({horizontal:true, speed:500, size:3 });
+        scroll.scrollable("seekTo", {{ position }}, 1)
+        $(".future").click(function(){
+            scroll.scrollable("next");
+        });
+        $(".past").click(function(){
+            scroll.scrollable("prev");
+        });
+        $(".past3").click(function(){
+            scroll.scrollable("prevPage");
+        });
+        $(".future3").click(function(){
+            scroll.scrollable("nextPage");
+        });
 	$('#screen').serialScroll({
 		target:'#sections',
 		items:'li', // Selector to the items ( relative to the matched elements, '#sections' in this case )
@@ -44,23 +63,6 @@ jQuery(function( $ ){
         });
     {% endfor %}
     });
-    $(document).ready(function() {
-        scroll = $(".present")
-        scroll.scrollable({horizontal:true, speed:500, size:3 });
-        scroll.scrollable("seekTo", {{ position }}, 1)
-        $(".future").click(function(){
-            scroll.scrollable("next");
-        });
-        $(".past").click(function(){
-            scroll.scrollable("prev");
-        });
-        $(".past3").click(function(){
-            scroll.scrollable("prevPage");
-        });
-        $(".future3").click(function(){
-            scroll.scrollable("nextPage");
-        });
-    });
 </script>
 {% endblock %}
 {% block content %}
@@ -70,8 +72,7 @@ jQuery(function( $ ){
         	<div class="past3"><a href="#" onclick="return false;"><img src="{{ media_url }}www/images/puscica-3levo.gif" alt="tri dogodke nazaj" /></a></div>
         	<div class="past"><a href="#" onclick="return false;"><img src="{{ media_url }}www/images/puscica-levo.gif" alt="en dogodek nazaj" /></a></div>
 		</div>
-
-            <div class="present">
+            <div class="present" style="height:300px;">
                 {% for event in events %}
                     <div id="event{{ event.id }}" class="present-now">
                        
@@ -103,7 +104,6 @@ jQuery(function( $ ){
          
       </div>
 
-{% comment %}
     <div id="notifier">
     	<div class="button-chamber">
         	<div class="gallery"><a href="/gallery/">gallery</a></div>
@@ -116,19 +116,24 @@ jQuery(function( $ ){
             <div class="gallery-button3">
             	<img src="{{ media_url }}www/images/picture-small.gif" alt="slika" />
             </div>
-            <div class="video">video arhiv</div>
+            <div class="video"><a href="http://video.kiberpipa.org/">video arhiv</a></div>
+            {% for video in videos %}
             <div class="video-button">
-            	<img src="{{ media_url }}www/images/video-small.gif" alt="slika" />
+            	<a href="{{ video.play_url }}"><img width="67" height="67" src="{{ video.image_url }}" alt="slika" /></a>
+            </div>
+            {% endfor %}
+            {% comment %}
+            <div class="video-button">
+            	<a href="{{ videos.0.play_url }}"><img width="67" height="67" src="{{ videos.0.image_url }}" alt="slika" /></a>
             </div>
             <div class="video-button2">
-            	<img src="{{ media_url }}www/images/video-small.gif" alt="slika" />
+            	<a href="{{ videos.1.play_url }}"><img width="67" height="67" src="{{ videos.1.image_url }}" alt="slika" /></a>
             </div>
             <div class="video-button3">
-            	<img src="{{ media_url }}www/images/video-small.gif" alt="slika" />
+            	<a href="{{ videos.2.play_url }}"><img width="67" height="67" src="{{ videos.2.image_url }}" alt="slika" /></a>
             </div>
+            {% endcomment %}
          </div>
-
-{% endcomment %}
 
        <div id="screen" class="notifier-chamber">
          <div id="navigation">
