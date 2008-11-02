@@ -101,7 +101,7 @@ def compat(request):
     send_mail('b00, wh00, 404', 'PATH_INFO: %s\nQUERY_STRING: %s' % (request.META['PATH_INFO'], request.META['QUERY_STRING']), 'intranet@kiberpipa.org', [a[1] for a in settings.ADMINS], fail_silently=True)
     return HttpResponsePermanentRedirect('/')
 
-def calendar(request):
+def calendar(request, en=False):
     day = datetime.timedelta(1)
     today = datetime.date.today()
 
@@ -118,7 +118,12 @@ def calendar(request):
         begin = begin + day
 
 
-    return render_to_response('www/calendar.html', {
+    if en:
+        template='www/calendar-en.html'
+    else:
+        template='www/calendar.html'
+
+    return render_to_response(template, {
         'dates': dates,
         },
         context_instance=RequestContext(request))
