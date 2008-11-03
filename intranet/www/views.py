@@ -63,9 +63,9 @@ def index(request):
         'videos': Video.objects.order_by('-pub_date')[:4],
     }, context_instance=RequestContext(request))
 
-def event(request, slug):
+def event(request, id):
     return render_to_response('www/event.html', {
-        'event': Event.objects.get(slug=slug),
+        'event': Event.objects.get(pk=id),
         }, 
         context_instance=RequestContext(request))
 
@@ -89,6 +89,11 @@ def compat(request):
         else:
             return HttpResponsePermanentRedirect('/about/')
 
+    if request.GET.has_key('Date'):
+        date = request.GET['Date']
+        return HttpResponsePermanentRedirect('/calendar/%s/%s/' % (date[:4], date[4:6]))
+
+
 #    elif request.GET.has_key('set_albumName')
 #        #`gallery crap'
 #        if request.GET.has_key('id'):
@@ -98,9 +103,18 @@ def compat(request):
 #            #album has been requested
 #            pass
 #
+    if request.GET.has_key('pollID'):
+        return HttpResponsePermanentRedirect('/')
+
+    if request.GET.has_key('topic'):
+        #they want a listing of certain topic, we don't have that ATM
+        return HttpResponsePermanentRedirect('/')
+
+
+    if not request.GET.has_key('set_albumName'):
     #we have a problem
-    send_mail('b00, wh00, 404', 'PATH_INFO: %s\nQUERY_STRING: %s' % (request.META['PATH_INFO'], request.META['QUERY_STRING']), 'intranet@kiberpipa.org', [a[1] for a in settings.ADMINS], fail_silently=True)
-    return HttpResponsePermanentRedirect('/')
+        send_mail('b00, wh00, 404', 'PATH_INFO: %s\nQUERY_STRING: %s' % (request.META['PATH_INFO'], request.META['QUERY_STRING']), 'intranet@kiberpipa.org', [a[1] for a in settings.ADMINS], fail_silently=True)
+        return HttpResponsePermanentRedirect('/')
 
 def calendar(request, year=None, month=None, en=False):
     day = datetime.timedelta(1)

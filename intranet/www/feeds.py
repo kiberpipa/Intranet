@@ -63,8 +63,6 @@ class AllInOne(Feed):
 
         self.title = ' | '.join(new_bits)
         self.link = request.path
-        #pimp me
-        self.description = ' | '.join(new_bits)
 
     def items(self):
         return self.items

@@ -203,7 +203,8 @@ class Event(models.Model):
         return "%s/intranet/events/%i/" % (settings.BASE_URL, self.id)
 
     def get_public_url(self):
-        return settings.BASE_URL + reverse('intranet.www.views.event', args=[self.slug])
+        #return settings.BASE_URL + reverse('intranet.www.views.event', args=[self.slug])
+        return settings.BASE_URL + '/'.join(['event', self.start_date.strftime('%Y-%b-%d').lower(), unicode(self.id), self.slug])
 
     def __unicode__(self):
         return self.title
@@ -224,14 +225,13 @@ class Event(models.Model):
         q1 = width/400
         q2 = height/300
         if q1 > q2:
-            new_width = width/q1
-            new_height = height/q1
+            q = q1
         else:
-            new_width = width/q2
-            new_height = height/q2
+            q = q2
 
-        new = pic.resize((int(new_width), int(new_height)))
-        new.save(filename)
+        if q > 1:
+            new = pic.resize((int(width/q), int(height/q)))
+            new.save(filename)
 
     class Meta:
         verbose_name = 'Dogodek'

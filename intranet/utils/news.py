@@ -4,25 +4,40 @@
 
 import MySQLdb
 import sys
+from mx.DateTime.ISO import ParseAny
+import datetime
 
 from intranet.www.models import News
 
-
-from django.utils.encoding import *
-from django.template.defaultfilters import slugify
+import re
+import unicodedata
+from htmlentitydefs import name2codepoint
+from django.utils.encoding import smart_unicode, force_unicode
 from django.contrib.auth.models import User
+from django.template.defaultfilters import slugify
 
 #pw = sys.stdin.readline()
 
 # Connect more bit unicode free (default forca utf-8), zato use_unicode=False
 # V nasprotnem primeru se ze tu polomijo podatki zaradi razlicnega charseta
 
-con = MySQLdb.connect('127.0.0.1', 'root', '', 'webpage', use_unicode=False)
+con = MySQLdb.connect('127.0.0.1', 'root', 'crkncrkn', 'webpage', use_unicode=False)
 cur = con.cursor()
 
 katja = User.objects.get(pk=19)
 
 cur.execute('select pn_title, pn_time, pn_hometext, pn_sid, pn_informant from nuke_stories')
+
+def unique(slug, var='slug'):
+    allSlugs = [sl.values()[0] for sl in News.objects.values(var)]
+    if slug in allSlugs:
+        counterFinder = re.compile(r'-\d+$')
+        counter = 2
+        slug = "%s-%i" % (slug, counter)
+        while slug in allSlugs:
+            slug = re.sub(counterFinder,"-%i" % counter, slug)
+            counter += 1
+    return slug
 
 # Tole je Almir while while zanke...strange, but works
 while 1:
@@ -40,8 +55,9 @@ while 1:
         user = User.objects.get(username=row4)
     except User.DoesNotExist:
         user = katja
-    
-    News.objects.create(id=row3, title=row0, date=row1.__str__(), text=row2, slug=slugify(row0), author=user)
+   
+    n = News.objects.create(id=row3, title=row0, text=row2, author=user, slug=unique(slugify(row0)))
+    print 'update www_news set date = \'%s\' where id = %s;' % (row1, n.id)
 
 ##handle the calendar entries with the same title's as news
 equal=[]
@@ -74,4 +90,5 @@ while 1:
     except User.DoesNotExist:
         user = katja
 
-    News.objects.create(calendar_id=calendar_id, title=title, date=time.__str__(), text=text, slug=slugify(title), author=user)
+    n = News.objects.create(calendar_id=calendar_id, title=title, text=text, author=user, slug=unique(slugify(title)))
+    print 'update www_news set date = \'%s\' where id = %s;' % (time, n.id)
