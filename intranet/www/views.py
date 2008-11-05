@@ -125,6 +125,9 @@ def compat(request, file):
         return HttpResponsePermanentRedirect('/calendar/')
 
 
+    if not request.GET:
+        return HttpResponsePermanentRedirect('/')
+
     if not (request.GET.has_key('set_albumName') or (request.GET.has_key('name') and request.GET['name'] == 'gallery')):
     #we have a problem
         send_mail('b00, wh00, 404', 'PATH_INFO: %s\nQUERY_STRING: %s' % (request.META['PATH_INFO'], request.META['QUERY_STRING']), 'intranet@kiberpipa.org', [a[1] for a in settings.ADMINS], fail_silently=True)
