@@ -51,7 +51,7 @@ def index(request):
     month = datetime.datetime.today() - datetime.timedelta(30)
     #forcing the evalutation of query set :-/. anyone got better ideas?
     events = list(Event.objects.filter(public=True, start_date__gte=month).order_by('start_date'))
-    position = events.index(next) - 2
+    position = events.index(next) - 1
 
     return render_to_response('www/index.html', {
         'position': position,
@@ -75,14 +75,15 @@ def news(request, slug):
         },
         context_instance=RequestContext(request))
 
-def compat(request):
+def compat(request, file):
     if request.GET.has_key('sid'):
         #`normal news links'
         return HttpResponsePermanentRedirect(News.objects.get(id=request.GET['sid']).get_absolute_url())
     if request.GET.has_key('eid'):
-        #calendar crap
+        #calendar article
         return HttpResponsePermanentRedirect(News.objects.get(calendar_id=request.GET['eid']).get_absolute_url())
     if request.GET.has_key('ceid'):
+        #staticni linki ki so bli na levi strani
         ceid = request.GET['ceid']
         if ceid == 11:
             return HttpResponsePermanentRedirect('/community/')
@@ -90,6 +91,7 @@ def compat(request):
             return HttpResponsePermanentRedirect('/about/')
 
     if request.GET.has_key('Date'):
+        #calendar listing
         date = request.GET['Date']
         return HttpResponsePermanentRedirect('/calendar/%s/%s/' % (date[:4], date[4:6]))
 
@@ -112,9 +114,18 @@ def compat(request):
 
     if request.GET.has_key('name') and request.GET['name'] == 'Web_Links':
         return HttpResponsePermanentRedirect('/')
-        
+       
+    if request.GET.has_key('name') and request.GET['name'] == 'Archive' and request.GET.has_key('year') and request.GET.has_key('month'):
+        return HttpResponsePermanentRedirect('/calendar/%s/%s/' % (request.GET['year'], request.GET['month']))
 
-    if not request.GET.has_key('set_albumName'):
+    if request.GET.has_key('module') and request.GET['module'] == 'RSS':
+        return HttpResponsePermanentRedirect('/feeds/all/planet/')
+    
+    if request.GET.has_key('module') and request.GET['module'] == 'PostCalendar':
+        return HttpResponsePermanentRedirect('/calendar/')
+
+
+    if not (request.GET.has_key('set_albumName') or (request.GET.has_key('name') and request.GET['name'] == 'gallery')):
     #we have a problem
         send_mail('b00, wh00, 404', 'PATH_INFO: %s\nQUERY_STRING: %s' % (request.META['PATH_INFO'], request.META['QUERY_STRING']), 'intranet@kiberpipa.org', [a[1] for a in settings.ADMINS], fail_silently=True)
         return HttpResponsePermanentRedirect('/')

@@ -217,21 +217,22 @@ class Event(models.Model):
         except Event.DoesNotExist:
             pass
         super(Event, self).save()
-        filename = settings.MEDIA_ROOT + '/' + self.image._get_name()
-        pic = Image.open(filename)
-        width, height = pic.size
-        width = float(width)
-        height = float(height)
-        q1 = width/400
-        q2 = height/300
-        if q1 > q2:
-            q = q1
-        else:
-            q = q2
+        if self.image:
+            filename = settings.MEDIA_ROOT + '/' + self.image._get_name()
+            pic = Image.open(filename)
+            width, height = pic.size
+            width = float(width)
+            height = float(height)
+            q1 = width/400
+            q2 = height/300
+            if q1 > q2:
+                q = q1
+            else:
+                q = q2
 
-        if q > 1:
-            new = pic.resize((int(width/q), int(height/q)))
-            new.save(filename)
+            if q > 1:
+                new = pic.resize((int(width/q), int(height/q)))
+                new.save(filename)
 
     class Meta:
         verbose_name = 'Dogodek'
