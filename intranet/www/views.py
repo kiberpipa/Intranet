@@ -110,6 +110,9 @@ def compat(request):
         #they want a listing of certain topic, we don't have that ATM
         return HttpResponsePermanentRedirect('/')
 
+    if request.GET.has_key('name') and request.GET['name'] == 'Web_Links':
+        return HttpResponsePermanentRedirect('/')
+        
 
     if not request.GET.has_key('set_albumName'):
     #we have a problem

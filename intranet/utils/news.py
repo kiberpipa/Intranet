@@ -59,20 +59,21 @@ while 1:
     n = News.objects.create(id=row3, title=row0, text=row2, author=user, slug=unique(slugify(row0)))
     print 'update www_news set date = \'%s\' where id = %s;' % (row1, n.id)
 
-##handle the calendar entries with the same title's as news
-equal=[]
-cur.execute('SELECT `nuke_stories`.`pn_sid` , `nuke_postcalendar_events`.`pc_eid` FROM nuke_postcalendar_events, nuke_stories WHERE `nuke_stories`.`pn_title` = `nuke_postcalendar_events`.`pc_title`')
-
-while 1:
-    row = cur.fetchone()
-    if not row: break
-    equal += [str(row[1])]
-    n = News.objects.get(id=row[0])
-    n.calendar_id = row[1]
-    n.save()
+###handle the calendar entries with the same title's as news
+#equal=[]
+#cur.execute('SELECT `nuke_stories`.`pn_sid` , `nuke_postcalendar_events`.`pc_eid` FROM nuke_postcalendar_events, nuke_stories WHERE `nuke_stories`.`pn_title` = `nuke_postcalendar_events`.`pc_title`')
+#
+#while 1:
+#    row = cur.fetchone()
+#    if not row: break
+#    equal += [str(row[1])]
+#    n = News.objects.get(id=row[0])
+#    n.calendar_id = row[1]
+#    n.save()
 
 #na koncu se calendar entryje ki jih ni ratalo zlinkat z novicami
-cur.execute('select pc_eid, pc_title, pc_time, pc_hometext, pc_informant from `nuke_postcalendar_events` where pc_eid not in ('+ ','.join(equal) +')')
+#cur.execute('select pc_eid, pc_title, pc_time, pc_hometext, pc_informant from `nuke_postcalendar_events` where pc_eid not in ('+ ','.join(equal) +')')
+cur.execute('select pc_eid, pc_title, pc_time, pc_hometext, pc_informant from `nuke_postcalendar_events`')
 
 while 1:
     row = cur.fetchone()

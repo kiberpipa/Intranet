@@ -36,6 +36,7 @@ TEMPLATE_LOADERS = (
 
 MIDDLEWARE_CLASSES = (
     'intranet.middleware.exception.StandardExceptionMiddleware',
+    'intranet.middleware.SmartAppendSlash.SmartAppendSlashMiddleware',
     #'intranet.middleware.psyco_middleware.PsycoMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -100,5 +101,7 @@ LDAP_SERVER='ldap://localhost'
 SEND_BROKEN_LINK_EMAILS = True
 DEFAULT_FROM_EMAIL = 'intranet@kiberpipa.org'
 EMAIL_SUBJECT_PREFIX = '[intranet] '
+
+SERVER_EMAIL = 'intranet@kiberpipa.org'
 
 from localsettings import *
