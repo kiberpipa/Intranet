@@ -105,16 +105,17 @@ def compat(request, file):
 #            #album has been requested
 #            pass
 #
-    if request.GET.has_key('pollID'):
+    if request.GET.has_key('pollID') or\
+        request.GET.has_key('topic') or\
+        request.GET.has_key('name') and request.GET['name'] == 'Web_Links' or\
+        not request.GET or\
+        request.GET.has_key('name') and re.match('^http://', request.GET['name']) or\
+        request.GET.has_key('module') and re.match('^http://', request.GET['module']) or\
+        request.GET.has_key('op') and re.match('^http://', request.GET['op']) or\
+        request.GET.has_key('name') and request.GET['name'] == 'News' or\
+        request.GET.has_key('op') and request.GET['op'] == 'click':
         return HttpResponsePermanentRedirect('/')
 
-    if request.GET.has_key('topic'):
-        #they want a listing of certain topic, we don't have that ATM
-        return HttpResponsePermanentRedirect('/')
-
-    if request.GET.has_key('name') and request.GET['name'] == 'Web_Links':
-        return HttpResponsePermanentRedirect('/')
-       
     if request.GET.has_key('name') and request.GET['name'] == 'Archive' and request.GET.has_key('year') and request.GET.has_key('month'):
         return HttpResponsePermanentRedirect('/calendar/%s/%s/' % (request.GET['year'], request.GET['month']))
 
@@ -123,10 +124,6 @@ def compat(request, file):
     
     if request.GET.has_key('module') and request.GET['module'] == 'PostCalendar':
         return HttpResponsePermanentRedirect('/calendar/')
-
-
-    if not request.GET:
-        return HttpResponsePermanentRedirect('/')
 
     if not (request.GET.has_key('set_albumName') or (request.GET.has_key('name') and request.GET['name'] == 'gallery')):
     #we have a problem
@@ -219,7 +216,7 @@ def ical(request, month=None):
             'UID:event-%s@kiberpipa.org' % e.id,
             end_date.strftime('DTEND:%Y%m%dT%H%M%S'),
             last_mod.strftime('LAST-MODIFIED:%Y%m%dT%H%M%SZ'),
-            'SUMMARY:%s: %s' % (e.project, e.title),
+            'SUMMARY:%s: %s' % (unicode(e.project), e.title),
             'DESCRIPTION:%s' % e.get_public_url(),
             'TRANSP:OPAQUE',
             'END:VEVENT',
