@@ -14,20 +14,19 @@ jQuery.easing.easeOutQuart = function (x, t, b, c, d) {
 };
 
 $(document).ready(function() {
-        scroll = $(".present")
-        scroll.scrollable({horizontal:true, speed:500, size:3 });
-        scroll.scrollable("seekTo", {{ position }}, 1)
+        $(".present").scrollable({horizontal:true, speed:500, size:3 });
+        $(".present").scrollable("seekTo", {{ position }}, 1)
         $(".future").click(function(){
-            scroll.scrollable("next");
+            $(".present").scrollable("next");
         });
         $(".past").click(function(){
-            scroll.scrollable("prev");
+            $(".present").scrollable("prev");
         });
         $(".past3").click(function(){
-            scroll.scrollable("prevPage");
+            $(".present").scrollable("prevPage");
         });
         $(".future3").click(function(){
-            scroll.scrollable("nextPage");
+            $(".present").scrollable("nextPage");
         });
 	$('#screen').serialScroll({
 		target:'#sections',

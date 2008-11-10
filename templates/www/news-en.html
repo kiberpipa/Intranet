@@ -11,7 +11,7 @@
 <h3>English news</h3>
 {% for i in object_list %}
  <h4><a href="{{ i.get_public_url }}">{{ i }}</a></h4>
-<p>{{ i.announce }}</p>
+<p>{{ i.announce|safe }}</p>
 {% endfor %}
 </a>
 {% endblock %}
