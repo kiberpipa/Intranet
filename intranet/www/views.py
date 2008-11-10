@@ -112,7 +112,12 @@ def compat(request, file):
         request.GET.has_key('name') and re.match('^http://', request.GET['name']) or\
         request.GET.has_key('module') and re.match('^http://', request.GET['module']) or\
         request.GET.has_key('op') and re.match('^http://', request.GET['op']) or\
+        request.GET.has_key('op') and request.GET['op'] == 'userinfo' or\
         request.GET.has_key('name') and request.GET['name'] == 'News' or\
+        request.GET.has_key('name') and request.GET['name'] == 'Comments' or\
+        request.GET.has_key('name') and request.GET['name'] == 'Pools' or\
+        request.GET.has_key('name') and request.GET['name'] == 'pools' or\
+        request.GET.has_key('newlang') or\
         request.GET.has_key('op') and request.GET['op'] == 'click':
         return HttpResponsePermanentRedirect('/')
 

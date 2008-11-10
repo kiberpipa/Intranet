@@ -11,6 +11,8 @@
         <div class="dogodek-news-title">
         {{ event }}
         </div>
+        {{ event.start_date|date:"l, d. "|capfirst }}
+        {{ event.start_date|date:"b Y"|capfirst }}
         <div class="dogodek-content">
         <div class="dogoodek-content img">
         {% if event.image %}
