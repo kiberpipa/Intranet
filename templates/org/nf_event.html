@@ -61,10 +61,40 @@ function createObject(objId) {
 }
 
 $(document).ready(function() {
-   $(".input_author").suggest("/intranet/autocomplete/");
-   $('#id_announce').markItUp(mySettings);
-   $('#id_title').keypress(function() { return taLimit(this)  });
-   $('#id_title').keyup(function() { return taCount(this,'myCounter') });
+    $("#id_project").change(function(){
+        var now = new Date();
+        var time = now.getYear() + 1900 + '-' + (now.getMonth() + 1) + '-' + now.getDate() + ' 19:00';
+        switch (this.selectedIndex) {
+            case 23: //su
+                $("#id_start_date").attr("value", time);
+                $("#id_category").attr("value", 3); //izobrazevanje
+                $("#id_place").attr("value", 2); //glavni prostor
+                $("#id_responsible").attr("value", 43); //fry
+                $("#id_require_technician").attr("checked", true);
+                $("#id_require_video").attr("checked", true);
+                break;
+            case 29: //vip
+                $("#id_start_date").attr("value", time);
+                $("#id_category").attr("value", 3); //izobrazevanje
+                $("#id_place").attr("value", 2); //glavni prostor
+                $("#id_responsible").attr("value", 45); //klemen
+                $("#id_require_technician").attr("checked", true);
+                $("#id_require_video").attr("checked", true);
+                break;
+            case 17: //pot
+                $("#id_start_date").attr("value", time);
+                $("#id_category").attr("value", 3); //izobrazevanje
+                $("#id_place").attr("value", 2); //glavni prostor
+                $("#id_responsible").attr("value", 42); //lowkey
+                $("#id_require_technician").attr("checked", true);
+                $("#id_require_video").attr("checked", true);
+                break;
+        }
+    });
+    $(".input_author").suggest("/intranet/autocomplete/");
+    $('#id_announce').markItUp(mySettings);
+    $('#id_title').keypress(function() { return taLimit(this)  });
+    $('#id_title').keyup(function() { return taCount(this,'myCounter') });
 });
   
   </script>
@@ -103,6 +133,10 @@ $(document).ready(function() {
     {{ form.title.label_tag }}
     {{ form.title }}
     <SPAN id=myCounter>64</SPAN> left
+    <br />
+    {{ form.project.errors }}
+    <label for="id_project">Projekti:</label>
+    {{ form.project }}
   </p>
 	<p>
 <a href="#" onClick="addFormField(); return false;">Add</a></p>
@@ -154,10 +188,6 @@ $(document).ready(function() {
     {{ form.language }}
     </p>
  <p>
-    {{ form.project.errors }}
-    <label for="id_project">Projekti:</label>
-    {{ form.project }}
-    <br />
     {{ form.responsible.errors }}
     <label for="id_responsible">Odgovorni:</label>
     {{ form.responsible }}
