@@ -117,6 +117,8 @@ def compat(request, file):
         request.GET.has_key('name') and request.GET['name'] == 'Comments' or\
         request.GET.has_key('name') and request.GET['name'] == 'Polls' or\
         request.GET.has_key('name') and request.GET['name'] == 'polls' or\
+        request.GET.has_key('name') and request.GET['name'] == 'Your_Account' or\
+        request.GET.has_key('name') and request.GET['name'] == 'Submit_News' or\
         request.GET.has_key('newlang') or\
         request.GET.has_key('op') and request.GET['op'] == 'click':
         return HttpResponsePermanentRedirect('/')

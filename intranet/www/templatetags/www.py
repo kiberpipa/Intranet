@@ -10,15 +10,15 @@ def calclass(date):
     prev_month = datetime.date(today.year, today.month-1, 1)
 
     if date == today:
-        return 'today'
+        return 'koledar-today'
     elif date >= next_month:
-        return 'next'
+        return 'koledar-next'
     elif date <= prev_month:
-        return 'prev'
+        return 'koledar-prev'
     elif date < today:
-        return 'past'
+        return 'koledar-past'
     elif date > today:
-        return 'future'
+        return 'koledar-future'
 
     return ''
 

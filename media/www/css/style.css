@@ -1230,6 +1230,11 @@ float: left;
 	vertical-align: top;
 }
 
+.koledar-today a:link { color: white;}
+.koledar-today {
+ color: white;
+ background-color: #0063FF;
+}
 	
 /* End of koledar */
 
