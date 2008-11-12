@@ -464,6 +464,16 @@ class Bug(models.Model):
     def __unicode__(self):
       return self.name
 
+    def parents(self):
+        current=self.parent
+        parents=[]
+        while current:
+            parents+=[current]
+            current=current.parent
+        parents.reverse()
+        return parents
+   
+			
     def get_absolute_url(self):
         return "%s/intranet/bugs/%i/" % (settings.BASE_URL, self.id)
     
