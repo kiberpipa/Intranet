@@ -17,11 +17,7 @@ def wikiwordfy(s):
 
 
 #not used and unncessary dependency at this point
-#import markdown
-#@register.filter
-#def wikify(s):
-#    return markdown.markdown(s)
-
-##mw wiki syntax parser
-from mw import parse
-register.filter('mw', parse)
+@register.filter
+def markdown(s):
+    from markdown import markdown
+    return markdown(s)

@@ -9,6 +9,15 @@
   div.field_wrapper {margin-left:10px; margin-right:10px;}
 
 </style>
+<script type="text/javascript" src="{{ media_url }}markitup/jquery.markitup.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ media_url }}markitup/skins/markitup/style.css" />
+<link rel="stylesheet" type="text/css" href="{{ media_url }}markitup/sets/markdown/style.css" />
+<script type="text/javascript" src="{{ media_url }}markitup/sets/markdown/set.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#id_content').markItUp(mySettings);
+});
+</script>
 
 {% endblock %}
 
@@ -36,7 +45,7 @@
 			<div class="field textarea">
 				{{ form.content }}
 			</div>
-            Use <a href="http://meta.wikimedia.org/wiki/Cheatsheet">Mediawiki</a> syntax.
+            Use <a href="http://daringfireball.net/projects/markdown/syntax">MarkDown</a> syntax.
 		</div><br />
 
 		<div class="field_wrapper {% if form.comment.errors %} errors{% endif %}" id="field_comment">

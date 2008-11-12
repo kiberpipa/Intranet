@@ -22,11 +22,7 @@
 
      <div class="module" id="recent-actions-module">
     <h2 class="left">{{ article.title }}</h2>
-    
-    {% autoescape off %}
-	   {% comment %} {{ article.content|escape|wikiwordfy|wikify|linebreaks }} {% endcomment %}
-	   {{ article.content|mw|escape|linebreaks }}
-    {% endautoescape %}
+	   {{ article.content|markdown|safe }}
 </div>
 {% endblock %}
 
