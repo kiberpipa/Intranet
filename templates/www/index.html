@@ -191,7 +191,7 @@ $(document).ready(function() {
             Published by {{ post.author }} on {{ post.date_modified }}
             </div>
             <div class="planet-content">
-            {{ post.content|santize|truncatewords:"60" }}
+            {{ post.content|santize|safe|truncatewords:"60" }}
             </div>
 {% comment %}
             <div class="planet-more">

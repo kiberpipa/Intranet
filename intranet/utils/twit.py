@@ -19,7 +19,14 @@ try:
         url = e.get_public_url()
         dump = urlopen('http://api.bit.ly/shorten?version=2.0.0&long_url=' + url +'&login=crkn&api_key=R_678ce6a3bba1c3f64f996080e21909c2')
         short_url = simplejson.loads(dump.read())['results'][url]['hashUrl']
-        api.PostUpdate('%s - %s - %s' % (e.project, e.title, short_url))
+        if Sodelovanje.objects.filter(event=e).count() == 1:
+            sodelovanja = '- ' + Sodelovanje.objects.filter(event=e)[0].person.name
+        else:
+            sodelovanja = ''
+        if e.language == 'SI':
+            api.PostUpdate('%s dans ob %s:%s #Kiberpipa: %s %s %s' % (e.project, e.start_date.hour, e.start_date.minute, e.title, sodelovanja, short_url))
+        else:
+            api.PostUpdate('%s today at %s:%s #Kiberpipa: %s %s %s' % (e.project, e.start_date.hour, e.start_date.minute, e.title, sodelovanja, short_url))
 except IndexError:
     #the live stream announcement
     min_15 = today + datetime.timedelta(seconds=15*60)
@@ -28,5 +35,11 @@ except IndexError:
         url = e.get_public_url()
         dump = urlopen('http://api.bit.ly/shorten?version=2.0.0&long_url=' + url +'&login=crkn&api_key=R_678ce6a3bba1c3f64f996080e21909c2')
         short_url = simplejson.loads(dump.read())['results'][url]['hashUrl']
-        sodelovanja = ['@' + unicode(s.person.name) for s in Sodelovanje.objects.filter(event=e)]
-        api.PostUpdate('Kiberpipa Watch %s live from @kiberpipa at http://video.kiberpipa.org/live.html' % (', '.join(sodelovanja)))
+        if Sodelovanje.objects.filter(event=e).count() == 1:
+            sodelovanja = Sodelovanje.objects.filter(event=e)[0].person.name + ' '
+        else:
+            sodelovanja = ''
+        if e.language == 'EN':
+            api.PostUpdate('%slive from #Kiberpipa at http://bit.ly/FdgZ' % sodelovanja)
+        else:
+            api.PostUpdate('%sv zivo iz #Kiberpipa na http://bit.ly/FdgZ' % sodelovanja)
