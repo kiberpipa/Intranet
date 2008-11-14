@@ -21,7 +21,6 @@ feeds = {
 
 urlpatterns = patterns('',
     #(r'^video3/', include('intranet.video.urls')),
-    (r'^comments/', include('django.contrib.comments.urls')),
     (r'^intranet/', include('intranet.org.urls')),
     (r'^intranet/wiki/', include('intranet.wiki.urls')),
     (r'^', include('intranet.www.urls')),
@@ -38,6 +37,9 @@ urlpatterns = patterns('',
     (r'^gallery/', include('intranet.photologue.urls')),
 
     (r'^intranet/admin/(.*)', admin.site.root),
+    (r'^comments/post/$', 'intranet.www.views.anti_spam'),
+    (r'^news/comments/post/$', 'intranet.www.views.anti_spam'),
+    (r'^comments/', include('django.contrib.comments.urls')),
 )
 
 if settings.DEBUG:

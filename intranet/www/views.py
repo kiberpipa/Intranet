@@ -9,12 +9,19 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.core import serializers
 from django.core.urlresolvers import reverse
+from django.contrib.comments.views.comments import post_comment
 
 from intranet.org.models import Event
 from intranet.feedjack.models import Post
 from intranet.photologue.models import Photo, Gallery
 from intranet.www.models import Ticker, News, Video
 import simplejson
+
+def anti_spam(request):
+    #make sure the users have taken at least 5 seconds from to read the page and write the comment (spam bots don't) 
+    if int(request.POST['timestamp'])+5 > int(datetime.datetime.now().strftime('%s')):
+        return HttpResponsePermanentRedirect('/')
+    return post_comment(request)
 
 def gallery(request, id):
     try:
