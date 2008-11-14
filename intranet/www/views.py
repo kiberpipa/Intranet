@@ -83,7 +83,7 @@ def news(request, slug):
         context_instance=RequestContext(request))
 
 def compat(request, file):
-    if request.GET.has_key('sid'):
+    if request.GET.has_key('sid') and re.match('^[0-9]+$', request.GET['sid']):
         #`normal news links'
         return HttpResponsePermanentRedirect(News.objects.get(id=request.GET['sid']).get_absolute_url())
     if request.GET.has_key('eid'):

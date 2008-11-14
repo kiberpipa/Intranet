@@ -20,14 +20,14 @@ class AllInOne(Feed):
 
         events = Event.objects.filter(public=True, start_date__lte=today + push)
         
-        pot = [(e.start_date-push, e) for e in events.filter(project=Project.objects.get(pk=1)).order_by('-start_date')]
-        su = [(e.start_date-push, e) for e in events.filter(project=Project.objects.get(pk=6)).order_by('-start_date')]
-        vip = [(e.start_date-push, e) for e in events.filter(project=Project.objects.get(pk=14)).order_by('-start_date')]
-        events = [(e.start_date-push, e) for e in events.order_by('-start_date')]
-        news =  [(n.date, n) for n in News.objects.order_by('-date')]
-        albums =  [(g.date_added, g) for g in Gallery.objects.order_by('-date_added')]
-        planet =  [(p.date_modified, p) for p in Post.objects.order_by('-date_modified')]
-        muzej =  [(p.date_modified, p) for p in Post.objects.filter(feed=12).order_by('-date_modified')]
+        pot = [(e.start_date-push, e) for e in events.filter(project=Project.objects.get(pk=1)).order_by('-start_date')[:10]]
+        su = [(e.start_date-push, e) for e in events.filter(project=Project.objects.get(pk=6)).order_by('-start_date')[:10]]
+        vip = [(e.start_date-push, e) for e in events.filter(project=Project.objects.get(pk=14)).order_by('-start_date')[:10]]
+        events = [(e.start_date-push, e) for e in events.order_by('-start_date')[:10]]
+        news =  [(n.date, n) for n in News.objects.order_by('-date')[:10]]
+        albums =  [(g.date_added, g) for g in Gallery.objects.order_by('-date_added')[:10]]
+        planet =  [(p.date_modified, p) for p in Post.objects.order_by('-date_modified')[:10]]
+        muzej =  [(p.date_modified, p) for p in Post.objects.filter(feed=12).order_by('-date_modified')[:10]]
 
     
 

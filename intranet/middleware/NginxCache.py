@@ -1,23 +1,28 @@
 from django.core.cache import cache
-import settings
+from django.http import HttpResponseNotFound
 import re
+import settings
 
 class NginxMemCacheMiddleWare:
     def process_response(self, request, response):
-        try:
+        if isinstance(response, HttpResponseNotFound):
+            return response
+        cacheIt = True
+        theUrl = request.get_full_path()
+
+        # if it's a GET then store it in the cache:
+        if request.method != 'GET':
             cacheIt = False
-            theUrl = request.get_full_path()
 
-            for exp in settings.CACHE_INCLUDE_REGEXPS:
-                if re.match(exp,theUrl):
-                    cacheIt = True
-
-            # if it's a GET then store it in the cache:
-            if request.method != 'GET':
+        # loop on our CACHE_INGORE_REGEXPS and ignore
+        # certain urls.
+        for exp in settings.CACHE_IGNORE_REGEXPS:
+            if re.match(exp,theUrl):
                 cacheIt = False
 
-            if cacheIt:
-                key = '%s-%s' % (settings.CACHE_KEY_PREFIX,theUrl)
-                cache.set(key,response.content)     
-        except AttributeError:
-            return response
+        if cacheIt:
+            key = '%s-%s' % (settings.CACHE_KEY_PREFIX,theUrl)
+            cache.set(key,response.content)     
+
+
+        return response
