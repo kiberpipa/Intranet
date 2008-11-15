@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 shopt -s extglob
 shopt -s nullglob
-#for i in */; do 
-for i in album06/; do 
+for i in */; do 
     [[ -f $i/photos.dat ]] && { 
         echo '# -*- coding: utf-8 -*-' 
         echo 'from intranet.photologue.models import Gallery, Photo'
@@ -27,5 +26,15 @@ for i in album06/; do
             if [[ $caption != $title && $caption ]]; then cap=", caption=u'$caption'"; fi
             printf "p=Photo.objects.create(image='$j'$cap)\np.save()\ngallery.photos.add(p)\n"
         done
-    } | iconv -f latin1 -t utf8 > "/home/intranet/gallery_migrate/7/${i%/}"
+    } | iconv -f latin1 -t utf8 | sed -e 's//ž/g' -e 's//š/g' -e 's/è/č/g' -e 's/¹/š/g' > "$1/${i%/}"
 done 
+
+for i in */album.dat; do
+    parent=`tr -d '\r' < $i | tr -d '\n' | ssed -R 's/.*parentAlbumName.*?:"(.*?)".*/\1/'` 
+    me="${i%/*}"
+    if [[ $parent == 'clicks' ]]; then
+        printf "me = Gallery.objects.get(album_name='$me')\nme.parent = None\nme.save()\n"
+    else
+        printf "me = Gallery.objects.get(album_name='$me')\nme.parent = Gallery.objects.get(album_name='$parent')\nme.save()\n"
+    fi
+done > "$1/ZZZZ-relations.py"
