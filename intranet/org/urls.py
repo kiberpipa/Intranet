@@ -191,6 +191,8 @@ urlpatterns = patterns('',
     (r'^clipping/add/', 'intranet.org.views.clipping_add'),
     (r'^clipping/', 'intranet.org.views.clipping'),
 
+    (r'^tmp_upload/', 'intranet.org.views.tmp_upload'),
+
     (r'^tehniki/(?P<year>\d+)/(?P<month>[a-z]{3})/$', 'intranet.org.views.tehniki_monthly'),
     (r'^tehniki/(?P<year>\d+)/(?P<week>\d+)/$', 'intranet.org.views.tehniki'),
     (r'^tehniki/$', 'intranet.org.views.tehniki'),

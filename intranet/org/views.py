@@ -37,6 +37,24 @@ month_dict = { 'jan': 1, 'feb': 2, 'mar': 3,
                'jul': 7, 'avg': 8, 'sep': 9,
             'okt': 10, 'nov': 11, 'dec': 12, }
 
+def tmp_upload(request):
+    #a helper function for handling tmp uploads, needed so that the user can
+    #resize the image in the browser (for index)
+    from PIL import Image
+    from simplejson import dumps
+    tmp = '/tmp/i3_tmp.img'
+    img = open(tmp, 'wb')
+    img.write(request.FILES['image'].read())
+    img.close()
+    filename = request.FILES['image']._get_name()
+    save = settings.MEDIA_ROOT + '/tmp/' + filename
+    pic = Image.open(tmp)
+    pic.save(save)
+    ret = dumps({'error': '', 'msg': 'congrats', 'url': settings.MEDIA_URL + 'tmp/' + filename })
+    
+    return HttpResponse(ret)
+tmp_upload = login_required(tmp_upload)
+
 # ------------------------------------
 
 def index(request):
