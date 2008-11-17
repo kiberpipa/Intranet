@@ -7,6 +7,12 @@ class NginxMemCacheMiddleWare:
     def process_response(self, request, response):
         if isinstance(response, HttpResponseNotFound):
             return response
+
+        try:
+            settings.CACHE_IGNORE_REGEXPS
+        except AttributeError:
+            return response
+
         cacheIt = True
         theUrl = request.get_full_path()
 

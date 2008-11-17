@@ -103,5 +103,7 @@ DEFAULT_FROM_EMAIL = 'intranet@kiberpipa.org'
 EMAIL_SUBJECT_PREFIX = '[intranet] '
 
 SERVER_EMAIL = 'intranet@kiberpipa.org'
+APPEND_SLASH = False
+SMART_APPEND_SLASH = True
 
 from localsettings import *

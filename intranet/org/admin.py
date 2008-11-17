@@ -31,7 +31,7 @@ class PersonAdmin(admin.ModelAdmin):
 
 
 class EventAdmin(admin.ModelAdmin):
-    search_fields = ['note','title','project', 'announce']
+    search_fields = ['title']
     date_hierarchy = 'start_date'
     ordering = ['-start_date']
     list_filter = ['project', 'start_date']
