@@ -47,10 +47,12 @@ def tmp_upload(request):
     img.write(request.FILES['image'].read())
     img.close()
     filename = request.FILES['image']._get_name()
-    save = settings.MEDIA_ROOT + '/tmp/' + filename
+    normal_path = '/tmp/' + filename
+    normal = settings.MEDIA_ROOT + normal_path
     pic = Image.open(tmp)
-    pic.save(save)
-    ret = dumps({'error': '', 'msg': 'congrats', 'url': settings.MEDIA_URL + 'tmp/' + filename })
+    width, height = pic.size
+    pic.save(normal)
+    ret = dumps({'link': settings.MEDIA_URL + normal_path, 'filename': normal_path})
     
     return HttpResponse(ret)
 tmp_upload = login_required(tmp_upload)
@@ -669,6 +671,14 @@ def nf_event_create(request):
             s.save() 
         new_event.slug = slugify(new_event.title)
         new_event.save()
+        if form.cleaned_data.has_key('resize'):
+            x1, x2, y1, y2 = tuple(form.cleaned_data['resize'].split(','))
+            box = (int(x1), int(y1), int(x2), int(y2))
+            from PIL import Image
+            im = Image.open(settings.MEDIA_ROOT + '/' + form.cleaned_data['filename'])
+            cropped = im.crop(box)
+            index = cropped.resize((250, 130))
+            index.save(settings.MEDIA_ROOT + '/' + new_event.index_image())
         return HttpResponseRedirect(new_event.get_absolute_url())
 
     return render_to_response('org/nf_event.html', {'form': form, 'tipi': TipSodelovanja.objects.all()},

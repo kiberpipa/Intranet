@@ -15,8 +15,10 @@
     <script type="text/javascript" src="{{ media_url }}js/cal/calendar-setup.js"></script>
     <script type="text/javascript" src="{{ media_url }}js/jquery.suggest.js" ></script>
     <script type="text/javascript" src="{{ media_url }}js/jquery.ajaxUpload.js" ></script>
+    <script type="text/javascript" src="{{ media_url }}js/jquery.imgareaselect-0.6.1.min.js" ></script>
 
 <script type="text/javascript">
+		
 function addFormField() {
     var id = document.getElementById("id").value;
     $("#divTxt").append("<p id=\"row" + id + "\"><label for=\"id_author\">Avtor(ji?): </label><input type=\"text\" class=\"input_author\" name=\"author\" id=\"id_author\" /><label for=\"id_tip\"></label><select name=\"tip\" id=\"id_tip\">{% for t in tipi %}<option value=\"{{ t.id }}\">{{ t }}</option>{% endfor %}</select><a href='#' onClick='removeFormField(\"#row" + id + "\"); return false;'>Remove</a></p>");
@@ -61,9 +63,12 @@ function createObject(objId) {
     else return eval("document." + objId);
 }
 
+function imgResized(img, sel) {
+    var result = new Array(sel.x1, sel.x2, sel.y1, sel.y2)
+    $("#id_resize").attr("value", result.join(','));
+}
 $(document).ready(function() {
     $("#id_image").change(function(){
-        $("#ajax_img").html('Uploading...');
         $.ajaxFileUpload
         (
             {
@@ -73,7 +78,9 @@ $(document).ready(function() {
                 dataType: 'json',
                 success: function (data, status)
                 {
-                    $("#ajax_img").html('<img src="' + data['url'] + '">');
+                    $("#ajax_img").html('<img id="rect" src="' + data['link'] + '">');
+                    $("#id_filename").attr("value", data['filename']);
+                    $('img#rect').imgAreaSelect({ selectionColor: 'blue', aspectRatio: "250:130", onSelectEnd: imgResized});
                 },
                 error: function (data, status, e)
                 {
@@ -293,6 +300,10 @@ $(document).ready(function() {
     <label for="id_note">Opombe:</label>
     {{ form.note }}
   </p>
+  {{ form.resize.label_tag }}
+  {{ form.resize }}
+  {{ form.filename.label_tag }}
+  {{ form.filename }}
   </div>
   </div>
 	</form>

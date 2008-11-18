@@ -79,7 +79,7 @@ $(document).ready(function() {
                         </div>
                         {% if event.image %}
                             <a href="{{ event.get_public_url }}">
-                                <img width="250" height="130" src="{{ event.image.url }}" alt="slika dogodka" />
+                                <img width="250" height="130" src="{{ media_url }}{{ event.index_image }}" alt="slika dogodka" />
                             </a>
                         {% else %}
                             <a href="{{ event.get_public_url }}">

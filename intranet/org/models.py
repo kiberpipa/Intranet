@@ -12,6 +12,7 @@ from datetime import date, time, timedelta, datetime
 import smtplib, string, audit
 import socket
 from PIL import Image
+import re
 
 
 LANGUAGES = (
@@ -198,6 +199,14 @@ class Event(models.Model):
     category = models.ForeignKey(Category)
     tags = models.ManyToManyField(Tag, blank=True, null=True)
 
+    def index_image(self):
+        index = re.sub('(?P<filename>.*)(?P<ext>\..*)', '\g<filename>-index\g<ext>', self.image._name)
+        from os.path import exists
+        if exists(index):
+            return index
+        else:
+            return self.image._name
+        
 
     def get_absolute_url(self):
         return "%s/intranet/events/%i/" % (settings.BASE_URL, self.id)

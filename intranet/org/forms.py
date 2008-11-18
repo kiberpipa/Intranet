@@ -111,6 +111,8 @@ class FileForm(forms.ModelForm):
         fields = ('zip_file')
 
 class EventForm(forms.ModelForm):
+    resize = forms.CharField(widget=forms.HiddenInput, required=False)
+    filename = forms.CharField(widget=forms.HiddenInput, required=False)
     start_date = forms.DateTimeField(widget=DateTimeWidget)
     class Meta:
         model = Event
