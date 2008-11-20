@@ -19,5 +19,5 @@ def wikiwordfy(s):
 #not used and unncessary dependency at this point
 @register.filter
 def markdown(s):
-    from markdown import markdown
+    from markdown2 import markdown
     return markdown(s)

@@ -678,7 +678,7 @@ def nf_event_create(request):
             im = Image.open(settings.MEDIA_ROOT + '/' + form.cleaned_data['filename'])
             cropped = im.crop(box)
             index = cropped.resize((250, 130))
-            index.save(settings.MEDIA_ROOT + '/' + new_event.index_image())
+            index.save(settings.MEDIA_ROOT + '/' + re.sub('(?P<filename>.*)(?P<ext>\..*)', '\g<filename>-index\g<ext>', new_event.image._name))
         return HttpResponseRedirect(new_event.get_absolute_url())
 
     return render_to_response('org/nf_event.html', {'form': form, 'tipi': TipSodelovanja.objects.all()},

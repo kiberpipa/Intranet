@@ -19,7 +19,7 @@ import simplejson
 
 def anti_spam(request):
     #make sure the users have taken at least 5 seconds from to read the page and write the comment (spam bots don't) 
-    if int(request.POST['timestamp'])+5 > int(datetime.datetime.now().strftime('%s')):
+    if request.POST.has_key('timestamp') and int(request.POST['timestamp'])+5 > int(datetime.datetime.now().strftime('%s')):
         return HttpResponsePermanentRedirect('/')
     return post_comment(request)
 
