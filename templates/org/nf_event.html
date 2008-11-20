@@ -93,8 +93,8 @@ $(document).ready(function() {
     $("#id_project").change(function(){
         var now = new Date();
         var time = now.getYear() + 1900 + '-' + (now.getMonth() + 1) + '-' + now.getDate() + ' 19:00';
-        switch (this.selectedIndex) {
-            case 23: //su
+        switch ($("#id_project").children()[this.selectedIndex].value) {
+            case '6': //su
                 $("#id_start_date").attr("value", time);
                 $("#id_category").attr("value", 3); //izobrazevanje
                 $("#id_place").attr("value", 2); //glavni prostor
@@ -102,7 +102,7 @@ $(document).ready(function() {
                 $("#id_require_technician").attr("checked", true);
                 $("#id_require_video").attr("checked", true);
                 break;
-            case 29: //vip
+            case '14': //vip
                 $("#id_start_date").attr("value", time);
                 $("#id_category").attr("value", 3); //izobrazevanje
                 $("#id_place").attr("value", 2); //glavni prostor
@@ -110,7 +110,7 @@ $(document).ready(function() {
                 $("#id_require_technician").attr("checked", true);
                 $("#id_require_video").attr("checked", true);
                 break;
-            case 17: //pot
+            case '1': //pot
                 $("#id_start_date").attr("value", time);
                 $("#id_category").attr("value", 3); //izobrazevanje
                 $("#id_place").attr("value", 2); //glavni prostor

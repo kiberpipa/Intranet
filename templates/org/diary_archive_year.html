@@ -50,7 +50,7 @@
     <ul id="breadcrumbs">
         <li>Meseci:</li>
         {% for obj in date_list %}
-            <li><a href="{{ obj|date:"M"|lower }}/">{{ obj.month }}</a></li>
+            <li><a href="{{ obj|date:"n" }}/">{{ obj.month }}</a></li>
         {% endfor %}
     </ul>
     </div>

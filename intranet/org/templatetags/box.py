@@ -34,7 +34,6 @@ def box_plache(diarys, user):
 
     # pupulate list, paylist from diaries
     for o in diarys:
-        print "DEBUG: God diary for event %s by %s, date %s" % (o.id, o.author.username, o.date)
         a = o.author.username
         if list.has_key(a):
             list[a] += o.length.hour 

@@ -68,6 +68,7 @@ diary_dict = {
     'queryset': Diary.objects.all().order_by('date'),
     'date_field': 'date',
     'allow_empty': 1,
+    'month_format': '%m',
 }
 
 addressbook_dict = {
@@ -243,8 +244,8 @@ urlpatterns += patterns('django.views.generic.date_based',
     #(r'events/$',    'archive_index', event_index),
 #    (r'events/$',    'archive_year', event_index),
 
-    (r'diarys/arhiv/(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\w{1,2})/$',    'archive_day',   diary_dict),
-    (r'diarys/arhiv/(?P<year>\d{4})/(?P<month>[a-z]{3})/$',    'archive_month', diary_dict),
+    (r'diarys/arhiv/(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\w{1,2})/$',    'archive_day',   diary_dict),
+    (r'diarys/arhiv/(?P<year>\d{4})/(?P<month>\d{1,2})/$',    'archive_month', diary_dict),
     (r'diarys/arhiv/(?P<year>\d{4})/$',    'archive_year',  diary_year),
     #(r'diarys/?$',    'archive_index', diary_dict),
 
