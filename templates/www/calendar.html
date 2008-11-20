@@ -64,8 +64,9 @@
 {% endfor %}
 </table>
 {% endcomment %}
-
+     <div class="koledar-datumi-wrap">  
         {% for date, events in dates %}
+
             <div class="koledar-box {% calclass date %}">
                 <div class="koledar-box-num">
                     {{ date.day }}
@@ -82,8 +83,9 @@
                 {% endfor %}
                      </ul>
             </div>
+
         {% endfor %}
-        
+      </div>  
     </div>
         <div class="koledar-previous">
        <a href="{{ prev }}"> &lt;&lt; Prejšnji mesec</a>
