@@ -755,8 +755,17 @@ float: left;
 .dogodek-komentarji li.submit input {margin:10px 0 10px 16em;position:relative;left:3px;width:auto;}
 #id_honeypot label {display: none;}
 #id_honeypot {display: none;}
+.komentar-poslji li label[for="id_honeypot"] {display: none;}
 
 /* End of Dogodek */
+
+/* Listing News */
+
+#news-list p {padding-bottom: 5px; margin: 0;}
+#news-list h2 {padding: 0; margin-bottom: 10px;}
+#news-list {padding-bottom: 25px;}
+
+/* End Listing News */
 
 /* English news */
 

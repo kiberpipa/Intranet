@@ -83,11 +83,13 @@
 
 
 {% get_comment_form for event as form %}
+<div class="komentar-poslji">
 <form action="{% comment_form_target %}" method="POST">
   {{ form.as_ul }}
   <li class="submit">
     <input type="submit" name="submit" class="submit-post" value="Pošlji komentar">
   </li>
 </form>
+</div>
     </div>
 {% endblock %}
