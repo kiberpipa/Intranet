@@ -1,4 +1,4 @@
-{% extends "www/base-english.html" %}
+{% extends "www/base-second.html" %}
 
 {% load www %}
 
@@ -7,15 +7,14 @@
     	<div class="community-title">
         Community
         </div>
- <div class="community-text">
+        <div class="community-text">
 Kiberpipa is possible because of all the volunteers that are interested in tech, computers, art and the mix of everything through everyday life. Through the years there were many people that helped around, some stayed for a short while, while others are still helping around. Here is a list of people that helped in anyway and build Kiberpipa to be The Best Cybercenter in Europe.
         </div>
-
         <div class="community-title2">
         Active
         </div>
             <div class="community-content">
-        {% for alumni in object_list %}
+                {% for alumni in active %}
             <div class="community-person">
             <div class="community-content-img"><img src="{% if alumni.image %}{{ alumni.image.url }}{% else %}{{ media_url }}/www/images/picture-skupnost.gif{% endif %}" width="80px" height="80px" /></div>
             <div class="community-details">
@@ -59,37 +58,65 @@ Kiberpipa is possible because of all the volunteers that are interested in tech,
                 <a href="{{ alumni.yahoo }}"><img src="{{ media_url }}/www/images/yahoo20x20.png" alt="Yahoo" title="Yahoo" /></a>
             {% endif %}
             {% if alumni.skype %}
-                <a href="{{ alumni.skype }}"><img src="{{ media_url }}/www/images/skype20x20.png" alt="Skype" title="Skype" /</a>
+                <a href="{{ alumni.skype }}"><img src="{{ media_url }}/www/images/skype20x20.png" alt="Skype" title="Skype" /></a>
             {% endif %}
             </div>
             </div>
         {% endfor %}
-{% comment %}
+{% if not_active %}
         <div class="community-title2">
-        Sleeping
+        Not active
         </div>
-
+                {% for alumni in not_active %}
             <div class="community-person">
-            <div class="community-content-img"><img src="{{ media_url }}/www/images/picture-skupnost.gif" width="80px" height="80px" /></div>
+            <div class="community-content-img"><img src="{% if alumni.image %}{{ alumni.image.url }}{% else %}{{ media_url }}/www/images/picture-skupnost.gif{% endif %}" width="80px" height="80px" /></div>
             <div class="community-details">
-            <p class="alumni-title-p">John Doe</p>
-            <p class="alumni-desc">Mail: John[at]Doe.com</p>
-            <p class="alumni-desc">Web: <a href="#">www.myname.org</a></p>
-            <p class="alumni-desc">Blog: <a href="#">www.kiberpipa.org/blog</a></p>
-            <p class="alumni-desc">Tel: +386 (0)31 200 200</p>
+            <p class="alumni-title-p">{{ alumni.user.get_full_name }}</p>
+            {% if alumni.mail %}
+                <p class="alumni-desc">Mail: {{ alumni.mail|spam }}</p>
+            {% endif %}
+            {% if alumni.www %}
+                <p class="alumni-desc">Web: <a href="{{ alumni.www }}">{{ alumni.www }}</a></p>
+            {% endif %}
+            {% if alumni.blog %}
+                <p class="alumni-desc">Blog: <a href="{{ alumni.blog }}">{{ alumni.blog }}</a></p>
+            {% endif %}
+            {% if alumni.phone %}
+                <p class="alumni-desc">{{ alumni.phone }}</p>
+            {% endif %}
+            </div>
+            <div class="alumni-text">
+            <p>{{ alumni.text }}</p>
             </div>
             <div class="community-img-s">
-            <a href="#"><img src="{{ media_url }}/www/images/twitter20x20.png" alt="Twitter" title="Twitter" /></a>
-            <a href="#"><img src="{{ media_url }}/www/images/facebook20x20.png" alt="Facebook" title="Facebook" /></a>
-            <a href="#"><img src="{{ media_url }}/www/images/linkedin20x20.png" alt="LinkedIn" title="LikedIn" /></a>
-            <a href="#"><img src="{{ media_url }}/www/images/flickr20x20.png" alt="Flickr" title="Flickr" /></a>
-            <a href="#"><img src="{{ media_url }}/www/images/gtalk20x20.png" alt="Google Talk" title="Google Talk" /></a>
-            <a href="#"><img src="{{ media_url }}/www/images/msn20x20.png" alt="MSN Chat" title="MSN Chat" /></a>
-            <a href="#"><img src="{{ media_url }}/www/images/yahoo20x20.png" alt="Yahoo" title="Yahoo" /></a>
-            <a href="#"><img src="{{ media_url }}/www/images/skype20x20.png" alt="Skype" title="Skype" /></a>
+            {% if alumni.twitter %}
+                <a href="{{ alumni.twitter }}"><img src="{{ media_url }}/www/images/twitter20x20.png" alt="Twitter" title="Twitter" /></a>
+            {% endif %}
+            {% if alumni.facebook %}
+                <a href="{{ alumni.facebook }}"><img src="{{ media_url }}/www/images/facebook20x20.png" alt="Facebook" title="Facebook" /></a>
+            {% endif %}
+            {% if alumni.linkedin %}
+                <a href="{{ alumni.linkedin }}"><img src="{{ media_url }}/www/images/linkedin20x20.png" alt="LinkedIn" title="LikedIn" /></a>
+            {% endif %}
+            {% if alumni.flickr %} 
+                <a href="{{ alumni.flickr }}"><img src="{{ media_url }}/www/images/flickr20x20.png" alt="Flickr" title="Flickr" /></a>
+            {% endif %}
+            {% if alumni.jabber %}
+                <a href="{{ alumni.jabber }}"><img src="{{ media_url }}/www/images/gtalk20x20.png" alt="Google Talk" title="Google Talk" /></a>
+            {% endif %}
+            {% if alumni.msn %}
+                <a href="{{ alumni.msn }}"><img src="{{ media_url }}/www/images/msn20x20.png" alt="MSN Chat" title="MSN Chat" /></a>
+            {% endif %}
+            {% if alumni.yahoo %}
+                <a href="{{ alumni.yahoo }}"><img src="{{ media_url }}/www/images/yahoo20x20.png" alt="Yahoo" title="Yahoo" /></a>
+            {% endif %}
+            {% if alumni.skype %}
+                <a href="{{ alumni.skype }}"><img src="{{ media_url }}/www/images/skype20x20.png" alt="Skype" title="Skype" /></a>
+            {% endif %}
             </div>
-
-{% endcomment %}
+            </div>
+        {% endfor %}
+{% endif %}
             </div>        
         
 {% endblock %}

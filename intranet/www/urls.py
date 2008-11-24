@@ -3,15 +3,30 @@ from django.conf.urls.defaults import *
 from intranet.www.models import News
 from intranet.org.models import Alumni, Clipping, Event
 
-alumni_dict = {
+alumni_active = []
+alumni_not_active = []
+for i in Alumni.objects.order_by('user__last_name'):
+    if i.user and i.user.userprofile.is_active():
+        alumni_active += [i]
+    else:
+        alumni_not_active += [i]
+
+
+
+        
+alumni = {
     'queryset': Alumni.objects.all(),
-    'template_name': 'www/alumni.html',
+    'extra_context': {
+        'not_active': alumni_not_active,
+        'active': alumni_active
+    }
 }
 
-alumni_dict_en = {
-    'queryset': Alumni.objects.all(),
-    'template_name': 'www/alumni-en.html',
-}
+alumni_dict = alumni.copy()
+alumni_dict['template_name'] =  'www/alumni.html'
+
+alumni_dict_en = alumni.copy()
+alumni_dict_en['template_name'] =  'www/alumni-en.html'
 
 press_dict = {
     'queryset': Clipping.objects.order_by('-date')[:15],
