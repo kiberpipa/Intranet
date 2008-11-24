@@ -40,6 +40,6 @@ except IndexError:
         else:
             sodelovanja = ''
         if e.language == 'EN':
-            api.PostUpdate('%slive from #Kiberpipa at http://bit.ly/FdgZ' % sodelovanja)
+            api.PostUpdate('%slive from #Kiberpipa (%s: %s): at http://bit.ly/FdgZ' % (sodelovanja, unicode(e.project), e.title))
         else:
-            api.PostUpdate('%sv zivo iz #Kiberpipa na http://bit.ly/FdgZ' % sodelovanja)
+            api.PostUpdate('%sv zivo iz #Kiberpipa (%s: %s): na http://bit.ly/FdgZ' % (sodelovanja, unicode(e.project), e.title))
