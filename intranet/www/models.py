@@ -10,6 +10,7 @@ from intranet.org.models import Event
 class News(models.Model):
     title = models.CharField(max_length=150)
     text = models.TextField()
+    image = models.ImageField(blank=True, null=True, upload_to='announce/%Y/%m/', verbose_name="Slika ob objavi")
     date = models.DateTimeField(auto_now=True)
     slug = models.SlugField(max_length=150, unique=True)
     author = models.ForeignKey(User)
