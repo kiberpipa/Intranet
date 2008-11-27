@@ -11,7 +11,7 @@
         Published by {{ news.author }} on {{ news.date }}
         </div>
         <div class="blog-news-content">
-        <div class="blog-news-content img"></div>
+        <div class="blog-news-content img"> {{ news.image }}</div>
 						{{ news.text|linebreaksbr|safe }}
         </div>
 
