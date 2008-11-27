@@ -24,7 +24,7 @@ try:
         else:
             sodelovanja = ''
         if e.language == 'SI':
-            api.PostUpdate('%s dans ob %s:%s #Kiberpipa: %s %s %s' % (e.project, e.start_date.hour, e.start_date.minute, e.title, sodelovanja, short_url))
+            api.PostUpdate('%s danes ob %s:%s #Kiberpipa: %s %s %s' % (e.project, e.start_date.hour, e.start_date.minute, e.title, sodelovanja, short_url))
         else:
             api.PostUpdate('%s today at %s:%s #Kiberpipa: %s %s %s' % (e.project, e.start_date.hour, e.start_date.minute, e.title, sodelovanja, short_url))
 except IndexError:

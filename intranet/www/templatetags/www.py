@@ -50,7 +50,7 @@ register.simple_tag(calclass)
 # truncate after a certain number of characters
 @register.filter
 def truncchar(value, arg):
-    if len(value) > arg:
+    if len(value) < arg:
         return value
     else:
         return value[:int(arg)] + '...'
