@@ -24,9 +24,9 @@ try:
         else:
             sodelovanja = ''
         if e.language == 'SI':
-            api.PostUpdate('%s danes ob %s:%s #Kiberpipa: %s %s %s' % (e.project, e.start_date.hour, e.start_date.minute, e.title, sodelovanja, short_url))
+            api.PostUpdate(u'%s danes ob %s:%s #Kiberpipa: %s %s %s' % (e.project, e.start_date.hour, e.start_date.minute, e.title, sodelovanja, short_url))
         else:
-            api.PostUpdate('%s today at %s:%s #Kiberpipa: %s %s %s' % (e.project, e.start_date.hour, e.start_date.minute, e.title, sodelovanja, short_url))
+            api.PostUpdate(u'%s today at %s:%s #Kiberpipa: %s %s %s' % (e.project, e.start_date.hour, e.start_date.minute, e.title, sodelovanja, short_url))
 except IndexError:
     #the live stream announcement
     min_15 = today + datetime.timedelta(seconds=15*60)
@@ -40,6 +40,6 @@ except IndexError:
         else:
             sodelovanja = ''
         if e.language == 'EN':
-            api.PostUpdate('%slive from #Kiberpipa (%s: %s): at http://bit.ly/FdgZ' % (sodelovanja, unicode(e.project), e.title))
+            api.PostUpdate(u'%slive from #Kiberpipa (%s: %s): at http://bit.ly/FdgZ' % (sodelovanja, unicode(e.project), e.title))
         else:
-            api.PostUpdate('%sv zivo iz #Kiberpipa (%s: %s): na http://bit.ly/FdgZ' % (sodelovanja, unicode(e.project), e.title))
+            api.PostUpdate(u'%sv zivo iz #Kiberpipa (%s: %s): na http://bit.ly/FdgZ' % (sodelovanja, unicode(e.project), e.title))
