@@ -202,7 +202,7 @@ class Event(models.Model):
     def index_image(self):
         index = re.sub('(?P<filename>.*)(?P<ext>\..*)', '\g<filename>-index\g<ext>', self.image._name)
         from os.path import exists
-        if exists(index):
+        if exists(settings.MEDIA_ROOT + index):
             return index
         else:
             return self.image._name
