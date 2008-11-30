@@ -21,7 +21,7 @@ for lend in Lend.objects.filter(returned=False):
 
 result += '\n\n\nDnevniki:\n\n'
 
-diarys = Diary.objects.filter(date__year=now.year, date__month=now.month, date__day=now.day)
+diarys = Diary.objects.filter(pub_date__year=now.year, pub_date__month=now.month, pub_date__day=now.day)
 if not diarys:
     sys.exit(0)
 

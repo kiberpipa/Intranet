@@ -30,7 +30,7 @@ try:
 except IndexError:
     #the live stream announcement
     min_15 = today + datetime.timedelta(seconds=15*60)
-    events = events.filter(start_date__range=(today, min_15))
+    events = events.filter(require_video=True, start_date__range=(today, min_15))
     for e in events:
         url = e.get_public_url()
         dump = urlopen('http://api.bit.ly/shorten?version=2.0.0&long_url=' + url +'&login=crkn&api_key=R_678ce6a3bba1c3f64f996080e21909c2')
