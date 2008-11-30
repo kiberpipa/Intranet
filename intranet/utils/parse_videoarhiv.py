@@ -13,9 +13,10 @@ def parse_video(video):
   ddate = video.find('div', {'class':'videoinfo'}).findAll('p')[1].contents[1].contents[0].split(' ')[0].split('.')
   tdate = datetime.date(int(ddate[2]), int(ddate[1]), int(ddate[0]))
 
-  results = {'thumb': video.find('img', {'class':'thumb'}).get('src', None),
+  url = video.find('a', {'class':'title'}).get('href', None)
+  results = {'thumb': 'http://video.kiberpipa.org' + url[:-9] + 'image-t.jpg',
              'title': video.find('a', {'class':'title'}).contents,
-             'url': video.find('a', {'class':'title'}).get('href', None),
+             'url': url,
              'author': video.find('div', {'class':'videoinfo'}).findAll('p')[1].contents[0].split(' &bull;')[0],
              'date': tdate,
              'intranet-id': None,
