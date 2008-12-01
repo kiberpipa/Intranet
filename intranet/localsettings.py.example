@@ -13,5 +13,7 @@ ADMIN_MEDIA_PREFIX = BASE_URL + '/amedia/'
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+SEND_BROKEN_LINK_EMAILS = False
+
 #priporocam, ker ce mas smtpd ti bo intranet poslau mail za vsak error
 ADMINS = ()
