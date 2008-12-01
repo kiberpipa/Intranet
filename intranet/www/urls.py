@@ -64,4 +64,5 @@ urlpatterns = patterns('',
     url(r'^press/', 'django.views.generic.list_detail.object_list', press_dict),
     url(r'^press-en/', 'django.views.generic.list_detail.object_list', press_dict_en),
     url(r'^ajax/gallery/(?P<id>\d+|[\w-]+)/$', 'intranet.www.views.gallery'),
+    url(r'^ajax/index/events/$', 'intranet.www.views.ajax_index_events'),
 )

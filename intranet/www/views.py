@@ -55,19 +55,28 @@ def gallery(request, id):
 def index(request):
     # FIXME: next line throws an error on empty db
     next = Event.objects.filter(public=True, start_date__gte=datetime.datetime.today()).order_by('start_date')[0]
-    month = datetime.datetime.today() - datetime.timedelta(30)
-    #forcing the evalutation of query set :-/. anyone got better ideas?
-    events = list(Event.objects.filter(public=True, start_date__gte=month).order_by('start_date'))
-    position = events.index(next) - 1
+    events = [next.get_previous(), next, next.get_next()]
 
     return render_to_response('www/index.html', {
-        'position': position,
+        #'position': position,
         'events': events,
         'gallery': Photo.objects.all().order_by('date_added')[0:2],
         'ticker': Ticker.objects.filter(is_active=True),
         'news': News.objects.order_by('-date')[0:4],
         'planet': Post.objects.order_by('-date_modified')[:4],
         'videos': Video.objects.order_by('-pub_date')[:4],
+    }, context_instance=RequestContext(request))
+    
+def ajax_index_events(request):
+    next = Event.objects.filter(public=True, start_date__gte=datetime.datetime.today()).order_by('start_date')[0]
+    month = datetime.datetime.today() - datetime.timedelta(30)
+    #forcing the evalutation of query set :-/. anyone got better ideas?
+    events = list(Event.objects.filter(public=True, start_date__gte=month).order_by('start_date'))
+    position = events.index(next) - 1
+    
+    return render_to_response('www/ajax_index_events.html', {
+      'position': position,
+      'events': events,  
     }, context_instance=RequestContext(request))
 
 def event(request, id):

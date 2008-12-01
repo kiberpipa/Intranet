@@ -206,7 +206,6 @@ class Event(models.Model):
             return index
         else:
             return self.image._name
-        
 
     def get_absolute_url(self):
         return "%s/intranet/events/%i/" % (settings.BASE_URL, self.id)
@@ -242,6 +241,35 @@ class Event(models.Model):
             if q > 1:
                 new = pic.resize((int(width/q), int(height/q)))
                 new.save(filename)
+
+    def _next_previous_helper(self, direction):
+        return getattr(self, 'get_%s_by_pub_date' % direction)(public__exact=True)
+
+    def get_next(self):
+        """
+        Returns the next Entry with "live" status by ``pub_date``, if
+        there is one, or ``None`` if there isn't.
+
+        In public-facing templates, use this method instead of
+        ``get_next_by_pub_date``, because ``get_next_by_pub_date``
+        does not differentiate entry status.
+
+        """
+        return self._next_previous_helper('next')
+
+    def get_previous(self):
+        """
+        Returns the previous Entry with "live" status by ``pub_date``,
+        if there is one, or ``None`` if there isn't.
+
+        In public-facing templates, use this method instead of
+        ``get_previous_by_pub_date``, because
+        ``get_previous_by_pub_date`` does not differentiate entry
+        status..
+
+        """
+        return self._next_previous_helper('previous')
+
 
     class Meta:
         verbose_name = 'Dogodek'
