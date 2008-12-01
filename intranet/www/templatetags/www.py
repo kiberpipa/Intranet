@@ -6,8 +6,10 @@ register = Library()
 
 def calclass(date):
     today = datetime.date.today()
-    next_month = datetime.date(today.year, today.month+1, 1)
-    prev_month = datetime.date(today.year, today.month-1, 1)
+    num_next_month = today - datetime.timedelta(30)
+    num_prev_month = today + datetime.timedelta(30)
+    next_month = datetime.date(today.year, num_next_month.month, 1)
+    prev_month = datetime.date(today.year, num_prev_month.month, 1)
 
     if date == today:
         return 'koledar-today'
