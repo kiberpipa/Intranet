@@ -22,6 +22,10 @@ alumni = {
     }
 }
 
+news_list = {
+    'queryset': News.objects.order_by('-date')[:10],
+}
+
 alumni_dict = alumni.copy()
 alumni_dict['template_name'] =  'www/alumni.html'
 
@@ -48,6 +52,7 @@ urlpatterns = patterns('',
     #url(r'^event/(?P<slug>[-\w]+)$', 'intranet.www.views.event'),
     url(r'^event/\d{4}-[a-z]{3}-[0-9]{1,2}/(?P<id>\d+)/[-\w]+/?$', 'intranet.www.views.event'),
     #url(r'^event/next/(?P<position>[\d-]+)/(?P<offset>[\d-]+)/(?P<num>\d+)/$', 'intranet.www.views.timeline_events'),
+    url(r'^news/?$', 'django.views.generic.list_detail.object_list', news_list),
     url(r'^news/(?P<slug>[-\w]+)/?$', 'intranet.www.views.news'),
     url(r'^calendar/ical/?(?P<month>month)?/?$', 'intranet.www.views.ical'),
     url(r'^calendar/(?P<year>\d+)?/?(?P<month>\d+)?/?', 'intranet.www.views.calendar'),
