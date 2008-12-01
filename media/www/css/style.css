@@ -1228,20 +1228,6 @@ float: left;
 	margin-left: 10px;
 }
 
-.koledar-previous {
-	width: 480px;
-	float: left;
-	text-align: left;
-	vertical-align: top;
-}
-
-.koledar-next {
-	width: 480px;
-	float: left;
-	text-align: right;
-	vertical-align: top;
-}
-
 .koledar-today a:link { color: white;}
 .koledar-today {
  color: white;
