@@ -35,6 +35,7 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'intranet.middleware.Https.Https',
     'intranet.middleware.exception.StandardExceptionMiddleware',
     'intranet.middleware.SmartAppendSlash.SmartAppendSlashMiddleware',
     #'intranet.middleware.psyco_middleware.PsycoMiddleware',
