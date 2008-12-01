@@ -71,6 +71,7 @@
                 <div class="koledar-box-num">
                     {{ date.day }}
                 </div>
+                {% if events %}
                     <ul>
                 {% for event in events %}
                     {% if event.public %}
@@ -82,6 +83,7 @@
                     {% endif %}
                 {% endfor %}
                      </ul>
+                {% endif %}
             </div>
 
         {% endfor %}
