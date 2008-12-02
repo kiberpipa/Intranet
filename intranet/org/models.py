@@ -243,7 +243,7 @@ class Event(models.Model):
                 new.save(filename)
 
     def _next_previous_helper(self, direction):
-        return getattr(self, 'get_%s_by_pub_date' % direction)(public__exact=True)
+        return getattr(self, 'get_%s_by_start_date' % direction)(public__exact=True)
 
     def get_next(self):
         """
@@ -521,13 +521,9 @@ class Bug(models.Model):
         subject = '[#%d - %s] %s' % (self.id, self.name, subject)
 
         ##get  a string of all assignees
-        assignees = ''
-        for assignee in self.assign.all():
-            assignees += assignee.__unicode__()
+        assignees = ', '.join([unicode(i) for i in self.assign.all()])
 
-        projects = ''
-        for project in self.project.all():
-            projects += project.__unicode__()
+        projects = ', '.join([unicode(i) for i in self.project.all()])
 
         info = 'bug: #%i\n' % self.id
         info += 'bug url: %s\n' % self.get_absolute_url()
