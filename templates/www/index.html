@@ -46,7 +46,10 @@ $(document).ready(function() {
       			if( this.blur )
       				this.blur();
       		}
+      		
+      		
       	});
+      	$('.arrows').css('display', 'block');
   });
         
 
@@ -69,7 +72,7 @@ $(document).ready(function() {
 {% block content %}
 	<div class="rss-index"><a href="/rss/" ><img src="{{ media_url }}www/images/rss20x20.png" alt="RSS Feeds" /></a></div>
     <div id="upcoming">
-    	<div class="next3-left">
+    	<div class="next3-left arrows" style="display:none;">
         	<div class="past3"><a href="#" onclick="return false;"><img src="{{ media_url }}www/images/puscica-3levo.gif" alt="tri dogodke nazaj" /></a></div>
         	<div class="past"><a href="#" onclick="return false;"><img src="{{ media_url }}www/images/puscica-levo.gif" alt="en dogodek nazaj" /></a></div>
 		</div>
@@ -99,7 +102,7 @@ $(document).ready(function() {
                 {% endfor %}
              </div>
                 
-         <div class="next3-right">
+         <div class="next3-right arrows" style="display:none;">
              <div class="future"><a href="#" onclick="return false;"><img src="{{ media_url }}www/images/puscica-desno.gif" alt="en dogodek naprej" /></a></div>
              <div class="future3"><a href="#" onclick="return false;"><img src="{{ media_url }}www/images/puscica-3desno.gif" alt="tri dogodke naprej" /></a></div>
          </div>
