@@ -11,7 +11,7 @@ import twitter
 
 api = twitter.Api(username=settings.TWITTER_USERNAME, password=settings.TWITTER_PASSWORD)
 today = datetime.datetime.today()
-events = Event.objects.filter(start_date__year=today.year, start_date__month=today.month, start_date__day=today.day)
+events = Event.objects.filter(public=True, start_date__year=today.year, start_date__month=today.month, start_date__day=today.day)
 try:
     sys.argv[1]
     #the announce event tweet
