@@ -94,7 +94,7 @@ $(document).ready(function() {
                         {% endif %}
                          <div class="present-event-text"><a href="{{ event.get_public_url }}">{{ event }}</a></div>
 
-                        <div class="present-event-desc">{{ event.announce|truncchar:"250"|safe }}</div>
+                        <div class="present-event-desc">{{ event.announce|truncatewords:"40"|safe }} <a href="{{ event.get_public_url }}">Več</a></div>
                     </div>
                 {% endfor %}
              </div>
