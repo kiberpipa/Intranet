@@ -399,7 +399,6 @@ class Upload(models.Model):
 
 class Clipping(models.Model):
     article_name = models.CharField(max_length=255, blank=True, null=True)
-    name = models.CharField(max_length=255)
     medij = models.ForeignKey(Medij, blank=True, null=True)
     date = models.DateTimeField()
     
@@ -411,9 +410,6 @@ class Clipping(models.Model):
     person = models.ForeignKey(Person, blank=True, null=True)
     rubrika = models.CharField(max_length=255, blank=True, null=True)
     link = models.CharField(max_length=255, blank=True, null=True)
-    deadline = models.CharField(max_length=255, blank=True, null=True)
-    feedback = models.CharField(max_length=255, blank=True, null=True)
-    address = models.CharField(max_length=255, blank=True, null=True)
 
     upload = models.ManyToManyField(Upload, blank=True, null=True)
 
