@@ -671,7 +671,7 @@ def nf_event_create(request):
             s.save() 
         new_event.slug = slugify(new_event.title)
         new_event.save()
-        if form.cleaned_data.has_key('resize'):
+        if new_event.public and form.cleaned_data.has_key('resize'):
             x1, x2, y1, y2 = tuple(form.cleaned_data['resize'].split(','))
             box = (int(x1), int(y1), int(x2), int(y2))
             from PIL import Image
