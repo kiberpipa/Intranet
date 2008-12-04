@@ -240,7 +240,7 @@ def ical(request, month=None):
             end_date.strftime('DTEND:%Y%m%dT%H%M%S'),
             last_mod.strftime('LAST-MODIFIED:%Y%m%dT%H%M%SZ'),
             'SUMMARY:%s: %s' % (unicode(e.project), e.title),
-            'DESCRIPTION:%s' % e.get_public_url(),
+            'URL:%s' % e.get_public_url(),
             'TRANSP:OPAQUE',
             'END:VEVENT',
             ''))
