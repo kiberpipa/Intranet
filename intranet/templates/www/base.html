@@ -1,12 +1,13 @@
+{% load i18n %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<link rel="alternate" type="application/rss+xml" title="Kiberpipin RSS" href="http://www.kiberpipa.org/rss/">
+<link rel="alternate" type="application/rss+xml" title="Kiberpipin RSS" href="http://www.kiberpipa.org/rss/" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>{% block title %}The Best Cybercenter in Europe{% endblock %} :: Kiberpipa.org</title>
+  <title>{% block title %}{% trans "The Best Cybercenter in Europe" %}{% endblock %} :: Kiberpipa.org</title>
 
 <link rel="stylesheet" href="{{ media_url }}www/css/style.css" type="text/css" />
-<link rel="shortcut icon" href="{{ media_url }}www/images/favicon.ico">
+<link rel="shortcut icon" href="{{ media_url }}www/images/favicon.ico" />
 <script type='text/javascript' src='{{ media_url }}/js/jquery-1.2.6.js'></script>
 {% block extrahead %}{% endblock %}
 
@@ -17,18 +18,14 @@
 
 	<div id="header">
     	<div class="header-logo"><a href="http://www.kiberpipa.org"><img src="{{ media_url }}www/images/logo.png" alt="Kiberpipa Logo" /></a></div>
-        	<div class="primary-nav"><a href="/about/">about</a> | <a href="/alumni-en/">community</a> | <a href="/calendar-en/">calendar</a> | <a  href="/support/">support</a> | <a href="/press-en/">press</a></div>
+        	<div class="primary-nav"><a href="/o-nas/">{% trans "about" %}</a> | <a href="/alumni/">{% trans "community" %}</a> | <a href="/calendar/">{% trans "calendar" %}</a> | <a  href="/podpora/">{% trans "support" %}</a> | <a href="/press/">{% trans "press" %}</a></div>
         	<div class="searchbox"><img src="{{ media_url }}www/images/searchbox.gif" border="0" alt="slika" /></div>
-            	<div class="language"><a href="/">slo</a> | <strong>eng</strong></div>
+            	<div class="language"><strong>slo</strong> | <a href="/news-en/">eng</a></div>
     </div>
 
 {% block content %} {% endblock %}
 
     <div id="footer">
-    
-        <div id="second-nav">
-    <a href="http://muzej.kiberpipa.org/">muzej</a> | g404 | <a href="http://www.kiberpipa.org/err0r/">err0r</a> | <a href="http://www.kiberpipa.org/postlab/">postlab</a> | <a href="http://www.kiberpipa.org/haip">haip</a> | filmšteka | <a href="http://pot.kiberpipa.org/">POT</a> | <a href="http://web.zen.si/">SU</a> | VIP | <a href="http://www.kiberpipa.net/">NET</a>
-    </div>
        	
     	<div class="footer-cp-logo">
         	<img src="http://static.kiberpipa.org/i3-media/www/images/logo.png" border="0" alt="slika" />

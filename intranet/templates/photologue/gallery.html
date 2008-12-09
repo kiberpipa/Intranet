@@ -1,6 +1,7 @@
 {% extends "www/base.html" %}
+{% load i18n %}
 
-{% block title %}All Galleries{% endblock %}
+{% block title %}{% trans "All Galleries" %}{% endblock %}
 
 {% block extrahead %}
     <script type="text/javascript" src="{{ media_url }}/www/js/jquery.galleria.min.js"></script>
@@ -150,7 +151,7 @@
 {% block content %}
     <div id="galerija">
     	<div class="galerija-title">
-        full size | exif data
+        {% trans "full size" %} | {% trans "exif data" %}
         </div>
         <div class="galerija-nav">
 {% for g in ordered %}

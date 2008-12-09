@@ -1,17 +1,17 @@
 {% extends "www/base-second.html" %}
 {% block extrahead %}{% endblock %}
 {% block title %}{{ event }}{% endblock %}
-{% load markup %}
+{% load markup i18n %}
 
 {% block heading %}
 <div class="rss-index"><a href="/rss/" ><img src="{{ media_url }}/www/images/rss20x20.png" alt="RSS Feeds" /></a></div>
-    <h2>Novice</h1>
+    <h2>{% trans "News" %}</h1>
 {% endblock %}
 {% block content%}
 <div id="news-list">
 {% for news in  object_list %}
     <h2 class="blog-cp-news-title"><a href="#">{{ news.title }}</a></h2>
-    <p class="blog-cp-publish"> Published by {{ news.author }} on {{ news.date }} </p>
+    <p class="blog-cp-publish"> {% trans "Author" %} {{ news.author }} {% trans "date" %} {{ news.date }} </p>
     <p class="blog-cp-content">{{ news.text|safe }}</p>
 {% endfor %}
 

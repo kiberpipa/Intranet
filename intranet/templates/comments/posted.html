@@ -1,7 +1,7 @@
 {% extends "comments/base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Thanks for commenting" %}.{% endblock %}
+{% block title %}{% trans "Thanks for the comment." %}.{% endblock %}
 
 {% block content %}
 <meta http-equiv="refresh" content="0;url={% if comment.content_object.get_public_url %}{{ comment.content_object.get_public_url }}{% else %}{{ comment.get_absolute_url }}{% endif %}"/>

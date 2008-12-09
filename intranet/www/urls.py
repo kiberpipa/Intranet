@@ -29,21 +29,18 @@ news_list = {
 alumni_dict = alumni.copy()
 alumni_dict['template_name'] =  'www/alumni.html'
 
-alumni_dict_en = alumni.copy()
-alumni_dict_en['template_name'] =  'www/alumni-en.html'
-
 press_dict = {
     'queryset': Clipping.objects.order_by('-date')[:15],
 }
 
 press_dict_en = {
     'queryset': Clipping.objects.order_by('-date')[:15],
-    'template_name': 'www/press-en.html',
+    'template_name': 'www/press_en.html',
 }
 
 news_en_dict = {
     'queryset': Event.objects.filter(language='EN'),
-    'template_name': 'www/news-en.html',
+    'template_name': 'www/news.html',
 }
 
 urlpatterns = patterns('',
@@ -56,11 +53,11 @@ urlpatterns = patterns('',
     url(r'^news/(?P<slug>[-\w]+)/?$', 'intranet.www.views.news'),
     url(r'^calendar/ical/?(?P<month>month)?/?$', 'intranet.www.views.ical'),
     url(r'^calendar/(?P<year>\d+)?/?(?P<month>\d+)?/?', 'intranet.www.views.calendar'),
-    url(r'^calendar-en/', 'intranet.www.views.calendar', {'en': True}),
+    #url(r'^calendar-en/', 'intranet.www.views.calendar', {'en': True}),
     url(r'^(modules|index)\.php', 'intranet.www.views.compat'),
     url(r'^alumni/', 'django.views.generic.list_detail.object_list', alumni_dict),
     url(r'^news-en/', 'django.views.generic.list_detail.object_list', news_en_dict),
-    url(r'^alumni-en/', 'django.views.generic.list_detail.object_list', alumni_dict_en),
+    url(r'^alumni-en/', 'django.views.generic.list_detail.object_list', alumni_dict),
     url(r'^press/', 'django.views.generic.list_detail.object_list', press_dict),
     url(r'^press-en/', 'django.views.generic.list_detail.object_list', press_dict_en),
     url(r'^ajax/gallery/(?P<id>\d+|[\w-]+)/$', 'intranet.www.views.gallery'),

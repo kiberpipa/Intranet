@@ -186,13 +186,7 @@ def calendar(request, year=None, month=None, en=False):
         dates += [(begin, Event.objects.filter(start_date__year = begin.year, start_date__month = begin.month, start_date__day = begin.day))]
         begin = begin + day
 
-
-    if en:
-        template='www/calendar-en.html'
-    else:
-        template='www/calendar.html'
-
-    return render_to_response(template, {
+    return render_to_response('www/calendar.html', {
         'dates': dates,
         'prev': reverse('intranet.www.views.calendar', args=['%s/%s' % (prev_year, prev_month)]),
         'next': reverse('intranet.www.views.calendar', args=['%s/%s' % (next_year, next_month)]),

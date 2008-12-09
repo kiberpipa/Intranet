@@ -85,7 +85,7 @@ INSTALLED_APPS = (
 )
 
 TEMPLATE_DIRS = (
-    next_to_this_file(__file__, '../templates'),
+    next_to_this_file(__file__, 'templates'),
 )
 
 AUTH_PROFILE_MODULE = "org.UserProfile"

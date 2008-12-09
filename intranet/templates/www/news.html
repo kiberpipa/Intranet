@@ -1,14 +1,16 @@
 {% extends "www/base-second.html" %}
+{% load i18n %}
+
 {% block content %}
     <div id="blog-news">
     	<div class="blog-news-title">
-        Kiberpipin blog
+        {% trans "Kiberpipas blog" %}
         </div>
         <div class="blog-news-en-title">
         {{ news }}
         </div>
         <div class="blog-news-publish">
-        Published by {{ news.author }} on {{ news.date }}
+        {% trans "Author" %} {{ news.author }} {% trans "date" %} {{ news.date }}
         </div>
         <div class="blog-news-content">
         <div class="blog-news-content img"> {{ news.image }}</div>
@@ -18,11 +20,11 @@
 {% load comments %}
 
 <div class="dogodek-komentarji">
-<p class="title-kom">Komentarji:</p>
+<p class="title-kom">{% trans "Comments:" %}</p>
 
 {% get_comment_list for news as comment_list %}
 {% for comment in comment_list %}
-	<p class="komentar-avtor"><a href="{{ comment.url }}">{{ comment.name }}</a> je napisal:</p>
+	<p class="komentar-avtor"><a href="{{ comment.url }}">{{ comment.name }}</a> {% trans "has wrote:" %}</p>
 	<p class="date-kom">{{ comment.submit_date|date:"j N Y, H:i" }}</p>
 	<p class="komentar-vsebina">{{ comment.comment }}</p>
 {% endfor %}
@@ -33,7 +35,7 @@
 <form action="{% comment_form_target %}" method="POST">
   {{ form.as_ul }}
   <li class="submit">
-    <input type="submit" name="submit" class="submit-post" value="Pošlji komentar">
+    <input type="submit" name="submit" class="submit-post" value="{% trans "Send comment" %}">
   </li>
 </form>
 </div>

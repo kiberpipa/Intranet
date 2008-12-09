@@ -67,48 +67,48 @@
     <div id="header">
     <div id="top">
     <ul id="login_info">
-      <li>Pozdravljen {{ user.username }}!</li>
-      <li><a href="/intranet/accounts/logout/">Odjava</a></li>
+      <li>{% trans "Hello" %} {{ user.username }}!</li>
+      <li><a href="/intranet/accounts/logout/">{% trans "Log out" %}</a></li>
     </ul>
     <ul id="mainmenu">
       <li><a href="/intranet/">
               <img align="left" border="0" alt="Kiberpipa" src="{{ media_url }}/kiberpipa-white.png">
-              <br>nadzorna plo&#353;&#269;a
+              <br />{% trans "control panel" %}
           </a>
       </li>
-    <a href="javascript:;" id="togglePipci">Pipci</a>
-    <a href="javascript:;" id="toggleDogajanje">Dogajanje</a>
-    <a href="javascript:;" id="toggleZnanje">Znanje</a>
-    <a href="javascript:;" id="toggleSredstva">Sredstva</a>
-    <a href="javascript:;" id="toggleRazno">Razno</a>
+    <a href="javascript:;" id="togglePipci">{% trans "Kiberpipa folks" %}</a>
+    <a href="javascript:;" id="toggleDogajanje">{% trans "Happening" %}</a>
+    <a href="javascript:;" id="toggleZnanje">{% trans "Knowledge" %}</a>
+    <a href="javascript:;" id="toggleSredstva">{% trans "Assets" %}</a>
+    <a href="javascript:;" id="toggleRazno">{% trans "Misc" %}</a>
 
       <div id="Pipci" style="display: none;">
-      <li><a href="/intranet/dezurni/">De&#382;urni</a></li>
-      <li><a href="/intranet/tehniki/">Tehniki</a></li>
-      <li><a href="/intranet/imenik/">Imenik</a></li>
+      <li><a href="/intranet/dezurni/">{% trans "On duty" %}</a></li>
+      <li><a href="/intranet/tehniki/">{% trans "Technicians" %}</a></li>
+      <li><a href="/intranet/imenik/">{% trans "Adress book" %}</a></li>
       </div>
 
       <div id="Dogajanje" style="display: none;">
-      <li><a href="/intranet/diarys/">Dnevniki</a></li>
-      <li><a href="/intranet/events/">Dogodki</a></li>
-      <li><a href="/intranet/bugs/">Hro&#353;&#269;i</a></li>
+      <li><a href="/intranet/diarys/">{%trans "Diarys" %}</a></li>
+      <li><a href="/intranet/events/">{% trans "Events" %}</a></li>
+      <li><a href="/intranet/bugs/">{% trans "Bugs" %}</a></li>
       </div>
 
       <div id="Znanje" style="display: none;">
-      <li><a href="/intranet/wiki/">wiki</a></li>
-      <li><a href="/intranet/sodelovanja/">Sodelovanja</a></li>
-      <li><a href="/intranet/clipping/">Clipping</a></li>
-      <li><a href="/intranet/kb/">Znanje</a></li>
+      <li><a href="/intranet/wiki/">{% trans "Wiki" %}</a></li>
+      <li><a href="/intranet/sodelovanja/">{% trans "Cooperations" %}</a></li>
+      <li><a href="/intranet/clipping/">{% trans "Clipping" %}</a></li>
+      <li><a href="/intranet/kb/">{% trans "Knowledge" %}</a></li>
       </div>
 
       <div id="Sredstva" style="display: none;">
-      <li><a href="/intranet/lends/">Reverzi</a></li>
-      <li><a href="/intranet/shopping/">Nakupi</a></li>
-      <li><a href="/intranet/mercenaries/">Mercenaries</a></li>
+      <li><a href="/intranet/lends/">{% trans "Lends" %}</a></li>
+      <li><a href="/intranet/shopping/">{% trans "Shopping" %}</a></li>
+      <li><a href="/intranet/mercenaries/">{% trans "Mercenaries" %}</a></li>
       </div>
 
       <div id="Razno" style="display: none;">
-      <li><a href="/intranet/admin">Administracija</a></li>
+      <li><a href="/intranet/admin/">{trans "Administration" %}</a></li>
       </div>
       <!-- <li><a href="/intranet/stats">Statistika</a></li> -->
     </ul>

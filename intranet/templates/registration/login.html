@@ -12,7 +12,7 @@ function SetInitialFocus(){document.LoginForm.username.focus();}
 {% if is_authenticated %}
 <p>V sistem ste ze prijavljeni kot: <tt>{{username}}</tt>. 
    Če se želite prijaviti kot kdo drug uporabnik, 
-   <a href="{{logouturl}}" title="Odjavite se in potem ponovno prijavite">se najprej odjavite</a>.</p>
+   <a href="{{ logouturl }}" title="Odjavite se in potem ponovno prijavite">se najprej odjavite</a>.</p>
 {% else %}
     <div>
     <table border="0">

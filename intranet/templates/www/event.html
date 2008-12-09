@@ -45,7 +45,7 @@
         {% endcomment %}
         <div class="dogodek-video">
         	<div class="dogodek-video-title">
-        	<a href="http://video.kiberpipa.org">Video arhiv</a>
+        	<a href="http://video.kiberpipa.org">{% trans "Video archive" %}</a>
             </div>
             {% for video in event.video_set.all %}
                 <div class="dogodek-video-button">
@@ -71,11 +71,11 @@
 {% load comments %}
 
 <div class="dogodek-komentarji">
-<p class="title-kom">Komentarji:</p>
+<p class="title-kom">{% trans "Comments:" %}</p>
 
 {% get_comment_list for event as comment_list %}
 {% for comment in comment_list %}
-	<p class="komentar-avtor"><a href="{{ comment.url }}">{{ comment.name }}</a> je napisal:</p>
+	<p class="komentar-avtor"><a href="{{ comment.url }}">{{ comment.name }}</a> {% trans "has wrote:" %}</p>
 	<p class="date-kom">{{ comment.submit_date|date:"j N Y, H:i" }}</p>
 	<p class="komentar-vsebina">{{ comment.comment }}</p>
 {% endfor %}
@@ -87,7 +87,7 @@
 <form action="{% comment_form_target %}" method="POST">
   {{ form.as_ul }}
   <li class="submit">
-    <input type="submit" name="submit" class="submit-post" value="Pošlji komentar">
+    <input type="submit" name="submit" class="submit-post" value="{% trans "Send comment" %}">
   </li>
 </form>
 </div>

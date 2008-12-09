@@ -1,50 +1,77 @@
-{% extends "www/base-english.html" %}
+{% extends "www/base-second.html" %}
 {% block extrahead %}{% endblock %}
-{% block title %} Calendar of Events in Kiberpipa {% endblock %}
-{% load markup %}
-{% load www %}
+{% block title %} {% trans "Calendar of Events in Kiberpipa" %} {% endblock %}
+
+{% load markup www i18n %}
 
 {% block heading %}
-    <h1>Calendar of Events in Kiberpipa</h1>
+    <h1>{% trans "Calendar of Events in Kiberpipa" %}</h1>
 {% endblock %}
 
 {% block content %}
     <div id="koledar">
     	<div class="koledar-title-main">
-        Calendar - {{ now|date:"F Y"|capfirst }}
+        {% trans "Calendar" %} - {{ now|date:"F Y"|capfirst }}
         </div>
 
         <div class="koledar-img">
-    	<a href="#">iCal</a>, <a href="/rss/" ><img src="{{ media_url }}www/images/rss20x20.png" alt="RSS Feeds" /></a>
+    	<a href="/calendar/ical/">iCal</a>, <a href="/rss/" ><img src="{{ media_url }}www/images/rss20x20.png" alt="RSS Feeds" /></a>
     	</div>
 
     <div id="koledar-wrapper">
     	<div class="koledar-title">
-        Monday
+        {% trans "Monday" %}
         </div>
         <div class="koledar-title">
-        Tuesday
+        {% trans "Tuesday" %}
         </div>
         <div class="koledar-title">
-        Wednesday
+        {% trans "Wednesday" %}
         </div>
         <div class="koledar-title">
-        Thursday
+        {% trans "Thursday" %}
         </div>
         <div class="koledar-title">
-        Friday
+        {% trans "Friday" %}
         </div>
         <div class="koledar-title">
-        Saturday
+        {% trans "Saturday" %}
         </div>
         <div class="koledar-title">
-        Sunday
+        {% trans "Sunday" %}
         </div>
+{% comment %}
+        <table border="1">
+{% for date, events in dates %}
+    {% ifequal date.weekday 0 %}
+        <tr>
+    {% endifequal %}
+
+    <td class="{% calclass date %}">
+    {{ date.day }}
+        {% for event in events %}
+            {% if event.public %}
+                <a href="{{ event.get_public_url }}">{{ event.title|truncchar:"64" }}</a>
+            {% else %}
+                {% trans "Private." %}
+            {% endif %}
+        {% endfor %}
+    </td>
+
+    {% ifequal date.weekday 6 %}
+        </tr>
+    {% endifequal %}
+{% endfor %}
+</table>
+{% endcomment %}
+     <div class="koledar-datumi-wrap">  
         {% for date, events in dates %}
-            <div class="koledar-box">
+
+            <div class="koledar-box {% calclass date %}">
                 <div class="koledar-box-num">
                     {{ date.day }}
                 </div>
+                {% if events %}
                     <ul>
                 {% for event in events %}
                     {% if event.public %}
@@ -52,19 +79,23 @@
                        <li><a href="{{ event.get_public_url }}">{{ event.title|truncchar:"32" }}</a></li>
 
                     {% else %}
-                     <li>PRIVATE!!</li>
+                     <li>{% trans "Private." %}</li>
                     {% endif %}
                 {% endfor %}
                      </ul>
+                {% endif %}
             </div>
+
         {% endfor %}
+      </div>  
     </div>
         <div class="koledar-previous">
-        <a href="{{ prev }}">&lt;&lt; Previous month</a>
+       <a href="{{ prev }}"> &lt;&lt; {% trans "Previous month" %}</a>
         </div>
         <div class="koledar-next">
-        <a href="{{ next }}">Next month &gt;&gt;</a>
+        <a href="{{ next }}">{% trans "Next month" %} &gt;&gt;</a>
         </div>    
+
     </div>
     {% comment %}
 find me a home:

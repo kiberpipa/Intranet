@@ -1,17 +1,17 @@
 {% extends "www/base-second.html" %}
 
-{% load www %}
+{% load www i18n %}
 
 {% block content %}
     <div id="community">
     	<div class="community-title">
-        Community
+        {% trans "Community" %}
         </div>
         <div class="community-text">
-Kiberpipa is possible because of all the volunteers that are interested in tech, computers, art and the mix of everything through everyday life. Through the years there were many people that helped around, some stayed for a short while, while others are still helping around. Here is a list of people that helped in anyway and build Kiberpipa to be The Best Cybercenter in Europe.
+        {% trans "Kiberpipa is possible because of all the volunteers that are interested in tech, computers, art and the mix of everything through everyday life. Through the years there were many people that helped around, some stayed for a short while, while others are still helping around. Here is a list of people that helped in anyway and build Kiberpipa to be The Best Cybercenter in Europe." %}
         </div>
         <div class="community-title2">
-        Active
+        {% trans "Active" %}
         </div>
             <div class="community-content">
                 {% for alumni in active %}
@@ -65,7 +65,7 @@ Kiberpipa is possible because of all the volunteers that are interested in tech,
         {% endfor %}
 {% if not_active %}
         <div class="community-title2">
-        Not active
+        {% trans "Not active" %}
         </div>
                 {% for alumni in not_active %}
             <div class="community-person">
