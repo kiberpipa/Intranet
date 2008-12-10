@@ -20,6 +20,11 @@ TIME_ZONE = 'Europe/Vienna'
 # http://blogs.law.harvard.edu/tech/stories/storyReader$15
 LANGUAGE_CODE = 'sl'
 
+LANGUAGES = (
+  ('sl', 'Slovenscina'),
+  ('en', 'English'),
+)
+
 SITE_ID = 1
 
 # Make this unique, and don't share it with anybody.
