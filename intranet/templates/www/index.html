@@ -1,5 +1,5 @@
 {% extends "www/base.html" %}
-{% load www %}
+{% load www i18n %}
 
 {% block extrahead %}
 <link href='{{ media_url }}/www/scroll.css' type='text/css' rel='stylesheet' />
@@ -122,7 +122,7 @@ $(document).ready(function() {
             {% endcomment %}
             
             <div class="video">
-            <p><a href="http://video.kiberpipa.org/">Zadnji dodani posnetki v Video arhiv</a></p>
+            <p><a href="http://video.kiberpipa.org/">{% trans "Last added videos to the Video Archive" %}</a></p>
             </div>
             
             {% for video in videos %}
@@ -165,14 +165,14 @@ $(document).ready(function() {
     </div>
     <div id="blog-cp">
     	<div class="blog-cp-title">
-        <a href="/news/">Zapisi iz sveta brez oken</a>
+        <a href="/news/">{% trans "Writings from the world without windows" %}</a>
         </div>
         {% for i in news %}
             <div class="blog-cp-news-title">
             <a href="{{ i.get_absolute_url }}">{{ i.title }}</a>
             </div>
             <div class="blog-cp-publish">
-            Published by {{ i.author }} on {{ i.date }}
+            {% trans "Published by" %} {{ i.author }} {% trans "on" %} {{ i.date }}
             </div>
             <div class="blog-cp-content">
             {{ i.text|santize|truncatewords:"60" }}
@@ -187,14 +187,14 @@ $(document).ready(function() {
     
     <div id="planet">
     	<div class="planet-title">
-        Razmišljanja iz /dev/random
+        {% trans "Reflections from /dev/random" %}
         </div>
         {% for post in planet %}
             <div class="planet-news-title">
             <a href="{{ post.link }}">{{ post.title }}</a>
             </div>
             <div class="planet-publish">
-            Published by {{ post.author }} on {{ post.date_modified }}
+            {% trans "Published by" %} {{ post.author }} {% trans "on" %} {{ post.date_modified }}
             </div>
             <div class="planet-content">
             {{ post.content|santize|safe|truncatewords:"60" }}

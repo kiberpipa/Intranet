@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-06 17:54+0100\n"
+"POT-Creation-Date: 2008-12-11 20:18+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -779,27 +778,27 @@ msgstr "Aktivni"
 msgid "Not active"
 msgstr "Ne aktivni"
 
-#: templates/www/base.html:7
+#: templates/www/base-second.html:7 templates/www/base.html:7
 msgid "The Best Cybercenter in Europe"
 msgstr "Najboljši Kibercenter v Evropi"
 
-#: templates/www/base.html:21
+#: templates/www/base-second.html:22 templates/www/base.html:21
 msgid "about"
 msgstr "o nas"
 
-#: templates/www/base.html:21
+#: templates/www/base-second.html:22 templates/www/base.html:21
 msgid "community"
 msgstr "skupnost"
 
-#: templates/www/base.html:21
+#: templates/www/base-second.html:22 templates/www/base.html:21
 msgid "calendar"
 msgstr "koledar"
 
-#: templates/www/base.html:21
+#: templates/www/base-second.html:22 templates/www/base.html:21
 msgid "support"
 msgstr "podpora"
 
-#: templates/www/base.html:21
+#: templates/www/base-second.html:22 templates/www/base.html:21
 msgid "press"
 msgstr "press"
 
@@ -863,6 +862,26 @@ msgstr "Komentarji:"
 msgid "has wrote:"
 msgstr "je napisal:"
 
+#: templates/www/index.html:125
+msgid "Last added videos to the Video Archive"
+msgstr "Zadnji dodani posnetki v Video arhiv"
+
+#: templates/www/index.html:168
+msgid "Writings from the world without windows"
+msgstr "Zapisi iz sveta brez oken"
+
+#: templates/www/index.html:175 templates/www/index.html.py:197
+msgid "Published by"
+msgstr "Objavil"
+
+#: templates/www/index.html:175 templates/www/index.html.py:197
+msgid "on"
+msgstr "dne"
+
+#: templates/www/index.html:190
+msgid "Reflections from /dev/random"
+msgstr "Razmišljanja iz /dev/random"
+
 #: templates/www/news.html:7
 msgid "Kiberpipas blog"
 msgstr "Kiberpipin blog"
@@ -899,6 +918,6 @@ msgstr "Podporniki Kiberpipe Pasica"
 msgid "Text about Kiberpipa"
 msgstr "Tekst o Kiberpipi"
 
-#: templates/www/press.html:61
+#: templates/www/press.html:68
 msgid "Projects in Kiberpipa"
 msgstr "Kiberpipini projekti"

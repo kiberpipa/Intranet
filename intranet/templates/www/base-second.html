@@ -1,9 +1,10 @@
+{% load i18n %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <link rel="alternate" type="application/rss+xml" title="Kiberpipin RSS" href="http://www.kiberpipa.org/rss/" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>{% block title %}Najboljši Kibercenter v Evropi{% endblock %} :: Kiberpipa.org</title>
+<title>{% block title %}{% trans "The Best Cybercenter in Europe" %}{% endblock %} :: Kiberpipa.org</title>
 
 <link rel="stylesheet" href="{{ media_url }}www/css/style.css" type="text/css" />
 <link rel="shortcut icon" href="{{ media_url }}www/images/favicon.ico" />
@@ -12,12 +13,13 @@
 
 </head>
 
+
 <body>
 <div id="container">
 
 	<div id="header">
-    	<div class="header-logo"><a href="http://www.kiberpipa.org"><img src="{{ media_url }}www/images/logo.png" alt="Kiberpipa Logo" /></a></div>
-        	<div class="primary-nav"><a href="/o-nas/">o nas</a> | <a href="/alumni/">skupnost</a> | <a href="/calendar/">koledar</a> | <a  href="/podpora/">podpora</a> | <a href="/press">press</a></div>
+        	<div class="header-logo"><a href="http://www.kiberpipa.org"><img src="{{ media_url }}www/images/logo.png" alt="Kiberpipa Logo" /></a></div>
+        	<div class="primary-nav"><a href="/o-nas/">{% trans "about" %}</a> | <a href="/alumni/">{% trans "community" %}</a> | <a href="/calendar/">{% trans "calendar" %}</a> | <a  href="/podpora/">{% trans "support" %}</a> | <a href="/press/">{% trans "press" %}</a></div>
         	<div class="searchbox"><img src="{{ media_url }}www/images/searchbox.gif" border="0" alt="slika" /></div>
             	<div class="language"><strong>slo</strong> | <a href="/news-en/">eng</a></div>
     </div>

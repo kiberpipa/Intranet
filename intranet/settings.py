@@ -20,6 +20,8 @@ TIME_ZONE = 'Europe/Vienna'
 # http://blogs.law.harvard.edu/tech/stories/storyReader$15
 LANGUAGE_CODE = 'sl'
 
+USE_I18N = True 
+
 LANGUAGES = (
   ('sl', 'Slovenscina'),
   ('en', 'English'),
@@ -44,6 +46,7 @@ MIDDLEWARE_CLASSES = (
     'intranet.middleware.exception.StandardExceptionMiddleware',
     'intranet.middleware.SmartAppendSlash.SmartAppendSlashMiddleware',
     #'intranet.middleware.psyco_middleware.PsycoMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
