@@ -136,7 +136,15 @@ def compat(request, file):
         request.GET.has_key('name') and request.GET['name'] == 'Your_Account' or\
         request.GET.has_key('name') and request.GET['name'] == 'Submit_News' or\
         request.GET.has_key('newlang') or\
-        request.GET.has_key('op') and request.GET['op'] == 'click':
+        request.GET.has_key('op') and request.GET['op'] == 'click' or\
+        request.GET.has_key('file') and request.GET['file'] == 'index' or\
+        request.GET.has_key('sid') and request.GET['sid'] == '749' or\
+        request.GET.has_key('sid') and request.GET['sid'] == '676' or\
+        request.GET.has_key('sid') and request.GET['sid'] == '3' or\
+        request.GET.has_key('module') and request.GET['module'] == 'PostCale' or\
+        request.GET.has_key('module') and request.GET['module'] == 'Admin' or\
+        request.GET.has_key('NAME') and request.GET['NAME'] == 'Submit_News':
+
         return HttpResponsePermanentRedirect('/')
 
     if request.GET.has_key('name') and request.GET['name'] == 'Archive' and request.GET.has_key('year') and request.GET.has_key('month'):
