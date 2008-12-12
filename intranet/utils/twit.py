@@ -24,9 +24,9 @@ try:
         else:
             sodelovanja = ''
         if e.language == 'SI':
-            api.PostUpdate(u'%s danes ob %s:%s #Kiberpipa: %s %s %s' % (e.project, e.start_date.hour, e.start_date.minute, e.title, sodelovanja, short_url))
+            api.PostUpdate(u'%s danes ob %s:%.2d #Kiberpipa: %s %s %s' % (e.project, e.start_date.hour, e.start_date.minute, e.title, sodelovanja, short_url))
         else:
-            api.PostUpdate(u'%s today at %s:%s #Kiberpipa: %s %s %s' % (e.project, e.start_date.hour, e.start_date.minute, e.title, sodelovanja, short_url))
+            api.PostUpdate(u'%s today at %s:%.2d #Kiberpipa: %s %s %s' % (e.project, e.start_date.hour, e.start_date.minute, e.title, sodelovanja, short_url))
 except IndexError:
     #the live stream announcement
     min_15 = today + datetime.timedelta(seconds=15*60)
