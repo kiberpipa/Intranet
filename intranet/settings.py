@@ -96,6 +96,10 @@ TEMPLATE_DIRS = (
     next_to_this_file(__file__, 'templates'),
 )
 
+FIXTURE_DIRS = (
+    next_to_this_file(__file__, 'fixtures'),
+)
+
 AUTH_PROFILE_MODULE = "org.UserProfile"
 REQUIRE_LOGIN_PATH = '/intranet/accounts/login/'
 AUTHENTICATION_BACKENDS = (

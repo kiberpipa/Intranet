@@ -7,6 +7,8 @@ SAMPLE_SIZE = ":%s" % getattr(settings, 'GALLERY_SAMPLE_SIZE', 5)
 
 top = Gallery.objects.filter(parent__isnull=True)
 
+print Gallery.objects.all()
+
 def recurse(gallery):
     result = []
     result += [gallery]
@@ -23,11 +25,9 @@ for g in top:
 
 
 urlpatterns = patterns('django.views.generic.simple',
-    (r'^',             'direct_to_template', {
-        'template': 'photologue/gallery.html',
-        'extra_context': {
-            'ordered': ordered
-        }
-    }),
+    (r'^', 'direct_to_template', {'template': 'photologue/gallery.html',
+									'extra_context': {
+									'ordered': ordered
+									}}),
 )
 

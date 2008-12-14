@@ -279,7 +279,7 @@ $$.hasCSS = function()  {
  *
 **/
 
-$$.onPageLoad = function(_src) {	
+$$.onPageLoad = function(_src) {
 	
 	// get the wrapper
 	var _wrapper = $('.galleria_wrapper');

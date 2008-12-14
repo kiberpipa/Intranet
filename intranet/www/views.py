@@ -38,7 +38,9 @@ def gallery(request, id):
     for p in gallery.photos.all():
         nice_pictures.append({'normal_url':p.get_normal_url(),
                                 'full_url':p.image.url,
-                                'exif':p.EXIF})
+                                'exif':''})
+
+	#exif inf: p.EXIF
     return HttpResponse(simplejson.dumps(nice_pictures))
     #for g in gallery.photos.all():
     #    i += 1

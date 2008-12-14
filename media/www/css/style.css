@@ -1270,8 +1270,10 @@ float: left;
 	}
 	
 .galerija-content {
-	width: 586px;
-	height: 360px;
+	width:auto;
+	height:auto;
+	min-width: 586px;
+	min-height: 360px;
 	float: left;
 	margin-bottom: 10px;
 	}
@@ -1304,10 +1306,17 @@ float: left;
 .galerija-button {
 	border: 1px solid #000000;
 	float: left;
-	margin-right: 5px;
+	margin-right: 15px;
 	margin-left: 6px;
 	margin-top: 10px;
 	margin-bottom: 20px;
+	width:120px;
+	height:100px;
+	list-style:none;
+}
+
+.galerija-button .thumb {
+	/*width:120px;*/
 }
 
 .galerija-lnav {

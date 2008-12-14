@@ -335,12 +335,13 @@ class ImageModel(models.Model):
         if photosize.increment_count:
             self.view_count += 1
             self.save(update=True)
-        #return '/'.join([self.cache_url(), self._get_filename_for_size(photosize.name)])
+
+        return '/'.join([self.cache_url(), self._get_filename_for_size(photosize.name)])
         #FIXME: ugly hack :-/
         #return '/img/' + unicode(self.galleries.all()[0]) + '/cache/' + self._get_filename_for_size(photosize.name)
         import re
         #return self.gallery_set.all()[0].album_name + '/' + re.sub('(?P<name>.*)(?P<ext>\..*)', '\g<name>crkn\g<ext>', self.image.)
-        return re.sub('(?P<name>.*)(?P<ext>\..*)', '\g<name>.sized\g<ext>', self.image.name)
+        #return re.sub('(?P<name>.*)(?P<ext>\..*)', '\g<name>.sized\g<ext>', self.image.name)
 
     def _get_SIZE_filename(self, size):
         photosize = PhotoSizeCache().sizes.get(size)
