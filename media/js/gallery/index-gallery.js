@@ -108,6 +108,8 @@ function menuToggle(me) {
 		console.log(data);
 		//the gallery_init() bellow creates a new one
 		$(".galleria_wrapper").remove();
+		$("ul#galerija-thumbnails li").remove();
+		
 		for(var i=0;i<data.length;i++){
 			list_elem = $("<li class='galerija-button'><img class='thumb noscale' width='120' height='100' src='"+data[i].normal_url+"' rel='"+data[i].normal_url+"' /></li>");    
 			$("ul#galerija-thumbnails").prepend(list_elem);
@@ -128,7 +130,7 @@ $(function(){
         }, function(data){ 
                 //the gallery_init() bellow creates a new one
                 $(".galleria_wrapper").remove();
-                
+                $("ul#galerija-thumbnails li").remove();
                 for(var i=0;i<data.length;i++){
                     list_elem = $("<li class='galerija-button'><img class='thumb noscale' width='120' height='100' src='"+data[i].normal_url+"' rel='"+data[i].normal_url+"' /></li>");
                     $("ul#galerija-thumbnails").append(list_elem);
@@ -142,7 +144,7 @@ $(function(){
     } else {
         //display default image if none has been requested
 		console.log("blabla, brisem kontent");
-        $(".galerija-content").html('<img src="http://www.screensite.org/courses/Jbutler/T340/TreasonOfImagesShadow.jpg">');
+        $(".galerija-content").html('<div class="galleria_wrapper"><img src="http://www.screensite.org/courses/Jbutler/T340/TreasonOfImagesShadow.jpg"></div>');
     }
     $(".nontop").hide(); //show only the top galleries a first
     $('.galerija-content').addClass('gallery_demo'); // adds new class name to maintain degradability
