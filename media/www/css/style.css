@@ -1270,10 +1270,7 @@ float: left;
 	}
 	
 .galerija-content {
-	width:auto;
-	height:auto;
-	min-width: 586px;
-	min-height: 360px;
+	width:500px;
 	float: left;
 	margin-bottom: 10px;
 	}
@@ -1285,6 +1282,10 @@ float: left;
 	margin-bottom: 10px;
 	margin-left: 44px;
 	}
+	
+.galleria_wrapper img {
+	width:500px;
+}
 	
 .galerija-levo {
 	float: left;
