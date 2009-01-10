@@ -10,8 +10,9 @@ from django.core.mail import send_mail
 from django.core import serializers
 from django.core.urlresolvers import reverse
 from django.contrib.comments.views.comments import post_comment
+from django.views.generic.list_detail import object_list
 
-from intranet.org.models import Event
+from intranet.org.models import Event, Clipping, Alumni
 from intranet.feedjack.models import Post
 from intranet.photologue.models import Photo, Gallery
 from intranet.www.models import Ticker, News, Video
@@ -257,3 +258,34 @@ def ical(request, month=None):
 
 def rss(request):
 	return render_to_response('www/rss.html', context_instance=RequestContext(request))
+
+# Generic views wrappers.
+def press(request):
+    queryset = Clipping.objects.order_by('-date')[:15]
+    if request.LANGUAGE_CODE == 'en':
+        template = 'www/press_en.html'
+    else:
+        template = 'www/press.html'
+    return object_list(request, queryset=queryset, template_name=template)    
+
+def news(request):
+    if request.LANGUAGE_CODE == 'en':
+        queryset = Event.objects.filter(language='EN')
+    else:
+        queryset = News.objects.order_by('-date')[:10]
+   
+    return object_list(request, queryset=queryset, template_name= 'www/news_list.html')
+
+def alumni(request):
+    alumni_active = []
+    alumni_not_active = []
+    for i in Alumni.objects.order_by('user__last_name'):
+        if i.user and i.user.userprofile.is_active():
+            alumni_active += [i]
+        else:
+            alumni_not_active += [i]
+    
+    queryset = Alumni.objects.all()
+
+    return object_list(request, queryset=queryset, template_name='www/alumni.html', extra_context={ 'not_active': alumni_not_active, 'active': alumni_active})
+

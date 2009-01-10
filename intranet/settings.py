@@ -1,5 +1,5 @@
 # Django settings for intranet project.
-import os
+import os, re
 def next_to_this_file(this_file, additional_path):
     return os.path.join(os.path.dirname(os.path.abspath(this_file)), additional_path)
 
@@ -27,6 +27,15 @@ LANGUAGES = (
   ('en', 'English'),
 )
 
+# localeurl 
+LOCALE_INDEPENDENT_PATHS = (
+    re.compile('^/intranet/'),
+    re.compile('^(modules|index)\.php'),
+    re.compile('^rss/?$'),
+    re.compile('ajax/'),
+    re.compile('smedia/'),
+)
+
 SITE_ID = 1
 
 # Make this unique, and don't share it with anybody.
@@ -47,6 +56,7 @@ MIDDLEWARE_CLASSES = (
     'intranet.middleware.SmartAppendSlash.SmartAppendSlashMiddleware',
     #'intranet.middleware.psyco_middleware.PsycoMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+    'localeurl.middleware.LocaleURLMiddleware', # locale stuff
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -90,6 +100,7 @@ INSTALLED_APPS = (
     'intranet.www',
     'photologue',
     'feedjack',
+    'localeurl', # locale stuff
 )
 
 TEMPLATE_DIRS = (
