@@ -30,6 +30,10 @@ class StandardExceptionMiddleware(object):
         else:
             return self.handle_500(request, exception)
 
+        # in re https://www.kiberpipa.org/intranet/bugs/157/
+        # rethrow exception to preserve call stack
+        raise
+
 
     def handle_404(self, request, exception):
         if settings.DEBUG:
@@ -72,7 +76,6 @@ class StandardExceptionMiddleware(object):
     def log_exception(self, request, exception, exc_info):
         subject, message = self.exception_email(request, exc_info)
         send_mail(subject, message, 'intranet@kiberpipa.org', [a[1] for a in settings.ADMINS], fail_silently=True)
-
 
 
 def _get_traceback(self, exc_info=None):
