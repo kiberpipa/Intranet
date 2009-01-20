@@ -1,77 +1,10 @@
+{% extends "www/base.html" %}
+
 {% load i18n %}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<link rel="alternate" type="application/rss+xml" title="Kiberpipin RSS" href="http://www.kiberpipa.org/rss/" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>{% block title %}{% trans "The Best Cybercenter in Europe" %}{% endblock %} :: Kiberpipa.org</title>
+{% get_current_language as LANGUAGE_CODE %}
 
-<link rel="stylesheet" href="{{ media_url }}www/css/style.css" type="text/css" />
-<link rel="shortcut icon" href="{{ media_url }}www/images/favicon.ico" />
-<script type='text/javascript' src='{{ media_url }}/js/jquery-1.2.6.js'></script>
-{% block extrahead %}{% endblock %}
-
-</head>
-
-
-<body>
-<div id="container">
-
-	<div id="header">
-        	<div class="header-logo"><a href="http://www.kiberpipa.org"><img src="{{ media_url }}www/images/logo.png" alt="Kiberpipa Logo" /></a></div>
-        	<div class="primary-nav"><a href="/o-nas/">{% trans "about" %}</a> | <a href="/alumni/">{% trans "community" %}</a> | <a href="/calendar/">{% trans "calendar" %}</a> | <a  href="/podpora/">{% trans "support" %}</a> | <a href="/press/">{% trans "press" %}</a></div>
-        	<div class="searchbox"><img src="{{ media_url }}www/images/searchbox.gif" border="0" alt="slika" /></div>
-            	<div class="language"><strong>slo</strong> | <a href="/news-en/">eng</a></div>
-    </div>
-
-{% block content %} {% endblock %}
-
-    <div id="footer">
-    
+{% block extrafooter %}
         <div id="second-nav">
     <a href="http://muzej.kiberpipa.org/">muzej</a> | g404 | <a href="http://www.kiberpipa.org/err0r/">err0r</a> | <a href="http://www.kiberpipa.org/postlab/">postlab</a> | <a href="http://www.kiberpipa.org/haip">haip</a> | filmšteka | <a href="http://pot.kiberpipa.org/">POT</a> | <a href="http://web.zen.si/">SU</a> | VIP | <a href="http://www.kiberpipa.net/">NET</a>
     </div>
-       	
-    	<div class="footer-cp-logo">
-        	<img src="http://static.kiberpipa.org/i3-media/www/images/logo.png" border="0" alt="slika" />
-        </div>
-        <div class="footer-text">
-        Kiberpipa<br />
-        <a href="http://bit.ly/T1Oj">Kersnikova 6</a><br />
-        1000 Ljubljana<br />
-        Slovenija<br />
-        </div>
-        <div class="footer-text2">
-        <p class="italic">Pon. - Pet.</p>
-        10.00 - 22.00<br />
-        <p class="italic">Mon. - Fri.</p>
-        10am - 10pm<br />
-        </div>
-        <div class="footer-text3">
-        +386 1 438 03 05<br />
-        <a href="mailto:info@kiberpipa.org">info@kiberpipa.org</a><br />
-        <a href="http://twitter.com/kiberpipa/">twitter:kiberpipa</a><br />
-        <a href="http://bit.ly/nTo3">Facebook group.</a>
-        </div>
-        
-        <div class="footer-support">
-        	<a href="http://www.k6-4.org/"><img src="{{ media_url }}www/images/zavod_pasica.png" alt="Zavod K6/4" /></a>
-
-        	<a href="http://www.m3c.si/dat/M3C/"><img src="{{ media_url }}www/images/logo_m3c.png" alt="M3C - Mreža Multimedijskih Centrov Slovenije" /></a>
-
-        	<a href="http://www.gov.si/euskladi/skladi/strukt_esrr.html"><img src="{{ media_url }}www/images/logo_evropski_sklad.png" alt="Evropski Sklad za Regionalni Razvoj" /></a>
-
-        	<a href="http://www.kultura.gov.si/"><img src="{{ media_url }}www/images/logo_kultura.png" alt="Kultura" /></a>
-
-        </div>
-    </div>
-</div>
-
-<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
-</script>
-<script type="text/javascript">
-  _uacct = "UA-306569-3"; urchinTracker();
-</script>
-
-</body>
-</html>
+{% endblock %}

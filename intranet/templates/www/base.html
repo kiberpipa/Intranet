@@ -1,4 +1,5 @@
 {% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -9,6 +10,22 @@
 <link rel="stylesheet" href="{{ media_url }}www/css/style.css" type="text/css" />
 <link rel="shortcut icon" href="{{ media_url }}www/images/favicon.ico" />
 <script type='text/javascript' src='{{ media_url }}/js/jquery-1.2.6.js'></script>
+<script type='text/javascript'>
+$(document).ready(function() {
+    $(".lang").click(function(){
+        if( $(this).hasClass("en") ) {
+            var lang = "en";
+        } else {
+            var lang = "sl";
+        };
+        $.post("/i18n/setlang/", { language: lang }, /* TO-DO: sensible redirect. */
+            function(data){
+                 window.location.assign("/"); 
+            });
+    return false; 
+    });
+});
+</script>
 {% block extrahead %}{% endblock %}
 
 </head>
@@ -18,21 +35,22 @@
 
 	<div id="header">
     	<div class="header-logo"><a href="http://www.kiberpipa.org"><img src="{{ media_url }}www/images/logo.png" alt="Kiberpipa Logo" /></a></div>
-        	<div class="primary-nav"><a href="/o-nas/">{% trans "about" %}</a> | <a href="/alumni/">{% trans "community" %}</a> | <a href="/calendar/">{% trans "calendar" %}</a> | <a  href="/podpora/">{% trans "support" %}</a> | <a href="/press/">{% trans "press" %}</a></div>
+        	<div class="primary-nav"><a href="/{{ LANGUAGE_CODE }}/about/">{% trans "about" %}</a> | <a href="/{{ LANGUAGE_CODE }}/alumni/">{% trans "community" %}</a> | <a href="/{{ LANGUAGE_CODE }}/calendar/">{% trans "calendar" %}</a> | <a  href="/{{ LANGUAGE_CODE }}/support/">{% trans "support" %}</a> | <a href="/{{ LANGUAGE_CODE }}/press/">{% trans "press" %}</a></div>
         	<div class="searchbox"><img src="{{ media_url }}www/images/searchbox.gif" border="0" alt="slika" /></div>
-            	<div class="language"><strong>slo</strong> | <a href="/news-en/">eng</a></div>
+            	<div class="language"><a href="#" class="lang sl">slo</a>| <a href="#" class="lang en">eng</a></div>
     </div>
 
 {% block content %} {% endblock %}
 
     <div id="footer">
-       	
+    {% block extrafooter %}	
+    {%  endblock %}
     	<div class="footer-cp-logo">
         	<img src="http://static.kiberpipa.org/i3-media/www/images/logo.png" border="0" alt="slika" />
         </div>
         <div class="footer-text">
         Kiberpipa<br />
-        <a href="http://maps.google.com/maps/ms?msa=0&msid=102059743126920888380.00044a805fa1b32bcf70b&ie=UTF8&ll=46.057002,14.50809&spn=0.007147,0.018711&z=16">Kersnikova 6</a><br />
+        <a href="http://bit.ly/T1Oj">Kersnikova 6</a><br />
         1000 Ljubljana<br />
         Slovenija<br />
         </div>
@@ -46,7 +64,7 @@
         +386 1 438 03 05<br />
         <a href="mailto:info@kiberpipa.org">info@kiberpipa.org</a><br />
         <a href="http://twitter.com/kiberpipa/">twitter:kiberpipa</a><br />
-        <a href="http://www.facebook.com/group.php?sid=440aea8321fa022cf5241feadc049d23&refurl=http%3A%2F%2Fwww.facebook.com%2Fs.php%3Fref%3Dsearch%26init%3Dq%26q%3Dkiberpipa%26sid%3D440aea8321fa022cf5241feadc049d23&gid=17920997960">Facebook group.</a>
+        <a href="http://bit.ly/nTo3">Facebook group.</a>
         </div>
         
         <div class="footer-support">

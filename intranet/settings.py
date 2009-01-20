@@ -34,6 +34,11 @@ LOCALE_INDEPENDENT_PATHS = (
     re.compile('^rss/?$'),
     re.compile('ajax/'),
     re.compile('smedia/'),
+    re.compile('/i18n/setlang/'),
+    re.compile('^comments/post/$'),
+    re.compile('^news/comments/post/$'),
+    re.compile('^comments/'),
+    re.compile('^favicon.ico'),
 )
 
 SITE_ID = 1

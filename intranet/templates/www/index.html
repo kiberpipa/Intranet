@@ -1,5 +1,6 @@
 {% extends "www/base.html" %}
 {% load www i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 
 {% block extrahead %}
 <link href='{{ media_url }}/www/scroll.css' type='text/css' rel='stylesheet' />
@@ -165,7 +166,7 @@ $(document).ready(function() {
     </div>
     <div id="blog-cp">
     	<div class="blog-cp-title">
-        <a href="/news/">{% trans "Writings from the world without windows" %}</a>
+        <a href="/{{ LANGUAGE_CODE }}/news/">{% trans "Writings from the world without windows" %}</a>
         </div>
         {% for i in news %}
             <div class="blog-cp-news-title">

@@ -40,6 +40,9 @@ urlpatterns = patterns('',
     (r'^comments/post/$', 'intranet.www.views.anti_spam'),
     (r'^news/comments/post/$', 'intranet.www.views.anti_spam'),
     (r'^comments/', include('django.contrib.comments.urls')),
+
+    (r'^i18n/', include('django.conf.urls.i18n')),
+
 )
 
 if settings.DEBUG:
