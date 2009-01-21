@@ -26,4 +26,6 @@ urlpatterns = patterns('',
     url(r'/'.join([r'(?P<title>[A-Za-z]+)', r'changeset', '(?P<revision>\d+)', r'$']),
         views.view_changeset, name='wiki_changeset')
 
+    url(r'article/(?P<article_id>\d+)/history/(?P<revision>\d+)/?$', 
+        views.view_changeset_by_article_id, name="wiki_changeset_by_article_id"),
 )
