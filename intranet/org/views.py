@@ -60,13 +60,20 @@ tmp_upload = login_required(tmp_upload)
 # ------------------------------------
 
 def index(request):
+    # if there's no profile, create it
+    try:
+        profile = request.user.get_profile()
+    except UserProfile.DoesNotExist:
+        profile = UserProfile(user=request.user)
+        profile.save()
+    
     today = datetime.datetime.today()
     nextday = today + datetime.timedelta(days=8)
 
-    if request.user.get_profile().project.all():
+    if profile.project.all():
 
         q = Q()
-        for i in request.user.get_profile().project.all(): 
+        for i in profile.project.all():
             q = q | Q(project=i)
 
         project_bugs = Bug.objects.filter(q, resolution__resolved=False)
