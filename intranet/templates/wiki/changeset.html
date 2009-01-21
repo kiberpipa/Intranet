@@ -1,9 +1,34 @@
 {% extends 'wiki/base.html' %}
+{% load wiki %}
 
+{% block extrahead %}
+<style type="text/css">
+ div#content p {margin-left: 10px}
+ div#content h1,h2,h3 {margin-left: 10px}
+ div.module, table.diff {margin-left: 20px; margin-top: 10px; margin-bottom: 10px;}
+</style>
+{% endblock %}
 
 {% block content %}
-	<h1>
-        <a href="../.."> {{ article_title }} </a>
-    </h1>
-    {{ changeset.diff|safe }}
+    <div id="content">
+      <h1 class="left">
+	<a href="/intranet/wiki/">Wiki index</a>&nbsp;>
+      {% for parent in parents %}
+	{{ parent }} > 
+      {% endfor %}
+	{{ article.title }}, različica {{ changeset.revision }} od {{ latest_revision }}
+      </h1>
+      
+      <h2>Vsebina različice {{ changeset.revision }} </h2>
+      <div class="module" id="recent-actions-module">
+	    {{ article.content|markdown|safe }}      
+      </div>
+
+      {% if not first_revision %}
+      <h2>Razlike med različicama {{ changeset.revision }} in {{ changeset.old_revision }}</h2>
+      {{ changeset.diff|safe }}
+      {% else %}
+	<p>Gledate prvo različico članka, zato ni mogoče prikazati razlik s prejšnjimi različicami.</p>
+      {% endif %}
+    </div>
 {% endblock %}

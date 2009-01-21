@@ -1,24 +1,30 @@
 {% extends 'wiki/base.html' %}
 
+{% block extrahead %}
 
-{% block content %}
-	<h1>
-        <a href="{{ article.get_absolute_url }}"> {{ article.title }} </a>
-    </h1>
+<style type="text/css">
+ div#content p {margin-left: 10px}
+ div#content h1,h2,h3 {margin-left: 10px}
+ div.module {margin-left: 20px; margin-top: 10px; margin-bottom: 10px;}
+</style>
+{% endblock %}
 
-    <h2> Article History </h2>
+{% block content %}    
+    <div id="content">
+	<h1>Article History za članek <a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h1>
 
 	{% if changes %}
 		<ul>
-			{% for change in changes %}
-				<li><a href="{{ change.get_absolute_url }}">
-                    At {{ change.modified|date:"M d, Y" }} </a>
-                    by <a href="../../{{ change.editor }}">
+		{% for change in changes %}
+		  <li><a href="{{ change.revision }}" title="revizija št. {{ change.revision }} članka '{{ article.title }}'">revizija {{ change.revision }}</a> z 
+                    {{ change.modified|date:"M d, Y h:m" }},
+                    avtor je <a href="../../../../imenik/#{{ change.editor }}">
                     {{ change.editor }}</a>{% if change.comment %}: <i>'{{ change.comment}}'</i> {% endif %}
-                </li>
-			{% endfor %}
+		  </li>
+		{% endfor %}
 		</ul>
 	{% else %}
-		<p> No changes in this article</p>
+		<p>No changes in this article.</p>
 	{% endif %}
+    </div>
 {% endblock %}

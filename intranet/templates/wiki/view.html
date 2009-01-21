@@ -15,10 +15,12 @@
 
 {% block content-main %}
     <h1 class="left">
-      <a href="../../">Wiki index</a>&nbsp;>
+      <a href="/intranet/wiki/">Wiki index</a>&nbsp;>
     {% for parent in parents %}
-      {{ parent }} > {{ article.title }}</h1>
+      {{ parent }} > 
     {% endfor %}
+      {{ article.title }}
+    </h1>
 
      <div class="module" id="recent-actions-module">
     <h2 class="left">{{ article.title }}</h2>

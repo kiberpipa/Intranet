@@ -22,7 +22,8 @@ wiki_index = login_required(wiki_index)
 def article_history(request, id):
     # TODO: use get_object_or_404
     article = Article.objects.get(pk=id)
-    changes = article.changeset_set.all()
+    changes = article.changeset_set.order_by('revision').reverse()
+
     return render_to_response('wiki/history.html', {'article': article, 'changes': changes}, context_instance=RequestContext(request))
 
 article_history = login_required(article_history)
@@ -38,7 +39,8 @@ def parents(article):
 
     return parents
 
-
+def view_this_article(request, article):
+    return render_to_response('wiki/view.html', {'article': article, 'parents': parents(article) }, context_instance=RequestContext(request))
 
 def view_article(request, id):
     try:
@@ -46,8 +48,9 @@ def view_article(request, id):
     except Article.DoesNotExist:
         article = Article(id=id)
 
-    return render_to_response('wiki/view.html', {'article': article, 'parents': parents(article) }, context_instance=RequestContext(request))
+    return view_this_article(request, article)
 view_article = login_required(view_article)
+
 
 def new_article(request, cat):
     category = Category.objects.get(pk=cat)
@@ -98,19 +101,43 @@ def edit_article(request, id):
 
     return render_to_response('wiki/edit.html', {'form': form},
 		context_instance=RequestContext(request))
-edit_article = login_required(edit_article)
+kedit_article = login_required(edit_article)
 
 def view_changeset(request, title, revision):
-
-    # TODO: get obj or 404
-    changeset = ChangeSet.objects.get(article__title=title,
-                                      revision=int(revision))
+    changeset = get_object_or_404(ChangeSet, article__title=title, revision=int(revision))
 
     if request.method == "GET":
         return render_to_response('wiki/changeset.html',
                 {'article_title': title, 'changeset': changeset},
 								context_instance=RequestContext(request))
 view_changeset = login_required(view_changeset)
+
+def view_changeset_by_article_id(request, article_id, revision):
+    changeset = get_object_or_404(ChangeSet, article=article_id, revision=int(revision))
+
+    # because of the way changsets are produced, the content of an *older* revision is only saved
+    # as the old_content of the *next* revision. 
+    try:
+      next_revision = int(revision)+1
+      this_revisions_content = ChangeSet.objects.get(article=article_id, revision=next_revision).old_content
+    except ChangeSet.DoesNotExist:
+      # latest revision
+      this_revisions_content = changeset.article.content;
+
+    changeset.article.content = this_revisions_content
+    try:
+      changeset.old_revision = int(revision) -1
+    except ValueError:
+      changeset.old_revision = "n/a"
+  
+    latest_revision = latest = ChangeSet.objects.filter(article=changeset.article).latest('modified').revision
+
+    if request.method == "GET":
+        return render_to_response('wiki/changeset.html',
+                {'article': changeset.article, 'changeset': changeset, 'first_revision': (1 == changeset.revision), 'parents' : parents(changeset.article), 'latest_revision' : latest_revision },
+		context_instance=RequestContext(request))
+
+view_changeset = login_required(view_changeset_by_article_id)
 
 def new_cat(request):
     c = Category(order=1, name=request.POST['cat'])
