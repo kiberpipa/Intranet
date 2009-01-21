@@ -87,6 +87,6 @@ class ChangeSet(models.Model):
             new_content = self.article.content
         return difflib.HtmlDiff().make_table(self.old_content.splitlines(),
                                              new_content.splitlines())
-    
+      
     def __unicode__(self):
       return u"revision %s of article '%s'" % (self.revision, self.article.title)
