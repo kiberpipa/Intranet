@@ -29,11 +29,11 @@ class backend:
         if not result_data:
             return None
 
-	#example result_data: [('uid=puffs,ou=People,dc=kiberpipa,dc=org', {'uid': ['puffs']})]
-	#compensate for ldap's case insensitivity
-	if result_data[0][1]['uid'][0] != username:
-	   return None
-            
+        #example result_data: [('uid=puffs,ou=People,dc=kiberpipa,dc=org', {'uid': ['puffs']})]
+        #compensate for ldap's case insensitivity
+        if result_data[0][1]['uid'][0] != username:
+           return None
+
         try:
             l.simple_bind_s(user, password)
             ##if the exception hasn't been raised so far it means the authorization succeded
@@ -54,11 +54,11 @@ class backend:
             user = User.objects.get(username=username)
         except User.DoesNotExist:
             user = User(username=username)
-        
+
         #insert any ldap logic here
         user.set_password(password)
-	#if a user still exists in ldap AND trys to log in, should be safe to set he active flag
-	user.is_active = True
+        #if a user still exists in ldap AND trys to log in, should be safe to set he active flag
+        user.is_active = True
         user.save()
 
         try:
@@ -66,7 +66,7 @@ class backend:
         except UserProfile.DoesNotExist:
             profile = UserProfile(user=user)
             profile.save()
-        
+
         return user
 
 
