@@ -18,9 +18,10 @@ $(document).ready(function() {
         } else {
             var lang = "sl";
         };
-        $.post("/i18n/setlang/", { language: lang }, /* TO-DO: sensible redirect. */
+        $.post("/i18n/setlang/", { language: lang, next:"/" }, /* TO-DO: sensible redirect. */
             function(data){
-                 window.location.assign("/"); 
+                 //window.location.assign("/"); 
+                 console.log(data);
             });
     return false; 
     });
