@@ -6,6 +6,8 @@ import urllib
 import re
 import datetime
 
+from django.core.mail import send_mail
+
 from intranet.www.models import Video
 from intranet.org.models import Event
 
@@ -53,6 +55,7 @@ def main():
     parsed_video_list.append(parse_video(video))
     
   for i in parsed_video_list:
+    print i
     try: 
         Video.objects.get(videodir=i['videodir'])
     except Video.DoesNotExist:
@@ -61,9 +64,21 @@ def main():
           pub_date = i['date'], 
           play_url = 'http://video.kiberpipa.org' + i['url'],)
 
-        if i['intranet-id']:
-            video.event = Event.objects.get(pk=i['intranet-id'])
-            video.save()
+        try:
+            if i['intranet-id']:
+                event = Event.objects.get(pk=i['intranet-id'])
+                video.event = event
+                video.save()
+                subject = 'Posnetek predavanja %s je na voljo' % event.title[:30]
+                body = 'Predavanje %s, %s je sedaj na voljo za ogled v Kiberpipinem spletnem arhivu.\n\nOgledate si ga lahko na %s\n\nEkipa Kiberpipe' % (event.title, 'avtor', video.play_url)
+
+                for i in event.emails.all():
+                    log = open('/tmp/YAY', 'a')
+                    log.write('about to send mail to: %s\n' % i)
+                    send_mail(subject, body, 'obvestila@kiberpipa.org', [i], fail_silently=True)
+        except Event.DoesNotExist:
+            pass
+
   
 if __name__ == '__main__':
   main()

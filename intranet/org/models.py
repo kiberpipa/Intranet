@@ -165,6 +165,34 @@ class Place(models.Model):
               'js/tags.js',
               )
 
+
+##there's gotta be a better way to do this
+class Email(models.Model):
+    email = models.EmailField()
+
+    def __unicode__(self):
+        return self.email
+
+class Phone(models.Model):
+    phone = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return self.phone
+
+class Organization(models.Model):
+    organization = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return self.organization
+
+class Role(models.Model):
+    role = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return self.role
+
+
+
 # koledar dogodkov
 class Event(models.Model):
     responsible = models.ForeignKey(User)
@@ -198,6 +226,8 @@ class Event(models.Model):
     place = models.ForeignKey(Place)
     category = models.ForeignKey(Category)
     tags = models.ManyToManyField(Tag, blank=True, null=True)
+    #for video spamming
+    emails = models.ManyToManyField(Email, blank=True, null=True)
 
     def index_image(self):
         index = re.sub('(?P<filename>.*)(?P<ext>\..*)', '\g<filename>-index\g<ext>', self.image._name)
@@ -281,32 +311,6 @@ class TipSodelovanja(models.Model):
 
     def __unicode__(self):
         return self.name
-
-
-##there's gotta be a better way to do this
-class Email(models.Model):
-    email = models.EmailField()
-
-    def __unicode__(self):
-        return self.email
-
-class Phone(models.Model):
-    phone = models.CharField(max_length=100)
-
-    def __unicode__(self):
-        return self.phone
-
-class Organization(models.Model):
-    organization = models.CharField(max_length=100)
-
-    def __unicode__(self):
-        return self.organization
-
-class Role(models.Model):
-    role = models.CharField(max_length=100)
-
-    def __unicode__(self):
-        return self.role
 
 
 class Person(models.Model):

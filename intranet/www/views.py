@@ -1,6 +1,7 @@
 import datetime
 import re
 from StringIO import StringIO
+import simplejson
 
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -11,16 +12,21 @@ from django.core import serializers
 from django.core.urlresolvers import reverse
 from django.contrib.comments.views.comments import post_comment
 from django.views.generic.list_detail import object_list
+from django import forms
 
-from intranet.org.models import Event, Clipping, Alumni
+from intranet.org.models import Event, Clipping, Alumni, Email
 from intranet.feedjack.models import Post
 from intranet.photologue.models import Photo, Gallery
 from intranet.www.models import Ticker, News, Video
-import simplejson
+
+
+#if there will be any more forms we should probably create www/forms.py
+class EmailForm(forms.Form):
+    email = forms.EmailField()
 
 def anti_spam(request):
     #make sure the users have taken at least 5 seconds from to read the page and write the comment (spam bots don't) 
-    if request.POST.has_key('timestamp') and int(request.POST['timestamp'])+5 > int(datetime.datetime.now().strftime('%s')):
+    if int(request.POST['timestamp'])+5 > int(datetime.datetime.now().strftime('%s')):
         return HttpResponsePermanentRedirect('/')
     return post_comment(request)
 
@@ -56,9 +62,11 @@ def gallery(request, id):
     return HttpResponse(ret)
 
 def index(request):
-    # FIXME: next line throws an error on empty db
-    next = Event.objects.filter(public=True, start_date__gte=datetime.datetime.today()).order_by('start_date')[0]
-    events = [next.get_previous(), next, next.get_next()]
+    try:
+        next = Event.objects.filter(public=True, start_date__gte=datetime.datetime.today()).order_by('start_date')[0]
+        events = [next.get_previous(), next, next.get_next()]
+    except IndexError:
+        events = Event.objects.filter(public=True).order_by('start_date')[0:2]
 
     return render_to_response('www/index.html', {
         #'position': position,
@@ -83,8 +91,22 @@ def ajax_index_events(request):
     }, context_instance=RequestContext(request))
 
 def event(request, id):
+    event = Event.objects.get(pk=id)
+    form = EmailForm()
+    message = None
+    if request.method == 'POST':
+        form = EmailForm(request.POST)
+        if form.is_valid():
+            if form.cleaned_data['email'] not in event.emails.all():
+                email = Email.objects.create(email = form.cleaned_data['email'])
+                event.emails.add(email)
+                event.save()
+                message = 'yay from view'
+            
     return render_to_response('www/event.html', {
-        'event': Event.objects.get(pk=id),
+        'event': event,
+        'form': form,
+        'message': message,
         }, 
         context_instance=RequestContext(request))
 
