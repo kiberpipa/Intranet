@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n localeurl_tags %}
 {% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -20,8 +20,8 @@ $(document).ready(function() {
         };
         $.post("/i18n/setlang/", { language: lang, next:"/" }, /* TO-DO: sensible redirect. */
             function(data){
-                 //window.location.assign("/"); 
-                 console.log(data);
+                 window.location.assign("/"); 
+                 //console.log(data);
             });
     return false; 
     });
@@ -38,7 +38,7 @@ $(document).ready(function() {
     	<div class="header-logo"><a href="http://www.kiberpipa.org"><img src="{{ media_url }}www/images/logo.png" alt="Kiberpipa Logo" /></a></div>
         	<div class="primary-nav"><a href="/{{ LANGUAGE_CODE }}/about/">{% trans "about" %}</a> | <a href="/{{ LANGUAGE_CODE }}/alumni/">{% trans "community" %}</a> | <a href="/{{ LANGUAGE_CODE }}/calendar/">{% trans "calendar" %}</a> | <a  href="/{{ LANGUAGE_CODE }}/support/">{% trans "support" %}</a> | <a href="/{{ LANGUAGE_CODE }}/press/">{% trans "press" %}</a></div>
         	<div class="searchbox"><img src="{{ media_url }}www/images/searchbox.gif" border="0" alt="slika" /></div>
-            	<div class="language"><a href="#" class="lang sl">slo</a>| <a href="#" class="lang en">eng</a></div>
+            	<div class="language"><a href="/{{ LANGUAGE_CODE }}/locale/" class="lang sl">slo</a> | <a href="/{{ LANGUAGE_CODE}}/locale/" class="lang en">eng</a></div>
     </div>
 
 {% block content %} {% endblock %}
