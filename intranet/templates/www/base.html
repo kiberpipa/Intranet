@@ -10,23 +10,6 @@
 <link rel="stylesheet" href="{{ media_url }}www/css/style.css" type="text/css" />
 <link rel="shortcut icon" href="{{ media_url }}www/images/favicon.ico" />
 <script type='text/javascript' src='{{ media_url }}/js/jquery-1.2.6.js'></script>
-<script type='text/javascript'>
-$(document).ready(function() {
-    $(".lang").click(function(){
-        if( $(this).hasClass("en") ) {
-            var lang = "en";
-        } else {
-            var lang = "sl";
-        };
-        $.post("/i18n/setlang/", { language: lang, next:"/" }, /* TO-DO: sensible redirect. */
-            function(data){
-                 window.location.assign("/"); 
-                 //console.log(data);
-            });
-    return false; 
-    });
-});
-</script>
 {% block extrahead %}{% endblock %}
 
 </head>
@@ -38,7 +21,7 @@ $(document).ready(function() {
     	<div class="header-logo"><a href="http://www.kiberpipa.org"><img src="{{ media_url }}www/images/logo.png" alt="Kiberpipa Logo" /></a></div>
         	<div class="primary-nav"><a href="/{{ LANGUAGE_CODE }}/about/">{% trans "about" %}</a> | <a href="/{{ LANGUAGE_CODE }}/alumni/">{% trans "community" %}</a> | <a href="/{{ LANGUAGE_CODE }}/calendar/">{% trans "calendar" %}</a> | <a  href="/{{ LANGUAGE_CODE }}/support/">{% trans "support" %}</a> | <a href="/{{ LANGUAGE_CODE }}/press/">{% trans "press" %}</a></div>
         	<div class="searchbox"><img src="{{ media_url }}www/images/searchbox.gif" border="0" alt="slika" /></div>
-            	<div class="language"><a href="/sl/locale/" class="lang sl">slo</a> | <a href="/en/locale/" class="lang en">eng</a></div>
+            	<div class="language"><a href="/sl{{ request.path_info }}" >slo</a> | <a href="/en{{ request.path_info }}">eng</a> </div>
     </div>
 
 {% block content %} {% endblock %}

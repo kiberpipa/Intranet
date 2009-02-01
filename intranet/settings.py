@@ -61,7 +61,7 @@ MIDDLEWARE_CLASSES = (
     'intranet.middleware.SmartAppendSlash.SmartAppendSlashMiddleware',
     #'intranet.middleware.psyco_middleware.PsycoMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    'localeurl.middleware.LocaleURLMiddleware', # locale stuff
+    'localeurl.middleware.LocaleURLMiddleware', 
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -75,9 +75,10 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'intranet.urls'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.core.context_processors.auth",
-    "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
+    'django.core.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.request',
     'intranet.org.context_processors.media_url',
     'intranet.org.context_processors.admin_media_prefix',
 )
@@ -105,7 +106,7 @@ INSTALLED_APPS = (
     'intranet.www',
     'photologue',
     'feedjack',
-    'localeurl', # locale stuff
+    'localeurl',
 )
 
 TEMPLATE_DIRS = (
@@ -116,7 +117,7 @@ FIXTURE_DIRS = (
     next_to_this_file(__file__, 'fixtures'),
 )
 
-AUTH_PROFILE_MODULE = "org.UserProfile"
+AUTH_PROFILE_MODULE = 'org.UserProfile'
 REQUIRE_LOGIN_PATH = '/intranet/accounts/login/'
 AUTHENTICATION_BACKENDS = (
     'intranet.ldapbackend.backend',

@@ -296,7 +296,7 @@ def press(request):
 
 def news(request):
     if request.LANGUAGE_CODE == 'en':
-        queryset = Event.objects.filter(language='EN')
+        queryset = News.objects.filter(language='en')
     else:
         queryset = News.objects.order_by('-date')[:10]
    
