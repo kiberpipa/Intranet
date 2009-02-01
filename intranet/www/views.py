@@ -13,6 +13,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.comments.views.comments import post_comment
 from django.views.generic.list_detail import object_list
 from django import forms
+from django.utils.translation import ugettext as _
 
 from intranet.org.models import Event, Clipping, Alumni, Email
 from intranet.feedjack.models import Post
@@ -90,23 +91,26 @@ def ajax_index_events(request):
       'events': events,  
     }, context_instance=RequestContext(request))
 
+def ajax_add_mail(request, event, email):
+    event = Event.objects.get(pk=event)
+    form = EmailForm({'email': email})
+    if form.is_valid():
+        email = Email.objects.get_or_create(email = form.cleaned_data['email'])[0]
+        if email in event.emails.all():
+            message = _('You are already subscribed to this event.')
+        else:
+            event.emails.add(email)
+            event.save()
+            message = _('You will recieve the notification when the video is available.')
+    else:
+        message = _('Please enter valid email address')
+        
+    return HttpResponse(message)
+
 def event(request, id):
-    event = Event.objects.get(pk=id)
-    form = EmailForm()
-    message = None
-    if request.method == 'POST':
-        form = EmailForm(request.POST)
-        if form.is_valid():
-            if form.cleaned_data['email'] not in event.emails.all():
-                email = Email.objects.create(email = form.cleaned_data['email'])
-                event.emails.add(email)
-                event.save()
-                message = 'yay from view'
-            
     return render_to_response('www/event.html', {
-        'event': event,
-        'form': form,
-        'message': message,
+        'event': Event.objects.get(pk=id),
+        'form': EmailForm(),
         }, 
         context_instance=RequestContext(request))
 

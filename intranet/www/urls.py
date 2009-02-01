@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     url(r'^locale/?$', 'django.views.generic.simple.direct_to_template', {'template': 'www/locale.html'}),
     url(r'^ajax/gallery/(?P<id>\d+|[\w-]+)/$', 'intranet.www.views.gallery'),
     url(r'^ajax/index/events/$', 'intranet.www.views.ajax_index_events'),
+    url(r'^ajax/add_mail/(?P<event>[0-9]+)/(?P<email>[^/]*)$', 'intranet.www.views.ajax_add_mail'),
 )
 
 # URL-ji potrebni redirecta po deployu

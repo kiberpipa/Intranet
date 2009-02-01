@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-11 20:18+0100\n"
+"POT-Creation-Date: 2009-02-01 01:21+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,8 +28,8 @@ msgid "Date the post was first obtained."
 msgstr ""
 
 #: feedjack/models.py:22 feedjack/models.py:38 feedjack/models.py:98
-#: feedjack/models.py:126 feedjack/models.py:173 photologue/models.py:534
-#: photologue/models.py:660
+#: feedjack/models.py:126 feedjack/models.py:173 photologue/models.py:535
+#: photologue/models.py:661
 msgid "name"
 msgstr ""
 
@@ -51,12 +51,12 @@ msgid "Example"
 msgstr ""
 
 #: feedjack/models.py:45 feedjack/models.py:103 feedjack/models.py:141
-#: photologue/models.py:123 photologue/models.py:203 photologue/models.py:500
+#: photologue/models.py:123 photologue/models.py:203 photologue/models.py:501
 msgid "title"
 msgstr ""
 
 #: feedjack/models.py:46 photologue/models.py:128 photologue/models.py:206
-#: photologue/models.py:535
+#: photologue/models.py:536
 msgid "description"
 msgstr ""
 
@@ -163,7 +163,7 @@ msgid "tag"
 msgstr ""
 
 #: feedjack/models.py:130 feedjack/models.py:149 photologue/models.py:133
-#: photologue/models.py:208 photologue/models.py:506
+#: photologue/models.py:208 photologue/models.py:507
 msgid "tags"
 msgstr ""
 
@@ -335,7 +335,7 @@ msgstr ""
 msgid "A \"slug\" is a unique URL-friendly title for an object."
 msgstr ""
 
-#: photologue/models.py:129 photologue/models.py:207 photologue/models.py:505
+#: photologue/models.py:129 photologue/models.py:207 photologue/models.py:506
 msgid "is public"
 msgstr ""
 
@@ -343,7 +343,7 @@ msgstr ""
 msgid "Public galleries will be displayed in the default views."
 msgstr ""
 
-#: photologue/models.py:131 photologue/models.py:512
+#: photologue/models.py:131 photologue/models.py:513
 msgid "photos"
 msgstr ""
 
@@ -373,7 +373,7 @@ msgid ""
 "+ a sequential number."
 msgstr ""
 
-#: photologue/models.py:205 photologue/models.py:503
+#: photologue/models.py:205 photologue/models.py:504
 msgid "caption"
 msgstr ""
 
@@ -398,7 +398,7 @@ msgstr ""
 msgid "gallery uploads"
 msgstr ""
 
-#: photologue/models.py:272 photologue/models.py:646
+#: photologue/models.py:272 photologue/models.py:647
 msgid "image"
 msgstr ""
 
@@ -422,196 +422,196 @@ msgstr ""
 msgid "Thumbnail"
 msgstr ""
 
-#: photologue/models.py:501
+#: photologue/models.py:502
 msgid "slug"
 msgstr ""
 
-#: photologue/models.py:504
+#: photologue/models.py:505
 msgid "date added"
 msgstr ""
 
-#: photologue/models.py:505
+#: photologue/models.py:506
 msgid "Public photographs will be displayed in the default views."
 msgstr ""
 
-#: photologue/models.py:511
+#: photologue/models.py:512
 msgid "photo"
 msgstr ""
 
-#: photologue/models.py:606
+#: photologue/models.py:607
 msgid "rotate or flip"
 msgstr ""
 
-#: photologue/models.py:607 photologue/models.py:614
+#: photologue/models.py:608 photologue/models.py:615
 msgid "color"
 msgstr ""
 
-#: photologue/models.py:607
+#: photologue/models.py:608
 msgid ""
 "A factor of 0.0 gives a black and white image, a factor of 1.0 gives the "
 "original image."
 msgstr ""
 
-#: photologue/models.py:608
+#: photologue/models.py:609
 msgid "brightness"
 msgstr ""
 
-#: photologue/models.py:608
+#: photologue/models.py:609
 msgid ""
 "A factor of 0.0 gives a black image, a factor of 1.0 gives the original "
 "image."
 msgstr ""
 
-#: photologue/models.py:609
+#: photologue/models.py:610
 msgid "contrast"
 msgstr ""
 
-#: photologue/models.py:609
+#: photologue/models.py:610
 msgid ""
 "A factor of 0.0 gives a solid grey image, a factor of 1.0 gives the original "
 "image."
 msgstr ""
 
-#: photologue/models.py:610
+#: photologue/models.py:611
 msgid "sharpness"
 msgstr ""
 
-#: photologue/models.py:610
+#: photologue/models.py:611
 msgid ""
 "A factor of 0.0 gives a blurred image, a factor of 1.0 gives the original "
 "image."
 msgstr ""
 
-#: photologue/models.py:611
+#: photologue/models.py:612
 msgid "filters"
 msgstr ""
 
-#: photologue/models.py:612
+#: photologue/models.py:613
 msgid "size"
 msgstr ""
 
-#: photologue/models.py:612
+#: photologue/models.py:613
 msgid ""
 "The height of the reflection as a percentage of the orignal image. A factor "
 "of 0.0 adds no reflection, a factor of 1.0 adds a reflection equal to the "
 "height of the orignal image."
 msgstr ""
 
-#: photologue/models.py:613
+#: photologue/models.py:614
 msgid "strength"
 msgstr ""
 
-#: photologue/models.py:617 photologue/models.py:668
+#: photologue/models.py:618 photologue/models.py:669
 msgid "photo effect"
 msgstr ""
 
-#: photologue/models.py:618
+#: photologue/models.py:619
 msgid "photo effects"
 msgstr ""
 
-#: photologue/models.py:647
+#: photologue/models.py:648
 msgid "style"
 msgstr ""
 
-#: photologue/models.py:648
+#: photologue/models.py:649
 msgid "opacity"
 msgstr ""
 
-#: photologue/models.py:648
+#: photologue/models.py:649
 msgid "The opacity of the overlay."
 msgstr ""
 
-#: photologue/models.py:651
+#: photologue/models.py:652
 msgid "watermark"
 msgstr ""
 
-#: photologue/models.py:652
+#: photologue/models.py:653
 msgid "watermarks"
 msgstr ""
 
-#: photologue/models.py:660
+#: photologue/models.py:661
 msgid ""
 "Photo size name should contain only letters, numbers and underscores. "
 "Examples: \"thumbnail\", \"display\", \"small\", \"main_page_widget\"."
 msgstr ""
 
-#: photologue/models.py:661
+#: photologue/models.py:662
 msgid "width"
 msgstr ""
 
-#: photologue/models.py:661
+#: photologue/models.py:662
 msgid ""
 "If width is set to \"0\" the image will be scaled to the supplied height."
 msgstr ""
 
-#: photologue/models.py:662
+#: photologue/models.py:663
 msgid "height"
 msgstr ""
 
-#: photologue/models.py:662
+#: photologue/models.py:663
 msgid ""
 "If height is set to \"0\" the image will be scaled to the supplied width"
 msgstr ""
 
-#: photologue/models.py:663
+#: photologue/models.py:664
 msgid "quality"
 msgstr ""
 
-#: photologue/models.py:663
+#: photologue/models.py:664
 msgid "JPEG image quality."
 msgstr ""
 
-#: photologue/models.py:664
+#: photologue/models.py:665
 msgid "upscale images?"
 msgstr ""
 
-#: photologue/models.py:664
+#: photologue/models.py:665
 msgid ""
 "If selected the image will be scaled up if necessary to fit the supplied "
 "dimensions. Cropped sizes will be upscaled regardless of this setting."
 msgstr ""
 
-#: photologue/models.py:665
+#: photologue/models.py:666
 msgid "crop to fit?"
 msgstr ""
 
-#: photologue/models.py:665
+#: photologue/models.py:666
 msgid ""
 "If selected the image will be scaled and cropped to fit the supplied "
 "dimensions."
 msgstr ""
 
-#: photologue/models.py:666
+#: photologue/models.py:667
 msgid "pre-cache?"
 msgstr ""
 
-#: photologue/models.py:666
+#: photologue/models.py:667
 msgid "If selected this photo size will be pre-cached as photos are added."
 msgstr ""
 
-#: photologue/models.py:667
+#: photologue/models.py:668
 msgid "increment view count?"
 msgstr ""
 
-#: photologue/models.py:667
+#: photologue/models.py:668
 msgid ""
 "If selected the image's \"view_count\" will be incremented when this photo "
 "size is displayed."
 msgstr ""
 
-#: photologue/models.py:669
+#: photologue/models.py:670
 msgid "watermark image"
 msgstr ""
 
-#: photologue/models.py:673
+#: photologue/models.py:674
 msgid "photo size"
 msgstr ""
 
-#: photologue/models.py:674
+#: photologue/models.py:675
 msgid "photo sizes"
 msgstr ""
 
-#: photologue/models.py:692
+#: photologue/models.py:693
 msgid "A PhotoSize must have a positive height or width."
 msgstr ""
 
@@ -726,7 +726,7 @@ msgid "and"
 msgstr "in"
 
 #: templates/comments/preview.html:17 templates/comments/preview.html.py:33
-#: templates/www/event.html:90 templates/www/news.html:38
+#: templates/www/event.html:116 templates/www/news.html:38
 msgid "Send comment"
 msgstr "Pošlji komentar"
 
@@ -737,18 +737,6 @@ msgstr "ali pa ga uredi"
 #: templates/comments/preview.html:34
 msgid "Preview"
 msgstr "Predogled"
-
-#: templates/photologue/gallery.html:4
-msgid "All Galleries"
-msgstr "Vse galerije"
-
-#: templates/photologue/gallery.html:154
-msgid "full size"
-msgstr "polna velikost"
-
-#: templates/photologue/gallery.html:154
-msgid "exif data"
-msgstr "exif podatki"
 
 #: templates/www/alumni.html:8
 msgid "Community"
@@ -778,109 +766,134 @@ msgstr "Aktivni"
 msgid "Not active"
 msgstr "Ne aktivni"
 
-#: templates/www/base-second.html:7 templates/www/base.html:7
+#: templates/www/base.html:8
 msgid "The Best Cybercenter in Europe"
 msgstr "Najboljši Kibercenter v Evropi"
 
-#: templates/www/base-second.html:22 templates/www/base.html:21
+#: templates/www/base.html:39
 msgid "about"
 msgstr "o nas"
 
-#: templates/www/base-second.html:22 templates/www/base.html:21
+#: templates/www/base.html:39
 msgid "community"
 msgstr "skupnost"
 
-#: templates/www/base-second.html:22 templates/www/base.html:21
+#: templates/www/base.html:39
 msgid "calendar"
 msgstr "koledar"
 
-#: templates/www/base-second.html:22 templates/www/base.html:21
+#: templates/www/base.html:39
 msgid "support"
 msgstr "podpora"
 
-#: templates/www/base-second.html:22 templates/www/base.html:21
+#: templates/www/base.html:39
 msgid "press"
 msgstr "press"
 
-#: templates/www/calendar.html:3 templates/www/calendar.html.py:8
+#: templates/www/calendar.html:6 templates/www/calendar.html.py:9
 msgid "Calendar of Events in Kiberpipa"
 msgstr "Kiberpipin koledar dogodkov"
 
-#: templates/www/calendar.html:14
+#: templates/www/calendar.html:15
 msgid "Calendar"
 msgstr "Koledar"
 
-#: templates/www/calendar.html:23
+#: templates/www/calendar.html:24
 msgid "Monday"
 msgstr "Ponedeljek"
 
-#: templates/www/calendar.html:26
+#: templates/www/calendar.html:27
 msgid "Tuesday"
 msgstr "Torek"
 
-#: templates/www/calendar.html:29
+#: templates/www/calendar.html:30
 msgid "Wednesday"
 msgstr "Sreda"
 
-#: templates/www/calendar.html:32
+#: templates/www/calendar.html:33
 msgid "Thursday"
 msgstr "Četrtek"
 
-#: templates/www/calendar.html:35
+#: templates/www/calendar.html:36
 msgid "Friday"
 msgstr "Petek"
 
-#: templates/www/calendar.html:38
+#: templates/www/calendar.html:39
 msgid "Saturday"
 msgstr "Sobota"
 
-#: templates/www/calendar.html:41
+#: templates/www/calendar.html:42
 msgid "Sunday"
 msgstr "Nedelja"
 
-#: templates/www/calendar.html:56 templates/www/calendar.html.py:82
+#: templates/www/calendar.html:57 templates/www/calendar.html.py:83
 msgid "Private."
 msgstr "Zasebno."
 
-#: templates/www/calendar.html:93
+#: templates/www/calendar.html:94
 msgid "Previous month"
 msgstr "Prejšnji mesec"
 
-#: templates/www/calendar.html:96
+#: templates/www/calendar.html:97
 msgid "Next month"
 msgstr "Naslednji mesec"
 
-#: templates/www/event.html:48
-msgid "Video archive"
-msgstr "Video arhiv"
+#: templates/www/event.html:66
+msgid "Please inform me when the video of this lecture is available"
+msgstr "Želim biti obveščen, ko bo video na voljo"
 
-#: templates/www/event.html:74 templates/www/news.html:23
+#: templates/www/event.html:69
+msgid ""
+"Please enter your contact data so we can inform you when the video will be "
+"available."
+msgstr ""
+"Vnesite vaše kontaktne podatke, če želite biti obveščeni, ko bo video "
+"posnetek na voljo"
+
+#: templates/www/event.html:73
+msgid "submit"
+msgstr "pošlji"
+
+#: templates/www/event.html:76
+msgid ""
+"Note: your email will be used only to deliver the message about video "
+"availability."
+msgstr ""
+"Opomba: vaš elektronski naslov bo uporabljen samo za dostavo sporočila o "
+"dosegljivosti video posnetka. "
+
+#: templates/www/event.html:100 templates/www/news.html:23
 msgid "Comments:"
 msgstr "Komentarji:"
 
-#: templates/www/event.html:78 templates/www/news.html:27
+#: templates/www/event.html:104 templates/www/news.html:27
 msgid "has wrote:"
 msgstr "je napisal:"
 
-#: templates/www/index.html:125
+#: templates/www/index.html:126
 msgid "Last added videos to the Video Archive"
 msgstr "Zadnji dodani posnetki v Video arhiv"
 
-#: templates/www/index.html:168
+#: templates/www/index.html:169
 msgid "Writings from the world without windows"
 msgstr "Zapisi iz sveta brez oken"
 
-#: templates/www/index.html:175 templates/www/index.html.py:197
+#: templates/www/index.html:176 templates/www/index.html.py:198
 msgid "Published by"
 msgstr "Objavil"
 
-#: templates/www/index.html:175 templates/www/index.html.py:197
+#: templates/www/index.html:176 templates/www/index.html.py:198
 msgid "on"
 msgstr "dne"
 
-#: templates/www/index.html:190
+#: templates/www/index.html:191
 msgid "Reflections from /dev/random"
 msgstr "Razmišljanja iz /dev/random"
+
+#: templates/www/locale.html:14
+#, fuzzy
+msgid "Send"
+msgstr "Reverzi"
 
 #: templates/www/news.html:7
 msgid "Kiberpipas blog"
@@ -921,3 +934,27 @@ msgstr "Tekst o Kiberpipi"
 #: templates/www/press.html:68
 msgid "Projects in Kiberpipa"
 msgstr "Kiberpipini projekti"
+
+#: www/views.py:100
+msgid "You are already subscribed to this event."
+msgstr "Ste že prijavljeni."
+
+#: www/views.py:104
+msgid "You will recieve the notification when the video is available."
+msgstr "Ko bo video na voljo vas bomo obvestili."
+
+#: www/views.py:106
+msgid "Please enter valid email address"
+msgstr "Prosimo vnesite veljaven email naslov"
+
+#~ msgid "All Galleries"
+#~ msgstr "Vse galerije"
+
+#~ msgid "full size"
+#~ msgstr "polna velikost"
+
+#~ msgid "exif data"
+#~ msgstr "exif podatki"
+
+#~ msgid "Video archive"
+#~ msgstr "Video arhiv"

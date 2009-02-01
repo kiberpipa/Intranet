@@ -1,5 +1,14 @@
 {% extends "www/base-second.html" %}
-{% block extrahead %}{% endblock %}
+{% block extrahead %}
+<script language="Javascript">
+    $(document).ready(function() { 
+        $('#add_email').click(function(){
+            $('.hideme').load('/ajax/add_mail/' + $('#add_email_id').val() + '/' + $('#id_email').val());
+            return false;
+        })
+    })
+</script>
+{% endblock %}
 {% block title %}{{ event }}{% endblock %}
 {% load markup i18n %}
 {% load i18n %}
@@ -53,21 +62,20 @@
                     </div>
                 {% endfor %}
             {% else %}
-                {% if message %}
-                    {{ message }}
-                {% else %}
-                    <div>
-                        <a class="expand">click</a>
-                        <div class="hideme">
-                        {% trans "Please inform me when the video of this lecture is available" %}
-                        <form method="post" action="">
-                            {{ form }}
-                            <input type="submit">
-                        </form>
-                        {% trans "Note: your email will be used only to deliver the message about video availability." %}
-                        </div>
+                <div>
+                    <a href="#" onclick="return false;" class="expand">{% trans "Please inform me when the video of this lecture is available" %}</a>
+                    <div class="hideme">
+                    <br />
+                    {% trans "Please enter your contact data so we can inform you when the video will be available." %}
+                    <form method="post" action="">
+                        <input id="add_email_id" type="hidden" value="{{ event.id }}">
+                        {{ form.as_p }}
+                        <input value="{% trans "submit" %}" id="add_email" type="submit">
+                    </form>
+                    <br />
+                    {% trans "Note: your email will be used only to deliver the message about video availability." %}
                     </div>
-                {% endif %}
+                </div>
 
             {% endif %}
         </div>
