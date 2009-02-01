@@ -23,7 +23,7 @@ week = now + datetime.timedelta(7)
 
 events = Event.objects.filter(start_date__range=(now, week))
 
-trenutna_stran = Site.objects.get(id=settings.SITE_ID)
+current_page = Site.objects.get(id=settings.SITE_ID)
 
 if not events:
     sys.exit(0)
@@ -44,7 +44,7 @@ for i in events:
         result += '\n'
     result += '\n\n'
     result += truncchar(sanitize_html(i.announce), 250)
-    result += u'\n\n\nVeč o tem:\nhttp://%s%s\n' % (trenutna_stran.domain, i.get_public_url())
+    result += u'\n\n\nVeč o tem:\nhttp://%s%s\n' % (current_page.domain, i.get_public_url())
     result += i.start_date.strftime('\n\n//////////////////////////////////////////////////\n\n')
 
 
