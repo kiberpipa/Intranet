@@ -6,11 +6,14 @@ import sys
 from intranet.org.models import Project, Diary
 
 from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
+from django.conf import settings
 
+trenutna_stran = Site.objects.get(id=settings.SITE_ID)
 
 user = User.objects.get(username=sys.argv[1])
 intranet = Project.objects.get(id=2)
 log_formal = sys.argv[2]
-log_formal += '\nchangeset: https://www.kiberpipa.org/projekti/intranet/changeset/%s\n' % sys.argv[3]
+log_formal += '\nchangeset: https://%s/projekti/intranet/changeset/%s/\n' % (trenutna_stran.domain, sys.argv[3])
 diary = Diary(log_formal=log_formal, author=user, length='00:00:00', task=intranet)
 diary.save()

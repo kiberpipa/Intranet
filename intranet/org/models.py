@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.contrib.sites.models import Site
 
 #from intranet.tags.models import Tag
 #from intranet.tags import fields
@@ -14,12 +15,7 @@ import socket
 from PIL import Image
 import re
 
-
-LANGUAGES = (
-    ('SI', 'Slovenian'),
-    ('EN', 'English'),
-)
-
+trenutna_stran = Site.objects.get(id=settings.SITE_ID)
 
 # Create your models here.
 
@@ -209,7 +205,7 @@ class Event(models.Model):
     image = models.ImageField(blank=True, null=True, upload_to='events/%Y/%m/', verbose_name="Slikca za Event page")
     public = models.BooleanField(default=True)
 
-    language = models.CharField(max_length=2, default='SI', choices=LANGUAGES, blank=True, null=True)
+    language = models.CharField(max_length=2, default='si', choices=settings.LANGUAGES, blank=True, null=True)
 
     #for iCal
     sequence = models.PositiveIntegerField(default=0)
@@ -238,11 +234,11 @@ class Event(models.Model):
             return self.image._name
 
     def get_absolute_url(self):
-        return "%s/intranet/events/%i/" % (settings.BASE_URL, self.id)
+        return '/intranet/events/%i/' %  self.id
 
     def get_public_url(self):
         #return settings.BASE_URL + reverse('intranet.www.views.event', args=[self.slug])
-        return settings.BASE_URL + '/'.join(['event', self.start_date.strftime('%Y-%b-%d').lower(), unicode(self.id), self.slug])
+        return '/'.join(['event', self.start_date.strftime('%Y-%b-%d').lower(), unicode(self.id), self.slug]) + '/'
 
     def __unicode__(self):
         return self.title
@@ -466,7 +462,7 @@ class Diary(models.Model):
         return "%s" % self.log_formal
 
     def get_absolute_url(self):
-        return "%s/intranet/diarys/%i/" % (settings.BASE_URL, self.id)
+        return "/intranet/diarys/%i/" % self.id
 
     class Meta:
         verbose_name = 'Dnevnik'
@@ -512,7 +508,7 @@ class Bug(models.Model):
    
 			
     def get_absolute_url(self):
-        return "%s/intranet/bugs/%i/" % (settings.BASE_URL, self.id)
+        return "/intranet/bugs/%i/" % self.id
     
     def mail(self, message=None, subject='you have new bug'):
         if message is None:
@@ -526,7 +522,7 @@ class Bug(models.Model):
         projects = ', '.join([unicode(i) for i in self.project.all()])
 
         info = 'bug: #%i\n' % self.id
-        info += 'bug url: %s\n' % self.get_absolute_url()
+        info += 'bug url: https://%s%s\n' % (trenutna_stran.domain, self.get_absolute_url())
         if assignees:
             info += 'assigned to: %s\n' % assignees
         if projects:
@@ -654,7 +650,7 @@ class Lend(models.Model):
         return "%s (%s): %s" % (self.what, self.to_who, self.returned)
 
     def get_absolute_url(self):
-        return '%s/intranet/lends/%d' % (settings.BASE_URL, self.id)
+        return '/intranet/lends/%d/' % self.id
 
     class Meta:
         verbose_name = 'Sposoja'
@@ -692,7 +688,7 @@ class KB(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return "%s/intranet/kb/%s/%s/" % (settings.BASE_URL, self.category.slug, self.slug)
+        return "/intranet/kb/%s/%s/" % self.category.slug, self.slug
 
 class Shopping(models.Model):
     name = models.CharField(max_length=100)
@@ -715,7 +711,7 @@ class Shopping(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return "%s/intranet/shopping/%i/" % (settings.BASE_URL, self.id)
+        return "/intranet/shopping/%i/" % self.id
 
 class Scratchpad(models.Model):
     content = models.TextField()

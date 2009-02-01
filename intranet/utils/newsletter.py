@@ -7,6 +7,8 @@ import sys
 
 from django.core.mail import send_mail
 from django.template.defaultfilters import capfirst
+from django.contrib.sites.models import Site
+from django.conf import settings
 
 from intranet.org.models import Event, Sodelovanje
 from intranet.www.templatetags.www import truncchar, sanitize_html
@@ -20,6 +22,8 @@ now = datetime.date.today()
 week = now + datetime.timedelta(7)
 
 events = Event.objects.filter(start_date__range=(now, week))
+
+trenutna_stran = Site.objects.get(id=settings.SITE_ID)
 
 if not events:
     sys.exit(0)
@@ -40,7 +44,7 @@ for i in events:
         result += '\n'
     result += '\n\n'
     result += truncchar(sanitize_html(i.announce), 250)
-    result += u'\n\n\nVeč o tem:\n%s\n' % i.get_public_url()
+    result += u'\n\n\nVeč o tem:\nhttp://%s%s\n' % (trenutna_stran.domain, i.get_public_url())
     result += i.start_date.strftime('\n\n//////////////////////////////////////////////////\n\n')
 
 

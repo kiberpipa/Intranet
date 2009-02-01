@@ -1,15 +1,15 @@
 <div class="diary, module, T{{ object.task.id }}, P{{ object.project.id }}">
 <div class="module">
-          <h2><a href="/intranet/diarys/{{ object.id }}" class="h2">
+          <h2><a href="/intranet/diarys/{{ object.id }}/" class="h2">
           {{ object.author }}: {{ object.task }}
           </a></h2>
           <h4>{{ object.date|date:"l d.m.Y"|capfirst }}, trajanje: {{ object.length|time:"G:i" }}</h4>
       {% if object.log_formal %}
-          <p>{{ object.log_formal|linebreaksbr }}</p>
+          <p>{{ object.log_formal|urlize|linebreaksbr }}</p>
       {% endif %}
       {% if object.log_informal %}
           <hr />
-          <p>{{ object.log_informal|linebreaksbr }}</p>
+          <p>{{ object.log_informal|urlize|linebreaksbr }}</p>
       {% endif %}
 </div>
 </div>
