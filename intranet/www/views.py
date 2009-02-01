@@ -114,7 +114,7 @@ def event(request, id):
         }, 
         context_instance=RequestContext(request))
 
-def news(request, slug):
+def news_detail(request, slug):
     return render_to_response('www/news.html', {
         'news': News.objects.get(slug=slug),
         },
@@ -294,7 +294,7 @@ def press(request):
         template = 'www/press.html'
     return object_list(request, queryset=queryset, template_name=template)    
 
-def news(request):
+def news_list(request):
     if request.LANGUAGE_CODE == 'en':
         queryset = News.objects.filter(language='en')
     else:
