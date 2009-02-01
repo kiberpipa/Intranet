@@ -15,8 +15,6 @@ import socket
 from PIL import Image
 import re
 
-current_page = Site.objects.get(id=settings.SITE_ID)
-
 # Create your models here.
 
 class Tag(models.Model):
@@ -522,7 +520,7 @@ class Bug(models.Model):
         projects = ', '.join([unicode(i) for i in self.project.all()])
 
         info = 'bug: #%i\n' % self.id
-        info += 'bug url: https://%s%s\n' % (current_page.domain, self.get_absolute_url())
+        info += 'bug url: https://%s%s\n' % (Site.objects.get_current().domain, self.get_absolute_url())
         if assignees:
             info += 'assigned to: %s\n' % assignees
         if projects:
