@@ -1,0 +1,11 @@
+Tu je seznam dependency-jev, tj. dodatnih python modulov, ki jih potrebujte za razvoj intraneta.
+
+Seznam je narejen za vsak python major release posebej, in napram bog-standard python distribuciji.
+Nekatere module boste že imeli inštaliran, možen pa je tudi kak duplikat v seznamu.
+
+Večino paketov je v APT-u: # apt-cache search <module name> | fgrep python
+
+ - README.deps.python2.4
+ - README.deps.python2.5
+ - README.deps.python2.6
+ - README.deps.python3.0
