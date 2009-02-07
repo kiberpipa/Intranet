@@ -52,6 +52,8 @@ div#content-main {
     margin: 0px auto;
 }
 
+h1 { margin: 0 0 0.8em 1em }
+
 div#hm { margin: 10px auto; }
 /*
 div#hm div{ float: left; }
@@ -149,9 +151,16 @@ div.messageB {
     width:95%;
 }
 
+/*
 .module textarea {
     width: 95%;
 }
+*/
+
+/* a bit of form styling. works for most forms */
+.module form label { display: inline-block; width: 80px; text-align: right; }
+.module form input[type='submit'] { margin: 0.5em 0 0.5em 90px; }
+.module form p.notice { margin-left: 90px; }
 
 ul li {
     list-style-type: none;

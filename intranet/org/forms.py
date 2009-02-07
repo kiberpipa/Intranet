@@ -1,3 +1,5 @@
+# coding=utf-8
+
 import datetime
 import time
 
@@ -7,7 +9,7 @@ from django.utils.encoding import force_unicode
 from django.conf import settings
 from django import forms
 from django.forms.util import ErrorList
-
+from django.forms.models import ModelChoiceField, ModelMultipleChoiceField
 
 from intranet.org.models import TipSodelovanja, Person, Event, Sodelovanje
 from intranet.org.models import Bug, Resolution, Clipping, Project, Alumni
@@ -68,8 +70,8 @@ class DateTimeWidget(forms.widgets.TextInput):
 
 class EventFilter(forms.Form):
     title = forms.CharField(required=False)
-    project = forms.ModelChoiceField(Project.objects.all(), required=False)
-    category = forms.ModelChoiceField(Category.objects.all(), required=False)
+    project = forms.ModelChoiceField(Project.objects.all().order_by('name'), required=False)
+    category = forms.ModelChoiceField(Category.objects.all().order_by('name'), required=False)
 
 class FilterBug(forms.Form):
     resolution = forms.ModelChoiceField(Resolution.objects.all(), required=False)
@@ -85,11 +87,11 @@ class CommentBug(forms.Form):
     text = forms.CharField(widget=forms.Textarea)
 
 class DiaryFilter(forms.Form):
-    task = forms.ModelChoiceField(Project.objects.all(), required=False)
+    task = forms.ModelChoiceField(Project.objects.all().order_by('name'), required=False)
     author = forms.ModelChoiceField(User.objects.filter(is_active=True).order_by('username'), required=False)
 
 class ImenikFilter(forms.Form):
-    project = forms.ModelChoiceField(Project.objects.all(), required=False)
+    project = forms.ModelChoiceField(Project.objects.all().order_by('name'), required=False)
 
 class PersonForm(forms.Form):
     name = forms.CharField(max_length=200)
@@ -133,6 +135,18 @@ class EventForm(forms.ModelForm):
         return cleaned_data
 
 class BugForm(forms.ModelForm):
+    assign = ModelMultipleChoiceField(User.objects.exclude(first_name='').order_by('first_name'))
+    assign.widget.attrs['size'] = 5
+    assign.label_from_instance = lambda user: u"%s %s (%s)" % (user.first_name, user.last_name, user.username)
+
+    watchers = ModelMultipleChoiceField(User.objects.exclude(first_name='').order_by('first_name'))
+    watchers.widget.attrs['size'] = 5
+    watchers.label_from_instance = lambda user: u"%s %s (%s)" % (user.first_name, user.last_name, user.username)
+    watchers.help_text = u'<p class="notice"><small>Držite "CTRL" (ali "CMD" na Mac-u) za izbiro več kot enega.</small></p>'
+
+    project = ModelMultipleChoiceField(Project.objects.all().order_by('name'))
+    project.widget.attrs['size'] = 5
+
     class Meta:
         exclude = ('resolved', 'tags', 'author','parent',)
         model = Bug
@@ -178,6 +192,8 @@ class ShoppingForm(forms.ModelForm):
         fields = ('name', 'explanation', 'cost', 'project', )
 
 class DiaryForm(forms.ModelForm):
+    task = ModelChoiceField(Project.objects.all().order_by('name'))
+
     class Meta:
         model = Diary
         fields = ('task', 'date', 'length', 'log_formal', 'log_informal',)
