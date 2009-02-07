@@ -66,7 +66,7 @@ def index(request):
     try:
         next = Event.objects.filter(public=True, start_date__gte=datetime.datetime.today()).order_by('start_date')[0]
         events = [next.get_previous(), next, next.get_next()]
-    except IndexError:
+    except (IndexError, Event.DoesNotExist), e:
         events = Event.objects.filter(public=True).order_by('start_date')[0:2]
 
     return render_to_response('www/index.html', {
