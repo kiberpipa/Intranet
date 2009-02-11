@@ -105,6 +105,9 @@ class ChangePw(forms.Form):
     newpass1 = forms.CharField(max_length='200', widget=forms.PasswordInput)
     newpass2 = forms.CharField(max_length='200', widget=forms.PasswordInput)
 
+class AddEventEmails(forms.Form):
+    emails = forms.CharField(widget=forms.Textarea)
+
 
 
 class FileForm(forms.ModelForm):

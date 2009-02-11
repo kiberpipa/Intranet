@@ -143,6 +143,7 @@ urlpatterns = patterns('',
     (r'^events/(?P<event>\d+)/edit/$', 'intranet.org.views.nf_event_edit'),
     (r'^events/(\d+)/count/$', 'intranet.org.views.event_count'),
     (r'^events/$',    'intranet.org.views.events'),
+    (r'^events/(?P<event_id>\d+)/emails/$', 'intranet.org.views.add_event_emails'),
     (r'^events/(?P<object_id>\d+)/$', 'intranet.org.views.event'),
 
     #(r'^diarys/(?P<task>\w+)/$', 'intranet.org.views.diarys_by_task'),

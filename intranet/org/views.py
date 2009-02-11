@@ -23,10 +23,10 @@ from StringIO import StringIO
 from copy import deepcopy
 
 
-from intranet.org.models import UserProfile, Project, Category
-from intranet.org.models import Place, Event, Shopping, Person, Sodelovanje, TipSodelovanja
-from intranet.org.models import Task, Diary, Bug, StickyNote, Lend, Resolution, Comment
-from intranet.org.models import KbCategory, KB, Tag, Scratchpad, Clipping, Mercenary
+from intranet.org.models import UserProfile, Project, Category, Email, \
+    Place, Event, Shopping, Person, Sodelovanje, TipSodelovanja, Task, Diary, \
+    Bug, StickyNote, Lend, Resolution, Comment, KbCategory, KB, Tag, \
+    Scratchpad, Clipping, Mercenary
 from intranet.org.forms import *
 from xls import salary_xls
 
@@ -655,6 +655,19 @@ def event_photos(request, event_id):
     return HttpResponseRedirect('..')
 event_photos = login_required(event_photos)
 
+def add_event_emails(request, event_id):
+    event = Event.objects.get(pk=event_id)
+    if request.method == 'POST':
+        form = AddEventEmails(request.POST)
+        if form.is_valid():
+            for e in form.cleaned_data['emails'].split('\n'):
+                email = Email.objects.get_or_create(email=e.strip())[0]
+                if email not in event.emails.all():
+                    event.emails.add(email)
+        event.save()
+    return HttpResponseRedirect(event.get_absolute_url())
+add_event_emails = login_required(add_event_emails)
+
 def nf_event_create(request):
     if request.method == 'POST':
         form = EventForm(request.POST, request.FILES)
@@ -749,6 +762,7 @@ def event(request, object_id):
         extra_context =  {
             'sodelovanja': Sodelovanje.objects.filter(event=object_id),
             'file_form': FileForm(),
+            'emails_form': AddEventEmails(),
         }
     )
 event = login_required(event)
