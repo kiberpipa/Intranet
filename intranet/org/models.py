@@ -342,7 +342,7 @@ class Sodelovanje(models.Model):
     note = models.TextField(blank=True, null=True)
 
     def __unicode__(self):
-        return "%s: %s @ %s" % (self.person, self.tip, self.event)
+        return u"%s: %s @ %s" % (self.person, self.tip, self.event)
     
     def save(self):
         if self.event:
