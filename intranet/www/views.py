@@ -295,12 +295,11 @@ def press(request):
     return object_list(request, queryset=queryset, template_name=template)    
 
 def news_list(request):
+    queryset = News.objects.order_by('-date')
     if request.LANGUAGE_CODE == 'en':
-        queryset = News.objects.filter(language='en')
-    else:
-        queryset = News.objects.order_by('-date')[:10]
+        queryset = queryset.filter(language='en')
    
-    return object_list(request, queryset=queryset, template_name= 'www/news_list.html')
+    return object_list(request, queryset=queryset[:10], template_name= 'www/news_list.html')
 
 def alumni(request):
     alumni_active = []

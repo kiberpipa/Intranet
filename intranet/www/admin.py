@@ -3,7 +3,7 @@ from django.template.defaultfilters import slugify
 from django.contrib import admin
 
 class NewsAdmin(admin.ModelAdmin):
-    fields = ['title', 'image', 'text']
+    fields = ['title', 'image', 'text', 'language']
 
     def save_model(self, request, obj, form, change):
         obj.slug = slugify(obj.title)

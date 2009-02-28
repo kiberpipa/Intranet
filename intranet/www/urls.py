@@ -18,11 +18,9 @@ urlpatterns = patterns('',
     url(r'^ajax/gallery/(?P<id>\d+|[\w-]+)/$', 'intranet.www.views.gallery'),
     url(r'^ajax/index/events/$', 'intranet.www.views.ajax_index_events'),
     url(r'^ajax/add_mail/(?P<event>[0-9]+)/(?P<email>[^/]*)$', 'intranet.www.views.ajax_add_mail'),
+
+    #backwards compatibility
+    url(r'^press-en/', 'django.views.generic.simple.redirect_to', {'url': '/en/press/'},),
+    url(r'^alumni-en/', 'django.views.generic.simple.redirect_to', {'url': '/en/alumni/'},),
+    url(r'^calendar-en/', 'django.views.generic.simple.redirect_to', {'url': '/en/calendar/'},),
 )
-
-# URL-ji potrebni redirecta po deployu
-#url(r'^press-en/', 'django.views.generic.list_detail.object_list', press_dict_en),
-#url(r'^alumni-en/', 'django.views.generic.list_detail.object_list', alumni_dict),
-#url(r'^calendar-en/', 'intranet.www.views.calendar', {'en': True}),
-
-
