@@ -746,3 +746,9 @@ class Alumni(models.Model):
             return unicode(self.user)
         else:
             return self.text
+
+
+class NetCount(models.Model):
+    count = models.CommaSeparatedIntegerField(max_length=200)
+    time = models.DateTimeField()
+

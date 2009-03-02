@@ -135,6 +135,7 @@ urlpatterns = patterns('',
     (r'^search/$', 'intranet.org.views.search'),
     (r'^$', 'intranet.org.views.index'),
     (r'^stats/$', 'intranet.org.views.stats'),
+    (r'^stats/ltspusage/add/$', 'intranet.org.views.internet_usage_report'),
     (r'^stats/text_log/$', 'intranet.org.views.text_log'),
 
 #    (r'events/$',    'django.views.generic.list_detail.object_list', event_list),
