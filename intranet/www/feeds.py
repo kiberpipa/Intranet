@@ -4,7 +4,7 @@ from django.contrib.syndication.feeds import Feed
 from django.core.urlresolvers import reverse
 
 from intranet.org.models import Event, Project
-from intranet.photologue.models import Gallery
+#from intranet.photologue.models import Gallery
 from intranet.www.models import News
 from intranet.feedjack.models import Post
 
@@ -25,7 +25,7 @@ class AllInOne(Feed):
         vip = [(e.start_date-push, e) for e in events.filter(project=Project.objects.get(pk=14)).order_by('-start_date')[:10]]
         events = [(e.start_date-push, e) for e in events.order_by('-start_date')[:10]]
         news =  [(n.date, n) for n in News.objects.order_by('-date')[:10]]
-        albums =  [(g.date_added, g) for g in Gallery.objects.order_by('-date_added')[:10]]
+        #albums =  [(g.date_added, g) for g in Gallery.objects.order_by('-date_added')[:10]]
         planet =  [(p.date_modified, p) for p in Post.objects.order_by('-date_modified')[:10]]
         muzej =  [(p.date_modified, p) for p in Post.objects.filter(feed=12).order_by('-date_modified')[:10]]
 

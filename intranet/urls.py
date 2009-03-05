@@ -2,14 +2,14 @@ from django.conf.urls.defaults import *
 from django.conf import settings
 from django.contrib import admin
 
-from intranet.photologue.models import *
+#from intranet.photologue.models import *
 from intranet.feedjack.models import Post
 from intranet.www.feeds import *
 
 admin.autodiscover()
 
 SAMPLE_SIZE = ":%s" % getattr(settings, 'GALLERY_SAMPLE_SIZE', 5)
-gallery_args = {'date_field': 'date_added', 'allow_empty': True, 'queryset': Gallery.objects.filter(is_public=True), 'extra_context':{'sample_size':SAMPLE_SIZE}}
+#gallery_args = {'date_field': 'date_added', 'allow_empty': True, 'queryset': Gallery.objects.filter(is_public=True), 'extra_context':{'sample_size':SAMPLE_SIZE}}
 
 planet_dict = {
     'queryset': Post.objects.order_by('-date_modified')[:30],
@@ -34,7 +34,7 @@ urlpatterns = patterns('',
 
     (r'^feeds/(?P<url>.*)', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
 
-    (r'^gallery/', include('intranet.photologue.urls')),
+    #(r'^gallery/', include('intranet.photologue.urls')),
 
     (r'^intranet/admin/(.*)', admin.site.root),
     (r'^comments/post/$', 'intranet.www.views.anti_spam'),

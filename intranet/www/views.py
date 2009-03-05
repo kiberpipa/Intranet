@@ -17,7 +17,7 @@ from django.utils.translation import ugettext as _
 
 from intranet.org.models import Event, Clipping, Alumni, Email
 from intranet.feedjack.models import Post
-from intranet.photologue.models import Photo, Gallery
+#from intranet.photologue.models import Photo, Gallery
 from intranet.www.models import Ticker, News, Video
 
 
@@ -31,36 +31,36 @@ def anti_spam(request):
         return HttpResponsePermanentRedirect('/')
     return post_comment(request)
 
-def gallery(request, id):
-    try:
-        gallery = Gallery.objects.get(title=id)
-    except Gallery.DoesNotExist:
-        gallery = Gallery.objects.get(pk=id)
-    ret = ''
-    i = 0
-
-    #return HttpResponse(serializers.serialize("json", [x.get_normal_url() for x in gallery.photos.all()]))
-    #return HttpResponse([x.get_normal_url() for x in gallery.photos.all()])
-    
-    nice_pictures = list()
-    for p in gallery.photos.all():
-        nice_pictures.append({'normal_url':p.get_normal_url(),
-                                'full_url':p.image.url,
-                                'exif':''})
-
-	#exif inf: p.EXIF
-    return HttpResponse(simplejson.dumps(nice_pictures))
-    #for g in gallery.photos.all():
-    #    i += 1
-    #    ret += '<li'
-    #    if i == 1:
-    #        ret += ' id="active"'
-    #    ret += '><img src="%s" class="img%s"></li>\n' % (g.get_normal_url(), g.id)
-
-        #ret += '<div id="%s" style="display: none"><div id="exif">b00 wh00 %s</div></div>' % (g.get_normal_url(), g.title)
-    #    ret += '<div id="img%s" style="display: none">b00 wh00 %s</div>' % (g.id, g.title)
-
-    return HttpResponse(ret)
+#def gallery(request, id):
+#    try:
+#        gallery = Gallery.objects.get(title=id)
+#    except Gallery.DoesNotExist:
+#        gallery = Gallery.objects.get(pk=id)
+#    ret = ''
+#    i = 0
+#
+#    #return HttpResponse(serializers.serialize("json", [x.get_normal_url() for x in gallery.photos.all()]))
+#    #return HttpResponse([x.get_normal_url() for x in gallery.photos.all()])
+#    
+#    nice_pictures = list()
+#    for p in gallery.photos.all():
+#        nice_pictures.append({'normal_url':p.get_normal_url(),
+#                                'full_url':p.image.url,
+#                                'exif':''})
+#
+#	#exif inf: p.EXIF
+#    return HttpResponse(simplejson.dumps(nice_pictures))
+#    #for g in gallery.photos.all():
+#    #    i += 1
+#    #    ret += '<li'
+#    #    if i == 1:
+#    #        ret += ' id="active"'
+#    #    ret += '><img src="%s" class="img%s"></li>\n' % (g.get_normal_url(), g.id)
+#
+#        #ret += '<div id="%s" style="display: none"><div id="exif">b00 wh00 %s</div></div>' % (g.get_normal_url(), g.title)
+#    #    ret += '<div id="img%s" style="display: none">b00 wh00 %s</div>' % (g.id, g.title)
+#
+#    return HttpResponse(ret)
 
 def index(request):
     try:
@@ -72,7 +72,7 @@ def index(request):
     return render_to_response('www/index.html', {
         #'position': position,
         'events': events,
-        'gallery': Photo.objects.all().order_by('date_added')[0:2],
+        #'gallery': Photo.objects.all().order_by('date_added')[0:2],
         'ticker': Ticker.objects.filter(is_active=True),
         'news': News.objects.order_by('-date')[0:4],
         'planet': Post.objects.order_by('-date_modified')[:4],
