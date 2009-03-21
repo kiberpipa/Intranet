@@ -235,8 +235,7 @@ class Event(models.Model):
         return '/intranet/events/%i/' %  self.id
 
     def get_public_url(self):
-        #return settings.BASE_URL + reverse('intranet.www.views.event', args=[self.slug])
-        return '/'.join(['event', self.start_date.strftime('%Y-%b-%d').lower(), unicode(self.id), self.slug]) + '/'
+        return '/' + '/'.join(['event', self.start_date.strftime('%Y-%b-%d').lower(), unicode(self.id), self.slug]) + '/'
 
     def __unicode__(self):
         return self.title
