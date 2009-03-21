@@ -85,7 +85,7 @@ def ajax_index_events(request):
         next = Event.objects.filter(public=True, start_date__gte=datetime.datetime.today()).order_by('start_date')[0]
         #forcing the evalutation of query set :-/. anyone got better ideas?
         events = list(Event.objects.filter(public=True, start_date__gte=month).order_by('start_date'))
-        position = events.index(next)
+        position = events.index(next) -1
     except IndexError:
         events = Event.objects.filter(public=True, start_date__gte=month).order_by('start_date')
         position = events.count() -1
