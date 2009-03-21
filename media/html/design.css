@@ -20,8 +20,8 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 }
 
 
-html,body {
-	height:100%; /* needed for container min-height */
+html, body {
+	height: 2000px; /* needed for container min-height */
 	
 	
 	font-family: Arial, Helvetica, sans-serif;
@@ -92,7 +92,7 @@ html,body {
   margin-left: 25px;
   width: 608px;
   height: 32px;
-  background-color: #0063FF;
+  background-color: #FF6F14;
 }
 
 .logo2-background h2 {
@@ -228,9 +228,49 @@ html,body {
   
 .puscica-desno {
   float: right;
-  margin-top: -80px;
-  margin-left: 80px;
+  margin-top: -153px;
+  margin-left: 0px;
   width: 32px;
-  height: 153px;
+  height: 144px;
+  background-color: #0063FF;
+}
+
+.linkbarBlue  {
+  float: left;
+  overflow: visible;
+  margin-top: 63px;
+  margin-left: 32px;
+  width: 352px;
+  height: 32px;
+  background-color: #0063FF;
+}
+
+.linkbarOrange  {
+  float: left;
+  overflow: visible;
+  margin-top: 63px;
+  margin-left: 0px;
+  width: 576px;
+  height: 32px;
+  background-color: #FF6F14;
+}
+
+.links  {
+float: right;
+  overflow: visible;
+  margin-top: 0px;
+  margin-right: 32px;
+  width: 825px;
+  height: 32px;
+  background-color: #f0f6ff;
+}
+
+.videoArhiv  {
+  float: left;
+  margin-top: 64px;
+  margin-left: 64px;
+  width: 433px;
+  height: 98px;
   background-color: blue;
 }
+
