@@ -31,6 +31,7 @@ LANGUAGES = (
 # localeurl 
 LOCALE_INDEPENDENT_PATHS = (
     re.compile('^/intranet/'),
+    #re.compile('^(/en|sl)?/support|about/'), #flatpages
     re.compile('^(modules|index)\.php'),
     re.compile('^rss/?$'),
     re.compile('ajax/'),
@@ -59,7 +60,6 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'intranet.middleware.Https.Https',
     'intranet.middleware.exception.StandardExceptionMiddleware',
-    'intranet.middleware.SmartAppendSlash.SmartAppendSlashMiddleware',
     #'intranet.middleware.psyco_middleware.PsycoMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'localeurl.middleware.LocaleURLMiddleware', 
@@ -95,7 +95,7 @@ INSTALLED_APPS = (
     'intranet.web',
 #    'intranet.k6_4',
 #    'intranet.slotechart',
-    'django.contrib.comments',
+    #'django.contrib.comments',
 #    'intranet.mediarchive',
     'intranet.tags',
 #    'intranet.k4',
@@ -135,7 +135,6 @@ DEFAULT_FROM_EMAIL = 'intranet@kiberpipa.org'
 EMAIL_SUBJECT_PREFIX = '[intranet] '
 
 SERVER_EMAIL = 'intranet@kiberpipa.org'
-APPEND_SLASH = False
-SMART_APPEND_SLASH = True
+APPEND_SLASH = True
 
 from localsettings import *

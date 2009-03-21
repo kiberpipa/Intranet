@@ -94,28 +94,4 @@
         </div>
         {% endcomment %}
     </div>
-{% load comments %}
-
-<div class="dogodek-komentarji">
-<p class="title-kom">{% trans "Comments:" %}</p>
-
-{% get_comment_list for event as comment_list %}
-{% for comment in comment_list %}
-	<p class="komentar-avtor"><a href="{{ comment.url }}">{{ comment.name }}</a> {% trans "has wrote:" %}</p>
-	<p class="date-kom">{{ comment.submit_date|date:"j N Y, H:i" }}</p>
-	<p class="komentar-vsebina">{{ comment.comment }}</p>
-{% endfor %}
-
-
-
-{% get_comment_form for event as form %}
-<div class="komentar-poslji">
-<form action="{% comment_form_target %}" method="POST">
-  {{ form.as_ul }}
-  <li class="submit">
-    <input type="submit" name="submit" class="submit-post" value="{% trans "Send comment" %}">
-  </li>
-</form>
-</div>
-    </div>
 {% endblock %}
