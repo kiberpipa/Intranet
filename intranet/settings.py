@@ -68,7 +68,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'intranet.middleware.requirelogin.RequireLoginMiddleware',
     'django.middleware.doc.XViewMiddleware',
-    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    #'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'intranet.middleware.FlatPage.FlatPage',
     #'intranet.stats.StatsMiddleware',
     'middleware.NginxCache.NginxMemCacheMiddleWare',
 )
