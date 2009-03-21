@@ -105,13 +105,12 @@
         {{ object.author }}: {{ object.date|date:"D d.m.Y" }},
         	{{ object.task }} ({{ object.length }})</A></h2>
       {% if object.log_formal %}
-          <h5><b>Dnevnik:</b></h5>
-          <p><br />{{ object.log_formal|linebreaks }}</p>
+          <h5>Dnevnik:</h5>
+          {{ object.log_formal|linebreaks }}
       {% endif %}
       {% if object.log_informal %}
-          <h5><b>Blog:</b></h5>
-          <p><br />
-          {{ object.log_informal|linebreaks }}</p>
+          <h5>Blog:</h5>
+          {{ object.log_informal|linebreaks }}
       {% endif %}
 	</div>
 {% endfor %}
