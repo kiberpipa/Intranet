@@ -59,7 +59,8 @@ def main():
         Video.objects.get(videodir=i['videodir'])
     except Video.DoesNotExist:
         video = Video.objects.create(videodir=i['videodir'],
-          image_url = 'http://video.kiberpipa.org' + i['thumb'], 
+          #image_url = 'http://video.kiberpipa.org' + i['thumb'], 
+          image_url = i['thumb'], 
           pub_date = i['date'], 
           play_url = 'http://video.kiberpipa.org' + i['url'],)
 
