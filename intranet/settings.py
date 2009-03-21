@@ -6,7 +6,8 @@ def next_to_this_file(this_file, additional_path):
 
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
-    ('Almir Karic', 'almir@kiberpipa.org'),
+    #('Almir Karic', 'almir@kiberpipa.org'),
+    ('Gasper Zejn', 'zejn@kiberpipa.org'),
 )
 
 MANAGERS = ADMINS

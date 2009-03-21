@@ -32,7 +32,7 @@ from intranet.org.models import UserProfile, Project, Category, Email, \
 from intranet.org.forms import *
 from xls import salary_xls
 
-from intranet.photologue.models import Gallery, GalleryUpload
+#from intranet.photologue.models import Gallery, GalleryUpload
 
 month_dict = { 'jan': 1, 'feb': 2, 'mar': 3,
                'apr': 4, 'maj': 5, 'jun': 6,

@@ -80,11 +80,15 @@ def index(request):
     }, context_instance=RequestContext(request))
     
 def ajax_index_events(request):
-    next = Event.objects.filter(public=True, start_date__gte=datetime.datetime.today()).order_by('start_date')[0]
     month = datetime.datetime.today() - datetime.timedelta(30)
-    #forcing the evalutation of query set :-/. anyone got better ideas?
-    events = list(Event.objects.filter(public=True, start_date__gte=month).order_by('start_date'))
-    position = events.index(next) - 1
+    try:
+        next = Event.objects.filter(public=True, start_date__gte=datetime.datetime.today()).order_by('start_date')[0]
+        #forcing the evalutation of query set :-/. anyone got better ideas?
+        events = list(Event.objects.filter(public=True, start_date__gte=month).order_by('start_date'))
+        position = events.index(next)
+    except IndexError:
+        events = Event.objects.filter(public=True, start_date__gte=month).order_by('start_date')
+        position = events.count() -1
     
     return render_to_response('www/ajax_index_events.html', {
       'position': position,

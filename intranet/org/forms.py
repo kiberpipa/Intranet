@@ -14,7 +14,7 @@ from django.forms.models import ModelChoiceField, ModelMultipleChoiceField
 from intranet.org.models import TipSodelovanja, Person, Event, Sodelovanje
 from intranet.org.models import Bug, Resolution, Clipping, Project, Alumni
 from intranet.org.models import Category, UserProfile, Lend, Diary, Shopping
-from intranet.photologue.models import GalleryUpload
+#from intranet.photologue.models import GalleryUpload
 
 # DATETIMEWIDGET
 calbtn = u"""<img src="http://www.up-rs.si/up-rs/uprs.nsf/calendar.jpg" alt="calendar" id="%s_btn" style="cursor: pointer; border: 1px solid #8888aa;" title="Select date and time"
@@ -112,7 +112,7 @@ class AddEventEmails(forms.Form):
 
 class FileForm(forms.ModelForm):
     class Meta:
-        model = GalleryUpload
+        #model = GalleryUpload
         fields = ('zip_file')
 
 class EventForm(forms.ModelForm):
