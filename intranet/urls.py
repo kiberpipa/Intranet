@@ -19,6 +19,10 @@ feeds = {
     'all': AllInOne,
 }
 
+js_info_dict = {
+    'packages': ('intranet.www', 'intranet.org', 'intranet.web', 'intranet.tags', 'intranet.wiki'),
+}
+
 urlpatterns = patterns('',
     #(r'^video3/', include('intranet.video.urls')),
     (r'^intranet/', include('intranet.org.urls')),
@@ -42,7 +46,7 @@ urlpatterns = patterns('',
     (r'^comments/', include('django.contrib.comments.urls')),
 
     (r'^i18n/', include('django.conf.urls.i18n')),
-
+    (r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
 )
 
 if settings.DEBUG:

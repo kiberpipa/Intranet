@@ -31,12 +31,12 @@ LANGUAGES = (
 # localeurl 
 LOCALE_INDEPENDENT_PATHS = (
     re.compile('^/intranet/'),
-    #re.compile('^(/en|sl)?/support|about/'), #flatpages
     re.compile('^(modules|index)\.php'),
     re.compile('^rss/?$'),
     re.compile('ajax/'),
     re.compile('smedia/'),
     re.compile('/i18n/setlang/'),
+    re.compile('/jsi18n/'),
     re.compile('^comments/post/$'),
     re.compile('^news/comments/post/$'),
     re.compile('^comments/'),
