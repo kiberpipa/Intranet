@@ -763,7 +763,7 @@ def event(request, object_id):
         object_id = object_id,
         extra_context =  {
             'sodelovanja': Sodelovanje.objects.filter(event=object_id),
-            'file_form': FileForm(),
+            #'file_form': FileForm(),
             'emails_form': AddEventEmails(),
         }
     )

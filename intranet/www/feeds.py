@@ -35,12 +35,13 @@ class AllInOne(Feed):
             'events': events,
             'planet': planet,
             'news': news,
-            'albums': albums,
+            #'albums': albums,
             'pot': pot,
             'su': su,
             'vip': vip,
             'muzej': muzej,
-            'all': events + news + albums + pot + su + muzej,
+            #'all': events + news + albums + pot + su + muzej,
+            'all': events + news + pot + su + muzej,
         }
 
         items = []
