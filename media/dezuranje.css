@@ -56,3 +56,20 @@ div #rightbar {
 
 td.free { background: #f5f5f5; /*#ffc88e;*/ }
 td.reserved { background: #f5f5f5; /*#ffc88e;*/ }
+
+
+/* Style for diary text */
+.diary p {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+/* Style for add diary form */
+#id_log_formal, #id_log_informal {
+    width: 280px;
+    margin-left: 10px;
+}
+
+label[for="id_log_informal"] {
+    margin-left: 10px;
+}

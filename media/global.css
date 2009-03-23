@@ -23,7 +23,7 @@ a img { border:none; }
 
 /*  GLOBAL DEFAULTS */
 p, ol, ul, dl { margin:.2em 0 .8em 0; font-size:12px; }
-p { padding:0; line-height:140%; }
+p { padding:0; line-height:140%; margin-left: 5px; margin-right: 5px; }
 h1,h2,h3,h4,h5 { font-weight:bold; }
 h1 { font-size:18px; color:#666; padding:0 6px 0 0; margin:0 0 .2em 0; }
 h2 { font-size:16px; margin:1em 0 .5em 0; }
