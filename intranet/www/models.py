@@ -20,7 +20,7 @@ class News(models.Model):
     language = models.CharField(max_length=2, default='si', choices=settings.LANGUAGES, blank=True, null=True)
 
     def get_absolute_url(self):
-        return reverse('intranet.www.views.news', args=[self.slug])
+        return reverse('intranet.www.views.news_detail', args=[self.slug])
 
     def __unicode__(self):
         return self.title
