@@ -32,9 +32,9 @@
         {% endcomment %}
             <li><a href="edit/">Uredi podatke</a></li>
             <li><a href="../create/">Dodaj novega</a></li>
-            <li>Preštej obisk:
+            <li>Preštej obisk (hit ENTER):
                 <form  method="POST" action="count/">
-                     <input type="text" name="visitors" size="3" value="{{ object.visitors }}" maxlength="3" />
+                     <input type="text" name="visitors" size="3" value="{{ object.visitors|default:"" }}" maxlength="3" />
                 </form>
             </li>
             <li><a href="info.txt/">info.txt</a></li>
