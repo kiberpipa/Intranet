@@ -670,6 +670,21 @@ def add_event_emails(request, event_id):
     return HttpResponseRedirect(event.get_absolute_url())
 add_event_emails = login_required(add_event_emails)
 
+
+def info_txt(request, event):
+    output = StringIO()
+    event = Event.objects.get(pk=event)
+    output.write(u'title: %s\n' % event.title)
+    output.write(u'date: %s\n' % event.start_date.strftime('%d.%m.%Y'))
+    output.write(u'cat: %s\n' % event.project)
+    output.write(u'desc: %s\n' % event.short_announce)
+    output.write(u'url: http://www.kiberpipa.org%s\n' % event.get_public_url())
+    response = HttpResponse(mimetype='application/octet-stream')
+    response['Content-Disposition'] = "attachment; filename=info.txt"
+    response.write(output.getvalue())
+    return response
+info_txt = login_required(info_txt)
+
 def nf_event_create(request):
     if request.method == 'POST':
         form = EventForm(request.POST, request.FILES)
