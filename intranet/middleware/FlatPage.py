@@ -5,5 +5,7 @@ from os.path import join
 class FlatPage(FlatpageFallbackMiddleware):
     def process_response(self, request, response):
         if not hasattr(self, 'LANGUAGE_CODE'):
+            request.is_flatpage = True
+            request.org_path_info = request.path_info
             request.path_info = join('/' + request.LANGUAGE_CODE, request.path_info[1:])
         return super(FlatPage, self).process_response(request, response)
