@@ -827,8 +827,8 @@ msgid "Sunday"
 msgstr "Nedelja"
 
 #: templates/www/calendar.html:57 templates/www/calendar.html.py:83
-msgid "Private."
-msgstr "Zasebno."
+msgid "Reserved."
+msgstr "Rezervirano."
 
 #: templates/www/calendar.html:94
 msgid "Previous month"
