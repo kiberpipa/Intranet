@@ -16,8 +16,13 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 	font-style: inherit;
 	font-size: 100%;
 	vertical-align: baseline;
+	line-height: 18px;
+	
 }
 
+h3  {
+letter-spacing: -0.5px;
+}
 
 html, body {
 	height: 1780px; /* needed for container min-height */
@@ -47,6 +52,10 @@ a {
 
 .grey {
   color: #333333;
+}
+
+span.bold {
+font-weight: bold;
 }
 
 .container  {
@@ -87,11 +96,11 @@ a {
 }
 
 .logo-background h1 {
-  font-size: 28px;
+  font-size: 30px;
   padding-left: 78px;
-  padding-top: 4px;
   font-weight: 400;
   color: white;
+  line-height: 44px;
 }
 
 .logo-picture  {
@@ -113,11 +122,12 @@ a {
 }
 
 .logo2-background h2 {
-  font-size: 28px;
+  font-size: 32px;
   padding-left: 1px;
-  padding-top: 4px;
   font-weight: bold;
-  color: white
+  color: white;
+  line-height: 40px;
+  letter-spacing: -1px;
 }
 
 
@@ -132,8 +142,8 @@ a {
 .lang p {
   font-size: 12px;
   padding-left: 1px;
-  padding-top: 4px;
   font-weight: bold;
+  line-height: 22px;
 }
 
 .poglejSi {
@@ -145,10 +155,10 @@ a {
 }
 
 .poglejSi p {
-  font-size: 14px;
-  padding-left: 1px;
-  padding-top: 4px;
+  font-size: 16px;
   font-weight: bold;
+  line-height: 22px;
+  letter-spacing: -1px;
 }
 
 .underworld {
@@ -159,7 +169,7 @@ a {
   background-color: #0063FF;
 }
 
-.underworld p {
+.underworld h2 {
   font-size: 28px;
   padding-left: 90px;
   padding-top: 4px;
@@ -252,6 +262,7 @@ margin-left: 6px;
 
 .trans2Vsebina span {
   font-size: 11px;
+  line-height: 18px;
 }
 
 .trans2Vsebina h3 {
@@ -284,6 +295,7 @@ margin-left: 6px;
   width: 352px;
   height: 32px;
   background-color: #0063FF;
+  z-index: 10;
 }
 
 .linkbarBlue h2 {
@@ -294,6 +306,7 @@ margin-left: 6px;
   font-weight: bold;
   margin-left: 80px;
   color: #333333;
+  z-index: 10;
 }
 
 .linkbarOrange  {
@@ -314,12 +327,14 @@ margin-left: 6px;
   width: 825px;
   height: 32px;
   background-color: #f0f6ff;
+  z-index: -10;
 }
 
 .links p  {
   margin-top: 8px;
   font-size: 24px;
   font-weight: bold;
+  z-index: -10;
 }
 
 .middleLeft  {
