@@ -223,7 +223,7 @@ font-weight: bold;
   
 .puscica-levo {
   float: left;
-  margin-top: 0px;
+  margin-top: -3px;
   margin-left: 80px;
   width: 32px;
   height: 153px;
@@ -262,6 +262,11 @@ margin-left: 6px;
   }
 
 .trans2Vsebina span {
+  font-size: 11px;
+  line-height: 9px;
+}
+
+.trans2Vsebina p {
   font-size: 11px;
   line-height: 18px;
 }
@@ -398,7 +403,7 @@ background-color: #0063FF;
   
 .trans3Levo {
   float: left;
-  margin-top: -2px;
+  margin-top: -5px;
   margin-left: 32px;
   width: 16px;
   height: 24px;
@@ -407,7 +412,7 @@ background-color: #0063FF;
 
 .trans3Desno {
   float: left;
-  margin-top: -2px;
+  margin-top: -5px;
   margin-left: 0px;
   width: 338px;
   height: 24px;
