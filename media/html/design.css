@@ -15,23 +15,39 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 	font-weight: inherit;
 	font-style: inherit;
 	font-size: 100%;
-	font-family: inherit;
 	vertical-align: baseline;
 }
 
 
 html, body {
-	height: 2000px; /* needed for container min-height */
+	height: 1780px; /* needed for container min-height */
 	
 	
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: Helvetica, Arial, sans-serif;
 	background-color: white; 
-	color: #000; 
+	color: #333333; 
 	padding: 0px; 
 	margin: 0px; 
 	text-align: center;
 
 	}
+
+a {
+  text-decoration: none;
+  color: #FF6F14;
+}
+
+.orange {
+  color: #FF6F14;
+}
+
+.blue {
+  color: #0063FF;
+}
+
+.grey {
+  color: #333333;
+}
 
 .container  {
   position:relative; /* needed for footer positioning*/
@@ -67,6 +83,7 @@ html, body {
 
 .pipalogo {
   float: left;
+  margin-left: 19px;
 }
 
 .logo-background h1 {
@@ -82,7 +99,7 @@ html, body {
   left: 19px;
   height: 40px;
   width: 53px;
-  background-image: url('logo.png');
+  background-image: url('images/logo.png');
 }
 
 .logo2-background {
@@ -128,7 +145,7 @@ html, body {
 }
 
 .poglejSi p {
-  font-size: 12px;
+  font-size: 14px;
   padding-left: 1px;
   padding-top: 4px;
   font-weight: bold;
@@ -202,6 +219,12 @@ html, body {
   background-color: #FFD4B8;
 }
 
+.puscica-levo img {
+width: 18px;
+margin-top: 8px;
+margin-left: 6px;
+}
+
 .trans2Background {
   width: 848px;
   height: 153px;
@@ -224,8 +247,20 @@ html, body {
   width: 239px;
   padding-right: 17px;
   padding-left: 17px;
+  text-align: left;
   }
-  
+
+.trans2Vsebina span {
+  font-size: 11px;
+}
+
+.trans2Vsebina h3 {
+  font-size: 18px;
+  color: #FF6F14;
+  font-weight: bolder;
+  margin-top: 10px;
+}
+
 .puscica-desno {
   float: right;
   margin-top: -153px;
@@ -233,6 +268,12 @@ html, body {
   width: 32px;
   height: 144px;
   background-color: #0063FF;
+}
+
+.puscica-desno img {
+width: 18px;
+margin-top: 8px;
+margin-left: 6px;
 }
 
 .linkbarBlue  {
@@ -243,6 +284,16 @@ html, body {
   width: 352px;
   height: 32px;
   background-color: #0063FF;
+}
+
+.linkbarBlue h2 {
+  font-size: 28px;
+  padding-left: 1px;
+  padding-top: 4px;
+  margin-left: 1px;
+  font-weight: bold;
+  margin-left: 80px;
+  color: #333333;
 }
 
 .linkbarOrange  {
@@ -256,7 +307,7 @@ html, body {
 }
 
 .links  {
-float: right;
+  float: right;
   overflow: visible;
   margin-top: 0px;
   margin-right: 32px;
@@ -265,12 +316,305 @@ float: right;
   background-color: #f0f6ff;
 }
 
-.videoArhiv  {
-  float: left;
-  margin-top: 64px;
-  margin-left: 64px;
-  width: 433px;
-  height: 98px;
-  background-color: blue;
+.links p  {
+  margin-top: 8px;
+  font-size: 24px;
+  font-weight: bold;
 }
 
+.middleLeft  {
+  float: left;
+  margin-top: 63px;
+  margin-left: 64px;
+  width: 432px;
+  height: 206px;
+}
+
+.middleSpacer {
+  height: 17px;
+}
+
+.middle {
+  width: 432px;
+  display: block;
+  height: 95px;
+  text-align: center;
+  margin-top: 0px;
+  margin-left: 0px;
+}
+
+.middleLeftOrange  {
+position: absolute;
+margin-left: 416px;
+width: 15px;
+height: 16px;
+background-color: #FF6F14;
+}
+
+.middleModra  {
+width: 432px;
+height: 17px;
+background-color: #0063FF;
+}
+
+.middleModra p {
+  float: left;
+  color: white;
+  margin-left: 80px;
+  font-weight: bold;
+  margin-top: 1px;
+}
+
+.middlePic  {
+  width: 320px;
+  display: block;
+  height: 50px;
+  text-align: center;
+  margin-top: 7px;
+  margin-left: 73px;
+  }
+  
+.middlePic #event1  {
+  opacity: 0.5;
+}
+
+.middlePics {
+  float: left;
+  padding-right: 7px;
+  padding-left: 7px;
+  }
+  
+.trans3Levo {
+  float: left;
+  margin-top: -2px;
+  margin-left: 32px;
+  width: 16px;
+  height: 24px;
+  background-color: #FFD4B8;
+}
+
+.trans3Desno {
+  float: left;
+  margin-top: -2px;
+  margin-left: 0px;
+  width: 338px;
+  height: 24px;
+  background-color: #f0f6ff;
+}
+
+.trans3Desno span {
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.middleRight  {
+  float: left;
+  margin-top: 80px;
+  margin-left: -1px;
+  width: 465px;
+  height: auto;
+}
+
+.middleRightNaslov  {
+  height: 16px;
+  background-color: #FF6F14;
+}
+
+.middleRightNaslov p  {
+  color: white;
+  float: left;
+  font-weight: bold;
+  margin-left: 34px;
+}
+
+.middleRightOkvir {
+  float: right;
+  margin-top: 7px;
+  width: 432px;
+  height: 80px;
+  background-color: #f0f6ff;
+  }
+  
+.middleRightOkvir h3  {
+  color: #0063FF;
+  font-weight: bolder;
+  margin-top: 4px;
+}
+
+.middleRightOkvir p {
+  font-size: 10px;
+}
+
+.oglasnaLeft  {
+  float: left;
+  margin-top: 67px;
+  margin-left: 64px;
+  width: 466px;
+  height: auto;
+}
+
+.oglasnaModra  {
+width: 464px;
+height: 32px;
+background-color: #0063FF;
+}
+
+.oglasnaModra p {
+  font-size: 32px;
+  color: white;
+  font-weight: bold;
+  margin-left: 54px;
+  padding-top: 1px;
+}
+
+.oglasnaRight  {
+  float: left;
+  margin-top: 99px;
+  margin-left: 0px;
+  width: 430px;
+  height: auto;
+}
+
+.oglasnaOrange  {
+height: 32px;
+background-color: #FF6F14;
+}
+
+.oglasnaOrange p {
+  font-size: 32px;
+  color: white;
+  font-weight: bold;
+  margin-left: -2px;
+  padding-top: 1px;
+}
+
+.oglasnaLeftOkvir {
+  float: left;
+  margin-top: 9px;
+  margin-left: 40px;
+  width: 392px;
+  height: auto;
+  background-color: #f0f6ff;
+  }
+  
+  .oglasnaTrans1 {
+  float: left;
+  width: 9px;
+  height: 100%;
+  background-color: #FFD4B8;
+  margin-left: -1px;
+  }
+  
+.oglasnaText  {
+  float: left;
+  margin-left: 42px;
+  width: 344px;
+  margin-right: 5px;
+  height: auto;
+  margin-top: 5px;
+ }
+  
+.oglasnaText h3  {
+color: #FF6F14;
+font-size: 18px;
+font-weight: bolder;
+}
+
+.oglasnaText  h4{
+  font-size: 8px;
+  margin-top: 4px;
+  color: #999999;
+}
+
+.oglasnaText  p{
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+  .oglasnaRightOkvir {
+  float: right;
+  margin-top: 9px;
+  width: 432px;
+  height: 100px;
+  background-color: #f0f6ff;
+  }
+  
+.oglasnaRightOkvir  h3{
+  margin-top: 5px;
+  color: #FF6F14;
+  font-weight: bolder;
+}  
+
+.oglasnaRightOkvir  h4{
+  font-size: 8px;
+  margin-top: 4px;
+  color: #999999;
+}
+
+.oglasnaRightOkvir  p{
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.oglasnaLeftOrange  {
+position: absolute;
+margin-left: 448px;
+width: 18px;
+height: 32px;
+background-color: #FF6F14;
+}
+
+.linkbarBlue2  {
+  float: left;
+  overflow: visible;
+  margin-top: 63px;
+  margin-left: 32px;
+  width: 792px;
+  height: 32px;
+  background-color: #0063FF;
+}
+
+.linkbarBlue2 span {
+  float: left;
+  font-size: 30px;
+  font-weight: bold;
+  margin-top: 1px;
+  margin-left: 9px;
+}
+
+.linkbarOrange2  {
+  float: left;
+  overflow: visible;
+  margin-top: 63px;
+  margin-left: 0px;
+  width: 136px;
+  height: 32px;
+  background-color: #FF6F14;
+}
+
+.links2  {
+float: right;
+  overflow: visible;
+  margin-top: 0px;
+  margin-right: 32px;
+  width: 815px;
+  height: 64px;
+  background-color: #f0f6ff;
+}
+
+.links2 span {
+  font-size: 20px;
+  font-weight: bolder;
+  padding-top: 10px;
+  float: left;
+}
+
+.links3  {
+float: right;
+  overflow: visible;
+  margin-top: 8px;
+  margin-right: 32px;
+  width: 815px;
+  height: 40px;
+  background-color: #f0f6ff;
+}
