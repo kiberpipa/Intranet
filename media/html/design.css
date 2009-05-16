@@ -170,11 +170,12 @@ font-weight: bold;
 }
 
 .underworld h2 {
-  font-size: 28px;
-  padding-left: 90px;
-  padding-top: 4px;
+  font-size: 32px;
+  padding-left: 80px;
   font-weight: bold;
   color: white;
+  line-height: 42px;
+  letter-spacing: -1px;
 }
 
 .trans1 {
