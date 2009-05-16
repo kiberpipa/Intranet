@@ -220,6 +220,12 @@ font-weight: bold;
   padding-right: 17px;
   padding-left: 17px;
   }
+.picsgal {
+  float: left;
+  padding-right: 13px;
+  padding-left: 5px;
+  }
+
   
 .puscica-levo {
   float: left;
@@ -334,6 +340,23 @@ margin-left: 6px;
   background-color: #f0f6ff;
   z-index: -10;
 }
+.linksgal  {
+  float: right;
+  overflow: visible;
+  margin-top: 0px;
+  margin-right: 32px;
+  width: 825px;
+  height: 32px;
+  background-color: #f0f6ff;
+  z-index: -10;
+}
+.linksgal p  {
+  margin-top: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  z-index: -10;
+}
+
 
 .links p  {
   font-size: 22px;
