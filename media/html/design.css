@@ -28,7 +28,7 @@ html, body {
 	height: 1780px; /* needed for container min-height */
 	
 	
-	font-family: Helvetica, Arial, sans-serif;
+	font-family: Helvetica, FreeSans, Arial, sans-serif;
 	background-color: white; 
 	color: #333333; 
 	padding: 0px; 
@@ -262,8 +262,8 @@ margin-left: 6px;
   }
 
 .trans2Vsebina span {
-  font-size: 11px;
-  line-height: 9px;
+  font-size: 10px;
+  line-height: 1px;
 }
 
 .trans2Vsebina p {
@@ -305,14 +305,13 @@ margin-left: 6px;
 }
 
 .linkbarBlue h2 {
-  font-size: 28px;
+  font-size: 30px;
   padding-left: 1px;
-  padding-top: 4px;
-  margin-left: 1px;
   font-weight: bold;
   margin-left: 80px;
   color: #333333;
   z-index: 10;
+  line-height: 42px;
 }
 
 .linkbarOrange  {
@@ -337,10 +336,11 @@ margin-left: 6px;
 }
 
 .links p  {
-  margin-top: 8px;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: bold;
   z-index: -10;
+  line-height: 48px;
+  letter-spacing: -1px;
 }
 
 .middleLeft  {
