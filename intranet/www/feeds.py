@@ -10,7 +10,7 @@ from intranet.feedjack.models import Post
 
 class AllInOne(Feed):
     def __init__(self, slug, request):
-        #paintully slow, cache me!!
+        #painfully slow, cache me!!
         Feed.__init__(self, slug, request)
         
         bits = request.path.split('/')
