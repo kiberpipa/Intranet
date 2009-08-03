@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 
 from intranet.org.models import Event
+from photologue.models import Gallery as PGallery
 
 # Create your models here.
 
@@ -44,3 +45,9 @@ class Video(models.Model):
 
     def __unicode__(self):
         return self.videodir
+
+class Gallery(PGallery):
+    parent = models.ForeignKey('self', blank=True, null=True)
+    event = models.ForeignKey(Event, blank=True, null=True)
+    album_name= models.CharField(max_length=250)
+
