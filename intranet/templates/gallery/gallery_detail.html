@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% block extrahead %}
+  <link rel="stylesheet" type="text/css" href="http://www.kiberpipa.org/modules/gallery/css/base.css">
+  <link rel="stylesheet" type="text/css" href="http://www.kiberpipa.org/modules/gallery/css/screen.css">
+{% endblock %}
+{% block title %}
+Kiberpipina zbrka slik
+{% endblock %}
+{% block content %}
+<table>
+{% for photo in object.photos.all %}
+<tr>
+<td align="center" valign="top" class="vathumbs">
+<div align="center" class="vafloat2" style="padding-top: 19px; padding-bottom: 19px; width: 155px; height: 116px;">
+
+  <table border="0" width="1" cellspacing="0" cellpadding="0" style="margin: 0pt auto;" dir="ltr">
+  <tbody><tr>
+    <!-- TL -->
+    <td width="0" height="0"><img border="0" width="0" height="0" alt="" src="http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/pixel_trans.gif"/></td>
+    <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
+        <tbody><tr>
+                <!-- TTL -->
+        <td width="1"><img border="0" width="1" height="1" alt="" src="http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/dot.gif"/></td>
+                <!-- TT -->
+        <td height="1" style="background-image: url(http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/dot.gif);"><img border="0" width="1" height="1" alt="" src="http://www.kiberpipa.org/modules/gallery/images/pixel_trans.gif"/></td>
+                <!-- TTR -->
+        <td width="1"><img border="0" width="1" height="1" alt="" src="http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/dot.gif"/></td>
+                </tr>
+        </tbody></table></td>
+    <!-- TR -->
+    <td><img border="0" width="5" height="1" alt="" src="http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/pixel_trans.gif"/></td>
+  </tr>
+  <tr>
+    <td height="100%"><table border="0" cellspacing="0" cellpadding="0">
+                <!-- LLT -->
+        <tbody><tr>
+        <td height="1"><img border="0" width="1" height="1" alt="" src="http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/dot.gif"/></td>
+        </tr>
+                <tr>
+        <!-- LL -->
+        <td width="1" style="background-image: url(http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/dot.gif);"><img border="0" width="1" height="111" name="frameLL" alt="" src="http://www.kiberpipa.org/modules/gallery/images/pixel_trans.gif"/></td>
+        </tr>
+                <!-- LLB -->
+        <tr>
+        <td height="1"><img border="0" width="1" height="1" alt="" src="http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/dot.gif"/></td>
+        </tr>
+                </tbody></table></td>
+    <td><table cellspacing="0" cellpadding="0">
+         <tbody><tr>
+        <td align="center"><div style="margin: 0pt auto; width: 150px; height: 113px;" class="g-photo"><a href="http://www.kiberpipa.org/modules/gallery/album333/dsc03790"><img border="0" width="150" height="113" name="photo_j" title="dsc03790" alt="dsc03790" src="{{ photo.image.url }}"/></a></div></td>
+         </tr>
+        </tbody></table></td>
+    <td height="100%"><table border="0" cellspacing="0" cellpadding="0">
+                <!-- RRT -->
+        <tbody><tr>
+        <td height="1"><img border="0" width="5" height="1" alt="" src="http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/TR.gif"/></td>
+        </tr>
+                <tr>
+        <!-- RR -->
+        <td width="5" style="background-image: url(http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/RR.gif);"><img border="0" width="1" height="111" name="frameRR" alt="" src="http://www.kiberpipa.org/modules/gallery/images/pixel_trans.gif"/></td>
+        </tr>
+                <tr>
+        <!-- RRB -->
+        <td height="1"><img border="0" width="5" height="1" alt="" src="http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/RR.gif"/></td>
+        </tr>
+                </tbody></table></td>
+  </tr>
+  <tr>
+    <!-- BL -->
+    <td width="1" height="3"><img border="0" width="1" height="3" alt="" src="http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/pixel_trans.gif"/></td>
+    <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
+        <tbody><tr>
+                <!-- BBL -->
+        <td width="5"><img border="0" width="5" height="3" alt="" src="http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/BL.gif"/></td>
+                <!-- BB -->
+        <td height="3" style="background-image: url(http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/BB.gif);"><img border="0" width="1" height="1" alt="" src="http://www.kiberpipa.org/modules/gallery/images/pixel_trans.gif"/></td>
+                <!-- BBR -->
+        <td width="1"><img border="0" width="1" height="3" alt="" src="http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/BB.gif"/></td>
+                </tr>
+        </tbody></table></td>
+    <!-- BR -->
+    <td><img border="0" width="5" height="3" alt="" src="http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/BR.gif"/></td>
+  </tr>
+  </tbody></table>
+
+</div>
+</td>
+</tr>
+{% endfor %}
+{% for gallery in object.gallery_set.all %}
+<tr>
+  <!-- Begin Image Cell -->
+  <td valign="top" align="center">
+
+
+  <table width="1" cellspacing="0" cellpadding="0" border="0" style="margin: 0pt auto;" dir="ltr">
+  <tbody><tr>
+	<!-- TL -->
+	<td height="0" width="0"><img height="0" width="0" border="0" alt="" src="http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/pixel_trans.gif"/></td>
+	<td><table width="100%" cellspacing="0" cellpadding="0" border="0">
+	    <tbody><tr>
+				<!-- TTL -->
+		<td width="1"><img height="1" width="1" border="0" alt="" src="http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/dot.gif"/></td>
+				<!-- TT -->
+		<td height="1" style="background-image: url(http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/dot.gif);"><img height="1" width="1" border="0" alt="" src="http://www.kiberpipa.org/modules/gallery/images/pixel_trans.gif"/></td>
+				<!-- TTR -->
+		<td width="1"><img height="1" width="1" border="0" alt="" src="http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/dot.gif"/></td>
+			    </tr>
+	    </tbody></table></td>
+	<!-- TR -->
+	<td><img height="1" width="5" border="0" alt="" src="http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/pixel_trans.gif"/></td>
+  </tr>
+  <tr>
+	<td height="100%"><table cellspacing="0" cellpadding="0" border="0">
+	    	    <!-- LLT -->
+	    <tbody><tr>
+		<td height="1"><img height="1" width="1" border="0" alt="" src="http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/dot.gif"/></td>
+	    </tr>
+	    	    <tr>
+		<!-- LL -->
+		<td width="1" style="background-image: url(http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/dot.gif);"><img height="148" width="1" border="0" name="frameLL" alt="" src="http://www.kiberpipa.org/modules/gallery/images/pixel_trans.gif"/></td>
+	    </tr>
+	    	    <!-- LLB -->
+	    <tr>
+		<td height="1"><img height="1" width="1" border="0" alt="" src="http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/dot.gif"/></td>
+	    </tr>
+	    	    </tbody></table></td>
+	<td><table cellspacing="0" cellpadding="0">
+	     <tbody><tr>
+		<td align="center"><div style="margin: 0pt auto; width: 200px; height: 150px;" class="g-photo">
+        <a href="http://www.kiberpipa.org/modules/gallery/album159">
+        <img height="150" width="200" border="0" name="photo_j" src="{{ gallery.sample.image.url }}"/></a></div></td>
+	     </tr>
+	    </tbody></table></td>
+	<td height="100%"><table cellspacing="0" cellpadding="0" border="0">
+	    	    <!-- RRT -->
+	    <tbody><tr>
+		<td height="1"><img height="1" width="5" border="0" alt="" src="http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/TR.gif"/></td>
+	    </tr>
+	    	    <tr>
+		<!-- RR -->
+		<td width="5" style="background-image: url(http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/RR.gif);"><img height="148" width="1" border="0" name="frameRR" alt="" src="http://www.kiberpipa.org/modules/gallery/images/pixel_trans.gif"/></td>
+	    </tr>
+	    	    <tr>
+		<!-- RRB -->
+		<td height="1"><img height="1" width="5" border="0" alt="" src="http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/RR.gif"/></td>
+	    </tr>
+	    	    </tbody></table></td>
+  </tr>
+  <tr>
+	<!-- BL -->
+	<td height="3" width="1"><img height="3" width="1" border="0" alt="" src="http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/pixel_trans.gif"/></td>
+	<td><table width="100%" cellspacing="0" cellpadding="0" border="0">
+	    <tbody><tr>
+				<!-- BBL -->
+		<td width="5"><img height="3" width="5" border="0" alt="" src="http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/BL.gif"/></td>
+				<!-- BB -->
+		<td height="3" style="background-image: url(http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/BB.gif);"><img height="1" width="1" border="0" alt="" src="http://www.kiberpipa.org/modules/gallery/images/pixel_trans.gif"/></td>
+				<!-- BBR -->
+		<td width="1"><img height="3" width="1" border="0" alt="" src="http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/BB.gif"/></td>
+			    </tr>
+	    </tbody></table></td>
+	<!-- BR -->
+	<td><img height="3" width="5" border="0" alt="" src="http://www.kiberpipa.org/modules/gallery/html_wrap/frames/simple_book/BR.gif"/></td>
+  </tr>
+  </tbody></table>
+  </td>
+  <!-- End Image Cell -->
+  <!-- Begin Text Cell -->
+  <td valign="top" align="left" class="albumdesc">
+    <table width="100%" cellspacing="0" cellpadding="0" border="0" align="center" class="mod_title">
+      <tbody><tr valign="middle">
+        <td class="leftspacer"/>
+        <td>
+          <table cellspacing="0" cellpadding="0" border="0" class="mod_title_bg">
+            <tbody><tr>
+              <td class="mod_title_left"/>
+              <td class="title">
+                <a href="/gallery/{{ gallery.id }}/">{{ gallery.title }}</a>              </td>
+              <td class="mod_title_right"/>
+            </tr>
+          </tbody></table>
+        </td>
+      </tr>
+    </tbody></table>
+    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+      <tbody><tr>
+        <td class="mod_titleunder_hl"/>
+      </tr>
+    </tbody></table>
+
+  <!-- Begin adminAlbumCommands -->
+<div class="admin">
+</div>
+<!-- End adminAlbumCommands -->
+
+<div class="desc">
+	<a href="/gallery/{{ gallery.id }}/">{{ gallery.description }}</a>
+</div>
+</td></tr>
+{% endfor %}
+</table>
+ 
+{% endblock %}

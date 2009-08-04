@@ -17,7 +17,7 @@ from django.utils.translation import ugettext as _
 
 from intranet.org.models import Event, Clipping, Alumni, Email
 from intranet.feedjack.models import Post
-#from intranet.photologue.models import Photo, Gallery
+from intranet.www.models import Gallery
 from intranet.www.models import Ticker, News, Video
 
 
@@ -30,6 +30,10 @@ def anti_spam(request):
     if int(request.POST['timestamp'])+5 > int(datetime.datetime.now().strftime('%s')):
         return HttpResponsePermanentRedirect('/')
     return post_comment(request)
+
+def gallery(request):
+    galleries = Gallery.objects.filter(parent__isnull=True)
+    return render_to_response('gallery/index.html', {'galleries': galleries}, context_instance=RequestContext(request))
 
 #def gallery(request, id):
 #    try:

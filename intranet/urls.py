@@ -38,7 +38,6 @@ urlpatterns = patterns('',
 
     (r'^feeds/(?P<url>.*)', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
 
-    #(r'^gallery/', include('intranet.photologue.urls')),
 
     (r'^intranet/admin/(.*)', admin.site.root),
     (r'^comments/post/$', 'intranet.www.views.anti_spam'),

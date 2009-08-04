@@ -51,3 +51,13 @@ class Gallery(PGallery):
     event = models.ForeignKey(Event, blank=True, null=True)
     album_name= models.CharField(max_length=250)
 
+    def sample(self):
+        #import pdb; pdb.set_trace()
+        import random
+        #ups = [i.sample() for i in Gallery.objects.filter(parent=self)]
+        ups = [i.sample() for i in self.gallery_set.all()] + PGallery.sample(self)
+        random.shuffle(ups)
+        if ups:
+            return ups[0]
+        else:
+            return None

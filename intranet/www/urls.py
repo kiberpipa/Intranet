@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from models import Gallery
 
 urlpatterns = patterns('',
     url(r'^$', 'intranet.www.views.index'),
@@ -18,6 +19,12 @@ urlpatterns = patterns('',
     #url(r'^ajax/gallery/(?P<id>\d+|[\w-]+)/$', 'intranet.www.views.gallery'),
     url(r'^ajax/index/events/$', 'intranet.www.views.ajax_index_events'),
     url(r'^ajax/add_mail/(?P<event>[0-9]+)/(?P<email>[^/]*)$', 'intranet.www.views.ajax_add_mail'),
+    url(r'^gallery/?$', 'intranet.www.views.gallery'),
+    url(r'^gallery/(?P<object_id>\d+)/?$', 'django.views.generic.list_detail.object_detail', {
+            'queryset': Gallery.objects.filter(is_public=True), 
+            'extra_context':{'sample_size':1},
+            'template_name': 'gallery/gallery_detail.html',
+        }, name='pl-gallery-detail'),
 
     #backwards compatibility
     url(r'^press-en/', 'django.views.generic.simple.redirect_to', {'url': '/en/press/'},),

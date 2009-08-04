@@ -125,7 +125,7 @@ AUTHENTICATION_BACKENDS = (
     'intranet.ldapbackend.backend',
     'django.contrib.auth.backends.ModelBackend',
 )
-#PHOTOLOGUE_DIR = 'photo/'
+PHOTOLOGUE_DIR = 'photo/'
 
 SESSION_COOKIE_AGE = 86400
 GALLERY_SAMPLE_SIZE = 1
