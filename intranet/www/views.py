@@ -15,6 +15,8 @@ from django.views.generic.list_detail import object_list
 from django import forms
 from django.utils.translation import ugettext as _
 
+from photologue.models import Photo
+
 from intranet.org.models import Event, Clipping, Alumni, Email
 from intranet.feedjack.models import Post
 from intranet.www.models import Gallery
@@ -76,7 +78,7 @@ def index(request):
     return render_to_response('www/index.html', {
         #'position': position,
         'events': events,
-        #'gallery': Photo.objects.all().order_by('date_added')[0:2],
+        'photos': Photo.objects.all().order_by('date_added')[0:2],
         'ticker': Ticker.objects.filter(is_active=True),
         'news': News.objects.order_by('-date')[0:4],
         'planet': Post.objects.order_by('-date_modified')[:4],

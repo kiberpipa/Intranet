@@ -109,18 +109,12 @@ $(document).ready(function() {
 
     <div id="notifier">
     	<div class="button-chamber">
-        {% comment %}
         	<div class="gallery"><a href="/gallery/">gallery</a></div>
-            <div class="gallery-button">
-            	<img src="{{ media_url }}www/images/picture-small.gif" alt="slika" />
-            </div>
-            <div class="gallery-button2">
-            	<img src="{{ media_url }}www/images/picture-small.gif" alt="slika" />
-            </div>
-            <div class="gallery-button3">
-            	<img src="{{ media_url }}www/images/picture-small.gif" alt="slika" />
-            </div>
-            {% endcomment %}
+                {% for photo in photos %}
+                    <div class="gallery-button">
+                        <a href="/gallery/{{ photo.galleries.all.0.id }}/"><img height="67" width="67" src="{{ photo.get_small_url }}" alt="slika" /></a>
+                </div>
+            {% endfor %}
             
             <div class="video">
             <p><a href="http://video.kiberpipa.org/">{% trans "Last added videos to the Video Archive" %}</a></p>
