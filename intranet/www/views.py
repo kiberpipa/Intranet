@@ -5,7 +5,7 @@ import simplejson
 
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.http import HttpResponsePermanentRedirect, HttpResponse
+from django.http import HttpResponsePermanentRedirect, HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from django.core.mail import send_mail
 from django.core import serializers
@@ -21,6 +21,7 @@ from intranet.org.models import Event, Clipping, Alumni, Email
 from intranet.feedjack.models import Post
 from intranet.www.models import Gallery
 from intranet.www.models import Ticker, News, Video
+from forms import FileForm
 
 
 #if there will be any more forms we should probably create www/forms.py
@@ -67,6 +68,32 @@ def gallery(request):
 #    #    ret += '<div id="img%s" style="display: none">b00 wh00 %s</div>' % (g.id, g.title)
 #
 #    return HttpResponse(ret)
+
+def event_photos(request, event_id):
+    event = Event.objects.get(pk=event_id)
+    if request.method == 'POST':
+        form = FileForm(request.POST, request.FILES)
+        if form.is_valid():
+            program = Gallery.objects.get(title='Program')
+            upload = form.save(commit=False)
+            try:
+                # already have a gallery for that event just append photos
+                old = Gallery.objects.get(event=event)
+                upload.gallery = old
+                upload.save()
+            except Gallery.DoesNotExist:
+                # no existing gallery. make sure the parent structure exist
+                # (create if it doesn't):
+                # Program --> <year> --> <month> --> <event>
+                now = datetime.datetime.now()
+                year = Gallery.objects.get_or_create(parent=program, title=str(now.year), title_slug=str(now.year))[0]
+                month = Gallery.objects.get_or_create(parent=year, title=str(now.month), title_slug=str(now.month))[0]
+                g = upload.save()
+                # gallery_ptr links our instance with extra info to their
+                # instance
+                gallery = Gallery.objects.create(gallery_ptr=g, event=event, parent=month, title=event.title)
+
+    return HttpResponseRedirect(event.get_public_url())
 
 def index(request):
     try:
@@ -118,9 +145,11 @@ def ajax_add_mail(request, event, email):
     return HttpResponse(message)
 
 def event(request, id):
+    event = Event.objects.get(pk=id)
     return render_to_response('www/event.html', {
-        'event': Event.objects.get(pk=id),
+        'event': event,
         'form': EmailForm(),
+        'event_photos': FileForm(),
         }, 
         context_instance=RequestContext(request))
 

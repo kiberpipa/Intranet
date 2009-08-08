@@ -630,33 +630,6 @@ def events(request):
     )
 events = login_required(events)
 
-def event_photos(request, event_id):
-    if request.method == 'POST':
-        form = FileForm(request.POST, request.FILES)
-        if form.is_valid():
-            event = Event.objects.get(pk=event_id)
-            program = Gallery.objects.get(pk=12)
-            try:
-                old = Gallery.objects.get(event=event)
-            except Gallery.DoesNotExist:
-                old = None
-            if form.is_valid():
-                upload = form.save(commit=False)
-                if old:
-                    upload.gallery = old
-                    upload.save()
-                else:
-                    upload.title = event.title
-                    upload.title_slug = slugify(event.title)
-                    upload.save()
-
-                    gallery = Gallery.objects.get(title=event.title)
-                    gallery.event = event
-                    gallery.save()
-
-    return HttpResponseRedirect('..')
-event_photos = login_required(event_photos)
-
 def add_event_emails(request, event_id):
     event = Event.objects.get(pk=event_id)
     if request.method == 'POST':

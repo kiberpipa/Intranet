@@ -140,7 +140,6 @@ urlpatterns = patterns('',
 
 #    (r'events/$',    'django.views.generic.list_detail.object_list', event_list),
     (r'^events/create/', 'intranet.org.views.nf_event_create'),
-    (r'^events/(?P<event_id>\d+)/photos/', 'intranet.org.views.event_photos'),
     (r'^events/(?P<event>\d+)/edit/$', 'intranet.org.views.nf_event_edit'),
     (r'^events/(?P<event>\d+)/info.txt/$', 'intranet.org.views.info_txt'),
     (r'^events/(\d+)/count/$', 'intranet.org.views.event_count'),

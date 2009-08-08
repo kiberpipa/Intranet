@@ -40,6 +40,7 @@ LOCALE_INDEPENDENT_PATHS = (
     re.compile('^comments/post/$'),
     re.compile('^news/comments/post/$'),
     re.compile('^comments/'),
+    re.compile('event_photos/'),
     re.compile('^favicon.ico'),
 )
 

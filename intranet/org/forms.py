@@ -108,13 +108,6 @@ class ChangePw(forms.Form):
 class AddEventEmails(forms.Form):
     emails = forms.CharField(widget=forms.Textarea)
 
-
-
-class FileForm(forms.ModelForm):
-    class Meta:
-        #model = GalleryUpload
-        fields = ('zip_file')
-
 class EventForm(forms.ModelForm):
     resize = forms.CharField(widget=forms.HiddenInput, required=False)
     filename = forms.CharField(widget=forms.HiddenInput, required=False)

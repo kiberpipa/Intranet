@@ -12,5 +12,6 @@ class NewsAdmin(admin.ModelAdmin):
 
 admin.site.register(Ticker)
 admin.site.register(Video)
+admin.site.register(Gallery)
 
 admin.site.register(News, NewsAdmin)
