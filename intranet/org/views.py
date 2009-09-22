@@ -647,6 +647,9 @@ add_event_emails = login_required(add_event_emails)
 def info_txt(request, event):
     output = StringIO()
     event = Event.objects.get(pk=event)
+    sodelovanja = Sodelovanje.objects.filter(event=event)
+    if sodelovanja:
+        output.write('Author: %s\n' % ', '.join([s.person.name for s in sodelovanja]))
     output.write(u'title: %s\n' % event.title)
     output.write(u'date: %s\n' % event.start_date.strftime('%d.%m.%Y'))
     output.write(u'cat: %s\n' % event.project)

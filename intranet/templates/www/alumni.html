@@ -16,7 +16,7 @@
             <div class="community-content">
                 {% for alumni in active %}
             <div class="community-person">
-            <div class="community-content-img"><img src="{% if alumni.image %}{{ alumni.image.url }}{% else %}{{ media_url }}/www/images/picture-skupnost.gif{% endif %}" width="80px" height="80px" /></div>
+            <div class="community-content-img"><img src="{% if alumni.image %}{{ alumni.image.url }}{% else %}{{ media_url }}/www/images/picture-skupnost.gif{% endif %}" width="80px"/></div>
             <div class="community-details">
             <p class="alumni-title-p">{{ alumni.user.get_full_name }}</p>
             {% if alumni.mail %}
@@ -69,7 +69,7 @@
         </div>
                 {% for alumni in not_active %}
             <div class="community-person">
-            <div class="community-content-img"><img src="{% if alumni.image %}{{ alumni.image.url }}{% else %}{{ media_url }}/www/images/picture-skupnost.gif{% endif %}" width="80px" height="80px" /></div>
+            <div class="community-content-img"><img src="{% if alumni.image %}{{ alumni.image.url }}{% else %}{{ media_url }}/www/images/picture-skupnost.gif{% endif %}" width="80px" /></div>
             <div class="community-details">
             <p class="alumni-title-p">{{ alumni.user.get_full_name }}</p>
             {% if alumni.mail %}
