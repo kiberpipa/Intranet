@@ -110,9 +110,6 @@ shopping_dict = {
     'allow_empty': 1,
 }
 
-bug_extra = {
-}
-
 sodelovanje_detail = {
     'queryset': Sodelovanje.objects.all(),
 }
@@ -159,19 +156,6 @@ urlpatterns = patterns('',
     (r'^lends/(?P<id>\d+)/back/$', 'intranet.org.views.lend_back'),
     (r'^lends/(?P<username>\w+)/$', 'intranet.org.views.lends_by_user'),
     (r'lends/?$',    'intranet.org.views.lends'),
-
-    ##bugs
-    #mali wraper okoli generic viewa da lahko procesiramo komentar 
-    #(r'^bugs/(?P<object_id>\d+)/$', 'django.views.generic.list_detail.object_detail', bug_detail),
-    (r'^bugs/(?P<object_id>\d+)/$', 'intranet.org.views.view_bug'),
-    (r'^bugs/add/$', 'intranet.org.views.add_bug'),
-    (r'^bugs/(?P<id>\d+)/resolve/$', 'intranet.org.views.resolve_bug'),
-
-    ##issues, obsolotes bugs
-    (r'bugs/?$',    'intranet.org.views.issues'),
-    (r'bugs/(?P<bug_id>\d+)/comment/$',    'intranet.org.views.comment_add'),
-    (r'bugs/(?P<bug_id>\d+)/edit/$',    'intranet.org.views.bug_edit'),
-    (r'bugs/(?P<bug_id>\d+)/subtask/$',    'intranet.org.views.bug_subtask'),
 
     ##sodelovanja
     (r'^sodelovanja/$', 'intranet.org.views.sodelovanja'),
@@ -243,7 +227,6 @@ urlpatterns += patterns('django.views.generic.date_based',
     (r'diarys/arhiv/(?P<year>\d{4})/$',    'archive_year',  diary_year),
     #(r'diarys/?$',    'archive_index', diary_dict),
 
-    #(r'bugs/?$',    'archive_index', bug_dict),
     #(r'lends/?$',    'archive_index', lend_dict),
 #    (r'shopping/?$',    'archive_index', shopping_dict),
 )
