@@ -27,7 +27,7 @@ import md5
 
 from intranet.org.models import UserProfile, Project, Category, Email, \
     Place, Event, Shopping, Person, Sodelovanje, TipSodelovanja, Task, Diary, \
-    Bug, StickyNote, Lend, Resolution, Comment, KbCategory, KB, Tag, \
+    StickyNote, Lend, Resolution, KbCategory, KB, Tag, \
     Scratchpad, Clipping, Mercenary, NetCount
 from intranet.org.forms import *
 from xls import salary_xls
@@ -72,26 +72,12 @@ def index(request):
     today = datetime.datetime.today()
     nextday = today + datetime.timedelta(days=8)
 
-    if profile.project.all():
-
-        q = Q()
-        for i in profile.project.all():
-            q = q | Q(project=i)
-
-        project_bugs = Bug.objects.filter(q, resolution__resolved=False)
-
-    else:
-        project_bugs = None
-
     return render_to_response('org/index.html',
                               { 'start_date': today,
                                 'end_date': nextday,
                                 'today': today,
-                                'project_bugs': project_bugs,
                                 'diary_form': DiaryForm(),
                                 'diary_edit': False,
-                                'bug_form': BugForm(),
-                                'bug_edit': False,
                                 'lend_form': LendForm(),
                                 'lend_edit': False,
                               },
@@ -133,12 +119,6 @@ def lend_back(request, id=None):
     lend = get_object_or_404(Lend, pk=id)
     if not lend.note:
         lend.note = ""
-    try:    
-        bug = Bug.objects.get(name=lend.what)
-        bug.resolution = Resolution.objects.get(pk=5) #FIXED
-        bug.save()
-    except Bug.DoesNotExist:
-        pass 
     lend.note += "\n\n---\nvrnitev potrdil %s, %s " % (request.user, datetime.date.today())
     lend.returned = True
     lend.save()
@@ -177,10 +157,6 @@ def lends_form(request, id=None, action=None):
 
         if lend_form.is_valid():
             lend = lend_form.save()
-            new_bug = Bug(author=request.user, due_by = lend.due_date, name=lend.what, note='treba je vrnit %s, see: %s!' % (lend.what, lend.get_absolute_url()))
-            new_bug.save()
-            new_bug.assign.add(lend.from_who)
-            new_bug.save()
             return HttpResponseRedirect(lend.get_absolute_url())
     else:
         if id:
@@ -473,124 +449,6 @@ def autocomplete(request, search):
     response.write(output.getvalue())
     return response
 
-
-#################################################
-
-def issues(request):
-    bugs = Bug.objects.all()
-    if request.POST:
-        filter = FilterBug(request.POST)
-        if filter.is_valid():
-            for key, value in filter.cleaned_data.items():
-                if value:
-                    if key == 'name':
-                        bugs = bugs.filter(name__icontains = value)
-                    else:
-                        ##'**' rabis zato da ti python resolva spremenljivke (as opposed da passa dobesedni string)
-                        bugs = bugs.filter(**{key: value})
-    else:
-        bugs = bugs.filter(assign=request.user, resolution__resolved=False)
-        filter = FilterBug()
-
-    return date_based.archive_index(request, 
-        queryset = bugs.order_by('chg_date'),
-        date_field = 'pub_date',
-        allow_empty = 1,
-        extra_context = {
-            'filter': filter,
-            'bug_form': BugForm(),
-        }
-    )
-issues = login_required(issues)
-
-def resolve_bug(request, id):
-    bug = Bug.objects.get(pk=id)
-    bug.resolution = Resolution.objects.get(pk=5) #FIXED
-    bug.save()
-    return  HttpResponseRedirect('..')
-resolve_bug = login_required(resolve_bug)
-
-def add_bug(request):
-    if request.POST:
-        form = BugForm(request.POST)
-        if form.is_valid():
-            new_bug = form.save(commit=False)
-            new_bug.author = request.user
-            new_bug.save()
-            form.save_m2m()
-            new_bug.mail()
-            return HttpResponseRedirect(new_bug.get_absolute_url())
-
-    return HttpResponseRedirect("..")
-add_bug = login_required(add_bug)
-
-
-##################################################
-
-def comment_add(request, bug_id):
-    bug = Bug.objects.get(pk=bug_id)
-    if request.method == 'POST':
-        form = CommentBug(request.POST)
-        if form.is_valid():
-            new_comment = Comment(bug=bug, text=form.cleaned_data['text'])
-            new_comment.save(request)
-        bug.mail(message=new_comment.text, subject='new comment has been added to #' + bug.id.__str__())
-    
-    return HttpResponseRedirect(bug.get_absolute_url())
-
-def bug_edit(request, bug_id):
-    bug = Bug.objects.get(pk=bug_id)
-    if request.method == 'POST':
-        form = BugForm(request.POST, instance=bug)
-        if form.is_valid():
-            old = deepcopy(bug)
-            form.save()
-            bug.save()
-            message = ''
-            for (i, j) in bug.__dict__.items():
-                try:
-                    if bug.__dict__[i] != old.__dict__[i] and i != 'chg_date':
-                        message += '- %s changed from "%s" to "%s"\n' % (i, old.__dict__[i], bug.__dict__[i])
-                except KeyError:
-                    pass
-            bug.mail(subject='#%d has been edited' % bug.id, message=message)
-    return HttpResponseRedirect(bug.get_absolute_url())
-
-def bug_subtask(request, bug_id):
-    bug = Bug.objects.get(pk=bug_id)
-    if request.method == 'POST':
-        form = BugForm(request.POST)
-        if form.is_valid():
-            new_bug = form.save(commit=False)
-            new_bug.parent = bug
-            new_bug.author = request.user
-            new_bug.save()
-            form.save_m2m()
-            return HttpResponseRedirect(new_bug.get_absolute_url())
-
-    return HttpResponseRedirect(bug.get_absolute_url())
-
-
-
-def view_bug(request, object_id):
-    comment_form = CommentBug()
-    bug_form = BugForm(instance=Bug.objects.get(pk=object_id))
-    subtask_form = BugForm()
-
-    return list_detail.object_detail(request, 
-        object_id = object_id, 
-        queryset = Bug.objects.all(), 
-        extra_context = { 
-            'resolutions': Resolution.objects.all(), 
-            'comments': Comment.objects.all(), 
-            'comment_form': comment_form.as_p(), 
-            'bug_form': bug_form,
-            'bug_edit': True,
-            'subtask_form': subtask_form.as_p(),
-        })
-view_bug = login_required(view_bug)
-
-##################################################
 def events(request):
     events = Event.objects.all()
     filtered = False
@@ -1216,13 +1074,6 @@ def tehniki_take(request, id):
     e = Event.objects.get(pk=id)
     e.technician.add(request.user)
     week = datetime.timedelta(7)
-    if e.require_video:
-        new_bug = Bug.objects.get_or_create(name = e.title, defaults={'author': request.user})[0]
-        new_bug.save()
-        new_bug.due_by = e.start_date + week
-        new_bug.note='treba je zmontirat in objavit "%s" video!' % e.title
-        new_bug.assign.add(request.user)
-        new_bug.save()
     e.save()
 
     return HttpResponseRedirect('../../')
@@ -1232,10 +1083,6 @@ def tehniki_cancel(request, id):
     e = Event.objects.get(pk=id)
     e.technician.remove(request.user)
     e.save()
-    bug = Bug.objects.get(name=e.title)
-    bug.assign.remove(request.user)
-    bug.save()
-
     return HttpResponseRedirect('../../')
 tehniki_take = login_required(tehniki_take)
 
@@ -1390,7 +1237,6 @@ def dezurni(request, year=None, week=None, month=None):
                              'nov_urnik': nov_urnik,
                              'start_date': week_start,
                              'end_date': week_end,
-                             'dezurni_taski': Bug.objects.filter(project=Project.objects.get(pk=22)), 
                              },
                        context_instance=RequestContext(request))
 dezurni = login_required(dezurni)

@@ -5,16 +5,6 @@ class SodelovanjeAdmin(admin.ModelAdmin):
     search_fields = ('person__name',)
     list_filter = ('tip',)
 
-class BugAdmin(admin.ModelAdmin):
-        search_fields = ['note','name','assign']
-        #list_filter = ['resolved', 'assign']
-        list_filter = ['assign']
-        #list_display = ['name', 'id', 'resolved', 'author', 'assign']
-        #list_display = ['name', 'id', 'author', 'assign']
-        list_display = ['name', 'id', 'author']
-        #ordering = ['resolved']
-
-
 class DiaryAdmin(admin.ModelAdmin):
     search_fields = ['log_formal','person','task']
     date_hierarchy = 'date'
@@ -85,14 +75,12 @@ admin.site.register(Phone)
 admin.site.register(Organization)
 admin.site.register(Role)
 admin.site.register(Resolution)
-admin.site.register(Comment)
 admin.site.register(Shopping)
 admin.site.register(KB)
 admin.site.register(KbCategory)
 admin.site.register(Alumni)
 
 
-admin.site.register(Bug, BugAdmin)
 admin.site.register(Sodelovanje, SodelovanjeAdmin)
 admin.site.register(Diary, DiaryAdmin)
 admin.site.register(Person, PersonAdmin)

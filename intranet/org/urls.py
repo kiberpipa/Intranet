@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import *
-from intranet.org.models import Event, Bug, Diary, Lend, Shopping, Resolution, Comment, Sodelovanje
-from intranet.org.feeds import LatestBugs, LatestDiarys, BugsByUser, ToDo, LatestEvents
+from intranet.org.models import Event, Diary, Lend, Shopping, Resolution, Sodelovanje
+from intranet.org.feeds import LatestDiarys, ToDo, LatestEvents
 from django.contrib.auth.models import User
 
 #from django.contrib import databrowse
@@ -84,12 +84,6 @@ diary_year = {
     'make_object_list': 1,
 }
 
-bug_dict = {
-    'queryset': Bug.objects.all().order_by('chg_date'),
-    'date_field': 'pub_date',
-    'allow_empty': 1,
-}
-
 responsible = []
 for l in Lend.objects.filter(returned=False):
     if l.from_who not in responsible:
@@ -124,9 +118,7 @@ sodelovanje_detail = {
 }
 
 feeds = {
-    'bugs': LatestBugs,
     'diarys': LatestDiarys,
-    'userbugs': BugsByUser,
     'todos': ToDo,
     'events': LatestEvents,
 }

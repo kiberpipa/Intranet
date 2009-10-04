@@ -12,7 +12,7 @@ from django.forms.util import ErrorList
 from django.forms.models import ModelChoiceField, ModelMultipleChoiceField
 
 from intranet.org.models import TipSodelovanja, Person, Event, Sodelovanje
-from intranet.org.models import Bug, Resolution, Clipping, Project, Alumni
+from intranet.org.models import Resolution, Clipping, Project, Alumni
 from intranet.org.models import Category, UserProfile, Lend, Diary, Shopping
 #from intranet.photologue.models import GalleryUpload
 
@@ -73,19 +73,6 @@ class EventFilter(forms.Form):
     project = forms.ModelChoiceField(Project.objects.all().order_by('name'), required=False)
     category = forms.ModelChoiceField(Category.objects.all().order_by('name'), required=False)
 
-class FilterBug(forms.Form):
-    resolution = forms.ModelChoiceField(Resolution.objects.all(), required=False)
-    assign = forms.ModelChoiceField(User.objects.filter(is_active=True).order_by('username'), required=False)
-    author = forms.ModelChoiceField(User.objects.filter(is_active=True).order_by('username'), required=False)
-
-    due_by = forms.DateTimeField(required=False)
-
-    name = forms.CharField(required=False)
-
-
-class CommentBug(forms.Form):
-    text = forms.CharField(widget=forms.Textarea)
-
 class DiaryFilter(forms.Form):
     task = forms.ModelChoiceField(Project.objects.all().order_by('name'), required=False)
     author = forms.ModelChoiceField(User.objects.filter(is_active=True).order_by('username'), required=False)
@@ -129,23 +116,6 @@ class EventForm(forms.ModelForm):
                 self._errors["announce"] = ErrorList(['ako je event public mores napisat najavo'])
         
         return cleaned_data
-
-class BugForm(forms.ModelForm):
-    assign = ModelMultipleChoiceField(User.objects.exclude(first_name='').order_by('first_name'))
-    assign.widget.attrs['size'] = 5
-    assign.label_from_instance = lambda user: u"%s %s (%s)" % (user.first_name, user.last_name, user.username)
-
-    watchers = ModelMultipleChoiceField(User.objects.exclude(first_name='').order_by('first_name'))
-    watchers.widget.attrs['size'] = 5
-    watchers.label_from_instance = lambda user: u"%s %s (%s)" % (user.first_name, user.last_name, user.username)
-    watchers.help_text = u'<p class="notice"><small>Držite "CTRL" (ali "CMD" na Mac-u) za izbiro več kot enega.</small></p>'
-
-    project = ModelMultipleChoiceField(Project.objects.all().order_by('name'))
-    project.widget.attrs['size'] = 5
-
-    class Meta:
-        exclude = ('resolved', 'tags', 'author','parent',)
-        model = Bug
 
 class SodelovanjeFilter(forms.ModelForm):
     ##override the person in 'Sodelovanje', as there is required
