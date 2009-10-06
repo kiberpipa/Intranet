@@ -6,7 +6,7 @@ from django import template
 from django.template import resolve_variable, Variable
 from django.core.exceptions import ObjectDoesNotExist
 
-from intranet.org.models import Event, Bug, Scratchpad, Resolution
+from intranet.org.models import Event, Scratchpad, Resolution
 from intranet.localsettings import MEDIA_URL
 import datetime
 import math
@@ -75,30 +75,6 @@ def box_plache(diarys, user):
 
 register.inclusion_tag('org/box_plache.html')(box_plache)
 
-def box_bug_stats(user):
-    all = Bug.objects.all()
-    allopen = all.count()
-    open = Bug.objects.filter(resolution__resolved=False)
-    count = open.count()
-    my = open.filter(assign__exact=user).count()
-    mine = all.filter(assign__exact=user).count()
-
-    if not mine:
-      rate = str(0)
-    else:
-      rate = str(1 - float(my) / float(mine))[:4]
-
-    if not allopen:
-      grate = str(0)
-    else:
-      grate = str(1 - float(count) / float(allopen))[:4]
-
-    return {'count': count,
-            'my': my,
-            'rate': rate,
-            'grate': grate,
-            'allopen': allopen,  }
-register.inclusion_tag('org/box_bug_stats.html')(box_bug_stats)
 
 def box_scratchpad(user):
     try:
