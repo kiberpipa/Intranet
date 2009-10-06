@@ -33,11 +33,6 @@
   </div>
 
   <div class="module">
-    <h2 class="expand"><img src="{{ media_url }}/img/expand.gif" alt="expand bug" />Dodaj hrošča</h2>
-    <div id="bug_box" class="hideme">{% include "org/content/bug_form.html" %}</div>
-  </div>
-
-  <div class="module">
     <h2 class="expand"><img src="{{ media_url }}/img/expand.gif" alt="expand lends" />Posodi opremo</h2>
     <div id="lend_box" class="hideme">
     {% include "org/content/lend_form.html" %}
@@ -64,18 +59,7 @@
         </a>
         Moje odgovornosti
     </h2>
-    <h4>Moji hrošči: <a href="/intranet/feeds/userbugs/{{ user }}"><img src="{{ media_url }}/img/rss.gif" alt="rss bugs" /></a></h4>
-    {% box_list Bug "assign__exact=user.id, resolution__resolved=False" "template=org/list_my_bugs.html" %}
 
-    <h4>Bugi mojim projektom:</h4>
-    <ul>
-    {% for i in project_bugs %}
-        <li><a href="{{ i.get_absolute_url }}">{{ i }}</a> {% if i.assign.all %}resuje {{ i.assign.all|join:"," }}{% endif %}</li>
-    {% endfor %}
-    </ul>
-
-    <h4>Hrošči, ki sem jih jaz objavil:</h4>
-    {% box_list Bug "author__exact=user.id, resolution__resolved=False" "template=org/list_bugs.html" %}
     <h4>Sem posodil:</h4>
     {% box_list Lend "from_who__exact=user.id, returned__exact=False" "template=org/list_lend.html" %}
     <h4>Moji dogodki:</h4>
