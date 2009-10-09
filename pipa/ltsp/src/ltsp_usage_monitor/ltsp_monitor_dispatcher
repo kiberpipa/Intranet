@@ -1,0 +1,15 @@
+#!/bin/bash
+
+LTSPMON=ltsp_usage_monitor
+
+RUNNING=`ps ux | grep -v awk | awk '/ltsp_usage_monitor/ { print $2 }'`
+
+if [ "$RUNNING" != "" ]
+then
+    for process in $RUNNING
+    do 
+        kill -9 $process
+    done
+fi
+
+$LTSPMON  &

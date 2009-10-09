@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Brez imena
+Encoding=UTF-8
+Version=1.0
+Exec=/usr/local/bin/ltsp_monitor_dispatcher
+X-GNOME-Autostart-enabled=true

@@ -1,0 +1,11 @@
+
+(c) Gasper Zejn, for Kiberpipa
+
+LTSP usage monitor.
+
+This little program monitors LTSP activity so you can monitor how many
+users your LTSP server has. It triggers on mouse movements and assumes,
+that user is active, if mouse is moving. This is not necessarily true,
+but that's currently not important.
+
+Program is to be run at start of X session.

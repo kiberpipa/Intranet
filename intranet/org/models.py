@@ -611,7 +611,3 @@ class Alumni(models.Model):
             return self.text
 
 
-class NetCount(models.Model):
-    count = models.CommaSeparatedIntegerField(max_length=200)
-    time = models.DateTimeField()
-
