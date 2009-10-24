@@ -108,8 +108,9 @@ INSTALLED_APPS = (
     'django.contrib.markup',
     'intranet.www',
     'photologue',
-    'feedjack',
+    'feedjack', # FIXME
     'localeurl',
+    'pipa.video',
 )
 
 TEMPLATE_DIRS = (
