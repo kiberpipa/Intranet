@@ -1,4 +1,5 @@
 from django.db import models
+from intranet.org.models import Event
 
 class Video(models.Model):
     #compatiblity layer with current video archive
