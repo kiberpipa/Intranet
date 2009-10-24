@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from intranet.org.models import Event, Project
 #from intranet.photologue.models import Gallery
 from intranet.www.models import News
-from intranet.feedjack.models import Post
+from feedjack.models import Post
 
 class AllInOne(Feed):
     def __init__(self, slug, request):

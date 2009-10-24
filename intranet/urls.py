@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib import admin
 
 #from intranet.photologue.models import *
-from intranet.feedjack.models import Post
+from feedjack.models import Post
 from intranet.www.feeds import *
 
 admin.autodiscover()
