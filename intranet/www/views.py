@@ -19,7 +19,8 @@ from photologue.models import Photo
 
 from intranet.org.models import Event, Clipping, Alumni, Email
 from intranet.feedjack.models import Post
-from intranet.www.models import Ticker, News, Video
+from intranet.www.models import Ticker, News
+from pipa.video.models import Video
 from forms import FileForm
 
 
