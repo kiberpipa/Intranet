@@ -191,7 +191,8 @@ class Role(models.Model):
 class Event(models.Model):
     responsible = models.ForeignKey(User)
     title = models.CharField(max_length=100)
-    slug = models.SlugField("event_slug",max_length=150,unique=True, blank=True, null=True)
+    # XXX FIXME: unique is false on SlugField because of data inconsistancy
+    slug = models.SlugField("event_slug",max_length=150, unique=False, blank=True, null=True)
     start_date = models.DateTimeField()
     end_date = models.DateField(blank=True, null=True)
     length = models.TimeField()
