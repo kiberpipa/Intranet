@@ -19,7 +19,6 @@ from photologue.models import Photo
 
 from intranet.org.models import Event, Clipping, Alumni, Email
 from intranet.feedjack.models import Post
-from intranet.www.models import Gallery
 from intranet.www.models import Ticker, News, Video
 from forms import FileForm
 
@@ -33,67 +32,6 @@ def anti_spam(request):
     if int(request.POST['timestamp'])+5 > int(datetime.datetime.now().strftime('%s')):
         return HttpResponsePermanentRedirect('/')
     return post_comment(request)
-
-def gallery(request):
-    galleries = Gallery.objects.filter(parent__isnull=True)
-    return render_to_response('gallery/index.html', {'galleries': galleries}, context_instance=RequestContext(request))
-
-#def gallery(request, id):
-#    try:
-#        gallery = Gallery.objects.get(title=id)
-#    except Gallery.DoesNotExist:
-#        gallery = Gallery.objects.get(pk=id)
-#    ret = ''
-#    i = 0
-#
-#    #return HttpResponse(serializers.serialize("json", [x.get_normal_url() for x in gallery.photos.all()]))
-#    #return HttpResponse([x.get_normal_url() for x in gallery.photos.all()])
-#    
-#    nice_pictures = list()
-#    for p in gallery.photos.all():
-#        nice_pictures.append({'normal_url':p.get_normal_url(),
-#                                'full_url':p.image.url,
-#                                'exif':''})
-#
-#	#exif inf: p.EXIF
-#    return HttpResponse(simplejson.dumps(nice_pictures))
-#    #for g in gallery.photos.all():
-#    #    i += 1
-#    #    ret += '<li'
-#    #    if i == 1:
-#    #        ret += ' id="active"'
-#    #    ret += '><img src="%s" class="img%s"></li>\n' % (g.get_normal_url(), g.id)
-#
-#        #ret += '<div id="%s" style="display: none"><div id="exif">b00 wh00 %s</div></div>' % (g.get_normal_url(), g.title)
-#    #    ret += '<div id="img%s" style="display: none">b00 wh00 %s</div>' % (g.id, g.title)
-#
-#    return HttpResponse(ret)
-
-def event_photos(request, event_id):
-    event = Event.objects.get(pk=event_id)
-    if request.method == 'POST':
-        form = FileForm(request.POST, request.FILES)
-        if form.is_valid():
-            program = Gallery.objects.get(title='Program')
-            upload = form.save(commit=False)
-            try:
-                # already have a gallery for that event just append photos
-                old = Gallery.objects.get(event=event)
-                upload.gallery = old
-                upload.save()
-            except Gallery.DoesNotExist:
-                # no existing gallery. make sure the parent structure exist
-                # (create if it doesn't):
-                # Program --> <year> --> <month> --> <event>
-                now = datetime.datetime.now()
-                year = Gallery.objects.get_or_create(parent=program, title=str(now.year), title_slug=str(now.year))[0]
-                month = Gallery.objects.get_or_create(parent=year, title=str(now.month), title_slug=str(now.month))[0]
-                g = upload.save()
-                # gallery_ptr links our instance with extra info to their
-                # instance
-                gallery = Gallery.objects.create(gallery_ptr=g, event=event, parent=month, title=event.title)
-
-    return HttpResponseRedirect(event.get_public_url())
 
 def index(request):
     try:
