@@ -1,3 +1,4 @@
+from django.db import models
 
 class Video(models.Model):
     #compatiblity layer with current video archive
