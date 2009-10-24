@@ -80,7 +80,7 @@ class Project(models.Model):
     
     #if True email all people which have this project set, if false email only Project.email
     # this needs null=True or else audit fails miserably
-    email_members = models.BooleanField(default=True, null=True)
+    email_members = models.NullBooleanField(default=True)
 
     #tags = models.ManyToManyField(Tag, blank=True, null=True)
 
