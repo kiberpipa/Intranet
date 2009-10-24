@@ -11,6 +11,5 @@ class NewsAdmin(admin.ModelAdmin):
         obj.save()
 
 admin.site.register(Ticker)
-admin.site.register(Gallery)
 
 admin.site.register(News, NewsAdmin)
