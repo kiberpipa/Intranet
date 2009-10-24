@@ -79,7 +79,8 @@ class Project(models.Model):
     chg_date = models.DateTimeField(auto_now=True)
     
     #if True email all people which have this project set, if false email only Project.email
-    email_members = models.BooleanField(default=True)
+    # this needs null=True or else audit fails miserably
+    email_members = models.BooleanField(default=True, null=True)
 
     #tags = models.ManyToManyField(Tag, blank=True, null=True)
 
