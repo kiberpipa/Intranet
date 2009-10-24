@@ -12,14 +12,7 @@ now = datetime.date.today() - datetime.timedelta(1)
 
 result = 'Kiberpipa, dnevno porocilo: %d-%d-%d\n\n' % (now.year, now.month, now.day)
 
-result += '=== Kracarka:\n\n%s\n\n' % Scratchpad.objects.all()[0].content
-
-result += '=== Preteceni reverzi\n'
-
-for lend in Lend.objects.filter(returned=False):
-    result += '%s - %s posodil %s\n' % (lend.what, lend.to_who, lend.from_who)
-
-result += '\n\n\nDnevniki:\n\n'
+result += 'Dnevniki:\n\n'
 
 diarys = Diary.objects.filter(pub_date__year=now.year, pub_date__month=now.month, pub_date__day=now.day)
 if not diarys:
@@ -28,5 +21,13 @@ if not diarys:
 for diary in diarys:
     result  += '[ %s - %s - %s - %s ]\n --\n %s \n--\n %s\n\n' % (diary.date, diary.author, diary.task.__unicode__(), diary.length, diary.log_formal, diary.log_informal)
 
-send_mail('<insert something smart> %d-%d-%d' % (now.year, now.month, now.day), result, 'intranet@kiberpipa.org', ['pipa-org@list.kiss.si'])
+result += '=== Kracarka:\n\n%s\n\n' % Scratchpad.objects.all()[0].content
+
+result += '=== Preteceni reverzi\n'
+
+for lend in Lend.objects.filter(returned=False):
+    result += '%s - %s posodil %s (%s dni)\n' % (lend.what, lend.to_who, lend.from_who, lend.days_due().days)
+
+print result
+#send_mail('Ladijski dnevnik za %d-%d-%d' % (now.year, now.month, now.day), result, 'intranet@kiberpipa.org', ['pipa-org@list.kiss.si'])
 

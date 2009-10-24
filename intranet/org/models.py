@@ -514,6 +514,9 @@ class Lend(models.Model):
 
     def get_absolute_url(self):
         return '/intranet/lends/%d/' % self.id
+        
+    def days_due(self):
+        return date.today() - self.due_date
 
     class Meta:
         verbose_name = 'Sposoja'
