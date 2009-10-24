@@ -1,5 +1,6 @@
 import datetime
 import re
+from BeautifulSoup import BeautifulSoup, Comment
 
 from django.template import Library
 register = Library()
@@ -27,10 +28,6 @@ def calclass(date):
 
 
 def sanitize_html(value):
-    try:
-        from BeautifulSoup import BeautifulSoup, Comment
-    except ImportError:
-        return value
     #valid_tags = 'p i strong b u a h1 h2 h3 pre br img'.split()
     #valid_attrs = 'href src'.split()
     soup = BeautifulSoup(value)
@@ -59,4 +56,4 @@ def truncchar(value, arg):
 
 @register.filter
 def spam(value):
-   return re.sub('(?P<user>.*)@(?P<domain>.*)', '\g<user>REMOVE@ME\g<domain>', value)
+    return re.sub('(?P<user>.*)@(?P<domain>.*)', '\g<user>REMOVE@ME\g<domain>', value)
