@@ -39,6 +39,8 @@ month_dict = { 'jan': 1, 'feb': 2, 'mar': 3,
                'jul': 7, 'avg': 8, 'sep': 9,
             'okt': 10, 'nov': 11, 'dec': 12, }
 
+reverse_month_dict = dict(((i[1],i[0]) for i in month_dict.iteritems()))
+
 def tmp_upload(request):
     #a helper function for handling tmp uploads, needed so that the user can
     #resize the image in the browser (for index)
@@ -924,12 +926,13 @@ def tehniki_monthly(request, year=None, month=None):
     month_end = month_start + mx.DateTime.DateTimeDelta(month_start.days_in_month)
 
     month_number = month
-    month = Event.objects.filter(start_date__range=(month_start, month_end), require_technician__exact=True).order_by('start_date')
+    events = Event.objects.filter(start_date__range=(month_start, month_end), require_technician__exact=True).order_by('start_date')
     log_list = Diary.objects.filter(task=23, date__range=(month_start, month_end))
     for log in log_list:
       print "Found billable technician log #%s: %s on %s for %s hours" % (log.pk, log.author, log.date, log.length)
 
-    for e in month:
+    month = []
+    for e in events:
         try:
             diary = e.diary_set.get()
             e.diary = diary.id
@@ -941,6 +944,7 @@ def tehniki_monthly(request, year=None, month=None):
             e.tech = e.technician.username
         except:
             e.tech = 0
+        month.append((set(), e))
 
     navigation = monthly_navigation (year, month_number)
 
@@ -1019,6 +1023,7 @@ def tehniki(request, year=None, week=None):
     week_end = mx.DateTime.ISO.Week(year, i, 8)
 
     week_number = i
+    month_number = week_start.month
 
     week_now = week_start
     events = Event.objects.filter(start_date__range=(week_start, week_end), require_technician__exact=True).order_by('start_date')
@@ -1036,8 +1041,8 @@ def tehniki(request, year=None, week=None):
     return render_to_response('org/tehniki_index.html',
                              {'month':week,
                              'log_list':log_list,
-                             'month_number':week_number,
-                             'month_name': month,
+                             'month_number': month_number,
+                             'month_name': reverse_month_dict[month_number],
                              'what': 'teden',
                              'iso_week': week_number,
                              'year': year,
