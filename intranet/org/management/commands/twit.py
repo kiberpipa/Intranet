@@ -24,10 +24,10 @@ class Command(BaseCommand):
 		
 		api = twitter.Api(username=settings.TWITTER_USERNAME, password=settings.TWITTER_PASSWORD)
 		today = datetime.datetime.today()
+		events = Event.objects.filter(public=True, start_date__year=today.year, start_date__month=today.month, start_date__day=today.day)
 		
 		if twit_event:
 			#the announce event tweet
-			events = Event.objects.filter(public=True, start_date__year=today.year, start_date__month=today.month, start_date__day=today.day)
 			for e in events:
 				short_url = get_bitly_url(join(settings.BASE_URL + e.get_public_url()[1:])) #compensate for two slashes
 				
