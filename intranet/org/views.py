@@ -735,8 +735,8 @@ def mercenary_salary(request, year, month, id):
         if compact:
             filename = 'compact_place_%d_%d' % (begin.month, begin.year)
     else:
-       mercenaries.append(User.objects.get(pk=id))
-       filename = unicode(mercenaries[0])
+        mercenaries.append(User.objects.get(pk=id))
+        filename = unicode(mercenaries[0])
 
     for mercenary in mercenaries:
         try:
@@ -759,7 +759,6 @@ def mercenary_salary(request, year, month, id):
                     'hours': hours,
                     'description': unicode(project),
                     })
-    
     output.write(salary_xls(compact=compact, bureaucrat=request.user.get_full_name(), params=params))
 
     response = HttpResponse(mimetype='application/octet-stream')
@@ -790,7 +789,6 @@ def person(request):
     return HttpResponseRedirect('../')
 
 def sodelovanja(request):
-    from reportlab.pdfgen.canvas import Canvas
     sodelovanja = Sodelovanje.objects.all()
     person_form = PersonForm()
     if request.method == 'POST':
@@ -807,6 +805,7 @@ def sodelovanja(request):
     try: 
         export =  form.cleaned_data['export']
         if export:
+            from reportlab.pdfgen.canvas import Canvas
             output = StringIO()
             if export == 'txt':
                 for i in sodelovanja:
@@ -929,7 +928,7 @@ def tehniki_monthly(request, year=None, month=None):
     events = Event.objects.filter(start_date__range=(month_start, month_end), require_technician__exact=True).order_by('start_date')
     log_list = Diary.objects.filter(task=23, date__range=(month_start, month_end))
     for log in log_list:
-      print "Found billable technician log #%s: %s on %s for %s hours" % (log.pk, log.author, log.date, log.length)
+        print "Found billable technician log #%s: %s on %s for %s hours" % (log.pk, log.author, log.date, log.length)
 
     month = []
     for e in events:
@@ -1010,9 +1009,9 @@ def tehniki(request, year=None, week=None):
     month = mx.DateTime.now().month
 
     if year:
-      year = int(year)
+        year = int(year)
     else:
-      year = mx.DateTime.now().year
+        year = mx.DateTime.now().year
 
     if week:
         i = int(week)
@@ -1175,9 +1174,9 @@ def dezurni(request, year=None, week=None, month=None):
     month = mx.DateTime.now().month
 
     if year:
-      year = int(year)
+        year = int(year)
     else:
-      year = mx.DateTime.now().year
+        year = mx.DateTime.now().year
 
     if week:
         i = int(week)
@@ -1203,14 +1202,14 @@ def dezurni(request, year=None, week=None, month=None):
 
         ###od tega datuma naprej velja nov urnik
         if mx.DateTime.Date(2008, 04, 14) <= week_start and mx.DateTime.Date(2008, 9, 14) > week_start:
-                nov_urnik = 1
-                time_list = [Time(11), Time(16)]
+            nov_urnik = 1
+            time_list = [Time(11), Time(16)]
         elif mx.DateTime.Date(2008, 9, 14) <= week_start:
-                nov_urnik = 2
-                time_list = [Time(10), Time(14), Time(18)]
+            nov_urnik = 2
+            time_list = [Time(10), Time(14), Time(18)]
         else:
-                nov_urnik = 0
-                time_list = [Time(10), Time(13), Time(16), Time(19)]
+            nov_urnik = 0
+            time_list = [Time(10), Time(13), Time(16), Time(19)]
     
 
         for i in time_list:
@@ -1238,7 +1237,7 @@ def dezurni(request, year=None, week=None, month=None):
                              'navigation':navigation,
                              'year': year,
                              'iso_week': week_number,
-			     			 'week_number':week_number,
+                             'week_number':week_number,
                              'nov_urnik': nov_urnik,
                              'start_date': week_start,
                              'end_date': week_end,
@@ -1367,8 +1366,6 @@ def imenik(request):
             alumni.user = request.user
             alumni.save()
 
-               
-
     return list_detail.object_list(request, 
         queryset = folks,
         template_name = 'org/imenik_list.html',
@@ -1383,11 +1380,11 @@ def imenik(request):
 imenik = login_required(imenik)
 
 def timeline_xml(request):
-  #diary_list = Diary.objects.filter(task__id__gt=2)
-  event_list = Event.objects.all()
-  t = template_loader.get_template("org/timeline_xml.html")
-  c = Context({'event_list': event_list})
-  return HttpResponse(t.render(c), 'application/xml')
+    #diary_list = Diary.objects.filter(task__id__gt=2)
+    event_list = Event.objects.all()
+    t = template_loader.get_template("org/timeline_xml.html")
+    c = Context({'event_list': event_list})
+    return HttpResponse(t.render(c), 'application/xml')
 
 def scratchpad_change(request):
     if request.POST:
