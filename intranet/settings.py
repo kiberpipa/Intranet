@@ -42,7 +42,7 @@ LOCALE_INDEPENDENT_PATHS = (
     re.compile('^comments/'),
     re.compile('event_photos/'),
     re.compile('^favicon.ico'),
-    re.compile('^services/'),
+    re.compile('^/services/'),
 )
 
 SITE_ID = 1
