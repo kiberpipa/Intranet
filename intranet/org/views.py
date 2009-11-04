@@ -567,7 +567,9 @@ def nf_event_edit(request, event):
         authors = zip(request.POST.getlist('author'), request.POST.getlist('tip'))
 
         if form.is_valid():
-            new_event = form.save()
+            new_event = form.save(commit=False)
+            if not form.cleaned_data['filename']:
+                new_event.image = event.image
             sodelovanja = set()
             for author, tip in authors:
                 tip = TipSodelovanja.objects.get(pk=tip)

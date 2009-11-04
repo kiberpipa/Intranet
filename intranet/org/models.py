@@ -243,6 +243,7 @@ class Event(models.Model):
         return self.title
 
     def save(self):
+        print self.image._get_name()
         self.slug = slugify(self.title)
         try:
             if Event.objects.get(pk=self.id).__dict__ != self.__dict__:
