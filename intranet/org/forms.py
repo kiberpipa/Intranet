@@ -109,7 +109,7 @@ class EventForm(forms.ModelForm):
         if public:
             if not ( cleaned_data.get("image") or self.instance.sequence > 0 ):
                 self._errors["image"] = ErrorList(['ako je event public mores uploadat slikco'])
-            elif not cleaned_data.get("resize"):
+            elif not ( cleaned_data.get("resize") or self.instance.sequence > 0 ):
                 self._errors["image"] = ErrorList(['public eventom mores oznacit del ki naj bi se prikazau na indexu (kliki na uploadano slikco)'])
 
             if not cleaned_data.get("announce"):
