@@ -586,8 +586,8 @@ def nf_event_edit(request, event):
                     s.save() 
                 
                 sodelovanja.add(s)
-
-
+            if not form.cleaned_data['filename']:
+                new_event.image = event.image
             new_event.slug = slugify(new_event.title)
             new_event.save()
 
