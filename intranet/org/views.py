@@ -590,6 +590,14 @@ def nf_event_edit(request, event):
                 sodelovanja.add(s)
             new_event.slug = slugify(new_event.title)
             new_event.save()
+            if new_event.public and form.cleaned_data['resize']:
+                x1, x2, y1, y2 = tuple(form.cleaned_data['resize'].split(','))
+                box = (int(x1), int(y1), int(x2), int(y2))
+                from PIL import Image
+                im = Image.open(settings.MEDIA_ROOT + '/' + form.cleaned_data['filename'])
+                cropped = im.crop(box)
+                index = cropped.resize((250, 130))
+                index.save(settings.MEDIA_ROOT + '/' + re.sub('(?P<filename>.*)(?P<ext>\..*)', '\g<filename>-index\g<ext>', new_event.image._name))
 
             #delete everything that was in the old sodelovanja as is not in the new one
             for i in old_sodelovanja & sodelovanja ^ old_sodelovanja:
