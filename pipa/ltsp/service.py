@@ -42,7 +42,7 @@ def ltsp_background_image(request):
 		if m:
 			first, second = m.groups()
 			draw.text((x, y), first, font=font, fill=fill[i%2])
-			x += 25
+			y += 25
 			draw.text((x, y), u' '*27 + second, font=font, fill=fill[i%2])
 		else:
 			draw.text((x, y), event_line, font=font, fill=fill[i%2])
