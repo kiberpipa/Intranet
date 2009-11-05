@@ -29,6 +29,13 @@ def ltsp_background_image(request):
 	x = 55
 	draw.text((55, y-25), u'PRIHAJAJOČI DOGODKI', font=font, fill=extra_color)
 	
+	old_locale = locale.getlocale()
+	if old_locale[0] == None:
+		old_locale = 'C'
+	if old_locale[1] != None:
+		old_locale = '%s.%s' % old_locale
+	else:
+		old_locale = old_locale[0]
 	locale.setlocale(locale.LC_ALL, 'sl_SI.UTF-8')
 	for i, e in enumerate(upcoming_events):
 		y += 45
@@ -52,6 +59,7 @@ def ltsp_background_image(request):
 	draw.text((x+93, y+104), u'več na', font=font22, fill=fill[0])
 	draw.text((x+168, y+104), u'www.kiberpipa.org', font=font22, fill=extra_color)
 	
+	locale.setlocale(locale.LC_ALL, old_locale)
 	stringio = StringIO()
 	image.save(stringio, 'png')
 	content = stringio.getvalue()
