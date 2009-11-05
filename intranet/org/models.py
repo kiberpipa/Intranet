@@ -111,8 +111,8 @@ class UserProfile(models.Model):
     #tags = models.ManyToManyField(Tag, blank=True, null=True)
     project = models.ManyToManyField(Project, blank=True, null=True)
     user = models.OneToOneField(User)
-#    tasks = models.ManyToManyField(Task, blank=True, null=True)
-#    project = models.ManyToManyField(Project, blank=True, null=True)
+    #tasks = models.ManyToManyField(Task, blank=True, null=True)
+    #project = models.ManyToManyField(Project, blank=True, null=True)
 
     def __unicode__(self):
         return self.user.username
@@ -368,9 +368,7 @@ class Medij(models.Model):
                     related.append(s)
             else:
                 related.append(child)
-        
         return related
-        
 
     def __unicode__(self):
         return self.name
@@ -393,14 +391,13 @@ class Upload(models.Model):
     name = models.CharField(max_length=240)
     file = models.FileField(upload_to='clipping/')
 
-    def __unicode__(self):  
+    def __unicode__(self):
         return self.name
 
 class Clipping(models.Model):
     article_name = models.CharField(max_length=255, blank=True, null=True)
     medij = models.ForeignKey(Medij, blank=True, null=True)
     date = models.DateTimeField()
-    
 
     event = models.ForeignKey(Event, blank=True, null=True)
     project = models.ForeignKey(Project, blank=True, null=True)
@@ -582,10 +579,9 @@ class Shopping(models.Model):
 class Scratchpad(models.Model):
     content = models.TextField()
     author = models.ForeignKey(User)
-  
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
-    
+
     class Meta:
         verbose_name = 'Kracarka'
         verbose_name_plural = 'Kracarka'
