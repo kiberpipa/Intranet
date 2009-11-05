@@ -32,7 +32,7 @@ def ltsp_background_image(request):
 	old_locale = locale.getlocale()
 	if old_locale[0] == None:
 		old_locale = 'C'
-	if old_locale[1] != None:
+	elif old_locale[1] != None:
 		old_locale = '%s.%s' % old_locale
 	else:
 		old_locale = old_locale[0]
