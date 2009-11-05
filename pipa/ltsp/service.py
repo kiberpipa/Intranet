@@ -29,12 +29,12 @@ def ltsp_background_image(request):
 	x = 55
 	draw.text((55, y-25), u'PRIHAJAJOČI DOGODKI', font=font, fill=extra_color)
 	
-	locale.setlocale(locale.LC_ALL, 'sl_SI')
+	locale.setlocale(locale.LC_ALL, 'sl_SI.UTF-8')
 	for i, e in enumerate(upcoming_events):
 		y += 45
 		cajt = e.start_date.strftime('%a. %d.%m. ob %H:%M')
 		cajt = cajt[0].upper() + cajt[1:]
-		event_line = '%s: %s' % (e.title.encode('utf-8'), cajt.encode('utf-8'))
+		event_line = u'%s: %s' % (e.title, cajt.decode('utf-8'))
 		
 		# check if line is too long, if it is, split in two lines
 		m = re.match('(.{70,})[,:](.*)', event_line)
