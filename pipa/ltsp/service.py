@@ -37,7 +37,7 @@ def ltsp_background_image(request):
 		event_line = u'%s, %s' % (e.title, cajt.decode('utf-8'))
 		
 		# check if line is too long, if it is, split in two lines
-		m = re.match('(.{60,})[,](.*)', event_line)
+		m = re.match('(.{60,}?)[,](.*)', event_line)
 		
 		if m:
 			first, second = m.groups()
