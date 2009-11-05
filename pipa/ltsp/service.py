@@ -34,10 +34,10 @@ def ltsp_background_image(request):
 		y += 45
 		cajt = e.start_date.strftime('%a. %d.%m. ob %H:%M')
 		cajt = cajt[0].upper() + cajt[1:]
-		event_line = u'%s: %s' % (e.title, cajt.decode('utf-8'))
+		event_line = u'%s, %s' % (e.title, cajt.decode('utf-8'))
 		
 		# check if line is too long, if it is, split in two lines
-		m = re.match('(.{70,})[,:](.*)', event_line)
+		m = re.match('(.{70,})[,](.*)', event_line)
 		
 		if m:
 			first, second = m.groups()
