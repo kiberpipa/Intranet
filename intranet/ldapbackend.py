@@ -3,20 +3,21 @@ from django.conf import settings
 
 from intranet.org.models import UserProfile
 
+ldap = None
 
-class backend:
+class LDAPAuthBackend:
     ##return None if the username/password don't match or needed attributes if they do
     def auth(self, username, password):
-        try:
+        global ldap
+        if ldap is None:
             import ldap
-        except ImportError:
-            return None
+
         ##define some vars we gonna use in this function
         base = "dc=kiberpipa,dc=org"
         user = 'uid=%s,ou=people,dc=kiberpipa,dc=org' % username
         filter = "(&(objectclass=intranet)(uid=%s))" % username
         ret = ['uid']
-        
+
         l = ldap.initialize(settings.LDAP_SERVER)
 
         ##step 1: make sure that the user matching the filter actually exists
@@ -32,16 +33,15 @@ class backend:
         #example result_data: [('uid=puffs,ou=People,dc=kiberpipa,dc=org', {'uid': ['puffs']})]
         #compensate for ldap's case insensitivity
         if result_data[0][1]['uid'][0] != username:
-           return None
+            return None
 
         try:
-            l.simple_bind_s(user, password)
+            l.simple_bind_s(user, password.encode('utf-8'))
             ##if the exception hasn't been raised so far it means the authorization succeded
             return result_data
 
         except ldap.INVALID_CREDENTIALS:
             return None
-
 
     def authenticate(self, username=None, password=None):
         ##make sure the user is authorized
@@ -68,7 +68,6 @@ class backend:
             profile.save()
 
         return user
-
 
     def get_user(self, user_id):
         try:
