@@ -14,8 +14,8 @@ class LDAPAuthBackend:
 
         ##define some vars we gonna use in this function
         base = "dc=kiberpipa,dc=org"
-        user = 'uid=%s,ou=people,dc=kiberpipa,dc=org' % username
-        filter = "(&(objectclass=intranet)(uid=%s))" % username
+        user = 'uid=%s,ou=people,dc=kiberpipa,dc=org' % username.encode('utf-8')
+        filter = "(&(objectclass=intranet)(uid=%s))" % username.encode('utf-8')
         ret = ['uid']
 
         l = ldap.initialize(settings.LDAP_SERVER)
