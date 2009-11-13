@@ -122,8 +122,6 @@ $(document).ready(function() {
     });
     $(".input_author").suggest("/intranet/autocomplete/");
     $('#id_announce').markItUp(mySettings);
-    $('#id_title').keypress(function() { return taLimit(this)  });
-    $('#id_title').keyup(function() { return taCount(this,'myCounter') });
 });
   
   </script>
@@ -161,7 +159,6 @@ $(document).ready(function() {
     {{ form.title.errors }}
     {{ form.title.label_tag }}
     {{ form.title }}
-    <SPAN id=myCounter>64</SPAN> left
     <br />
     {{ form.project.errors }}
     <label for="id_project">Projekti:</label>
