@@ -4,7 +4,7 @@ Development setup
 
 Get required packages::
 
-	sudo apt-get install python-reportlab
+	sudo apt-get install python-reportlab python-ldap python-imaging python-excelerator python-tz python-simplejson
 
 Get intranet::
 
