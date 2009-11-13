@@ -2,28 +2,30 @@
 Development setup
 =================
 
-Get required packages
+Get required packages::
 
-$ sudo apt-get install python-reportlab
+	sudo apt-get install python-reportlab
 
-Get intranet
+Get intranet::
 
-$ svn co https://www.kiberpipa.org/svn/intranet/rd666
+	svn co https://www.kiberpipa.org/svn/intranet/rd666
 
-change dir to checked out project..
+Change dir to checked out project::
 
-$ cd rd666
+	cd rd666
 
-Copy over default settings..
+Copy over default settings::
 
-$ cp localsettings.py.example localsettings.py
+	cp localsettings.py.example localsettings.py
 
-Create the (default is Sqlite3) database..
+Create the (default is Sqlite3) database::
 
-$ ./manage.py syncdb
+	./manage.py syncdb
 
 Start the development server. Wahoo!
 
-$ ./manage.py runserver
+::
+
+	./manage.py runserver
 
 
