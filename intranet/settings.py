@@ -142,4 +142,6 @@ EMAIL_SUBJECT_PREFIX = '[intranet] '
 SERVER_EMAIL = 'intranet@kiberpipa.org'
 APPEND_SLASH = True
 
+TWITTER_SYNC_KEYWORDS = ['kiberpipa']
+
 from localsettings import *

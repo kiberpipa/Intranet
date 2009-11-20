@@ -7,6 +7,24 @@ class Command(BaseCommand):
 	)
 	
 	def handle(self, *args, **options):
+		
+		self.sync_twits(*args, **options)
+		self.emit_twits(*args, **options)
+	
+	def sync_twits(self, *args, **options):
+		import feedparser
+		from django.conf import settings
+		from syncr.app.tweet import TwitterSyncr
+		
+		for kwd in settings.TWITTER_SYNC_KEYWORDS:
+			TwitterSearchFeed = feedparser.parse("http://search.twitter.com/search.atom?q=%s" % kwd)
+			
+			tsyncr = TwitterSyncr(settings.TWITTER_USERNAME, settings.TWITTER_PASSWORD)
+			for tweet in TwitterSearchFeed.entries:
+				tweet_id = tweet.id[tweet.id.rindex(':')+1:]
+				tsyncr.syncTweet(tweet_id)
+	
+	def emit_twits(self, *args, **options):
 		import datetime
 		from os.path import join
 		import simplejson
