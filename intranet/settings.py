@@ -112,6 +112,8 @@ INSTALLED_APPS = (
     'localeurl',
     'pipa.video',
     'pipa.ltsp',
+    'syncr.twitter',
+    'tagging',
 )
 
 TEMPLATE_DIRS = (
