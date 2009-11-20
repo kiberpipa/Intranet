@@ -1,6 +1,7 @@
 
 from django.conf.urls.defaults import *
 
-urlpatterns = patterns('',
-	(r'^background.png', 'pipa.ltsp.service.ltsp_background_image'),
+urlpatterns = patterns('pipa.ltsp.service',
+	(r'^background.png', 'ltsp_background_image'),
+	(r'^usage/', 'internet_usage_report'),
 	)

@@ -111,6 +111,7 @@ INSTALLED_APPS = (
     'feedjack', # FIXME
     'localeurl',
     'pipa.video',
+    'pipa.ltsp',
 )
 
 TEMPLATE_DIRS = (

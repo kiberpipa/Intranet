@@ -1,14 +1,18 @@
 # -*- coding: utf-8 -*-
+import md5
 import os
 import re
 import datetime
 import locale
 from cStringIO import StringIO
+import simplejson
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.conf import settings
 from PIL import Image, ImageDraw, ImageFont
 
 from intranet.org.models import Event
+from pipa.ltsp.models import Usage
 
 TEMPLATE = os.path.join(os.path.dirname(__file__),'template.png')
 FONTFILE = os.path.join(os.path.dirname(__file__),'FreeSansBold.ttf')
@@ -66,3 +70,38 @@ def ltsp_background_image(request):
 	
 	response = HttpResponse(content, mimetype="image/png")
 	return response
+
+def internet_usage_report(request):
+	"""
+	LTSP reporting internet usage.
+	
+	To use it, you need to do a POST request with parameters
+	data and sign, data is json encoded dict with datetime and count.
+	Example:
+	
+	 {'time': [2009, 3, 2, 22, 37, 23, 0], 'count': 10}
+	
+	sign(ature) is a MD5 hash of serialized JSON with appended shared secret.
+	"""
+	if not request.method == 'POST':
+		raise Http404
+	
+	data = request.POST.get('data', None)
+	sign = request.POST.get('sign', None)
+	
+	if not data or not sign:
+		return HttpResponse(simplejson.dumps({'status': 'fail'}))
+	
+	try:
+		json = simplejson.loads(data)
+	except ValueError:
+		return HttpResponse(simplejson.dumps({'status': 'fail'}))
+	t, all = json.get('time', ''), json.get('count', 0)
+	
+	if sign == md5.new(data + settings.LTSP_USAGE_SECRET).hexdigest():
+		cnt = Usage(time=datetime.datetime(*t), count=all)
+		cnt.save()
+	else:
+		return HttpResponse(simplejson.dumps({'status': 'fail'}))
+	return HttpResponse(simplejson.dumps({'status': 'ok'}))
+
