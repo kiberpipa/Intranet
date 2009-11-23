@@ -9,7 +9,8 @@ class Command(BaseCommand):
 	def handle(self, *args, **options):
 		
 		self.sync_twits(*args, **options)
-		self.emit_twits(*args, **options)
+		# commented this out because people don't know what some fields mean in intranet.
+		#self.emit_twits(*args, **options)
 	
 	def sync_twits(self, *args, **options):
 		import feedparser
