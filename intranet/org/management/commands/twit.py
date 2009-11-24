@@ -17,10 +17,17 @@ class Command(BaseCommand):
 		from django.conf import settings
 		from syncr.app.tweet import TwitterSyncr
 		
-		for kwd in settings.TWITTER_SYNC_KEYWORDS:
+		tsyncr = TwitterSyncr(settings.TWITTER_USERNAME, settings.TWITTER_PASSWORD)
+		for kwd in settings.TWITTER_SYNC.get('keywords', []):
 			TwitterSearchFeed = feedparser.parse("http://search.twitter.com/search.atom?q=%s" % kwd)
 			
-			tsyncr = TwitterSyncr(settings.TWITTER_USERNAME, settings.TWITTER_PASSWORD)
+			for tweet in TwitterSearchFeed.entries:
+				tweet_id = tweet.id[tweet.id.rindex(':')+1:]
+				tsyncr.syncTweet(tweet_id)
+		
+		for user in settings.TWITTER_SYNC.get('user', []):
+			TwitterSearchFeed = feedparser.parse("http://twitter.com/statuses/user_timeline/%s.rss" % user)
+			
 			for tweet in TwitterSearchFeed.entries:
 				tweet_id = tweet.id[tweet.id.rindex(':')+1:]
 				tsyncr.syncTweet(tweet_id)
