@@ -1,0 +1,35 @@
+{% extends "org/base_2col.html" %}
+{% block title %}Mercenaries{% endblock %}
+
+{% load math %}
+
+{% block heading %}
+        <h1>Pipa's mercenaries</h1><br />
+{% endblock %}
+
+{% block content-related-left %}
+    <a href="{{ add_link }}">Dodaj novega</a>
+{% endblock %} 
+
+{% block content-main %}
+
+        <div class="module" id="recent-actions-module">
+        <h2>
+
+        <a href="{% ifequal month "1" %}../../{{ year|sub:"1" }}/12/{% else %}../../{{ year }}/{{ month|sub:"1" }}/{% endifequal %}">&lt;&lt;</a>
+        {{ year }} -- {{ hmonth }}
+        <a href="{% ifequal month "12" %}../../{{ year|add:"1" }}/1/{% else %}../../{{ year }}/{{ month|add:"1" }}/{% endifequal %}">&gt;&gt;</a></h2><br />
+
+        {% for mercenary, amount in mercenaries.items %}
+            <div class="module"><p>
+            {{ mercenary }} {{ amount }} &nbsp; <a href="{{ mercenary.id }}/placa">Obrazec</a>
+            </p></div>
+        {% endfor %}
+
+        <div class="module">
+        <p>Vsi {{ all }} &nbsp; <a href="vsi/placa/">Obrazec</a></p>
+        <p>Compact &nbsp; <a href="compact/placa/">Compact</a></p>
+        </div>
+
+        </div>
+{% endblock %}

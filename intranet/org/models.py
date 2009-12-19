@@ -15,6 +15,9 @@ import socket
 from PIL import Image
 import re
 
+# FIXME
+from pipa.mercenaries.models import CostCenter, SalaryType
+
 # Create your models here.
 
 class Tag(models.Model):
@@ -31,34 +34,6 @@ class Tag(models.Model):
 
     def __cmp__(self, other):
         return cmp(self.total_ref, other.total_ref)
-
-
-#mercenaries
-
-class SalaryType(models.Model):
-    name = models.CharField(max_length=200)
-
-    def __unicode__(self):
-        return self.name
-
-class CostCenter(models.Model):
-    name = models.CharField(max_length=200)
-
-    def __unicode__(self):
-        return self.name
-
-class Mercenary(models.Model):
-    person = models.ForeignKey(User)
-    amount = models.IntegerField()
-    salary_type = models.ForeignKey(SalaryType)
-    cost_center = models.ForeignKey(CostCenter)
-    description = models.TextField()
-
-
-    history = audit.AuditTrail()
-
-    def __unicode__(self):
-        return '%s: %s' % (self.person, self.amount)
 
 
 class Project(models.Model):

@@ -112,6 +112,7 @@ INSTALLED_APPS = (
     'localeurl',
     'pipa.video',
     'pipa.ltsp',
+    'pipa.mercenaries',
     'syncr.twitter',
     'tagging',
 )

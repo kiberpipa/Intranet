@@ -1,11 +1,7 @@
 from datetime import datetime
 
-
 def salary_xls(compact, bureaucrat, params):
-    try:
-        from pyExcelerator import *
-    except ImportError:
-        return None
+    from pyExcelerator import *
     title = Font()
     title.name = 'Arial'
     title.bold = True
@@ -71,10 +67,7 @@ def salary_xls(compact, bureaucrat, params):
         for i in params:
             line += 1
             ws.write(line, 0, i['mercenary'], obican)
-            try:
-                ws.write(line, 1, i['hours'], obican)
-            except KeyError:
-                pass
+            ws.write(line, 1, float(i.get('hours','0')) or '', obican)
             ws.write(line, 2, i['description'], obican)
             ws.write(line, 3, 'Kiberpipa', obican)
             ws.write(line, 4, i['cost_center'], obican)
@@ -115,12 +108,9 @@ def salary_xls(compact, bureaucrat, params):
             ws.write(line, 1, 'Ime in priimek:', obican)
             ws.write(line, 3, i['mercenary'], obican)
             
-            try:
-                line += 2
-                ws.write(line, 1, 'Stevilo ur', obican)
-                ws.write(line, 3, i['hours'], obican)
-            except KeyError:
-                pass
+            line += 2
+            ws.write(line, 1, 'Stevilo ur', obican)
+            ws.write(line, 3, float(i.get('hours', 0)) or '', obican)
 
             line += 2
             ws.write(line, 1, 'Znesek', obican)

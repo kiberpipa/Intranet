@@ -28,7 +28,7 @@ import md5
 from intranet.org.models import UserProfile, Project, Category, Email, \
     Place, Event, Shopping, Person, Sodelovanje, TipSodelovanja, Task, Diary, \
     StickyNote, Lend, Resolution, KbCategory, KB, Tag, \
-    Scratchpad, Clipping, Mercenary
+    Scratchpad, Clipping
 from intranet.org.forms import *
 from xls import salary_xls
 
@@ -655,127 +655,6 @@ def _get_begin_end(year=None, month=None):
 
     end = begin.replace(month=next)
     return (begin, end)
-
-def _get_mercenaries(year=None, month=None):
-    begin, end = _get_begin_end(year, month)
-    mercenaries = {}
-    for i in Mercenary.objects.all():
-        #find the one that was active at the requested time
-        history = i.history.all()
-        count = i.history.count()-1
-        for j in range(0, count+1):
-            if j == count:
-                i = history[count]
-            else:
-                if j == 0:
-                    if end > history[j]._audit_timestamp:
-                        i = history[j]
-                        break
-                if (history[j]._audit_timestamp > end) and (end > history[j+1]._audit_timestamp):
-                    i = history[j+1]
-                    break
-
-        try:
-            mercenaries[i.person]
-        except KeyError:
-            mercenaries[i.person] = 0
-
-        mercenaries[i.person] += i.amount
-
-
-    for i in Diary.objects.filter(task__salary_rate__isnull = False, date__gte=begin, date__lt=end):
-        try:
-            mercenaries[i.author]
-        except KeyError:
-            mercenaries[i.author] = 0
-       
-        salary_rate = i.task.salary_rate
-        history = i.task.history.all()
-        count = i.task.history.count()-1
-        for j in range(0, count+1):
-            if j == count:
-                salary_rate = history[count].salary_rate
-                break
-            else:
-                if j == 0:
-                    if end > history[j]._audit_timestamp:
-                        salary_rate = history[j].salary_rate
-                        break
-                if (history[j]._audit_timestamp > end) and (end > history[j+1]._audit_timestamp):
-                    salary_rate = history[j+1].salary_rate
-                    break
-
-        mercenaries[i.author] += i.length.hour * salary_rate
-
-    return mercenaries
-
-def mercenaries(request, year = None, month=None):
-    if year == None:
-        return HttpResponseRedirect('%s/%s/' % (datetime.datetime.today().year, datetime.datetime.today().month))
-
-    mercenaries = _get_mercenaries(year, month)
-    all = 0
-    for m in mercenaries:
-        all += mercenaries[m]
-
-
-    return render_to_response('org/mercenaries.html', 
-        {'add_link': '%s/intranet/admin/org/mercenary/add/' % settings.BASE_URL,
-        'mercenaries': mercenaries, 'year': year, 'month': month, 'all': all, 
-        'hmonth': datetime.datetime(int(year), int(month), 1).strftime('%B')},
-        context_instance=RequestContext(request))
-mercenaries = login_required(mercenaries)
-
-def mercenary_salary(request, year, month, id):
-    mercenaries = []
-    begin, end = _get_begin_end(year, month)
-    output = StringIO()
-    params = []
-    if id == 'compact':
-        compact = True
-    else:
-        compact = False
-
-    if id == 'vsi' or id == 'compact':
-        for i in _get_mercenaries(year, month):
-            mercenaries.append(i)
-        filename = 'place_%d_%d' % (begin.month, begin.year)
-        if compact:
-            filename = 'compact_place_%d_%d' % (begin.month, begin.year)
-    else:
-        mercenaries.append(User.objects.get(pk=id))
-        filename = unicode(mercenaries[0])
-
-    for mercenary in mercenaries:
-        try:
-            m = Mercenary.objects.get(person=mercenary)
-            params.append({'mercenary': mercenary.get_full_name(),
-                    'amount':  _get_mercenaries(year, month)[mercenary],
-                    'cost_center': unicode(m.cost_center),
-                    'salary_type':  unicode(m.salary_type),
-                    'description': unicode(m.description),
-                    })
-        except Mercenary.DoesNotExist:
-            hours = 0
-            for d in Diary.objects.filter(author=mercenary, date__gte=begin, date__lt=end):
-                hours += d.length.hour
-            project = d.task
-            params.append({'mercenary': mercenary.get_full_name(),
-                    'amount':  _get_mercenaries(year, month)[mercenary],
-                    'cost_center': unicode(project.cost_center),
-                    'salary_type':  unicode(project.salary_type),
-                    'hours': hours,
-                    'description': unicode(project),
-                    })
-    output.write(salary_xls(compact=compact, bureaucrat=request.user.get_full_name(), params=params))
-
-    response = HttpResponse(mimetype='application/octet-stream')
-    response['Content-Disposition'] = "attachment; filename=" + filename + '.xls'
-    response.write(output.getvalue())
-    return response
-mercenary_salary = login_required(mercenary_salary)
-
-##################################################
 
 def person(request):
     if request.method == 'POST':

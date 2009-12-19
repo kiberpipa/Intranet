@@ -161,11 +161,6 @@ urlpatterns = patterns('',
     #(r'^sodelovanja/(?P<object_id>\d+)', 'django.views.generic.list_detail.object_detail', sodelovanje_detail),
     (r'^sodelovanja/person/$', 'intranet.org.views.person'),
 
-
-    (r'^mercenaries/(?P<year>\d+)?/?(?P<month>\d+)?/?$', 'intranet.org.views.mercenaries'),
-    #(r'^mercenaries/(<?P<id>\d+)/placa$', 'intranet.org.views.mercenary_salary'),
-    (r'^mercenaries/(?P<year>\d+)?/?(?P<month>\d+)?/?(?P<id>\d+|vsi|compact)/placa/$', 'intranet.org.views.mercenary_salary'),
-
     (r'^clipping/add/', 'intranet.org.views.clipping_add'),
     (r'^clipping/', 'intranet.org.views.clipping'),
 
@@ -228,4 +223,8 @@ urlpatterns += patterns('django.views.generic.date_based',
 
     #(r'lends/?$',    'archive_index', lend_dict),
 #    (r'shopping/?$',    'archive_index', shopping_dict),
+)
+
+urlpatterns += patterns('',
+    (r'^mercenaries/', include('pipa.mercenaries.urls')),
 )
