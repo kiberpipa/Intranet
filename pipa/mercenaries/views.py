@@ -13,7 +13,7 @@ from pipa.mercenaries.xls import salary_xls
 
 def _recalculate_mercenarymonth(year, month):
 	from intranet.org.models import Diary
-	diaries = Diary.objects.filter(pub_date__year=year, pub_date__month=month)
+	diaries = Diary.objects.filter(date__year=year, date__month=month)
 	
 	MercenaryMonth.objects.filter(month__year=year, month__month=month).delete()
 	the_month = datetime.date(year, month, 1)

@@ -76,7 +76,7 @@ def salary_xls(compact, bureaucrat, params):
             amount += i['amount']
 
         line += 2
-        ws.write(line, 5, amount, subtitle_style)
+        ws.write(line, 5, str(amount), subtitle_style)
 
         line +=2 
         ws.write(line, 0,'Nalog Izdal', obican)
