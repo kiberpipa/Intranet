@@ -16,11 +16,12 @@ def _recalculate_mercenarymonth(year, month):
 	diaries = Diary.objects.filter(pub_date__year=year, pub_date__month=month)
 	
 	MercenaryMonth.objects.filter(month__year=year, month__month=month).delete()
+	the_month = datetime.date(year, month, 1)
 	mercenaries = {}
 	for d in diaries:
 		mercenary = mercenaries.get(d.author.id, None)
 		if mercenary is None:
-			mercenary, created = MercenaryMonth.objects.get_or_create(person=d.author)
+			mercenary, created = MercenaryMonth.objects.get_or_create(person=d.author, month=the_month)
 		
 		if d.task.cost_center:
 			mercenary.wage_per_hour = d.task.cost_center.wage_per_hour
