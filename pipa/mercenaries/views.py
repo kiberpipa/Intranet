@@ -80,13 +80,14 @@ def export_xls(request, year, month, id):
 	params = []
 	
 	for m in MercenaryMonth.objects.filter(month__year=year, month__month=month):
-		params.append({'mercenary': m.person.get_full_name(),
-			'amount': m.amount,
-			'hours': m.hours,
-			'cost_center': unicode(m.cost_center),
-			'salary_type': unicode(m.salary_type),
-			'description': unicode(m.description),
-			})
+		if m.amount > 0:
+			params.append({'mercenary': m.person.get_full_name(),
+				'amount': m.amount,
+				'hours': m.hours,
+				'cost_center': unicode(m.cost_center),
+				'salary_type': unicode(m.salary_type),
+				'description': unicode(m.description),
+				})
 	
 	output = StringIO()
 	output.write(salary_xls(compact=compact, bureaucrat=request.user.get_full_name(), params=params))
