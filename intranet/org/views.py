@@ -30,7 +30,6 @@ from intranet.org.models import UserProfile, Project, Category, Email, \
     StickyNote, Lend, Resolution, KbCategory, KB, Tag, \
     Scratchpad, Clipping
 from intranet.org.forms import *
-from xls import salary_xls
 
 #from intranet.photologue.models import Gallery, GalleryUpload
 
