@@ -53,7 +53,7 @@ urlpatterns = patterns('',
 if settings.DEBUG:
   from intranet.settings import next_to_this_file
   urlpatterns += patterns('',
-    (r'^smedia/(?P<path>.*)$', 'django.views.static.serve', {'document_root':   next_to_this_file(__file__, '../media')}),
+    (r'^smedia/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     #for shorter urls
     (r'^img/(?P<path>.*)$', 'django.views.static.serve', {'document_root':   next_to_this_file(__file__, '../media/photologue/photos')}),
     (r'^amedia/(?P<path>.*)$', 'django.views.static.serve', {'document_root':   next_to_this_file(__file__, '../admin-media')}),
