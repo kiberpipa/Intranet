@@ -8,14 +8,14 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 
 
-from pipa.mercenaries.models import MercenaryMonth
+from pipa.mercenaries.models import MercenaryMonth, FixedMercenary, CostCenter, SalaryType
 from pipa.mercenaries.xls import salary_xls
 
 def _recalculate_mercenarymonth(year, month):
 	from intranet.org.models import Diary
 	diaries = Diary.objects.filter(date__year=year, date__month=month)
 	
-	MercenaryMonth.objects.filter(month__year=year, month__month=month).delete()
+	MercenaryMonth.objects.filter(month__year=year, month__month=month, mercenary_type=MercenaryMonth.TYPE_HOURLY).delete()
 	the_month = datetime.date(year, month, 1)
 	mercenaries = {}
 	for d in diaries:
@@ -35,6 +35,19 @@ def _recalculate_mercenarymonth(year, month):
 	
 	for author, m in mercenaries.iteritems():
 		m.save()
+	
+	today = datetime.date.today()
+	if today.month == month and today.year == year:
+		# XXX FIXME: hardcoded
+		cost_ctr = CostCenter.objects.get(id=2)
+		slry = SalaryType.objects.get(id=2)
+		for fm in FixedMercenary.objects.all():
+			try:
+				mm = MercenaryMonth.objects.get(person=fm.person)
+			except MercenaryMonth.DoesNotExist:
+				mm = MercenaryMonth(person=fm.person, amount=fm.amount, hours=1,
+						wage_per_hour=fm.amount, month=the_month, mercenary_type=MercenaryMonth.TYPE_FIXED, cost_center=cost_ctr, salary_type=slry)
+				mm.save()
 
 def index(request, year, month):
 	today = datetime.date.today()
@@ -73,13 +86,16 @@ def export_xls(request, year, month, id):
 		_recalculate_mercenarymonth(year, month)
 	
 	compact = False
-	if id == 'compact':
+	filename = 'place_redni_%d_%d' % (month, year)
+	mtype = MercenaryMonth.TYPE_FIXED
+	if id == 'napotnice':
 		compact = True
-	filename = 'place_%d_%d' % (month, year)
+		filename = 'napotnice_%d_%d' % (month, year)
+		mtype = MercenaryMonth.TYPE_HOURLY
 	
 	params = []
 	
-	for m in MercenaryMonth.objects.filter(month__year=year, month__month=month):
+	for m in MercenaryMonth.objects.filter(month__year=year, month__month=month, mercenary_type=mtype):
 		if m.amount > 0:
 			params.append({'mercenary': m.person.get_full_name(),
 				'amount': m.amount,
@@ -90,7 +106,8 @@ def export_xls(request, year, month, id):
 				})
 	
 	output = StringIO()
-	output.write(salary_xls(compact=compact, bureaucrat=request.user.get_full_name(), params=params))
+	if params:
+		output.write(salary_xls(compact=compact, bureaucrat=request.user.get_full_name(), params=params))
 	response = HttpResponse(mimetype='application/octet-stream')
 	response['Content-Disposition'] = "attachment; filename=" + filename + '.xls'
 	response.write(output.getvalue())
