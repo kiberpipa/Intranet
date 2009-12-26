@@ -1,5 +1,7 @@
 @import url(global.css);
 
+div.loginbox { width: 300px; margin: 0 auto; }
+
 table {
     width: 100%;
     background-color: white;
