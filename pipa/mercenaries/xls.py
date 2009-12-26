@@ -124,7 +124,7 @@ def salary_xls(compact, bureaucrat, params):
 
             line += 4
             ws.write_merge(line, line, 1, 2, 'Projekt/sluzba in stroskovno mesto:', obican) 
-            ws.write(line, 3, i['cost_center'], obican)
+            ws.write(line, 3, "Kiberpipa %s" % (i['cost_center'],), obican)
 
             line += 3
             ws.write(line, 1, 'Nacin placila', obican)
