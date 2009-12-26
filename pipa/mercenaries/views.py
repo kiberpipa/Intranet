@@ -64,7 +64,8 @@ def index(request, year, month):
 	
 	total = 0
 	for m in mercenaries:
-		total += m.amount
+		if m.salary_type_id in (None, 1):
+			total += m.amount
 	
 	context = {
 		'add_link': '%s/intranet/admin/org/mercenary/add/' % settings.BASE_URL,
