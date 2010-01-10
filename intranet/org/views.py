@@ -924,9 +924,9 @@ def tehniki(request, year=None, week=None):
     navigation = weekly_navigation (year, week_number, week_start, week_end)
 
     return render_to_response('org/tehniki_index.html',
-                             {'month':week,
-                             'log_list':log_list,
-                             'month_number': month_number,
+                             {'month': week,
+                             'log_list': log_list,
+                             'month_number': week_number,
                              'month_name': reverse_month_dict[month_number],
                              'what': 'teden',
                              'iso_week': week_number,
