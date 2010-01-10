@@ -49,9 +49,9 @@ def salary_xls(compact, bureaucrat, params):
 
     if compact:
         ws = wb.add_sheet('compact')
-        ws.col(0).width = 0x2500
+        ws.col(0).width = 0x1900
         ws.col(1).width = 0x700
-        ws.col(2).width = 0x3500
+        ws.col(2).width = 0x1600
         ws.col(4).width = 0x1700
 
         line = 0
