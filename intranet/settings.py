@@ -129,7 +129,7 @@ FIXTURE_DIRS = (
 AUTH_PROFILE_MODULE = 'org.UserProfile'
 REQUIRE_LOGIN_PATH = '/intranet/accounts/login/'
 AUTHENTICATION_BACKENDS = (
-    'intranet.ldapbackend.LDAPAuthBackend',
+    'pipa.ldap.authbackend.LDAPAuthBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 PHOTOLOGUE_DIR = 'photo/'
