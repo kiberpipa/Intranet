@@ -1,0 +1,64 @@
+{% extends "org/base_3col.html" %}
+
+{% block title %}Imenik{% endblock %}
+
+{% block heading %}
+    <h1>Kdo je kdo</h1>
+{% endblock %}
+
+{% block content-related-left %}
+  <div>
+  <div class="module" id="recent-actions-module">
+  <h2 class="expand">Spreminjanje LDAP passworda</h2>
+  <div class="hideme">
+  {% if change_pass_message %}
+    <em>{{ change_pass_message }}</em>
+  {% endif %}
+  <form method="post" action=".">
+  {{ change_pass.as_p }}
+  <input type="submit">
+  </form>
+  </div>
+  </div>
+<div class="module" id="recent-actions-module">
+    <h2 class="expand">Moj Profil</h2>
+    {{ profile_form.as_p }}
+    </div>
+  </div>
+{% endblock %}
+
+{% block content-main %}
+        {% for profile in object_list %}
+        {% if profile.user.is_active %}
+<div class="module">
+    <h2><a name="{{ profile.user.username }}">{{ profile.user.first_name }} "{{ profile.user.username }}" {{ profile.user.last_name }}</a></h2>
+        <div class="user">
+            <ul>
+                {% if profile %}
+                <li>E-pošta: <a href="mailto:{{ profile.user.email }}">{{ profile.user.email }}</a></li>
+{% if profile.phone %}<li>Telefon: {{ profile.phone }}</li>{% endif %}
+{% if profile.skype %}<li>Skype: {{ profile.skype }}</li>{% endif %}
+{% if profile.jabber %}<li>Jabber/Gtalk: {{ profile.jabber }}</li>{% endif %}
+{% if profile.msn %}<li>MSN: {{ profile.msn }}</li>{% endif %}
+{% if profile.yahoo %}<li>Yahoo: {{ profile.yahoo }}</li>{% endif %}
+                {% endif %}
+                {% for project in profile.project.all %}
+                <li>Projekt: {{ project }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+</div>
+        {% endif %}
+        {% endfor %}
+{% endblock %}
+
+{% block content-related-right %}
+<div class="module">
+    <h2>Kazalo</h2>
+    <ul>
+    {% for profile in object_list %}
+        <li><a href="#{{ profile.user.username }}">{{ profile.user.username }}</a></li>
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}
