@@ -182,6 +182,7 @@ urlpatterns = patterns('',
     (r'^kb/$', 'intranet.org.views.kb_index'),
 
     (r'^imenik/$', 'intranet.org.views.imenik'),
+    (r'^addressbook/$', 'pipa.addressbook.views.addressbook'),
 
 
     (r'^autocomplete/(?P<search>[^/]*)$', 'intranet.org.views.autocomplete'),
