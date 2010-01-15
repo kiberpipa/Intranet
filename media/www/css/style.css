@@ -2,65 +2,67 @@
 
 body {
 	font-family: Arial, Helvetica, sans-serif;
-	background-color: #fff; 
-	color: #000; 
-	padding: 0; 
-	margin: 0; 
+	background-color: #fff;
+	color: #000;
+	padding: 0;
+	margin: 0;
 	text-align: center;
 	}
 
-a img {border: none;}
-	
+a img {
+	border: none;
+}
+
 #container {
-	background: #fff; 
+	background: #fff;
 	width: 960px;
 	text-align: left;
-  	margin-left: auto;
- 	margin-right: auto;
-	}
-	
+	margin-left: auto;
+	margin-right: auto;
+}
+
 /* Header styling */
-	
+
 #header {
 	width: 960px;
 	height: 60px;
 	border-bottom: 2px solid #000;
 	}
-	
+
 .header-logo {
 	width: 153px;
 	height: 45px;
 	padding-top: 8px;
 	padding-left: 10px;
 	float: left;
-	}
-	
+}
+
 .primary-nav {
-	float:left; 
-	width: 330px; 
-	padding-top: 26px; 
+	float: left;
+	width: 330px;
+	padding-top: 26px;
 	padding-left: 200px;
 	color: #000;
-	}
-		
+}
+
 .searchbox {
-	float:left; 
-	width: 70px; 
-	padding-top: 15px; 
+	float: left;
+	width: 70px;
+	padding-top: 15px;
 	padding-left: 15px;
-	background: #fff; 
-	}
+	background: #fff;
+}
 
 .searchbox-form {
 	margin: 5px 10px 5px 10px;
-	}
-	
+}
+
 .language {
 	padding-top: 26px;
 	padding-right: 5px;
 	float: right;
-	}
-	
+}
+
 /* End of header styling*/
 
 /* Upcoming and notifier ala 3 slikice, ki se izmenjujejo */
@@ -69,60 +71,60 @@ a img {border: none;}
 	width: 960px;
 	height: 320px;
 	margin-top: 50px;
-	}
-	
-.rss-index {float: right; margin: 10px;}
-	
+}
+
+.rss-index {
+	float: right;
+	margin: 10px;
+}
+
 .next3-left {
-float: left;
-	}
+	float: left;
+}
 
 .next3-right {
-float: left;
-	}
+	float: left;
+}
 
-	
 .past3 {
 	float: left;
 	width: 27px;
 	margin: 78px 10px 0 0;
-	}
+}
 
 .past {
 	float: left;
 	width: 27px;
 	margin-top: 65px;
-	}
+}
 
-	
 .present {
 	float: left;
-	}
-
+}
 
 .present-event-text {
-  width: 250px;
-  }
+	width: 250px;
+}
 
 .present-event-date {
-  width: 250px;
-  padding:5px 0;
-  font-size: 12px;
-  }
+	width: 250px;
+	padding:5px 0;
+	font-size: 12px;
+}
 
 .present-event-desc {
-  width: 250px;
-  padding:5px 0;
-  font-size: 12px;
-  }
+	width: 250px;
+	padding:5px 0;
+	font-size: 12px;
+}
 
 .present-event-desc-ime {
-  width: 250px;
-  padding-top:5px;
-  font-size: 12px;
-  font-weight: bold;
-  }
-	
+	width: 250px;
+	padding-top:5px;
+	font-size: 12px;
+	font-weight: bold;
+}
+
 .present-now {
 	float: left;
 	padding-left: 13px;
@@ -1030,16 +1032,15 @@ float: left;
 	}
 	
 .community-person {
-	width: 480px;
+	width: 478px;
 	float: left;
 	padding-top: 10px;
-	padding-bottom: 25px;
-	min-height: 150px;
+	padding-bottom: 15px;
+	min-height: 180px;
 }
 
 .community-details {
 	font-size: 14px;
-	float: left;
 	width: 350px;
 	padding-left: 20px;
 }
@@ -1050,24 +1051,28 @@ float: left;
 .alumni-desc {font-size: 12px; line-height: 18px;}
 .alumni-title-p {line-height: 20px; font-weight: bold;}
 
-.community-img-s {clear: left;}
-
 .community-img-s img {
 	width: 20px;
 	margin-right: 10px;
 	border: 1px solid #000000;
-	float: left;
 }
-	
+
 .community-content-img {
 	width: 80px;
+	height: 80px;
+	position: relative;
 	float: left;
-	border: 1px solid #000000;
+	border: 1px solid black;
 	padding: 0;
-	margin-top: 6px;
-	margin-bottom: 10px;
-	}
-	
+	margin: 0 10px 10px 0;
+}
+
+div.community-content-img img {
+	position: absolute;
+	clip:rect(0px,80px,80px,0px);
+}
+
+
 /* End of community */
 
 /* RSS seznam */

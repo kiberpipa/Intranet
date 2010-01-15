@@ -113,6 +113,7 @@ INSTALLED_APPS = (
     'pipa.video',
     'pipa.ltsp',
     'pipa.mercenaries',
+    'pipa.addressbook',
     'syncr.twitter',
     'tagging',
 )
