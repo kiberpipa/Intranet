@@ -58,6 +58,11 @@ class Project(models.Model):
     email_members = models.NullBooleanField(default=True)
 
     #tags = models.ManyToManyField(Tag, blank=True, null=True)
+    
+    class Meta:
+        verbose_name = 'Projekt'
+        verbose_name_plural = 'Projekti'
+        ordering = ('name',)
 
     def __unicode__(self):
         return self.name
@@ -73,12 +78,7 @@ class Project(models.Model):
                     related.append(s)
             else:
                 related.append(child)
-        
         return related
-
-    class Meta:
-        verbose_name = 'Projekt'
-        verbose_name_plural = 'Projekti'
 
 class UserProfile(models.Model):
     mobile = models.CharField(max_length=100)
@@ -200,6 +200,11 @@ class Event(models.Model):
     #for video spamming
     emails = models.ManyToManyField(Email, blank=True, null=True)
 
+    class Meta:
+        verbose_name = 'Dogodek'
+        verbose_name_plural = 'Dogodki'
+        ordering = ('title',)
+
     def index_image(self):
         index = re.sub('(?P<filename>.*)(?P<ext>\..*)', '\g<filename>-index\g<ext>', self.image._name)
         from os.path import exists
@@ -271,10 +276,6 @@ class Event(models.Model):
         return self._next_previous_helper('previous')
 
 
-    class Meta:
-        verbose_name = 'Dogodek'
-        verbose_name_plural = 'Dogodki'
-
 class TipSodelovanja(models.Model):
     name = models.CharField(max_length=40)
 
@@ -306,6 +307,9 @@ class Person(models.Model):
     ##TODO
     #- projekti ##should be parsed from Event, i think
     #- `vloga' (a je tip/bejba novinar, direktor, marketingar...)
+
+    class Meta:
+        ordering = ('name',)
 
     def __unicode__(self):
         return self.name
