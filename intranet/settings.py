@@ -126,7 +126,7 @@ FIXTURE_DIRS = (
     next_to_this_file(__file__, 'fixtures'),
 )
 
-AUTH_PROFILE_MODULE = 'org.UserProfile'
+AUTH_PROFILE_MODULE = 'addressbook.PipaProfile'
 REQUIRE_LOGIN_PATH = '/intranet/accounts/login/'
 AUTHENTICATION_BACKENDS = (
     'pipa.ldap.authbackend.LDAPAuthBackend',
