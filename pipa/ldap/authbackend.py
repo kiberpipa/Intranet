@@ -1,8 +1,6 @@
 from django.contrib.auth.models import User
 from django.conf import settings
 
-from intranet.org.models import UserProfile
-
 ldap = None
 
 class LDAPAuthBackend:
@@ -64,12 +62,6 @@ class LDAPAuthBackend:
         # if a user still exists in ldap AND tries to log in, should be safe to set the active flag
         user.is_active = True
         user.save()
-
-        try:
-            UserProfile.objects.get(user=user)
-        except UserProfile.DoesNotExist:
-            profile = UserProfile(user=user)
-            profile.save()
 
         return user
 
