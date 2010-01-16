@@ -7,7 +7,6 @@ from django.contrib.auth.models import User
 from pipa.addressbook.models import PipaProfile
 from pipa.addressbook.forms import ProfileForm
 
-@login_required
 def alumni(request):
 	profiles = PipaProfile.objects.filter(show_profile=True).order_by('user__first_name')
 	context = { 'profiles': profiles }
