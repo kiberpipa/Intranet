@@ -16,7 +16,7 @@ class LDAPAuthBackend:
         base = "dc=kiberpipa,dc=org"
         user = 'uid=%s,ou=people,dc=kiberpipa,dc=org' % username.encode('utf-8')
         filter = "(&(objectclass=intranet)(uid=%s))" % username.encode('utf-8')
-        ret = ['uid']
+        ret = ['uid', 'givenName', 'sn']
 
         l = ldap.initialize(settings.LDAP_SERVER)
 
@@ -55,9 +55,13 @@ class LDAPAuthBackend:
         except User.DoesNotExist:
             user = User(username=username)
 
-        #insert any ldap logic here
+        # insert any LDAP logic here
         user.set_password(password)
-        #if a user still exists in ldap AND trys to log in, should be safe to set he active flag
+        if not user.first_name:
+            user.first_name = params[0][1]['givenName'][0]
+        if not user.last_name:
+            user.last_name = params[0][1]['sn'][0]
+        # if a user still exists in ldap AND tries to log in, should be safe to set the active flag
         user.is_active = True
         user.save()
 
