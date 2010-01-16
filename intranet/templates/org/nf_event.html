@@ -18,20 +18,20 @@
     <script type="text/javascript" src="{{ media_url }}js/jquery.imgareaselect-0.6.1.min.js" ></script>
 
 <script type="text/javascript">
-		
+
 function addFormField() {
     var id = document.getElementById("id").value;
     $("#divTxt").append("<p id=\"row" + id + "\"><label for=\"id_author\">Avtor(ji?): </label><input type=\"text\" class=\"input_author\" name=\"author\" id=\"id_author\" /><label for=\"id_tip\"></label><select name=\"tip\" id=\"id_tip\">{% for t in tipi %}<option value=\"{{ t.id }}\">{{ t }}</option>{% endfor %}</select><a href='#' onClick='removeFormField(\"#row" + id + "\"); return false;'>Remove</a></p>");
 
-    
+
     $('#row' + id).highlightFade({
         speed:1000
     });
-    
+
     id = (id - 1) + 2;
     document.getElementById("id").value = id;
 
-   $(".input_author").suggest("/intranet/autocomplete/");
+    $(".input_author").suggest("/intranet/autocomplete/");
 }
 
 function removeFormField(id) {
@@ -45,12 +45,12 @@ function taLimit(taObj) {
     return true;
 }
 
-function taCount(taObj,Cnt) { 
+function taCount(taObj,Cnt) {
     objCnt=createObject(Cnt);
     objVal=taObj.value;
     if (objVal.length>maxL) objVal=objVal.substring(0,maxL);
     if (objCnt) {
-        if(bName == "Netscape"){    
+        if(bName == "Netscape"){
             objCnt.textContent=maxL-objVal.length;}
         else{objCnt.innerText=maxL-objVal.length;}
     }
@@ -161,7 +161,7 @@ $(document).ready(function() {
     {{ form.title }}
     <br />
     {{ form.project.errors }}
-    <label for="id_project">Projekti:</label>
+    <label for="id_project">V okviru projekta:</label>
     {{ form.project }}
   </p>
 	<p>
@@ -187,7 +187,7 @@ $(document).ready(function() {
     {% else %}
 <input type="hidden" id="id" value="2">
 <div id="divTxt">
-        <p id="row1"><label for="id_author">Avtor(ji?): </label>
+        <p id="row1"><label for="id_author">Izvajalci dogodka: </label>
              <input type="text" name="author" class="input_author" id="id_author" />
         <label for="id_tip"></label>
 
@@ -215,21 +215,21 @@ $(document).ready(function() {
     </p>
  <p>
     {{ form.responsible.errors }}
-    <label for="id_responsible">Odgovorni:</label>
+    <label for="id_responsible">Odgovorna oseba:</label>
     {{ form.responsible }}
 </p>
 <p>
     {{ form.public.errors }}
-    <label for="id_public">Javen:</label>
+    <label for="id_public">Dogodek je javen:</label>
     {{ form.public }}
 <hr>
    <p>
-    <label for="id_start_date">Začetni datum:</label>
+    <label for="id_start_date">Čas pričetka:</label>
     {{ form.start_date|safe }}
     <br />
     <br /> 
     {{ form.length.errors }}
-    <label for="id_length">Dolžina:</label>
+    <label for="id_length">Trajanje:</label>
     {{ form.data.length }}
    	<select selected name="length" size="1">   	   
             <option {% ifequal '01:00:00' form.data.length %}selected {% endifequal %} value="01:00:00">1</option>
@@ -253,17 +253,14 @@ $(document).ready(function() {
     {{ form.require_technician.errors }}
     <label for="id_require_technician">Dogodek potrebuje tehnika:</label>
     {{ form.require_technician }}
-    <label for="id_technician">Tehnik:</label>
-    {{ form.technician.errors }}
-    {{ form.technician }}
   <p>
     {{ form.require_video.errors }}
-    <label for="id_require_video">Dogodek je sneman:</label>
+    <label for="id_require_video">Dogodek bo sneman:</label>
     {{ form.require_video }}
   </p>
   <p>
     {{ form.place.errors }}
-    <label for="id_place">Potrebuje prostore:</label>
+    <label for="id_place">Prostor:</label>
     {{ form.place}}
     </p>
   <p>

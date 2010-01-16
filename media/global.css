@@ -187,7 +187,7 @@ form .form-row p { padding-left:0; font-size:11px; }
 
 /*  FORM LABELS  */
 form h4    { margin:0 !important; padding:0 !important; border:none !important; }
-label { font-weight:normal !important; color:#666; font-size:12px; }
+label { float:left; display: block; width: 200px; font-weight:normal !important; color:#666; font-size:12px; }
 label.inline { margin-left:20px; }
 .required label, label.required    { font-weight:bold !important; color:#333 !important; }
 
