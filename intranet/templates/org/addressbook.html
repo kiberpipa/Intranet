@@ -1,4 +1,5 @@
 {% extends "org/base_3col.html" %}
+{% load ldapauth %}
 
 {% block title %}Imenik{% endblock %}
 
@@ -11,13 +12,7 @@
   <div class="module" id="recent-actions-module">
   <h2 class="expand">Spreminjanje LDAP passworda</h2>
   <div class="hideme">
-  {% if change_pass_message %}
-    <em>{{ change_pass_message }}</em>
-  {% endif %}
-  <form method="post" action=".">
-  {{ change_pass.as_p }}
-  <input type="submit">
-  </form>
+  {% ldap_password_change %}
   </div>
   </div>
 <div class="module" id="recent-actions-module">
@@ -59,8 +54,8 @@
 <div class="module">
     <h2>Kazalo</h2>
     <ul>
-    {% for profile in object_list %}
-        <li><a href="#{{ profile.user.username }}">{{ profile.user.username }}</a></li>
+    {% for user in user_list %}
+        <li><a href="#{{ user.username }}">{{ user.username }}</a></li>
     {% endfor %}
     </ul>
 </div>

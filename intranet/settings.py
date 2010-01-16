@@ -34,7 +34,7 @@ LOCALE_INDEPENDENT_PATHS = (
     re.compile('^(modules|index)\.php'),
     re.compile('^rss/?$'),
     re.compile('ajax/'),
-    re.compile('smedia/'),
+    re.compile('[as]media/'),
     re.compile('/i18n/setlang/'),
     re.compile('/jsi18n/'),
     re.compile('^comments/post/$'),
@@ -111,6 +111,7 @@ INSTALLED_APPS = (
     'feedjack', # FIXME
     'localeurl',
     'pipa.video',
+    'pipa.ldap',
     'pipa.ltsp',
     'pipa.mercenaries',
     'pipa.addressbook',
