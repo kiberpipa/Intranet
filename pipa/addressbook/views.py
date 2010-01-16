@@ -1,4 +1,5 @@
 
+from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
@@ -26,6 +27,7 @@ def addressbook(request):
 			request.user.last_name = profile_form.cleaned_data['last_name']
 			request.user.save()
 			profile_form.save()
+			return HttpResponseRedirect(request.path)
 	
 	context = {'profile_form': profile_form,
 		'object_list': PipaProfile.objects.all(),
