@@ -71,11 +71,6 @@ diary_dict = {
     'month_format': '%m',
 }
 
-addressbook_dict = {
-    'queryset': User.objects.filter(is_active=True).order_by('username'),
-    'template_name': 'org/imenik_list.html',
-}
-
 diary_year = {
     'queryset': Diary.objects.all().order_by('date'),
     'date_field': 'date',
@@ -181,7 +176,6 @@ urlpatterns = patterns('',
     (r'^kb/(?P<kbcat>[-\w]+)/(?P<article>[-\w]+)', 'intranet.org.views.kb_article'),
     (r'^kb/$', 'intranet.org.views.kb_index'),
 
-    (r'^imenik/$', 'intranet.org.views.imenik'),
     (r'^addressbook/$', 'pipa.addressbook.views.addressbook'),
 
 
