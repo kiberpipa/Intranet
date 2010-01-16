@@ -321,6 +321,9 @@ class Sodelovanje(models.Model):
     project = models.ForeignKey(Project, blank=True, null=True)
     note = models.TextField(blank=True, null=True)
 
+    class Meta:
+        ordering = ('-event__start_date',)
+
     def __unicode__(self):
         return u"%s: %s @ %s" % (self.person, self.tip, self.event)
     
