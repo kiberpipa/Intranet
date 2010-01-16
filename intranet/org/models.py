@@ -142,8 +142,6 @@ class Role(models.Model):
     def __unicode__(self):
         return self.role
 
-
-
 # koledar dogodkov
 class Event(models.Model):
     responsible = models.ForeignKey(User)
@@ -426,16 +424,6 @@ class Diary(models.Model):
     class Meta:
         verbose_name = 'Dnevnik'
         verbose_name_plural = 'Dnevniki'
-
-
-
-# bugs
-class Resolution(models.Model):
-    name = models.CharField(max_length = 30)
-    resolved = models.BooleanField(default=False)
-
-    def __unicode__(self):
-        return self.name
 
 class StickyNote(models.Model):
     author = models.ForeignKey(User, related_name="message_author")

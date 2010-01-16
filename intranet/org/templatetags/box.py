@@ -6,7 +6,7 @@ from django import template
 from django.template import resolve_variable, Variable
 from django.core.exceptions import ObjectDoesNotExist
 
-from intranet.org.models import Event, Scratchpad, Resolution
+from intranet.org.models import Event, Scratchpad
 from intranet.localsettings import MEDIA_URL
 import datetime
 import math

@@ -12,7 +12,7 @@ from django.forms.util import ErrorList
 from django.forms.models import ModelChoiceField, ModelMultipleChoiceField
 
 from intranet.org.models import TipSodelovanja, Person, Event, Sodelovanje
-from intranet.org.models import Resolution, Clipping, Project
+from intranet.org.models import Clipping, Project
 from intranet.org.models import Category, Lend, Diary, Shopping
 #from intranet.photologue.models import GalleryUpload
 

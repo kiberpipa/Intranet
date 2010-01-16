@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import *
-from intranet.org.models import Event, Diary, Lend, Shopping, Resolution, Sodelovanje
+from intranet.org.models import Event, Diary, Lend, Shopping, Sodelovanje
 from intranet.org.feeds import LatestDiarys, ToDo, LatestEvents
 from django.contrib.auth.models import User
 

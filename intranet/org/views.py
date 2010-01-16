@@ -27,7 +27,7 @@ import md5
 
 from intranet.org.models import Project, Category, Email, \
     Place, Event, Shopping, Person, Sodelovanje, TipSodelovanja, Task, Diary, \
-    StickyNote, Lend, Resolution, KbCategory, KB, Tag, \
+    StickyNote, Lend, KbCategory, KB, Tag, \
     Scratchpad, Clipping
 from intranet.org.forms import *
 
