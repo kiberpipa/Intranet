@@ -17,7 +17,8 @@ from intranet.org.models import Category, Lend, Diary, Shopping
 #from intranet.photologue.models import GalleryUpload
 
 # DATETIMEWIDGET
-calbtn = u"""<img src="http://www.up-rs.si/up-rs/uprs.nsf/calendar.jpg" alt="calendar" id="%s_btn" style="cursor: pointer; border: 1px solid #8888aa;" title="Select date and time"
+# FUUUUUUUUcked up.
+calbtn = u"""<img src="/smedia/img/calendar.jpg" alt="calendar" id="%s_btn" style="cursor: pointer; border: 1px solid #8888aa;" title="Select date and time"
             onmouseover="this.style.background='#444444';" onmouseout="this.style.background=''" />
 <script type="text/javascript">
     Calendar.setup({
@@ -94,6 +95,7 @@ class EventForm(forms.ModelForm):
     resize = forms.CharField(widget=forms.HiddenInput, required=False)
     filename = forms.CharField(widget=forms.HiddenInput, required=False)
     start_date = forms.DateTimeField(widget=DateTimeWidget)
+    title = forms.CharField(widget=forms.TextInput(attrs={'size':'60'}))
     class Meta:
         model = Event
         exclude = ('sequence')
