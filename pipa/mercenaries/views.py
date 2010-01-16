@@ -68,7 +68,7 @@ def index(request, year, month):
 			total += m.amount
 	
 	context = {
-		'add_link': '%s/intranet/admin/org/mercenary/add/' % settings.BASE_URL,
+		'add_link': '/intranet/admin/pipa/mercenary/add/',
 		'mercenaries': mercenaries,
 		'year': year,
 		'month': month,
