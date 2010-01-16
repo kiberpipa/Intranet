@@ -39,6 +39,12 @@
 {% if profile.jabber %}<li>Jabber/Gtalk: {{ profile.jabber }}</li>{% endif %}
 {% if profile.msn %}<li>MSN: {{ profile.msn }}</li>{% endif %}
 {% if profile.yahoo %}<li>Yahoo: {{ profile.yahoo }}</li>{% endif %}
+{% if profile.blog %}<li>Blog: {{ profile.blog }}</li>{% endif %}
+{% if profile.www %}<li>WWW: {{ profile.www }}</li>{% endif %}
+{% if profile.facebook %}<li>Facebook: {{ profile.facebook }}</li>{% endif %}
+{% if profile.twitter %}<li>Twitter: {{ profile.twitter }}</li>{% endif %}
+{% if profile.linkedin %}<li>LinkedIn: {{ profile.linkedin }}</li>{% endif %}
+{% if profile.flickr %}<li>Flickr: {{ profile.flickr }}</li>{% endif %}
                 {% endif %}
                 {% for project in profile.project.all %}
                 <li>Projekt: {{ project }}</li>

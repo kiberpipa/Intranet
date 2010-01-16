@@ -30,23 +30,8 @@
             {% if alumni.flickr and alumni.flickr_public %} 
                 <a href="{{ alumni.flickr }}"><img src="{{ media_url }}/www/images/flickr20x20.png" alt="Flickr" title="Flickr" /></a>
             {% endif %}
-            {% if alumni.jabber and alumni.jabber_public %}
-                <a href="{{ alumni.jabber }}"><img src="{{ media_url }}/www/images/gtalk20x20.png" alt="Google Talk" title="Google Talk" /></a>
-            {% endif %}
-            {% if alumni.msn and alumni.msn_public %}
-                <a href="{{ alumni.msn }}"><img src="{{ media_url }}/www/images/msn20x20.png" alt="MSN Chat" title="MSN Chat" /></a>
-            {% endif %}
-            {% if alumni.yahoo and alumni.yahoo_public %}
-                <a href="{{ alumni.yahoo }}"><img src="{{ media_url }}/www/images/yahoo20x20.png" alt="Yahoo" title="Yahoo" /></a>
-            {% endif %}
-            {% if alumni.skype and alumni.skype_public %}
-                <a href="{{ alumni.skype }}"><img src="{{ media_url }}/www/images/skype20x20.png" alt="Skype" title="Skype" /></a>
-            {% endif %}
             </div>
             <div class="community-details">
-            {% if alumni.mail %}
-                <p class="alumni-desc">Mail: {{ alumni.mail|spam }}</p>
-            {% endif %}
             {% if alumni.www and alumni.www_public %}
                 <p class="alumni-desc">Web: <a href="{{ alumni.www }}">{{ alumni.www }}</a></p>
             {% endif %}
@@ -57,6 +42,11 @@
             <div class="alumni-text">
             <p>{{ alumni.description }}</p>
             </div>
+{% if alumni.sshpubkey and alumni.sshpubkey_public %}
+            <div>
+            <p>{{ alumni.sshpubkey }}</p>
+            </div>
+{% endif %}
             </div>
         {% endif %}{% endfor %}
     </div>
