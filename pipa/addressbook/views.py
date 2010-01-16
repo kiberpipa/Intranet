@@ -17,6 +17,15 @@ def addressbook(request):
 	profile = request.user.get_profile()
 	profile_form = ProfileForm(instance=profile, initial={'email': request.user.email, 'first_name': request.user.first_name, 'last_name': request.user.last_name})
 	
+	if request.method == 'POST':
+		profile_form = ProfileForm(request.POST, instance=profile)
+		if profile_form.is_valid():
+			# this should probably be better integrated with LDAP
+			request.user.email = profile_form.cleaned_data['email']
+			request.user.first_name = profile_form.cleaned_data['first_name']
+			request.user.last_name = profile_form.cleaned_data['last_name']
+			request.user.save()
+			profile_form.save()
 	
 	context = {'profile_form': profile_form,
 		'object_list': PipaProfile.objects.all(),
