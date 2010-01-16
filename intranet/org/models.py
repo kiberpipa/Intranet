@@ -80,25 +80,6 @@ class Project(models.Model):
                 related.append(child)
         return related
 
-class UserProfile(models.Model):
-    mobile = models.CharField(max_length=100)
-    im = models.TextField(blank=True, null=True)
-    #tags = models.ManyToManyField(Tag, blank=True, null=True)
-    project = models.ManyToManyField(Project, blank=True, null=True)
-    user = models.OneToOneField(User)
-    #tasks = models.ManyToManyField(Task, blank=True, null=True)
-    #project = models.ManyToManyField(Project, blank=True, null=True)
-
-    def __unicode__(self):
-        return self.user.username
-
-    def is_active(self):
-        whine = datetime.today() - timedelta(60)
-        if Diary.objects.filter(author = self.user).filter(date__gt = whine):
-            return True
-        else:
-            return False
-
 class Category(models.Model):
     name = models.CharField(max_length=100)
     note = models.TextField(blank=True, null=True)
@@ -567,30 +548,5 @@ class Scratchpad(models.Model):
     class Meta:
         verbose_name = 'Kracarka'
         verbose_name_plural = 'Kracarka'
-
-
-class Alumni(models.Model):
-    facebook = models.CharField(max_length=150, blank=True, null=True)
-    twitter = models.CharField(max_length=150, blank=True, null=True)
-    linkedin = models.CharField(max_length=150, blank=True, null=True)
-    phone = models.CharField(max_length=150, blank=True, null=True)
-    mail = models.CharField(max_length=150, blank=True, null=True)
-    jabber = models.CharField(max_length=150, blank=True, null=True)
-    msn = models.CharField(max_length=150, blank=True, null=True)
-    yahoo = models.CharField(max_length=150, blank=True, null=True)
-    skype = models.CharField(max_length=150, blank=True, null=True)
-    www = models.CharField(max_length=150, blank=True, null=True)
-    blog = models.CharField(max_length=150, blank=True, null=True)
-    flickr = models.CharField(max_length=150, blank=True, null=True)
-
-    text = models.CharField(max_length=255)
-    user = models.ForeignKey(User, blank=True, null=True)
-    image = models.ImageField(upload_to='alumni/', blank=True, null=True)
-
-    def __unicode__(self):
-        if self.user:
-            return unicode(self.user)
-        else:
-            return self.text
 
 

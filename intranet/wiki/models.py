@@ -3,7 +3,6 @@ import difflib
 
 from django.db import models
 from django.contrib.auth.models import User
-from intranet.org.models import UserProfile
 
 class Category(models.Model):
     order = models.PositiveIntegerField()

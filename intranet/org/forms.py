@@ -12,8 +12,8 @@ from django.forms.util import ErrorList
 from django.forms.models import ModelChoiceField, ModelMultipleChoiceField
 
 from intranet.org.models import TipSodelovanja, Person, Event, Sodelovanje
-from intranet.org.models import Resolution, Clipping, Project, Alumni
-from intranet.org.models import Category, UserProfile, Lend, Diary, Shopping
+from intranet.org.models import Resolution, Clipping, Project
+from intranet.org.models import Category, Lend, Diary, Shopping
 #from intranet.photologue.models import GalleryUpload
 
 # DATETIMEWIDGET
@@ -87,11 +87,6 @@ class PersonForm(forms.Form):
     organization = forms.CharField(max_length=200, required=False)
     title = forms.CharField(max_length=200, required=False)
 
-class ChangePw(forms.Form):
-    oldpass = forms.CharField(max_length='200', widget=forms.PasswordInput)
-    newpass1 = forms.CharField(max_length='200', widget=forms.PasswordInput)
-    newpass2 = forms.CharField(max_length='200', widget=forms.PasswordInput)
-
 class AddEventEmails(forms.Form):
     emails = forms.CharField(widget=forms.Textarea)
 
@@ -139,14 +134,6 @@ class ClippingAdd(forms.ModelForm):
         model = Clipping
         fields = ('name', 'article_name', 'medij', 'date')
 
-class PipecForm(forms.ModelForm):
-    email = forms.EmailField()
-    first_name = forms.CharField(max_length=30)
-    last_name = forms.CharField(max_length=30)
-    class Meta:
-        model = UserProfile
-        exclude = ('user',)
-
 class LendForm(forms.ModelForm):
     class Meta:
         model = Lend
@@ -164,8 +151,3 @@ class DiaryForm(forms.ModelForm):
         model = Diary
         fields = ('task', 'date', 'length', 'log_formal', 'log_informal',)
 
-class AlumniForm(forms.ModelForm):
-    text = forms.CharField(widget=forms.Textarea)
-    class Meta:
-        model = Alumni
-        exclude = ('user',)

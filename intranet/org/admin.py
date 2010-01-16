@@ -58,7 +58,6 @@ class ProjectAdmin(admin.ModelAdmin):
 
 
 
-admin.site.register(UserProfile)
 admin.site.register(Category)
 admin.site.register(TipSodelovanja)
 admin.site.register(TipMedija)
@@ -75,7 +74,6 @@ admin.site.register(Resolution)
 admin.site.register(Shopping)
 admin.site.register(KB)
 admin.site.register(KbCategory)
-admin.site.register(Alumni)
 
 
 admin.site.register(Sodelovanje, SodelovanjeAdmin)

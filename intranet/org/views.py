@@ -25,7 +25,7 @@ import simplejson
 import md5
 
 
-from intranet.org.models import UserProfile, Project, Category, Email, \
+from intranet.org.models import Project, Category, Email, \
     Place, Event, Shopping, Person, Sodelovanje, TipSodelovanja, Task, Diary, \
     StickyNote, Lend, Resolution, KbCategory, KB, Tag, \
     Scratchpad, Clipping
@@ -63,13 +63,6 @@ tmp_upload = login_required(tmp_upload)
 # ------------------------------------
 
 def index(request):
-    # if there's no profile, create it
-    try:
-        profile = request.user.get_profile()
-    except UserProfile.DoesNotExist:
-        profile = UserProfile(user=request.user)
-        profile.save()
-    
     today = datetime.datetime.today()
     nextday = today + datetime.timedelta(days=8)
 
@@ -1172,98 +1165,6 @@ def kb_article(request, kbcat, article):
                               {'article':article,},
                               context_instance=RequestContext(request))
 kb_article = login_required(kb_article)
-
-def imenik(request):
-    profile = UserProfile.objects.get(user=request.user) 
-    pipec_form = PipecForm(instance=profile, prefix='pipec', initial={'email': request.user.email, 'first_name': request.user.first_name, 'last_name': request.user.last_name})
-
-    change_pass_message = ''
-    changepw = ChangePw(prefix='changepw')
-
-    folks = UserProfile.objects.filter(user__is_active__exact=True)
-    filter = ImenikFilter(prefix='filter')
-
-    try:
-        alumni_form = AlumniForm(instance=Alumni.objects.get(user=request.user), prefix='alumni')
-    except Alumni.DoesNotExist:
-        alumni_form = AlumniForm(prefix='alumni')
-
-    if request.POST:
-        #figure out which form was submited -- ther's gotta be better way to do this
-        for key in request.POST:
-            pipec = re.compile('^pipec')
-            chgpw = re.compile('^changepw')
-            imenik_filter = re.compile('^filter')
-            alumni = re.compile('^alumni')
-            if  pipec.match(key):
-                pipec_form = PipecForm(request.POST, instance=profile, prefix='pipec')
-                break
-            elif chgpw.match(key):
-                changepw = ChangePw(request.POST, prefix='changepw')
-                break
-            elif imenik_filter.match(key):
-                filter = ImenikFilter(request.POST, prefix='filter')
-                break
-            elif alumni.match(key):
-                try:
-                    alumni_form = AlumniForm(request.POST, request.FILES, instance=Alumni.objects.get(user=request.user), prefix='alumni')
-                except Alumni.DoesNotExist:
-                    alumni_form = AlumniForm(request.POST, request.FILES, prefix='alumni')
-                break
-
-        if filter.is_valid():
-            for key, value in filter.cleaned_data.items():
-                if key == 'project' and value:
-                    ##handle the recursion
-                    query = Q(project=value)
-                    for i in value.children():
-                        query = query | Q(project=i)
-
-                    folks = UserProfile.objects.filter(query).distinct().select_related('user')
-        
-        if changepw.is_valid():
-            import ldap
-            #some additional custom error checking
-            if changepw.cleaned_data['newpass1'] == changepw.cleaned_data['newpass2']:
-                change_pass_message = 'congrats, changed your pass'
-                try:
-                    l = ldap.initialize(settings.LDAP_SERVER)
-                    dn = 'uid=%s,ou=people,dc=kiberpipa,dc=org' % request.user.username
-                    l.simple_bind_s(dn, changepw.cleaned_data['oldpass'])
-                    l.passwd_s(dn, changepw.cleaned_data['oldpass'], changepw.cleaned_data['newpass1'])
-                except ldap.SERVER_DOWN:
-                    change_pass_message = 'uggghhh, ldap server down???'
-                except ldap.CONSTRAINT_VIOLATION, e:
-                    change_pass_message = e[0]['info']
-                except ldap.INVALID_CREDENTIALS:
-                    change_pass_message = 'sorry buddy, wrong password'
-            else:
-                change_pass_message = 'sorry, the two new passwords don\'t match'
-
-        if pipec_form.is_valid():
-            request.user.email = pipec_form.cleaned_data['email']
-            request.user.first_name = pipec_form.cleaned_data['first_name']
-            request.user.last_name = pipec_form.cleaned_data['last_name']
-            request.user.save()
-            pipec_form.save()
-
-        if alumni_form.is_valid():
-            alumni = alumni_form.save()
-            alumni.user = request.user
-            alumni.save()
-
-    return list_detail.object_list(request, 
-        queryset = folks,
-        template_name = 'org/imenik_list.html',
-        extra_context = {
-            'filter': filter,
-            'pipec_form': pipec_form,
-            'change_pass': changepw,
-            'change_pass_message': change_pass_message,
-            'alumni_form': alumni_form,
-        })
-
-imenik = login_required(imenik)
 
 def timeline_xml(request):
     #diary_list = Diary.objects.filter(task__id__gt=2)
