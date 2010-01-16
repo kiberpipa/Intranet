@@ -17,7 +17,7 @@ from django.utils.translation import ugettext as _
 
 from photologue.models import Photo
 
-from intranet.org.models import Event, Clipping, Alumni, Email
+from intranet.org.models import Event, Clipping, Email
 from feedjack.models import Post
 from intranet.www.models import Ticker, News
 from pipa.video.models import Video
@@ -278,17 +278,4 @@ def news_list(request):
         queryset = queryset.filter(language='en')
    
     return object_list(request, queryset=queryset[:10], template_name= 'www/news_list.html')
-
-def alumni(request):
-    alumni_active = []
-    alumni_not_active = []
-    for i in Alumni.objects.order_by('user__last_name'):
-        if i.user and i.user.userprofile.is_active():
-            alumni_active += [i]
-        else:
-            alumni_not_active += [i]
-    
-    queryset = Alumni.objects.all()
-
-    return object_list(request, queryset=queryset, template_name='www/alumni.html', extra_context={ 'not_active': alumni_not_active, 'active': alumni_active})
 
