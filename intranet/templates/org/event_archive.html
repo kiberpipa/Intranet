@@ -94,4 +94,12 @@
 {% endif %}
 {% endif %}
 
+<script type="text/javascript">
+$("div.module h2").each(function (){
+    if (this.innerHTML == "Ta teden") {
+        this.parentNode.style.border = '2px solid green';
+    }
+})
+</script>
+
 {% endblock %}
