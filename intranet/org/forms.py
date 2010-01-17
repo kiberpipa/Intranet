@@ -89,7 +89,7 @@ class PersonForm(forms.Form):
     title = forms.CharField(max_length=200, required=False)
 
 class AddEventEmails(forms.Form):
-    emails = forms.CharField(widget=forms.Textarea)
+    emails = forms.CharField(widget=forms.Textarea(attrs={'cols':'31'}))
 
 class EventForm(forms.ModelForm):
     resize = forms.CharField(widget=forms.HiddenInput, required=False)
