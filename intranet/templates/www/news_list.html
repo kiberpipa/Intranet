@@ -10,8 +10,8 @@
 {% block content%}
 <div id="news-list">
 {% for news in  object_list %}
-    <h2 class="blog-cp-news-title"><a href="#">{{ news.title }}</a></h2>
-    <p class="blog-cp-publish"> {% trans "Author" %} {{ news.author }} {% trans "date" %} {{ news.date }} </p>
+    <h2 class="blog-cp-news-title"><a href="{{ news.get_absolute_url }}">{{ news.title }}</a></h2>
+    <p class="blog-cp-publish"> {% trans "Published by" %} {{ news.author }} {% trans "date" %} {{ news.date|date:"d F Y G:i " }} </p>
     <p class="blog-cp-content">{{ news.text|safe }}</p>
 {% endfor %}
 
