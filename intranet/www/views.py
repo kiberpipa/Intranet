@@ -83,18 +83,28 @@ def ajax_add_mail(request, event, email):
         
     return HttpResponse(message)
 
-def event(request, id):
+def event(request, date, id, slug):
     event = Event.objects.get(pk=id)
+    if not request.path.endswith(event.get_public_url()):
+        return HttpResponseRedirect(event.get_public_url())
     return render_to_response('www/event.html', {
         'event': event,
         'form': EmailForm(),
         'event_photos': FileForm(),
-        }, 
+        },
         context_instance=RequestContext(request))
 
-def news_detail(request, slug):
+def news_detail(request, slug, id=None):
+    if id is None:
+        n = News.objects.get(slug=slug)
+        return HttpResponseRedirect(n.get_absolute_url())
+
+    n = News.objects.get(pk=id)
+    if not request.path.endswith(n.get_absolute_url()):
+        return HttpResponseRedirect(n.get_absolute_url())
+
     return render_to_response('www/news.html', {
-        'news': News.objects.get(slug=slug),
+        'news': n,
         },
         context_instance=RequestContext(request))
 
@@ -261,7 +271,7 @@ def ical(request, month=None):
 
 
 def rss(request):
-	return render_to_response('www/rss.html', context_instance=RequestContext(request))
+    return render_to_response('www/rss.html', context_instance=RequestContext(request))
 
 # Generic views wrappers.
 def press(request):
@@ -270,12 +280,11 @@ def press(request):
         template = 'www/press_en.html'
     else:
         template = 'www/press.html'
-    return object_list(request, queryset=queryset, template_name=template)    
+    return object_list(request, queryset=queryset, template_name=template)
 
 def news_list(request):
     queryset = News.objects.order_by('-date')
     if request.LANGUAGE_CODE == 'en':
         queryset = queryset.filter(language='en')
-   
     return object_list(request, queryset=queryset[:10], template_name= 'www/news_list.html')
 
