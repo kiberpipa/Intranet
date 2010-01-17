@@ -17,7 +17,7 @@ from django.utils.translation import ugettext as _
 
 from photologue.models import Photo
 
-from intranet.org.models import Event, Clipping, Email
+from intranet.org.models import Event, Email
 from feedjack.models import Post
 from intranet.www.models import Ticker, News
 from pipa.video.models import Video
@@ -275,12 +275,11 @@ def rss(request):
 
 # Generic views wrappers.
 def press(request):
-    queryset = Clipping.objects.order_by('-date')[:15]
     if request.LANGUAGE_CODE == 'en':
         template = 'www/press_en.html'
     else:
         template = 'www/press.html'
-    return object_list(request, queryset=queryset, template_name=template)
+    return render_to_response(template, RequestContext(request, {}))
 
 def news_list(request):
     queryset = News.objects.order_by('-date')
