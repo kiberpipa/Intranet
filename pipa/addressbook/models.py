@@ -21,7 +21,7 @@ class PipaProfile(models.Model):
 	www = models.CharField(max_length=150, blank=True, null=True)
 	www_public = models.BooleanField(default=False)
 	facebook = models.CharField(max_length=150, blank=True, null=True)
-	facebook_public = models.BooleanField(default=False)
+	facebook_public = models.BooleanField('FB public', default=False)
 	twitter = models.CharField(max_length=150, blank=True, null=True)
 	twitter_public = models.BooleanField(default=False)
 	linkedin = models.CharField(max_length=150, blank=True, null=True)
@@ -29,7 +29,7 @@ class PipaProfile(models.Model):
 	flickr = models.CharField(max_length=150, blank=True, null=True)
 	flickr_public = models.BooleanField(default=False)
 	sshpubkey = models.TextField(max_length=4000, blank=True, null=True)
-	sshpubkey_public = models.BooleanField(default=False)
+	sshpubkey_public = models.BooleanField('Key public', default=False)
 	
 	class Meta:
 		ordering = ('user__first_name',)

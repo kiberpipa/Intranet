@@ -7,6 +7,8 @@ class ProfileForm(ModelForm):
 	email = forms.EmailField()
 	first_name = forms.CharField(max_length=30)
 	last_name = forms.CharField(max_length=30)
+	description = forms.CharField(widget=forms.Textarea(attrs={'cols':'32','rows':'10'}))
+	sshpubkey = forms.CharField(widget=forms.Textarea(attrs={'cols':'32','rows':'10'}))
 	
 	class Meta:
 		model = PipaProfile
