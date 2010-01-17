@@ -60,12 +60,7 @@ class ProjectAdmin(admin.ModelAdmin):
 
 admin.site.register(Category)
 admin.site.register(TipSodelovanja)
-admin.site.register(TipMedija)
-admin.site.register(TipPrispevka)
-admin.site.register(Medij)
 admin.site.register(Place)
-admin.site.register(Clipping)
-admin.site.register(Upload)
 admin.site.register(Email)
 admin.site.register(Phone)
 admin.site.register(Organization)

@@ -12,7 +12,7 @@ from django.forms.util import ErrorList
 from django.forms.models import ModelChoiceField, ModelMultipleChoiceField
 
 from intranet.org.models import TipSodelovanja, Person, Event, Sodelovanje
-from intranet.org.models import Clipping, Project
+from intranet.org.models import Project
 from intranet.org.models import Category, Lend, Diary, Shopping
 #from intranet.photologue.models import GalleryUpload
 
@@ -120,18 +120,6 @@ class SodelovanjeFilter(forms.ModelForm):
     class Meta:
         model = Sodelovanje
         exclude = ('note',)
-
-class ClippingFilter(forms.ModelForm):
-    c = [('', '---------'), ('xls', 'xls')]
-    export = forms.ChoiceField(choices=c, required=False)
-    class Meta:
-        model = Clipping
-        exclude = ('upload', 'deadline', 'feedback',)
-
-class ClippingAdd(forms.ModelForm):
-    class Meta:
-        model = Clipping
-        fields = ('name', 'article_name', 'medij', 'date')
 
 class LendForm(forms.ModelForm):
     class Meta:

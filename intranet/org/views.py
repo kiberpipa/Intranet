@@ -28,8 +28,8 @@ import md5
 from intranet.org.models import Project, Category, Email, \
     Place, Event, Shopping, Person, Sodelovanje, TipSodelovanja, Task, Diary, \
     StickyNote, Lend, KbCategory, KB, Tag, \
-    Scratchpad, Clipping
-from intranet.org.forms import EventFilter, DiaryFilter, PersonForm, AddEventEmails, EventForm, SodelovanjeFilter, ClippingFilter, ClippingAdd, LendForm, ShoppingForm, DiaryForm
+    Scratchpad
+from intranet.org.forms import EventFilter, DiaryFilter, PersonForm, AddEventEmails, EventForm, SodelovanjeFilter, LendForm, ShoppingForm, DiaryForm
 
 #from intranet.photologue.models import Gallery, GalleryUpload
 
@@ -716,77 +716,6 @@ def sodelovanja(request):
         'person_form': person_form },
         context_instance=RequestContext(request))
 sodelovanja = login_required(sodelovanja)
-
-def clipping(request):
-    clippings = Clipping.objects.all()
-    if request.method == 'POST':
-        form = ClippingFilter(request.POST)
-        if form.is_valid():
-            for key, value in form.cleaned_data.items():
-                if value and key != 'export':
-                    if key == 'medij':
-                        ##handle the recursion
-                        query = Q(medij=value)
-                        for i in value.children():
-                            query = query | Q(medij=i)
-                        clippings = clippings.filter(query)
-                    elif key == 'link' or key == 'rubrika' or key == 'address':
-                        #clippings = clippings.filter(link__icontains = value)
-                        clippings = clippings.filter(**{key+'__icontains': value})
-
-                    else:
-                        clippings = clippings.filter(**{key: value})
-    else:
-        form = ClippingFilter()
-
-    try: 
-        export =  form.cleaned_data['export']
-        if export:
-            output = StringIO()
-
-###            output = StringIO()
-###            if export == 'txt':
-###                for i in sodelovanja:
-###                    output.write("%s\n" % i)
-###            elif export == 'pdf':
-###                pdf = Canvas(output)
-###                rhyme = pdf.beginText(30, 200)
-###                for i in sodelovanja:
-###                    rhyme.textLine(i.__unicode__())
-###                pdf.drawText(rhyme)
-###                pdf.showPage()
-###                pdf.save()
-###            elif export == 'csv':
-###                for i in sodelovanja:
-###                    output.write("%s\n" % i)
-###
-###                    
-###            response = HttpResponse(mimetype='application/octet-stream')
-###            response['Content-Disposition'] = "attachment; filename=" + 'export.' + export
-###            response.write(output.getvalue())
-###            return response
-
-    except AttributeError:
-        pass
-
-    return render_to_response('org/clipping.html', {
-        'clippings': clippings, 
-        'form': form, 
-        'add_form': ClippingAdd(),},
-        context_instance=RequestContext(request))
-clipping = login_required(clipping)
-
-def clipping_add(request):
-    if request.method == 'POST':
-        form = ClippingAdd(request.POST)
-        if form.is_valid():
-            form.save()
-    
-    return HttpResponseRedirect('..')
-
-clipping_add = login_required(clipping_add)
-
-##################################################
 
 def tehniki_monthly(request, year=None, month=None):
     user = request.user
