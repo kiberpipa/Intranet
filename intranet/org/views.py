@@ -29,7 +29,7 @@ from intranet.org.models import Project, Category, Email, \
     Place, Event, Shopping, Person, Sodelovanje, TipSodelovanja, Task, Diary, \
     StickyNote, Lend, KbCategory, KB, Tag, \
     Scratchpad, Clipping
-from intranet.org.forms import *
+from intranet.org.forms import EventFilter, DiaryFilter, PersonForm, AddEventEmails, EventForm, SodelovanjeFilter, ClippingFilter, ClippingAdd, LendForm, ShoppingForm, DiaryForm
 
 #from intranet.photologue.models import Gallery, GalleryUpload
 

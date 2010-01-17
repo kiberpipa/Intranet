@@ -78,9 +78,6 @@ class DiaryFilter(forms.Form):
     task = forms.ModelChoiceField(Project.objects.all().order_by('name'), required=False)
     author = forms.ModelChoiceField(User.objects.filter(is_active=True).order_by('username'), required=False)
 
-class ImenikFilter(forms.Form):
-    project = forms.ModelChoiceField(Project.objects.all().order_by('name'), required=False)
-
 class PersonForm(forms.Form):
     name = forms.CharField(max_length=200)
     email = forms.EmailField(required=False)
