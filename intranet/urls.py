@@ -20,7 +20,7 @@ feeds = {
 }
 
 js_info_dict = {
-    'packages': ('intranet.www', 'intranet.org', 'intranet.web', 'intranet.tags', 'intranet.wiki'),
+    'packages': ('intranet.www', 'intranet.org', 'intranet.web', 'intranet.wiki'),
 }
 
 urlpatterns = patterns('',

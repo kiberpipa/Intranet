@@ -6,9 +6,6 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 
-#from intranet.tags.models import Tag
-#from intranet.tags import fields
-
 from datetime import date, time, timedelta, datetime
 import smtplib, string, audit
 import socket
