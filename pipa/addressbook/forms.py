@@ -9,8 +9,8 @@ class ProfileForm(ModelForm):
 	first_name = forms.CharField(max_length=30)
 	last_name = forms.CharField(max_length=30)
 	description = forms.CharField(widget=forms.Textarea(attrs={'cols':'32','rows':'10'}))
-	sshpubkey = forms.CharField(widget=forms.Textarea(attrs={'cols':'32','rows':'10'}))
-	image = forms.ImageField(widget=AdminFileWidget)
+	sshpubkey = forms.CharField(widget=forms.Textarea(attrs={'cols':'32','rows':'10'}), required=False)
+	image = forms.ImageField(widget=AdminFileWidget, required=False)
 	
 	class Meta:
 		model = PipaProfile
