@@ -23,7 +23,7 @@
   </div>
 <div class="module" id="recent-actions-module">
     <h2 class="expand">Moj Profil</h2>
-    <form method="POST" action="{{ request.path }}">
+    <form method="POST" action="{{ request.path }}" enctype="multipart/form-data">
     {{ profile_form.as_p }}
     <input type="submit" value="Submit" />
     </form>

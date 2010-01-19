@@ -2,6 +2,12 @@
 
 {% load www i18n %}
 
+{% block extrahead %}
+<style>
+.community-content-img { background-image: url({{ media_url }}/www/images/picture-skupnost.gif); }
+</style>
+{% endblock %}
+
 {% block content %}
     <div id="community">
     <div class="community-title">
@@ -13,7 +19,7 @@
             <div class="community-content">
         {% for alumni in profiles %}{% if alumni.user.get_full_name and alumni.show_profile and alumni.user.is_active %}
             <div class="community-person">
-            <div class="community-content-img"><img src="{% if alumni.image %}{{ alumni.image.url }}{% else %}{{ media_url }}/www/images/picture-skupnost.gif{% endif %}" width="80px"/></div>
+            <div class="community-content-img">{% if alumni.image %}<img src="{{ alumni.image.url }}" width="80px"/>{% endif %}</div>
             <div class="community-details">
             <p class="alumni-title-p">{{ alumni.user.get_full_name }}</p>
             </div>

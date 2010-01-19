@@ -36,7 +36,7 @@ class PipaProfile(models.Model):
 	
 	def __unicode__(self):
 		if self.user:
-			return unicode(self.user)
+			return unicode(self.user.get_full_name())
 		else:
 			return self.description
 

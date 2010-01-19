@@ -19,7 +19,7 @@ def addressbook(request):
 	profile_form = ProfileForm(instance=profile, initial={'email': request.user.email, 'first_name': request.user.first_name, 'last_name': request.user.last_name})
 	
 	if request.method == 'POST':
-		profile_form = ProfileForm(request.POST, instance=profile)
+		profile_form = ProfileForm(request.POST, request.FILES, instance=profile)
 		if profile_form.is_valid():
 			# this should probably be better integrated with LDAP
 			request.user.email = profile_form.cleaned_data['email']

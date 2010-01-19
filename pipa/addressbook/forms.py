@@ -2,6 +2,7 @@
 from django.forms import ModelForm
 from django import forms
 from pipa.addressbook.models import PipaProfile
+from django.contrib.admin.widgets import AdminFileWidget
 
 class ProfileForm(ModelForm):
 	email = forms.EmailField()
@@ -9,6 +10,7 @@ class ProfileForm(ModelForm):
 	last_name = forms.CharField(max_length=30)
 	description = forms.CharField(widget=forms.Textarea(attrs={'cols':'32','rows':'10'}))
 	sshpubkey = forms.CharField(widget=forms.Textarea(attrs={'cols':'32','rows':'10'}))
+	image = forms.ImageField(widget=AdminFileWidget)
 	
 	class Meta:
 		model = PipaProfile
