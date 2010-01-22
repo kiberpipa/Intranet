@@ -24,6 +24,8 @@ class RequireLoginMiddleware(object):
         
         if request.path != self.require_login_path and request.user.is_anonymous():
             if request.POST:
+                if not request.POST.get('remember_me', None):
+                    request.session.set_expiry(0)
                 return login(request)
             else:
                 return HttpResponseRedirect('%s?next=%s' % (self.require_login_path, request.path))
