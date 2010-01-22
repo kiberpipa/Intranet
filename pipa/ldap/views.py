@@ -37,3 +37,9 @@ def password_change(request):
 		'ldap_password_change_form': pw_form,
 		}
 	return render_to_response('ldap/password_change.html', RequestContext(request, context))
+
+def login(request, *args, **kwargs):
+    if request.method == 'POST':
+        if not request.POST.get('remember_me', None):
+            request.session.set_expiry(0)
+    return auth_views.login(request, *args, **kwargs)
