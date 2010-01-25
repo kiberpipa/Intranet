@@ -40,8 +40,9 @@
 					{{ month_number }} |
 					<a href="/intranet/dezurni/{{ navigation.next }}">&gt;&gt;</a>
 				</th>
-        		<th scope="col">1000 - 1600</th>
-        		<th scope="col">1600 - 2100 </th>
+        		<th scope="col">1000 - 1400</th>
+        		<th scope="col">1400 - 1800 </th>
+        		<th scope="col">1800 - 2200 </th>
     		</tr>
     {% for day in month %}
     		<tr><td id='date'>{{ day.date }}</td>
@@ -61,6 +62,16 @@
     {% endfor %}
     	</table>
     </div>
+<div id="dnevnikForm">
+    <form action="/intranet/dezurni/add/" method="post" name="dnevnikForm" class="dnevnikForm">
+       <h3>Med dežuranjem sem počel naslednje stvari:</h3>
+          <input type="hidden" name="uniqueSpot" value="" />
+          <textarea name="log_formal" id="log_f" rows="10"></textarea>
+       <h3>Random stuff:</h3>
+          <textarea name="log_informal" id="log_if" rows="5"></textarea>
+          <input type="submit" value="Vnesi" />
+          <input type="reset" value="Obupaj" onclick="formImplode(this)"/>
+</div>
 <p><br></p>
 
 {% for object in log_list %}

@@ -19,10 +19,12 @@ import datetime
 import mx.DateTime
 import re
 import string
-from StringIO import StringIO
+from cStringIO import StringIO
 from copy import deepcopy
 import simplejson
 import md5
+import os
+import Image
 
 
 from intranet.org.models import Project, Category, Email, \
@@ -41,22 +43,27 @@ month_dict = { 'jan': 1, 'feb': 2, 'mar': 3,
 reverse_month_dict = dict(((i[1],i[0]) for i in month_dict.iteritems()))
 
 def tmp_upload(request):
-    #a helper function for handling tmp uploads, needed so that the user can
-    #resize the image in the browser (for index)
-    from PIL import Image
-    from simplejson import dumps
-    tmp = '/tmp/i3_tmp.img'
-    img = open(tmp, 'wb')
-    img.write(request.FILES['image'].read())
-    img.close()
+    # XXX FIX this.
     filename = request.FILES['image']._get_name()
-    normal_path = '/tmp/' + filename
-    normal = settings.MEDIA_ROOT + normal_path
-    pic = Image.open(tmp)
-    width, height = pic.size
-    pic.save(normal)
-    ret = dumps({'link': settings.MEDIA_URL + normal_path, 'filename': normal_path})
+    imgdata = StringIO(request.FILES['image'].read())
+    imgdata.seek(0)
+    # check that it's image
+    try:
+        im = Image.open(imgdata)
+        im.size
+    except Exception, e:
+        print e
+        return HttpResponse(simplejson.dumps({'status': 'fail'}))
     
+    local_filename = os.path.join(settings.MEDIA_ROOT, 'tmp', filename)
+    url = os.path.join(settings.MEDIA_URL, 'tmp', filename)
+    
+    f = open(local_filename, 'wb')
+    f.write(imgdata.getvalue())
+    f.close()
+    
+    print url, local_filename
+    ret = simplejson.dumps({'link': url, 'filename': local_filename})
     return HttpResponse(ret)
 tmp_upload = login_required(tmp_upload)
 
@@ -543,8 +550,8 @@ def nf_event_create(request):
             from PIL import Image
             im = Image.open(settings.MEDIA_ROOT + '/' + form.cleaned_data['filename'])
             cropped = im.crop(box)
-            index = cropped.resize((250, 130))
-            index.save(settings.MEDIA_ROOT + '/' + re.sub('(?P<filename>.*)(?P<ext>\..*)', '\g<filename>-index\g<ext>', new_event.image._name))
+            index = cropped.resize((250, 130), Image.ANTIALIAS)
+            index.save(new_event.image.path)
         return HttpResponseRedirect(new_event.get_absolute_url())
 
     return render_to_response('org/nf_event.html', {'form': form, 'tipi': TipSodelovanja.objects.all()},
@@ -584,12 +591,13 @@ def nf_event_edit(request, event):
             new_event.save()
             if new_event.public and form.cleaned_data['resize']:
                 x1, x2, y1, y2 = tuple(form.cleaned_data['resize'].split(','))
-                box = (int(x1), int(y1), int(x2), int(y2))
-                from PIL import Image
-                im = Image.open(settings.MEDIA_ROOT + '/' + form.cleaned_data['filename'])
+                box = (int(x1), int(y1), int(x2)-1, int(y2)-1)
+                final_filename = os.path.join(settings.MEDIA_ROOT, new_event.image._name)
+                image_filename = form.cleaned_data['filename']
+                im = Image.open(image_filename)
                 cropped = im.crop(box)
                 index = cropped.resize((250, 130))
-                index.save(settings.MEDIA_ROOT + '/' + re.sub('(?P<filename>.*)(?P<ext>\..*)', '\g<filename>-index\g<ext>', new_event.image._name))
+                index.save(final_filename)
 
             #delete everything that was in the old sodelovanja as is not in the new one
             for i in old_sodelovanja & sodelovanja ^ old_sodelovanja:
@@ -601,12 +609,12 @@ def nf_event_edit(request, event):
     else:
         form = EventForm(instance=event)
 
-
-
-
-    return render_to_response('org/nf_event.html', {'form': form, 'tipi': TipSodelovanja.objects.all(), 
-        'sodelovanja': Sodelovanje.objects.filter(event=event)}, 
-        context_instance=RequestContext(request))
+    context = {'form': form,
+        'tipi': TipSodelovanja.objects.all(),
+        'sodelovanja': Sodelovanje.objects.filter(event=event),
+        'image': event.image,
+        }
+    return render_to_response('org/nf_event.html', RequestContext(request, context))
 nf_event_edit = login_required(nf_event_edit)
 
 def event(request, object_id):
@@ -615,7 +623,6 @@ def event(request, object_id):
         object_id = object_id,
         extra_context =  {
             'sodelovanja': Sodelovanje.objects.filter(event=object_id),
-            #'file_form': FileForm(),
             'emails_form': AddEventEmails(),
         }
     )

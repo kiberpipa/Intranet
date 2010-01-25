@@ -272,8 +272,14 @@ $(document).ready(function() {
     {{ form.image.errors }}
     {{ form.image.label_tag }}
     {{ form.image }} {{ form.image_file }}
-    <div id="ajax_img"></div>
-    </p>
+    <div id="ajax_img"></div> 
+  </p>
+{% if image.url %}
+  <p id="current_img">
+    <label for="current_img">Trenutna slika:</label>
+    <img src="{{ image.url }}" />
+  </p>
+{% endif %}
 <hr>
  <p>
     {{ form.announce.errors }}
