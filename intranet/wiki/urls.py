@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
 
 from intranet.wiki.templatetags.wiki import WIKI_WORD
-from wiki import views
+from intranet.wiki import views
 
 article_re = r'^article/(?P<id>%s)' % WIKI_WORD
 

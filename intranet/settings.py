@@ -72,7 +72,7 @@ MIDDLEWARE_CLASSES = (
     #'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'intranet.middleware.FlatPage.FlatPage',
     #'intranet.stats.StatsMiddleware',
-    'middleware.NginxCache.NginxMemCacheMiddleWare',
+    'intranet.middleware.NginxCache.NginxMemCacheMiddleWare',
 )
 
 ROOT_URLCONF = 'intranet.urls'

@@ -1,7 +1,7 @@
 from django.core.cache import cache
 from django.http import HttpResponseNotFound
 import re
-import settings
+from django.conf import settings
 
 class NginxMemCacheMiddleWare:
     def process_response(self, request, response):
