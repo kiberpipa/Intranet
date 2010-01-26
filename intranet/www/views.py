@@ -3,7 +3,7 @@ import re
 from StringIO import StringIO
 import simplejson
 
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.http import HttpResponsePermanentRedirect, HttpResponse, HttpResponseRedirect
 from django.conf import settings
@@ -68,7 +68,7 @@ def ajax_index_events(request):
     }, context_instance=RequestContext(request))
 
 def ajax_add_mail(request, event, email):
-    event = Event.objects.get(pk=event)
+    event = get_object_or_404(Event, pk=event)
     form = EmailForm({'email': email})
     if form.is_valid():
         email = Email.objects.get_or_create(email = form.cleaned_data['email'])[0]
@@ -84,7 +84,7 @@ def ajax_add_mail(request, event, email):
     return HttpResponse(message)
 
 def event(request, date, id, slug):
-    event = Event.objects.get(pk=id)
+    event = get_object_or_404(Event, pk=id)
     if not request.path.endswith(event.get_public_url()):
         return HttpResponseRedirect(event.get_public_url())
     return render_to_response('www/event.html', {
