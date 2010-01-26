@@ -504,20 +504,20 @@ add_event_emails = login_required(add_event_emails)
 
 
 def info_txt(request, event):
-    output = StringIO()
-    event = Event.objects.get(pk=event)
-    sodelovanja = Sodelovanje.objects.filter(event=event)
-    if sodelovanja:
-        output.write('author: %s\n' % ', '.join([s.person.name for s in sodelovanja]))
-    output.write(u'title: %s\n' % event.title)
-    output.write(u'date: %s\n' % event.start_date.strftime('%d.%m.%Y'))
-    output.write(u'cat: %s\n' % event.project)
-    output.write(u'desc: %s\n' % event.short_announce)
-    output.write(u'url: http://www.kiberpipa.org%s\n' % event.get_public_url())
-    output.write(u'intranet-id: %s\n' % event.id)
+    event = get_object_or_404(Event, pk=event)
+    content = []
+    if event.sodelovanje_set.all():
+        content.append(u'author: %s' % u', '.join([s.person.name for s in event.sodelovanje_set.all()]))
+    content.append(u'title: %s' % event.title)
+    content.append(u'date: %s' % event.start_date.strftime('%d.%m.%Y'))
+    content.append(u'cat: %s' % event.project)
+    content.append(u'desc: %s' % event.short_announce)
+    content.append(u'url: http://www.kiberpipa.org%s' % event.get_public_url())
+    content.append(u'intranet-id: %s' % event.id)
     response = HttpResponse(mimetype='application/octet-stream')
     response['Content-Disposition'] = "attachment; filename=info.txt"
-    response.write(output.getvalue())
+    content_str = u'\n'.join(content)
+    response.write(content_str.encode('utf-8'))
     return response
 info_txt = login_required(info_txt)
 
