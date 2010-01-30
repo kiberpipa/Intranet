@@ -511,7 +511,9 @@ def info_txt(request, event):
     content.append(u'title: %s' % event.title)
     content.append(u'date: %s' % event.start_date.strftime('%d.%m.%Y'))
     content.append(u'cat: %s' % event.project)
-    content.append(u'desc: %s' % event.short_announce)
+    desc = event.short_announce or event.announce
+    desc = re.sub('\s+', ' ', re.sub('<.*?>', '', desc))
+    content.append(u'desc: %s' % (desc,))
     content.append(u'url: http://www.kiberpipa.org%s' % event.get_public_url())
     content.append(u'intranet-id: %s' % event.id)
     response = HttpResponse(mimetype='application/octet-stream')
@@ -546,12 +548,13 @@ def nf_event_create(request):
         new_event.save()
         if new_event.public and form.cleaned_data.has_key('resize'):
             x1, x2, y1, y2 = tuple(form.cleaned_data['resize'].split(','))
-            box = (int(x1), int(y1), int(x2), int(y2))
-            from PIL import Image
-            im = Image.open(settings.MEDIA_ROOT + '/' + form.cleaned_data['filename'])
+            box = (int(x1), int(y1), int(x2)-1, int(y2)-1)
+            final_filename = os.path.join(settings.MEDIA_ROOT, new_event.image._name)
+            image_filename = form.cleaned_data['filename']
+            im = Image.open(image_filename)
             cropped = im.crop(box)
-            index = cropped.resize((250, 130), Image.ANTIALIAS)
-            index.save(new_event.image.path)
+            index = cropped.resize((250, 130))
+            index.save(final_filename)
         return HttpResponseRedirect(new_event.get_absolute_url())
 
     return render_to_response('org/nf_event.html', {'form': form, 'tipi': TipSodelovanja.objects.all()},
@@ -590,6 +593,7 @@ def nf_event_edit(request, event):
             new_event.slug = slugify(new_event.title)
             new_event.save()
             if new_event.public and form.cleaned_data['resize']:
+                # XXX FIXME : duplicate code for edit and create
                 x1, x2, y1, y2 = tuple(form.cleaned_data['resize'].split(','))
                 box = (int(x1), int(y1), int(x2)-1, int(y2)-1)
                 final_filename = os.path.join(settings.MEDIA_ROOT, new_event.image._name)
