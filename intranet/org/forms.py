@@ -92,7 +92,10 @@ class EventForm(forms.ModelForm):
     resize = forms.CharField(widget=forms.HiddenInput, required=False)
     filename = forms.CharField(widget=forms.HiddenInput, required=False)
     start_date = forms.DateTimeField(widget=DateTimeWidget)
-    title = forms.CharField(widget=forms.TextInput(attrs={'size':'60'}))
+    # get max_length from original field
+    title = forms.CharField(max_length=dict([(f.name, f) for f in Event._meta.fields])['title'].max_length,
+        widget=forms.TextInput(attrs={'size':'60'}))
+
     class Meta:
         model = Event
         exclude = ('sequence')
