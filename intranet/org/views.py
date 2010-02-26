@@ -21,10 +21,10 @@ import re
 import string
 from cStringIO import StringIO
 from copy import deepcopy
-import simplejson
+from django.utils import simplejson
 import md5
 import os
-import Image
+from PIL import Image
 
 
 from intranet.org.models import Project, Category, Email, \

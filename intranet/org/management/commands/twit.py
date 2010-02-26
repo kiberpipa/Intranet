@@ -35,7 +35,7 @@ class Command(BaseCommand):
 	def emit_twits(self, *args, **options):
 		import datetime
 		from os.path import join
-		import simplejson
+		from django.utils import simplejson
 		import twitter
 		from urllib2 import urlopen
 		

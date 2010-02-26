@@ -1,7 +1,6 @@
 import datetime
 import re
 from StringIO import StringIO
-import simplejson
 
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
@@ -14,6 +13,7 @@ from django.contrib.comments.views.comments import post_comment
 from django.views.generic.list_detail import object_list
 from django import forms
 from django.utils.translation import ugettext as _
+from django.utils import simplejson
 
 from photologue.models import Photo
 
