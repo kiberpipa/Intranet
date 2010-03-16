@@ -20,13 +20,9 @@
         {{ year }} -- {{ hmonth }}
         <a href="{% ifequal month "12" %}../../{{ year|add:"1" }}/1/{% else %}../../{{ year }}/{{ month|add:"1" }}/{% endifequal %}">&gt;&gt;</a></h2><br />
 
-        {% for mercenary, amount in mercenaries.items %}
-            <div class="module"><p>
-            {{ mercenary }} {{ amount }} &nbsp; <a href="{{ mercenary.id }}/placa">Obrazec</a>
-            </p></div>
-        {% endfor %}
-
         <div class="module">
+        <form action="{{ request.url }}" method="POST"><p>Nazadnje izračunano: {{ last_calculated|date:"d M Y, H:i" }} <input type="submit" name="recalculate" value="Izračunaj napotnice ponovno" /></p></form>
+{% if recalculation_msg %}<p><font color="red">{{ recalculation_msg }}</font></p>{% endif %}
         <p>Vsi skupaj prek napotnic: {{ all }} &nbsp; <a href="napotnice/">Stud. Napotnice</a></p>
         <p>Samo redni &nbsp; <a href="redni/">Redni</a></p>
         </div>
