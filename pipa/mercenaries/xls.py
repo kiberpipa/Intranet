@@ -69,8 +69,8 @@ def salary_xls(compact, bureaucrat, params):
             ws.write(line, 0, i['mercenary'], obican)
             ws.write(line, 1, float(i.get('hours','0')) or '', obican)
             ws.write(line, 2, i['description'], obican)
-            ws.write(line, 3, 'Kiberpipa', obican)
-            ws.write(line, 4, i['cost_center'], obican)
+            ws.write(line, 3, i['cost_center'], obican)
+            ws.write(line, 4, 68, obican)
             ws.write(line, 5, float(i['amount']), obican)
 
             amount += i['amount']

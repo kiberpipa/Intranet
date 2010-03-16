@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -9,6 +10,8 @@ class SalaryType(models.Model):
 class CostCenter(models.Model):
 	name = models.CharField(max_length=200)
 	wage_per_hour = models.DecimalField(max_digits=5, decimal_places=2)
+	code = models.IntegerField(null=True, blank=True)
+	description = models.CharField(max_length=300)
 	
 	def __unicode__(self):
 		return self.name
@@ -36,10 +39,15 @@ class MercenaryMonth(models.Model):
 	description = models.TextField(default='')
 	month = models.DateField()
 	mercenary_type = models.IntegerField(default=1)
+	last_calculated = models.DateTimeField(blank=True)
 	
 	TYPE_HOURLY = 1
 	TYPE_FIXED = 2
 	
 	def __unicode__(self):
 		return u'MercenaryMonth: %s' % (str(self.person),)
+	
+	def save(self, *args, **kwargs):
+		self.last_calculated = datetime.datetime.now()
+		super(MercenaryMonth, self).save(*args, **kwargs)
 

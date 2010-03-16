@@ -54,18 +54,30 @@ def index(request, year, month):
 	if year == None:
 		return HttpResponseRedirect('%s/%s/' % (today.year, today.month))
 	
+	recalculation_msg = ''
+	
 	year = int(year)
 	month = int(month)
 	if today.year == year and today.month == month:
 		_recalculate_mercenarymonth(year, month)
+	elif request.POST:
+		if request.POST.get('recalculate'):
+			prev_month = today - datetime.timedelta(today.day + 1)
+			if (year, month) in ((today.year, today.month), (prev_month.year, prev_month.month)):
+				_recalculate_mercenarymonth(year, month)
+			else:
+				recalculation_msg = u'Sorry. You can only recalculate previous month.'
 	
 	# XXX: Lookup by month triggers a bug in SQLite3 backend on Django 1.0, very much like bug #3501
 	mercenaries = MercenaryMonth.objects.filter(month__year=year, month__month=month)
 	
 	total = 0
+	last_calculated = datetime.datetime(2000,1,1,0,0,0)
 	for m in mercenaries:
 		if m.salary_type_id in (None, 1):
 			total += m.amount
+			if m.last_calculated != None and last_calculated < m.last_calculated:
+				last_calculated = m.last_calculated
 	
 	context = {
 		'add_link': '/intranet/admin/mercenaries/fixedmercenary/', # XXX ugly
@@ -74,6 +86,8 @@ def index(request, year, month):
 		'month': month,
 		'all': total,
 		'hmonth': datetime.datetime(int(year), int(month), 1).strftime('%B'),
+		'last_calculated': last_calculated,
+		'recalculation_msg': recalculation_msg,
 		}
 	
 	return render_to_response("mercenaries/index.html", RequestContext(request, context))
@@ -103,13 +117,13 @@ def export_xls(request, year, month, id):
 				'hours': m.hours,
 				'cost_center': unicode(m.cost_center),
 				'salary_type': unicode(m.salary_type),
-				'description': unicode(m.description),
+				'description': unicode(m.cost_center.description),
 				})
 	
 	output = StringIO()
 	if params:
 		output.write(salary_xls(compact=compact, bureaucrat=request.user.get_full_name(), params=params))
-	response = HttpResponse(mimetype='application/octet-stream')
+	response = HttpResponse(mimetype='application/vnd.ms-excel')
 	response['Content-Disposition'] = "attachment; filename=" + filename + '.xls'
 	response.write(output.getvalue())
 	output.close()
