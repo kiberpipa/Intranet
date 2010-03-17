@@ -19,9 +19,9 @@ def _recalculate_mercenarymonth(year, month):
 	the_month = datetime.date(year, month, 1)
 	mercenaries = {}
 	for d in diaries:
-		mercenary = mercenaries.get(d.author.id, None)
+		mercenary = mercenaries.get((d.author.id, d.task.cost_center.id), None)
 		if mercenary is None:
-			mercenary, created = MercenaryMonth.objects.get_or_create(person=d.author, month=the_month)
+			mercenary, created = MercenaryMonth.objects.get_or_create(person=d.author, month=the_month, cost_center=d.task.cost_center)
 		
 		if d.task.cost_center:
 			mercenary.wage_per_hour = d.task.cost_center.wage_per_hour
@@ -31,9 +31,9 @@ def _recalculate_mercenarymonth(year, month):
 			mercenary.amount += d.length.hour * mercenary.wage_per_hour
 			mercenary.hours += d.length.hour
 			# XXX
-		mercenaries[d.author.id] = mercenary
+		mercenaries[(d.author.id, d.task.cost_center.id)] = mercenary
 	
-	for author, m in mercenaries.iteritems():
+	for author_costcenter, m in mercenaries.iteritems():
 		m.save()
 	
 	today = datetime.date.today()
@@ -115,14 +115,14 @@ def export_xls(request, year, month, id):
 			params.append({'mercenary': m.person.get_full_name(),
 				'amount': m.amount,
 				'hours': m.hours,
-				'cost_center': unicode(m.cost_center),
+				'cost_center': u'%s - %s' % (m.cost_center, m.cost_center.code),
 				'salary_type': unicode(m.salary_type),
-				'description': unicode(m.cost_center.description),
+				'description': u'%s %s/%s' % (m.cost_center.description, month, year),
 				})
 	
 	output = StringIO()
 	if params:
-		output.write(salary_xls(compact=compact, bureaucrat=request.user.get_full_name(), params=params))
+		output.write(salary_xls(compact=compact, bureaucrat=request.user.get_full_name(), params=params, year=year, month=month))
 	response = HttpResponse(mimetype='application/vnd.ms-excel')
 	response['Content-Disposition'] = "attachment; filename=" + filename + '.xls'
 	response.write(output.getvalue())
