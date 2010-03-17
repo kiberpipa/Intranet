@@ -74,7 +74,6 @@ def salary_xls(compact, bureaucrat, params, year, month):
             
             amount = 0
             for i in items:
-                print i
                 line += 1
                 ws.write(line, 0, i['mercenary'], obican)
                 ws.write(line, 1, float(i.get('hours','0')) or '', obican)
