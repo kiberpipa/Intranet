@@ -307,9 +307,9 @@ a img {
 
 #blog-cp {
 	float: left;
-	width: 480px;
+	width: 475px;
 	height: 100%;
-	padding-bottom: 25px;
+	padding: 0 5px 25px 0;
 	}
 	
 .blog-cp-title {
