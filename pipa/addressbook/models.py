@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 class PipaProfile(models.Model):
 	# former is_active: if it's set, show the profile on alumni page
 	show_profile = models.BooleanField(default=False)
+	public_name = models.CharField(max_length=150, blank=True, null=True)
 	
 	description = models.TextField(max_length=400, blank=True, null=True)
 	user = models.ForeignKey(User, unique=True)

@@ -17,11 +17,11 @@
         {% trans "Kiberpipa is possible because of all the volunteers that are interested in tech, computers, art and the mix of everything through everyday life. Through the years there were many people that helped around, some stayed for a short while, while others are still helping around. Here is a list of people that helped in anyway and build Kiberpipa to be The Best Cybercenter in Europe." %}
         </div>
             <div class="community-content">
-        {% for alumni in profiles %}{% if alumni.user.get_full_name and alumni.show_profile and alumni.user.is_active %}
+        {% for alumni in profiles %}{% if alumni.show_profile and alumni.user.is_active %}
             <div class="community-person">
             <div class="community-content-img">{% if alumni.image %}<img src="{{ alumni.image.url }}" width="80px"/>{% endif %}</div>
             <div class="community-details">
-            <p class="alumni-title-p">{{ alumni.user.get_full_name }}</p>
+            <p class="alumni-title-p">{% if alumni.public_name %}{{ alumni.public_name }}{% else %}{{ alumni.user.get_full_name }}{% endif %}</p>
             </div>
             <div class="community-img-s">
             {% if alumni.twitter and alumni.twitter_public %}
@@ -50,7 +50,10 @@
             </div>
 {% if alumni.sshpubkey and alumni.sshpubkey_public %}
             <div>
-            <p>{{ alumni.sshpubkey }}</p>
+                <a href="javascript:;" onmousedown="var tehid = 'sshkey_{{ alumni.user.id }}'; if(document.getElementById(tehid).style.display == 'none'){ document.getElementById(tehid).style.display = 'block'; } else{ document.getElementById(tehid).style.display = 'none'; }">Show key</a>
+                <div class="sshkey" id="sshkey_{{ alumni.user.id }}" style="display: none">
+                <textarea id="area_{{alumni.user.id}}" onfocus="this.select()" cols="50" rows="10">{{ alumni.sshpubkey }}</textarea>
+                </div>
             </div>
 {% endif %}
             </div>
