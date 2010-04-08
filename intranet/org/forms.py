@@ -126,6 +126,8 @@ class SodelovanjeFilter(forms.ModelForm):
         exclude = ('note',)
 
 class LendForm(forms.ModelForm):
+    from_who = forms.ChoiceField(choices=[(u.id, u.username) for u in User.objects.filter(is_active=True).order_by('username')])
+
     class Meta:
         model = Lend
         fields = ('what','to_who', 'from_who', 'contact_info', 'due_date',)
