@@ -127,7 +127,7 @@ def lend_back(request, id=None):
 lend_back = login_required(lend_back)
 
 def lends(request):
-    if request.method == 'POST':     
+    if request.method == 'POST':
         form = LendForm(request.POST)
         if form.is_valid():
             new_lend = form.save()
@@ -138,7 +138,7 @@ def lends(request):
     else:
         form = LendForm()
 
-    return date_based.archive_index(request, 
+    return date_based.archive_index(request,
         queryset = Lend.objects.all().order_by('due_date'),
         date_field = 'from_date',
         allow_empty = 1,
@@ -173,10 +173,10 @@ def lends_form(request, id=None, action=None):
 lends_form = login_required(lends_form)
 
 def lend_detail(request, object_id):
-    return list_detail.object_detail(request, 
-        object_id = object_id, 
-        queryset = Lend.objects.all(), 
-        extra_context = { 
+    return list_detail.object_detail(request,
+        object_id = object_id,
+        queryset = Lend.objects.all(),
+        extra_context = {
             'lend_form': LendForm(instance=Lend.objects.get(id=object_id)),
             'lend_edit': True,
         })
@@ -384,7 +384,7 @@ def diarys(request):
     else:
         filter = DiaryFilter()
 
-    return date_based.archive_index(request, 
+    return date_based.archive_index(request,
         queryset = diarys.order_by('date'),
         date_field = 'date',
         allow_empty = 1,
@@ -396,11 +396,11 @@ def diarys(request):
 diarys = login_required(diarys)
 
 def diary_detail(request, object_id):
-    return list_detail.object_detail(request, 
-        object_id = object_id, 
-        queryset = Diary.objects.all(), 
-        extra_context = { 
-            #the next line is the reason for wrapper function, dunno how to 
+    return list_detail.object_detail(request,
+        object_id = object_id,
+        queryset = Diary.objects.all(),
+        extra_context = {
+            #the next line is the reason for wrapper function, dunno how to
             #pass generic view dynamic form.
             'diary_form': DiaryForm(instance=Diary.objects.get(id=object_id)),
             'diary_edit': True,
@@ -427,11 +427,11 @@ def shopping_support (request, id=None):
 shopping_support = login_required(shopping_support)
 
 def shopping_detail(request, object_id):
-    return list_detail.object_detail(request, 
-        object_id = object_id, 
-        queryset = Shopping.objects.all(), 
-        extra_context = { 
-            #the next line is the reason for wrapper function, dunno how to 
+    return list_detail.object_detail(request,
+        object_id = object_id,
+        queryset = Shopping.objects.all(),
+        extra_context = {
+            #the next line is the reason for wrapper function, dunno how to
             #pass generic view dynamic form.
             'shopping_form': ShoppingForm(instance=Shopping.objects.get(id=object_id)),
             'shopping_edit': True,
@@ -472,7 +472,7 @@ def events(request):
         today = today - datetime.timedelta(1)
 
     week = datetime.timedelta(7)
-    return date_based.archive_index(request, 
+    return date_based.archive_index(request,
         queryset = events,
         date_field = 'start_date',
         allow_empty = 1,
@@ -535,15 +535,15 @@ def nf_event_create(request):
         new_event = form.save()
         for author, tip in authors:
             tip = TipSodelovanja.objects.get(pk=tip)
-            #make sure the Person actually exists 
-            try: 
-                person = Person.objects.get(name=author) 
-            except Person.DoesNotExist: 
-                person = Person(name=author) 
-                person.save() 
+            #make sure the Person actually exists
+            try:
+                person = Person.objects.get(name=author)
+            except Person.DoesNotExist:
+                person = Person(name=author)
+                person.save()
 
             s = Sodelovanje(event=new_event, tip=tip, person=person)
-            s.save() 
+            s.save()
         new_event.slug = slugify(new_event.title)
         new_event.save()
         if new_event.public and form.cleaned_data.has_key('resize'):
@@ -575,19 +575,19 @@ def nf_event_edit(request, event):
             sodelovanja = set()
             for author, tip in authors:
                 tip = TipSodelovanja.objects.get(pk=tip)
-                #make sure the Person actually exists 
-                try: 
-                    person = Person.objects.get(name=author) 
-                except Person.DoesNotExist: 
-                    person = Person(name=author) 
-                    person.save() 
+                #make sure the Person actually exists
+                try:
+                    person = Person.objects.get(name=author)
+                except Person.DoesNotExist:
+                    person = Person(name=author)
+                    person.save()
 
 
                 try:
                     s = Sodelovanje.objects.get(event=new_event, person=person, tip=tip)
                 except Sodelovanje.DoesNotExist:
                     s = Sodelovanje(event=new_event, tip=tip, person=person)
-                    s.save() 
+                    s.save()
                 
                 sodelovanja.add(s)
             new_event.slug = slugify(new_event.title)
@@ -721,8 +721,8 @@ def sodelovanja(request):
     except AttributeError:
         pass
     
-    return render_to_response('org/sodelovanja.html', 
-        {'sodelovanja': sodelovanja, 'form': form, 
+    return render_to_response('org/sodelovanja.html',
+        {'sodelovanja': sodelovanja, 'form': form,
         'admin_org': '%s/intranet/admin/org/' % settings.BASE_URL,
         'person_form': person_form },
         context_instance=RequestContext(request))
