@@ -19,6 +19,8 @@ def _recalculate_mercenarymonth(year, month):
 	the_month = datetime.date(year, month, 1)
 	mercenaries = {}
 	for d in diaries:
+		if d.task.id not in (22, 23):
+			continue
 		mercenary = mercenaries.get((d.author.id, d.task.cost_center.id), None)
 		if mercenary is None:
 			mercenary, created = MercenaryMonth.objects.get_or_create(person=d.author, month=the_month, cost_center=d.task.cost_center)
