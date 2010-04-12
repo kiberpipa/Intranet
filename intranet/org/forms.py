@@ -95,7 +95,7 @@ class EventForm(forms.ModelForm):
     # get max_length from original field
     title = forms.CharField(max_length=dict([(f.name, f) for f in Event._meta.fields])['title'].max_length,
         widget=forms.TextInput(attrs={'size':'60'}))
-    responsible = forms.ChoiceField(choices=[(0, u'---')] + [(u.id, u.username) for u in User.objects.filter(is_active=True).order_by('username')])
+    responsible = forms.ModelChoiceField(queryset=User.objects.filter(is_active=True).order_by('username'))
 
     class Meta:
         model = Event
