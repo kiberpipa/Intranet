@@ -41,3 +41,14 @@ class PipaProfile(models.Model):
 		else:
 			return self.description
 
+
+def new_user_handler(sender, **kwargs):
+	instance = kwargs.get('instance')
+	created = kwargs.get('created')
+	
+	if created:
+		pp = PipaProfile(user=instance)
+		pp.save()
+
+from django.db.models.signals import post_save
+post_save.connect(new_user_handler, sender=User)
