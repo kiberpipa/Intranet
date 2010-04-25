@@ -145,7 +145,7 @@ class Event(models.Model):
     title = models.CharField(max_length=100)
     # XXX FIXME: unique is false on SlugField because of data inconsistancy
     slug = models.SlugField("event_slug",max_length=150, unique=False, blank=True, null=True)
-    start_date = models.DateTimeField()
+    start_date = models.DateTimeField(db_index=True)
     end_date = models.DateField(blank=True, null=True)
     length = models.TimeField()
     project = models.ForeignKey(Project)
@@ -339,7 +339,7 @@ class Task(models.Model):
 class Diary(models.Model):
     author = models.ForeignKey(User, related_name="diary_author")
     task = models.ForeignKey(Project) #retained name for backwards compatibility
-    date = models.DateTimeField(default=date.today())
+    date = models.DateTimeField(default=date.today(), db_index=True)
     length = models.TimeField(default=time(4,0))
     event = models.ForeignKey(Event,blank=True, null=True)
     log_formal = models.TextField()

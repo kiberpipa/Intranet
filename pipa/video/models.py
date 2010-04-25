@@ -8,7 +8,7 @@ class Video(models.Model):
     videodir = models.CharField(max_length=100, unique=True)
     image_url = models.CharField(max_length=240)
     play_url = models.CharField(max_length=240)
-    pub_date = models.DateTimeField()
+    pub_date = models.DateTimeField(db_index=True)
 
     def __unicode__(self):
         return self.videodir
