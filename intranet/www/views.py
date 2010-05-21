@@ -15,8 +15,6 @@ from django import forms
 from django.utils.translation import ugettext as _
 from django.utils import simplejson
 
-from photologue.models import Photo
-
 from intranet.org.models import Event, Email
 from feedjack.models import Post
 from intranet.www.models import Ticker, News
@@ -44,7 +42,6 @@ def index(request):
     return render_to_response('www/index.html', {
         #'position': position,
         'events': events,
-        'photos': Photo.objects.all().order_by('date_added')[0:2],
         'ticker': Ticker.objects.filter(is_active=True),
         'news': News.objects.order_by('-date')[0:4],
         'planet': Post.objects.order_by('-date_modified')[:4],
@@ -238,7 +235,7 @@ def ical(request, month=None):
     else: 
         cal.append('SUMMARY:Dogodki v Kiberpipi')
         events = Event.objects.order_by('-chg_date')[:20]
-        response = HttpResponse(mimetype='text/calendar')
+        response = HttpResponse(mimetype='text/calendar; charset=UTF-8')
     cal.append('')
 
     for e in events:
