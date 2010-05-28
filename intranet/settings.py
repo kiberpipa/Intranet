@@ -98,7 +98,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.markup',
     'intranet.www',
-    'photologue',
+    #'photologue',
     'feedjack', # FIXME
     'localeurl',
     'pipa.video',

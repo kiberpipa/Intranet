@@ -19,7 +19,6 @@ from intranet.org.models import Event, Email
 from feedjack.models import Post
 from intranet.www.models import Ticker, News
 from pipa.video.models import Video
-from forms import FileForm
 
 
 #if there will be any more forms we should probably create www/forms.py
@@ -87,7 +86,6 @@ def event(request, date, id, slug):
     return render_to_response('www/event.html', {
         'event': event,
         'form': EmailForm(),
-        'event_photos': FileForm(),
         },
         context_instance=RequestContext(request))
 
