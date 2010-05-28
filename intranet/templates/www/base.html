@@ -3,7 +3,14 @@
 <head>
 {% load i18n localeurl_tags %}
 {% get_current_language as LANGUAGE_CODE %}
-<link rel="alternate" type="application/rss+xml" title="Kiberpipin RSS" href="http://www.kiberpipa.org/rss/" />
+<link rel="alternate" type="application/rss+xml" title="Kiberpipa - Vse" href="/feeds/all/" />
+<link rel="alternate" type="application/rss+xml" title="Kiberpipa - Novice" href="/feeds/novice/" />
+<link rel="alternate" type="application/rss+xml" title="Kiberpipa - Dogodki" href="/feeds/dogodki/" />
+<link rel="alternate" type="application/rss+xml" title="Kiberpipa - POT" href="/feeds/pot/" />
+<link rel="alternate" type="application/rss+xml" title="Kiberpipa - SU" href="/feeds/su/" />
+<link rel="alternate" type="application/rss+xml" title="Kiberpipa - VIP" href="/feeds/vip/" />
+<link rel="alternate" type="application/rss+xml" title="Kiberpipa - Muzej" href="/feeds/muzej/" />
+<link rel="alternate" type="application/rss+xml" title="Planet Kiberpipa" href="/feeds/planet/" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="linux,open source,kiberpipa" />
 <title>{% block title %}{% trans "All our code are belong to you" %}{% endblock %} :: Kiberpipa.org</title>

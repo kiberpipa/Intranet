@@ -17,7 +17,14 @@ planet_dict = {
 
 feeds = {
     'all': AllInOne,
+    'novice': NewsFeed,
+    'dogodki': EventsFeed,
+    'pot': POTFeed,
+    'su': SUFeed,
+    'vip': VIPFeed,
+    'planet': PlanetFeed,
 }
+
 
 js_info_dict = {
     'packages': ('intranet.www', 'intranet.org', 'intranet.web', 'intranet.wiki'),
@@ -37,7 +44,10 @@ urlpatterns = patterns('',
     #(r'^planet/', include('intranet.feedjack.urls')),
     (r'^planet/', 'django.views.generic.list_detail.object_list', planet_dict),
 
-    (r'^feeds/(?P<url>.*)', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
+    # keep this here as a way to force normalization of feeds
+    (r'^feeds/(?P<feed>%s)/.+$' % '|'.join(feeds.keys()),
+        'django.views.generic.simple.redirect_to', {'url': '/sl/feeds/%(feed)s/', 'permanent': True}),
+    (r'^feeds/(?P<url>.*)$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
 
 
     (r'^intranet/admin/(.*)', admin.site.root),
@@ -52,10 +62,10 @@ urlpatterns = patterns('',
 )
 
 if settings.DEBUG:
-  from intranet.settings import next_to_this_file
-  urlpatterns += patterns('',
-    (r'^smedia/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
-    #for shorter urls
-    (r'^img/(?P<path>.*)$', 'django.views.static.serve', {'document_root':   next_to_this_file(__file__, '../media/photologue/photos')}),
-    (r'^amedia/(?P<path>.*)$', 'django.views.static.serve', {'document_root':   next_to_this_file(__file__, '../admin-media')}),
-  )
+    from intranet.settings import next_to_this_file
+    urlpatterns += patterns('',
+        (r'^smedia/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
+        #for shorter urls
+        (r'^img/(?P<path>.*)$', 'django.views.static.serve', {'document_root':   next_to_this_file(__file__, '../media/photologue/photos')}),
+        (r'^amedia/(?P<path>.*)$', 'django.views.static.serve', {'document_root':   next_to_this_file(__file__, '../admin-media')}),
+    )

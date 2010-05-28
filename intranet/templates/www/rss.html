@@ -1,27 +1,16 @@
 {% extends "www/base-second.html" %}
 
 {% block extrahead %}
-<script type="text/javascript">
-$(document).ready(function(){
-    var feeds = Array();
-    $('input[type=checkbox]').click(function(){
-        if ($(this).is(":checked")) {
-                feeds.push($(this).attr("id"));
-        } else if($(this).not(":checked")) {
-            index = feeds.indexOf($(this).attr("id"));
-            feeds.splice(index, 1);
-        }
+<style>
 
-        if (feeds[0]){ 
-            $(".rss-signup").html('<a href="/feeds/all/' + feeds.join('/')+'">Prijavi me &gt;&gt;</a>'); 
-        } else {
-            $(".rss-signup").html('');
-        } 
-    });
+.rss-icon-list li a {
+    background: #fff url("/smedia/www/images/rss20x20.png") no-repeat top left;
+    padding-left: 30px;
+    display: block;
+    width: 20em;
+}
 
-});
-</script>
-
+</style>
 {% endblock %}
 
 {% block content %}
@@ -33,27 +22,16 @@ $(document).ready(function(){
 <p>V Kiberpipi poteka veliko različnih dogodkov na katere se lahko naročite preko RSS feedov. Izberite za katere dogodke želite prejemati obvestila in dobili boste le tiste. Če si želite obveščanja o vsem dogajanju v Kiberpipi se naročite na vse. Predvsem pa boste na tekočem z vsem kar se bo dogajalo v prostorih Kiberpipe.</p>
         </div>
         <div class="rss-related">
-            <ul>
-                <form>
-                    <li><input type="checkbox" id="news"  />Novice</li>
-                    <li><input type="checkbox" id="events" />Dogodki</li>
-                    <li><input type="checkbox" id="pot" />POT - Pipini Odprti Termini</li>
-                    <li><input type="checkbox" id="su" />SU - Spletne Urice</li>
-                    <li><input type="checkbox" id="vip" />VIP - Večeri za Inovative in podjetne</li>
-                    <li><input type="checkbox" id="muzej" />Kiberpipin Muzej</li>
-                    <li><input type="checkbox" id="planet" />Planet</li>
-                    <li class="rss-vse"><input checked="true" type="checkbox" id="all" />Vse</li>
-                </form>
-                    <!-- 
-                    <li>muzej</li>
-                    <li>koledar</li>
-                    <li>videoarhiv</li>
-                    <li>haip</li>
-                    -->
-        	</ul>
-            <div class="rss-signup">
-                <a href="/feeds/all/all">Prijavi me &gt;&gt;</a>
-            </div>
+            <ul class="rss-icon-list">
+                <li><a href="/feeds/novice/">Novice</a></li>
+                <li><a href="/feeds/dogodki/">Dogodki</a></li>
+                <li><a href="/feeds/pot/">POT - Pipini Odprti Termini</a></li>
+                <li><a href="/feeds/su/">SU - Spletne Urice</a></li>
+                <li><a href="/feeds/vip/">VIP - Večeri za Inovative in podjetne</a></li>
+                <li><a href="/feeds/muzej/">Kiberpipin računalniški muzej</a></li>
+                <li><a href="/feeds/planet/">Planet Kiberpipa</a></li>
+                <li><a href="/feeds/all/">Vse</a></li>
+            </ul>
         </div>
     </div>
 {% endblock %}

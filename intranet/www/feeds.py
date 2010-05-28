@@ -1,3 +1,4 @@
+# *-* coding: utf-8 *-*
 import datetime
 
 from django.contrib.syndication.feeds import Feed
@@ -8,62 +9,81 @@ from intranet.org.models import Event, Project
 from intranet.www.models import News
 from feedjack.models import Post
 
+class NewsFeed(Feed):
+    title = "Kiberpipa - Novice"
+    link = "/sl/feeds/novice/"
+    description = ""
+
+    def items(self):
+        return News.objects.order_by('-date')[:10]
+
+def _get_events():
+    return Event.objects.filter(public=True, start_date__lte=datetime.datetime.today()).order_by('-start_date')
+
+class EventsFeed(Feed):
+    title = "Kiberpipa - Dogodki"
+    link = "/sl/feeds/dogodki/"
+    description = "Najave dogodkov v Kiberpipi"
+
+    def items(self):
+        return _get_events()[:10]
+
+    def item_link(self, obj):
+        return obj.get_public_url()
+
+class POTFeed(EventsFeed):
+    title = "Kiberpipa - POT"
+    link = "/sl/feeds/pot/"
+    description = "Pipini odprti termini"
+
+    def items(self):
+        return _get_events().filter(project=Project.objects.get(pk=1))[:10]
+
+class SUFeed(EventsFeed):
+    title = "Kiberpipa - Spletne Urice"
+    link = "/sl/feeds/su/"
+    description = "Spletne urice"
+
+    def items(self):
+        return _get_events().filter(project=Project.objects.get(pk=6))[:10]
+
+class VIPFeed(EventsFeed):
+    title = u"Kiberpipa - Večeri za inovativne in podjetne"
+    link = "/sl/feeds/vip/"
+    description = u"Večeri za inovativne in podjetne"
+
+    def items(self):
+        return _get_events().filter(project=Project.objects.get(pk=14))[:10]
+
+class PlanetFeed(Feed):
+    title = "Planet Kiberpipa"
+    link = "/sl/feeds/planet/"
+    description = "Planet Kiberpipa"
+
+    def items(self):
+        return Post.objects.order_by('-date_modified')[:10]
+
+class MuzejFeed(Feed):
+    title = "Kiberpipin računalniški muzej"
+    link = "/sl/feeds/muzej/"
+    description = "Kiberpipin računalniški muzej"
+
+    def items(self):
+        return Post.objects.filter(feed=12).order_by('-date_modified')[:10]
+
 class AllInOne(Feed):
+    title = "Kiberpipa - vse"
+    link = '/sl/feeds/all/'
+
     def __init__(self, slug, request):
         #painfully slow, cache me!!
         Feed.__init__(self, slug, request)
-        
-        bits = request.path.split('/')
-
-        today = datetime.datetime.today()
-        push = datetime.timedelta(2)
-
-        events = Event.objects.filter(public=True, start_date__lte=today + push)
-        
-        pot = [(e.start_date-push, e) for e in events.filter(project=Project.objects.get(pk=1)).order_by('-start_date')[:10]]
-        su = [(e.start_date-push, e) for e in events.filter(project=Project.objects.get(pk=6)).order_by('-start_date')[:10]]
-        vip = [(e.start_date-push, e) for e in events.filter(project=Project.objects.get(pk=14)).order_by('-start_date')[:10]]
-        events = [(e.start_date-push, e) for e in events.order_by('-start_date')[:10]]
+        events = [(e.start_date, e) for e in Event.objects.filter(public=True, start_date__lte=datetime.datetime.today()).order_by('-start_date')[:10]]
         news =  [(n.date, n) for n in News.objects.order_by('-date')[:10]]
-        #albums =  [(g.date_added, g) for g in Gallery.objects.order_by('-date_added')[:10]]
-        planet =  [(p.date_modified, p) for p in Post.objects.order_by('-date_modified')[:10]]
-        muzej =  [(p.date_modified, p) for p in Post.objects.filter(feed=12).order_by('-date_modified')[:10]]
-
-    
-
-        feeds = {
-            'events': events,
-            'planet': planet,
-            'news': news,
-            #'albums': albums,
-            'pot': pot,
-            'su': su,
-            'vip': vip,
-            'muzej': muzej,
-            #'all': events + news + albums + pot + su + muzej,
-            'all': events + news + pot + su + muzej,
-        }
-
-        items = []
-        new_bits = []
-        for b in bits:
-            if b:
-                new_bits.append(b)
-        del new_bits[0:2]
-
-        for i in new_bits:
-            items.extend(feeds[i])
-
+        items = events + news
         items.sort()
         items.reverse()
-        self.items = []
-        for date, feed in items:
-            if feed not in self.items:
-                self.items.append(feed)
-        
-
-        self.title = ' | '.join(new_bits)
-        self.link = request.path
+        self.items = [f for d, f in items]
 
     def items(self):
         return self.items
