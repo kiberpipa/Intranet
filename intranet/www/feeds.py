@@ -18,7 +18,8 @@ class NewsFeed(Feed):
         return News.objects.order_by('-date')[:10]
 
 def _get_events():
-    return Event.objects.filter(public=True, start_date__lte=datetime.datetime.today()).order_by('-start_date')
+    # announcing events up to two days in future
+    return Event.objects.filter(public=True, start_date__lte=datetime.datetime.today() + datetime.timedelta(2)).order_by('-start_date')
 
 class EventsFeed(Feed):
     title = "Kiberpipa - Dogodki"
