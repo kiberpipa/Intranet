@@ -221,19 +221,13 @@ def utcize(date):
     return tmp.astimezone(utc) #rfc wants utc here
 
 
-def ical(request, month=None):
+def ical(request):
     cal = ['BEGIN:VCALENDAR', 
         'PRODID: -//Kiberpipa//NONSGML intranet//EN', 
         'VERSION:2.0']
-    if month:
-        cal.append('SUMMARY:%s -- Dogodki v Kiberpipi' % datetime.datetime.today().strftime('%B'))
-        events = Event.objects.filter(public=True, start_date__year=datetime.datetime.today().year, start_date__month=datetime.datetime.today().month).order_by('chg_date')[:20]
-        response = HttpResponse(mimetype='application/octet-stream')
-        response['Content-Disposition'] = "attachment; filename=" + datetime.datetime.today().strftime('%B') + '.vcs'
-    else: 
-        cal.append('SUMMARY:Dogodki v Kiberpipi')
-        events = Event.objects.order_by('-chg_date')[:20]
-        response = HttpResponse(mimetype='text/calendar; charset=UTF-8')
+    cal.append('SUMMARY:Dogodki v Kiberpipi')
+    events = Event.objects.order_by('-chg_date')[:20]
+    response = HttpResponse(mimetype='text/calendar; charset=UTF-8')
     cal.append('')
 
     for e in events:
@@ -263,7 +257,6 @@ def ical(request, month=None):
     ret = u'\r\n'.join(cal)
     response.write(ret)
     return response
-
 
 def rss(request):
     return render_to_response('www/rss.html', context_instance=RequestContext(request))

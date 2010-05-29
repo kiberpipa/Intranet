@@ -23,6 +23,7 @@ feeds = {
     'su': SUFeed,
     'vip': VIPFeed,
     'planet': PlanetFeed,
+    'muzej': MuzejFeed,
 }
 
 
