@@ -10,6 +10,7 @@ from datetime import date, time, timedelta, datetime
 import smtplib, string, audit
 import socket
 from PIL import Image
+import md5
 import re
 
 # FIXME
@@ -139,6 +140,22 @@ class Role(models.Model):
     def __unicode__(self):
         return self.role
 
+class IntranetImage(models.Model):
+    title = models.CharField(max_length=255)
+    image = models.ImageField(upload_to='events/%Y/%m/', verbose_name="Slikca za Event page")
+    md5 = models.CharField(max_length=32, db_index=True, unique=True, blank=True)
+    
+    class Meta:
+        ordering = ('-image',)
+
+    def __unicode__(self):
+        return u'Image: %s URL:%s' % (self.title, self.image.url)
+
+    def save(self, *args, **kwargs):
+        md = md5.new(open(self.image.path).read()).hexdigest()
+        self.md5 = md
+        models.Model.save(self, *args, **kwargs)
+
 # koledar dogodkov
 class Event(models.Model):
     responsible = models.ForeignKey(User)
@@ -175,6 +192,7 @@ class Event(models.Model):
     tags = models.ManyToManyField(Tag, blank=True, null=True)
     #for video spamming
     emails = models.ManyToManyField(Email, blank=True, null=True)
+    event_image = models.ForeignKey(IntranetImage, null=True, blank=True)
 
     class Meta:
         verbose_name = 'Dogodek'

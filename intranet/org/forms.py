@@ -99,7 +99,7 @@ class EventForm(forms.ModelForm):
 
     class Meta:
         model = Event
-        exclude = ('sequence')
+        exclude = ('sequence', )
 
     def clean(self):
         cleaned_data = self.cleaned_data
