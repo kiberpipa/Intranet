@@ -34,34 +34,6 @@
         </div>
         {{ event.announce|safe|linebreaks }}
         </div>
-        <div>
-            <a href="#" onclick="return false;" class="expand">{% trans "Upload photos" %}</a>
-            <div class="hideme">
-            <br />
-            <form method="POST" action="/event_photos/{{ event.id }}/" enctype="multipart/form-data">
-                {{ event_photos.as_p }}
-                <input value="{% trans "submit" %}" type="submit">
-            </form>
-            <br />
-            {% trans "Note: your email will be used only to deliver the message about video availability." %}
-            </div>
-        </div>
-        {% comment %} <div class="dogodek-tags">Znake: Lorem, Ipsum, Dolor, Sit, Amet</div> {% endcomment %}
-        <div class="dogodek-gallery">
-        	<div class="dogodek-gallery-title">
-            Pictures from Gallery
-            </div>
-            {% if event.gallery_set.all %}
-                {% for gallery in event.gallery_set.all %}
-                    {% for photo in gallery.photos.all %}
-                        <div class="dogodek-gallery-button{{ forloop.counter }}">
-                            <a href="/gallery/{{ gallery.id }}/"><img src="{{ photo.get_small_url }}" alt="slika" /></a>
-                        </div>
-                    {% endfor %}
-                {% endfor %}
-        	<div class="dogodek-gallery-more">See more in Gallery &gt;&gt;</div>
-            {% endif %}
-        </div>
         <div class="dogodek-video">
             {% if event.video_set.all %}
                 {% for video in event.video_set.all %}
@@ -87,19 +59,5 @@
 
             {% endif %}
         </div>
-        {% comment %}
-        <div class="dogodek-related">
-        	<div class="dogodek-related-title">
-            Related articles:
-            </div>
-        	<ul>
-        		<li>Related article 01</li>
-            	<li>Related article 02</li>
-            	<li>Related article 03</li>
-            	<li>Related article 04</li>
-            	<li>Related article 05</li>
-        	</ul>
-        </div>
-        {% endcomment %}
     </div>
 {% endblock %}
