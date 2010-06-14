@@ -243,7 +243,7 @@ $(document).ready(function() {
             <option {% ifequal '09:00:00' form.data.length %}selected {% endifequal %} value="09:00:00">9</option>
             <option {% ifequal '10:00:00' form.data.length %}selected {% endifequal %} value="10:00:00">10</option>
             <option {% ifequal '11:00:00' form.data.length %}selected {% endifequal %} value="11:00:00">11</option>
-            option {% ifequal '12:00:00' form.data.length %}selected {% endifequal %} value="12:00:00">12</option>
+            <option {% ifequal '12:00:00' form.data.length %}selected {% endifequal %} value="12:00:00">12</option>
         </select>
         ur 
 				{% comment %}{{ form.length }} {% endcomment %}
@@ -269,9 +269,6 @@ $(document).ready(function() {
     {{ form.slides }} {{ form.slides_file }}
     </p>
   <p>
-    {{ form.image.errors }}
-    {{ form.image.label_tag }}
-    {{ form.image }} {{ form.image_file }}
     <div id="ajax_img"></div> 
   </p>
 {% if image.url %}
@@ -300,10 +297,6 @@ $(document).ready(function() {
     <label for="id_note">Opombe:</label>
     {{ form.note }}
   </p>
-  {{ form.resize.label_tag }}
-  {{ form.resize }}
-  {{ form.filename.label_tag }}
-  {{ form.filename }}
   </div>
   </div>
 	</form>

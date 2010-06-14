@@ -156,7 +156,10 @@ urlpatterns = patterns('',
     #(r'^sodelovanja/(?P<object_id>\d+)', 'django.views.generic.list_detail.object_detail', sodelovanje_detail),
     (r'^sodelovanja/person/$', 'intranet.org.views.person'),
 
-    (r'^tmp_upload/', 'intranet.org.views.tmp_upload'),
+    (r'^tmp_upload/', 'intranet.org.views.temporary_upload'),
+    (r'^image_crop_tool/resize/', 'intranet.org.views.image_resize'),
+    (r'^image_crop_tool/save/', 'intranet.org.views.image_save'),
+    (r'^image_crop_tool/$', 'intranet.org.views.image_crop_tool'),
 
     (r'^tehniki/(?P<year>\d+)/(?P<month>[a-z]{3})/$', 'intranet.org.views.tehniki_monthly'),
     (r'^tehniki/(?P<year>\d+)/(?P<week>\d+)/$', 'intranet.org.views.tehniki'),

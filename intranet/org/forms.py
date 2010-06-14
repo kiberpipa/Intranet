@@ -1,6 +1,7 @@
 # coding=utf-8
 
 import datetime
+import re
 import time
 
 from django import forms
@@ -14,6 +15,7 @@ from django.forms.models import ModelChoiceField, ModelMultipleChoiceField
 from intranet.org.models import TipSodelovanja, Person, Event, Sodelovanje
 from intranet.org.models import Project
 from intranet.org.models import Category, Lend, Diary, Shopping
+from intranet.org.models import IntranetImage
 #from intranet.photologue.models import GalleryUpload
 
 # DATETIMEWIDGET
@@ -87,6 +89,24 @@ class PersonForm(forms.Form):
 
 class AddEventEmails(forms.Form):
     emails = forms.CharField(widget=forms.Textarea(attrs={'cols':'31'}))
+
+class CommaSeparatedIntegerField(forms.CharField):
+    def clean(self, value):
+        values = value.strip().split(',')
+        print values
+        for i in values:
+            if not re.match('^\d+$', i):
+                raise ValidationError("Integer is required.")
+        return [int(i) for i in values]
+
+class ImageResizeForm(forms.Form):
+    resize = CommaSeparatedIntegerField(widget=forms.HiddenInput)
+    filename = forms.CharField(widget=forms.HiddenInput)
+
+class IntranetImageForm(forms.ModelForm):
+    class Meta:
+        model = IntranetImage
+        exclude = ('md5',)
 
 class EventForm(forms.ModelForm):
     resize = forms.CharField(widget=forms.HiddenInput, required=False)

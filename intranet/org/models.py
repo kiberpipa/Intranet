@@ -149,7 +149,7 @@ class IntranetImage(models.Model):
         ordering = ('-image',)
 
     def __unicode__(self):
-        return u'Image: %s URL:%s' % (self.title, self.image.url)
+        return u'Image: %s' % (self.image.url)
 
     def save(self, *args, **kwargs):
         md = md5.new(open(self.image.path).read()).hexdigest()

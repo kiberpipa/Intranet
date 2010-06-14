@@ -1,0 +1,114 @@
+{% extends "org/base.html" %}
+{% block extrahead %}
+<script type="text/javascript" src="{{ media_url }}markitup/jquery.markitup.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ media_url }}markitup/skins/markitup/style.css" />
+<link rel="stylesheet" type="text/css" href="{{ media_url }}markitup/sets/html/style.css" />
+<script type="text/javascript" src="{{ media_url }}markitup/sets/html/set.js"></script>
+<script type="text/javascript" src="{{ media_url }}js/jquery.highlightFade.js" ></script>
+<script src="{{ media_url }}/js/ui.datepicker.js"></script>
+<!-- jquery date picker -->
+<link rel="stylesheet" href="{{ media_url }}/css/flora.datepicker.css" type="text/css" media="screen" title="Flora (Default)">
+<!-- calendar -->
+<link rel="stylesheet" type="text/css" href="{{ media_url }}js/cal/calendar-win2k-cold-2.css" />
+<script type="text/javascript" src="{{ media_url }}js/cal/calendar.js"></script>
+<script type="text/javascript" src="{{ media_url }}js/cal/lang/calendar-en.js"></script>
+<script type="text/javascript" src="{{ media_url }}js/cal/calendar-setup.js"></script>
+<script type="text/javascript" src="{{ media_url }}js/jquery.suggest.js" ></script>
+<script type="text/javascript" src="{{ media_url }}js/jquery.ajaxUpload.js" ></script>
+<script type="text/javascript" src="{{ media_url }}js/jquery.imgareaselect-0.6.1.min.js" ></script>
+<script type="text/javascript">
+
+function imgResized(img, sel) {
+    var result = new Array(sel.x1, sel.x2, sel.y1, sel.y2)
+    $("#id_resize").attr("value", result.join(','));
+    
+    $.ajax({
+        type: 'POST',
+        url:"/intranet/image_crop_tool/resize/",
+        dataType: "json",
+        data:$("#resizeform").serialize(),
+        success: function (data, status) {
+                var tim = new Date();
+                $("#final_image").html('<img id="final_img" src="' + data["resized_url"] + '?t=' + tim.getTime() + '" />');
+                $("#id_resized_filename").attr("value", data['resized_filename']);
+            }
+    });
+    
+}
+
+$(document).ready(function() {
+    $("#id_image").change(function(){
+        $.ajaxFileUpload
+        (
+            {
+                url:'/intranet/tmp_upload/',
+                secureuri: true,
+                fileElementId:'id_image',
+                dataType: 'json',
+                success: function (data, status)
+                {
+                    $("#ajax_img").html('<img id="rect" src="' + data['link'] + '">');
+                    $('#id_filename').attr("value", data['filename']);
+                    $('img#rect').imgAreaSelect({ selectionColor: null, aspectRatio: "250:130", onSelectEnd: imgResized});
+                },
+                error: function (data, status, e)
+                {
+                    alert(e);
+                }
+            }
+        )
+
+    });
+    $("#id_imageok").click(function () {
+        this.disabled=true;
+        $.ajax({
+            type: 'POST',
+            url:"/intranet/image_crop_tool/save/",
+            dataType: "json",
+            data:$("#imageok_form").serialize(),
+            success: function (data, status) {
+                    $("#id_imageok").disabled = false;
+                    $("#message").html("Saved.");
+                }
+        });
+    
+    });
+});
+</script>
+<style type="text/css">
+    h3 {background:#f5f5f5 none repeat scroll 0 0;}
+</style>
+{% endblock %}
+{% block title %}Slike{% endblock %}
+
+{% block content %}
+<div id="content" class="colMS">
+    <h2>Nalaganje slike</h2>
+    <div id="content-related" class="sidebar">
+        <div id="recent-actions-module" class="module">
+            <h2>Nalaganje slike</h2>
+            <form method="POST" action="" enctype="multipart/form-data"> 
+                <input name="image" type="file" id="id_image" />
+            </form>
+            <div id="final_image">&nbsp;</div>
+            <form id="imageok_form" method="POST" action="">
+                <label for="id_title">Opis slike</label><input type="text" id="id_title" name="title" />
+                <input type="hidden" id="id_resized_filename" name="resized_filename" />
+            </form>
+            <input type="submit" id="id_imageok" name="imageok" value="Dobro bo" />
+            <div id="message" />
+        </div>
+    </div>
+</div>
+
+<div id="content-full" class="flex">
+    <div class="module">
+        <h2>Formatiranje slike</h2>
+
+        <div id="ajax_img">&nbsp;</div>
+        <form id="resizeform" action="" method="POST">
+            {{ form.as_p }}
+        </form>
+    </div>
+</div>
+{% endblock %}

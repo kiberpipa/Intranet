@@ -56,8 +56,6 @@ class ProjectAdmin(admin.ModelAdmin):
             'js/tags.js',
             )
 
-
-
 admin.site.register(Category)
 admin.site.register(TipSodelovanja)
 admin.site.register(Place)
@@ -68,6 +66,7 @@ admin.site.register(Role)
 admin.site.register(Shopping)
 admin.site.register(KB)
 admin.site.register(KbCategory)
+admin.site.register(IntranetImage)
 
 
 admin.site.register(Sodelovanje, SodelovanjeAdmin)

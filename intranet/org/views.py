@@ -14,6 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import list_detail, date_based
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 import datetime
 import mx.DateTime
@@ -31,7 +32,7 @@ from intranet.org.models import Project, Category, Email, \
     Place, Event, Shopping, Person, Sodelovanje, TipSodelovanja, Task, Diary, \
     StickyNote, Lend, KbCategory, KB, Tag, \
     Scratchpad
-from intranet.org.forms import EventFilter, DiaryFilter, PersonForm, AddEventEmails, EventForm, SodelovanjeFilter, LendForm, ShoppingForm, DiaryForm
+from intranet.org.forms import EventFilter, DiaryFilter, PersonForm, AddEventEmails, EventForm, SodelovanjeFilter, LendForm, ShoppingForm, DiaryForm, ImageResizeForm, IntranetImageForm
 
 #from intranet.photologue.models import Gallery, GalleryUpload
 
@@ -42,8 +43,14 @@ month_dict = { 'jan': 1, 'feb': 2, 'mar': 3,
 
 reverse_month_dict = dict(((i[1],i[0]) for i in month_dict.iteritems()))
 
-def tmp_upload(request):
-    # XXX FIX this.
+def temporary_upload(request):
+    """
+    Accepts an image upload to server and saves it in a temporary folder.
+    """
+    print request.FILES
+    if not 'image' in request.FILES:
+        return HttpResponse(simplejson.dumps({'status': 'fail'}))
+    
     filename = request.FILES['image']._get_name()
     imgdata = StringIO(request.FILES['image'].read())
     imgdata.seek(0)
@@ -55,19 +62,84 @@ def tmp_upload(request):
         print e
         return HttpResponse(simplejson.dumps({'status': 'fail'}))
     
-    local_filename = os.path.join(settings.MEDIA_ROOT, 'tmp', filename)
-    url = os.path.join(settings.MEDIA_URL, 'tmp', filename)
+    local_dir = os.path.join(settings.MEDIA_ROOT, 'tmp', request.session.session_key)
+    try:
+        os.mkdir(local_dir)
+    except:
+        pass
+    local_filename = os.path.join(local_dir, filename)
+    url = os.path.join(settings.MEDIA_URL, 'tmp', request.session.session_key, filename)
     
     f = open(local_filename, 'wb')
     f.write(imgdata.getvalue())
     f.close()
     
-    print url, local_filename
-    ret = simplejson.dumps({'link': url, 'filename': local_filename})
+    request.session['temporary_filename'] = local_filename
+    ret = simplejson.dumps({'status':'ok', 'link': url, 'filename': local_filename})
     return HttpResponse(ret)
-tmp_upload = login_required(tmp_upload)
+temporary_upload = login_required(temporary_upload)
+
+def image_resize(request):
+    if not request.POST:
+        return HttpResponse(simplejson.dumps({'status':'fail1'}))
+    else:
+        form = ImageResizeForm(request.POST)
+        if form.errors:
+            return HttpResponse(simplejson.dumps({'status':'fail2'}))
+        else:
+            if form.cleaned_data.get('filename') != request.session.get('temporary_filename'):
+                return HttpResponse(simplejson.dumps({'status':'fail3'}))
+            else:
+                # resize!
+                x1, x2, y1, y2 = tuple(form.cleaned_data['resize'])
+                box = (int(x1), int(y1), int(x2)-1, int(y2)-1)
+                
+                resized_dir = os.path.join(settings.MEDIA_ROOT, 'tmp', request.session.session_key, 's')
+                try:
+                    if not os.path.exists(resized_dir):
+                        os.mkdir(resized_dir)
+                except Exception, e:
+                    return HttpResponse(simplejson.dumps({'status':'fail4'}))
+                resized_filename = os.path.join(resized_dir, os.path.basename(form.cleaned_data.get('filename')))
+                image_filename = form.cleaned_data['filename']
+                im = Image.open(image_filename)
+                cropped = im.crop(box)
+                index = cropped.resize((250, 130), Image.ANTIALIAS)
+                index.save(resized_filename)
+                request.session['resized_filename'] = resized_filename
+                resized_url = os.path.join(settings.MEDIA_URL, 'tmp', request.session.session_key, 's', os.path.basename(form.cleaned_data.get('filename')))
+                return HttpResponse(simplejson.dumps({'status':'ok',
+                    'resized_url': resized_url,
+                    'resized_filename': resized_filename}))
+
+    return HttpResponse(simplejson.dumps({'status':'ok'}))
+image_resize = login_required(image_resize)
+
+def image_save(request):
+    if request.method == 'POST':
+        print request.POST
+        if request.POST.get('resized_filename') == request.session.get('resized_filename'):
+            from django.utils.datastructures import MultiValueDict
+            # ok, save the image
+            thumb_filename = request.session.get('resized_filename')
+            uploaded_file = SimpleUploadedFile(name=os.path.basename(thumb_filename), content=open(thumb_filename, 'rb').read())
+            files = MultiValueDict()
+            files['image'] = uploaded_file
+            form = IntranetImageForm(request.POST, files=files)
+            if not form.errors:
+                image = form.save()
+                return HttpResponse(simplejson.dumps({'status': 'ok', 'image_id': image.id}))
+    return HttpResponse(simplejson.dumps({'status':'fail'}))
+image_save = login_required(image_save)
+
+def image_crop_tool(request):
+    form = ImageResizeForm()
+    context = {'form': form}
+    return render_to_response("org/image_crop_tool.html", RequestContext(request, context))
+image_crop_tool = login_required(image_crop_tool)
 
 # ------------------------------------
+
 
 def index(request):
     today = datetime.datetime.today()
@@ -620,6 +692,28 @@ def nf_event_edit(request, event):
         }
     return render_to_response('org/nf_event.html', RequestContext(request, context))
 nf_event_edit = login_required(nf_event_edit)
+
+def event_image(request):
+
+    if request.POST:
+        form = EventImageForm(request.POST)
+        if new_event.public and form.cleaned_data['resize']:
+                # XXX FIXME : duplicate code for edit and create
+                x1, x2, y1, y2 = tuple(form.cleaned_data['resize'].split(','))
+                box = (int(x1), int(y1), int(x2)-1, int(y2)-1)
+                final_filename = os.path.join(settings.MEDIA_ROOT, new_event.image._name)
+                image_filename = form.cleaned_data['filename']
+                im = Image.open(image_filename)
+                cropped = im.crop(box)
+                index = cropped.resize((250, 130))
+                index.save(final_filename)
+    else:
+        form = EventImageForm()
+    
+    context = {'form': form,
+        }
+    return render_to_response('org/event_image.html', RequestContext(request, context))
+event_image = login_required(event_image)
 
 def event(request, object_id):
     return list_detail.object_detail(request,
