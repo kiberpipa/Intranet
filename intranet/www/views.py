@@ -43,7 +43,7 @@ def index(request):
         'events': events,
         'ticker': Ticker.objects.filter(is_active=True),
         'news': News.objects.order_by('-date')[0:4],
-        'planet': Post.objects.order_by('-date_modified')[:4],
+        'planet': Post.objects.order_by('-date_created')[:4],
         'videos': Video.objects.order_by('-pub_date')[:4],
     }, context_instance=RequestContext(request))
     
