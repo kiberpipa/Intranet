@@ -595,103 +595,56 @@ def info_txt(request, event):
     return response
 info_txt = login_required(info_txt)
 
-def nf_event_create(request):
+def event_edit(request, event_pk=None):
+    instance = None
+    if event_pk is not None:
+        instance = Event.objects.get(pk=event_pk)
+
     if request.method == 'POST':
-        form = EventForm(request.POST, request.FILES)
-        authors = zip(request.POST.getlist('author'), request.POST.getlist('tip'))
-    else:
-        form = EventForm()
-
-
-    if form.is_valid():
-        new_event = form.save()
-        for author, tip in authors:
-            tip = TipSodelovanja.objects.get(pk=tip)
-            #make sure the Person actually exists
-            try:
-                person = Person.objects.get(name=author)
-            except Person.DoesNotExist:
-                person = Person(name=author)
-                person.save()
-
-            s = Sodelovanje(event=new_event, tip=tip, person=person)
-            s.save()
-        new_event.slug = slugify(new_event.title)
-        new_event.save()
-        if new_event.public and form.cleaned_data.has_key('resize'):
-            x1, x2, y1, y2 = tuple(form.cleaned_data['resize'].split(','))
-            box = (int(x1), int(y1), int(x2)-1, int(y2)-1)
-            final_filename = os.path.join(settings.MEDIA_ROOT, new_event.image._name)
-            image_filename = form.cleaned_data['filename']
-            im = Image.open(image_filename)
-            cropped = im.crop(box)
-            index = cropped.resize((250, 130))
-            index.save(final_filename)
-        return HttpResponseRedirect(new_event.get_absolute_url())
-
-    return render_to_response('org/nf_event.html', {'form': form, 'tipi': TipSodelovanja.objects.all()},
-        context_instance=RequestContext(request))
-nf_event_create = login_required(nf_event_create)
-
-def nf_event_edit(request, event):
-    event = Event.objects.get(pk=event)
-    old_sodelovanja = set(Sodelovanje.objects.filter(event=event))
-    if request.method == 'POST':
-        form = EventForm(request.POST, request.FILES, instance=event)
+        form = EventForm(request.POST, instance=instance)
         authors = zip(request.POST.getlist('author'), request.POST.getlist('tip'))
 
         if form.is_valid():
-            new_event = form.save(commit=False)
-            if not form.cleaned_data['filename']:
-                new_event.image = event.image
+            new_event = form.save()
+            old_sodelovanja = set()
+            if instance is not None:
+                old_sodelovanja = set(instance.sodelovanje_set.all())
+
             sodelovanja = set()
             for author, tip in authors:
                 tip = TipSodelovanja.objects.get(pk=tip)
-                #make sure the Person actually exists
+                # ensure the Person actually exists
                 try:
                     person = Person.objects.get(name=author)
                 except Person.DoesNotExist:
                     person = Person(name=author)
                     person.save()
 
-
                 try:
-                    s = Sodelovanje.objects.get(event=new_event, person=person, tip=tip)
+                    s = Sodelovanje.objects.get(event=new_event, tip=tip, person=person)
                 except Sodelovanje.DoesNotExist:
                     s = Sodelovanje(event=new_event, tip=tip, person=person)
                     s.save()
-                
                 sodelovanja.add(s)
             new_event.slug = slugify(new_event.title)
             new_event.save()
-            if new_event.public and form.cleaned_data['resize']:
-                # XXX FIXME : duplicate code for edit and create
-                x1, x2, y1, y2 = tuple(form.cleaned_data['resize'].split(','))
-                box = (int(x1), int(y1), int(x2)-1, int(y2)-1)
-                final_filename = os.path.join(settings.MEDIA_ROOT, new_event.image._name)
-                image_filename = form.cleaned_data['filename']
-                im = Image.open(image_filename)
-                cropped = im.crop(box)
-                index = cropped.resize((250, 130))
-                index.save(final_filename)
 
-            #delete everything that was in the old sodelovanja as is not in the new one
+            # remove old objects, that were not POSTed
             for i in old_sodelovanja & sodelovanja ^ old_sodelovanja:
                 i.delete()
 
             return HttpResponseRedirect(new_event.get_absolute_url())
-        else:
-            print form.errors
     else:
-        form = EventForm(instance=event)
+        form = EventForm(instance=instance)
 
-    context = {'form': form,
+    context = {
+        'form': form,
         'tipi': TipSodelovanja.objects.all(),
-        'sodelovanja': Sodelovanje.objects.filter(event=event),
-        'image': event.image,
+        'sodelovanja': instance and instance.sodelovanje_set.all() or None,
+        'image': instance.image,
         }
     return render_to_response('org/nf_event.html', RequestContext(request, context))
-nf_event_edit = login_required(nf_event_edit)
+event_edit = login_required(event_edit)
 
 def event_image(request):
 
