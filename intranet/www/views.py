@@ -32,21 +32,30 @@ def anti_spam(request):
     return post_comment(request)
 
 def index(request):
+    dogodki = Event.objects.filter(public=True, start_date__gte=datetime.datetime.today()).order_by('start_date')
     try:
-        next = Event.objects.filter(public=True, start_date__gte=datetime.datetime.today()).order_by('start_date')[0]
-        events = [next.get_previous(), next, next.get_next()]
-    except (IndexError, Event.DoesNotExist), e:
-        events = Event.objects.filter(public=True).order_by('start_date')[0:2]
+        events = [dogodki[0]]
+    except IndexError, e:
+        events = [None]
+    try:
+        events.append(dogodki[1])
+    except IndexError, e:
+        pass
+
+    try:
+        pretekli = Event.objects.filter(public=True, start_date__lt=datetime.datetime.today()).order_by('-start_date')[0]
+        events.insert(0, pretekli)
+    except IndexError, e:
+        events.insert(0, None)
 
     return render_to_response('www/index.html', {
-        #'position': position,
         'events': events,
         'ticker': Ticker.objects.filter(is_active=True),
         'news': News.objects.order_by('-date')[0:4],
         'planet': Post.objects.order_by('-date_created')[:4],
         'videos': Video.objects.order_by('-pub_date')[:4],
     }, context_instance=RequestContext(request))
-    
+
 def ajax_index_events(request):
     month = datetime.datetime.today() - datetime.timedelta(30)
     try:
