@@ -170,7 +170,6 @@ class Event(models.Model):
     require_technician = models.BooleanField(default=False)
     require_video = models.BooleanField(default=False)
     visitors = models.IntegerField(default=0, blank=True, null=True)
-    image = models.ImageField(blank=True, null=True, upload_to='events/%Y/%m/', verbose_name="Slikca za Event page")
     public = models.BooleanField(default=True)
 
     language = models.CharField(max_length=2, default='si', choices=settings.LANGUAGES, blank=True, null=True)
@@ -224,22 +223,6 @@ class Event(models.Model):
         except Event.DoesNotExist:
             pass
         super(Event, self).save()
-        if self.image:
-            filename = settings.MEDIA_ROOT + '/' + self.image._get_name()
-            pic = Image.open(filename)
-            width, height = pic.size
-            width = float(width)
-            height = float(height)
-            q1 = width/400
-            q2 = height/300
-            if q1 > q2:
-                q = q1
-            else:
-                q = q2
-
-            if q > 1:
-                new = pic.resize((int(width/q), int(height/q)))
-                new.save(filename)
 
     def _next_previous_helper(self, direction):
         return getattr(self, 'get_%s_by_start_date' % direction)(public__exact=True)
