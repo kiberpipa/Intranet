@@ -89,7 +89,15 @@ $(document).ready(function() {
             }
         )
 
-    })
+    });
+    $("#id_event_image").change(function (){
+        // alert($("#id_event_image").val());
+        var image_text = $("#id_event_image")[0].options[$("#id_event_image")[0].selectedIndex].text;
+
+        image_text = image_text.replace(/^Image:\s+/, '');
+        $("#ajax_img").html('<img src="' + image_text + '" style="border: 1px solid gray;" />');
+    });
+
     $("#id_project").change(function(){
         var now = new Date();
         var time = now.getYear() + 1900 + '-' + (now.getMonth() + 1) + '-' + now.getDate() + ' 19:00';
@@ -269,14 +277,14 @@ $(document).ready(function() {
     {{ form.slides }} {{ form.slides_file }}
     </p>
   <p>
-    <div id="ajax_img"></div> 
+    {{ form.event_image }} <a href="/intranet/image_crop_tool/" target="_blank">Dodaj novo sliko</a>
   </p>
-{% if image.url %}
-  <p id="current_img">
-    <label for="current_img">Trenutna slika:</label>
-    <img src="{{ image.url }}" />
+  <p>
+    <label for="id_ajax_img">Slika:</label>
+    <div id="ajax_img">
+      {% if image.url %}<img src="{{ image.url }}" style="border: 1px solid gray;"/>{% endif %}
+    </div> 
   </p>
-{% endif %}
 <hr>
  <p>
     {{ form.announce.errors }}

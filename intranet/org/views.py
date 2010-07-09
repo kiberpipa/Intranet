@@ -641,13 +641,12 @@ def event_edit(request, event_pk=None):
         'form': form,
         'tipi': TipSodelovanja.objects.all(),
         'sodelovanja': instance and instance.sodelovanje_set.all() or None,
-        'image': instance.image,
+        'image': (instance and instance.event_image and instance.event_image.image) or None
         }
     return render_to_response('org/nf_event.html', RequestContext(request, context))
 event_edit = login_required(event_edit)
 
 def event_image(request):
-
     if request.POST:
         form = EventImageForm(request.POST)
         if new_event.public and form.cleaned_data['resize']:

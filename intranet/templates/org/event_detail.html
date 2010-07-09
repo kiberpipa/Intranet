@@ -59,9 +59,9 @@
             <h4> Slajdi</h4>
             {{ object.slides }}
             {% endif %}
-            {% if object.image %}
+            {% if object.event_image.image %}
                 <h4> uploaded image</h4>
-                <img src="{{ media_url }}{{ object.image }}"></img>
+                <img src="{{ media_url }}{{ object.event_image.image }}"></img>
             {% endif %}
             <h4>M3C kategorija</h4>
             <p>

@@ -26,10 +26,10 @@
         {{ event.start_date|date:"b Y G:i"|capfirst }}
         <div class="dogodek-content">
         <div class="dogoodek-content img">
-        {% if event.image %}
-            <img src="{{ event.image.url }}" alt="slika" />
+        {% if event.event_image %}
+            <img src="{{ event.event_image.image.url }}" alt="{{ event.event_image.title }}" />
         {% else %}
-            <img src="http://upload.wikimedia.org/wikipedia/commons/4/47/Placeholder.png" />
+            <img width="250" height="130" src="http://upload.wikimedia.org/wikipedia/commons/4/47/Placeholder.png" />
         {% endif %}
         </div>
         {{ event.announce|safe|linebreaks }}

@@ -109,8 +109,6 @@ class IntranetImageForm(forms.ModelForm):
         exclude = ('md5',)
 
 class EventForm(forms.ModelForm):
-    resize = forms.CharField(widget=forms.HiddenInput, required=False)
-    filename = forms.CharField(widget=forms.HiddenInput, required=False)
     start_date = forms.DateTimeField(widget=DateTimeWidget)
     # get max_length from original field
     title = forms.CharField(max_length=dict([(f.name, f) for f in Event._meta.fields])['title'].max_length,
@@ -119,19 +117,16 @@ class EventForm(forms.ModelForm):
 
     class Meta:
         model = Event
-        exclude = ('sequence', )
+        exclude = ('sequence', 'emails')
 
     def clean(self):
         cleaned_data = self.cleaned_data
         public = cleaned_data.get("public")
         if public:
-            if not ( cleaned_data.get("image") or self.instance.sequence > 0 ):
-                self._errors["image"] = ErrorList(['ako je event public mores uploadat slikco'])
-            elif not ( cleaned_data.get("resize") or self.instance.sequence > 0 ):
-                self._errors["image"] = ErrorList(['public eventom mores oznacit del ki naj bi se prikazau na indexu (kliki na uploadano slikco)'])
-
+            if not ( cleaned_data.get("event_image") or self.instance.sequence > 0 ):
+                self._errors["image"] = ErrorList(['Javni dogodki potrebujejo sliko.'])
             if not cleaned_data.get("announce"):
-                self._errors["announce"] = ErrorList(['ako je event public mores napisat najavo'])
+                self._errors["announce"] = ErrorList([u'Javni dogodki potrebujejo najavo.'])
         
         return cleaned_data
 
