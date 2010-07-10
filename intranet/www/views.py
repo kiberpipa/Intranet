@@ -261,7 +261,7 @@ def ical(request):
             'SUMMARY:%s: %s' % (unicode(e.project), e.title),
             'URL:%s' % e.get_public_url(),
             'LOCATION:Kiberpipa, %s' % e.place,
-            'CATEGORIES:%s' % ','.join([e.project.name, e.category.name])
+            'CATEGORIES:%s' % ','.join([e.project.name, e.category.name]),
             'TRANSP:OPAQUE',
             'END:VEVENT',
             ''))
