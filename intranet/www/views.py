@@ -260,6 +260,7 @@ def ical(request):
             last_mod.strftime('LAST-MODIFIED:%Y%m%dT%H%M%SZ'),
             'SUMMARY:%s: %s' % (unicode(e.project), e.title),
             'URL:%s' % e.get_public_url(),
+            'LOCATION:Kiberpipa, %s' % e.place,
             'TRANSP:OPAQUE',
             'END:VEVENT',
             ''))
