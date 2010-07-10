@@ -234,7 +234,8 @@ def ical(request):
     cal = ['BEGIN:VCALENDAR', 
         'PRODID: -//Kiberpipa//NONSGML intranet//EN', 
         'VERSION:2.0']
-    cal.append('SUMMARY:Dogodki v Kiberpipi')
+    # DO NOT uncomment. Kulturnik.si parser breaks.
+    #cal.append('SUMMARY:Dogodki v Kiberpipi')
     events = Event.objects.order_by('-chg_date')[:20]
     response = HttpResponse(mimetype='text/calendar; charset=UTF-8')
     cal.append('')
@@ -247,6 +248,8 @@ def ical(request):
 
         cal.extend((
             'BEGIN:VEVENT',
+            # DO NOT uncomment. Kulturnik.si parser breaks.
+            #'METHOD:REQUEST',
             'SEQUENCE:%s' % e.sequence,
             'ORGANIZER;CN=Kiberpipa:MAILTO:info@kiberpipa.org',
             e.start_date.strftime('DTSTAMP:%Y%m%dT%H%M%SZ'),
