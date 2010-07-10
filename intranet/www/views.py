@@ -247,7 +247,6 @@ def ical(request):
 
         cal.extend((
             'BEGIN:VEVENT',
-            'METHOD:REQUEST',
             'SEQUENCE:%s' % e.sequence,
             'ORGANIZER;CN=Kiberpipa:MAILTO:info@kiberpipa.org',
             e.start_date.strftime('DTSTAMP:%Y%m%dT%H%M%SZ'),
