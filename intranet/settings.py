@@ -60,6 +60,7 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'django.middleware.csrf.CsrfViewMiddleware',
     'intranet.middleware.Https.Https',
     'intranet.middleware.exception.StandardExceptionMiddleware',
     #'intranet.middleware.psyco_middleware.PsycoMiddleware',
@@ -73,6 +74,7 @@ MIDDLEWARE_CLASSES = (
     'intranet.middleware.FlatPage.FlatPage',
     #'intranet.stats.StatsMiddleware',
     'intranet.middleware.NginxCache.NginxMemCacheMiddleWare',
+    'django.middleware.csrf.CsrfResponseMiddleware',
 )
 
 ROOT_URLCONF = 'intranet.urls'
