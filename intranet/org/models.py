@@ -6,12 +6,15 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 
-from datetime import date, time, timedelta, datetime
+from datetime import date, timedelta, datetime
+import datetime
+import time
 import smtplib, string, audit
 import socket
 from PIL import Image
 import md5
 import re
+import urllib
 
 # FIXME
 from pipa.mercenaries.models import CostCenter, SalaryType
@@ -224,6 +227,26 @@ class Event(models.Model):
             pass
         super(Event, self).save()
 
+    def _to_utc(self, dt):
+        return time.strftime('%Y%m%dT%H%M%SZ', time.gmtime(time.mktime(dt.timetuple())))
+
+    def google_calendar_url(self):
+        start_time = self.start_date
+        t = self.length
+        end_time = self.start_date + timedelta(0, t.second, 0, 0, t.minute, t.hour)
+
+        data = [('action', 'TEMPLATE'),
+            ('text', self.title.encode('utf-8')),
+            ('dates', '%s/%s' % (self._to_utc(start_time), self._to_utc(end_time))),
+            ('sprop', 'website:www.kiberpipa.org'),
+            ('sprop', 'name:Kiberpipa - %s' % self.project.name.encode('utf-8')),
+            # take first 24 words of announce
+            ('details', (u' '.join(self.announce.split(u' ')[:24])).encode('utf-8')),
+            ('location', '%s, Kiberpipa, Ljubljana' % self.place),
+            ]
+        qs = urllib.urlencode(data)
+        return 'http://www.google.com/calendar/event?' + qs
+
     def _next_previous_helper(self, direction):
         return getattr(self, 'get_%s_by_start_date' % direction)(public__exact=True)
 
@@ -341,7 +364,7 @@ class Diary(models.Model):
     author = models.ForeignKey(User, related_name="diary_author")
     task = models.ForeignKey(Project) #retained name for backwards compatibility
     date = models.DateTimeField(default=date.today(), db_index=True)
-    length = models.TimeField(default=time(4,0))
+    length = models.TimeField(default=datetime.time(4,0))
     event = models.ForeignKey(Event,blank=True, null=True)
     log_formal = models.TextField()
     log_informal = models.TextField(blank=True, null=True)
