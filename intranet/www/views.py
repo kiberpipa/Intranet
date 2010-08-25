@@ -237,8 +237,6 @@ def ical(request):
     for e in events:
         #ther's gotta be a nicer way to do this
         end_date = e.start_date + datetime.timedelta(hours=e.length.hour,  minutes=e.length.minute)
-        last_mod = to_utc(e.chg_date)
-        pub_date = to_utc(e.pub_date)
 
         cal.extend((
             'BEGIN:VEVENT',
@@ -246,12 +244,12 @@ def ical(request):
             #'METHOD:REQUEST',
             'SEQUENCE:%s' % e.sequence,
             'ORGANIZER;CN=Kiberpipa:MAILTO:info@kiberpipa.org',
-            e.start_date.strftime('DTSTAMP:%Y%m%dT%H%M%SZ'),
+            time.strftime('DTSTAMP:%Y%m%dT%H%M%SZ', to_utc(e.start_date)),
             #pub_date.strftime('CREATED:%Y%m%dT%H%M%SZ'),
-            e.start_date.strftime('DTSTART:%Y%m%dT%H%M%S'),
+            time.strftime('DTSTART:%Y%m%dT%H%M%S', to_utc(e.start_date)),
             'UID:event-%s@kiberpipa.org' % e.id,
-            time.strftime('DTEND:%Y%m%dT%H%M%S', end_date),
-            time.strftime('LAST-MODIFIED:%Y%m%dT%H%M%SZ', last_mod),
+            time.strftime('DTEND:%Y%m%dT%H%M%S', to_utc(end_date)),
+            time.strftime('LAST-MODIFIED:%Y%m%dT%H%M%SZ', to_utc(e.chg_date)),
             'SUMMARY:%s: %s' % (unicode(e.project), e.title),
             'URL:%s' % e.get_public_url(),
             'LOCATION:Kiberpipa, %s' % e.place,

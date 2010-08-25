@@ -121,7 +121,6 @@ urlpatterns = patterns('',
     (r'^stats/$', 'intranet.org.views.stats'),
     (r'^stats/text_log/$', 'intranet.org.views.text_log'),
 
-#    (r'events/$',    'django.views.generic.list_detail.object_list', event_list),
     (r'^events/create/', 'intranet.org.views.event_edit'),
     (r'^events/(?P<event_pk>\d+)/edit/$', 'intranet.org.views.event_edit'),
     (r'^events/(?P<event>\d+)/info.txt/$', 'intranet.org.views.info_txt'),
@@ -130,8 +129,7 @@ urlpatterns = patterns('',
     (r'^events/(?P<event_id>\d+)/emails/$', 'intranet.org.views.add_event_emails'),
     (r'^events/(?P<object_id>\d+)/$', 'intranet.org.views.event'),
 
-    #(r'^diarys/(?P<task>\w+)/$', 'intranet.org.views.diarys_by_task'),
-    (r'^diarys/(?P<id>\d+)?/?(?P<action>(add|edit))/(edit/)?$', 'intranet.org.views.diarys_form'),
+    (r'^diarys/(?P<id>\d+)?/?(?P<action>(add|edit))/$', 'intranet.org.views.diarys_form'),
     (r'^diarys/(?P<object_id>\d+)/$', 'intranet.org.views.diary_detail'),
     (r'^diarys/?$',    'intranet.org.views.diarys'),
 

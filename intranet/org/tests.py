@@ -188,8 +188,10 @@ class EventTest(unittest.TestCase):
 		resp = c.get('/intranet/tehniki/%s/%s/' % (tomorrow_noon.year, month))
 		self.assertEqual(resp.status_code, 200)
 		
-		
-		
+		# test ical
+		resp = c.get('/sl/calendar/ical/')
+		self.assertEqual(resp.status_code, 200)
+		self.assertEqual(resp._headers['content-type'][1].startswith('text/calendar'), True)
 		
 
 class DiaryTest(unittest.TestCase):
@@ -245,4 +247,3 @@ class DiaryTest(unittest.TestCase):
 		self.assertEqual(resp.status_code, 200)
 		self.assertEqual(resp.content.find(redirect_url) > -1, True)
 	
-
