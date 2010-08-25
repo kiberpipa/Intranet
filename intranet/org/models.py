@@ -20,7 +20,7 @@ import urllib
 from pipa.mercenaries.models import CostCenter, SalaryType
 
 def to_utc(dt):
-    return time.strftime('%Y%m%dT%H%M%SZ', time.gmtime(time.mktime(dt.timetuple())))
+    return time.gmtime(time.mktime(dt.timetuple()))
 
 
 class Tag(models.Model):
@@ -236,7 +236,7 @@ class Event(models.Model):
 
         data = [('action', 'TEMPLATE'),
             ('text', self.title.encode('utf-8')),
-            ('dates', '%s/%s' % (to_utc(start_time), to_utc(end_time))),
+            ('dates', '%s/%s' % (time.strftime('%Y%m%dT%H%M%SZ', to_utc(start_time)), time.strftime('%Y%m%dT%H%M%SZ', to_utc(end_time)))),
             ('sprop', 'website:www.kiberpipa.org'),
             ('sprop', 'name:Kiberpipa - %s' % self.project.name.encode('utf-8')),
             # take first 24 words of announce
