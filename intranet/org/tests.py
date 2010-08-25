@@ -17,11 +17,30 @@ def ensure_test_user():
 		user.is_active = True
 		user.save()
 
-class UploadTest(unittest.TestCase):
+class IndexTest(unittest.TestCase):
+	def runTest(self):
+		c = Client()
+		c.login(username=TESTUSER, password=TESTPASSWORD)
+		
+		resp = c.get('/intranet/')
+		self.assertEqual(resp.status_code, 200)
+
+class EventTest(unittest.TestCase):
 	def setUp(self):
 		ensure_test_user()
+		from django.contrib.auth.models import User
+		from intranet.org.models import Place, Project, Category, TipSodelovanja
+		self.user = User.objects.get(username=TESTUSER)
+		self.place = Place(name='Kiberpipa', note='Bla')
+		self.place.save()
+		self.project = Project(id=23, name='Tehnicarjenje', responsible=self.user)
+		self.project.save()
+		self.category = Category(name='Drugo', note='Another bla.')
+		self.category.save()
+		self.tip = TipSodelovanja(name="Predavatelj")
+		self.tip.save()
 	
-	def runTest(self):
+	def create_new_image(self):
 		import os
 		import simplejson
 		c = Client()
@@ -53,31 +72,17 @@ class UploadTest(unittest.TestCase):
 		resp = c.post('/intranet/image_crop_tool/save/', {'resized_filename': resized_filename, 'title': 'To je naslov slike.'})
 		self.assertEqual(resp.status_code, 200)
 		self.assertEqual(simplejson.loads(resp.content)['status'],'ok')
-
-class EventTest(unittest.TestCase):
-	def setUp(self):
-		ensure_test_user()
-		from django.contrib.auth.models import User
-		from intranet.org.models import Place, Project, Category, TipSodelovanja
-		self.user = User.objects.get(username=TESTUSER)
-		self.place = Place(name='Kiberpipa', note='Bla')
-		self.place.save()
-		self.project = Project(name='Kiberpipa', responsible=self.user)
-		self.project.save()
-		self.category = Category(name='Drugo', note='Another bla.')
-		self.category.save()
-		self.tip = TipSodelovanja(name="Predavatelj")
-		self.tip.save()
+		
 		from intranet.org.models import IntranetImage
-		UploadTest().runTest()
 		self.image_id = IntranetImage.objects.all()[0].id
-
 	
 	def testEventLifeTime(self):
 		import datetime
 		import re
 		c = Client()
 		c.login(username=TESTUSER, password=TESTPASSWORD)
+		
+		self.create_new_image()
 		
 		resp = c.get('/intranet/events/create/')
 		self.assertEqual(resp.status_code, 200)
@@ -127,7 +132,107 @@ class EventTest(unittest.TestCase):
 		self.assertEqual(resp.status_code, 200)
 		self.assertEqual('\n' in resp.content, True)
 		
+		# new event is in the events overview page
 		resp = c.get('/intranet/events/')
 		self.assertEqual(resp.status_code, 200)
 		self.assertEqual(resp.content.find(redirect_url) > -1, True)
 		
+		# add a number of visitors
+		resp = c.post(redirect_url + 'count/', {'visitors': 10})
+		self.assertEqual(resp.status_code, 302)
+		a_redirect_url, _ = re.match('http://\w+(/intranet/events/(\d+)/)$', resp._headers['location'][1]).groups()
+		self.assertEqual(a_redirect_url, redirect_url)
+		
+		# tehniki
+		resp = c.get('/intranet/tehniki/')
+		self.assertEqual(resp.status_code, 200)
+		self.assertEqual(resp.content.find(redirect_url) > -1, True)
+		self.assertEqual(resp.content.find('/intranet/tehniki/add/%s/' % event_id) > -1, True)
+		
+		# volunteer
+		resp = c.get('/intranet/tehniki/add/%s/' % event_id)
+		self.assertEqual(resp.status_code, 302)
+		
+		# check volunteering
+		resp = c.get('/intranet/tehniki/')
+		self.assertEqual(resp.status_code, 200)
+		self.assertEqual(resp.content.find('/intranet/tehniki/cancel/%s/' % event_id) > -1, True)
+		
+		# cancel
+		resp = c.get('/intranet/tehniki/cancel/%s/' % event_id)
+		self.assertEqual(resp.status_code, 302)
+		self.assertEqual(resp.content.find('/intranet/tehniki/cancel/%s/' % event_id), -1)
+		
+		# add diary
+		diarydata = {
+			'length': 2,
+			'log_formal': 'no kidding',
+			'log_informal': 'just joking',
+			'uniqueSpot': event_id
+		}
+		resp = c.post('/intranet/tehniki/add/', diarydata)
+		self.assertEqual(resp.status_code, 302)
+		
+		month = ['jan', 'feb', 'mar', 'apr', 'maj', 'jun', 'jul', 'avg', 'sep', 'okt', 'nov', 'dec'][tomorrow_noon.month-1]
+		print month
+		resp = c.get('/intranet/tehniki/%s/%s/' % (tomorrow_noon.year, month))
+		self.assertEqual(resp.status_code, 200)
+		
+		
+		
+		
+
+class DiaryTest(unittest.TestCase):
+	def setUp(self):
+		ensure_test_user()
+		from intranet.org.models import Project
+		self.project = Project(name='Videoarhiv')
+		self.project.save()
+	
+	def testDiary(self):
+		import datetime
+		import re
+		c = Client()
+		c.login(username=TESTUSER, password=TESTPASSWORD)
+		
+		resp = c.get('/intranet/diarys/')
+		self.assertEqual(resp.status_code, 200)
+		
+		resp = c.get('/intranet/diarys/add/')
+		self.assertEqual(resp.status_code, 200)
+		
+		now = datetime.datetime.now()
+		diary_day = datetime.datetime(now.year, now.month, now.day, 0, 0, 0)
+		
+		diarydata = {
+			'date': diary_day.strftime('%Y-%m-%d %H:%M:%S'),
+			'length': '04:00:00',
+			'log_formal': 'to je formalni dnevnik',
+			'log_informal': 'to je neformalni dnevnik',
+			'task': self.project.id,
+		}
+		resp = c.post('/intranet/diarys/add/', diarydata)
+		self.assertEqual(resp.status_code, 302)
+		redirect_url, diary_id = re.match('http://\w+(/intranet/diarys/(\d+)/)$', resp._headers['location'][1]).groups()
+		
+		resp = c.get(redirect_url)
+		self.assertEqual(resp.status_code, 200)
+		
+		resp = c.get('/intranet/diarys/')
+		self.assertEqual(resp.status_code, 200)
+		self.assertEqual(resp.content.find(redirect_url) > -1, True)
+		
+		resp = c.get('/intranet/diarys/%s/edit/' % diary_id)
+		self.assertEqual(resp.status_code, 200)
+		self.assertEqual(resp.content.find(diarydata['log_formal']) > -1, True)
+		
+		updatedata = diarydata.copy()
+		updatedata['log_formal'] = 'to je *NOVI* formalni dnevnik'
+		resp = c.post('/intranet/diarys/%s/edit/' % diary_id, updatedata)
+		self.assertEqual(resp.status_code, 302)
+		
+		resp = c.post('/intranet/diarys/', {'author':'', 'task': self.project.id})
+		self.assertEqual(resp.status_code, 200)
+		self.assertEqual(resp.content.find(redirect_url) > -1, True)
+	
+

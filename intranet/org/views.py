@@ -142,7 +142,7 @@ def image_crop_tool(request):
 
 # ------------------------------------
 
-
+@login_required
 def index(request):
     today = datetime.datetime.today()
     nextday = today + datetime.timedelta(days=8)
@@ -157,8 +157,8 @@ def index(request):
                                 'lend_edit': False,
                               },
                               context_instance=RequestContext(request))
-index = login_required(index)
 
+@login_required
 def search(request):
     if request.POST:
         query = request.POST.get('term','')
@@ -190,6 +190,7 @@ def search(request):
     else:
         return HttpResponseRedirect("/intranet/")
 
+@login_required
 def lend_back(request, id=None):
     lend = get_object_or_404(Lend, pk=id)
     if not lend.note:
@@ -198,8 +199,8 @@ def lend_back(request, id=None):
     lend.returned = True
     lend.save()
     return HttpResponseRedirect('../')
-lend_back = login_required(lend_back)
 
+@login_required
 def lends(request):
     if request.method == 'POST':
         form = LendForm(request.POST)
@@ -220,8 +221,8 @@ def lends(request):
             'form': form,
         },
     )
-lends= login_required(lends)
 
+@login_required
 def lends_form(request, id=None, action=None):
     #process the add/edit requests, redirect to full url if successful, display form with errors if not.
     if request.method == 'POST':
@@ -244,8 +245,8 @@ def lends_form(request, id=None, action=None):
         'lend_edit': True,
         }, context_instance=RequestContext(request)
     )
-lends_form = login_required(lends_form)
 
+@login_required
 def lend_detail(request, object_id):
     return list_detail.object_detail(request,
         object_id = object_id,
@@ -254,8 +255,8 @@ def lend_detail(request, object_id):
             'lend_form': LendForm(instance=Lend.objects.get(id=object_id)),
             'lend_edit': True,
         })
-lend_detail = login_required(lend_detail)
 
+@login_required
 def lends_by_user(request, username):
     responsible = []
     for l in Lend.objects.filter(returned=False):
@@ -268,10 +269,10 @@ def lends_by_user(request, username):
                                 'responsible': responsible,
                               },
                               context_instance=RequestContext(request))
-lends_by_user = login_required(lends_by_user)
 
 ################################################################################
 
+@login_required
 def shoppings_form(request, id=None, action=None):
     #process the add/edit requests, redirect to full url if successful, display form with errors if not.
     if request.method == 'POST':
@@ -296,8 +297,8 @@ def shoppings_form(request, id=None, action=None):
         'shopping_edit': True,
         }, context_instance=RequestContext(request)
     )
-shoppings_form = login_required(shoppings_form)
 
+@login_required
 def shopping_by_cost(request, cost):
     list = Shopping.objects.filter(bought__exact=False)
     if int(cost) == 1:
@@ -316,8 +317,8 @@ def shopping_by_cost(request, cost):
                               { 'latest': list,
                               },
                               context_instance=RequestContext(request))
-shopping_by_cost = login_required(shopping_by_cost)
 
+@login_required
 def shopping_index(request):
     wishes = Shopping.objects.filter(bought=False)
     return render_to_response('org/shopping_index.html',
@@ -326,8 +327,8 @@ def shopping_index(request):
                               'shopping_edit': False,
                               },
                               context_instance=RequestContext(request))
-shopping_index = login_required(shopping_index)
 
+@login_required
 def shopping_by_user(request, user):
     user = get_object_or_404(User, pk=user)
     lend_list = Shopping.objects.filter(bought__exact=False).filter(author__exact=user)
@@ -335,8 +336,8 @@ def shopping_by_user(request, user):
                               { 'latest': lend_list,
                               },
                               context_instance=RequestContext(request))
-shopping_by_user = login_required(shopping_by_user)
 
+@login_required
 def shopping_by_project(request, project):
     project = get_object_or_404(Project, pk=project)
     lend_list = Shopping.objects.filter(bought__exact=False).filter(task__exact=project)
@@ -344,8 +345,8 @@ def shopping_by_project(request, project):
                               { 'latest': lend_list,
                               },
                               context_instance=RequestContext(request))
-shopping_by_project = login_required(shopping_by_project)
 
+@login_required
 def shopping_by_task(request, task):
     task = get_object_or_404(Task, pk=task)
     lend_list = Shopping.objects.filter(bought__exact=False).filter(project__exact=task)
@@ -353,13 +354,12 @@ def shopping_by_task(request, task):
                               { 'latest': lend_list,
                               },
                               context_instance=RequestContext(request))
-shopping_by_task = login_required(shopping_by_task)
 
+@login_required
 def stats(request):
     return render_to_response('org/stats.html',
                               { 'today': datetime.date.today() },
                               context_instance=RequestContext(request))
-stats = login_required(stats)
 
 def text_log(request):
     today = datetime.date.today()
@@ -421,6 +421,7 @@ def process_cloud_tag(instance):
 
 ##################################################
 
+@login_required
 def diarys_form(request, id=None, action=None):
     if request.method == 'POST':
         if id:
@@ -444,8 +445,8 @@ def diarys_form(request, id=None, action=None):
         'diary_edit': True,
         }, context_instance=RequestContext(request)
     )
-diarys_form = login_required(diarys_form)
 
+@login_required
 def diarys(request):
     diarys = Diary.objects.all()
     if request.POST:
@@ -467,8 +468,8 @@ def diarys(request):
             'diary_form': DiaryForm(),
         }
     )
-diarys = login_required(diarys)
 
+@login_required
 def diary_detail(request, object_id):
     return list_detail.object_detail(request,
         object_id = object_id,
@@ -479,27 +480,26 @@ def diary_detail(request, object_id):
             'diary_form': DiaryForm(instance=Diary.objects.get(id=object_id)),
             'diary_edit': True,
         })
-diary_detail = login_required(diary_detail)
-
 
 ##################################################
 
 
 # dodaj podatek o obiskovalcih dogodka
+@login_required
 def shopping_buy (request, id=None):
     event = get_object_or_404(Shopping, pk=id)
     event.bought = True
     event.save()
     return HttpResponseRedirect('../')
-shopping_buy = login_required(shopping_buy)
 
+@login_required
 def shopping_support (request, id=None):
     wish = get_object_or_404(Shopping, pk=id)
     wish.supporters.add(request.user)
     wish.save()
     return HttpResponseRedirect(wish.get_absolute_url())
-shopping_support = login_required(shopping_support)
 
+@login_required
 def shopping_detail(request, object_id):
     return list_detail.object_detail(request,
         object_id = object_id,
@@ -510,16 +510,17 @@ def shopping_detail(request, object_id):
             'shopping_form': ShoppingForm(instance=Shopping.objects.get(id=object_id)),
             'shopping_edit': True,
         })
-shopping_detail = login_required(shopping_detail)
 
 ##################################################
 
+@login_required
 def author_autocomplete(request):
     hits = []
     if request.GET.has_key('q'):
         hits = ['%s\n' % i for i in Person.objects.filter(name__icontains=request.GET['q'])]
     return HttpResponse(''.join(hits), mimetype='text/plain')
 
+@login_required
 def events(request):
     events = Event.objects.all()
     today = datetime.datetime.today()
@@ -540,8 +541,8 @@ def events(request):
             'years': range(2006, datetime.datetime.today().year+1),
         },
     )
-events = login_required(events)
 
+@login_required
 def add_event_emails(request, event_id):
     event = Event.objects.get(pk=event_id)
     if request.method == 'POST':
@@ -553,9 +554,8 @@ def add_event_emails(request, event_id):
                     event.emails.add(email)
         event.save()
     return HttpResponseRedirect(event.get_absolute_url())
-add_event_emails = login_required(add_event_emails)
 
-
+@login_required
 def info_txt(request, event):
     event = get_object_or_404(Event, pk=event)
     content = []
@@ -574,8 +574,8 @@ def info_txt(request, event):
     content_str = u'\n'.join(content)
     response.write(content_str.encode('utf-8'))
     return response
-info_txt = login_required(info_txt)
 
+@login_required
 def event_edit(request, event_pk=None):
     instance = None
     if event_pk is not None:
@@ -625,29 +625,8 @@ def event_edit(request, event_pk=None):
         'image': (instance and instance.event_image and instance.event_image.image) or None
         }
     return render_to_response('org/nf_event.html', RequestContext(request, context))
-event_edit = login_required(event_edit)
 
-def event_image(request):
-    if request.POST:
-        form = EventImageForm(request.POST)
-        if new_event.public and form.cleaned_data['resize']:
-                # XXX FIXME : duplicate code for edit and create
-                x1, x2, y1, y2 = tuple(form.cleaned_data['resize'].split(','))
-                box = (int(x1), int(y1), int(x2)-1, int(y2)-1)
-                final_filename = os.path.join(settings.MEDIA_ROOT, new_event.image._name)
-                image_filename = form.cleaned_data['filename']
-                im = Image.open(image_filename)
-                cropped = im.crop(box)
-                index = cropped.resize((250, 130))
-                index.save(final_filename)
-    else:
-        form = EventImageForm()
-    
-    context = {'form': form,
-        }
-    return render_to_response('org/event_image.html', RequestContext(request, context))
-event_image = login_required(event_image)
-
+@login_required
 def event(request, object_id):
     return list_detail.object_detail(request,
         queryset = Event.objects.all(),
@@ -657,15 +636,14 @@ def event(request, object_id):
             'emails_form': AddEventEmails(),
         }
     )
-event = login_required(event)
 
-# dodaj podatek o obiskovalcih dogodka
+@login_required
 def event_count (request, id=None):
+    "dodaj podatek o obiskovalcih dogodka"
     event = get_object_or_404(Event, pk=id)
     event.visitors = int(request.POST['visitors'])
     event.save()
-    return HttpResponseRedirect('../')
-event_count = login_required(event_count)
+    return HttpResponseRedirect('/intranet/events/%d/' % event.id)
 
 ##############################
 
@@ -686,6 +664,7 @@ def _get_begin_end(year=None, month=None):
     end = begin.replace(month=next)
     return (begin, end)
 
+@login_required
 def person(request):
     if request.method == 'POST':
         form = PersonForm(request.POST)
@@ -705,6 +684,7 @@ def person(request):
 
     return HttpResponseRedirect('../')
 
+@login_required
 def sodelovanja(request):
     sodelovanja = Sodelovanje.objects.all()
     person_form = PersonForm()
@@ -753,8 +733,8 @@ def sodelovanja(request):
         'admin_org': '%s/intranet/admin/org/' % settings.BASE_URL,
         'person_form': person_form },
         context_instance=RequestContext(request))
-sodelovanja = login_required(sodelovanja)
 
+@login_required
 def tehniki_monthly(request, year=None, month=None):
     user = request.user
     iso_week = mx.DateTime.now().iso_week[1]
@@ -808,7 +788,6 @@ def tehniki_monthly(request, year=None, month=None):
                              },
                              context_instance=RequestContext(request)
                              )
-tehniki_monthly = login_required(tehniki_monthly)
 
 def monthly_navigation (year=None, month=None):
     month_prev = month - 1
@@ -849,6 +828,7 @@ def weekly_navigation (year=None, week=None, week_start=None, week_end=None):
     return {'prev': '%s/%s' % (year_prev, week_prev),
             'next': '%s/%s' % (year_next, week_next) }
 
+@login_required
 def tehniki(request, year=None, week=None):
     user = request.user
     iso_week = mx.DateTime.now().iso_week
@@ -898,8 +878,8 @@ def tehniki(request, year=None, week=None):
                              },
                              context_instance=RequestContext(request)
                              )
-tehniki = login_required(tehniki)
 
+@login_required
 def tehniki_add(request):
     id = request.POST['uniqueSpot']
     if not id:
@@ -918,8 +898,8 @@ def tehniki_add(request):
     p.save()
 
     return HttpResponseRedirect('../')
-tehniki_add = login_required(tehniki_add)
 
+@login_required
 def tehniki_take(request, id):
     e = Event.objects.get(pk=id)
     e.technician.add(request.user)
@@ -927,15 +907,15 @@ def tehniki_take(request, id):
     e.save()
 
     return HttpResponseRedirect('../../')
-tehniki_take = login_required(tehniki_take)
 
+@login_required
 def tehniki_cancel(request, id):
     e = Event.objects.get(pk=id)
     e.technician.remove(request.user)
     e.save()
     return HttpResponseRedirect('../../')
-tehniki_take = login_required(tehniki_take)
 
+@login_required
 def tehniki_text_log(request):
     Date = mx.DateTime.Date
     d = mx.DateTime.now()
@@ -948,7 +928,7 @@ def tehniki_text_log(request):
 
     return render_to_response('org/dezuranje_text_log.html', {'log_list':log_list,})
 
-# ---
+@login_required
 def dezurni_monthly(request, year=None, month=None):
     iso_week = mx.DateTime.now().iso_week
 # doloci mesec pregledovanja
@@ -1013,8 +993,8 @@ def dezurni_monthly(request, year=None, month=None):
                                         'end_date': month_end,
                                         },
                               context_instance=RequestContext(request))
-dezurni_monthly = login_required(dezurni_monthly)
 
+@login_required
 def dezurni(request, year=None, week=None, month=None):
     iso_week = mx.DateTime.now().iso_week
     month = mx.DateTime.now().month
@@ -1089,8 +1069,8 @@ def dezurni(request, year=None, week=None, month=None):
                              'end_date': week_end,
                              },
                        context_instance=RequestContext(request))
-dezurni = login_required(dezurni)
 
+@login_required
 def dezurni_add(request):
     new_data = request.POST.copy()
     if not request.POST or not new_data.has_key('uniqueSpot'):
@@ -1112,26 +1092,25 @@ def dezurni_add(request):
               log_informal=request.POST['log_informal'],)
     p.save()
     return HttpResponseRedirect('../')
-dezurni_add = login_required(dezurni_add)
 
 
 
 
 ##################################################
 
+@login_required
 def kb_index(request):
     object_list = KbCategory.objects.all()
     return render_to_response('org/kb_index.html',
                               {'object_list':object_list,},
                               context_instance=RequestContext(request))
-kb_index = login_required(kb_index)
 
+@login_required
 def kb_article(request, kbcat, article):
     article = get_object_or_404(KB, slug=article)
     return render_to_response('org/kb_article.html',
                               {'article':article,},
                               context_instance=RequestContext(request))
-kb_article = login_required(kb_article)
 
 def timeline_xml(request):
     #diary_list = Diary.objects.filter(task__id__gt=2)
@@ -1140,6 +1119,7 @@ def timeline_xml(request):
     c = Context({'event_list': event_list})
     return HttpResponse(t.render(c), 'application/xml')
 
+@login_required
 def scratchpad_change(request):
     if request.POST:
         scratchpad = Scratchpad.objects.latest('id')
@@ -1147,6 +1127,5 @@ def scratchpad_change(request):
         scratchpad.content = request.POST['content']
         scratchpad.save()
     return HttpResponseRedirect("/intranet/")
-scratchpad_change = login_required(scratchpad_change)
 
 

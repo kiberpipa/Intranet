@@ -58,13 +58,13 @@
                     {% endfor %}
                     {% for technician in non_diary %}
                         {% ifequal technician user %}
-                            <a href="javascript:;" onclick="formExplode(this, '{{ e.id }}')">{{ technician }}</a> (<a href="/intranet/tehniki/cancel/{{ e.id }}">odjavi</a>)
+                            <a href="javascript:;" onclick="formExplode(this, '{{ e.id }}')">{{ technician }}</a> (<a href="/intranet/tehniki/cancel/{{ e.id }}/">odjavi</a>)
                         {% else %}
                             {{ technician }}
                         {% endifequal %}
                         <br>
                     {% endfor %}
-                    <a href="/intranet/tehniki/add/{{ e.id }}">Javi se</a>
+                    <a href="/intranet/tehniki/add/{{ e.id }}/">Javi se</a>
                 </td>
             </tr>
         {% endfor %}
