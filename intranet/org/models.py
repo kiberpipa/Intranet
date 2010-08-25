@@ -19,7 +19,9 @@ import urllib
 # FIXME
 from pipa.mercenaries.models import CostCenter, SalaryType
 
-# Create your models here.
+def to_utc(self, dt):
+    return time.strftime('%Y%m%dT%H%M%SZ', time.gmtime(time.mktime(dt.timetuple())))
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=200, primary_key='True')
@@ -227,9 +229,6 @@ class Event(models.Model):
             pass
         super(Event, self).save()
 
-    def _to_utc(self, dt):
-        return time.strftime('%Y%m%dT%H%M%SZ', time.gmtime(time.mktime(dt.timetuple())))
-
     def google_calendar_url(self):
         start_time = self.start_date
         t = self.length
@@ -237,7 +236,7 @@ class Event(models.Model):
 
         data = [('action', 'TEMPLATE'),
             ('text', self.title.encode('utf-8')),
-            ('dates', '%s/%s' % (self._to_utc(start_time), self._to_utc(end_time))),
+            ('dates', '%s/%s' % (to_utc(start_time), to_utc(end_time))),
             ('sprop', 'website:www.kiberpipa.org'),
             ('sprop', 'name:Kiberpipa - %s' % self.project.name.encode('utf-8')),
             # take first 24 words of announce

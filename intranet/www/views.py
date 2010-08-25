@@ -15,7 +15,7 @@ from django import forms
 from django.utils.translation import ugettext as _
 from django.utils import simplejson
 
-from intranet.org.models import Event, Email
+from intranet.org.models import to_utc, Event, Email
 from feedjack.models import Post
 from intranet.www.models import Ticker, News
 from pipa.video.models import Video
@@ -223,13 +223,6 @@ def calendar(request, year=None, month=None, en=False):
         },
         context_instance=RequestContext(request))
 
-def utcize(date):
-    from pytz import timezone, utc
-    lj = timezone('Europe/Ljubljana')
-    tmp = datetime.datetime(date.year, date.month, date.day, date.hour, date.minute, date.second, tzinfo=lj)
-    return tmp.astimezone(utc) #rfc wants utc here
-
-
 def ical(request):
     cal = ['BEGIN:VCALENDAR', 
         'PRODID: -//Kiberpipa//NONSGML intranet//EN', 
@@ -243,8 +236,8 @@ def ical(request):
     for e in events:
         #ther's gotta be a nicer way to do this
         end_date = e.start_date + datetime.timedelta(hours=e.length.hour,  minutes=e.length.minute)
-        last_mod = utcize(e.chg_date)
-        pub_date = utcize(e.pub_date)
+        last_mod = to_utc(e.chg_date)
+        pub_date = to_utc(e.pub_date)
 
         cal.extend((
             'BEGIN:VEVENT',
