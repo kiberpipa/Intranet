@@ -143,6 +143,16 @@ class EventTest(unittest.TestCase):
 		a_redirect_url, _ = re.match('http://\w+(/intranet/events/(\d+)/)$', resp._headers['location'][1]).groups()
 		self.assertEqual(a_redirect_url, redirect_url)
 		
+		# add emails to be notified
+		email = 'root@kiberpipa.org'
+		resp = c.post('/intranet/events/%s/emails/' % event_id, {'emails': email})
+		self.assertEqual(resp.status_code, 302)
+		
+		# check that email is listed
+		resp = c.get('/intranet/events/%s/' % event_id)
+		self.assertEqual(resp.status_code, 200)
+		self.assertEqual(resp.content.find(email) > -1, True)
+		
 		# tehniki
 		resp = c.get('/intranet/tehniki/')
 		self.assertEqual(resp.status_code, 200)
@@ -173,8 +183,8 @@ class EventTest(unittest.TestCase):
 		resp = c.post('/intranet/tehniki/add/', diarydata)
 		self.assertEqual(resp.status_code, 302)
 		
+		# check monthly view
 		month = ['jan', 'feb', 'mar', 'apr', 'maj', 'jun', 'jul', 'avg', 'sep', 'okt', 'nov', 'dec'][tomorrow_noon.month-1]
-		print month
 		resp = c.get('/intranet/tehniki/%s/%s/' % (tomorrow_noon.year, month))
 		self.assertEqual(resp.status_code, 200)
 		
