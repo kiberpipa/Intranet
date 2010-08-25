@@ -28,6 +28,7 @@ import os
 from PIL import Image
 
 
+from django.views.decorators.csrf import csrf_exempt
 from intranet.org.models import Project, Category, Email, \
     Place, Event, Shopping, Person, Sodelovanje, TipSodelovanja, Task, Diary, \
     StickyNote, Lend, KbCategory, KB, Tag, \
@@ -43,11 +44,12 @@ month_dict = { 'jan': 1, 'feb': 2, 'mar': 3,
 
 reverse_month_dict = dict(((i[1],i[0]) for i in month_dict.iteritems()))
 
+@csrf_exempt
+@login_required
 def temporary_upload(request):
     """
     Accepts an image upload to server and saves it in a temporary folder.
     """
-    print request.FILES
     if not 'image' in request.FILES:
         return HttpResponse(simplejson.dumps({'status': 'fail'}))
     
@@ -77,8 +79,9 @@ def temporary_upload(request):
     request.session['temporary_filename'] = local_filename
     ret = simplejson.dumps({'status':'ok', 'link': url, 'filename': local_filename})
     return HttpResponse(ret)
-temporary_upload = login_required(temporary_upload)
 
+@csrf_exempt
+@login_required
 def image_resize(request):
     if not request.POST:
         return HttpResponse(simplejson.dumps({'status':'fail1'}))
@@ -113,11 +116,11 @@ def image_resize(request):
                     'resized_filename': resized_filename}))
 
     return HttpResponse(simplejson.dumps({'status':'ok'}))
-image_resize = login_required(image_resize)
 
+@csrf_exempt
+@login_required
 def image_save(request):
     if request.method == 'POST':
-        print request.POST
         if request.POST.get('resized_filename') == request.session.get('resized_filename'):
             from django.utils.datastructures import MultiValueDict
             # ok, save the image
@@ -130,13 +133,12 @@ def image_save(request):
                 image = form.save()
                 return HttpResponse(simplejson.dumps({'status': 'ok', 'image_id': image.id}))
     return HttpResponse(simplejson.dumps({'status':'fail'}))
-image_save = login_required(image_save)
 
+@login_required
 def image_crop_tool(request):
     form = ImageResizeForm()
     context = {'form': form}
     return render_to_response("org/image_crop_tool.html", RequestContext(request, context))
-image_crop_tool = login_required(image_crop_tool)
 
 # ------------------------------------
 

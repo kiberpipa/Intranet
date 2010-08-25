@@ -19,7 +19,7 @@
 <script type="text/javascript">
 
 function imgResized(img, sel) {
-    var result = new Array(sel.x1, sel.x2, sel.y1, sel.y2)
+    var result = new Array(sel.x1, sel.x2, sel.y1, sel.y2);
     $("#id_resize").attr("value", result.join(','));
     
     $.ajax({
@@ -53,10 +53,10 @@ $(document).ready(function() {
                 },
                 error: function (data, status, e)
                 {
-                    alert(e);
+                    alert("Nekaj je narobe:" + e);
                 }
             }
-        )
+        );
 
     });
     $("#id_imageok").click(function () {
@@ -71,7 +71,6 @@ $(document).ready(function() {
                     $("#message").html("Saved.");
                 }
         });
-    
     });
 });
 </script>
@@ -89,14 +88,16 @@ $(document).ready(function() {
             <h2>Nalaganje slike</h2>
             <form method="POST" action="" enctype="multipart/form-data"> 
                 <input name="image" type="file" id="id_image" />
+                {% csrf_token %}
             </form>
             <div id="final_image">&nbsp;</div>
             <form id="imageok_form" method="POST" action="">
                 <label for="id_title">Opis slike</label><input type="text" id="id_title" name="title" />
                 <input type="hidden" id="id_resized_filename" name="resized_filename" />
+                {% csrf_token %}
             </form>
             <input type="submit" id="id_imageok" name="imageok" value="Dobro bo" />
-            <div id="message" />
+            <div id="message">&nbsp;</div>
         </div>
     </div>
 </div>
