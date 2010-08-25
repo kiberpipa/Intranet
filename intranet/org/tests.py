@@ -35,7 +35,18 @@ class UploadTest(unittest.TestCase):
 		
 		self.assertEqual(simplejson.loads(resp.content)['status'],'ok')
 		self.assertEqual(c.session.has_key('temporary_filename'), True)
-		self.assertEqual(c.session.get('temporary_filename'), simplejson.loads(resp.content)['filename'])
+		filename = simplejson.loads(resp.content)['filename']
+		
+		self.assertEqual(c.session.get('temporary_filename'), filename)
+		
+		resp = c.post('/intranet/image_crop_tool/resize/', {'resize': '90,253,44,129', 'filename': filename})
+		self.assertEqual(simplejson.loads(resp.content)['status'],'ok')
+		resized_filename = simplejson.loads(resp.content)['resized_filename']
+		
+		resp = c.post('/intranet/image_crop_tool/save/', {'resized_filename': resized_filename, 'title': 'To je naslov slike.'})
+		self.assertEqual(simplejson.loads(resp.content)['status'],'ok')
+		
+
 
 
 

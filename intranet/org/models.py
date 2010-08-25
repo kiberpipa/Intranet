@@ -157,9 +157,9 @@ class IntranetImage(models.Model):
         return u'Image: %s' % (self.image.url)
 
     def save(self, *args, **kwargs):
-        md = md5.new(open(self.image.path).read()).hexdigest()
-        self.md5 = md
-        models.Model.save(self, *args, **kwargs)
+        super(IntranetImage, self).save(*args, **kwargs)
+        self.md5 = md5.new(open(self.image.path).read()).hexdigest()
+        super(IntranetImage, self).save(*args, **kwargs)
 
 # koledar dogodkov
 class Event(models.Model):
