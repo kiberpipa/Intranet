@@ -71,11 +71,6 @@ class DateTimeWidget(forms.widgets.TextInput):
                 continue
         return None
 
-class EventFilter(forms.Form):
-    title = forms.CharField(required=False)
-    project = forms.ModelChoiceField(Project.objects.all().order_by('name'), required=False)
-    category = forms.ModelChoiceField(Category.objects.all().order_by('name'), required=False)
-
 class DiaryFilter(forms.Form):
     task = forms.ModelChoiceField(Project.objects.all().order_by('name'), required=False)
     author = forms.ModelChoiceField(User.objects.filter(is_active=True).order_by('username'), required=False)
@@ -123,7 +118,7 @@ class EventForm(forms.ModelForm):
         public = cleaned_data.get("public")
         if public:
             if not ( cleaned_data.get("event_image") or self.instance.sequence > 0 ):
-                self._errors["image"] = ErrorList(['Javni dogodki potrebujejo sliko.'])
+                self._errors["event_image"] = ErrorList(['Javni dogodki potrebujejo sliko.'])
             if not cleaned_data.get("announce"):
                 self._errors["announce"] = ErrorList([u'Javni dogodki potrebujejo najavo.'])
         

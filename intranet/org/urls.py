@@ -179,7 +179,7 @@ urlpatterns = patterns('',
     (r'^addressbook/$', 'pipa.addressbook.views.addressbook'),
 
 
-    (r'^autocomplete/(?P<search>[^/]*)$', 'intranet.org.views.autocomplete'),
+    (r'^autocomplete/$', 'intranet.org.views.author_autocomplete'),
 
     #scratchpad
     (r'^scratchpad/change/$', 'intranet.org.views.scratchpad_change'),

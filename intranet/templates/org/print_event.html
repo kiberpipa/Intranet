@@ -14,7 +14,7 @@
 
 <li>{{ event.start_date|date:"d.m.Y D, H:i" }}</li>
 <li><i>{{ event.project }}</i></li>
-<li><a href="/intranet/events/{{ event.id }}">{{ event.title }}</a></li>
+<li><a href="/intranet/events/{{ event.id }}/">{{ event.title }}</a></li>
 <li>({{ event.length|time:"H:i" }})</li>
 <li><a href="/intranet/events/{{ event.id }}/edit/">[Uredi]</a></li>
 </ul>

@@ -33,7 +33,7 @@ from intranet.org.models import Project, Category, Email, \
     Place, Event, Shopping, Person, Sodelovanje, TipSodelovanja, Task, Diary, \
     StickyNote, Lend, KbCategory, KB, Tag, \
     Scratchpad
-from intranet.org.forms import EventFilter, DiaryFilter, PersonForm, AddEventEmails, EventForm, SodelovanjeFilter, LendForm, ShoppingForm, DiaryForm, ImageResizeForm, IntranetImageForm
+from intranet.org.forms import DiaryFilter, PersonForm, AddEventEmails, EventForm, SodelovanjeFilter, LendForm, ShoppingForm, DiaryForm, ImageResizeForm, IntranetImageForm
 
 #from intranet.photologue.models import Gallery, GalleryUpload
 
@@ -514,33 +514,14 @@ shopping_detail = login_required(shopping_detail)
 
 ##################################################
 
-def autocomplete(request, search):
-    output = StringIO()
+def author_autocomplete(request):
+    hits = []
     if request.GET.has_key('q'):
-        search = request.GET['q']
-    for i in Person.objects.filter(name__icontains=search):
-        output.write('%s\n' % i)
-    response = HttpResponse(mimetype='text/plain')
-    response.write(output.getvalue())
-    return response
+        hits = ['%s\n' % i for i in Person.objects.filter(name__icontains=request.GET['q'])]
+    return HttpResponse(''.join(hits), mimetype='text/plain')
 
 def events(request):
     events = Event.objects.all()
-    filtered = False
-    if request.POST:
-        filter = EventFilter(request.POST)
-        if filter.is_valid():
-            for key, value in filter.cleaned_data.items():
-                if value:
-                    filtered = True
-                    if key == 'title':
-                        events = events.filter(title__icontains = value)
-                    else:
-                        ##'**' rabis zato da ti python resolva spremenljivke (as opposed da passa dobesedni string)
-                        events = events.filter(**{key: value})
-    else:
-        filter = EventFilter()
-
     today = datetime.datetime.today()
     while today.weekday() != 0:
         today = today - datetime.timedelta(1)
@@ -551,8 +532,6 @@ def events(request):
         date_field = 'start_date',
         allow_empty = 1,
         extra_context = {
-            'filter': filter,
-            'filtered': filtered,
             'events': events,
             'event_last': Event.objects.filter(start_date__lte=today, start_date__gt=today-week).order_by('start_date'),
             'event_this': Event.objects.filter(start_date__lte=today+week, start_date__gt=today).order_by('start_date'),

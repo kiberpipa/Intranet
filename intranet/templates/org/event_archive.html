@@ -30,27 +30,11 @@
         </ul>
   </div>
 
-  <div class="module" id="recent-actions-module">
-    <h2>Filtriranje</h2>
-  <form action="" method="post">
-  {{ filter.as_p }}
-  <input type="submit">
-  </form>
-  </div>
 {% endblock %}
 
 {% block content-main %}
 
 
-{% if filtered %}
-<div class="module" style="background:#ffccff">
-    <h2>Eventi</h2>
-       {% for log in events %}
-                {% print_event log %}
-        {% endfor %}
-</div>
-<br/>
-{% else %}
 {% if event_last %}
 <div class="module">
     <h2>Prejšnji teden</h2>
@@ -91,7 +75,6 @@
         {% endfor %}
 </div>
 <br/>
-{% endif %}
 {% endif %}
 
 <script type="text/javascript">
