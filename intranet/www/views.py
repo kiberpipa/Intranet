@@ -1,4 +1,5 @@
 import datetime
+import time
 import re
 from StringIO import StringIO
 
@@ -249,8 +250,8 @@ def ical(request):
             #pub_date.strftime('CREATED:%Y%m%dT%H%M%SZ'),
             e.start_date.strftime('DTSTART:%Y%m%dT%H%M%S'),
             'UID:event-%s@kiberpipa.org' % e.id,
-            end_date.strftime('DTEND:%Y%m%dT%H%M%S'),
-            last_mod.strftime('LAST-MODIFIED:%Y%m%dT%H%M%SZ'),
+            time.strftime('DTEND:%Y%m%dT%H%M%S', end_date),
+            time.strftime('LAST-MODIFIED:%Y%m%dT%H%M%SZ', last_mod),
             'SUMMARY:%s: %s' % (unicode(e.project), e.title),
             'URL:%s' % e.get_public_url(),
             'LOCATION:Kiberpipa, %s' % e.place,
