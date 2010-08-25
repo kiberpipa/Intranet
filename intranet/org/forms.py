@@ -93,7 +93,6 @@ class AddEventEmails(forms.Form):
 class CommaSeparatedIntegerField(forms.CharField):
     def clean(self, value):
         values = value.strip().split(',')
-        print values
         for i in values:
             if not re.match('^\d+$', i):
                 raise ValidationError("Integer is required.")

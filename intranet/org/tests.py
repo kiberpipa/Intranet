@@ -26,13 +26,18 @@ class UploadTest(unittest.TestCase):
 		c = Client()
 		c.login(username=TESTUSER, password=TESTPASSWORD)
 		
+		resp = c.get('/intranet/image_crop_tool/')
+		self.assertEqual(resp.status_code, 200)
+		
 		resp = c.post('/intranet/tmp_upload/', {'foo': ''})
+		self.assertEqual(resp.status_code, 200)
 		self.assertEqual(simplejson.loads(resp.content)['status'],'fail')
 		
 		f = open(os.path.join(os.path.dirname(__file__), 'test.png'), 'rb')
 		resp = c.post('/intranet/tmp_upload/', {'image': f})
 		f.close()
 		
+		self.assertEqual(resp.status_code, 200)
 		self.assertEqual(simplejson.loads(resp.content)['status'],'ok')
 		self.assertEqual(c.session.has_key('temporary_filename'), True)
 		filename = simplejson.loads(resp.content)['filename']
@@ -40,10 +45,12 @@ class UploadTest(unittest.TestCase):
 		self.assertEqual(c.session.get('temporary_filename'), filename)
 		
 		resp = c.post('/intranet/image_crop_tool/resize/', {'resize': '90,253,44,129', 'filename': filename})
+		self.assertEqual(resp.status_code, 200)
 		self.assertEqual(simplejson.loads(resp.content)['status'],'ok')
 		resized_filename = simplejson.loads(resp.content)['resized_filename']
 		
 		resp = c.post('/intranet/image_crop_tool/save/', {'resized_filename': resized_filename, 'title': 'To je naslov slike.'})
+		self.assertEqual(resp.status_code, 200)
 		self.assertEqual(simplejson.loads(resp.content)['status'],'ok')
 		
 
