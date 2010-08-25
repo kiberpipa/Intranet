@@ -361,28 +361,6 @@ def stats(request):
                               { 'today': datetime.date.today() },
                               context_instance=RequestContext(request))
 
-def text_log(request):
-    today = datetime.date.today()
-    yesterday = today - datetime.timedelta(days=1)
-    tomorow = today + datetime.timedelta(days=2)
-
-    dnevniki = Diary.objects.filter(pub_date__range=(yesterday, today))
-    reverzi = Lend.objects.filter(returned__exact=False).filter(due_date__lte=(tomorow))
-    dogodki = Event.objects.filter(start_date__range=(today, tomorow))
-    novo = Event.objects.filter(pub_date__range=(yesterday, today))
-    dogodki_vceraj = Event.objects.filter(start_date__range=(yesterday, today))
-    scratchpad = Scratchpad.objects.latest('id')
-    return render_to_response('feeds/nightly_report.html',
-                              { 'today': today,
-                                'dnevniki': dnevniki,
-                                'reverzi': reverzi,
-                                'dogodki': dogodki,
-                                'novo': novo,
-                                'dogodki_vceraj': dogodki_vceraj,
-                                'scratchpad': scratchpad,
-                              },
-                              context_instance=RequestContext(request))
-
 # ------------------------------------
 
 def process_cloud_tag(instance):
@@ -897,19 +875,6 @@ def tehniki_cancel(request, id):
     e.technician.remove(request.user)
     e.save()
     return HttpResponseRedirect('../../')
-
-@login_required
-def tehniki_text_log(request):
-    Date = mx.DateTime.Date
-    d = mx.DateTime.now()
-    c = mx.DateTime.now() - mx.DateTime.oneDay
-
-    f = mx.DateTime.Date(c.year, c.month, c.day)
-    g = mx.DateTime.Date(d.year, d.month, d.day)
-
-    log_list = Diary.objects.filter(task__pk=2, date__range=(f, g))
-
-    return render_to_response('org/dezuranje_text_log.html', {'log_list':log_list,})
 
 @login_required
 def dezurni_monthly(request, year=None, month=None):

@@ -119,7 +119,6 @@ urlpatterns = patterns('',
     (r'^search/$', 'intranet.org.views.search'),
     (r'^$', 'intranet.org.views.index'),
     (r'^stats/$', 'intranet.org.views.stats'),
-    (r'^stats/text_log/$', 'intranet.org.views.text_log'),
 
     (r'^events/create/', 'intranet.org.views.event_edit'),
     (r'^events/(?P<event_pk>\d+)/edit/$', 'intranet.org.views.event_edit'),
