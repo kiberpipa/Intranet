@@ -647,23 +647,6 @@ def event_count (request, id=None):
 
 ##############################
 
-def _get_begin_end(year=None, month=None):
-    if year == None:
-        year = datetime.datetime.today().year
-        month = datetime.datetime.today().month
-
-    year = int(year)
-    month = int(month)
-    
-    begin = datetime.datetime(year, month, 1)
-    if month == 12:
-        next = 1
-    else:
-        next = month+1
-
-    end = begin.replace(month=next)
-    return (begin, end)
-
 @login_required
 def person(request):
     if request.method == 'POST':
