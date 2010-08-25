@@ -19,7 +19,7 @@ import urllib
 # FIXME
 from pipa.mercenaries.models import CostCenter, SalaryType
 
-def to_utc(self, dt):
+def to_utc(dt):
     return time.strftime('%Y%m%dT%H%M%SZ', time.gmtime(time.mktime(dt.timetuple())))
 
 
