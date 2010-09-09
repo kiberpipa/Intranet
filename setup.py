@@ -32,8 +32,6 @@ setup(name='kiberpipa-intranet',
         'pytz',
         'pygments',
         'simplejson',
-        # databases
-        'psycopg2',
         # wiki
         'markdown2',
         # django stuff

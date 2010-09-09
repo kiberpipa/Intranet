@@ -16,6 +16,13 @@ Install intranet::
 
     python setup.py develop
 
+(optional) install database driver::
+
+    # for postgres
+    easy_install psycopg2
+    # for mysql
+    easy_install mysql-python
+
 Copy over default settings::
 
     cd intranet

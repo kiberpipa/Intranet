@@ -5,6 +5,7 @@ from django.contrib import admin
 #from intranet.photologue.models import *
 from feedjack.models import Post
 from intranet.www.feeds import *
+from pipa.ldap.forms import LoginForm
 
 admin.autodiscover()
 
@@ -37,7 +38,7 @@ urlpatterns = patterns('',
     url(r'^intranet/ldappass/', 'pipa.ldap.views.password_change', name='ldap_password_change'),
     (r'^intranet/wiki/', include('intranet.wiki.urls')),
     (r'^', include('intranet.www.urls')),
-    (r'^accounts/login/$', 'django.contrib.auth.views.login'),
+    (r'^accounts/login/$', 'pipa.ldap.views.login', {'authentication_form': LoginForm}),
     (r'^accounts/profile/$', 'django.views.generic.simple.redirect_to', {'url': '/intranet/admin'}),
     (r'^accounts/$', 'django.views.generic.simple.redirect_to', {'url': 'login/'}),
     (r'^accounts/logout/$', 'django.contrib.auth.views.logout'),

@@ -1,13 +1,11 @@
+import datetime
+
 from django.conf.urls.defaults import *
-from intranet.org.models import Event, Diary, Lend, Shopping, Sodelovanje
-from intranet.org.feeds import LatestDiarys, ToDo, LatestEvents
 from django.contrib.auth.models import User
 
-#from django.contrib import databrowse
-#databrowse.site.register(Diary)
-#databrowse.site.register(Event)
-
-import datetime
+from intranet.org.models import Event, Diary, Lend, Shopping, Sodelovanje
+from intranet.org.feeds import LatestDiarys, ToDo, LatestEvents
+from pipa.ldap.forms import LoginForm
 
 
 today = datetime.date.today()
@@ -182,7 +180,7 @@ urlpatterns = patterns('',
     (r'^scratchpad/change/$', 'intranet.org.views.scratchpad_change'),
 
     #accounts
-    (r'^accounts/login/$', 'django.contrib.auth.views.login'),
+    (r'^accounts/login/$', 'pipa.ldap.views.login', {'authentication_form': LoginForm}),
     (r'^accounts/profile/$', 'django.views.generic.simple.redirect_to', {'url': '/intranet/admin'}),
     (r'^accounts/$', 'django.views.generic.simple.redirect_to', {'url': 'login/'}),
     (r'^accounts/logout/$', 'django.contrib.auth.views.logout'),
