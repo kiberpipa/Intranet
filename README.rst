@@ -2,30 +2,29 @@
 Development setup
 =================
 
-Get required packages::
-
-	sudo apt-get install python-reportlab python-ldap python-imaging python-excelerator python-tz python-simplejson python-feedparser
-
 Get intranet::
 
-	svn co https://www.kiberpipa.org/svn/intranet/rd666
+	svn co https://www.kiberpipa.org/svn/intranet/rd666 kiberpipa-intranet
+    cd kiberpipa-intranet
 
-Change dir to checked out project::
+Create Python virtual environment and activate it:
 
-	cd rd666
+    virtualenv --no-site-packages --python=/usr/bin/python2.6 .
+    source bin/activate
+
+Install intranet::
+
+    python setup.py develop
 
 Copy over default settings::
 
+    cd intranet
 	cp localsettings.py.example localsettings.py
 
 Create the (default is Sqlite3) database::
 
 	./manage.py syncdb
 
-Start the development server. Wahoo!
-
-::
+Start the development server. Wahoo!::
 
 	./manage.py runserver
-
-
