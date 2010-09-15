@@ -173,6 +173,7 @@ urlpatterns = patterns('',
 
     (r'^addressbook/$', 'pipa.addressbook.views.addressbook'),
 
+    (r'^wiki/$', 'django.views.generic.simple.redirect_to', {'url': 'https://wiki.kiberpipa.org/'}),
 
     (r'^autocomplete/$', 'intranet.org.views.author_autocomplete'),
 
@@ -192,7 +193,6 @@ urlpatterns = patterns('',
 )
 
 #timelines
-
 urlpatterns += patterns('',
     (r'^timelines/source.xml$', 'intranet.org.views.timeline_xml'),
     (r'^timelines/$', 'django.views.generic.simple.direct_to_template', {'template': 'org/timeline.html'}),
