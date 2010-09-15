@@ -48,7 +48,6 @@ LOCALE_INDEPENDENT_PATHS = (
 SITE_ID = 1
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'x&@ve8lp+4g3%^hgigvuv3svcig^3jbz@&w=_e4h#vaw2#odmg'
 MEDIA_ROOT = next_to_this_file(__file__, '../media')
 ADMIN_MEDIA_PREFIX = '/admin-media/'
 
