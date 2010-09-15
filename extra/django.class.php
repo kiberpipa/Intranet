@@ -1,11 +1,11 @@
 <?php
-	define('DJANGO_DB', '');
-	define('DJANGO_DB_HOST', '');
-	define('DJANGO_DB_PORT', '');
-	define('DJANGO_USER', '');
-	define('DJANGO_PASS', '');
-	define('DJANGO_SECRET', '');
-	define('DJANGO_LOGOUT_URL', '');
+	define('DJANGO_DB', 'i3');
+	define('DJANGO_DB_HOST', '127.0.0.1');
+	define('DJANGO_DB_PORT', '5433');
+	define('DJANGO_USER', 'dokuwiki_intranet');
+	define('DJANGO_PASS', 'ery5yredf593$!!=');
+	define('DJANGO_SECRET', 'ok_=+nmxlxjjib&nf=t)qa6a*bb#6wwxvnygjyt7*%vp5j+)fk');
+	define('DJANGO_LOGOUT_URL', 'https://www.kiberpipa.org/intranet/accounts/logout/?next=/intranet/wiki/');
 	/**
 	* django auth backend
 	*
@@ -13,7 +13,7 @@
 	*
 	* @author	Andreas Gohr <andi@splitbrain.org>
 	* @author	Michael Luggen <michael.luggen at rhone.ch>
-	* PostgreSQL rewrite by Gasper Zejn.
+	* Postgresql rewrite by Gasper Zejn.
 	*/
 	/* SQL functions to be set-up on server:
 
@@ -39,7 +39,7 @@ $$ LANGUAGE plpythonu;
 CREATE FUNCTION django_get_session_user (session_key TEXT, django_secret TEXT)
 RETURNS integer
 AS $$
-    SELECT user_id from (SELECT django_get_session_user_id(substring(decoded from 0 for decoded_length - 31) :: text) as user_id, substring(decoded from decoded_length - 31) as tamper_check, encode(digest(substring(decoded from 0 for decoded_length - 31) || 'ok_=+nmxlxjjib&nf=t)qa6a*bb#6wwxvnygjyt7*%vp5j+)fk', 'md5'), 'hex') as tamper_hash FROM (SELECT session_key, decode(session_data, 'base64') as decoded, length(decode(session_data, 'base64')) as decoded_length from django_session where session_key = '0856867695c8c10dcbd95b25d26e8697' AND expire_date > NOW() LIMIT 1) AS decoder) AS checker WHERE tamper_check::text = tamper_hash;
+    SELECT user_id from (SELECT django_get_session_user_id(substring(decoded from 0 for decoded_length - 31) :: text) as user_id, substring(decoded from decoded_length - 31) as tamper_check, encode(digest(substring(decoded from 0 for decoded_length - 31) || $2, 'md5'), 'hex') as tamper_hash FROM (SELECT session_key, decode(session_data, 'base64') as decoded, length(decode(session_data, 'base64')) as decoded_length from django_session where session_key = $1 AND expire_date > NOW() LIMIT 1) AS decoder) AS checker;
 $$ LANGUAGE SQL;
 
 	*/
@@ -100,7 +100,6 @@ $$ LANGUAGE SQL;
 				pg_free_result($user);
 				pg_close($conn);
 				
-				// okay we're logged in - set the globals
 				$groups = $this->_getUserGroups($username);
 				
 				$USERINFO['name'] = $username;
@@ -119,6 +118,7 @@ $$ LANGUAGE SQL;
 				return true;
 			}
 		}
+		$USERINFO['grps'] = Array(0 => 'ALL');
 		return false;
 	}
 	
