@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     url(r'^locale/?$', 'django.views.generic.simple.direct_to_template', {'template': 'www/locale.html'}),
     url(r'^ajax/index/events/$', 'intranet.www.views.ajax_index_events'),
     url(r'^ajax/add_mail/(?P<event>[0-9]+)/(?P<email>[^/]*)$', 'intranet.www.views.ajax_add_mail'),
+    url(r'^kjesmo/$', 'django.views.generic.simple.direct_to_template', {'template': 'www/kjesmo.html'}),
 
     #backwards compatibility
     url(r'^press-en/', 'django.views.generic.simple.redirect_to', {'url': '/en/press/'},),

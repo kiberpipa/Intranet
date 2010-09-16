@@ -1,0 +1,65 @@
+{% extends "www/base-second.html" %}
+
+{% block extrahead %}
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAPBgXzfTevk197UcydWpSFhRa5lmxJCj8vPH0dR9N8A5gpzj2SRRwVlh2r1_zVkIaL6PqJ-ZxLUgqLA" type="text/javascript"></script>
+<script type="text/javascript">
+var map;
+
+function initialize() {
+    if (GBrowserIsCompatible()) {
+        map = new GMap2(document.getElementById('mapdiv'));
+        map.setCenter(new GLatLng(46.056, 14.503203), 15);
+        map.setUIToDefault();
+
+        var poi_list = [
+            {name:"Kiberpipa", icon: "pipao", lat:46.055851, lon:14.504203, text:"Kersnikova 6, 1000 Ljubljana"},
+            {name:"Železniška postaja Ljubljana", icon: "vlak", lat:46.058054, lon: 14.510390, text: '<a href="http://www.slo-zeleznice.si/">Železniška postaja Ljubljana</a>'},
+            {name:"Avtobusna postaja Ljubljana", icon: "bus", lat:46.057675, lon:14.509170, text: '<a href="http://www.ap-ljubljana.si/">Avtobusna postaja Ljubljana</a>'},
+            {name:"LPP postaja Bavarski dvor", icon: "lpp", lat: 46.056106, lon:14.505289, text: ''},
+            {name:"LPP postaja Hotel lev / Kolizej", icon: "lpp", lat:46.055992, lon:14.50213, text:''},
+            {name:"Garažna hiša Kozolec", icon: "park", lat: 46.056724, lon: 14.504925, text:"dnevna tarifa od 7h do 19h - 1,00 €/uro<br />nočna tarifa od 19h do 7h - 1,5 €/noč<br />Odprto: 24ur"},
+            {name:"Parkirna hiša Trdinova", icon: "park", lat: 46.055708, lon: 14.507129, text:"dnevna tarifa od 7h do 19h od 1. do 6. ure 2 €/uro, od 7. do 12. ure 1,5 €/uro<br />nočna tarifa od 19h do 7h 1. in 2. ura 1,5 €/uro, 3. do 12. ura 0,5 €/uro"},
+            {name:"Parkirišče za BS Petrol", icon: "park", lat: 46.057913, lon: 14.502330, text: ""},
+            {name:"Parkirišče Tivoli", icon: "park", lat: 46.058196, lon:14.49885, text: "Prvi dve uri 0,50 €, vsaka nadaljna ura 0,5 €.<br />Odprto: od 6h do 2h"},
+            {name:"Parkirišče Sanatorij Emona", icon:"park", lat: 46.053550, lon:14.508690, text: "1 €/uro<br />Odprto: od 6h do 20h, sobota od 7h do 15h"},
+            ];
+        
+        for (var i=0; i<poi_list.length;i++){
+            var poiicon = new GIcon(G_DEFAULT_ICON);
+            poiicon.image = '/smedia/www/images/' + poi_list[i].icon + '_icon.png';
+            poiicon.iconSize = new GSize(28,28);
+            poiicon.iconAnchor = new GPoint(14, 14);
+            poiicon.shadowSize = new GSize(0,0);
+            var poi = new GMarker(new GLatLng(poi_list[i].lat, poi_list[i].lon), {icon: poiicon});
+            poi.bindInfoWindow("<p><b>" + poi_list[i].name + "</b><br />" + poi_list[i].text + "</p>");
+            map.addOverlay(poi);
+        }
+    }
+}
+
+$(document).ready(function () {
+    initialize();
+});
+</script>
+<style>
+#mapdiv {
+    width: 600px;
+    height: 400px;
+    float: left;
+    margin: 10px;
+}
+
+#descdiv {
+    margin: 10px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+    <div id="kjesmo">
+       <div id="mapdiv"></div>
+    </div>
+    <div id="descdiv">
+        Kiberpipa ima svoje prostore v kleti Kersnikove ulice 6, v Ljubljani. Nahaja se v samem centru prestolnice in je lahko dostopna (zelo blizu glavne železniške in avtobusne postaje, postajališč mestnega potniškega prometa in javnih garaž). Kiberpipa je v soseski, kjer se dnevno zadržuje veliko mladih in študentov, saj je v neposredni bližini <a href="http://www.sou-lj.si/">ŠOU-a</a> in njegove informacijske točke, <a href="http://www.klubk4.org">Kluba K4</a>, Galerije Kapelica in <a href="http://www.mklj.si/">knjižnice Otona Župančiča</a>.
+    </div>
+{% endblock %}
