@@ -99,7 +99,7 @@ def event(request, date, id, slug):
         },
         context_instance=RequestContext(request))
 
-def news_detail(request, slug, id=None):
+def news_detail(request, slug=None, id=None):
     if id is None:
         n = News.objects.get(slug=slug)
         return HttpResponseRedirect(n.get_absolute_url())
