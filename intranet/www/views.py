@@ -257,7 +257,7 @@ def ical(request):
             time.strftime('DTEND:%Y%m%dT%H%M%S', to_utc(end_date)),
             time.strftime('LAST-MODIFIED:%Y%m%dT%H%M%SZ', to_utc(e.chg_date)),
             'SUMMARY:%s: %s' % (unicode(e.project), e.title),
-            'URL:%s' % e.get_public_url(),
+            'URL:http://www.kiberpipa.org%s' % e.get_public_url(),
             'CLASS:%s' % classification,
             'LOCATION:Kiberpipa, %s' % e.place,
             'CATEGORIES:%s' % ','.join([e.project.name, e.category.name]),
