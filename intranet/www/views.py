@@ -235,8 +235,14 @@ def ical(request):
     cal.append('')
 
     for e in events:
-        #ther's gotta be a nicer way to do this
+        # ther's gotta be a nicer way to do this
+        # TODO: yes, use icalendar library
+        # http://pypi.python.org/pypi/icalendar/
         end_date = e.start_date + datetime.timedelta(hours=e.length.hour,  minutes=e.length.minute)
+        if e.public:
+            classification = 'PUBLIC'
+        else:
+            classification = 'PRIVATE'
 
         cal.extend((
             'BEGIN:VEVENT',
@@ -252,6 +258,7 @@ def ical(request):
             time.strftime('LAST-MODIFIED:%Y%m%dT%H%M%SZ', to_utc(e.chg_date)),
             'SUMMARY:%s: %s' % (unicode(e.project), e.title),
             'URL:%s' % e.get_public_url(),
+            'CLASS:%s' % classification,
             'LOCATION:Kiberpipa, %s' % e.place,
             'CATEGORIES:%s' % ','.join([e.project.name, e.category.name]),
             'TRANSP:OPAQUE',
