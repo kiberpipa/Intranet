@@ -177,7 +177,7 @@ class Event(models.Model):
     visitors = models.IntegerField(default=0, blank=True, null=True)
     public = models.BooleanField(default=True)
 
-    language = models.CharField(max_length=2, default='si', choices=settings.LANGUAGES, blank=True, null=True)
+    language = models.CharField(max_length=2, default='sl', choices=settings.LANGUAGES, blank=True, null=True)
 
     #for iCal
     sequence = models.PositiveIntegerField(default=0)
