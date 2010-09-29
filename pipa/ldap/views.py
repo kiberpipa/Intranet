@@ -40,6 +40,8 @@ def password_change(request):
 
 def login(request, *args, **kwargs):
     if request.method == 'POST':
-        if not request.POST.get('remember_me', None):
+        if request.POST.get('remember_me', None) == 'on':
+            request.session.set_expiry(settings.SESSION_COOKIE_AGE)
+        else:
             request.session.set_expiry(0)
     return auth_views.login(request, *args, **kwargs)

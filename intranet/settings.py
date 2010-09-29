@@ -120,6 +120,8 @@ FIXTURE_DIRS = (
     next_to_this_file(__file__, 'fixtures'),
 )
 
+SESSION_COOKIE_AGE = 2209600
+
 AUTH_PROFILE_MODULE = 'addressbook.PipaProfile'
 REQUIRE_LOGIN_PATH = '/intranet/accounts/login/'
 AUTHENTICATION_BACKENDS = (
