@@ -554,6 +554,14 @@ def info_txt(request, event):
     return response
 
 @login_required
+def sablona(request, event):
+    event = get_object_or_404(Event, pk=event)
+    from pipa.video.utils import prepare_video_zip
+    person =  u', '.join([i.person.name for i in event.sodelovanje_set.all() if i.tip.id in (1, 5)]),
+    print event.slug
+    return prepare_video_zip(event.slug, event.title, event.start_date, person)
+
+@login_required
 def event_edit(request, event_pk=None):
     instance = None
     if event_pk is not None:

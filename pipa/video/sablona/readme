@@ -1,0 +1,8 @@
+Uporabi:
+ - ogg container
+ - theora kodek za video (okoli 600kbits je dovolj, 1 ura videa naj bo od 100-200MB)
+  - resolucija polovicni PAL z 1.07 horizontalnim resize-om: 384x288px (4:3)
+ - vorbis codec za audio (64kbs je dovolj)
+
+Naredi se image.jpg, brez overlaya.
+-i
