@@ -225,14 +225,14 @@ def calendar(request, year=None, month=None, en=False):
         context_instance=RequestContext(request))
 
 def ical(request):
-    cal = ['BEGIN:VCALENDAR', 
-        'PRODID: -//Kiberpipa//NONSGML intranet//EN', 
-        'VERSION:2.0']
+    cal = [u'BEGIN:VCALENDAR', 
+        u'PRODID: -//Kiberpipa//NONSGML intranet//EN', 
+        u'VERSION:2.0']
     # DO NOT uncomment. Kulturnik.si parser breaks.
     #cal.append('SUMMARY:Dogodki v Kiberpipi')
     events = Event.objects.order_by('-chg_date')[:20]
     response = HttpResponse(mimetype='text/calendar; charset=UTF-8')
-    cal.append('')
+    cal.append(u'')
 
     for e in events:
         # ther's gotta be a nicer way to do this
@@ -240,32 +240,32 @@ def ical(request):
         # http://pypi.python.org/pypi/icalendar/
         end_date = e.start_date + datetime.timedelta(hours=e.length.hour,  minutes=e.length.minute)
         if e.public:
-            classification = 'PUBLIC'
+            classification = u'PUBLIC'
         else:
-            classification = 'PRIVATE'
+            classification = u'PRIVATE'
 
         cal.extend((
-            'BEGIN:VEVENT',
+            u'BEGIN:VEVENT',
             # DO NOT uncomment. Kulturnik.si parser breaks.
             #'METHOD:REQUEST',
-            'SEQUENCE:%s' % e.sequence,
-            'ORGANIZER;CN=Kiberpipa:MAILTO:info@kiberpipa.org',
-            time.strftime('DTSTAMP:%Y%m%dT%H%M%SZ', to_utc(e.start_date)),
+            u'SEQUENCE:%s' % e.sequence,
+            u'ORGANIZER;CN=Kiberpipa:MAILTO:info@kiberpipa.org',
+            time.strftime(u'DTSTAMP:%Y%m%dT%H%M%SZ', to_utc(e.start_date)),
             #pub_date.strftime('CREATED:%Y%m%dT%H%M%SZ'),
-            time.strftime('DTSTART:%Y%m%dT%H%M%S', to_utc(e.start_date)),
-            'UID:event-%s@kiberpipa.org' % e.id,
-            time.strftime('DTEND:%Y%m%dT%H%M%S', to_utc(end_date)),
-            time.strftime('LAST-MODIFIED:%Y%m%dT%H%M%SZ', to_utc(e.chg_date)),
-            'SUMMARY:%s: %s' % (unicode(e.project), e.title),
-            'URL:http://www.kiberpipa.org%s' % e.get_public_url(),
-            'CLASS:%s' % classification,
-            'LOCATION:Kiberpipa, %s' % e.place,
-            'CATEGORIES:%s' % ','.join([e.project.name, e.category.name]),
-            'TRANSP:OPAQUE',
-            'END:VEVENT',
-            ''))
+            time.strftime(u'DTSTART:%Y%m%dT%H%M%S', to_utc(e.start_date)),
+            u'UID:event-%s@kiberpipa.org' % e.id,
+            time.strftime(u'DTEND:%Y%m%dT%H%M%S', to_utc(end_date)),
+            time.strftime(u'LAST-MODIFIED:%Y%m%dT%H%M%SZ', to_utc(e.chg_date)),
+            u'SUMMARY:%s: %s' % (unicode(e.project), e.title),
+            u'URL:http://www.kiberpipa.org%s' % e.get_public_url(),
+            u'CLASS:%s' % classification,
+            u'LOCATION:Kiberpipa, %s' % e.place,
+            u'CATEGORIES:%s' % ','.join([e.project.name, e.category.name]),
+            u'TRANSP:OPAQUE',
+            u'END:VEVENT',
+            u''))
 
-    cal.append('END:VCALENDAR')
+    cal.append(u'END:VCALENDAR')
     ret = u'\r\n'.join(cal)
     response.write(ret)
     return response
