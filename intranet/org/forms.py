@@ -15,7 +15,7 @@ from django.forms.models import ModelChoiceField, ModelMultipleChoiceField
 from intranet.org.models import TipSodelovanja, Person, Event, Sodelovanje
 from intranet.org.models import Project
 from intranet.org.models import Category, Lend, Diary, Shopping
-from intranet.org.models import IntranetImage
+from intranet.org.models import IntranetImage, EmailBlacklist
 #from intranet.photologue.models import GalleryUpload
 
 # DATETIMEWIDGET
@@ -96,6 +96,10 @@ class CommaSeparatedIntegerField(forms.CharField):
 class ImageResizeForm(forms.Form):
     resize = CommaSeparatedIntegerField(widget=forms.HiddenInput)
     filename = forms.CharField(widget=forms.HiddenInput)
+
+class EmailBlacklistForm(forms.ModelForm):
+    class Meta:
+        model = EmailBlacklist
 
 class IntranetImageForm(forms.ModelForm):
     class Meta:

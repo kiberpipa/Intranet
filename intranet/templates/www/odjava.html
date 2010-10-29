@@ -1,0 +1,19 @@
+{% extends "www/base-second.html" %}
+
+{% block extrahead %}
+{% endblock %}
+
+{% block content %}
+    <div id="odjava">
+        <p>
+            V kolikor ne želite prejemati od Kiberpipe katerih koli sporočil, prosim vpišite svoj e-naslov v spodnji obrazec in pritisnite pošlji.
+        </p>
+        {% if not success %}
+        <form action="" method="POST">
+            <label>Email naslov:</label>{{ form.blacklisted }}
+            <input type="submit" value="Pošlji" />
+        </form>
+        {% endif %}
+        <p>{{ message }}&nbsp;</p>
+    </div>
+{% endblock %}

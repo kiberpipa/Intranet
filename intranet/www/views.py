@@ -1,3 +1,5 @@
+# *-* coding: utf-8 *-*
+
 import datetime
 import time
 import re
@@ -17,6 +19,7 @@ from django.utils.translation import ugettext as _
 from django.utils import simplejson
 
 from intranet.org.models import to_utc, Event, Email
+from intranet.org.forms import EmailBlacklistForm
 from feedjack.models import Post
 from intranet.www.models import Ticker, News
 from pipa.video.models import Video
@@ -286,4 +289,26 @@ def news_list(request):
     if request.LANGUAGE_CODE == 'en':
         queryset = queryset.filter(language='en')
     return object_list(request, queryset=queryset[:10], template_name= 'www/news_list.html')
+
+def odjava(request):
+    message = ''
+    success = False
+    if request.method == 'POST':
+        form = EmailBlacklistForm(request.POST)
+        if form.is_valid():
+            message = 'Vaš e-naslov smo odstranili iz seznama naslovnikov.'
+            form.save()
+            success = True
+    else:
+        form = EmailBlacklistForm(initial={'blacklisted': request.GET.get('email', None)})
+
+    context = {
+        'form': form,
+        'message': message,
+        'success': success,
+        }
+    return render_to_response('www/odjava.html', RequestContext(request, context))
+
+
+
 

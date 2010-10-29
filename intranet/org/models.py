@@ -1,3 +1,5 @@
+# *-* coding: utf-8 *-*
+
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
@@ -121,6 +123,12 @@ class Place(models.Model):
 
 
 ##there's gotta be a better way to do this
+class EmailBlacklist(models.Model):
+    blacklisted = models.EmailField(db_index=True, unique=True)
+
+    def __unicode__(self):
+        return self.email
+
 class Email(models.Model):
     email = models.EmailField()
 
@@ -273,6 +281,14 @@ class Event(models.Model):
 
         """
         return self._next_previous_helper('previous')
+
+    def get_video_url(self):
+        global Video
+        try:
+            Video
+        except NameError:
+            from pipa.video.models import Video
+        return Video.objects.get(event=self).play_url
 
 
 class TipSodelovanja(models.Model):
@@ -494,5 +510,6 @@ class Scratchpad(models.Model):
     class Meta:
         verbose_name = 'Kracarka'
         verbose_name_plural = 'Kracarka'
+
 
 

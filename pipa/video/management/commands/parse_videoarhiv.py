@@ -1,12 +1,16 @@
-
+# *-* coding: utf-8 *-*
 TABINDEX = 'http://video.kiberpipa.org/tabindex.txt'
 
 from django.core.management.base import BaseCommand
+from optparse import make_option
 
 TABINDEX_URL = 'http://video.kiberpipa.org/tabindex.txt'
 INFOTXT_URL = 'http://video.kiberpipa.org/media/%s/info.txt'
 
 class Command(BaseCommand):
+	option_list = BaseCommand.option_list + [
+		make_option('--notifications', action='store_true', dest='notifications', default='false', help='Send away email notifications.'),
+	]
 	
 	def video_generator(self):
 		import urllib
@@ -19,6 +23,25 @@ class Command(BaseCommand):
 		for line in data:
 			yield dict(zip(fields, line))
 	
+	def _send_notification_emails(self, events):
+		from django.template import loader
+		from django.core.mail import send_mail
+		subscribers = {}
+		for ev in events:
+			for em in ev.emails.all():
+				event_list = subscribers.setdefault(em.email, [])
+				event_list.append(ev)
+		
+		for email, event_list in subscribers.iteritems():
+			context = {
+				'email': email,
+				'events': event_list,
+				}
+			message = loader.render_to_string('org/video_published_email.txt', context)
+			subject = u'[Kiberpipa] Sveže objavljeni posnetki dogodka'
+			from_email = u'info@kiberpipa.org'
+			send_mail(subject, message, from_email, [email])
+	
 	def handle(self, *args, **options):
 		print options
 		
@@ -28,6 +51,13 @@ class Command(BaseCommand):
 		import re
 		import datetime
 		import time
+		
+		if options.get('notifications'):
+			print 'Sending email notifications.'
+			videos = Video.objects.filter(pub_date__lt=datetime.date.today(), pub_date__gte=datetime.date.today()-datetime.timedelta(1))
+			events = [v.event for v in videos]
+			self._send_notification_emails(events)
+			return
 		
 		intranet_id_re = re.compile('\n\s*intranet-id:\s*(\d+)\s*\n*')
 		
