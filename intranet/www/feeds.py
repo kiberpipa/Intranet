@@ -19,7 +19,7 @@ class NewsFeed(Feed):
 
 def _get_events():
     # announcing events up to two days in future
-    return Event.objects.filter(public=True, start_date__lte=datetime.datetime.today() + datetime.timedelta(2)).order_by('-start_date')
+    return Event.objects.filter(public=True, start_date__lte=datetime.datetime.today() + datetime.timedelta(5)).order_by('-start_date')
 
 class EventsFeed(Feed):
     title = "Kiberpipa - Dogodki"
@@ -79,7 +79,7 @@ class AllInOne(Feed):
     def __init__(self, slug, request):
         #painfully slow, cache me!!
         Feed.__init__(self, slug, request)
-        events = [(e.start_date, e) for e in Event.objects.filter(public=True, start_date__lte=datetime.datetime.today()).order_by('-start_date')[:10]]
+        events = [(e.start_date, e) for e in _get_events()[:10]]
         news =  [(n.date, n) for n in News.objects.order_by('-date')[:10]]
         items = events + news
         items.sort()
