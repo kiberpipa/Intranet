@@ -8,9 +8,9 @@ TABINDEX_URL = 'http://video.kiberpipa.org/tabindex.txt'
 INFOTXT_URL = 'http://video.kiberpipa.org/media/%s/info.txt'
 
 class Command(BaseCommand):
-	option_list = BaseCommand.option_list + [
-		make_option('--notifications', action='store_true', dest='notifications', default='false', help='Send away email notifications.'),
-	]
+	option_list = BaseCommand.option_list + (
+		make_option('--notifications', action='store_true', dest='notifications', default=False, help='Send away email notifications.'),
+	)
 	
 	def video_generator(self):
 		import urllib
