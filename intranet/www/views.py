@@ -18,7 +18,7 @@ from django import forms
 from django.utils.translation import ugettext as _
 from django.utils import simplejson
 
-from intranet.org.models import to_utc, Event, Email
+from intranet.org.models import to_utc, Event, Email, EmailBlacklist
 from intranet.org.forms import EmailBlacklistForm
 from feedjack.models import Post
 from intranet.www.models import Ticker, News
@@ -299,6 +299,13 @@ def odjava(request):
             message = 'Vaš e-naslov smo odstranili iz seznama naslovnikov.'
             form.save()
             success = True
+        else:
+            try:
+                EmailBlacklist.objects.get(blacklisted=request.POST['blacklisted'].strip())
+                message = 'Vaš e-naslov smo odstranili iz seznama naslovnikov.'
+                success = True
+            except EmailBlacklist.DoesNotExist:
+                pass
     else:
         form = EmailBlacklistForm(initial={'blacklisted': request.GET.get('email', None)})
 
