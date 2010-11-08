@@ -202,9 +202,13 @@ class Event(models.Model):
     place = models.ForeignKey(Place)
     category = models.ForeignKey(Category)
     tags = models.ManyToManyField(Tag, blank=True, null=True)
+
     #for video spamming
     emails = models.ManyToManyField(Email, blank=True, null=True)
     event_image = models.ForeignKey(IntranetImage, null=True, blank=True)
+
+    # flickr set id
+    flickr_set_id = models.BigIntegerField(verbose_name="Flickr set ID", blank=True, null=True)
 
     class Meta:
         verbose_name = 'Dogodek'
@@ -293,7 +297,6 @@ class Event(models.Model):
 
 class TipSodelovanja(models.Model):
     name = models.CharField(max_length=40)
-
 
     def __unicode__(self):
         return self.name

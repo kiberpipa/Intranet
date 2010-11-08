@@ -94,22 +94,22 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.flatpages',
-    'intranet.org',
     'django.contrib.comments',
-    'intranet.wiki',
     'django.contrib.admin',
     'django.contrib.markup',
-    'intranet.www',
-    #'photologue',
     'feedjack', # FIXME
     'localeurl',
+    'syncr.twitter',
+    'tagging',
+    'south',
+    'intranet.org',
+    'intranet.wiki',
+    'intranet.www',
     'pipa.video',
     'pipa.ldap',
     'pipa.ltsp',
     'pipa.mercenaries',
     'pipa.addressbook',
-    'syncr.twitter',
-    'tagging',
 )
 
 TEMPLATE_DIRS = (

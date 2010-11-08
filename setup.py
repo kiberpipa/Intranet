@@ -38,6 +38,7 @@ setup(name='kiberpipa-intranet',
         'Django>=1.2',
         'django-localeurl',
         'tagging',
+        'South',
     ],
     tests_require=[
         'nose',
