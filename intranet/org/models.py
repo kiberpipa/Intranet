@@ -171,44 +171,45 @@ class IntranetImage(models.Model):
 
 # koledar dogodkov
 class Event(models.Model):
-    responsible = models.ForeignKey(User)
     title = models.CharField(max_length=100)
     # XXX FIXME: unique is false on SlugField because of data inconsistancy
-    slug = models.SlugField("event_slug",max_length=150, unique=False, blank=True, null=True)
-    start_date = models.DateTimeField(db_index=True)
-    end_date = models.DateField(blank=True, null=True)
-    length = models.TimeField()
-    project = models.ForeignKey(Project)
-    technician = models.ManyToManyField(User,blank=True, null=True,verbose_name="Tehnik", related_name="event_technican")
-    require_technician = models.BooleanField(default=False)
-    require_video = models.BooleanField(default=False)
-    visitors = models.IntegerField(default=0, blank=True, null=True)
-    public = models.BooleanField(default=True)
+    slug = models.SlugField("event_slug", max_length=150, unique=False, blank=True, null=True)
+    length = models.TimeField(verbose_name="Trajanje")
 
-    language = models.CharField(max_length=2, default='sl', choices=settings.LANGUAGES, blank=True, null=True)
+    require_technician = models.BooleanField(verbose_name="Dogodek potrebuje tehnika", default=False)
+    require_video = models.BooleanField(verbose_name="Dogodek bo sneman", default=False)
+    public = models.BooleanField(verbose_name="Dogodek je javen", default=True)
 
+    visitors = models.IntegerField(default=0, verbose_name="Številko obiskovalcev", blank=True, null=True)
+    language = models.CharField(verbose_name="Jezik", max_length=2, default='sl', choices=settings.LANGUAGES, blank=True, null=True)
     #for iCal
     sequence = models.PositiveIntegerField(default=0)
 
-    slides = models.FileField(upload_to='slides/%Y/%m/', blank=True, null=True)
+    slides = models.FileField(upload_to='slides/%Y/%m/', verbose_name="Prosojnice", blank=True, null=True)
 
-    announce = models.TextField(blank=True, null=True)
-    short_announce = models.TextField(blank=True, null= True)
-    note = models.TextField(blank=True, null=True)
+    announce = models.TextField(verbose_name="Uradna najava", blank=True, null=True)
+    short_announce = models.TextField(verbose_name="Kratka najava", blank=True, null= True)
+    note = models.TextField(verbose_name="Opombe", blank=True, null=True)
 
+    start_date = models.DateTimeField(verbose_name="Čas pričetka", db_index=True)
+    end_date = models.DateField(blank=True, null=True)
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
 
-    place = models.ForeignKey(Place)
-    category = models.ForeignKey(Category)
-    tags = models.ManyToManyField(Tag, blank=True, null=True)
-
-    #for video spamming
-    emails = models.ManyToManyField(Email, blank=True, null=True)
-    event_image = models.ForeignKey(IntranetImage, null=True, blank=True)
-
     # flickr set id
     flickr_set_id = models.BigIntegerField(verbose_name="Flickr set ID", blank=True, null=True)
+
+    responsible = models.ForeignKey(User, verbose_name="Odgovorna oseba")
+    place = models.ForeignKey(Place, verbose_name="Prostor")
+    category = models.ForeignKey(Category, verbose_name="Kategorija")
+    project = models.ForeignKey(Project, verbose_name="V okviru projekta")
+
+    tags = models.ManyToManyField(Tag, blank=True, null=True)
+    technician = models.ManyToManyField(User, verbose_name="Tehnik", blank=True, null=True, related_name="event_technican")
+
+    # for video spamming
+    emails = models.ManyToManyField(Email, blank=True, null=True)
+    event_image = models.ForeignKey(IntranetImage, verbose_name="Slika", null=True, blank=True)
 
     class Meta:
         verbose_name = 'Dogodek'

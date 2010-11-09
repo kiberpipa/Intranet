@@ -107,11 +107,10 @@ class IntranetImageForm(forms.ModelForm):
         exclude = ('md5',)
 
 class EventForm(forms.ModelForm):
-    start_date = forms.DateTimeField(widget=DateTimeWidget)
-    # get max_length from original field
-    title = forms.CharField(max_length=dict([(f.name, f) for f in Event._meta.fields])['title'].max_length,
+    start_date = forms.DateTimeField(label="Čas pričetka", widget=DateTimeWidget)
+    title = forms.CharField(label="Naslov", max_length=Event._meta.get_field('title').max_length,
         widget=forms.TextInput(attrs={'size':'60'}))
-    responsible = forms.ModelChoiceField(queryset=User.objects.filter(is_active=True).order_by('username'))
+    responsible = forms.ModelChoiceField(label="Odgovorna oseba", queryset=User.objects.filter(is_active=True).order_by('username'))
 
     class Meta:
         model = Event

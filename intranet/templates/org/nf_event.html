@@ -165,76 +165,74 @@ $(document).ready(function() {
                 {{ form.title.errors }}
                 {{ form.title.label_tag }}
                 {{ form.title }}
-                <br />
-                {{ form.project.errors }}
-                <label for="id_project">V okviru projekta:</label>
-                {{ form.project }}
             </p>
             <p>
-                <a href="#" onClick="addFormField(); return false;">Dodaj še enega avtorja</a>
+                {{ form.project.errors }}
+                {{ form.project.label_tag }}
+                {{ form.project }}
             </p>
             {% if sodelovanja %}
                 <input type="hidden" id="id" value="{{ sodelovanja.count|add:"1"}}">
-                <!-- XXX -->
                 <div id="divTxt">
                 {% for sodelovanje in sodelovanja %}
                     <p id="row{{ forloop.counter }}">
-                        <label for="id_author">Avtor(ji?): </label>
+                        <label for="id_author">Avtor(ji): </label>
                         <input type="text" name="author" class="input_author" id="id_author" value="{{ sodelovanje.person }}" />
-                        <label for="id_tip"></label>
-
                         <select name="tip" id="id_tip">
                         {% for t in tipi %}              
                             <option {% ifequal t sodelovanje.tip %}selected="selected"{% endifequal %} value="{{ t.id }}">{{ t }}</option>
                         {% endfor %}
                         </select> 
                         <a href='#' onClick='removeFormField("#row{{ forloop.counter }}"); return false;'>Remove</a>
+                        | <a href="#" onClick="addFormField(); return false;">Dodaj še enega avtorja</a>
                     </p>
                 {% endfor %}
-        </div>
-    {% else %}
-        <input type="hidden" id="id" value="2">
-        <div id="divTxt">
-            <p id="row1">
-                <label for="id_author">Izvajalci dogodka:</label>
-                <input type="text" name="author" class="input_author" id="id_author" />
-                <label for="id_tip"></label>
-                <select name="tip" id="id_tip">
-                {% for t in tipi %}              
-                    <option {% ifequal t tip %}selected="selected"{% endifequal %} value="{{ t.id }}">{{ t }}</option>
-                {% endfor %}
-                </select> 
-                <a href='#' onClick='removeFormField("#row1"); return false;'>Remove</a>
-            </p>
-        </div>
-    {% endif %}  
+                </div>
+            {% else %}
+                <input type="hidden" id="id" value="2">
+                <div id="divTxt">
+                    <p id="row1">
+                        <label for="id_author">Izvajalci dogodka:</label>
+                        <input type="text" name="author" class="input_author" id="id_author" />
+                        <select name="tip" id="id_tip">
+                        {% for t in tipi %}              
+                            <option {% ifequal t tip %}selected="selected"{% endifequal %} value="{{ t.id }}">{{ t }}</option>
+                        {% endfor %}
+                        </select> 
+                        <a href='#' onClick='removeFormField("#row1"); return false;'>Remove</a>
+                        | <a href="#" onClick="addFormField(); return false;">Dodaj še enega avtorja</a>
+                    </p>
+                </div>
+            {% endif %}  
         <p>
             {{ form.category.errors }}
-            <label for="id_category">m3c kategorija:</label>
+            {{ form.category.label_tag }}
             {{ form.category }}
+        </p>
+        <p>
+            {{ form.place.errors }}
+            {{ form.place.label_tag }}
+            {{ form.place}}
+        </p>
+        <p>
+            {{ form.responsible.errors }}
+            {{ form.responsible.label_tag }}
+            {{ form.responsible }}
         </p>
         <p>
             {{ form.language.errors }}
             {{ form.language.label_tag }}
             {{ form.language }}
         </p>
-        <p>
-            {{ form.responsible.errors }}
-            <label for="id_responsible">Odgovorna oseba:</label>
-            {{ form.responsible }}
-        </p>
-        <p>
-            {{ form.public.errors }}
-            <label for="id_public">Dogodek je javen:</label>
-            {{ form.public }}
         <hr>
         <p>
-            <label for="id_start_date">Čas pričetka:</label>
+            {{ form.start_date.errors }}
+            {{ form.start_date.label_tag }}
             {{ form.start_date|safe }}
-            <br />
-            <br /> 
+        </p>
+        <p>
             {{ form.length.errors }}
-            <label for="id_length">Trajanje:</label>
+            {{ form.length.label_tag }}
             {{ form.data.length }}
             <select selected name="length" size="1">   	   
                     <option {% ifequal '01:00:00' form.data.length %}selected {% endifequal %} value="01:00:00">1</option>
@@ -251,39 +249,45 @@ $(document).ready(function() {
                     <option {% ifequal '12:00:00' form.data.length %}selected {% endifequal %} value="12:00:00">12</option>
             </select>
             ur 
-            {% comment %}{{ form.length }} {% endcomment %}
         </p>
         <hr>
         <p>
-            {{ form.flickr_set_id.errors }}
-            {{ form.flickr_set_id.label_tag }}
-            {{ form.flickr_set_id }}
+            {{ form.public.errors }}
+            {{ form.public.label_tag }}
+            {{ form.public }}
         </p>
         <p>
             {{ form.require_technician.errors }}
-            <label for="id_require_technician">Dogodek potrebuje tehnika:</label>
+            {{ form.require_technician.label_tag }}
             {{ form.require_technician }}
         </p>
         <p>
             {{ form.require_video.errors }}
-            <label for="id_require_video">Dogodek bo sneman:</label>
+            {{ form.require_video.label_tag }}
             {{ form.require_video }}
         </p>
-        <p>
-            {{ form.place.errors }}
-            <label for="id_place">Prostor:</label>
-            {{ form.place}}
-        </p>
+        <hr>
         <p>
             {{ form.slides.errors }}
             {{ form.slides.label_tag }}
             {{ form.slides }} {{ form.slides_file }}
         </p>
         <p>
+            {{ form.flickr_set_id.errors }}
+            {{ form.flickr_set_id.label_tag }}
+            {{ form.flickr_set_id }}
+        </p>
+        <p>
+            {{ form.visitors.errors }}
+            {{ form.visitors.label_tag }}
+            {{ form.visitors }}
+        </p>
+        <hr>
+        <p>
+            {{ form.event_image.label_tag }}
             {{ form.event_image }} <a href="/intranet/image_crop_tool/" target="_blank">Dodaj novo sliko</a>
         </p>
         <p>
-            <label for="id_ajax_img">Slika:</label>
             <div id="ajax_img">
               {% if image.url %}<img src="{{ image.url }}" style="border: 1px solid gray;"/>{% endif %}
             </div> 
@@ -291,18 +295,19 @@ $(document).ready(function() {
         <hr>
         <p>
             {{ form.announce.errors }}
-            <label for="id_announce">Uradna najava:</label>
-            {{ form.announce }}
+            {{ form.announce.label_tag }}
         </p>
+        <br />
+        {{ form.announce }}
         <p>
             {{ form.short_announce.errors }}
-            <label for="id_short_announce">Kratka najava:</label>
+            {{ form.short_announce.label_tag }}
             {{ form.short_announce }}
         </p>
         <hr>
         <p>
             {{ form.note.errors }}
-            <label for="id_note">Opombe:</label>
+            {{ form.note.label_tag }}
             {{ form.note }}
         </p>
     </div>
