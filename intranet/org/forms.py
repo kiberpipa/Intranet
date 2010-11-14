@@ -8,15 +8,11 @@ from django import forms
 from django.contrib.auth.models import User
 from django.utils.encoding import force_unicode
 from django.conf import settings
-from django import forms
 from django.forms.util import ErrorList
 from django.forms.models import ModelChoiceField, ModelMultipleChoiceField
 
-from intranet.org.models import TipSodelovanja, Person, Event, Sodelovanje
-from intranet.org.models import Project
-from intranet.org.models import Category, Lend, Diary, Shopping
-from intranet.org.models import IntranetImage, EmailBlacklist
-#from intranet.photologue.models import GalleryUpload
+from intranet.org.models import (TipSodelovanja, Person, Event, Sodelovanje,
+    Project, Category, Lend, Diary, Shopping, IntranetImage, EmailBlacklist)
 
 # DATETIMEWIDGET
 # FUUUUUUUUcked up.
@@ -108,6 +104,7 @@ class IntranetImageForm(forms.ModelForm):
 
 class EventForm(forms.ModelForm):
     start_date = forms.DateTimeField(label="Čas pričetka", widget=DateTimeWidget)
+    end_date = forms.DateTimeField(label="Čas pričetka", widget=DateTimeWidget)
     title = forms.CharField(label="Naslov", max_length=Event._meta.get_field('title').max_length,
         widget=forms.TextInput(attrs={'size':'60'}))
     responsible = forms.ModelChoiceField(label="Odgovorna oseba", queryset=User.objects.filter(is_active=True).order_by('username'))

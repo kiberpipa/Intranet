@@ -192,7 +192,7 @@ class Event(models.Model):
     note = models.TextField(verbose_name="Opombe", blank=True, null=True)
 
     start_date = models.DateTimeField(verbose_name="Čas pričetka", db_index=True)
-    end_date = models.DateField(blank=True, null=True)
+    end_date = models.DateTimeField(blank=True, null=True)
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
 

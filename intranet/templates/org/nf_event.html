@@ -7,18 +7,15 @@
 <script type="text/javascript" src="{{ media_url }}js/jquery.highlightFade.js" ></script>
 <script src="{{ media_url }}/js/ui.datepicker.js"></script>
 <!-- jquery date picker -->
-  <link rel="stylesheet" href="{{ media_url }}/css/flora.datepicker.css" type="text/css" media="screen" title="Flora (Default)">
-<!-- calendar -->
-    <link rel="stylesheet" type="text/css" href="{{ media_url }}js/cal/calendar-win2k-cold-2.css" />
-    <script type="text/javascript" src="{{ media_url }}js/cal/calendar.js"></script>
-    <script type="text/javascript" src="{{ media_url }}js/cal/lang/calendar-en.js"></script>
-    <script type="text/javascript" src="{{ media_url }}js/cal/calendar-setup.js"></script>
-    <script type="text/javascript" src="{{ media_url }}js/jquery.suggest.js" ></script>
-    <script type="text/javascript" src="{{ media_url }}js/jquery.ajaxUpload.js" ></script>
-    <script type="text/javascript" src="{{ media_url }}js/jquery.imgareaselect-0.6.1.min.js" ></script>
-
+<link rel="stylesheet" href="{{ media_url }}/css/flora.datepicker.css" type="text/css" media="screen" title="Flora (Default)">
+<link rel="stylesheet" type="text/css" href="{{ media_url }}js/cal/calendar-win2k-cold-2.css" />
+<script type="text/javascript" src="{{ media_url }}js/cal/calendar.js"></script>
+<script type="text/javascript" src="{{ media_url }}js/cal/lang/calendar-en.js"></script>
+<script type="text/javascript" src="{{ media_url }}js/cal/calendar-setup.js"></script>
+<script type="text/javascript" src="{{ media_url }}js/jquery.suggest.js" ></script>
+<script type="text/javascript" src="{{ media_url }}js/jquery.ajaxUpload.js" ></script>
+<script type="text/javascript" src="{{ media_url }}js/jquery.imgareaselect-0.6.1.min.js" ></script>
 <script type="text/javascript">
-
 function addFormField() {
     var id = document.getElementById("id").value;
     $("#divTxt").append("<p id=\"row" + id + "\"><label for=\"id_author\">Avtor(ji?): </label><input type=\"text\" class=\"input_author\" name=\"author\" id=\"id_author\" /><label for=\"id_tip\"></label><select name=\"tip\" id=\"id_tip\">{% for t in tipi %}<option value=\"{{ t.id }}\">{{ t }}</option>{% endfor %}</select><a href='#' onClick='removeFormField(\"#row" + id + "\"); return false;'>Remove</a></p>");
@@ -136,13 +133,12 @@ $(document).ready(function() {
     $(".input_author").suggest("/intranet/autocomplete/");
     $('#id_announce').markItUp(mySettings);
 });
-  </script>
-
-  <style type="text/css">      
-      h3 {background:#f5f5f5 none repeat scroll 0 0;}
-  </style>
-
+</script>
+<style type="text/css">      
+  h3 {background:#f5f5f5 none repeat scroll 0 0;}
+</style>
 {% endblock %}
+
 {% block title %}Dogodki{% endblock %}
 
 {% load markup %}
@@ -288,6 +284,7 @@ $(document).ready(function() {
         </p>
         <hr>
         <p>
+            {{ form.event_image.errors }}
             {{ form.event_image.label_tag }}
             {{ form.event_image }} <a href="/intranet/image_crop_tool/" target="_blank">Dodaj novo sliko</a>
         </p>

@@ -64,7 +64,7 @@
 
   <p>
     <label for="id_end_date">Zadnja ponovitev:</label>
-    {{ form.end_date }}
+    {{ form.end_date|safe }}
     {% if form.end_date.errors %}
       *** {{ form.end_date.errors|join:", " }}
     {% endif %}
