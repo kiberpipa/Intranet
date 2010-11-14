@@ -502,7 +502,7 @@ def person_autocomplete(request):
 def active_user_autocomplete(request):
     hits = []
     if request.GET.has_key('q'):
-        hits = ['%s\n' % i for i in User.objects.filter(is_active=True).order_by('username').filter(name__icontains=request.GET['q'])]
+        hits = ['%s\n' % i for i in User.objects.filter(is_active=True).order_by('username').filter(username__icontains=request.GET['q'])]
     return HttpResponse(''.join(hits), mimetype='text/plain')
 
 @login_required
