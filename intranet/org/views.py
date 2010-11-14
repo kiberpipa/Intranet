@@ -492,10 +492,17 @@ def shopping_detail(request, object_id):
 ##################################################
 
 @login_required
-def author_autocomplete(request):
+def person_autocomplete(request):
     hits = []
     if request.GET.has_key('q'):
         hits = ['%s\n' % i for i in Person.objects.filter(name__icontains=request.GET['q'])]
+    return HttpResponse(''.join(hits), mimetype='text/plain')
+
+@login_required
+def active_user_autocomplete(request):
+    hits = []
+    if request.GET.has_key('q'):
+        hits = ['%s\n' % i for i in User.objects.filter(is_active=True).order_by('username')]
     return HttpResponse(''.join(hits), mimetype='text/plain')
 
 @login_required

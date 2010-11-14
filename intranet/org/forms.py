@@ -12,7 +12,7 @@ from django.forms.util import ErrorList
 from django.forms.models import ModelChoiceField, ModelMultipleChoiceField
 
 from intranet.org.models import (TipSodelovanja, Person, Event, Sodelovanje,
-    Project, Category, Lend, Diary, Shopping, IntranetImage, EmailBlacklist)
+    Project, Category, Lend, Diary, Shopping, IntranetImage, EmailBlacklist, User)
 
 # DATETIMEWIDGET
 # FUUUUUUUUcked up.
@@ -104,14 +104,22 @@ class IntranetImageForm(forms.ModelForm):
 
 class EventForm(forms.ModelForm):
     start_date = forms.DateTimeField(label="Čas pričetka", widget=DateTimeWidget)
-    end_date = forms.DateTimeField(label="Čas pričetka", widget=DateTimeWidget)
+    end_date = forms.DateTimeField(label="Zadnja ponovitev", widget=DateTimeWidget)
     title = forms.CharField(label="Naslov", max_length=Event._meta.get_field('title').max_length,
         widget=forms.TextInput(attrs={'size':'60'}))
-    responsible = forms.ModelChoiceField(label="Odgovorna oseba", queryset=User.objects.filter(is_active=True).order_by('username'))
+    responsible = forms.CharField(label="Odgovorna oseba")
+    #responsible = forms.ModelChoiceField(label="Odgovorna oseba", queryset=User.objects.filter(is_active=True).order_by('username'))
 
     class Meta:
         model = Event
         exclude = ('sequence', 'emails')
+
+    def clean_responsible(self):
+        resp = self.cleaned_data['responsible']
+        try:
+            return User.objects.filter(is_active=True).get(username=resp)
+        except User.DoesNotExist:
+            raise forms.ValidationError("Uporabnik ne obstaja")
 
     def clean(self):
         cleaned_data = self.cleaned_data

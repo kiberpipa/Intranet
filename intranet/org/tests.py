@@ -128,7 +128,7 @@ class EventTest(unittest.TestCase):
 			self.assertEqual(re.match('^\S+:\s', line) != None, True)
 		
 		# autocomplete should work now because a sodelovanje was added
-		resp = c.get('/intranet/autocomplete/', {'q': u'Gašp'})
+		resp = c.get('/intranet/autocomplete/person/', {'q': u'Gašp'})
 		self.assertEqual(resp.status_code, 200)
 		self.assertEqual('\n' in resp.content, True)
 		

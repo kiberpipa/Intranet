@@ -130,7 +130,8 @@ $(document).ready(function() {
         // update image
         $('#id_event_image').change();
     });
-    $(".input_author").suggest("/intranet/autocomplete/");
+    $(".input_author").suggest("/intranet/autocomplete/person/");
+    $("#id_responsible").suggest("/intranet/autocomplete/active_user/");
     $('#id_announce').markItUp(mySettings);
 });
 </script>

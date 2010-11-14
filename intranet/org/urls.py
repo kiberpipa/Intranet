@@ -176,7 +176,8 @@ urlpatterns = patterns('',
 
     (r'^wiki/$', 'django.views.generic.simple.redirect_to', {'url': 'https://wiki.kiberpipa.org/'}),
 
-    (r'^autocomplete/$', 'intranet.org.views.author_autocomplete'),
+    (r'^autocomplete/person/$', 'intranet.org.views.person_autocomplete'),
+    (r'^autocomplete/active_user/$', 'intranet.org.views.active_user_autocomplete'),
 
     #scratchpad
     (r'^scratchpad/change/$', 'intranet.org.views.scratchpad_change'),
