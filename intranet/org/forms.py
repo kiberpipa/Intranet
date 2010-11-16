@@ -104,7 +104,7 @@ class IntranetImageForm(forms.ModelForm):
 
 class EventForm(forms.ModelForm):
     start_date = forms.DateTimeField(label="Čas pričetka", widget=DateTimeWidget)
-    end_date = forms.DateTimeField(label="Zadnja ponovitev", widget=DateTimeWidget)
+    end_date = forms.DateTimeField(label="Zadnja ponovitev", widget=DateTimeWidget, required=False)
     title = forms.CharField(label="Naslov", max_length=Event._meta.get_field('title').max_length,
         widget=forms.TextInput(attrs={'size':'60'}))
     responsible = forms.CharField(label="Odgovorna oseba")
