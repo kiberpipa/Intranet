@@ -108,11 +108,15 @@ class EventForm(forms.ModelForm):
     title = forms.CharField(label="Naslov", max_length=Event._meta.get_field('title').max_length,
         widget=forms.TextInput(attrs={'size':'60'}))
     responsible = forms.CharField(label="Odgovorna oseba")
-    #responsible = forms.ModelChoiceField(label="Odgovorna oseba", queryset=User.objects.filter(is_active=True).order_by('username'))
 
     class Meta:
         model = Event
         exclude = ('sequence', 'emails')
+        widgets = {}
+
+    def __init__(self, *a, **kw):
+        super(EventForm, self).__init__(*a, **kw)
+        self.initial['responsible'] = User.objects.get(id=self.initial['responsible']).username
 
     def clean_responsible(self):
         resp = self.cleaned_data['responsible']
