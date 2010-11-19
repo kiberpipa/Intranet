@@ -116,7 +116,6 @@ class EventForm(forms.ModelForm):
 
     def __init__(self, *a, **kw):
         super(EventForm, self).__init__(*a, **kw)
-        self.initial['responsible'] = User.objects.get(id=self.initial['responsible']).username
 
     def clean_responsible(self):
         resp = self.cleaned_data['responsible']
