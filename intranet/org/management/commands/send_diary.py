@@ -31,5 +31,5 @@ class Command(BaseCommand):
             result.append('%s - %s posodil %s (%s dni)\n' % (lend.what, lend.to_who, lend.from_who, lend.days_due().days))
 
         result = ''.join(result)
-        send_mail('<sth smart s> %d-%d-%d' % (now.year, now.month, now.day), result, 'intranet@kiberpipa.org', ['pipa-org@list.kiss.si'])
+        send_mail('Novice iz Kleti %d-%d-%d' % (now.year, now.month, now.day), result, 'intranet@kiberpipa.org', ['pipa-org@list.sou-lj.si'])
 
