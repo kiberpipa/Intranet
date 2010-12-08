@@ -122,7 +122,7 @@ class EventForm(forms.ModelForm):
     def clean_responsible(self):
         resp = self.cleaned_data['responsible']
         try:
-            return User.objects.filter(is_active=True).get(username=resp)
+            return User.objects.get(username=resp)
         except User.DoesNotExist:
             raise forms.ValidationError("Uporabnik ne obstaja")
 
