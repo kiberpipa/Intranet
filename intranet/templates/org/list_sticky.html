@@ -4,12 +4,10 @@
 <ul>
 {% for task in object_list %}
         <div class="{{ task.message }}">
-        <b>
-                <a id="message" href="/intranet/admin/org/stickynotes/{{ task.id }}/">
-                        {{ task.post_date|date:"j. M" }}, {{ task.author }}:
-                </a>
-        </b>
-        <p>{{ task.note|linebreaks }}</p>
+					<strong><a id="message" href="{{ task.get_absolute_url }}">
+					  {{ task.post_date|date:"j. M" }}, {{ task.author }}:
+					</a></strong>
+					<p>{{ task.note|linebreaks }}</p>
         </div>
 {% endfor %}
 </ul>

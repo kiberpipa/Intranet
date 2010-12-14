@@ -1,48 +1,38 @@
+import datetime
+import os
+import re
+from PIL import Image
+from cStringIO import StringIO
+
+import mx.DateTime
+from django.conf import settings
+from django.core import template_loader
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.shortcuts import render_to_response, get_object_or_404
-from django.db.models.query import Q
-from django.template.defaultfilters import slugify
-from django import forms
 from django.template import RequestContext, Context
 from django.template.defaultfilters import slugify
-from django.db.models import signals
-from django.dispatch import dispatcher
-from django.core import template_loader
-from django.utils.datastructures import MultiValueDictKeyError
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic import list_detail, date_based
-from django.conf import settings
-from django.core.urlresolvers import reverse
-from django.core.files.uploadedfile import SimpleUploadedFile
-
-import datetime
-import mx.DateTime
-import re
-import string
-from cStringIO import StringIO
-from copy import deepcopy
-from django.utils import simplejson
-import md5
-import os
-from PIL import Image
-
-
 from django.views.decorators.csrf import csrf_exempt
-from intranet.org.models import Project, Category, Email, \
-    Place, Event, Shopping, Person, Sodelovanje, TipSodelovanja, Task, Diary, \
-    StickyNote, Lend, KbCategory, KB, Tag, \
-    Scratchpad
-from intranet.org.forms import DiaryFilter, PersonForm, AddEventEmails, EventForm, SodelovanjeFilter, LendForm, ShoppingForm, DiaryForm, ImageResizeForm, IntranetImageForm
+from django.utils import simplejson
 
-#from intranet.photologue.models import Gallery, GalleryUpload
+from intranet.org.models import (Project, Category, Email,
+    Event, Shopping, Person, Sodelovanje, TipSodelovanja, Task, Diary,
+    Lend, KbCategory, KB, Tag, Scratchpad)
+from intranet.org.forms import (DiaryFilter, PersonForm, AddEventEmails,
+    EventForm, SodelovanjeFilter, LendForm, ShoppingForm, DiaryForm,
+    ImageResizeForm, IntranetImageForm)
 
-month_dict = { 'jan': 1, 'feb': 2, 'mar': 3,
-               'apr': 4, 'maj': 5, 'jun': 6,
-               'jul': 7, 'avg': 8, 'sep': 9,
-            'okt': 10, 'nov': 11, 'dec': 12, }
+month_dict = {'jan': 1, 'feb': 2, 'mar': 3,
+    'apr': 4, 'maj': 5, 'jun': 6,
+    'jul': 7, 'avg': 8, 'sep': 9,
+    'okt': 10, 'nov': 11, 'dec': 12,
+}
 
-reverse_month_dict = dict(((i[1],i[0]) for i in month_dict.iteritems()))
+reverse_month_dict = dict(((i[1], i[0]) for i in month_dict.iteritems()))
+
 
 @csrf_exempt
 @login_required
@@ -52,7 +42,7 @@ def temporary_upload(request):
     """
     if not 'image' in request.FILES:
         return HttpResponse(simplejson.dumps({'status': 'fail'}))
-    
+
     filename = request.FILES['image']._get_name()
     imgdata = StringIO(request.FILES['image'].read())
     imgdata.seek(0)
@@ -63,7 +53,7 @@ def temporary_upload(request):
     except Exception, e:
         print e
         return HttpResponse(simplejson.dumps({'status': 'fail'}))
-    
+
     local_dir = os.path.join(settings.MEDIA_ROOT, 'tmp', request.session.session_key)
     try:
         os.mkdir(local_dir)
@@ -71,38 +61,39 @@ def temporary_upload(request):
         pass
     local_filename = os.path.join(local_dir, filename)
     url = os.path.join(settings.MEDIA_URL, 'tmp', request.session.session_key, filename)
-    
+
     f = open(local_filename, 'wb')
     f.write(imgdata.getvalue())
     f.close()
-    
+
     request.session['temporary_filename'] = local_filename
-    ret = simplejson.dumps({'status':'ok', 'link': url, 'filename': local_filename})
+    ret = simplejson.dumps({'status': 'ok', 'link': url, 'filename': local_filename})
     return HttpResponse(ret)
+
 
 @csrf_exempt
 @login_required
 def image_resize(request):
     if not request.POST:
-        return HttpResponse(simplejson.dumps({'status':'fail1'}))
+        return HttpResponse(simplejson.dumps({'status': 'fail1'}))
     else:
         form = ImageResizeForm(request.POST)
         if form.errors:
-            return HttpResponse(simplejson.dumps({'status':'fail2'}))
+            return HttpResponse(simplejson.dumps({'status': 'fail2'}))
         else:
             if form.cleaned_data.get('filename') != request.session.get('temporary_filename'):
-                return HttpResponse(simplejson.dumps({'status':'fail3'}))
+                return HttpResponse(simplejson.dumps({'status': 'fail3'}))
             else:
                 # resize!
                 x1, x2, y1, y2 = tuple(form.cleaned_data['resize'])
-                box = (int(x1), int(y1), int(x2)-1, int(y2)-1)
-                
+                box = (int(x1), int(y1), int(x2) - 1, int(y2) - 1)
+
                 resized_dir = os.path.join(settings.MEDIA_ROOT, 'tmp', request.session.session_key, 's')
                 try:
                     if not os.path.exists(resized_dir):
                         os.mkdir(resized_dir)
-                except Exception, e:
-                    return HttpResponse(simplejson.dumps({'status':'fail4'}))
+                except Exception:
+                    return HttpResponse(simplejson.dumps({'status': 'fail4'}))
                 resized_filename = os.path.join(resized_dir, os.path.basename(form.cleaned_data.get('filename')))
                 image_filename = form.cleaned_data['filename']
                 im = Image.open(image_filename)
@@ -111,11 +102,12 @@ def image_resize(request):
                 index.save(resized_filename)
                 request.session['resized_filename'] = resized_filename
                 resized_url = os.path.join(settings.MEDIA_URL, 'tmp', request.session.session_key, 's', os.path.basename(form.cleaned_data.get('filename')))
-                return HttpResponse(simplejson.dumps({'status':'ok',
+                return HttpResponse(simplejson.dumps({'status': 'ok',
                     'resized_url': resized_url,
                     'resized_filename': resized_filename}))
 
-    return HttpResponse(simplejson.dumps({'status':'ok'}))
+    return HttpResponse(simplejson.dumps({'status': 'ok'}))
+
 
 @csrf_exempt
 @login_required
@@ -181,7 +173,6 @@ def search(request):
             kategorije = kategorije.filter(name__icontains=term)
 
         objects = list(set(events) | set(kb))
-        related = []
 
         return render_to_response('org/search_results.html', {
                                     'object_list': objects,
@@ -712,7 +703,6 @@ def sodelovanja(request):
 
 @login_required
 def tehniki_monthly(request, year=None, month=None):
-    user = request.user
     iso_week = mx.DateTime.now().iso_week[1]
     if month:
         month = mx.DateTime.Date(int(year), int(month_dict[month]), 1).month
@@ -806,9 +796,7 @@ def weekly_navigation (year=None, week=None, week_start=None, week_end=None):
 
 @login_required
 def tehniki(request, year=None, week=None):
-    user = request.user
     iso_week = mx.DateTime.now().iso_week
-    month = mx.DateTime.now().month
 
     if year:
         year = int(year)
@@ -826,7 +814,6 @@ def tehniki(request, year=None, week=None):
     week_number = i
     month_number = week_start.month
 
-    week_now = week_start
     events = Event.objects.filter(start_date__range=(week_start, week_end), require_technician__exact=True).order_by('start_date')
     log_list = Diary.objects.filter(task=23, date__range=(week_start, week_end))
 
@@ -879,7 +866,6 @@ def tehniki_add(request):
 def tehniki_take(request, id):
     e = Event.objects.get(pk=id)
     e.technician.add(request.user)
-    week = datetime.timedelta(7)
     e.save()
 
     return HttpResponseRedirect('../../')
@@ -907,11 +893,7 @@ def dezurni_monthly(request, year=None, month=None):
 
     month_start = mx.DateTime.Date(year, month, 1)
     month_end = month_start + mx.DateTime.DateTimeDelta(month_start.days_in_month)
-
-    month_prev = month - 1
-    month_next = month + 1
     month_number = month
-
     month_now = month_start
     month = []
 
@@ -974,11 +956,7 @@ def dezurni(request, year=None, week=None, month=None):
 
     week_start = mx.DateTime.ISO.Week(year, i, 1)
     week_end = mx.DateTime.ISO.Week(year, i, 6)
-
-    week_prev = i - 1
-    week_next = i + 1
     week_number = i
-
     week_now = week_start
     week = []
 

@@ -76,37 +76,31 @@
 {% block extrabody %}<body>{% endblock %}
 
 <div id="header">
-    <!-- put some header here -->
-    <div id="top">
-        <ul id="login_info">
-            <li>Pozdravljen {{ user.username }}!</li>
-            <li><a href="/intranet/accounts/logout/">Odjava</a></li>
-            <br />
-        </ul>
-        <ul id="mainmenu">
-            <li>
-                <a href="/intranet/">
-                    <img id="logo" alt="Kiberpipa" src="{{ media_url }}/kiberpipa-white.png" />
-                    <br />nadzorna plo&#353;&#269;a
-                </a>
-            </li>
-            <li><a href="/intranet/dezurni/">De&#382;urni</a></li>
-            <li><a href="/intranet/tehniki/">Tehniki</a></li>
-            <li><a href="/intranet/addressbook/">Imenik</a></li>
-            <li><a href="/intranet/diarys/">Dnevniki</a></li>
-            <li><a href="/intranet/events/">Dogodki</a></li>
-            <li><a href="/intranet/wiki/">wiki</a></li>
-            <li><a href="/intranet/sodelovanja/">Sodelovanja</a></li>
-            <li><a href="/intranet/kb/">Znanje</a></li>
-            <li><a href="/intranet/lends/">Reverzi</a></li>
-            <li><a href="/intranet/shopping/">Nakupi</a></li>
-            <li><a href="/intranet/mercenaries/">Mercenaries</a></li>
-            <li><a href="/intranet/admin">Administracija</a></li>
-        </ul>
+    <div id="login_info">
+        <a href="/intranet/">
+            <img id="logo" alt="Kiberpipa" src="{{ media_url }}/kiberpipa-white.png" />
+        </a>
+        <p>
+            Pozdravljen {{ user.username }}! <a href="/intranet/accounts/logout/">Odjava</a>
+        </p>
     </div>
-
+    <ul id="mainmenu">
+        <li><a href="/intranet/dezurni/">Dežurni</a></li>
+        <li><a href="/intranet/diarys/">Dnevniki</a></li>
+        <li><a href="/intranet/events/">Dogodki</a></li>
+        <li><a href="/intranet/addressbook/">Imenik</a></li>
+        <li><a href="/intranet/wiki/">Wiki</a></li>
+        <li><a href="/intranet/tehniki/">Tehniki</a></li>
+        <li><a href="/intranet/sodelovanja/">Sodelovanja</a></li>
+        <li><a href="/intranet/lends/">Reverzi</a></li>
+        <li><a href="/intranet/shopping/">Nakupi</a></li>
+        <li><a href="/intranet/mercenaries/">Mercenaries</a></li>
+        <li><a href="/intranet/admin">Administracija</a></li>
+    </ul>
     <div id="bugs">
-        <a href="https://www.kiberpipa.org/projekti/intranet/"><img src="/smedia/img/hrosc.png" width="48" height="40" /></a>
+        <a href="https://www.kiberpipa.org/projekti/intranet/">
+          <img src="/smedia/img/hrosc.png" width="48" height="40" />
+        </a>
     </div>
 </div>
 

@@ -1,29 +1,24 @@
 # *-* coding: utf-8 *-*
 
-from django.db import models
-from django.template.defaultfilters import slugify
-from django.contrib.auth.models import User
-from django.core.mail import send_mail
-from django.conf import settings
-from django.core.urlresolvers import reverse
-from django.contrib.sites.models import Site
-
-from datetime import date, timedelta, datetime
+from datetime import date, timedelta
 import datetime
 import time
-import smtplib, string, audit
-import socket
-from PIL import Image
+import audit
 import md5
 import re
 import urllib
 
+from django.db import models
+from django.template.defaultfilters import slugify
+from django.contrib.auth.models import User
+from django.conf import settings
+
 # FIXME
 from pipa.mercenaries.models import CostCenter, SalaryType
 
+
 def to_utc(dt):
     return time.gmtime(time.mktime(dt.timetuple()))
-
 
 class Tag(models.Model):
     name = models.CharField(max_length=200, primary_key='True')
@@ -404,6 +399,10 @@ class Diary(models.Model):
         verbose_name_plural = 'Dnevniki'
 
 class StickyNote(models.Model):
+    class Meta:
+        verbose_name = 'Sporocilo'
+        verbose_name_plural = 'Sporocila'
+
     author = models.ForeignKey(User, related_name="message_author")
     post_date = models.DateField(default=date.today())
     due_date = models.DateField(default=(date.today() + timedelta(days=5)))
@@ -413,13 +412,11 @@ class StickyNote(models.Model):
     chg_date = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField(Tag, blank=True, null=True)
 
-
     def __unicode__ (self):
         return "%s..." % (self.note[:50])
 
-    class Meta:
-        verbose_name = 'Sporocilo'
-        verbose_name_plural = 'Sporocila'
+    def get_absolute_url(self):
+        return '/intranet/admin/org/stickynote/%d/' % self.id
 
 class Lend(models.Model):
     what = models.CharField(max_length=200, verbose_name='Predmet')

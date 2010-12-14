@@ -1,23 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-from django.template import Context, Library, RequestContext
+import datetime
+
+from django.template import Library
 from django import template
-from django.template import resolve_variable, Variable
+from django.template import resolve_variable
 from django.core.exceptions import ObjectDoesNotExist
 
-from intranet.org.models import Event, Scratchpad
+from intranet.org.models import Scratchpad
 from intranet.localsettings import MEDIA_URL
-import datetime
-import math
 
 register = Library()
-
-from django.views.generic.list_detail import object_list
-
-@register.filter
-def in_list(value,arg):
-    return value in arg
 
 
 def loadcomments(object, user):
@@ -35,8 +29,8 @@ def box_plache(diarys, user):
     # pupulate list, paylist from diaries
     for o in diarys:
         a = o.author.username
-        if list.has_key(a):
-            list[a] += o.length.hour 
+        if a in list:
+            list[a] += o.length.hour
         else:
             list[a] = o.length.hour 
             paylist[a] = 0
