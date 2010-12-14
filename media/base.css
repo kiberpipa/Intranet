@@ -91,6 +91,9 @@ div#module ul li {
 
 div.module h2 a { color: #666; }
 
+h2 img {
+   padding-right: 3px;
+}
 h2.expand {
   cursor: pointer;
 }
@@ -218,4 +221,3 @@ ul.event li {
 .invisible { 
     display: none; 
 }
-

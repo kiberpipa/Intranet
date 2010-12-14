@@ -48,7 +48,10 @@
 
 {% block content-main %}
   <div class="module" id="messages-module">
-    <h2><a href="/intranet/admin/org/stickynote">Obvestila</a></h2>
+    <h2>
+      <img src="{{ media_url }}/img/information.png" alt="notification icon" /> 
+      <a href="/intranet/admin/org/stickynote">Obvestila</a>
+    </h2>
     {% box_list StickyNote "due_date__gte=today" "template=org/list_sticky.html" %}
   </div>
 
