@@ -1,7 +1,5 @@
 @import url(global.css);
 
-div#bugs { float: right; }
-
 div.loginbox { width: 300px; margin: 0 auto; }
 
 table {
@@ -15,14 +13,12 @@ img#logo {
 }
 
 div#header {
-    background: #0063ff;
-    background-image: url("img/grad.png");
-    background-repeat: repeat-x;
     margin-bottom: 15px;
     position: relative;
     top: 0px;
     left: 0px;
-    min-height:75px;
+    min-height: 75px;
+    padding: 5px 0 0px 5px;
 }
 
 div#status_report {
@@ -31,22 +27,28 @@ div#status_report {
     position: relative;
 }
 
-div#header A {
-    margin-right: 15px;
+ul#mainmenu {
+    display: block;
+}
+ul#mainmenu li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    float:left;
+    margin-right: 10px;
+    text-align: center
 }
 
-div#top { padding: 5px 0 20px 5px;}
+#login_info {
+    float: left;
+    margin: 2px 20px 0 20px;
+    text-align: center;
+}
 
-ul#mainmenu li{
-    list-style-type: none; margin: 0; padding: 0;
-    float:left; margin-right: 10px; text-align: center}
-
-ul#mainmenu { width: 70%; }
-ul#login_info { position: relative; float: right; }
-
-ul#login_info li{
-    list-style-type: none; margin: 0; padding: 0;
-    float:left; margin-right: 10px; text-align: center}
+div#bugs {
+    float: right;
+    margin: 5px;
+}
 
 div#columnwrap {
     margin: 0px auto;
