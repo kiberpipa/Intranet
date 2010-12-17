@@ -39,6 +39,7 @@ setup(name='kiberpipa-intranet',
         'django-localeurl',
         'tagging',
         'South',
+        'flickrapi',
     ],
     tests_require=[
         'nose',
