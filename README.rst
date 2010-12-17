@@ -1,4 +1,3 @@
-
 Development setup
 =================
 
@@ -35,3 +34,9 @@ Create the (default is Sqlite3) database::
 Start the development server. Wahoo!::
 
 	./manage.py runserver
+
+
+RUNNING TESTS
+=============
+
+    ./manage.py test
