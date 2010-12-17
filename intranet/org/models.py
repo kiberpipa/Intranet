@@ -3,7 +3,6 @@
 from datetime import date, timedelta
 import datetime
 import time
-import audit
 try:
     from hashlib import md5
 except ImportError:
@@ -48,7 +47,6 @@ class Project(models.Model):
     verbose_name = models.CharField(max_length=255, blank=True, null=True)
 
     parent = models.ForeignKey('self', blank=True, null=True)
-    history = audit.AuditTrail()
 
     salary_type = models.ForeignKey(SalaryType, blank=True, null=True)
     cost_center = models.ForeignKey(CostCenter, blank=True, null=True)
