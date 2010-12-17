@@ -71,7 +71,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.doc.XViewMiddleware',
     #'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'intranet.middleware.FlatPage.FlatPage',
-    #'intranet.stats.StatsMiddleware',
     'intranet.middleware.NginxCache.NginxMemCacheMiddleWare',
     'django.middleware.csrf.CsrfResponseMiddleware',
 )
