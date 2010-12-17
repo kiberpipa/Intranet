@@ -61,7 +61,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'intranet.middleware.Https.Https',
     'intranet.middleware.exception.StandardExceptionMiddleware',
-    #'intranet.middleware.psyco_middleware.PsycoMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'localeurl.middleware.LocaleURLMiddleware', 
     'django.middleware.common.CommonMiddleware',
