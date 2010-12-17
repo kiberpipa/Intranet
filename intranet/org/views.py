@@ -608,7 +608,7 @@ def event_edit(request, event_pk=None):
         'sodelovanja': instance and instance.sodelovanje_set.all() or None,
         'image': (instance and instance.event_image and instance.event_image.image) or None
         }
-    return render_to_response('org/nf_event.html', RequestContext(request, context))
+    return render_to_response('org/event_edit.html', RequestContext(request, context))
 
 @login_required
 def event(request, object_id):

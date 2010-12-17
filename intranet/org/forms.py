@@ -3,6 +3,7 @@
 import datetime
 import re
 import time
+import httplib
 
 from django import forms
 from django.contrib.auth.models import User
@@ -15,7 +16,7 @@ from intranet.org.models import (TipSodelovanja, Person, Event, Sodelovanje,
     Project, Category, Lend, Diary, Shopping, IntranetImage, EmailBlacklist, User)
 
 # DATETIMEWIDGET
-# FUUUUUUUUcked up.
+# TODO: FUUUUUUUUcked up.
 calbtn = u"""<img src="/smedia/img/calendar.jpg" alt="calendar" id="%s_btn" style="cursor: pointer; border: 1px solid #8888aa;" title="Select date and time"
             onmouseover="this.style.background='#444444';" onmouseout="this.style.background=''" />
 <script type="text/javascript">
@@ -43,7 +44,7 @@ class DateTimeWidget(forms.widgets.TextInput):
         if not final_attrs.has_key('id'):
             final_attrs['id'] = u'%s_id' % (name)
         id = final_attrs['id']
-        
+
         jsdformat = self.dformat #.replace('%', '%%')
         cal = calbtn % (id, id, jsdformat, id)
         a = u'<input%s />%s' % (forms.util.flatatt(final_attrs), cal)
@@ -125,6 +126,15 @@ class EventForm(forms.ModelForm):
             return User.objects.get(username=resp)
         except User.DoesNotExist:
             raise forms.ValidationError("Uporabnik ne obstaja")
+
+    def clean_flickr_set_id(self):
+        resp = self.cleaned_data['flickr_set_id']
+        if resp:
+            conn = httplib.HTTPConnection("www.flickr.com")
+            conn.request("HEAD", "/photos/kiberpipa/sets/%s/" % resp)
+            if conn.getresponse().status != 200:
+                raise forms.ValidationError("Set z takšnim id-jem ne obstaja")
+        return resp
 
     def clean(self):
         cleaned_data = self.cleaned_data

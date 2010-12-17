@@ -176,6 +176,7 @@ class Event(models.Model):
 
     require_technician = models.BooleanField(verbose_name="Dogodek potrebuje tehnika", default=False)
     require_video = models.BooleanField(verbose_name="Dogodek bo sneman", default=False)
+    require_photo = models.BooleanField(verbose_name="Dogodek bo poslikan", default=True)
     public = models.BooleanField(verbose_name="Dogodek je javen", default=True)
 
     visitors = models.IntegerField(default=0, verbose_name="Številko obiskovalcev", blank=True, null=True)
@@ -195,6 +196,7 @@ class Event(models.Model):
     chg_date = models.DateTimeField(auto_now=True)
 
     # flickr set id
+    # TODO: refactor in new app
     flickr_set_id = models.BigIntegerField(verbose_name="Flickr set ID", blank=True, null=True)
 
     responsible = models.ForeignKey(User, verbose_name="Odgovorna oseba")
@@ -227,6 +229,9 @@ class Event(models.Model):
 
     def get_public_url(self):
         return '/'.join(['', 'event', self.start_date.strftime('%Y-%b-%d').lower(), unicode(self.id), self.slug, ''])
+
+    def flickr_url(self):
+        return 'http://www.flickr.com/photos/kiberpipa/sets/%s/' % self.flickr_set_id
 
     def __unicode__(self):
         return self.title

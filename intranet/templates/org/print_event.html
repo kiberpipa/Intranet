@@ -1,14 +1,45 @@
 <div class="{{ event.project.name|slugify }}">
 <ul class="event">
 {% if event.require_video %}
-<li><img src="{{ media_url }}img/camera.png" alt="video" /></li>
+    {% if event.video %}
+			<li>
+					<a href="{{ event.video.get_absolute_url }}" alt="video" title="has video">
+						 <img src="{{ media_url }}img/accept.png" class="has"/>
+						 <img src="{{ media_url }}img/film.png" alt="photo"/>
+					</a>
+			</li>
+    {% else %}
+			<li><img src="{{ media_url }}img/film.png" alt="video" title="requires video"/></li>
+    {% endif %}
+{% endif %}
+
+{% if event.require_photo %}
+    {% if event.flickr_set_id %}
+			<li>
+					<a href="{{ event.flickr_url }}" alt="photos" title="has photos">
+						 <img src="{{ media_url }}img/accept.png" class="has"/>
+						 <img src="{{ media_url }}img/photo.png" alt="photo"/>
+					</a>
+			</li>
+    {% else %}
+			<li><img src="{{ media_url }}img/photo.png" alt="photo" title="requires photos"/></li>
+    {% endif %}
 {% endif %}
 
 {% if event.require_technician %}
     {% if event.technician %}
-        <li><img src="{{ media_url }}img/tools.png" alt="tech" /></li>
+        <li>
+					<a href="" alt="tech" title="has a technician">
+						<img src="{{ media_url }}img/accept.png" class="has"/>
+						<img src="{{ media_url }}img/tools.png" alt="tech" />
+				  </a>
+				</li>
     {% else %}
-        <li><a href="/intranet/tehniki/add/{{ event.id }}" alt="addtech"><img src="{{ media_url }}img/help.png" alt="help" /></a></li>
+        <li>
+					<a href="/intranet/tehniki/add/{{ event.id }}" alt="addtech">
+						<img src="{{ media_url }}img/help.png" alt="help" title="requires technician"/>
+					</a>
+				</li>
     {% endif %}
 {% endif %}
 

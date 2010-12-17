@@ -63,11 +63,11 @@
         Moje odgovornosti
     </h2>
 
-    <h4>Sem posodil:</h4>
-    {% box_list Lend "from_who__exact=user.id, returned__exact=False" "template=org/list_lend.html" %}
     <h4>Moji dogodki:</h4>
     {% box_list Event "responsible__exact=user.id, start_date__gte=start_date" "template=org/list_my_event.html" %}
     {% box_list Event "technician__exact=user.id, start_date__gte=start_date" "template=org/list_my_event.html" %}
+    <h4>Sem posodil:</h4>
+    {% box_list Lend "from_who__exact=user.id, returned__exact=False" "template=org/list_lend.html" %}
     <h4>Moje želje po nakupih</h4>
     {% box_list Shopping "author__exact=user.id, bought__exact=False" "template=org/list_shopping.html" %}
 

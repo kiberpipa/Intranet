@@ -223,3 +223,14 @@ ul.event li {
 .invisible { 
     display: none; 
 }
+
+.event a {
+    position: relative;
+}
+.has {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
