@@ -118,6 +118,7 @@ FIXTURE_DIRS = (
     next_to_this_file(__file__, 'fixtures'),
 )
 
+# 2 weeks
 SESSION_COOKIE_AGE = 2209600
 
 AUTH_PROFILE_MODULE = 'addressbook.PipaProfile'
@@ -139,5 +140,8 @@ TWITTER_SYNC = {
     'keywords': ['kiberpipa'],
     'users': ['Kiberpipa', 'FilmSteka', 'cyberpipe', 'MoMoSlo', 'wwwh'],
 }
+
+# south
+SOUTH_TESTS_MIGRATE = False
 
 from localsettings import *

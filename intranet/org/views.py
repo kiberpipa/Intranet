@@ -1063,7 +1063,10 @@ def timeline_xml(request):
 @login_required
 def scratchpad_change(request):
     if request.POST:
-        scratchpad = Scratchpad.objects.latest('id')
+        try:
+            scratchpad = Scratchpad.objects.latest('id')
+        except Scratchpad.DoesNotExist:
+            scratchpad = Scratchpad()
         scratchpad.author = request.user
         scratchpad.content = request.POST['content']
         scratchpad.save()

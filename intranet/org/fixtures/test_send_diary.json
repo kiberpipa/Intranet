@@ -1,0 +1,29 @@
+[
+ {
+  "pk": 1, 
+  "model": "org.diary", 
+  "fields": {
+   "log_informal": "foobar informal", 
+   "log_formal": "foobar formal", 
+   "task": 1, 
+   "author": 1, 
+   "tags": [], 
+   "chg_date": "2010-12-17 15:03:17", 
+   "length": "04:00:00", 
+   "date": "2010-12-17 00:00:00", 
+   "pub_date": "2010-12-17 15:03:17", 
+   "event": null
+  }
+ }, 
+ {
+  "pk": 1, 
+  "model": "org.scratchpad", 
+  "fields": {
+   "content": "testasd123asd123", 
+   "chg_date": "2010-12-17 14:55:28", 
+   "pub_date": "2010-12-17 14:55:20", 
+   "author": 1
+  }
+ }
+]
+

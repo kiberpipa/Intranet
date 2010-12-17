@@ -4,7 +4,10 @@ from datetime import date, timedelta
 import datetime
 import time
 import audit
-import md5
+try:
+    from hashlib import md5
+except ImportError:
+    from md5 import md5
 import re
 import urllib
 
@@ -161,7 +164,7 @@ class IntranetImage(models.Model):
 
     def save(self, *args, **kwargs):
         super(IntranetImage, self).save(*args, **kwargs)
-        self.md5 = md5.new(open(self.image.path).read()).hexdigest()
+        self.md5 = md5(open(self.image.path).read()).hexdigest()
         super(IntranetImage, self).save(*args, **kwargs)
 
 # koledar dogodkov

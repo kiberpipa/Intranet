@@ -1,35 +1,44 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import datetime
 
 from django.core.management.base import BaseCommand
+from django.core.mail import EmailMultiAlternatives
+from django.conf import settings
+from django.template import Context
+from django.template.loader import get_template
+
+from intranet.org.models import Scratchpad, Diary, Lend
+
 
 class Command(BaseCommand):
+    args = "<date> in format dd.mm.yyyy"
+    help = "Sends daily email repot about intranet changes"
+
     def handle(self, *args, **options):
-        import datetime
-        import sys
-        
-        from django.db.models import Q
-        from django.core.mail import send_mail
-        
-        from intranet.org.models import Scratchpad, Diary, Lend
-        
-        now = datetime.date.today() - datetime.timedelta(1)
-        result = ['Kiberpipa, dnevno porocilo: %d-%d-%d\n\n' % (now.year, now.month, now.day)]
-        result.append('Dnevniki:\n\n')
+        if args:
+            now = datetime.datetime.strptime(args[0], '%d.%m.%Y')
+        else:
+            # yesterday
+            now = datetime.date.today() - datetime.timedelta(1)
+        subject = 'Kiberpipa, dnevno porocilo: %d. %d. %d' % (now.day, now.month, now.year)
 
-        diarys = Diary.objects.filter(pub_date__year=now.year, pub_date__month=now.month, pub_date__day=now.day)
-        if not diarys:
-            sys.exit(0)
+        diaries = Diary.objects.filter(pub_date__year=now.year, pub_date__month=now.month, pub_date__day=now.day)
+        try:
+            scratchpad = Scratchpad.objects.all()[0].content
+        except Scratchpad.DoesNotExist:
+            pass
+        lends =  Lend.objects.filter(returned=False)
 
-        for diary in diarys:
-            result.append('[ %s - %s - %s - %s ]\n --\n %s \n--\n %s\n\n' % (
-                diary.date, diary.author, diary.task.__unicode__(), diary.length, diary.log_formal, diary.log_informal))
+        # don't send email if we have no diaries
+        if not diaries:
+            print "no diaries"
+            return
 
-        result.append('=== Kracarka:\n\n%s\n\n' % Scratchpad.objects.all()[0].content)
-        result.append('=== Preteceni reverzi\n')
-
-        for lend in Lend.objects.filter(returned=False):
-            result.append('%s - %s posodil %s (%s dni)\n' % (lend.what, lend.to_who, lend.from_who, lend.days_due().days))
-
-        result = ''.join(result)
-        send_mail('Novice iz Kleti %d-%d-%d' % (now.year, now.month, now.day), result, 'intranet@kiberpipa.org', ['pipa-org@list.sou-lj.si'])
-
+        text = get_template('mail/diary_report.txt').render(Context(locals()))
+        html = get_template('mail/diary_report.html').render(Context(locals()))
+        email = EmailMultiAlternatives(subject, text, settings.DEFAULT_FROM_EMAIL, ['pipa-org@list.sou-lj.si'])
+        email.attach_alternative(html, 'text/html')
+        email.send()
+        print "email sent"

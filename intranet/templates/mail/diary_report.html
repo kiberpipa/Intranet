@@ -1,0 +1,19 @@
+<h1>Kiberpipa, dnevno porocilo: {{ now.year }}. {{ now.month }}. {{ now.year }}</h1>
+
+<h2>Dnevniki</h2>
+{% for diary in diaries %}
+<strong>{{ diary.date }} - {{ diary.author }} - {{ diary.task }} - {{ diary.length }}</strong
+<p>{{ diary.log_formal }}</p>
+<p>---</p>
+<p>{{ diary.log_informal }}</p>
+{% endfor %}
+
+<h2>Kracarka</h2>
+
+<p>{{ scratchpad }}</p>
+
+<h2>Preteceni reverzi<h2>
+
+{% for lend in lends %}
+<p>{{ lend.what }} - {{ lend.to_who }} posodil {{ lend.from_who }} ({{ lend.days_due.days }} dni)</p>
+{% endfor %}
