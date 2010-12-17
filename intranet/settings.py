@@ -5,16 +5,16 @@ def next_to_this_file(this_file, additional_path):
 
 
 ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
     #('Almir Karic', 'almir@kiberpipa.org'),
     ('Gasper Zejn', 'zejn@kiberpipa.org'),
+    ('Domen Kozar', 'domen@dev.si'),
 )
 
 MANAGERS = ADMINS
 
 # Local time zone for this installation. All choices can be found here:
 # http://www.postgresql.org/docs/current/static/datetime-keywords.html#DATETIME-TIMEZONE-SET-TABLE
-TIME_ZONE = 'Europe/Vienna'
+TIME_ZONE = 'Europe/Ljubljana'
 
 # Language code for this installation. All choices can be found here:
 # http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
@@ -37,9 +37,9 @@ LOCALE_INDEPENDENT_PATHS = (
     re.compile('[as]media/'),
     re.compile('/i18n/setlang/'),
     re.compile('/jsi18n/'),
-    re.compile('^comments/post/$'),
     re.compile('^news/comments/post/$'),
     re.compile('^comments/'),
+    re.compile('^comments/post/$'),
     re.compile('event_photos/'),
     re.compile('^favicon.ico'),
     re.compile('^/services/'),
@@ -55,7 +55,6 @@ ADMIN_MEDIA_PREFIX = '/admin-media/'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.load_template_source',
     'django.template.loaders.app_directories.load_template_source',
-#     'django.template.loaders.eggs.load_template_source',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -128,9 +127,7 @@ AUTHENTICATION_BACKENDS = (
     'pipa.ldap.authbackend.LDAPAuthBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
-PHOTOLOGUE_DIR = 'photo/'
 
-GALLERY_SAMPLE_SIZE = 1
 LDAP_SERVER='ldap://localhost'
 SEND_BROKEN_LINK_EMAILS = True
 DEFAULT_FROM_EMAIL = 'intranet@kiberpipa.org'
@@ -142,6 +139,6 @@ APPEND_SLASH = True
 TWITTER_SYNC = {
     'keywords': ['kiberpipa'],
     'users': ['Kiberpipa', 'FilmSteka', 'cyberpipe', 'MoMoSlo', 'wwwh'],
-    }
+}
 
 from localsettings import *
