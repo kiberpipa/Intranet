@@ -1,7 +1,7 @@
 <div class="{{ event.project.name|slugify }}">
 <ul class="event">
 {% if event.require_video %}
-    {% if event.video %}
+    {% if event.video.all %}
 			<li>
 					<a href="{{ event.video.get_absolute_url }}" alt="video" title="has video">
 						 <img src="{{ media_url }}img/accept.png" class="has"/>
