@@ -108,6 +108,7 @@ INSTALLED_APPS = (
     'pipa.ltsp',
     'pipa.mercenaries',
     'pipa.addressbook',
+    'pipa.gallery',
 )
 
 TEMPLATE_DIRS = (
@@ -143,5 +144,9 @@ TWITTER_SYNC = {
 
 # south
 SOUTH_TESTS_MIGRATE = False
+
+# pipa.photo
+PHOTOS_FLICKR_IMAGE_URL_S = 'http://farm%(farm)s.static.flickr.com/%(server)s/%(id)s_%(secret)s_s.jpg'
+PHOTOS_FLICKR_IMAGE_URL = 'http://farm%(farm)s.static.flickr.com/%(server)s/%(id)s_%(secret)s.jpg'
 
 from localsettings import *

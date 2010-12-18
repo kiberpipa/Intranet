@@ -30,6 +30,7 @@ js_info_dict = {
 
 urlpatterns = patterns('',
     (r'^', include('intranet.www.urls')),
+    (r'^gallery/', include('pipa.gallery.urls')),
     (r'^intranet/', include('intranet.org.urls')),
     url(r'^intranet/ldappass/', 'pipa.ldap.views.password_change', name='ldap_password_change'),
     (r'^intranet/oldwiki/', include('intranet.wiki.urls')),

@@ -576,13 +576,23 @@ a img {
 	padding-top: 0px;
 	padding-bottom: 5px;
 	padding-right: 10px;
+    overflow: hidden;
 	}
-	
-.dogodek-content img {
-	float: right;
-	padding-left: 10px;
-	padding-bottom: 10px;
+.dogodek-right {
+    float: right;
+    width: 350px;
+    }
+.dogodek-right img {
+    display: block;
+    margin: 0 auto;
 	}
+.dogodek-right table {
+    margin: 0 auto;
+    }
+.dogodek-left {
+    float: left;
+    width: 590px;
+    }
 	
 .dogodek-tags {
 	float: left;

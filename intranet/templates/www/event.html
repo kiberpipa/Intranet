@@ -12,6 +12,7 @@
 {% block title %}{{ event }}{% endblock %}
 {% load markup i18n %}
 {% load i18n %}
+{% load photos_box %}
 
 {% block heading %}
     <h1>{{ event }}</h1>
@@ -25,42 +26,45 @@
         {{ event.start_date|date:"l, d. "|capfirst }}
         {{ event.start_date|date:"b Y G:i"|capfirst }}
         <div class="dogodek-content">
-        <div class="dogoodek-content img">
-        {% if event.event_image %}
-            <img src="{{ event.event_image.image.url }}" alt="{{ event.event_image.title }}" />
-        {% else %}
-            <img width="250" height="130" src="http://upload.wikimedia.org/wikipedia/commons/4/47/Placeholder.png" />
-        {% endif %}
-        </div>
-        {{ event.announce|safe|linebreaks }}
-        </div>
-        <div class="dogodek-video">
-            {% if event.video_set.all %}
-                {% for video in event.video_set.all %}
-                    <div class="dogodek-video-button">
-                        <a href="{{ video.play_url }}"><img width="80" height="80" src="{{ video.image_url }}" alt="slika" /></a>
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% if not event.video_set.all and event.require_video %}
-                <div>
-                    <a href="#" onclick="return false;" class="expand">{% trans "Please inform me when the video of this lecture is available" %}</a>
-                    <div class="hideme">
-                    <br />
-                    {% trans "Please enter your contact data so we can inform you when the video will be available." %}
-                    <form method="post" action="">
-                        <input id="add_email_id" type="hidden" value="{{ event.id }}">
-                        {{ form.as_p }}
-                        <input value="{% trans "submit" %}" id="add_email" type="submit">
-                    </form>
-                    <br />
-                    {% trans "Note: your email will be used only to deliver the message about video availability." %}
-                    </div>
+            <div class="dogodek-right">
+                {% if event.event_image %}
+                    <img src="{{ event.event_image.image.url }}" alt="{{ event.event_image.title }}" />
+                {% else %}
+                    <img width="250" height="130" src="http://upload.wikimedia.org/wikipedia/commons/4/47/Placeholder.png" />
+                {% endif %}
+                {% photos_box %}
+            </div>
+            <div class="dogodek-left">
+                {{ event.announce|safe|linebreaks }}
+                <div class="dogodek-video">
+                    {% if event.video_set.all %}
+                        {% for video in event.video_set.all %}
+                            <div class="dogodek-video-button">
+                                <a href="{{ video.play_url }}"><img width="80" height="80" src="{{ video.image_url }}" alt="slika" /></a>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% if not event.video_set.all and event.require_video %}
+                        <div>
+                            <a href="#" onclick="return false;" class="expand">{% trans "Please inform me when the video of this lecture is available" %}</a>
+                            <div class="hideme">
+                            <br />
+                            {% trans "Please enter your contact data so we can inform you when the video will be available." %}
+                            <form method="post" action="">
+                                <input id="add_email_id" type="hidden" value="{{ event.id }}">
+                                {{ form.as_p }}
+                                <input value="{% trans "submit" %}" id="add_email" type="submit">
+                            </form>
+                            <br />
+                            {% trans "Note: your email will be used only to deliver the message about video availability." %}
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
-            {% endif %}
-        </div>
-        <div class="dogodek-social">
-            <a href="{{ event.google_calendar_url }}"><img src="http://www.google.com/calendar/images/ext/gc_button6.gif" alt="Dodaj v Google Koledar" title="Dodaj v Google Koledar" /></a>
+                <div class="dogodek-social">
+                    <a href="{{ event.google_calendar_url }}"><img src="http://www.google.com/calendar/images/ext/gc_button6.gif" alt="Dodaj v Google Koledar" title="Dodaj v Google Koledar" /></a>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

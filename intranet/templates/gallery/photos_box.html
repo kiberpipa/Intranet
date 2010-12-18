@@ -1,0 +1,16 @@
+<h1>Galerija</h1>
+<table>
+ {% for image in images %}
+	{% if forloop.counter0|divisibleby:"4" %}
+  <tr>
+	{% endif %}
+  <td>
+	  <a href="{{ image.url }}">
+			<img src="{{ image.thumb_url }}" alt="" />
+		</a>
+	</td>
+	{% if forloop.counter|divisibleby:"4" %}
+	</tr>
+	{% endif %}
+ {% endfor %}
+</table>
