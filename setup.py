@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sys
 import os
 
 from setuptools import setup, find_packages
@@ -35,11 +34,12 @@ setup(name='kiberpipa-intranet',
         # wiki
         'markdown2',
         # django stuff
-        'Django>=1.2',
+        'Django==1.2.3',
         'django-localeurl',
-        'tagging',
+        'django-tagging==0.3.1',
         'South',
         'flickrapi',
+        'django-syncr',
     ],
     tests_require=[
         'nose',
