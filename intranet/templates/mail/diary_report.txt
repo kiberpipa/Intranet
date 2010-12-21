@@ -1,5 +1,3 @@
-Kiberpipa, dnevno porocilo: {{ now.year }}. {{ now.month }}. {{ now.year }}
-
 === Dnevniki ===
 {% for diary in diaries %}
 [ {{ diary.date }} - {{ diary.author }} - {{ diary.task }} - {{ diary.length }} ]
