@@ -2,12 +2,11 @@
 import datetime
 
 from django.contrib.syndication.feeds import Feed
-from django.core.urlresolvers import reverse
+from feedjack.models import Post
 
 from intranet.org.models import Event, Project
-#from intranet.photologue.models import Gallery
 from intranet.www.models import News
-from feedjack.models import Post
+
 
 class NewsFeed(Feed):
     title = "Kiberpipa - Novice"
