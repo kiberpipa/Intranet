@@ -1,6 +1,5 @@
-{% extends "www/base.html" %}
+{% extends "www/base-second.html" %}
 {% load www i18n %}
-{% get_current_language as LANGUAGE_CODE %}
 
 {% block extrahead %}
 <link href='{{ media_url }}/www/scroll.css' type='text/css' rel='stylesheet' />
@@ -154,9 +153,6 @@ $(document).ready(function() {
 	</div>
 	</div>
 
-	<div id="second-nav-front">
-	<a href="http://racunalniski-muzej.si/">muzej</a> | g404 | <a href="http://www.kiberpipa.org/err0r/">err0r</a> | <a href="http://www.kiberpipa.org/postlab/">postlab</a> | <a href="http://www.kiberpipa.org/haip">haip</a> | <a href="http://www.kiberpipa.org/filmsteka/">filmšteka</a> | <a href="http://pot.kiberpipa.org/">POT</a> | <a href="http://web.zen.si/">SU</a> | VIP | <a href="http://mobilemonday.si/">MoMoSlo</a> | <a href="http://www.kiberpipa.net/">NET</a> | <!--<a href="http://www.kiberpipa.org/modules/gallery/">Galerija</a> |--> <a href="http://www.kiberpipa.org/prosto/">Prosti CD</a>
-	</div>
 	<div id="blog-cp">
 		<div class="blog-cp-title">
 		<a href="/{{ LANGUAGE_CODE }}/news/">{% trans "Writings from the world without windows" %}</a>
