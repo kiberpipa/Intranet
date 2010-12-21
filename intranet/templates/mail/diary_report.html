@@ -3,14 +3,17 @@
 <h2>Dnevniki</h2>
 {% for diary in diaries %}
 <strong>{{ diary.date }} - {{ diary.author }} - {{ diary.task }} - {{ diary.length }}</strong
-<p>{{ diary.log_formal }}</p>
-<p>---</p>
-<p>{% if diary.log_informal %}{{ diary.log_informal }}{% endif %}</p>
+<p>{{ diary.log_formal|linebreaksbr }}</p>
+{% if diary.log_informal %}
+<br />
+<strong>neuradni del:</strong>
+<p>{{ diary.log_informal|linebreaksbr }}</p>
+{% endif %}
 {% endfor %}
 
 <h2>Kracarka</h2>
 
-<p>{{ scratchpad }}</p>
+<p>{{ scratchpad|linebreaksbr }}</p>
 
 <h2>Preteceni reverzi</h2>
 

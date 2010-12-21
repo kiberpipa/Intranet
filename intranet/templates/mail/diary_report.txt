@@ -4,8 +4,10 @@ Kiberpipa, dnevno porocilo: {{ now.year }}. {{ now.month }}. {{ now.year }}
 {% for diary in diaries %}
 [ {{ diary.date }} - {{ diary.author }} - {{ diary.task }} - {{ diary.length }} ]
 {{ diary.log_formal }}
----
-{% if diary.log_informal %}{{ diary.log_informal }}{% endif %}
+{% if diary.log_informal %}
+--- neuradni del:
+{{ diary.log_informal }}
+{% endif %}
 {% endfor %}
 
 === Kracarka ===
