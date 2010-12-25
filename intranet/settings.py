@@ -5,12 +5,12 @@ def next_to_this_file(this_file, additional_path):
 
 
 ADMINS = (
-    #('Almir Karic', 'almir@kiberpipa.org'),
     ('Gasper Zejn', 'zejn@kiberpipa.org'),
     ('Domen Kozar', 'domen@dev.si'),
 )
-
-MANAGERS = ADMINS
+MANAGERS = (
+    ('Gasper Zejn', 'zejn@kiberpipa.org'),
+)
 
 # Local time zone for this installation. All choices can be found here:
 # http://www.postgresql.org/docs/current/static/datetime-keywords.html#DATETIME-TIMEZONE-SET-TABLE
