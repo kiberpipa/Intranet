@@ -37,14 +37,14 @@
             <div class="dogodek-left">
                 {{ event.announce|safe|linebreaks }}
                 <div class="dogodek-video">
-                    {% if event.video_set.all %}
-                        {% for video in event.video_set.all %}
+                    {% if event.video.all %}
+                        {% for video in event.video.all %}
                             <div class="dogodek-video-button">
                                 <a href="{{ video.play_url }}"><img width="80" height="80" src="{{ video.image_url }}" alt="slika" /></a>
                             </div>
                         {% endfor %}
                     {% endif %}
-                    {% if not event.video_set.all and event.require_video %}
+                    {% if not event.video.all and event.require_video %}
                         <div>
                             <a href="#" onclick="return false;" class="expand">{% trans "Please inform me when the video of this lecture is available" %}</a>
                             <div class="hideme">
