@@ -611,20 +611,20 @@ def event_edit(request, event_pk=None):
     return render_to_response('org/event_edit.html', RequestContext(request, context))
 
 @login_required
-def event(request, object_id):
+def event(request, event_id):
     return list_detail.object_detail(request,
         queryset = Event.objects.all(),
-        object_id = object_id,
+        object_id = event_id,
         extra_context =  {
-            'sodelovanja': Sodelovanje.objects.filter(event=object_id),
+            'sodelovanja': Sodelovanje.objects.filter(event=event_id),
             'emails_form': AddEventEmails(),
         }
     )
 
 @login_required
-def event_count (request, id=None):
+def event_count (request, event_id=None):
     "dodaj podatek o obiskovalcih dogodka"
-    event = get_object_or_404(Event, pk=id)
+    event = get_object_or_404(Event, pk=event_id)
     event.visitors = int(request.POST['visitors'])
     event.save()
     return HttpResponseRedirect('/intranet/events/%d/' % event.id)

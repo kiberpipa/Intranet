@@ -113,38 +113,38 @@ feeds = {
 }
 
 urlpatterns = patterns('',
-    (r'^search/$', 'intranet.org.views.search'),
     (r'^$', 'intranet.org.views.index'),
+    (r'^search/$', 'intranet.org.views.search'),
     (r'^stats/$', 'intranet.org.views.stats'),
 
-    (r'^events/create/', 'intranet.org.views.event_edit'),
+    url(r'^events/$', 'intranet.org.views.events', name="event_list"),
+    url(r'^events/create/', 'intranet.org.views.event_edit', name="event_create"),
+    url(r'^events/(?P<event_id>\d+)/$', 'intranet.org.views.event', name="event_detail"),
     url(r'^events/(?P<event_pk>\d+)/edit/$', 'intranet.org.views.event_edit', name="event_edit"),
-    (r'^events/(?P<event>\d+)/info.txt/$', 'intranet.org.views.info_txt'),
-    (r'^events/(?P<event>\d+)/sablona/$', 'intranet.org.views.sablona'),
-    (r'^events/(\d+)/count/$', 'intranet.org.views.event_count'),
-    (r'^events/$', 'intranet.org.views.events'),
-    (r'^events/(?P<event_id>\d+)/emails/$', 'intranet.org.views.add_event_emails'),
-    (r'^events/(?P<object_id>\d+)/$', 'intranet.org.views.event'),
+    url(r'^events/(?P<event_id>\d+)/count/$', 'intranet.org.views.event_count'),
+    url(r'^events/(?P<event_id>\d+)/emails/$', 'intranet.org.views.add_event_emails'),
+    url(r'^events/(?P<event>\d+)/info.txt/$', 'intranet.org.views.info_txt'),
+    url(r'^events/(?P<event>\d+)/sablona/$', 'intranet.org.views.sablona'),
 
+    (r'^diarys/$', 'intranet.org.views.diarys'),
     (r'^diarys/(?P<id>\d+)?/?(?P<action>(add|edit))/$', 'intranet.org.views.diarys_form'),
     (r'^diarys/(?P<object_id>\d+)/$', 'intranet.org.views.diary_detail'),
-    (r'^diarys/?$',    'intranet.org.views.diarys'),
 
     (r'^shopping/$', 'intranet.org.views.shopping_index'),
-    (r'^shopping/(?P<id>\d+)?/?(?P<action>(add|edit))/(edit/)?$', 'intranet.org.views.shoppings_form'),
-    (r'^shopping/(?P<object_id>\d+)/$', 'intranet.org.views.shopping_detail'),
     (r'^shopping/cost/(?P<cost>\d+)/$', 'intranet.org.views.shopping_by_cost'),
     (r'^shopping/task/(?P<task>\d+)/$', 'intranet.org.views.shopping_by_task'),
     (r'^shopping/user/(?P<user>\d+)/$', 'intranet.org.views.shopping_by_user'),
     (r'^shopping/proj/(?P<project>\d+)/$', 'intranet.org.views.shopping_by_project'),
+    (r'^shopping/(?P<object_id>\d+)/$', 'intranet.org.views.shopping_detail'),
+    (r'^shopping/(?P<id>\d+)?/?(?P<action>(add|edit))/(edit/)?$', 'intranet.org.views.shoppings_form'),
     (r'^shopping/(?P<id>\d+)/buy/$', 'intranet.org.views.shopping_buy'),
     (r'^shopping/(?P<id>\d+)/support/$', 'intranet.org.views.shopping_support'),
 
+    (r'^lends/$', 'intranet.org.views.lends'),
     (r'^lends/(?P<id>\d+)?/?(?P<action>(add|edit))/(edit/)?$', 'intranet.org.views.lends_form'),
-    (r'^lends/(?P<object_id>\d+)/$', 'intranet.org.views.lend_detail'),
     (r'^lends/(?P<id>\d+)/back/$', 'intranet.org.views.lend_back'),
+    (r'^lends/(?P<object_id>\d+)/$', 'intranet.org.views.lend_detail'),
     (r'^lends/(?P<username>\w+)/$', 'intranet.org.views.lends_by_user'),
-    (r'lends/?$',    'intranet.org.views.lends'),
 
     ##sodelovanja
     (r'^sodelovanja/$', 'intranet.org.views.sodelovanja'),
@@ -156,22 +156,23 @@ urlpatterns = patterns('',
     (r'^image_crop_tool/save/', 'intranet.org.views.image_save'),
     (r'^image_crop_tool/$', 'intranet.org.views.image_crop_tool'),
 
+    (r'^tehniki/$', 'intranet.org.views.tehniki'),
     (r'^tehniki/(?P<year>\d+)/(?P<month>[a-z]{3})/$', 'intranet.org.views.tehniki_monthly'),
     (r'^tehniki/(?P<year>\d+)/(?P<week>\d+)/$', 'intranet.org.views.tehniki'),
-    (r'^tehniki/$', 'intranet.org.views.tehniki'),
     (r'^tehniki/add/$', 'intranet.org.views.tehniki_add'),
     (r'^tehniki/add/(\d+)/$', 'intranet.org.views.tehniki_take'),
     (r'^tehniki/cancel/(\d+)/$', 'intranet.org.views.tehniki_cancel'),
 
+    (r'^dezurni/$', 'intranet.org.views.dezurni'),
+    (r'^dezurni/add/$', 'intranet.org.views.dezurni_add'),
     (r'^dezurni/(?P<year>\d+)/(?P<month>[a-z]{3})/$', 'intranet.org.views.dezurni_monthly'),
     (r'^dezurni/(?P<year>\d+)/(?P<week>\d+)/$', 'intranet.org.views.dezurni'),
-    (r'^dezurni/add/$', 'intranet.org.views.dezurni_add'),
-    (r'^dezurni/$', 'intranet.org.views.dezurni'),
 
     (r'^kb/(?P<kbcat>[-\w]+)/(?P<article>[-\w]+)', 'intranet.org.views.kb_article'),
     (r'^kb/$', 'intranet.org.views.kb_index'),
 
     (r'^addressbook/$', 'pipa.addressbook.views.addressbook'),
+    (r'^mercenaries/', include('pipa.mercenaries.urls')),
 
     (r'^wiki/$', 'django.views.generic.simple.redirect_to', {'url': 'https://wiki.kiberpipa.org/'}),
 
@@ -182,40 +183,26 @@ urlpatterns = patterns('',
     (r'^scratchpad/change/$', 'intranet.org.views.scratchpad_change'),
 
     #accounts
+    (r'^accounts/$', 'django.views.generic.simple.redirect_to', {'url': 'login/'}),
     (r'^accounts/login/$', 'pipa.ldap.views.login', {'authentication_form': LoginForm}),
     (r'^accounts/profile/$', 'django.views.generic.simple.redirect_to', {'url': '/intranet/admin'}),
-    (r'^accounts/$', 'django.views.generic.simple.redirect_to', {'url': 'login/'}),
     (r'^accounts/logout/$', 'django.contrib.auth.views.logout'),
-    #(r'^$', 'django.views.generic.simple.redirect_to', {'url': 'accounts/login/'}),
 
     #rss
     (r'^feeds/$', 'django.views.generic.simple.direct_to_template', {'template': 'org/feeds_index.html'}),
     (r'^feeds/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
-)
 
-#timelines
-urlpatterns += patterns('',
+    #timelines
     (r'^timelines/source.xml$', 'intranet.org.views.timeline_xml'),
     (r'^timelines/$', 'django.views.generic.simple.direct_to_template', {'template': 'org/timeline.html'}),
 )
 
 urlpatterns += patterns('django.views.generic.date_based',
-    (r'events/arhiv/(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\w{1,2})/$',    'archive_day',   event_dict),
-    (r'events/arhiv/(?P<year>\d{4})/(?P<month>[a-z]{3}|[0-9]{1,2})/$',    'archive_month', event_month),
-    (r'events/arhiv/(?P<year>\d{4})/$',    'archive_year', event_year),
-    #(r'events/$',    'archive_index', event_index),
-    #(r'events/$',    'archive_index', event_index),
-#    (r'events/$',    'archive_year', event_index),
+    (r'events/arhiv/(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\w{1,2})/$', 'archive_day',   event_dict),
+    (r'events/arhiv/(?P<year>\d{4})/(?P<month>[a-z]{3}|[0-9]{1,2})/$', 'archive_month', event_month),
+    (r'events/arhiv/(?P<year>\d{4})/$', 'archive_year', event_year),
 
     (r'diarys/arhiv/(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\w{1,2})/$',    'archive_day',   diary_dict),
     (r'diarys/arhiv/(?P<year>\d{4})/(?P<month>\d{1,2})/$',    'archive_month', diary_dict),
     (r'diarys/arhiv/(?P<year>\d{4})/$',    'archive_year',  diary_year),
-    #(r'diarys/?$',    'archive_index', diary_dict),
-
-    #(r'lends/?$',    'archive_index', lend_dict),
-#    (r'shopping/?$',    'archive_index', shopping_dict),
-)
-
-urlpatterns += patterns('',
-    (r'^mercenaries/', include('pipa.mercenaries.urls')),
 )

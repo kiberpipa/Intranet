@@ -16,7 +16,11 @@
 {% endblock %}
 
 {% block heading %}
-    <h1>Aktualni dogodki <a href="/intranet/feeds/events/"><img src="{{ media_url }}/img/rss.png" alt="event rss" /></a></h1>
+    <h1>Aktualni dogodki
+        <a href="/intranet/feeds/events/">
+            <img src="{{ media_url }}/img/rss.png" alt="event rss" />
+        </a>
+    </h1>
 {% endblock %}
 
 {% block content-related-left %}
@@ -24,23 +28,20 @@
     <h2>Urejanje</h2>
         <ul class="actionlist">
             <li><a href="create/">Dodajanje</a></li>
-            <li>Potrebuje snemanje: <img src="{{ media_url }}img/film.png" alt="video" /></li>
-            <li>Ima tehnika: <img src="{{ media_url }}img/tools.png" alt="tech" /></li>
-            <li>Manjka tehnik: <img src="{{ media_url }}img/help.png" alt="help" /></li>
+            <li>Snemanje: <img src="{{ media_url }}img/film.png" alt="video" /></li>
+            <li>Fotografije: <img src="{{ media_url }}img/photo.png" alt="tech" /></li>
+            <li>Tehnik: <img src="{{ media_url }}img/tools.png" alt="tech" /></li>
         </ul>
   </div>
-
 {% endblock %}
 
 {% block content-main %}
-
-
 {% if event_last %}
 <div class="module">
     <h2>Prejšnji teden</h2>
-       {% for log in event_last %}  
-                {% print_event log %}
-        {% endfor %}
+    {% for log in event_last %}  
+        {% print_event log %}
+    {% endfor %}
 </div>
 <br/>
 {% endif %}
@@ -48,21 +49,19 @@
 {% if event_this %}
 <div class="module">
     <h2>Ta teden</h2>
-       {% for log in event_this %}
-                {% print_event log %}
-        {% endfor %}
+    {% for log in event_this %}
+        {% print_event log %}
+    {% endfor %}
 </div>
 <br/>
 {% endif %}
 
-
-
 {% if event_next %}
 <div class="module">
     <h2>Naslednji teden</h2>
-       {% for log in event_next %}  
-                {% print_event log %}
-        {% endfor %}
+    {% for log in event_next %}  
+        {% print_event log %}
+    {% endfor %}
 </div>
 <br/>
 {% endif %}
@@ -70,19 +69,9 @@
 {% if event_next2 %}
 <div class="module">
     <h2>Čez 2 tedna</h2>
-       {% for log in event_next2 %}
-                {% print_event log %}
-        {% endfor %}
+    {% for log in event_next2 %}
+        {% print_event log %}
+    {% endfor %}
 </div>
-<br/>
 {% endif %}
-
-<script type="text/javascript">
-$("div.module h2").each(function (){
-    if (this.innerHTML == "Ta teden") {
-        this.parentNode.style.border = '2px solid green';
-    }
-})
-</script>
-
 {% endblock %}
