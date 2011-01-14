@@ -178,7 +178,10 @@ ul li {
 
 ul.event li {
     display: inline;
-    //font-family: monospace;
+    vertical-align: center;
+}
+ul.event .technician {
+    margin-right: 5px;
 }
 
 .pot {
@@ -233,4 +236,8 @@ ul.event li {
     position: absolute;
     bottom: 0;
     right: 0;
+}
+.notrequired {
+    opacity: 0.2;
+    filter: alpha(opacity=20);
 }

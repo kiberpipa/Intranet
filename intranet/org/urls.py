@@ -1,7 +1,6 @@
 import datetime
 
 from django.conf.urls.defaults import *
-from django.contrib.auth.models import User
 
 from intranet.org.models import Event, Diary, Lend, Shopping, Sodelovanje
 from intranet.org.feeds import LatestDiarys, ToDo, LatestEvents
@@ -119,11 +118,11 @@ urlpatterns = patterns('',
     (r'^stats/$', 'intranet.org.views.stats'),
 
     (r'^events/create/', 'intranet.org.views.event_edit'),
-    (r'^events/(?P<event_pk>\d+)/edit/$', 'intranet.org.views.event_edit'),
+    url(r'^events/(?P<event_pk>\d+)/edit/$', 'intranet.org.views.event_edit', name="event_edit"),
     (r'^events/(?P<event>\d+)/info.txt/$', 'intranet.org.views.info_txt'),
     (r'^events/(?P<event>\d+)/sablona/$', 'intranet.org.views.sablona'),
     (r'^events/(\d+)/count/$', 'intranet.org.views.event_count'),
-    (r'^events/$',    'intranet.org.views.events'),
+    (r'^events/$', 'intranet.org.views.events'),
     (r'^events/(?P<event_id>\d+)/emails/$', 'intranet.org.views.add_event_emails'),
     (r'^events/(?P<object_id>\d+)/$', 'intranet.org.views.event'),
 
