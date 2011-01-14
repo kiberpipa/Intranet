@@ -1,11 +1,14 @@
 import datetime
 
 from django.conf.urls.defaults import *
+from django.contrib import admin
 
 from intranet.org.models import Event, Diary, Lend, Shopping, Sodelovanje
 from intranet.org.feeds import LatestDiarys, ToDo, LatestEvents
 from pipa.ldap.forms import LoginForm
 
+
+admin.autodiscover()
 
 today = datetime.date.today()
 yesterday = today - datetime.timedelta(days=3)
@@ -116,6 +119,9 @@ urlpatterns = patterns('',
     (r'^$', 'intranet.org.views.index'),
     (r'^search/$', 'intranet.org.views.search'),
     (r'^stats/$', 'intranet.org.views.stats'),
+    (r'^admin/', include(admin.site.urls)),
+    (r'^oldwiki/', include('intranet.wiki.urls')),
+    url(r'^ldappass/', 'pipa.ldap.views.password_change', name='ldap_password_change'),
 
     url(r'^events/$', 'intranet.org.views.events', name="event_list"),
     url(r'^events/create/', 'intranet.org.views.event_edit', name="event_create"),
@@ -183,10 +189,9 @@ urlpatterns = patterns('',
     (r'^scratchpad/change/$', 'intranet.org.views.scratchpad_change'),
 
     #accounts
-    (r'^accounts/$', 'django.views.generic.simple.redirect_to', {'url': 'login/'}),
-    (r'^accounts/login/$', 'pipa.ldap.views.login', {'authentication_form': LoginForm}),
+    url(r'^accounts/login/$', 'pipa.ldap.views.login', {'authentication_form': LoginForm}, name="account_login"),
+    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', name="account_logout"),
     (r'^accounts/profile/$', 'django.views.generic.simple.redirect_to', {'url': '/intranet/admin'}),
-    (r'^accounts/logout/$', 'django.contrib.auth.views.logout'),
 
     #rss
     (r'^feeds/$', 'django.views.generic.simple.direct_to_template', {'template': 'org/feeds_index.html'}),
@@ -198,11 +203,11 @@ urlpatterns = patterns('',
 )
 
 urlpatterns += patterns('django.views.generic.date_based',
-    (r'events/arhiv/(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\w{1,2})/$', 'archive_day',   event_dict),
+    (r'events/arhiv/(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\w{1,2})/$', 'archive_day', event_dict),
     (r'events/arhiv/(?P<year>\d{4})/(?P<month>[a-z]{3}|[0-9]{1,2})/$', 'archive_month', event_month),
     (r'events/arhiv/(?P<year>\d{4})/$', 'archive_year', event_year),
 
     (r'diarys/arhiv/(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\w{1,2})/$',    'archive_day',   diary_dict),
-    (r'diarys/arhiv/(?P<year>\d{4})/(?P<month>\d{1,2})/$',    'archive_month', diary_dict),
-    (r'diarys/arhiv/(?P<year>\d{4})/$',    'archive_year',  diary_year),
+    (r'diarys/arhiv/(?P<year>\d{4})/(?P<month>\d{1,2})/$', 'archive_month', diary_dict),
+    (r'diarys/arhiv/(?P<year>\d{4})/$', 'archive_year', diary_year),
 )

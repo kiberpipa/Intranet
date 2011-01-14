@@ -12,16 +12,11 @@ MANAGERS = (
     ('Gasper Zejn', 'zejn@kiberpipa.org'),
 )
 
-# Local time zone for this installation. All choices can be found here:
-# http://www.postgresql.org/docs/current/static/datetime-keywords.html#DATETIME-TIMEZONE-SET-TABLE
 TIME_ZONE = 'Europe/Ljubljana'
-
-# Language code for this installation. All choices can be found here:
-# http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
-# http://blogs.law.harvard.edu/tech/stories/storyReader$15
 LANGUAGE_CODE = 'sl'
 
-USE_I18N = True 
+USE_I18N = True
+USE_L10N = True
 
 LANGUAGES = (
   ('sl', 'Slovenscina'),
@@ -123,7 +118,9 @@ FIXTURE_DIRS = (
 SESSION_COOKIE_AGE = 2209600
 
 AUTH_PROFILE_MODULE = 'addressbook.PipaProfile'
-REQUIRE_LOGIN_PATH = '/intranet/accounts/login/'
+LOGIN_REDIRECT_URL = '/intranet/accounts/profile/'
+LOGIN_URL = '/intranet/accounts/login/'
+LOGOUT_URL = '/intranet/accounts/logout/'
 AUTHENTICATION_BACKENDS = (
     'pipa.ldap.authbackend.LDAPAuthBackend',
     'django.contrib.auth.backends.ModelBackend',

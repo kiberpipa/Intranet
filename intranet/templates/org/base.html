@@ -80,9 +80,11 @@
         <a href="/intranet/">
             <img id="logo" alt="Kiberpipa" src="{{ media_url }}/kiberpipa-white.png" />
         </a>
+        {% if user.is_authenticated %}
         <p>
             Pozdravljen {{ user.username }}! <a href="/intranet/accounts/logout/">Odjava</a>
         </p>
+        {% endif %}
     </div>
     <ul id="mainmenu">
         <li><a href="/intranet/dezurni/">Dežurni</a></li>
@@ -99,7 +101,7 @@
     </ul>
     <div id="bugs">
         <a href="https://www.kiberpipa.org/projekti/intranet/">
-          <img src="/smedia/img/hrosc.png" width="48" height="40" />
+          <img src="/smedia/img/hrosc.png" width="48" height="40" alt="hrošč" title="Sporoči napako" />
         </a>
     </div>
 </div>

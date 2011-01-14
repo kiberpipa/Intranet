@@ -9,24 +9,19 @@ function SetInitialFocus(){document.LoginForm.username.focus();}
 <body onLoad="SetInitialFocus()">
 {% endblock %}
 {% block content %}
-{% if is_authenticated %}
-<p>V sistem ste ze prijavljeni kot: <tt>{{username}}</tt>. 
-   Če se želite prijaviti kot kdo drug uporabnik, 
-   <a href="{{ logouturl }}" title="Odjavite se in potem ponovno prijavite">se najprej odjavite</a>.</p>
+{% if user.is_authenticated %}
+    <p>V sistem ste ze prijavljeni kot: <tt>{{ user.username }}</tt>. Če se želite prijaviti kot kdo drug uporabnik, 
+       <a href="{% url account_logout %}" title="Odjavite se in potem ponovno prijavite">se najprej odjavite</a>.
+    </p>
 {% else %}
-    <div class="loginbox">
-    <table border="0">
-    <tbody>
-    <tr>
-    <form method="POST" action="" name="LoginForm">
-    {{ form }}
-    </tbody>
-    </table>
-    <input name="prijava" value="Prijava" type="submit"></form></td>
-    <input type="hidden" id="next" name="next" value="{{next}}" />
+    <div id="loginbox">
+        <table>
+            <form method="POST" action="" name="LoginForm">
+            {{ form }}
         </table>
-        <div id="help">
-    </form>
-        </div>
+        <input class="right" name="prijava" value="Prijava" type="submit">
+        <input type="hidden" id="next" name="next" value="{{next}}" />
+        </form>
+    </div>
 {% endif %}
 {% endblock %}

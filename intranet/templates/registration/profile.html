@@ -1,8 +1,0 @@
-{% extends "users/base" %}
-{% block content %}
-{% if is_self %}
-    <p>This is your user profile, <tt>{{thisusername}}</tt>.</p>
-{% else %}
-    <p>This is the user profile for <tt>{{thisusername}}</tt>.</p>
-{% endif %}
-{% endblock %}
