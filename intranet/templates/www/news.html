@@ -13,8 +13,8 @@
         {% trans "Author" %} {{ news.author }} {% trans "date" %} {{ news.date }}
         </div>
         <div class="blog-news-content">
-        <div class="blog-news-content img"> {{ news.image }}</div>
-						{{ news.text|safe }}
+        <div class="blog-news-content img">{% if news.image %}<img src="{{ news.image.url }}" />{% endif %}</div>
+                        {{ news.text|safe }}
         </div>
 
 {% load comments %}
