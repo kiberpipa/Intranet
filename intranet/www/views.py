@@ -245,7 +245,8 @@ def ical(request):
         if e.public:
             classification = u'PUBLIC'
         else:
-            classification = u'PRIVATE'
+            continue
+            #classification = u'PRIVATE'
 
         cal.extend((
             u'BEGIN:VEVENT',
