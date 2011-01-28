@@ -38,7 +38,7 @@
           <tr>
             <td>{{ event.name }}</td>
             <td>{{ event.num_events }}</td>
-            <td>{{ event.num_visitors }}</td>
+            <td>{{ event.num_visitors|default_if_none:"0" }}</td>
           </tr>
         {% endfor %}
         </tbody>
