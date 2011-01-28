@@ -1,0 +1,55 @@
+{% extends "org/base_3col.html" %}
+{% load ldapauth %}
+
+{% block title %}Statistika za leto {{ year }}{% endblock %}
+
+{% block heading %}
+    <h1>Statistika za leto {{ year }}</h1>
+{% endblock %}
+
+{% block content-related-left %}
+<div class="module" id="recent-actions-module">
+    <h2 class="expand">Izberi leto:</h2>
+    {% for year in years %}
+        <p><a href="{% url statistics_by_year year %}">{{ year }}</a></p>
+    {% endfor %}
+    
+</div>
+{% endblock %}
+
+{% block content-main %}
+<div class="module">
+    <h2><a href="{% url event_arhive_year year %}">Seznam dogodkov za leto {{ year }}</a></h2>
+    <p>Skupaj dogodkov: <strong>{{ num_events }}</strong></p>
+    <p>Skupaj javnih dogodkov: <strong>{{ num_public_events }}</strong></p>
+    <p>Dogodki, ki imajo galerijo: <strong>{{ num_flickr_events }}</strong></p>
+    <p>Dogodki, ki imajo video posnetek: <strong>{{ num_video_events }}</strong></p>
+    <p>Skupno število obiskovalcev na dogodkih: <strong>{{ num_visitors }}</strong></p>
+    <table>
+        <thead>
+          <tr>
+            <td><strong>Projekt</strong></td>
+            <td><strong>Število dogodkov</strong></td>
+            <td><strong>Število obiskovalcev</strong></td>
+          </tr>
+        </thead>
+        <tbody>
+        {% for event in by_project_events %}
+          <tr>
+            <td>{{ event.project__name }}</td>
+            <td>{{ event.num_events }}</td>
+            <td>{{ event.num_visitors }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block content-related-right %}
+<div class="module">
+    <h2>Seznami statistik</h2>
+    <p><a href="{% url statistics_by_year year %}?csv=javni_dogodki">Seznam javnih dogodkov</a><p/>
+    <p><a href="{% url statistics_by_year year %}?csv=izpis_dogodkov_z_udelezenci">Izpis dogodkov z udeleženci</a><p/>
+</div>
+{% endblock %}

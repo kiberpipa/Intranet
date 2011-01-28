@@ -1,6 +1,10 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import datetime
 import os
 import re
+import csv
 from PIL import Image
 from cStringIO import StringIO
 
@@ -17,6 +21,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic import list_detail, date_based
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import simplejson
+from django.db import models
 
 from intranet.org.models import (Project, Category, Email,
     Event, Shopping, Person, Sodelovanje, TipSodelovanja, Task, Diary,
@@ -1072,4 +1077,69 @@ def scratchpad_change(request):
         scratchpad.save()
     return HttpResponseRedirect("/intranet/")
 
+@login_required
+def year_statistics(request, year=None):
+    this_year = datetime.date.today().year
+    if not year:
+        year = this_year
 
+    # common query
+    q = Event.objects.filter(start_date__year=year)
+    min_year = Event.objects.aggregate(models.Min('pub_date'))['pub_date__min']
+    years = range(min_year.year, this_year+1)
+
+    # basic statistics
+    num_events = q.count()
+    num_public_events = q.filter(public=True).count()
+    num_flickr_events = q.filter(flickr_set_id__isnull=False).count()
+    num_video_events = q.filter(video__isnull=False).count()
+
+    # all visitors in chosen year
+    num_visitors = q.aggregate(models.Sum('visitors'))['visitors__sum']
+    all_events = q.order_by('start_date').only("visitors", "title", "start_date").all()
+
+    #\o po_tipu_dogodka.csv
+    # SELECT SUM(org_event.visitors) AS num_visitors,
+    # COUNT(org_project.name) AS num_events,
+    # SUM(org_event.visitors)/COUNT(org_project.name) AS visitors_per_event_avg,
+    # org_project.name AS project_name FROM org_event, org_project
+    # WHERE org_event.project_id=org_project.id AND start_date >= date
+    #'2010-01-01' and start_date <= '2010-12-31' GROUP BY org_project.name;
+    by_project_events = q.values('project__name')\
+        .annotate(num_visitors=models.Sum('visitors'), num_events=models.Count('project__name')).all()
+    # TODO: average of visitors per event
+
+    # TODO: make this one big query that is customizable through html forms
+    csv_file = request.GET.get('csv', None)
+    if csv_file:
+        response = HttpResponse(mimetype='text/csv')
+        response['Content-Disposition'] = 'attachment; filename=%s.csv' % csv_file
+        writer = csv.writer(response)
+
+        #SELECT visitors, title, start_date FROM org_event WHERE start_date >= date
+        #'2010-01-01' and start_date <= '2010-12-31' AND public=True ORDER BY
+        #start_date;
+        if csv_file == 'javni_dogodki':
+            public_events = q.filter(public=True).order_by('start_date').values_list("title", "visitors", "start_date").all()
+            writer.writerow(['Naslov', u'Število obiskovalcev'.encode('utf-8'), u'Začetek dogodka'.encode('utf-8')])
+            for row in public_events:
+                writer.writerow([unicode(r).encode('utf-8') for r in row])
+
+        # SELECT org_event.id AS event_id, date_trunc('day', org_event.start_date)::date AS datum,
+        # org_event.visitors, org_event.title, (SELECT textcat_all(org_person.name)
+        # FROM org_sodelovanje, org_person
+        # WHERE event_id=org_event.id AND org_sodelovanje.person_id=org_person.id) FROM
+        # org_event WHERE start_date >= date '2010-01-01' and start_date <= '2010-12-31';
+        if csv_file == 'izpis_dogodkov_z_udelezenci':
+            all_events = q.extra(select={
+                'event_id': "org_event.id",
+                'date_nohour': "date_trunc('day', start_date)::date",
+                'people': "SELECT array_to_string(array_agg(org_person.name), ',') FROM org_sodelovanje, org_person WHERE org_event.id=event_id AND org_sodelovanje.person_id=org_person.id"
+            }).values_list('title', 'visitors', 'people', 'date_nohour')
+            writer.writerow(['Naslov', u'Število obiskovalcev'.encode('utf-8'), u'Sodelovanja', u'Začetek dogodka'.encode('utf-8')])
+            for row in all_events:
+                writer.writerow([unicode(r).encode('utf-8') for r in row])
+        return response
+
+    return render_to_response('org/statistics_year.html',
+        locals(), context_instance=RequestContext(request))

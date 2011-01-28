@@ -179,6 +179,7 @@ urlpatterns = patterns('',
 
     (r'^addressbook/$', 'pipa.addressbook.views.addressbook'),
     (r'^mercenaries/', include('pipa.mercenaries.urls')),
+    url(r'^statistika/(?P<year>\d{4})?', 'intranet.org.views.year_statistics', name='statistics_by_year'),
 
     (r'^wiki/$', 'django.views.generic.simple.redirect_to', {'url': 'https://wiki.kiberpipa.org/'}),
 
@@ -205,7 +206,7 @@ urlpatterns = patterns('',
 urlpatterns += patterns('django.views.generic.date_based',
     (r'events/arhiv/(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\w{1,2})/$', 'archive_day', event_dict),
     (r'events/arhiv/(?P<year>\d{4})/(?P<month>[a-z]{3}|[0-9]{1,2})/$', 'archive_month', event_month),
-    (r'events/arhiv/(?P<year>\d{4})/$', 'archive_year', event_year),
+    url(r'events/arhiv/(?P<year>\d{4})/$', 'archive_year', event_year, name="event_arhive_year"),
 
     (r'diarys/arhiv/(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\w{1,2})/$',    'archive_day',   diary_dict),
     (r'diarys/arhiv/(?P<year>\d{4})/(?P<month>\d{1,2})/$', 'archive_month', diary_dict),
