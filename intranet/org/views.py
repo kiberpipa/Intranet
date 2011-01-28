@@ -1105,8 +1105,8 @@ def year_statistics(request, year=None):
     # org_project.name AS project_name FROM org_event, org_project
     # WHERE org_event.project_id=org_project.id AND start_date >= date
     #'2010-01-01' and start_date <= '2010-12-31' GROUP BY org_project.name;
-    by_project_events = q.values('project__name')\
-        .annotate(num_visitors=models.Sum('visitors'), num_events=models.Count('project__name')).all()
+    by_project_events = Project.objects.filter(event__start_date__year=year).values('name').annotate(num_events=models.Count('event'), num_visitors=models.Sum('event__visitors'))
+    #by_project_events = q.values('project__name').annotate(num_visitors=models.Sum('visitors'), num_events=models.Count('project__name')).extra(tables=['org_project'])
     # TODO: average of visitors per event
 
     # TODO: make this one big query that is customizable through html forms
@@ -1134,7 +1134,7 @@ def year_statistics(request, year=None):
             all_events = q.extra(select={
                 'event_id': "org_event.id",
                 'date_nohour': "date_trunc('day', start_date)::date",
-                'people': "SELECT array_to_string(array_agg(org_person.name), ',') FROM org_sodelovanje, org_person WHERE org_event.id=event_id AND org_sodelovanje.person_id=org_person.id"
+                'people': "SELECT textcat_all(org_person.name) FROM org_sodelovanje, org_person WHERE org_event.id=event_id AND org_sodelovanje.person_id=org_person.id"
             }).values_list('title', 'visitors', 'people', 'date_nohour')
             writer.writerow(['Naslov', u'Število obiskovalcev'.encode('utf-8'), u'Sodelovanja', u'Začetek dogodka'.encode('utf-8')])
             for row in all_events:
