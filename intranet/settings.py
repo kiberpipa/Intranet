@@ -54,7 +54,6 @@ TEMPLATE_LOADERS = (
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
-    'intranet.middleware.Https.Https',
     'intranet.middleware.exception.StandardExceptionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'localeurl.middleware.LocaleURLMiddleware', 
