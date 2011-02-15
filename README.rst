@@ -3,10 +3,10 @@ Development setup
 
 Get intranet::
 
-	svn co https://www.kiberpipa.org/svn/intranet/rd666 kiberpipa-intranet
+    svn co https://www.kiberpipa.org/svn/intranet/rd666 kiberpipa-intranet
     cd kiberpipa-intranet
 
-Create Python virtual environment and activate it:
+Create Python virtual environment and activate it::
 
     virtualenv --no-site-packages --python=/usr/bin/python2.6 .
     source bin/activate
@@ -25,18 +25,20 @@ Install intranet::
 Copy over default settings::
 
     cd intranet
-	cp localsettings.py.example localsettings.py
+    cp localsettings.py.example localsettings.py
 
 Create the (default is Sqlite3) database::
 
-	./manage.py syncdb
+    ./manage.py syncdb
 
-Start the development server. Wahoo!::
+Start the development server. Wohoo!::
 
-	./manage.py runserver
+    ./manage.py runserver
 
 
-RUNNING TESTS
+Running tests
 =============
+
+::
 
     ./manage.py test
