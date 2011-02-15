@@ -59,7 +59,6 @@ MIDDLEWARE_CLASSES = (
     'localeurl.middleware.LocaleURLMiddleware', 
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.doc.XViewMiddleware',
     #'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
