@@ -17,6 +17,7 @@ function SetInitialFocus(){document.LoginForm.username.focus();}
     <div id="loginbox">
         <table>
             <form method="POST" action="" name="LoginForm">
+            {% csrf_token %}
             {{ form }}
         </table>
         <input class="right" name="prijava" value="Prijava" type="submit">
