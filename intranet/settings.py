@@ -54,6 +54,7 @@ TEMPLATE_LOADERS = (
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
     'intranet.middleware.exception.StandardExceptionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'localeurl.middleware.LocaleURLMiddleware', 
@@ -88,6 +89,7 @@ INSTALLED_APPS = (
     'django.contrib.comments',
     'django.contrib.admin',
     'django.contrib.markup',
+    'django.contrib.redirects',
     'feedjack', # FIXME
     'localeurl',
     'syncr.twitter',
