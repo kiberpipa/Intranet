@@ -18,7 +18,14 @@
 <link rel="stylesheet" href="{{ media_url }}www/css/style.css" type="text/css" />
 <link rel="shortcut icon" href="{{ media_url }}www/images/favicon.ico" />
 <script type='text/javascript' src='{{ media_url }}/js/jquery-1.2.6.js'></script>
+<script type='text/javascript' src="http://jqueryrotate.googlecode.com/files/jQueryRotate.2.1.js"></script>
 {% block extrahead %}{% endblock %}
+
+<script type="text/javascript">
+$(document).ready(function () {
+    $('a').rotate(180);
+});
+</script>
 
 </head>
 
