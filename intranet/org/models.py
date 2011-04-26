@@ -213,25 +213,14 @@ class Event(models.Model):
         verbose_name_plural = 'Dogodki'
         ordering = ('title',)
 
-    def index_image(self):
-        index = re.sub('(?P<filename>.*)(?P<ext>\..*)', '\g<filename>-index\g<ext>', self.image._name)
-        from os.path import exists
-        if exists(settings.MEDIA_ROOT + index):
-            return index
-        else:
-            return self.image._name
+    def __unicode__(self):
+        return self.title
 
     def get_absolute_url(self):
         return '/intranet/events/%i/' % self.id
 
     def get_public_url(self):
         return '/'.join(['', 'event', self.start_date.strftime('%Y-%b-%d').lower(), unicode(self.id), self.slug, ''])
-
-    def flickr_url(self):
-        return 'http://www.flickr.com/photos/kiberpipa/sets/%s/' % self.flickr_set_id
-
-    def __unicode__(self):
-        return self.title
 
     def save(self):
         self.slug = slugify(self.title)
@@ -241,6 +230,17 @@ class Event(models.Model):
         except Event.DoesNotExist:
             pass
         super(Event, self).save()
+
+    def index_image(self):
+        index = re.sub('(?P<filename>.*)(?P<ext>\..*)', '\g<filename>-index\g<ext>', self.image._name)
+        from os.path import exists
+        if exists(settings.MEDIA_ROOT + index):
+            return index
+        else:
+            return self.image._name
+
+    def flickr_url(self):
+        return 'http://www.flickr.com/photos/kiberpipa/sets/%s/' % self.flickr_set_id
 
     def google_calendar_url(self):
         start_time = self.start_date
