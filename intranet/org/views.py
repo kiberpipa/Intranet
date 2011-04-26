@@ -23,6 +23,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils import simplejson
 from django.db import models
 
+from pipa.video.utils import prepare_video_zip
 from intranet.org.models import (Project, Category, Email,
     Event, Shopping, Person, Sodelovanje, TipSodelovanja, Task, Diary,
     Lend, KbCategory, KB, Tag, Scratchpad)
@@ -35,7 +36,6 @@ month_dict = {'jan': 1, 'feb': 2, 'mar': 3,
     'jul': 7, 'avg': 8, 'sep': 9,
     'okt': 10, 'nov': 11, 'dec': 12,
 }
-
 reverse_month_dict = dict(((i[1], i[0]) for i in month_dict.iteritems()))
 
 
@@ -62,7 +62,7 @@ def temporary_upload(request):
     local_dir = os.path.join(settings.MEDIA_ROOT, 'tmp', request.session.session_key)
     try:
         os.mkdir(local_dir)
-    except:
+    except IOError:
         pass
     local_filename = os.path.join(local_dir, filename)
     url = os.path.join(settings.MEDIA_URL, 'tmp', request.session.session_key, filename)
@@ -137,8 +137,6 @@ def image_crop_tool(request):
     context = {'form': form}
     return render_to_response("org/image_crop_tool.html", RequestContext(request, context))
 
-# ------------------------------------
-
 @login_required
 def index(request):
     today = datetime.datetime.today()
@@ -168,10 +166,8 @@ def search(request):
         for term in query.split():
             kb = kb.filter(content__icontains=term)
             kb = kb.filter(title__icontains=term)
-            #kb = kb.filter(KbCategory__icontains=term)
         for term in query.split():
             events = events.filter(announce__icontains=term)
-            #events = events.filter(category__icontains=term)
         for term in query.split():
             users = users.filter(name__icontains=term)
         for term in query.split():
@@ -266,8 +262,6 @@ def lends_by_user(request, username):
                               },
                               context_instance=RequestContext(request))
 
-################################################################################
-
 @login_required
 def shoppings_form(request, id=None, action=None):
     #process the add/edit requests, redirect to full url if successful, display form with errors if not.
@@ -310,8 +304,7 @@ def shopping_by_cost(request, cost):
     else:
         list = []
     return render_to_response('org/shopping_archive.html',
-                              { 'latest': list,
-                              },
+                              {'latest': list},
                               context_instance=RequestContext(request))
 
 @login_required
@@ -559,7 +552,6 @@ def info_txt(request, event):
 @login_required
 def sablona(request, event):
     event = get_object_or_404(Event, pk=event)
-    from pipa.video.utils import prepare_video_zip
     person =  u', '.join([i.person.name for i in event.sodelovanje_set.all() if i.tip.id in (1, 5)]),
     print event.slug
     return prepare_video_zip(event.slug, event.title, event.start_date, person)
@@ -627,14 +619,12 @@ def event(request, event_id):
     )
 
 @login_required
-def event_count (request, event_id=None):
+def event_count(request, event_id=None):
     "dodaj podatek o obiskovalcih dogodka"
     event = get_object_or_404(Event, pk=event_id)
     event.visitors = int(request.POST['visitors'])
     event.save()
     return HttpResponseRedirect('/intranet/events/%d/' % event.id)
-
-##############################
 
 @login_required
 def person(request):
@@ -671,7 +661,7 @@ def sodelovanja(request):
     else:
         form = SodelovanjeFilter()
 
-    try: 
+    try:
         export =  form.cleaned_data['export']
         if export:
             from reportlab.pdfgen.canvas import Canvas
@@ -691,7 +681,6 @@ def sodelovanja(request):
                 for i in sodelovanja:
                     output.write("%s\n" % i)
 
-                    
             response = HttpResponse(mimetype='application/octet-stream')
             response['Content-Disposition'] = "attachment; filename=" + 'export.' + export
             response.write(output.getvalue())
@@ -699,7 +688,7 @@ def sodelovanja(request):
 
     except AttributeError:
         pass
-    
+
     return render_to_response('org/sodelovanja.html',
         {'sodelovanja': sodelovanja, 'form': form,
         'admin_org': '%s/intranet/admin/org/' % settings.BASE_URL,
@@ -744,23 +733,20 @@ def tehniki_monthly(request, year=None, month=None):
 
     navigation = monthly_navigation (year, month_number)
 
-    return render_to_response('org/tehniki_index.html',
-                             {'month':month,
-                             'log_list':log_list,
-                             'month_number':month_number,
-                             'month_name': month_to_string(month_number),
-                             'what': 'mesec',
-                             'iso_week': iso_week,
-                             'year': year,
-                             'navigation': navigation,
-                             'start_date': month_start,
-                             'end_date': month_end,
-                             'ure': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-                             },
-                             context_instance=RequestContext(request)
-                             )
+    return render_to_response('org/tehniki_index.html', {'month':month,
+         'log_list':log_list,
+         'month_number':month_number,
+         'month_name': month_to_string(month_number),
+         'what': 'mesec',
+         'iso_week': iso_week,
+         'year': year,
+         'navigation': navigation,
+         'start_date': month_start,
+         'end_date': month_end,
+         'ure': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+     }, context_instance=RequestContext(request))
 
-def monthly_navigation (year=None, month=None):
+def monthly_navigation(year=None, month=None):
     month_prev = month - 1
     month_next = month + 1
     year_prev = year
@@ -777,12 +763,12 @@ def monthly_navigation (year=None, month=None):
     return {'prev': '%s/%s' % (year_prev, month_to_string(month_prev)),
             'next': '%s/%s' % (year_next, month_to_string(month_next)) }
 
-def month_to_string (month=None):
+def month_to_string(month=None):
     for i in month_dict:
         if month_dict[i] == month:
             return i
 
-def weekly_navigation (year=None, week=None, week_start=None, week_end=None):
+def weekly_navigation(year=None, week=None, week_start=None, week_end=None):
     week_prev = week - 1
     week_next = week + 1
     year_prev = year
@@ -831,21 +817,19 @@ def tehniki(request, year=None, week=None):
 
     navigation = weekly_navigation (year, week_number, week_start, week_end)
 
-    return render_to_response('org/tehniki_index.html',
-                             {'month': week,
-                             'log_list': log_list,
-                             'month_number': week_number,
-                             'month_name': reverse_month_dict[month_number],
-                             'what': 'teden',
-                             'iso_week': week_number,
-                             'year': year,
-                             'navigation': navigation,
-                             'start_date': week_start,
-                             'end_date': week_end,
-                             'ure': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-                             },
-                             context_instance=RequestContext(request)
-                             )
+    return render_to_response('org/tehniki_index.html', {
+        'month': week,
+         'log_list': log_list,
+         'month_number': week_number,
+         'month_name': reverse_month_dict[month_number],
+         'what': 'teden',
+         'iso_week': week_number,
+         'year': year,
+         'navigation': navigation,
+         'start_date': week_start,
+         'end_date': week_end,
+         'ure': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+     }, context_instance=RequestContext(request))
 
 @login_required
 def tehniki_add(request):
@@ -855,14 +839,15 @@ def tehniki_add(request):
 
     event = Event.objects.get(pk=id)
 
-    p = Diary(      date=event.start_date,
-                    event=event,
-                    author=request.user,
-                    task=Project.objects.get(pk=23),
-                    log_formal=request.POST['log_formal'],
-                    log_informal=request.POST['log_informal'],
-                    length=datetime.time(int(request.POST['length']),0),
-                    )
+    p = Diary(
+        date=event.start_date,
+        event=event,
+        author=request.user,
+        task=Project.objects.get(pk=23),
+        log_formal=request.POST['log_formal'],
+        log_informal=request.POST['log_informal'],
+        length=datetime.time(int(request.POST['length']),0),
+    )
     p.save()
 
     return HttpResponseRedirect('../')
@@ -872,7 +857,6 @@ def tehniki_take(request, id):
     e = Event.objects.get(pk=id)
     e.technician.add(request.user)
     e.save()
-
     return HttpResponseRedirect('../../')
 
 @login_required
@@ -905,13 +889,10 @@ def dezurni_monthly(request, year=None, month=None):
     while month_now < month_end:
         dict = {}
         dict['date'] = month_now.strftime('%d.%m. %a')
-
         dict['dezurni'] = []
 
         Time = mx.DateTime.Time
 
-#        for i in [Time(hours=10), Time(hours=13), Time(hours=16), Time(hours=19)]:
-#        for i in [Time(hours=11), Time(hours=16)]:
         for i in [Time(hours=10), Time(hours=14), Time(hours=18)]:
             dezurni_list = Diary.objects.filter(task=22, date__range=(month_now+i, month_now+i+Time(3.59))).order_by('date')
             dezurni_dict = {}
@@ -982,7 +963,6 @@ def dezurni(request, year=None, week=None, month=None):
         else:
             nov_urnik = 0
             time_list = [Time(10), Time(13), Time(16), Time(19)]
-    
 
         for i in time_list:
             dezurni_list = Diary.objects.filter(task=22, date__range=(week_now+i, week_now+i+Time(2.59))).order_by('date')
@@ -1039,11 +1019,6 @@ def dezurni_add(request):
     p.save()
     return HttpResponseRedirect('../')
 
-
-
-
-##################################################
-
 @login_required
 def kb_index(request):
     object_list = KbCategory.objects.all()
@@ -1059,7 +1034,6 @@ def kb_article(request, kbcat, article):
                               context_instance=RequestContext(request))
 
 def timeline_xml(request):
-    #diary_list = Diary.objects.filter(task__id__gt=2)
     event_list = Event.objects.all()
     t = template_loader.get_template("org/timeline_xml.html")
     c = Context({'event_list': event_list})
@@ -1079,6 +1053,7 @@ def scratchpad_change(request):
 
 @login_required
 def year_statistics(request, year=None):
+    """Most common statistics from database, aggregated nicely and with some csv output."""
     this_year = datetime.date.today().year
     if not year:
         year = this_year
@@ -1098,16 +1073,10 @@ def year_statistics(request, year=None):
     num_visitors = q.aggregate(models.Sum('visitors'))['visitors__sum']
     all_events = q.order_by('start_date').only("visitors", "title", "start_date").all()
 
-    #\o po_tipu_dogodka.csv
-    # SELECT SUM(org_event.visitors) AS num_visitors,
-    # COUNT(org_project.name) AS num_events,
-    # SUM(org_event.visitors)/COUNT(org_project.name) AS visitors_per_event_avg,
-    # org_project.name AS project_name FROM org_event, org_project
-    # WHERE org_event.project_id=org_project.id AND start_date >= date
-    #'2010-01-01' and start_date <= '2010-12-31' GROUP BY org_project.name;
+    # po_tipu_dogodka.csv
     by_project_events = Project.objects.filter(event__start_date__year=year).values('name').annotate(num_events=models.Count('event'), num_visitors=models.Sum('event__visitors'))
-    #by_project_events = q.values('project__name').annotate(num_visitors=models.Sum('visitors'), num_events=models.Count('project__name')).extra(tables=['org_project'])
     # TODO: average of visitors per event
+    #by_project_events = q.values('project__name').annotate(num_visitors=models.Sum('visitors'), num_events=models.Count('project__name')).extra(tables=['org_project'])
 
     # TODO: make this one big query that is customizable through html forms
     csv_file = request.GET.get('csv', None)
@@ -1116,20 +1085,12 @@ def year_statistics(request, year=None):
         response['Content-Disposition'] = 'attachment; filename=%s.csv' % csv_file
         writer = csv.writer(response)
 
-        #SELECT visitors, title, start_date FROM org_event WHERE start_date >= date
-        #'2010-01-01' and start_date <= '2010-12-31' AND public=True ORDER BY
-        #start_date;
         if csv_file == 'javni_dogodki':
             public_events = q.filter(public=True).order_by('start_date').values_list("title", "visitors", "start_date").all()
             writer.writerow(['Naslov', u'Število obiskovalcev'.encode('utf-8'), u'Začetek dogodka'.encode('utf-8')])
             for row in public_events:
                 writer.writerow([unicode(r).encode('utf-8') for r in row])
 
-        # SELECT org_event.id AS event_id, date_trunc('day', org_event.start_date)::date AS datum,
-        # org_event.visitors, org_event.title, (SELECT textcat_all(org_person.name)
-        # FROM org_sodelovanje, org_person
-        # WHERE event_id=org_event.id AND org_sodelovanje.person_id=org_person.id) FROM
-        # org_event WHERE start_date >= date '2010-01-01' and start_date <= '2010-12-31';
         if csv_file == 'izpis_dogodkov_z_udelezenci':
             all_events = q.extra(select={
                 'event_id': "org_event.id",
