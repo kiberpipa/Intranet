@@ -22,7 +22,7 @@ class EventContactForm(forms.Form):
             settings.MEDIA_URL + 'js/jquery.ui.datetime.min.js',
         )
         css = {'all': (
-            settings.MEDIA_URL + 'css/jquery.ui.all.css',
+            'http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/ui-darkness/jquery-ui.css',
             settings.MEDIA_URL + 'css/jquery.ui.datetime.css',
         )}
 
