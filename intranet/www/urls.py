@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url(r'^calendar/(?P<year>\d{4})?/?(?P<month>[0-1]?[1-9])?/?', 'intranet.www.views.calendar'),
     url(r'^alumni/', 'pipa.addressbook.views.alumni'),
     url(r'^press/', 'intranet.www.views.press'),
+    url(r'^prostori/', 'intranet.www.views.facilities'),
     url(r'^locale/$', 'django.views.generic.simple.direct_to_template', {'template': 'www/locale.html'}),
     url(r'^kjesmo/$', 'django.views.generic.simple.direct_to_template', {'template': 'www/kjesmo.html'}),
     url(r'^odjava/$', 'intranet.www.views.odjava'),
@@ -24,7 +25,7 @@ urlpatterns = patterns('',
     url(r'^ajax/index/events/$', 'intranet.www.views.ajax_index_events'),
     url(r'^ajax/add_mail/(?P<event>[0-9]+)/(?P<email>[^/]*)$', 'intranet.www.views.ajax_add_mail'),
 
-    #backwards compatibility
+    # backwards compatibility
     url(r'^press-en/', 'django.views.generic.simple.redirect_to', {'url': '/en/press/'},),
     url(r'^alumni-en/', 'django.views.generic.simple.redirect_to', {'url': '/en/alumni/'},),
     url(r'^calendar-en/', 'django.views.generic.simple.redirect_to', {'url': '/en/calendar/'},),

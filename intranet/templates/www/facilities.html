@@ -1,0 +1,87 @@
+{% extends "www/base-second.html" %}
+{% load honeypot %}
+
+{% block extrahead %}
+    {{ form.media }}
+    <script type="text/javascript" src="{{ settings.MEDIA_URL }}/js/jquery.maphilight.min.js"></script> 
+    <script>
+    $(function() {
+        $('.map').maphilight({
+            fill: true,
+            fillColor: '444444',
+            fillOpacity: 0.6,
+            stroke: true,
+            strokeColor: '000',
+            strokeOpacity: 1,
+            strokeWidth: 4,
+            fade: true,
+            alwaysOn: false,
+            neverOn: false,
+            groupBy: false
+        });
+        $('.datetime-ui').datetime({value: '+1min'});
+
+        // TODO: make this one function and select areas with array
+        $('#kinodvorana').click(function() {
+            $('#id_facility').val('5');
+        });
+
+        $('#ucilnica').click(function() {
+            $('#id_facility').val('4');
+        });
+
+        $('#lab').click(function() {
+            $('#id_facility').val('3');
+        });
+
+        $('#glavni').click(function() {
+            $('#id_facility').val('2');
+        });
+    });
+    </script>
+{% endblock %}
+
+{% block content %}
+<div id="facilities">
+    <h1>Opis in rezervacija prostorov</h1>
+    {% if done %}
+        <strong>{{ done }}</strong>
+        <br />
+    {% endif %}
+    <img src="{{ settings.MEDIA_URL }}/img/tloris.png" class="map" usemap="#tloris"> 
+        <map name="tloris"> 
+            <area id="kinodvorana"
+                    shape="rect"
+                    href="#"
+                    coords="11,13, 107,232"
+                    title="Kinodvorana" />
+            <area id="ucilnica"
+                    shape="rect"
+                    href="#"
+                    coords="112,13, 277,109"
+                    title="Učilnica" />
+            <area id="lab"
+                    shape="rect"
+                    href="#"
+                    coords="279,13, 381,109"
+                    title="PostLab" />
+            <area id="glavni"
+                    shape="poly"
+                    href="#"
+                    coords="280,110, 280,350, 587,350, 587,10, 383,10, 383,110"
+                    title="Glavni prostor" />
+        </map>
+    </img>
+    <table>
+        <form method="post" action="">
+            {{ form }}
+            <tr>
+                <td>
+                {% render_honeypot_field %}
+                <input type="submit" value="Pošlji" />
+                </td>
+            </tr>
+        </form>
+    </table>
+</div>
+{% endblock %}

@@ -3,19 +3,23 @@
 import datetime
 import time
 
+from django.conf import settings
 from django.shortcuts import render_to_response, get_object_or_404
-from django.template import RequestContext
+from django.template import RequestContext, Context
+from django.template.loader import get_template
 from django.http import HttpResponsePermanentRedirect, HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.core.mail import send_mail
 from django.contrib.comments.views.comments import post_comment
 from django.views.generic.list_detail import object_list
 from django.utils.translation import ugettext as _
 from feedjack.models import Post
+from honeypot.decorators import check_honeypot
 
 from intranet.org.models import to_utc, Event, Email, EmailBlacklist
 from intranet.org.forms import EmailBlacklistForm
 from intranet.www.models import Ticker, News
-from intranet.www.forms import EmailForm
+from intranet.www.forms import EmailForm, EventContactForm
 from pipa.video.models import Video
 
 
@@ -249,3 +253,18 @@ def odjava(request):
         'success': success,
         }
     return render_to_response('www/odjava.html', RequestContext(request, context))
+
+
+@check_honeypot
+def facilities(request):
+    """Information about facilities and contact form"""
+    if request.method == 'POST':
+        form = EventContactForm(request.POST)
+        if form.is_valid():
+            text = get_template('mail/facilities_request.txt').render(Context(form.cleaned_data))
+            send_mail("Povpraševanje o prostorih", text, settings.DEFAULT_FROM_EMAIL, ['info@kiberpipa.org'])
+            done = _(u'Povpraševanje je poslano, odgovor bo sledil v naslednjih delovnih dnevih!')
+    else:
+        form = EventContactForm()
+    return render_to_response('www/facilities.html', RequestContext(request, locals()))
+

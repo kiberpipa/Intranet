@@ -1,5 +1,7 @@
-# Django settings for intranet project.
-import os, re
+import os
+import re
+
+
 def next_to_this_file(this_file, additional_path):
     return os.path.join(os.path.dirname(os.path.abspath(this_file)), additional_path)
 
@@ -23,7 +25,7 @@ LANGUAGES = (
   ('en', 'English'),
 )
 
-# localeurl 
+# localeurl
 LOCALE_INDEPENDENT_PATHS = (
     re.compile('^/intranet/'),
     re.compile('^(modules|index)\.php'),
@@ -57,7 +59,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
     'intranet.middleware.exception.StandardExceptionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    'localeurl.middleware.LocaleURLMiddleware', 
+    'localeurl.middleware.LocaleURLMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -104,6 +106,7 @@ INSTALLED_APPS = (
     'pipa.mercenaries',
     'pipa.addressbook',
     'pipa.gallery',
+    'honeypot',
 )
 
 TEMPLATE_DIRS = (
@@ -126,7 +129,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-LDAP_SERVER='ldap://localhost'
+LDAP_SERVER = 'ldap://localhost'
 SEND_BROKEN_LINK_EMAILS = True
 DEFAULT_FROM_EMAIL = 'intranet@kiberpipa.org'
 EMAIL_SUBJECT_PREFIX = '[intranet] '
@@ -145,5 +148,8 @@ SOUTH_TESTS_MIGRATE = False
 # pipa.photo
 PHOTOS_FLICKR_IMAGE_URL_S = 'http://farm%(farm)s.static.flickr.com/%(server)s/%(id)s_%(secret)s_s.jpg'
 PHOTOS_FLICKR_IMAGE_URL = 'http://farm%(farm)s.static.flickr.com/%(server)s/%(id)s_%(secret)s.jpg'
+
+# honeypot
+HONEYPOT_FIELD_NAME = "nezazeljeni_neljudje"
 
 from localsettings import *

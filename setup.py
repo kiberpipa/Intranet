@@ -40,6 +40,7 @@ setup(name='kiberpipa-intranet',
         'South',
         'flickrapi',
         'django-syncr',
+        'django-honeypot',
     ],
     tests_require=[
         'nose',

@@ -1,0 +1,9 @@
+Poslano iz: http://www.kiberpipa.org/sl/prostori/
+Kontakt: {{ contact }}
+
+Opis dogodka:
+{{ text }}
+
+Prostor: {{ facility }}
+Začetek: {{ start_time }}
+Konec: {{ end_time }}
