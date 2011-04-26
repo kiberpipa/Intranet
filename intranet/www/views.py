@@ -267,4 +267,3 @@ def facilities(request):
     else:
         form = EventContactForm()
     return render_to_response('www/facilities.html', RequestContext(request, locals()))
-

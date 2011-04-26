@@ -28,11 +28,33 @@
         facilities['glavni'] = '2';
 
         $('map area').click(function() {
-            $('#id_facility').val(facilities[$(this).attr('id')]);
+            var id = facilities[$(this).attr('id')];
+            $('#id_facility').val(id);
+
+            // load description of the facility
+            $.ajax({
+              url: '{% url facility_description_ajax 999 %}'.replace('999', id),
+              context: $('#map-description'),
+              success: function(data) {
+                $(this).html(data);
+              }
+            });
             return false;
         });
     });
     </script>
+    <style type="text/css">
+        #map {
+            float: left;
+        }
+        #map-description {
+            float: right;
+            width: 350px;
+        }
+        #map-form {
+            clear: both;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
@@ -42,31 +64,36 @@
         <strong>{{ done }}</strong>
         <br />
     {% endif %}
-    <img src="{{ settings.MEDIA_URL }}/img/tloris.png" class="map" usemap="#tloris"> 
-        <map name="tloris"> 
-            <area id="kinodvorana"
-                    shape="rect"
-                    href="#"
-                    coords="11,13, 107,232"
-                    title="Kinodvorana" />
-            <area id="ucilnica"
-                    shape="rect"
-                    href="#"
-                    coords="112,13, 277,109"
-                    title="Učilnica" />
-            <area id="lab"
-                    shape="rect"
-                    href="#"
-                    coords="279,13, 381,109"
-                    title="PostLab" />
-            <area id="glavni"
-                    shape="poly"
-                    href="#"
-                    coords="280,110, 280,350, 587,350, 587,10, 383,10, 383,110"
-                    title="Glavni prostor" />
-        </map>
-    </img>
-    <table>
+    <div id="map">
+        <img src="{{ settings.MEDIA_URL }}/img/tloris.png" class="map" usemap="#tloris"> 
+            <map name="tloris"> 
+                <area id="kinodvorana"
+                        shape="rect"
+                        href="#"
+                        coords="11,13, 107,232"
+                        title="Kinodvorana" />
+                <area id="ucilnica"
+                        shape="rect"
+                        href="#"
+                        coords="112,13, 277,109"
+                        title="Učilnica" />
+                <area id="lab"
+                        shape="rect"
+                        href="#"
+                        coords="279,13, 381,109"
+                        title="PostLab" />
+                <area id="glavni"
+                        shape="poly"
+                        href="#"
+                        coords="280,110, 280,350, 587,350, 587,10, 383,10, 383,110"
+                        title="Glavni prostor" />
+            </map>
+        </img>
+    </div>
+    <div id="map-description">
+        Izberite del prostora na sliki za podrobnejši opis.
+    </div>
+    <table id="map_form">
         <form method="post" action="">
             {{ form }}
             <tr>

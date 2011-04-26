@@ -1,5 +1,7 @@
 from django.conf.urls.defaults import *
 
+from intranet.org.models import Place
+
 urlpatterns = patterns('',
     url(r'^$', 'intranet.www.views.index'),
     url(r'^rss/$', 'intranet.www.views.rss'),
@@ -13,7 +15,10 @@ urlpatterns = patterns('',
     url(r'^calendar/(?P<year>\d{4})?/?(?P<month>[0-1]?[1-9])?/?', 'intranet.www.views.calendar'),
     url(r'^alumni/', 'pipa.addressbook.views.alumni'),
     url(r'^press/', 'intranet.www.views.press'),
-    url(r'^prostori/', 'intranet.www.views.facilities'),
+    url(r'^prostori/$', 'intranet.www.views.facilities'),
+    url(r'^prostori/(?P<object_id>\d+)/opis.ajax$', 'django.views.generic.list_detail.object_detail',
+        {'template_name': 'www/facility_description_ajax.html',
+        'queryset': Place.objects.all(),}, name="facility_description_ajax"),
     url(r'^locale/$', 'django.views.generic.simple.direct_to_template', {'template': 'www/locale.html'}),
     url(r'^kjesmo/$', 'django.views.generic.simple.direct_to_template', {'template': 'www/kjesmo.html'}),
     url(r'^odjava/$', 'intranet.www.views.odjava'),

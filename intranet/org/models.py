@@ -13,7 +13,6 @@ from django.contrib.auth.models import User
 from django.conf import settings
 
 from pipa.mercenaries.models import CostCenter, SalaryType
-from pipa.video.models import Video
 
 
 def to_utc(dt):
@@ -288,6 +287,7 @@ class Event(models.Model):
         return self._next_previous_helper('previous')
 
     def get_video_url(self):
+        from pipa.video.models import Video
         return Video.objects.get(event=self).play_url
 
 
