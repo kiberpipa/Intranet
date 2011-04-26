@@ -1,26 +1,24 @@
 # *-* coding: utf-8 *-*
 
-from datetime import date, timedelta
-import datetime
 import time
-try:
-    from hashlib import md5
-except ImportError:
-    from md5 import md5
 import re
 import urllib
+import datetime
+from hashlib import md5
+from datetime import date, timedelta
 
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from django.conf import settings
 
-# FIXME
 from pipa.mercenaries.models import CostCenter, SalaryType
+from pipa.video.models import Video
 
 
 def to_utc(dt):
     return time.gmtime(time.mktime(dt.timetuple()))
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=200, primary_key='True')
@@ -53,13 +51,13 @@ class Project(models.Model):
 
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
-    
+
     #if True email all people which have this project set, if false email only Project.email
     # this needs null=True or else audit fails miserably
     email_members = models.NullBooleanField(default=True)
 
     #tags = models.ManyToManyField(Tag, blank=True, null=True)
-    
+
     class Meta:
         verbose_name = 'Projekt'
         verbose_name_plural = 'Projekti'
@@ -70,9 +68,9 @@ class Project(models.Model):
 
     def children(self):
         related = []
-        children = Project.objects.filter(parent = self)
+        children = Project.objects.filter(parent=self)
         for child in children:
-            second_level = Project.objects.filter(parent = child)
+            second_level = Project.objects.filter(parent=child)
 
             if second_level:
                 for s in child.children():
@@ -80,6 +78,7 @@ class Project(models.Model):
             else:
                 related.append(child)
         return related
+
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -98,24 +97,18 @@ class Category(models.Model):
         verbose_name_plural = 'm3c kategorije'
 
     class Admin:
-         js = (
-              'js/tags.js',
-              )
+        js = ('js/tags.js',)
+
 
 class Place(models.Model):
     name = models.CharField(max_length=100)
     note = models.TextField(blank=True, null=True)
 
-    #pub_date = models.DateTimeField(auto_now_add=True)
-    #chg_date = models.DateTimeField(auto_now=True)
-
     def __unicode__(self):
         return self.name
 
     class Admin:
-         js = (
-              'js/tags.js',
-              )
+        js = ('js/tags.js',)
 
 
 ##there's gotta be a better way to do this
@@ -125,11 +118,13 @@ class EmailBlacklist(models.Model):
     def __unicode__(self):
         return self.email
 
+
 class Email(models.Model):
     email = models.EmailField()
 
     def __unicode__(self):
         return self.email
+
 
 class Phone(models.Model):
     phone = models.CharField(max_length=100)
@@ -137,11 +132,13 @@ class Phone(models.Model):
     def __unicode__(self):
         return self.phone
 
+
 class Organization(models.Model):
     organization = models.CharField(max_length=100)
 
     def __unicode__(self):
         return self.organization
+
 
 class Role(models.Model):
     role = models.CharField(max_length=100)
@@ -149,11 +146,12 @@ class Role(models.Model):
     def __unicode__(self):
         return self.role
 
+
 class IntranetImage(models.Model):
     title = models.CharField(max_length=255)
     image = models.ImageField(upload_to='events/%Y/%m/', verbose_name="Slikca za Event page")
     md5 = models.CharField(max_length=32, db_index=True, unique=True, blank=True)
-    
+
     class Meta:
         ordering = ('-image',)
 
@@ -164,6 +162,7 @@ class IntranetImage(models.Model):
         super(IntranetImage, self).save(*args, **kwargs)
         self.md5 = md5(open(self.image.path).read()).hexdigest()
         super(IntranetImage, self).save(*args, **kwargs)
+
 
 # koledar dogodkov
 class Event(models.Model):
@@ -185,7 +184,7 @@ class Event(models.Model):
     slides = models.FileField(upload_to='slides/%Y/%m/', verbose_name="Prosojnice", blank=True, null=True)
 
     announce = models.TextField(verbose_name="Uradna najava", blank=True, null=True)
-    short_announce = models.TextField(verbose_name="Kratka najava", blank=True, null= True)
+    short_announce = models.TextField(verbose_name="Kratka najava", blank=True, null=True)
     note = models.TextField(verbose_name="Opombe", blank=True, null=True)
 
     start_date = models.DateTimeField(verbose_name="Čas pričetka", db_index=True)
@@ -223,7 +222,7 @@ class Event(models.Model):
             return self.image._name
 
     def get_absolute_url(self):
-        return '/intranet/events/%i/' %  self.id
+        return '/intranet/events/%i/' % self.id
 
     def get_public_url(self):
         return '/'.join(['', 'event', self.start_date.strftime('%Y-%b-%d').lower(), unicode(self.id), self.slug, ''])
@@ -289,11 +288,6 @@ class Event(models.Model):
         return self._next_previous_helper('previous')
 
     def get_video_url(self):
-        global Video
-        try:
-            Video
-        except NameError:
-            from pipa.video.models import Video
         return Video.objects.get(event=self).play_url
 
 
@@ -334,6 +328,7 @@ class Person(models.Model):
     def __unicode__(self):
         return self.name
 
+
 class Sodelovanje(models.Model):
     event = models.ForeignKey(Event, blank=True, null=True)
     tip = models.ForeignKey(TipSodelovanja, blank=True, null=True)
@@ -346,23 +341,23 @@ class Sodelovanje(models.Model):
 
     def __unicode__(self):
         return u"%s: %s @ %s" % (self.person, self.tip, self.event)
-    
+
     def save(self):
         if self.event:
             self.project = self.event.project
 
         super(Sodelovanje, self).save()
 
+
 # opravila v pipi
 ##XXX DEPRECIATED, use Project instead
 class Task(models.Model):
     title = models.CharField(max_length=100)
-    responsible = models.ForeignKey(User,blank=True, null=True)
+    responsible = models.ForeignKey(User, blank=True, null=True)
     note = models.TextField(blank=True)
 
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
-
 
     def __unicode__(self):
         return self.title
@@ -372,20 +367,18 @@ class Task(models.Model):
         verbose_name_plural = 'Opravila'
 
     class Admin:
-        search_fields = ['title','note']
+        search_fields = ['title', 'note']
         list_display = ['title', 'responsible']
-        js = (
-              'js/tags.js',
-              )
+        js = ('js/tags.js',)
 
 
 # dnevnik dezurnih
 class Diary(models.Model):
     author = models.ForeignKey(User, related_name="diary_author")
-    task = models.ForeignKey(Project) #retained name for backwards compatibility
+    task = models.ForeignKey(Project)  # retained name for backwards compatibility
     date = models.DateTimeField(default=date.today(), db_index=True)
-    length = models.TimeField(default=datetime.time(4,0))
-    event = models.ForeignKey(Event,blank=True, null=True)
+    length = models.TimeField(default=datetime.time(4, 0))
+    event = models.ForeignKey(Event, blank=True, null=True)
     log_formal = models.TextField()
     log_informal = models.TextField(blank=True, null=True)
 
@@ -404,6 +397,7 @@ class Diary(models.Model):
         verbose_name = 'Dnevnik'
         verbose_name_plural = 'Dnevniki'
 
+
 class StickyNote(models.Model):
     class Meta:
         verbose_name = 'Sporocilo'
@@ -418,11 +412,12 @@ class StickyNote(models.Model):
     chg_date = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField(Tag, blank=True, null=True)
 
-    def __unicode__ (self):
+    def __unicode__(self):
         return "%s..." % (self.note[:50])
 
     def get_absolute_url(self):
         return '/intranet/admin/org/stickynote/%d/' % self.id
+
 
 class Lend(models.Model):
     what = models.CharField(max_length=200, verbose_name='Predmet')
@@ -438,18 +433,19 @@ class Lend(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
 
-    def __unicode__ (self):
+    def __unicode__(self):
         return "%s (%s): %s" % (self.what, self.to_who, self.returned)
 
     def get_absolute_url(self):
         return '/intranet/lends/%d/' % self.id
-        
+
     def days_due(self):
         return date.today() - self.due_date
 
     class Meta:
         verbose_name = 'Sposoja'
         verbose_name_plural = 'Sposoja'
+
 
 class KbCategory(models.Model):
     title = models.CharField(max_length=150)
@@ -463,6 +459,7 @@ class KbCategory(models.Model):
 
     def __unicode__(self):
         return self.title
+
 
 class KB(models.Model):
     title = models.CharField(max_length=150)
@@ -484,6 +481,7 @@ class KB(models.Model):
 
     def get_absolute_url(self):
         return "/intranet/kb/%s/%s/" % self.category.slug, self.slug
+
 
 class Shopping(models.Model):
     name = models.CharField(max_length=100)
@@ -508,6 +506,7 @@ class Shopping(models.Model):
     def get_absolute_url(self):
         return "/intranet/shopping/%i/" % self.id
 
+
 class Scratchpad(models.Model):
     content = models.TextField()
     author = models.ForeignKey(User)
@@ -517,6 +516,3 @@ class Scratchpad(models.Model):
     class Meta:
         verbose_name = 'Kracarka'
         verbose_name_plural = 'Kracarka'
-
-
-
