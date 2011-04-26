@@ -16,7 +16,6 @@ urlpatterns = patterns('',
     url(r'^locale/$', 'django.views.generic.simple.direct_to_template', {'template': 'www/locale.html'}),
     url(r'^kjesmo/$', 'django.views.generic.simple.direct_to_template', {'template': 'www/kjesmo.html'}),
     url(r'^odjava/$', 'intranet.www.views.odjava'),
-    url(r'^(modules|index)\.php', 'intranet.www.views.compat'),
 
     url(r'^comments/', include('django.contrib.comments.urls')),
     url(r'^comments/post/$', 'intranet.www.views.anti_spam'),

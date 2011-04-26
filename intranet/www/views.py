@@ -2,13 +2,10 @@
 
 import datetime
 import time
-import re
 
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.http import HttpResponsePermanentRedirect, HttpResponse, HttpResponseRedirect
-from django.conf import settings
-from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.contrib.comments.views.comments import post_comment
 from django.views.generic.list_detail import object_list
@@ -115,68 +112,6 @@ def news_detail(request, slug=None, id=None):
         'news': n,
         },
         context_instance=RequestContext(request))
-
-
-def compat(request, file):
-    if 'sid' in request.GET and re.match('^[0-9]+$', request.GET['sid']):
-        #`normal news links'
-        return HttpResponsePermanentRedirect(News.objects.get(id=request.GET['sid']).get_absolute_url())
-    if 'eid' in request.GET:
-        #calendar article
-        return HttpResponsePermanentRedirect(News.objects.get(calendar_id=request.GET['eid']).get_absolute_url())
-    if 'ceid' in request.GET:
-        #staticni linki ki so bli na levi strani
-        ceid = request.GET['ceid']
-        if ceid == 11:
-            return HttpResponsePermanentRedirect('/community/')
-        else:
-            return HttpResponsePermanentRedirect('/about/')
-
-    if 'date' in request.GET:
-        #calendar listing
-        date = request.GET['Date']
-        return HttpResponsePermanentRedirect('/calendar/%s/%s/' % (date[:4], date[4:6]))
-
-    # TODO: fuckedup.
-    if request.GET.has_key('pollID') or\
-        request.GET.has_key('topic') or\
-        request.GET.has_key('name') and request.GET['name'] == 'Web_Links' or\
-        not request.GET or\
-        request.GET.has_key('name') and re.match('^http://', request.GET['name']) or\
-        request.GET.has_key('module') and re.match('^http://', request.GET['module']) or\
-        request.GET.has_key('op') and re.match('^http://', request.GET['op']) or\
-        request.GET.has_key('op') and request.GET['op'] == 'userinfo' or\
-        request.GET.has_key('name') and request.GET['name'] == 'News' or\
-        request.GET.has_key('name') and request.GET['name'] == 'Comments' or\
-        request.GET.has_key('name') and request.GET['name'] == 'Polls' or\
-        request.GET.has_key('name') and request.GET['name'] == 'polls' or\
-        request.GET.has_key('name') and request.GET['name'] == 'Your_Account' or\
-        request.GET.has_key('name') and request.GET['name'] == 'Submit_News' or\
-        request.GET.has_key('newlang') or\
-        request.GET.has_key('op') and request.GET['op'] == 'click' or\
-        request.GET.has_key('file') and request.GET['file'] == 'index' or\
-        request.GET.has_key('sid') and request.GET['sid'] == '749' or\
-        request.GET.has_key('sid') and request.GET['sid'] == '676' or\
-        request.GET.has_key('sid') and request.GET['sid'] == '3' or\
-        request.GET.has_key('module') and request.GET['module'] == 'PostCale' or\
-        request.GET.has_key('module') and request.GET['module'] == 'Admin' or\
-        request.GET.has_key('NAME') and request.GET['NAME'] == 'Submit_News':
-
-        return HttpResponsePermanentRedirect('/')
-
-    if request.GET.has_key('name') and request.GET['name'] == 'Archive' and request.GET.has_key('year') and request.GET.has_key('month'):
-        return HttpResponsePermanentRedirect('/calendar/%s/%s/' % (request.GET['year'], request.GET['month']))
-
-    if request.GET.has_key('module') and request.GET['module'] == 'RSS':
-        return HttpResponsePermanentRedirect('/feeds/all/planet/')
-
-    if request.GET.has_key('module') and request.GET['module'] == 'PostCalendar':
-        return HttpResponsePermanentRedirect('/calendar/')
-
-    if not (request.GET.has_key('set_albumName') or (request.GET.has_key('name') and request.GET['name'] == 'gallery')):
-    #we have a problem
-        send_mail('b00, wh00, 404', 'PATH_INFO: %s\nQUERY_STRING: %s' % (request.META['PATH_INFO'], request.META['QUERY_STRING']), 'intranet@kiberpipa.org', [a[1] for a in settings.ADMINS], fail_silently=True)
-        return HttpResponsePermanentRedirect('/')
 
 
 def calendar(request, year=None, month=None, en=False):
