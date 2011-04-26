@@ -21,21 +21,15 @@
         });
         $('.datetime-ui').datetime({value: '+1min'});
 
-        // TODO: make this one function and select areas with array
-        $('#kinodvorana').click(function() {
-            $('#id_facility').val('5');
-        });
+        var facilities = new Object();
+        facilities['kinodvorana'] = '5';
+        facilities['ucilnica'] = '4';
+        facilities['lab'] = '3';
+        facilities['glavni'] = '2';
 
-        $('#ucilnica').click(function() {
-            $('#id_facility').val('4');
-        });
-
-        $('#lab').click(function() {
-            $('#id_facility').val('3');
-        });
-
-        $('#glavni').click(function() {
-            $('#id_facility').val('2');
+        $('map area').click(function() {
+            $('#id_facility').val(facilities[$(this).attr('id')]);
+            return false;
         });
     });
     </script>
