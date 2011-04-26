@@ -3,53 +3,49 @@
 import datetime
 import time
 import re
-from StringIO import StringIO
 
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.http import HttpResponsePermanentRedirect, HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from django.core.mail import send_mail
-from django.core import serializers
 from django.core.urlresolvers import reverse
 from django.contrib.comments.views.comments import post_comment
 from django.views.generic.list_detail import object_list
-from django import forms
 from django.utils.translation import ugettext as _
-from django.utils import simplejson
+from feedjack.models import Post
 
 from intranet.org.models import to_utc, Event, Email, EmailBlacklist
 from intranet.org.forms import EmailBlacklistForm
-from feedjack.models import Post
 from intranet.www.models import Ticker, News
+from intranet.www.forms import EmailForm
 from pipa.video.models import Video
 
 
-#if there will be any more forms we should probably create www/forms.py
-class EmailForm(forms.Form):
-    email = forms.EmailField()
-
 def anti_spam(request):
-    #make sure the users have taken at least 5 seconds from to read the page and write the comment (spam bots don't) 
-    if int(request.POST['timestamp'])+5 > int(datetime.datetime.now().strftime('%s')):
+    # make sure the users have taken at least 5 seconds from to read
+    # the page and write the comment (spam bots don't)
+    # TODO: replace this with honeypot method
+    if int(request.POST['timestamp']) + 5 > int(datetime.datetime.now().strftime('%s')):
         return HttpResponsePermanentRedirect('/')
     return post_comment(request)
+
 
 def index(request):
     dogodki = Event.objects.filter(public=True, start_date__gte=datetime.datetime.today()).order_by('start_date')
     try:
         events = [dogodki[0]]
-    except IndexError, e:
+    except IndexError:
         events = [None]
     try:
         events.append(dogodki[1])
-    except IndexError, e:
+    except IndexError:
         pass
 
     try:
         pretekli = Event.objects.filter(public=True, start_date__lt=datetime.datetime.today()).order_by('-start_date')[0]
         events.insert(0, pretekli)
-    except IndexError, e:
+    except IndexError:
         events.insert(0, None)
 
     return render_to_response('www/index.html', {
@@ -60,27 +56,29 @@ def index(request):
         'videos': Video.objects.order_by('-pub_date')[:4],
     }, context_instance=RequestContext(request))
 
+
 def ajax_index_events(request):
     month = datetime.datetime.today() - datetime.timedelta(30)
     try:
         next = Event.objects.filter(public=True, start_date__gte=datetime.datetime.today()).order_by('start_date')[0]
         #forcing the evalutation of query set :-/. anyone got better ideas?
         events = list(Event.objects.filter(public=True, start_date__gte=month).order_by('start_date'))
-        position = events.index(next) -1
+        position = events.index(next) - 1
     except IndexError:
         events = Event.objects.filter(public=True, start_date__gte=month).order_by('start_date')
-        position = events.count() -1
-    
+        position = events.count() - 1
+
     return render_to_response('www/ajax_index_events.html', {
       'position': position,
-      'events': events,  
+      'events': events,
     }, context_instance=RequestContext(request))
+
 
 def ajax_add_mail(request, event, email):
     event = get_object_or_404(Event, pk=event)
     form = EmailForm({'email': email})
     if form.is_valid():
-        email = Email.objects.get_or_create(email = form.cleaned_data['email'])[0]
+        email = Email.objects.get_or_create(email=form.cleaned_data['email'])[0]
         if email in event.emails.all():
             message = _('You are already subscribed to this event.')
         else:
@@ -89,8 +87,9 @@ def ajax_add_mail(request, event, email):
             message = _('You will recieve the notification when the video is available.')
     else:
         message = _('Please enter valid email address')
-        
+
     return HttpResponse(message)
+
 
 def event(request, date, id, slug):
     event = get_object_or_404(Event, pk=id)
@@ -101,6 +100,7 @@ def event(request, date, id, slug):
         'form': EmailForm(),
         },
         context_instance=RequestContext(request))
+
 
 def news_detail(request, slug=None, id=None):
     if id is None:
@@ -116,14 +116,15 @@ def news_detail(request, slug=None, id=None):
         },
         context_instance=RequestContext(request))
 
+
 def compat(request, file):
-    if request.GET.has_key('sid') and re.match('^[0-9]+$', request.GET['sid']):
+    if 'sid' in request.GET and re.match('^[0-9]+$', request.GET['sid']):
         #`normal news links'
         return HttpResponsePermanentRedirect(News.objects.get(id=request.GET['sid']).get_absolute_url())
-    if request.GET.has_key('eid'):
+    if 'eid' in request.GET:
         #calendar article
         return HttpResponsePermanentRedirect(News.objects.get(calendar_id=request.GET['eid']).get_absolute_url())
-    if request.GET.has_key('ceid'):
+    if 'ceid' in request.GET:
         #staticni linki ki so bli na levi strani
         ceid = request.GET['ceid']
         if ceid == 11:
@@ -131,21 +132,12 @@ def compat(request, file):
         else:
             return HttpResponsePermanentRedirect('/about/')
 
-    if request.GET.has_key('Date'):
+    if 'date' in request.GET:
         #calendar listing
         date = request.GET['Date']
         return HttpResponsePermanentRedirect('/calendar/%s/%s/' % (date[:4], date[4:6]))
 
-
-#    elif request.GET.has_key('set_albumName')
-#        #`gallery crap'
-#        if request.GET.has_key('id'):
-#            #image has been requested
-#           pass 
-#        else:
-#            #album has been requested
-#            pass
-#
+    # TODO: fuckedup.
     if request.GET.has_key('pollID') or\
         request.GET.has_key('topic') or\
         request.GET.has_key('name') and request.GET['name'] == 'Web_Links' or\
@@ -177,7 +169,7 @@ def compat(request, file):
 
     if request.GET.has_key('module') and request.GET['module'] == 'RSS':
         return HttpResponsePermanentRedirect('/feeds/all/planet/')
-    
+
     if request.GET.has_key('module') and request.GET['module'] == 'PostCalendar':
         return HttpResponsePermanentRedirect('/calendar/')
 
@@ -185,6 +177,7 @@ def compat(request, file):
     #we have a problem
         send_mail('b00, wh00, 404', 'PATH_INFO: %s\nQUERY_STRING: %s' % (request.META['PATH_INFO'], request.META['QUERY_STRING']), 'intranet@kiberpipa.org', [a[1] for a in settings.ADMINS], fail_silently=True)
         return HttpResponsePermanentRedirect('/')
+
 
 def calendar(request, year=None, month=None, en=False):
     day = datetime.timedelta(1)
@@ -215,8 +208,8 @@ def calendar(request, year=None, month=None, en=False):
         next_year = today.year
         prev_year = today.year
         prev_month = today.month - 1
-    while not ( begin.month == next_month and begin.weekday() == 0):
-        dates += [(begin, Event.objects.filter(start_date__year = begin.year, start_date__month = begin.month, start_date__day = begin.day))]
+    while not (begin.month == next_month and begin.weekday() == 0):
+        dates += [(begin, Event.objects.filter(start_date__year=begin.year, start_date__month=begin.month, start_date__day=begin.day))]
         begin = begin + day
 
     return render_to_response('www/calendar.html', {
@@ -227,9 +220,10 @@ def calendar(request, year=None, month=None, en=False):
         },
         context_instance=RequestContext(request))
 
+
 def ical(request):
-    cal = [u'BEGIN:VCALENDAR', 
-        u'PRODID: -//Kiberpipa//NONSGML intranet//EN', 
+    cal = [u'BEGIN:VCALENDAR',
+        u'PRODID: -//Kiberpipa//NONSGML intranet//EN',
         u'VERSION:2.0']
     # DO NOT uncomment. Kulturnik.si parser breaks.
     #cal.append('SUMMARY:Dogodki v Kiberpipi')
@@ -241,7 +235,7 @@ def ical(request):
         # ther's gotta be a nicer way to do this
         # TODO: yes, use icalendar library
         # http://pypi.python.org/pypi/icalendar/
-        end_date = e.start_date + datetime.timedelta(hours=e.length.hour,  minutes=e.length.minute)
+        end_date = e.start_date + datetime.timedelta(hours=e.length.hour, minutes=e.length.minute)
         if e.public:
             classification = u'PUBLIC'
         else:
@@ -274,8 +268,10 @@ def ical(request):
     response.write(ret)
     return response
 
+
 def rss(request):
     return render_to_response('www/rss.html', context_instance=RequestContext(request))
+
 
 # Generic views wrappers.
 def press(request):
@@ -285,11 +281,13 @@ def press(request):
         template = 'www/press.html'
     return render_to_response(template, RequestContext(request, {}))
 
+
 def news_list(request):
     queryset = News.objects.order_by('-date')
     if request.LANGUAGE_CODE == 'en':
         queryset = queryset.filter(language='en')
-    return object_list(request, queryset=queryset[:10], template_name= 'www/news_list.html')
+    return object_list(request, queryset=queryset[:10], template_name='www/news_list.html')
+
 
 def odjava(request):
     message = ''
@@ -316,7 +314,3 @@ def odjava(request):
         'success': success,
         }
     return render_to_response('www/odjava.html', RequestContext(request, context))
-
-
-
-
