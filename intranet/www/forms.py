@@ -22,7 +22,7 @@ class EventContactForm(forms.Form):
             settings.MEDIA_URL + 'js/jquery.ui.datetime.min.js',
         )
         css = {'all': (
-            'http://hotlink.jquery.com/jqueryui/themes/base/jquery.ui.all.css',
+            settings.MEDIA_URL + 'css/jquery.ui.all.css',
             settings.MEDIA_URL + 'css/jquery.ui.datetime.css',
         )}
 
