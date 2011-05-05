@@ -41,6 +41,7 @@ setup(name='kiberpipa-intranet',
         'flickrapi',
         'django-syncr',
         'django-honeypot',
+        'python-dateutil',
     ],
     tests_require=[
         'nose',

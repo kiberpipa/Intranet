@@ -2,6 +2,7 @@
 
 import datetime
 import time
+from calendar import Calendar
 
 from django.conf import settings
 from django.shortcuts import render_to_response, get_object_or_404
@@ -15,6 +16,7 @@ from django.views.generic.list_detail import object_list
 from django.utils.translation import ugettext as _
 from feedjack.models import Post
 from honeypot.decorators import check_honeypot
+from dateutil.relativedelta import relativedelta
 
 from intranet.org.models import to_utc, Event, Email, EmailBlacklist
 from intranet.org.forms import EmailBlacklistForm
@@ -119,43 +121,25 @@ def news_detail(request, slug=None, id=None):
 
 
 def calendar(request, year=None, month=None, en=False):
-    day = datetime.timedelta(1)
     today = datetime.date.today()
-    if month:
-        today = datetime.date(int(year), int(month), 1)
+    year = int(year or today.year)
+    month = int(month or today.month)
+    now = datetime.date(year, month, 15)
+    cal = Calendar().monthdatescalendar(year, month)
+    events = []
 
-    begin = datetime.date(today.year, today.month, 1)
+    for week in cal:
+        for day in week:
+            events.append([day, Event.objects.filter(start_date__year=day.year, start_date__month=day.month, start_date__day=day.day)])
 
-    #find the begening of the week in which this month starts
-    while begin.weekday() != 0:
-        begin = begin - day
-
-    dates = []
-    #loop till the end of the week in which this months ends
-    if today.month == 12:
-        next_month = 1
-        next_year = today.year + 1
-        prev_month = today.month - 1
-        prev_year = today.year
-    elif today.month == 1:
-        next_month = today.month + 1
-        next_year = today.year
-        prev_month = 12
-        prev_year = today.year - 1
-    else:
-        next_month = today.month + 1
-        next_year = today.year
-        prev_year = today.year
-        prev_month = today.month - 1
-    while not (begin.month == next_month and begin.weekday() == 0):
-        dates += [(begin, Event.objects.filter(start_date__year=begin.year, start_date__month=begin.month, start_date__day=begin.day))]
-        begin = begin + day
+    next_month = events[15][0] + relativedelta(months=+1)
+    prev_month = events[15][0] + relativedelta(months=-1)
 
     return render_to_response('www/calendar.html', {
-        'dates': dates,
-        'prev': reverse('intranet.www.views.calendar', args=['%s/%s' % (prev_year, prev_month)]),
-        'next': reverse('intranet.www.views.calendar', args=['%s/%s' % (next_year, next_month)]),
-        'now': today,
+        'dates': events,
+        'prev': reverse('intranet.www.views.calendar', kwargs=dict(year=prev_month.year, month=prev_month.month)),
+        'next': reverse('intranet.www.views.calendar', kwargs=dict(year=next_month.year, month=next_month.month)),
+        'now': now,
         },
         context_instance=RequestContext(request))
 
