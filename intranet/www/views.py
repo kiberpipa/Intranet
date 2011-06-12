@@ -35,24 +35,9 @@ def anti_spam(request):
 
 
 def index(request):
-    dogodki = Event.objects.filter(public=True, start_date__gte=datetime.datetime.today()).order_by('start_date')
-    try:
-        events = [dogodki[0]]
-    except IndexError:
-        events = [None]
-    try:
-        events.append(dogodki[1])
-    except IndexError:
-        pass
-
-    try:
-        pretekli = Event.objects.filter(public=True, start_date__lt=datetime.datetime.today()).order_by('-start_date')[0]
-        events.insert(0, pretekli)
-    except IndexError:
-        events.insert(0, None)
 
     return render_to_response('www/index.html', {
-        'events': events,
+        'events': Event.objects.filter(public=True, start_date__gte=datetime.datetime.today()).order_by('start_date'),
         'ticker': Ticker.objects.filter(is_active=True),
         'news': News.objects.order_by('-date')[0:4],
         'planet': Post.objects.order_by('-date_created')[:4],

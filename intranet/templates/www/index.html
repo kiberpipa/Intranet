@@ -67,57 +67,60 @@ $(document).ready(function() {
 {% endblock %}
 {% block content %}
 	<div class="rss-index"><a href="/rss/" ><img src="{{ media_url }}www/images/rss20x20.png" alt="RSS Feeds" /></a></div>
+    {% if events %}
 	<div id="upcoming">
 		<div class="next3-left">
 			<div class="past3"><a href="#" onclick="return false;"><img src="{{ media_url }}www/images/puscica-3levo.gif" alt="tri dogodke nazaj" /></a></div>
 			<div class="past"><a href="#" onclick="return false;"><img src="{{ media_url }}www/images/puscica-levo.gif" alt="en dogodek nazaj" /></a></div>
 		</div>
-			<div class="present" style="height:300px;">
-				{% for event in events %}
-					<div id="event{{ event.id }}" class="present-now">
-					
-						<div class="present-event-date">
-							<strong {% if event.project.verbose_name %} title="{{ event.project.verbose_name }}"{% endif %}>{{ event.project }}: </strong>
-								{{ event.start_date|date:"l, d. "|capfirst }}
-								{{ event.start_date|date:"b Y"|capfirst }}
-								<strong>{{ event.start_date|date:"G:i" }}</strong>
-						</div>
-						{% if event.event_image %}
-							<a href="{{ event.get_public_url }}">
-								<img width="250" height="130" src="{{ event.event_image.image.url }}" alt="{{ event.event_image.title }}" />
-							</a>
-						{% else %}
-							<a href="{{ event.get_public_url }}">
-								<img width="250" height="130" src="{{ media_url }}www/images/img-upcoming.gif" alt="slika" />
-							</a>
-						{% endif %}
-						 <div class="present-event-text"><a href="{{ event.get_public_url }}">{{ event }}</a></div>
+        <div class="present">
+            {% for event in events %}
+            <div id="event{{ event.id }}" class="present-now">
+                <div class="present-event-date">
+                    <strong {% if event.project.verbose_name %} title="{{ event.project.verbose_name }}"{% endif %}>
+                        {{ event.project }}: </strong>
+                    {{ event.start_date|date:"l, d. "|capfirst }}
+                    {{ event.start_date|date:"b Y"|capfirst }}
+                    {% trans "ob" %}
+                    <strong>{{ event.start_date|date:"G:i" }}</strong>
+                </div>
+                {% if event.event_image %}
+                    <a href="{{ event.get_public_url }}">
+                        <img width="250" height="130" src="{{ event.event_image.image.url }}" alt="{{ event.event_image.title }}" />
+                    </a>
+                {% else %}
+                    <a href="{{ event.get_public_url }}">
+                        <img width="250" height="130" src="{{ media_url }}www/images/img-upcoming.gif" alt="slika" />
+                    </a>
+                {% endif %}
+                <div class="present-event-text"><a href="{{ event.get_public_url }}">{{ event }}</a></div>
+                <div class="present-event-desc">{{ event.announce|truncatewords_html:"30"|safe }}</div>
+            </div>
+            {% endfor %}
+         </div>
 
-						<div class="present-event-desc">{{ event.announce|truncatewords_html:"30"|safe }}</div>
-					</div>
-				{% endfor %}
-			 </div>
-				
-		 <div class="next3-right">
-			 <div class="future"><a href="#" onclick="return false;"><img src="{{ media_url }}www/images/puscica-desno.gif" alt="en dogodek naprej" /></a></div>
-			 <div class="future3"><a href="#" onclick="return false;"><img src="{{ media_url }}www/images/puscica-3desno.gif" alt="tri dogodke naprej" /></a></div>
-		</div>
-		
-	</div>
+         <div class="next3-right">
+             <div class="future"><a href="#" onclick="return false;"><img src="{{ media_url }}www/images/puscica-desno.gif" alt="en dogodek naprej" /></a></div>
+             <div class="future3"><a href="#" onclick="return false;"><img src="{{ media_url }}www/images/puscica-3desno.gif" alt="tri dogodke naprej" /></a></div>
+        </div>
+    </div>
+    {% else %}
+    <div id="noupcoming"><strong>{% trans "Trenutno ni napovedanih dogodkov." %}</strong></div>
+    {% endif %}
 
 	<div id="notifier">
 		<div class="button-chamber">
-	{% comment %}
-			<div class="gallery"><a href="/gallery/">gallery</a></div>
-				{% for photo in photos %}
-					<div class="gallery-button">
-						<a href="/gallery/{{ photo.galleries.all.0.id }}/"><img height="67" width="67" src="{{ photo.get_small_url }}" alt="slika" /></a>
-				</div>
-			{% endfor %}
-		{% endcomment %}
+            {% comment %}
+                <div class="gallery"><a href="/gallery/">gallery</a></div>
+                    {% for photo in photos %}
+                        <div class="gallery-button">
+                            <a href="/gallery/{{ photo.galleries.all.0.id }}/"><img height="67" width="67" src="{{ photo.get_small_url }}" alt="slika" /></a>
+                    </div>
+                {% endfor %}
+            {% endcomment %}
 			
 			<div class="video">
-			<p><a href="http://video.kiberpipa.org/">{% trans "Last added videos to the Video Archive" %}</a></p>
+                <p><a href="http://video.kiberpipa.org/">{% trans "Last added videos to the Video Archive" %}</a></p>
 			</div>
 			
 			{% for video in videos %}
@@ -125,11 +128,9 @@ $(document).ready(function() {
 				<a href="{{ video.play_url }}"><img width="67" src="{{ video.image_url }}" alt="slika" /></a>
 			</div>
 			{% endfor %}
-			
 		</div>
 
 	<div id="screen" class="notifier-chamber">
-
 		<div id="sections">
 			<ul>
 				{% for i in ticker %}
@@ -140,17 +141,6 @@ $(document).ready(function() {
 				{% endfor %}
 			</ul>
 		</div>
-{% comment %}
-		<div id="navigation">
-			<ul>
-				{% for i in ticker %}
-					<li><a id="stop{{ forloop.counter }}" href="#">{{ i.name }}</a></li>
-				{% endfor %}
-			</ul>
-		 </div>
-{% endcomment %}
-
-	</div>
 	</div>
 
 	<div id="blog-cp">
@@ -181,13 +171,13 @@ $(document).ready(function() {
 		</div>
 		{% for post in planet %}
 			<div class="planet-news-title">
-			<a href="{{ post.link }}">{{ post.title }}</a>
+                <a href="{{ post.link }}">{{ post.title }}</a>
 			</div>
 			<div class="planet-publish">
-			{% trans "Published by" %} {{ post.author }} {% trans "on" %} {{ post.date_modified }}
+                {% trans "Published by" %} {{ post.author }} {% trans "on" %} {{ post.date_modified }}
 			</div>
 			<div class="planet-content">
-			{{ post.content|santize|safe|truncatewords:"60" }}
+                {{ post.content|santize|safe|truncatewords:"60" }}
 			</div>
 {% comment %}
 			<div class="planet-more">

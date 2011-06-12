@@ -62,7 +62,7 @@ a img {
 	float: right;
 }
 
-/* End of header styling*/
+/* End of header styling */
 
 /* Upcoming and notifier ala 3 slikice, ki se izmenjujejo */
 
@@ -70,6 +70,14 @@ a img {
 	width: 960px;
 	height: 320px;
 	margin-top: 50px;
+}
+#noupcoming {
+	margin-top: 50px;
+    padding: 10px;
+	height: 50px;
+	width: 960px;
+    margin: 0 auto;
+    text-align: center;
 }
 
 .rss-index {
@@ -99,6 +107,7 @@ a img {
 
 .present {
 	float: left;
+    width: 300px;
 }
 
 .present-event-text {
