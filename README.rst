@@ -48,6 +48,7 @@ Deploying to staging (https://new.kiberpipa.org)
 ================================================
 
 ::
+
     git co deploy
     git merge master
     ssh <dogbert>
@@ -64,6 +65,8 @@ Deploying from staging to production
 ====================================
 
 ::
+
     ssh <dogbert>
     su - intranet
     ~/bin/deploy intranet v<current>+1
+    ~/bin/runintranet v<current>+1
