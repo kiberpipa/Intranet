@@ -42,3 +42,28 @@ Running tests
 ::
 
     ./manage.py test org www
+
+
+Deploying to staging (https://new.kiberpipa.org)
+================================================
+
+::
+    git co deploy
+    git merge master
+    ssh <dogbert>
+    su - intranet
+    ~/bin/testdeploy
+
+To refresh db from production to staging, do::
+
+    su - djangotest
+    ~/bin/sqlreload-intranet
+
+
+Deploying from staging to production
+====================================
+
+::
+    ssh <dogbert>
+    su - intranet
+    ~/bin/deploy intranet v<current>+1
