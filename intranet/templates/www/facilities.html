@@ -3,7 +3,7 @@
 
 {% block extrahead %}
     {{ form.media }}
-    <script type="text/javascript" src="{{ settings.MEDIA_URL }}/js/jquery.maphilight.min.js"></script> 
+    <script type="text/javascript" src="{{ settings.MEDIA_URL }}/js/jquery.maphilight.min.js"></script>
     <script>
     $(function() {
         $('.map').maphilight({
@@ -65,27 +65,27 @@
         <br />
     {% endif %}
     <div id="map">
-        <img src="{{ settings.MEDIA_URL }}/img/tloris.png" class="map" usemap="#tloris"> 
-            <map name="tloris"> 
+        <img src="{{ settings.MEDIA_URL }}/img/tloris.png" class="map" usemap="#tloris">
+            <map name="tloris">
                 <area id="kinodvorana"
                         shape="rect"
                         href="#"
-                        coords="11,13, 107,232"
+                        coords="12,490, 233,590"
                         title="Kinodvorana" />
                 <area id="ucilnica"
                         shape="rect"
                         href="#"
-                        coords="112,13, 277,109"
+                        coords="12,323, 109,487"
                         title="Učilnica" />
                 <area id="lab"
                         shape="rect"
                         href="#"
-                        coords="279,13, 381,109"
+                        coords="12,219, 109,320"
                         title="PostLab" />
                 <area id="glavni"
                         shape="poly"
                         href="#"
-                        coords="280,110, 280,350, 587,350, 587,10, 383,10, 383,110"
+                        coords="12,11, 351,11, 351,320, 110,320, 110,217, 12,217"
                         title="Glavni prostor" />
             </map>
         </img>
