@@ -1,92 +1,92 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-{% load i18n localeurl_tags %}
-{% get_current_language as LANGUAGE_CODE %}
-<link rel="alternate" type="application/rss+xml" title="Kiberpipa - Vse" href="/feeds/all/" />
-<link rel="alternate" type="application/rss+xml" title="Kiberpipa - Novice" href="/feeds/novice/" />
-<link rel="alternate" type="application/rss+xml" title="Kiberpipa - Dogodki" href="/feeds/dogodki/" />
-<link rel="alternate" type="application/rss+xml" title="Kiberpipa - POT" href="/feeds/pot/" />
-<link rel="alternate" type="application/rss+xml" title="Kiberpipa - SU" href="/feeds/su/" />
-<link rel="alternate" type="application/rss+xml" title="Kiberpipa - VIP" href="/feeds/vip/" />
-<link rel="alternate" type="application/rss+xml" title="Kiberpipa - Muzej" href="/feeds/muzej/" />
-<link rel="alternate" type="application/rss+xml" title="Planet Kiberpipa" href="/feeds/planet/" />
-<link rel="stylesheet" href="{{ media_url }}www/css/style.css" type="text/css" />
-<link rel="shortcut icon" href="{{ media_url }}www/images/favicon.ico" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="keywords" content="linux,open source,kiberpipa" />
-<title>{% block title %}{% trans "All our code are belong to you" %}{% endblock %} :: Kiberpipa.org</title>
-<script type='text/javascript' src='{{ media_url }}/js/jquery-1.2.6.js'></script>
-<script type='text/javascript' src="http://jqueryrotate.googlecode.com/files/jQueryRotate.2.1.js"></script>
-{% block extrahead %}{% endblock %}
+    {% load i18n localeurl_tags %}
+    {% get_current_language as LANGUAGE_CODE %}
+    <link rel="alternate" type="application/rss+xml" title="Kiberpipa - Vse" href="/feeds/all/" />
+    <link rel="alternate" type="application/rss+xml" title="Kiberpipa - Novice" href="/feeds/novice/" />
+    <link rel="alternate" type="application/rss+xml" title="Kiberpipa - Dogodki" href="/feeds/dogodki/" />
+    <link rel="alternate" type="application/rss+xml" title="Kiberpipa - POT" href="/feeds/pot/" />
+    <link rel="alternate" type="application/rss+xml" title="Kiberpipa - SU" href="/feeds/su/" />
+    <link rel="alternate" type="application/rss+xml" title="Kiberpipa - VIP" href="/feeds/vip/" />
+    <link rel="alternate" type="application/rss+xml" title="Kiberpipa - Muzej" href="/feeds/muzej/" />
+    <link rel="alternate" type="application/rss+xml" title="Kiberpipa - Planet" href="/feeds/planet/" />
+    <link rel="stylesheet" href="{{ media_url }}www/css/style.css" type="text/css" />
+    <link rel="shortcut icon" href="{{ media_url }}www/images/favicon.ico" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="linux,open source,kiberpipa" />
+    <title>{% block title %}{% trans "All our code are belong to you" %}{% endblock %} :: Kiberpipa.org</title>
+    <script type='text/javascript' src='{{ media_url }}/js/jquery-1.2.6.js'></script>
+    <script type='text/javascript' src="http://jqueryrotate.googlecode.com/files/jQueryRotate.2.1.js"></script>
+    {% block extrahead %}{% endblock %}
 </head>
 
 <body>
-<div id="container">
-	<div id="header">
-    	<div class="header-logo">
-            <a href="http://www.kiberpipa.org"><img src="{{ media_url }}www/images/logo.png" alt="Kiberpipa Logo" /></a>
+    <div id="container">
+        <div id="header">
+            <div class="header-logo">
+                <a href="http://www.kiberpipa.org"><img src="{{ media_url }}www/images/logo.png" alt="Kiberpipa Logo" /></a>
+            </div>
+            <div class="primary-nav">
+                <a href="/{{ LANGUAGE_CODE }}/about/">{% trans "about" %}</a>
+                | <a href="/{{ LANGUAGE_CODE }}/kjesmo/">kje smo</a>
+                | <a href="/{{ LANGUAGE_CODE }}/prostori/">prostori</a>
+                | <a href="/{{ LANGUAGE_CODE }}/calendar/">{% trans "calendar" %}</a>
+                | <a href="/{{ LANGUAGE_CODE }}/alumni/">{% trans "community" %}</a>
+                | <a  href="/{{ LANGUAGE_CODE }}/support/">{% trans "support" %}</a>
+                | <a href="/{{ LANGUAGE_CODE }}/press/">{% trans "press" %}</a>
+                {% if LANGUAGE_CODE == 'sl' %} | <a href="/{{ LANGUAGE_CODE }}/dohodnina/">dohodnina</a>{% endif %}
+            </div>
+            <div class="language">
+                {% if request.is_flatpage %}
+                <a href="/sl{{ request.org_path_info }}" >slo</a> | <a href="/en{{ request.org_path_info }}">eng</a>
+                {% else %}
+                <a href="/sl{{ request.path_info }}" >slo</a> | <a href="/en{{ request.path_info }}">eng</a> 
+                {% endif %}
+            </div>
         </div>
-        <div class="primary-nav">
-            <a href="/{{ LANGUAGE_CODE }}/about/">{% trans "about" %}</a>
-            | <a href="/{{ LANGUAGE_CODE }}/kjesmo/">kje smo</a>
-            | <a href="/{{ LANGUAGE_CODE }}/prostori/">prostori</a>
-            | <a href="/{{ LANGUAGE_CODE }}/calendar/">{% trans "calendar" %}</a>
-            | <a href="/{{ LANGUAGE_CODE }}/alumni/">{% trans "community" %}</a>
-            | <a  href="/{{ LANGUAGE_CODE }}/support/">{% trans "support" %}</a>
-            | <a href="/{{ LANGUAGE_CODE }}/press/">{% trans "press" %}</a>
-            {% if LANGUAGE_CODE == 'sl' %} | <a href="/{{ LANGUAGE_CODE }}/dohodnina/">dohodnina</a>{% endif %}
-        </div>
-        <div class="language">
-            {% if request.is_flatpage %}
-            <a href="/sl{{ request.org_path_info }}" >slo</a> | <a href="/en{{ request.org_path_info }}">eng</a>
-            {% else %}
-            <a href="/sl{{ request.path_info }}" >slo</a> | <a href="/en{{ request.path_info }}">eng</a> 
-            {% endif %}
+
+        {% block content %}{% endblock %}
+
+        <div id="footer">
+        {% block extrafooter %}	
+        {%  endblock %}
+            <div class="footer-cp-logo">
+                <img src="http://static.kiberpipa.org/i3-media/www/images/logo.png" border="0" alt="slika" />
+            </div>
+            <div class="footer-text">
+                Kiberpipa<br />
+            <a href="/sl/kjesmo/">Kersnikova 6</a><br />
+                1000 Ljubljana<br />
+                Slovenija<br />
+            </div>
+            <div class="footer-text2">
+                <p class="italic">Pon. - Pet.</p>
+                10.00 - 22.00<br />
+                <p class="italic">Mon. - Fri.</p>
+                10am - 10pm<br />
+            </div>
+            <div class="footer-text3">
+                +386 1 438 03 05<br />
+                <a href="mailto:info@kiberpipa.org">info@kiberpipa.org</a><br />
+                <a href="http://twitter.com/kiberpipa/">@kiberpipa</a><br />
+                <a href="http://bit.ly/nTo3">Facebook group.</a>
+            </div>
+            
+            <div class="footer-support">
+                <a href="http://www.k6-4.org/"><img src="{{ media_url }}www/images/zavod_pasica.png" alt="Zavod K6/4" /></a>
+                <a href="http://www.m3c.si/dat/M3C/"><img src="{{ media_url }}www/images/logo_m3c.png" alt="M3C - Mreža Multimedijskih Centrov Slovenije" /></a>
+                <a href="http://www.gov.si/euskladi/skladi/strukt_esrr.html"><img src="{{ media_url }}www/images/logo_evropski_sklad.png" alt="Evropski Sklad za Regionalni Razvoj" /></a>
+                <a href="http://www.kultura.gov.si/"><img src="{{ media_url }}www/images/logo_kultura.png" alt="Kultura" /></a>
+            </div>
         </div>
     </div>
 
-{% block content %} {% endblock %}
-
-    <div id="footer">
-    {% block extrafooter %}	
-    {%  endblock %}
-    	<div class="footer-cp-logo">
-        	<img src="http://static.kiberpipa.org/i3-media/www/images/logo.png" border="0" alt="slika" />
-        </div>
-        <div class="footer-text">
-        Kiberpipa<br />
-        <a href="/sl/kjesmo/">Kersnikova 6</a><br />
-        1000 Ljubljana<br />
-        Slovenija<br />
-        </div>
-        <div class="footer-text2">
-        <p class="italic">Pon. - Pet.</p>
-        10.00 - 22.00<br />
-        <p class="italic">Mon. - Fri.</p>
-        10am - 10pm<br />
-        </div>
-        <div class="footer-text3">
-        +386 1 438 03 05<br />
-        <a href="mailto:info@kiberpipa.org">info@kiberpipa.org</a><br />
-        <a href="http://twitter.com/kiberpipa/">@kiberpipa</a><br />
-        <a href="http://bit.ly/nTo3">Facebook group.</a>
-        </div>
-        
-        <div class="footer-support">
-        	<a href="http://www.k6-4.org/"><img src="{{ media_url }}www/images/zavod_pasica.png" alt="Zavod K6/4" /></a>
-        	<a href="http://www.m3c.si/dat/M3C/"><img src="{{ media_url }}www/images/logo_m3c.png" alt="M3C - Mreža Multimedijskih Centrov Slovenije" /></a>
-        	<a href="http://www.gov.si/euskladi/skladi/strukt_esrr.html"><img src="{{ media_url }}www/images/logo_evropski_sklad.png" alt="Evropski Sklad za Regionalni Razvoj" /></a>
-        	<a href="http://www.kultura.gov.si/"><img src="{{ media_url }}www/images/logo_kultura.png" alt="Kultura" /></a>
-        </div>
-    </div>
-</div>
-
-<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
-</script>
-<script type="text/javascript">
-  _uacct = "UA-306569-3"; urchinTracker();
-</script>
+    <script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+    </script>
+    <script type="text/javascript">
+      _uacct = "UA-306569-3"; urchinTracker();
+    </script>
 
 </body>
 </html>
