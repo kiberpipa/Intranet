@@ -5,7 +5,6 @@ import datetime
 import os
 import re
 import csv
-from PIL import Image
 from cStringIO import StringIO
 
 import mx.DateTime
@@ -22,6 +21,7 @@ from django.views.generic import list_detail, date_based
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import simplejson
 from django.db import models
+from PIL import Image
 
 from pipa.video.utils import prepare_video_zip
 from intranet.org.models import (Project, Category, Email,
@@ -61,7 +61,7 @@ def temporary_upload(request):
 
     local_dir = os.path.join(settings.MEDIA_ROOT, 'tmp', request.session.session_key)
     try:
-        os.mkdir(local_dir)
+        os.makedirs(local_dir)
     except IOError:
         pass
     local_filename = os.path.join(local_dir, filename)
@@ -96,7 +96,7 @@ def image_resize(request):
                 resized_dir = os.path.join(settings.MEDIA_ROOT, 'tmp', request.session.session_key, 's')
                 try:
                     if not os.path.exists(resized_dir):
-                        os.mkdir(resized_dir)
+                        os.makedirs(resized_dir)
                 except Exception:
                     return HttpResponse(simplejson.dumps({'status': 'fail4'}))
                 resized_filename = os.path.join(resized_dir, os.path.basename(form.cleaned_data.get('filename')))
@@ -129,7 +129,8 @@ def image_save(request):
             if not form.errors:
                 image = form.save()
                 return HttpResponse(simplejson.dumps({'status': 'ok', 'image_id': image.id}))
-    return HttpResponse(simplejson.dumps({'status':'fail'}))
+    return HttpResponse(simplejson.dumps({'status': 'fail'}))
+
 
 @login_required
 def image_crop_tool(request):
@@ -137,13 +138,14 @@ def image_crop_tool(request):
     context = {'form': form}
     return render_to_response("org/image_crop_tool.html", RequestContext(request, context))
 
+
 @login_required
 def index(request):
     today = datetime.datetime.today()
     nextday = today + datetime.timedelta(days=8)
 
     return render_to_response('org/index.html',
-                              { 'start_date': today,
+                              {'start_date': today,
                                 'end_date': nextday,
                                 'today': today,
                                 'diary_form': DiaryForm(),
@@ -153,10 +155,11 @@ def index(request):
                               },
                               context_instance=RequestContext(request))
 
+
 @login_required
 def search(request):
     if request.POST:
-        query = request.POST.get('term','')
+        query = request.POST.get('term', '')
 
         kategorije = Category.objects.all()
         kb = KB.objects.all()
@@ -182,6 +185,7 @@ def search(request):
     else:
         return HttpResponseRedirect("/intranet/")
 
+
 @login_required
 def lend_back(request, id=None):
     lend = get_object_or_404(Lend, pk=id)
@@ -192,13 +196,14 @@ def lend_back(request, id=None):
     lend.save()
     return HttpResponseRedirect('../')
 
+
 @login_required
 def lends(request):
     if request.method == 'POST':
         form = LendForm(request.POST)
         if form.is_valid():
             new_lend = form.save()
-            if not form.cleaned_data.has_key('due_date'):
+            if 'due_date' not in form.cleaned_data:
                 new_lend.due_date = datetime.datetime.today() + datetime.timedelta(7)
 
             return HttpResponseRedirect(new_lend.get_absolute_url())
@@ -206,13 +211,14 @@ def lends(request):
         form = LendForm()
 
     return date_based.archive_index(request,
-        queryset = Lend.objects.all().order_by('due_date'),
-        date_field = 'from_date',
-        allow_empty = 1,
-        extra_context = {
+        queryset=Lend.objects.all().order_by('due_date'),
+        date_field='from_date',
+        allow_empty=1,
+        extra_context={
             'form': form,
         },
     )
+
 
 @login_required
 def lends_form(request, id=None, action=None):
@@ -238,15 +244,17 @@ def lends_form(request, id=None, action=None):
         }, context_instance=RequestContext(request)
     )
 
+
 @login_required
 def lend_detail(request, object_id):
     return list_detail.object_detail(request,
-        object_id = object_id,
-        queryset = Lend.objects.all(),
-        extra_context = {
+        object_id=object_id,
+        queryset=Lend.objects.all(),
+        extra_context={
             'lend_form': LendForm(instance=Lend.objects.get(id=object_id)),
             'lend_edit': True,
         })
+
 
 @login_required
 def lends_by_user(request, username):
@@ -257,10 +265,11 @@ def lends_by_user(request, username):
     user = User.objects.get(username__exact=username)
     lend_list = Lend.objects.filter(returned__exact=False).filter(from_who__exact=user)
     return render_to_response('org/lend_archive.html',
-                              { 'latest': lend_list,
+                              {'latest': lend_list,
                                 'responsible': responsible,
                               },
                               context_instance=RequestContext(request))
+
 
 @login_required
 def shoppings_form(request, id=None, action=None):
@@ -288,6 +297,7 @@ def shoppings_form(request, id=None, action=None):
         }, context_instance=RequestContext(request)
     )
 
+
 @login_required
 def shopping_by_cost(request, cost):
     list = Shopping.objects.filter(bought__exact=False)
@@ -307,50 +317,50 @@ def shopping_by_cost(request, cost):
                               {'latest': list},
                               context_instance=RequestContext(request))
 
+
 @login_required
 def shopping_index(request):
     wishes = Shopping.objects.filter(bought=False)
     return render_to_response('org/shopping_index.html',
-                              { 'wishes': wishes,
+                              {'wishes': wishes,
                               'shopping_form': ShoppingForm(),
                               'shopping_edit': False,
                               },
                               context_instance=RequestContext(request))
 
+
 @login_required
 def shopping_by_user(request, user):
     user = get_object_or_404(User, pk=user)
     lend_list = Shopping.objects.filter(bought__exact=False).filter(author__exact=user)
-    return render_to_response('org/shopping_archive.html',
-                              { 'latest': lend_list,
-                              },
+    return render_to_response('org/shopping_archive.html', {'latest': lend_list, },
                               context_instance=RequestContext(request))
+
 
 @login_required
 def shopping_by_project(request, project):
     project = get_object_or_404(Project, pk=project)
     lend_list = Shopping.objects.filter(bought__exact=False).filter(task__exact=project)
     return render_to_response('org/shopping_archive.html',
-                              { 'latest': lend_list,
-                              },
+                              {'latest': lend_list, },
                               context_instance=RequestContext(request))
+
 
 @login_required
 def shopping_by_task(request, task):
     task = get_object_or_404(Task, pk=task)
     lend_list = Shopping.objects.filter(bought__exact=False).filter(project__exact=task)
     return render_to_response('org/shopping_archive.html',
-                              { 'latest': lend_list,
-                              },
+                              {'latest': lend_list, },
                               context_instance=RequestContext(request))
+
 
 @login_required
 def stats(request):
     return render_to_response('org/stats.html',
-                              { 'today': datetime.date.today() },
+                              {'today': datetime.date.today()},
                               context_instance=RequestContext(request))
 
-# ------------------------------------
 
 def process_cloud_tag(instance):
     ''' distribution algo n tags to b bucket, where b represents
@@ -359,7 +369,7 @@ def process_cloud_tag(instance):
     # be sure you save twice the same entry, otherwise it wont update the new tags.
     entry_tag_list = entry.tags.all()
     for tag in entry_tag_list:
-        tag.total_ref = tag.entry_set.all().count();
+        tag.total_ref = tag.entry_set.all().count()
         tag.save()
 
     tag_list = Tag.objects.all()
@@ -371,7 +381,7 @@ def process_cloud_tag(instance):
     delta = (float(max_tag.total_ref) - float(min_tag.total_ref)) / (float(nbr_of_buckets))
     # set a treshold for all buckets
     for i in range(nbr_of_buckets):
-        tresh_value =  float(min_tag.total_ref) + (i+1) * delta
+        tresh_value = float(min_tag.total_ref) + (i + 1) * delta
         tresholds.append(tresh_value)
     # set font size for tags (per bucket)
     for tag in tag_list:
@@ -386,7 +396,6 @@ def process_cloud_tag(instance):
 # connect signal
 #dispatcher.connect(process_cloud_tag, sender = Event, signal = signals.post_save)
 
-##################################################
 
 @login_required
 def diarys_form(request, id=None, action=None):
@@ -413,6 +422,7 @@ def diarys_form(request, id=None, action=None):
         }, context_instance=RequestContext(request)
     )
 
+
 @login_required
 def diarys(request):
     diarys = Diary.objects.all()
@@ -427,72 +437,74 @@ def diarys(request):
         filter = DiaryFilter()
 
     return date_based.archive_index(request,
-        queryset = diarys.order_by('date'),
-        date_field = 'date',
-        allow_empty = 1,
-        extra_context = {
+        queryset=diarys.order_by('date'),
+        date_field='date',
+        allow_empty=1,
+        extra_context={
             'filter': filter,
             'diary_form': DiaryForm(),
         }
     )
 
+
 @login_required
 def diary_detail(request, object_id):
     return list_detail.object_detail(request,
-        object_id = object_id,
-        queryset = Diary.objects.all(),
-        extra_context = {
+        object_id=object_id,
+        queryset=Diary.objects.all(),
+        extra_context={
             #the next line is the reason for wrapper function, dunno how to
             #pass generic view dynamic form.
             'diary_form': DiaryForm(instance=Diary.objects.get(id=object_id)),
             'diary_edit': True,
         })
 
-##################################################
-
 
 # dodaj podatek o obiskovalcih dogodka
 @login_required
-def shopping_buy (request, id=None):
+def shopping_buy(request, id=None):
     event = get_object_or_404(Shopping, pk=id)
     event.bought = True
     event.save()
     return HttpResponseRedirect('../')
 
+
 @login_required
-def shopping_support (request, id=None):
+def shopping_support(request, id=None):
     wish = get_object_or_404(Shopping, pk=id)
     wish.supporters.add(request.user)
     wish.save()
     return HttpResponseRedirect(wish.get_absolute_url())
 
+
 @login_required
 def shopping_detail(request, object_id):
     return list_detail.object_detail(request,
-        object_id = object_id,
-        queryset = Shopping.objects.all(),
-        extra_context = {
+        object_id=object_id,
+        queryset=Shopping.objects.all(),
+        extra_context={
             #the next line is the reason for wrapper function, dunno how to
             #pass generic view dynamic form.
             'shopping_form': ShoppingForm(instance=Shopping.objects.get(id=object_id)),
             'shopping_edit': True,
         })
 
-##################################################
 
 @login_required
 def person_autocomplete(request):
     hits = []
-    if request.GET.has_key('q'):
+    if 'q' in request.GET:
         hits = ['%s\n' % i for i in Person.objects.filter(name__icontains=request.GET['q'])]
     return HttpResponse(''.join(hits), mimetype='text/plain')
+
 
 @login_required
 def active_user_autocomplete(request):
     hits = []
-    if request.GET.has_key('q'):
+    if 'q' in request.GET:
         hits = ['%s\n' % i for i in User.objects.filter(is_active=True).order_by('username').filter(username__icontains=request.GET['q'])]
     return HttpResponse(''.join(hits), mimetype='text/plain')
+
 
 @login_required
 def events(request):
@@ -503,18 +515,19 @@ def events(request):
 
     week = datetime.timedelta(7)
     return date_based.archive_index(request,
-        queryset = events,
-        date_field = 'start_date',
-        allow_empty = 1,
-        extra_context = {
+        queryset=events,
+        date_field='start_date',
+        allow_empty=1,
+        extra_context={
             'events': events,
-            'event_last': Event.objects.filter(start_date__lte=today, start_date__gt=today-week).order_by('start_date'),
-            'event_this': Event.objects.filter(start_date__lte=today+week, start_date__gt=today).order_by('start_date'),
-            'event_next': Event.objects.filter(start_date__lte=today+2*week, start_date__gt=today+week).order_by('start_date'),
-            'event_next2': Event.objects.filter(start_date__lte=today+3*week, start_date__gt=today+2*week).order_by('start_date'),
-            'years': range(2006, datetime.datetime.today().year+1),
+            'event_last': Event.objects.filter(start_date__lte=today, start_date__gt=today - week).order_by('start_date'),
+            'event_this': Event.objects.filter(start_date__lte=today + week, start_date__gt=today).order_by('start_date'),
+            'event_next': Event.objects.filter(start_date__lte=today + 2 * week, start_date__gt=today + week).order_by('start_date'),
+            'event_next2': Event.objects.filter(start_date__lte=today + 3 * week, start_date__gt=today + 2 * week).order_by('start_date'),
+            'years': range(2006, datetime.datetime.today().year + 1),
         },
     )
+
 
 @login_required
 def add_event_emails(request, event_id):
@@ -528,6 +541,7 @@ def add_event_emails(request, event_id):
                     event.emails.add(email)
         event.save()
     return HttpResponseRedirect(event.get_absolute_url())
+
 
 @login_required
 def info_txt(request, event):
@@ -549,12 +563,13 @@ def info_txt(request, event):
     response.write(content_str.encode('utf-8'))
     return response
 
+
 @login_required
 def sablona(request, event):
     event = get_object_or_404(Event, pk=event)
-    person =  u', '.join([i.person.name for i in event.sodelovanje_set.all() if i.tip.id in (1, 5)]),
-    print event.slug
+    person = u', '.join([i.person.name for i in event.sodelovanje_set.all() if i.tip.id in (1, 5)]),
     return prepare_video_zip(event.slug, event.title, event.start_date, person)
+
 
 @login_required
 def event_edit(request, event_pk=None):
@@ -607,16 +622,18 @@ def event_edit(request, event_pk=None):
         }
     return render_to_response('org/event_edit.html', RequestContext(request, context))
 
+
 @login_required
 def event(request, event_id):
     return list_detail.object_detail(request,
-        queryset = Event.objects.all(),
-        object_id = event_id,
-        extra_context =  {
+        queryset=Event.objects.all(),
+        object_id=event_id,
+        extra_context={
             'sodelovanja': Sodelovanje.objects.filter(event=event_id),
             'emails_form': AddEventEmails(),
         }
     )
+
 
 @login_required
 def event_count(request, event_id=None):
@@ -625,6 +642,7 @@ def event_count(request, event_id=None):
     event.visitors = int(request.POST['visitors'])
     event.save()
     return HttpResponseRedirect('/intranet/events/%d/' % event.id)
+
 
 @login_required
 def person(request):
@@ -646,6 +664,7 @@ def person(request):
 
     return HttpResponseRedirect('../')
 
+
 @login_required
 def sodelovanja(request):
     sodelovanja = Sodelovanje.objects.all()
@@ -662,7 +681,7 @@ def sodelovanja(request):
         form = SodelovanjeFilter()
 
     try:
-        export =  form.cleaned_data['export']
+        export = form.cleaned_data['export']
         if export:
             from reportlab.pdfgen.canvas import Canvas
             output = StringIO()
@@ -692,8 +711,9 @@ def sodelovanja(request):
     return render_to_response('org/sodelovanja.html',
         {'sodelovanja': sodelovanja, 'form': form,
         'admin_org': '%s/intranet/admin/org/' % settings.BASE_URL,
-        'person_form': person_form },
+        'person_form': person_form},
         context_instance=RequestContext(request))
+
 
 @login_required
 def tehniki_monthly(request, year=None, month=None):
@@ -731,11 +751,12 @@ def tehniki_monthly(request, year=None, month=None):
             e.tech = 0
         month.append((set(), e))
 
-    navigation = monthly_navigation (year, month_number)
+    navigation = monthly_navigation(year, month_number)
 
-    return render_to_response('org/tehniki_index.html', {'month':month,
-         'log_list':log_list,
-         'month_number':month_number,
+    return render_to_response('org/tehniki_index.html', {
+         'month': month,
+         'log_list': log_list,
+         'month_number': month_number,
          'month_name': month_to_string(month_number),
          'what': 'mesec',
          'iso_week': iso_week,
@@ -745,6 +766,7 @@ def tehniki_monthly(request, year=None, month=None):
          'end_date': month_end,
          'ure': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
      }, context_instance=RequestContext(request))
+
 
 def monthly_navigation(year=None, month=None):
     month_prev = month - 1
@@ -761,12 +783,14 @@ def monthly_navigation(year=None, month=None):
         year_next = year + 1
 
     return {'prev': '%s/%s' % (year_prev, month_to_string(month_prev)),
-            'next': '%s/%s' % (year_next, month_to_string(month_next)) }
+            'next': '%s/%s' % (year_next, month_to_string(month_next))}
+
 
 def month_to_string(month=None):
     for i in month_dict:
         if month_dict[i] == month:
             return i
+
 
 def weekly_navigation(year=None, week=None, week_start=None, week_end=None):
     week_prev = week - 1
@@ -783,7 +807,8 @@ def weekly_navigation(year=None, week=None, week_start=None, week_end=None):
         year_next = year + 1
 
     return {'prev': '%s/%s' % (year_prev, week_prev),
-            'next': '%s/%s' % (year_next, week_next) }
+            'next': '%s/%s' % (year_next, week_next)}
+
 
 @login_required
 def tehniki(request, year=None, week=None):
@@ -815,7 +840,7 @@ def tehniki(request, year=None, week=None):
         #(<array of authors of diarys>, event)
         week += [(non_diary, e)]
 
-    navigation = weekly_navigation (year, week_number, week_start, week_end)
+    navigation = weekly_navigation(year, week_number, week_start, week_end)
 
     return render_to_response('org/tehniki_index.html', {
         'month': week,
@@ -830,6 +855,7 @@ def tehniki(request, year=None, week=None):
          'end_date': week_end,
          'ure': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
      }, context_instance=RequestContext(request))
+
 
 @login_required
 def tehniki_add(request):
@@ -846,11 +872,12 @@ def tehniki_add(request):
         task=Project.objects.get(pk=23),
         log_formal=request.POST['log_formal'],
         log_informal=request.POST['log_informal'],
-        length=datetime.time(int(request.POST['length']),0),
+        length=datetime.time(int(request.POST['length']), 0),
     )
     p.save()
 
     return HttpResponseRedirect('../')
+
 
 @login_required
 def tehniki_take(request, id):
@@ -859,12 +886,14 @@ def tehniki_take(request, id):
     e.save()
     return HttpResponseRedirect('../../')
 
+
 @login_required
 def tehniki_cancel(request, id):
     e = Event.objects.get(pk=id)
     e.technician.remove(request.user)
     e.save()
     return HttpResponseRedirect('../../')
+
 
 @login_required
 def dezurni_monthly(request, year=None, month=None):
@@ -894,14 +923,14 @@ def dezurni_monthly(request, year=None, month=None):
         Time = mx.DateTime.Time
 
         for i in [Time(hours=10), Time(hours=14), Time(hours=18)]:
-            dezurni_list = Diary.objects.filter(task=22, date__range=(month_now+i, month_now+i+Time(3.59))).order_by('date')
+            dezurni_list = Diary.objects.filter(task=22, date__range=(month_now + i, month_now + i + Time(3.59))).order_by('date')
             dezurni_dict = {}
             if dezurni_list:
                 dezurni_obj = dezurni_list[0]
                 dezurni_dict['name'] = dezurni_obj.author
                 dezurni_dict['admin_id'] = dezurni_obj.id
             else:
-                dezurni_dict['unique'] = (month_now+i).strftime('%d.%m.%y-%H:%M')
+                dezurni_dict['unique'] = (month_now + i).strftime('%d.%m.%y-%H:%M')
                 dezurni_dict['name'] = None
             dict['dezurni'].append(dezurni_dict)
 
@@ -910,20 +939,21 @@ def dezurni_monthly(request, year=None, month=None):
 
     log_list = Diary.objects.filter(task=22, date__range=(month_start, month_end)).order_by('-date')
 
-    navigation = monthly_navigation (year, month_number)
+    navigation = monthly_navigation(year, month_number)
 
     return render_to_response('org/dezuranje_monthly.html',
-                                        {'month':month,
-                                        'log_list':log_list,
+                                        {'month': month,
+                                        'log_list': log_list,
                                         'year': year,
                                         'iso_week': iso_week[1],
                                         'month_name': month_to_string(month),
-                                        'navigation':navigation,
-                                        'month_number':month_number,
+                                        'navigation': navigation,
+                                        'month_number': month_number,
                                         'start_date': month_start,
                                         'end_date': month_end,
                                         },
                               context_instance=RequestContext(request))
+
 
 @login_required
 def dezurni(request, year=None, week=None, month=None):
@@ -965,14 +995,14 @@ def dezurni(request, year=None, week=None, month=None):
             time_list = [Time(10), Time(13), Time(16), Time(19)]
 
         for i in time_list:
-            dezurni_list = Diary.objects.filter(task=22, date__range=(week_now+i, week_now+i+Time(2.59))).order_by('date')
+            dezurni_list = Diary.objects.filter(task=22, date__range=(week_now + i, week_now + i + Time(2.59))).order_by('date')
             dezurni_dict = {}
             if dezurni_list:
                 dezurni_obj = dezurni_list[0]
                 dezurni_dict['name'] = dezurni_obj.author
                 dezurni_dict['admin_id'] = dezurni_obj.id
             else:
-                dezurni_dict['unique'] = (week_now+i).strftime('%d.%m.%y-%H:%M')
+                dezurni_dict['unique'] = (week_now + i).strftime('%d.%m.%y-%H:%M')
                 dezurni_dict['name'] = None
             dict['dezurni'].append(dezurni_dict)
 
@@ -980,26 +1010,27 @@ def dezurni(request, year=None, week=None, month=None):
         week_now = week_now + mx.DateTime.oneDay
 
     log_list = Diary.objects.filter(task__pk=22, date__range=(week_start, week_end)).order_by('-date')
-    navigation = weekly_navigation (year, week_number, week_start, week_end)
+    navigation = weekly_navigation(year, week_number, week_start, week_end)
     return render_to_response('org/dezuranje_index.html',
                              {'week': week,
                              'iso_week': week_number,
                              'month_name': month_to_string(month),
-                             'log_list':log_list,
-                             'navigation':navigation,
+                             'log_list': log_list,
+                             'navigation': navigation,
                              'year': year,
                              'iso_week': week_number,
-                             'week_number':week_number,
+                             'week_number': week_number,
                              'nov_urnik': nov_urnik,
                              'start_date': week_start,
                              'end_date': week_end,
                              },
                        context_instance=RequestContext(request))
 
+
 @login_required
 def dezurni_add(request):
     new_data = request.POST.copy()
-    if not request.POST or not new_data.has_key('uniqueSpot'):
+    if not request.POST or not 'uniqueSpot' in new_data:
         return HttpResponseRedirect('../')
 
     d = mx.DateTime.DateTimeFrom(request.POST['uniqueSpot'].__str__())
@@ -1019,25 +1050,29 @@ def dezurni_add(request):
     p.save()
     return HttpResponseRedirect('../')
 
+
 @login_required
 def kb_index(request):
     object_list = KbCategory.objects.all()
     return render_to_response('org/kb_index.html',
-                              {'object_list':object_list,},
+                              {'object_list': object_list},
                               context_instance=RequestContext(request))
+
 
 @login_required
 def kb_article(request, kbcat, article):
     article = get_object_or_404(KB, slug=article)
     return render_to_response('org/kb_article.html',
-                              {'article':article,},
+                              {'article': article},
                               context_instance=RequestContext(request))
+
 
 def timeline_xml(request):
     event_list = Event.objects.all()
     t = template_loader.get_template("org/timeline_xml.html")
     c = Context({'event_list': event_list})
     return HttpResponse(t.render(c), 'application/xml')
+
 
 @login_required
 def scratchpad_change(request):
@@ -1051,6 +1086,7 @@ def scratchpad_change(request):
         scratchpad.save()
     return HttpResponseRedirect("/intranet/")
 
+
 @login_required
 def year_statistics(request, year=None):
     """Most common statistics from database, aggregated nicely and with some csv output."""
@@ -1061,7 +1097,7 @@ def year_statistics(request, year=None):
     # common query
     q = Event.objects.filter(start_date__year=year)
     min_year = Event.objects.aggregate(models.Min('pub_date'))['pub_date__min']
-    years = range(min_year.year, this_year+1)
+    years = range(min_year.year, this_year + 1)
 
     # basic statistics
     num_events = q.count()
