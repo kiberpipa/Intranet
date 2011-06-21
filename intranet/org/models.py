@@ -465,7 +465,7 @@ class KB(models.Model):
     title = models.CharField(max_length=150)
     slug = models.SlugField(max_length=75, )
     category = models.ForeignKey(KbCategory)
-    project = models. ManyToManyField(Project, blank=True, null=True)
+    project = models.ManyToManyField(Project, blank=True, null=True)
     task = models.ManyToManyField(Task, blank=True, null=True)
     content = models.TextField()
     editor = models.ForeignKey(User)

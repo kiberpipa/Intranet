@@ -31,6 +31,10 @@ Create the (default is Sqlite3) database::
 
     ./manage.py syncdb --all
 
+Create the initial revisions::
+    
+    ./manage.py createinitialrevisions
+
 Start the development server. Wohoo!::
 
     ./manage.py runserver

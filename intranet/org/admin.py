@@ -59,6 +59,9 @@ class ProjectAdmin(VersionAdmin):
     list_display = ['name', 'responsible', 'parent', 'note']
     js = ('js/tags.js',)
 
+class KBAdmin(VersionAdmin):
+    search_fields = ['title', 'content']
+    list_display = ['title', 'category', 'project', 'editor']
 
 admin.site.register(Category)
 admin.site.register(TipSodelovanja)
@@ -68,7 +71,6 @@ admin.site.register(Phone)
 admin.site.register(Organization)
 admin.site.register(Role)
 admin.site.register(Shopping)
-admin.site.register(KB)
 admin.site.register(KbCategory)
 admin.site.register(IntranetImage)
 
@@ -81,3 +83,4 @@ admin.site.register(Lend, LendAdmin)
 admin.site.register(StickyNote, StickyNoteAdmin)
 admin.site.register(Scratchpad, ScratchpadAdmin)
 admin.site.register(Project, ProjectAdmin)
+admin.site.register(KB, KBAdmin)
