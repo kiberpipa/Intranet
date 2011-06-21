@@ -1,8 +1,9 @@
 from intranet.www.models import *
 from django.template.defaultfilters import slugify
 from django.contrib import admin
+from reversion.admin import VersionAdmin
 
-class NewsAdmin(admin.ModelAdmin):
+class NewsAdmin(VersionAdmin):
     fields = ['title', 'image', 'text', 'language']
 
     def save_model(self, request, obj, form, change):

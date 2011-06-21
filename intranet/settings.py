@@ -50,7 +50,7 @@ ADMIN_MEDIA_PREFIX = '/admin-media/'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.load_template_source',
+    'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.load_template_source',
 )
 
@@ -64,6 +64,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.doc.XViewMiddleware',
+    'reversion.middleware.RevisionMiddleware',
     #'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'intranet.middleware.FlatPage.FlatPage',
     'intranet.middleware.NginxCache.NginxMemCacheMiddleWare',
@@ -73,7 +74,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'intranet.urls'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.core.context_processors.auth',
+    'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.debug',
     'django.core.context_processors.i18n',
     'django.core.context_processors.request',
@@ -92,6 +93,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.markup',
     'django.contrib.redirects',
+    'reversion',
     'feedjack', # FIXME
     'localeurl',
     'syncr.twitter',

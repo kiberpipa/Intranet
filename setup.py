@@ -34,7 +34,7 @@ setup(name='kiberpipa-intranet',
         # wiki
         'markdown2',
         # django stuff
-        'Django==1.2.3',
+        'Django==1.3',
         'django-localeurl',
         'django-tagging==0.3.1',
         'South',
@@ -42,6 +42,7 @@ setup(name='kiberpipa-intranet',
         'django-syncr',
         'django-honeypot',
         'python-dateutil',
+        'django-reversion',
     ],
     tests_require=[
         'nose',

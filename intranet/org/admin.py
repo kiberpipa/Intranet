@@ -3,14 +3,14 @@
 
 from intranet.org.models import *
 from django.contrib import admin
+from reversion.admin import VersionAdmin
 
-
-class SodelovanjeAdmin(admin.ModelAdmin):
+class SodelovanjeAdmin(VersionAdmin):
     search_fields = ('person__name',)
     list_filter = ('tip',)
 
 
-class DiaryAdmin(admin.ModelAdmin):
+class DiaryAdmin(VersionAdmin):
     search_fields = ['log_formal', 'person', 'task']
     date_hierarchy = 'date'
     list_filter = ['date', 'task', 'author']
@@ -20,12 +20,12 @@ class DiaryAdmin(admin.ModelAdmin):
         js = ('js/tags.js',)
 
 
-class PersonAdmin(admin.ModelAdmin):
+class PersonAdmin(VersionAdmin):
     ordering = ('name',)
     search_fields = ('name',)
 
 
-class EventAdmin(admin.ModelAdmin):
+class EventAdmin(VersionAdmin):
     search_fields = ['title']
     date_hierarchy = 'start_date'
     ordering = ['-start_date']
@@ -36,7 +36,7 @@ class EventAdmin(admin.ModelAdmin):
         js = ('js/tags.js',)
 
 
-class StickyNoteAdmin(admin.ModelAdmin):
+class StickyNoteAdmin(VersionAdmin):
     search_fields = ['note']
     date_hierarchy = 'due_date'
     list_filter = ['due_date', 'author']
@@ -45,16 +45,16 @@ class StickyNoteAdmin(admin.ModelAdmin):
         js = ('js/tags.js',)
 
 
-class LendAdmin(admin.ModelAdmin):
+class LendAdmin(VersionAdmin):
     search_fields = ['to_who', 'why', 'note']
     list_display = ['what', 'returned', 'from_who', 'to_who', 'from_date', 'due_date', 'why']
 
 
-class ScratchpadAdmin(admin.ModelAdmin):
+class ScratchpadAdmin(VersionAdmin):
     get_latest_by = "id"
 
 
-class ProjectAdmin(admin.ModelAdmin):
+class ProjectAdmin(VersionAdmin):
     search_fields = ['note', 'name', 'responsible']
     list_display = ['name', 'responsible', 'parent', 'note']
     js = ('js/tags.js',)
