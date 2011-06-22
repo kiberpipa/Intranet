@@ -5,6 +5,7 @@ from intranet.org.models import *
 from django.contrib import admin
 from reversion.admin import VersionAdmin
 
+
 class SodelovanjeAdmin(VersionAdmin):
     search_fields = ('person__name',)
     list_filter = ('tip',)
@@ -59,9 +60,6 @@ class ProjectAdmin(VersionAdmin):
     list_display = ['name', 'responsible', 'parent', 'note']
     js = ('js/tags.js',)
 
-class KBAdmin(VersionAdmin):
-    search_fields = ['title', 'content']
-    list_display = ['title', 'category', 'project', 'editor']
 
 admin.site.register(Category)
 admin.site.register(TipSodelovanja)
@@ -83,4 +81,3 @@ admin.site.register(Lend, LendAdmin)
 admin.site.register(StickyNote, StickyNoteAdmin)
 admin.site.register(Scratchpad, ScratchpadAdmin)
 admin.site.register(Project, ProjectAdmin)
-admin.site.register(KB, KBAdmin)
