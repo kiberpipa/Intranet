@@ -15,8 +15,8 @@ env.home_folder = '/home/%(user)s/' % env
 env.staging_folder = os.path.join(env.root_folder, 'staging/')
 env.production_folder = os.path.join(env.root_folder, 'production/')
 env.backup_folder = '/var/backups/'
-env.staging_django_settings = os.path.join(env.staging_folder, 'staging_localsettings.py')
-env.production_django_settings = os.path.join(env.staging_folder, 'production_localsettings.py')
+env.staging_django_settings = os.path.join(env.root_folder, 'staging_localsettings.py')
+env.production_django_settings = os.path.join(env.root_folder, 'production_localsettings.py')
 env.repository = 'git://github.com/kiberpipa/Intranet.git'
 env.branch = 'deploy'
 
