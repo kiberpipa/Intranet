@@ -480,7 +480,7 @@ class KB(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return "/intranet/kb/%s/%s/" % self.category.slug, self.slug
+        return "/intranet/kb/%s/%s/" % (self.category.slug, self.slug)
 
 
 class Shopping(models.Model):
