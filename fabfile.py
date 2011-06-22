@@ -6,10 +6,12 @@ import time
 
 from fabric.api import run, env, local
 from fabric.context_managers import settings, cd
+from fabric.contrib.files import upload_template
 
 
 env.user = 'intranet'
 env.root_folder = '/home/intranet/'
+env.home_folder = '/home/%(user)s/' % env
 env.staging_folder = os.path.join(env.root_folder, 'staging/')
 env.production_folder = os.path.join(env.root_folder, 'production/')
 env.backup_folder = '/var/backups/'
@@ -17,6 +19,13 @@ env.staging_django_settings = os.path.join(env.staging_folder, 'staging_localset
 env.production_django_settings = os.path.join(env.staging_folder, 'production_localsettings.py')
 env.repository = 'git://github.com/kiberpipa/Intranet.git'
 env.branch = 'deploy'
+
+
+def install_default_buildout():
+    """Populates ~/.buildout/default.cfg"""
+    run('mkdir -p %(home_folder)s.buildout' % env)
+    run('mkdir -p %(home_folder)s.buildout/{eggs,downloads}' % env)
+    upload_template('buildout.d/default.cfg.in', '%(home_folder)s.buildout/default.cfg' % env, env)
 
 
 def check_for_new_commits():
@@ -43,6 +52,7 @@ def deploy():
 
 def staging_bootstrap():
     """Install and run staging from scratch"""
+    install_default_buildout()
     run('mkdir -p %(staging_folder)s' % env)
     with cd(env.staging_folder):
         run('git clone %s .' % env.repository)
