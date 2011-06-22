@@ -1,22 +1,20 @@
 import os
 here = lambda x: os.path.abspath(os.path.join(os.path.dirname(__file__), x))
 
-DATABASE_ENGINE = 'sqlite3'           # 'postgresql', 'mysql', 'sqlite3' or 'ado_mssql'.
-DATABASE_NAME = here('../db.intranet')             # Or path to database file if using sqlite3.
-DATABASE_USER = ''             # Not used with sqlite3.
-DATABASE_PASSWORD = ''         # Not used with sqlite3.
-DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
-DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
+DATABASES = {
+    'default': {
+        'NAME': here('intranet.db'),
+        'ENGINE': 'django.db.backends.sqlite3',
+    },
+}
 
 
 BASE_URL = 'http://localhost:8000'
 
-MEDIA_URL = BASE_URL + '/smedia/'
-ADMIN_MEDIA_PREFIX = BASE_URL + '/amedia/'
+MEDIA_URL = '/smedia/'
+ADMIN_MEDIA_PREFIX = '/amedia/'
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 SEND_BROKEN_LINK_EMAILS = False
-
-#priporocam, ker ce mas smtpd ti bo intranet poslau mail za vsak error
-ADMINS = ()
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

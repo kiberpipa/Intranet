@@ -1,39 +1,25 @@
 Development setup
 =================
 
-Get intranet::
+Get Kiberpipa intranet::
 
     git clone git://github.com/kiberpipa/Intranet.git kiberpipa-intranet
     cd kiberpipa-intranet
 
-Create Python virtual environment and activate it::
+Install and run buildout::
 
-    virtualenv --no-site-packages --python=/usr/bin/python2.6 .
-    source bin/activate
-
-Install intranet::
-
-    python setup.py develop
-
-(optional) install database driver - default is sqlite3::
-
-    # for postgres
-    easy_install psycopg2
-    # for mysql
-    easy_install mysql-python
+    ln -s buildout.d/development.cfg buildout.cfg
+    python2.7 bootstrap.py
+    bin/buildout
 
 Copy over default settings::
 
-    cd intranet
-    cp localsettings.py.example localsettings.py
+    cp intranet/localsettings.py.example intranet/localsettings.py
 
 Create the (default is Sqlite3) database::
 
     ./manage.py syncdb --all
-
-Create the initial revisions::
-    
-    ./manage.py createinitialrevisions
+    ./manage.py migrate --fake
 
 Start the development server. Wohoo!::
 

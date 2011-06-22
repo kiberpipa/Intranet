@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
-
 from setuptools import setup, find_packages
 
 
-setup(name='kiberpipa-intranet',
+setup(name='intranet',
     version='0.1',
     description="",
     long_description="""""",
@@ -23,7 +21,7 @@ setup(name='kiberpipa-intranet',
     install_requires=[
         'BeautifulSoup',
         'python-ldap',
-        'Pillow', # proper distributed PIL
+        'Pillow',  # proper distributed PIL
         'feedjack',
         'reportlab',
         'PyExcelerator',
@@ -34,21 +32,19 @@ setup(name='kiberpipa-intranet',
         # wiki
         'markdown2',
         # django stuff
-        'Django==1.3',
+        'Django>=1.3,<1.4',
         'django-localeurl',
-        'django-tagging==0.3.1',
+        'django-tagging',
         'South',
         'flickrapi',
         'django-syncr',
         'django-honeypot',
         'python-dateutil',
         'django-reversion',
+        # commands
+        'twitter',
     ],
     tests_require=[
         'nose',
     ],
-    extras_require={
-    },
-    entry_points={
-    },
 )
