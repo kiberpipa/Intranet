@@ -1,3 +1,29 @@
+<!-- highslide -->
+<link rel="stylesheet" type="text/css" href="{{ settings.MEDIA_URL }}css/highslide.css" />
+<script type="text/javascript" src="{{ settings.MEDIA_URL }}js/highslide.js"></script>
+<script type="text/javascript">
+hs.graphicsDir = '{{ settings.MEDIA_URL }}css/graphics/'; // unfortunatelly we cant put this in /media/img/ due do highlight.css hardcode.
+hs.align = 'center';
+hs.transitions = ['expand', 'crossfade'];
+hs.outlineType = 'rounded-white';
+hs.fadeInOut = true;
+hs.captionEval = 'this.thumb.alt';
+
+// Add the controlbar
+hs.addSlideshow({
+	interval: 5000,
+	repeat: false,
+	useControls: true,
+	fixedControls: 'fit',
+	overlayOptions: {
+		opacity: 0.75,
+		position: 'bottom center',
+		hideOnMouseOut: true
+	}
+});
+</script>
+<!-- highslide -->
+
 <h1>Galerija</h1>
 <table>
  {% for image in images %}
@@ -5,8 +31,8 @@
   <tr>
 	{% endif %}
   <td>
-	  <a href="{{ image.url }}">
-			<img src="{{ image.thumb_url }}" alt="" />
+	  <a href="{{ image.url }}" class="highslide" onclick="return hs.expand(this)">
+			<img src="{{ image.thumb_url }}" alt="{{ image.title }}" title="{{ image.title }}" />
 		</a>
 	</td>
 	{% if forloop.counter|divisibleby:"4" %}
@@ -14,3 +40,4 @@
 	{% endif %}
  {% endfor %}
 </table>
+

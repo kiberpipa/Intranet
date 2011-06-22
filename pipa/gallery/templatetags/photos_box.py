@@ -35,6 +35,7 @@ class PhotosBoxNode(Node):
         for image in json['photoset']['photo']:
             image['thumb_url'] = settings.PHOTOS_FLICKR_IMAGE_URL_S % image
             image['url'] = settings.PHOTOS_FLICKR_IMAGE_URL % image
+            image['title'] = image.get('title', '')
             images.append(image)
         t = loader.get_template('gallery/photos_box.html')
         context['images'] = images
