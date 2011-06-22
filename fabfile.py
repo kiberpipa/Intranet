@@ -13,6 +13,8 @@ env.root_folder = '/home/intranet/'
 env.staging_folder = os.path.join(env.root_folder, 'staging/')
 env.production_folder = os.path.join(env.root_folder, 'production/')
 env.backup_folder = '/var/backups/'
+env.staging_django_settings = os.path.join(env.staging_folder, 'staging_localsettings.py')
+env.production_django_settings = os.path.join(env.staging_folder, 'production_localsettings.py')
 env.repository = 'git://github.com/kiberpipa/Intranet.git'
 env.branch = 'deploy'
 
@@ -47,6 +49,7 @@ def staging_bootstrap():
         run('git checkout %s' % env.branch)
         run('ln -s buildout.d/staging.cfg buildout.cfg')
         run('python bootstrap.py')
+        run('cp %(staging_django_settings)s intranet/localsettings.py' % env)
         run('bin/buildout')
         run('bin/django syncdb --noinput --traceback --all')
         run('bin/django migrate --fake')
@@ -80,6 +83,7 @@ def production_deploy():
                     failed = run('cp -R %(staging_folder)s* .' % env).return_code
                     run('unlink buildout.cfg')
                     failed = run('ln -s buildout.d/production.cfg buildout.cfg').return_code
+                    failed = run('cp %(production_django_settings)s intranet/localsettings.py' % env).return_code
                     failed = run('bin/buildout').return_code
 
                     # everthing went fine.
@@ -121,7 +125,5 @@ def production_rollback():
     run('rm -rf v%d' % env.ver)
 
 # TODO: localsettings.py
+# TODO: data files
 # TODO: set .buildout/default.cfg for env.user with eggs/downloads directory
-"""
-If you learned something valuable from this blog post, Kiberpipa NGO will be grateful for any contribution (even smallest fix) to our project. Kiberpipa also accepts donations.
-"""
