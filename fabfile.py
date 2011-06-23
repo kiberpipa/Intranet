@@ -23,7 +23,6 @@ env.branch = 'deploy'
 
 def install_default_buildout():
     """Populates ~/.buildout/default.cfg"""
-    run('mkdir -p %(home_folder)s.buildout' % env)
     run('mkdir -p %(home_folder)s.buildout/{eggs,downloads}' % env)
     upload_template('buildout.d/default.cfg.in', '%(home_folder)s.buildout/default.cfg' % env, env)
 
@@ -68,11 +67,12 @@ def staging_bootstrap():
 
 def staging_redeploy():
     """Check for update and rebootstrap staging"""
-    if not check_for_new_commits():
-        return
+    with cd(env.staging_folder):
+        if not check_for_new_commits():
+            return
 
-    # delete current staging
-    run('rm -rf %(stagging_folder)s' % env)
+        # delete current staging
+        run('rm -rf %(stagging_folder)s' % env)
 
     staging_bootstrap()
 
@@ -82,10 +82,11 @@ def production_deploy():
     env.ver = production_latest_version()
     env.next_ver = env.ver + 1
 
+    run('mkdir -p %(production_folder)s' % env)
     with cd(env.production_folder):
         # TODO: do backup
 
-        run('mkdir -p v%(next_ver)d' % env)
+        run('mkdir v%(next_ver)d' % env)
         with cd('v%(next_ver)d' % env):
             with settings(warn_only=True):
                 failed = 0
