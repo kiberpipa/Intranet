@@ -18,12 +18,12 @@ Copy over default settings::
 
 Create the (default is Sqlite3) database::
 
-    ./manage.py syncdb --all
-    ./manage.py migrate --fake
+    bin/django syncdb --all
+    bin/django migrate --fake
 
 Start the development server. Wohoo!::
 
-    ./manage.py runserver
+    bin/django runserver
 
 
 Running tests
@@ -31,24 +31,23 @@ Running tests
 
 ::
 
-    ./manage.py test org www
+    ./bin test
 
 
 Deploying to staging (https://new.kiberpipa.org)
 ================================================
 
+To first time deploy intranet to hostname:
+
 ::
 
-    git co deploy
+    bin/fab staging_deploy -H hostname
+
+For staging to rebuild, you just need to update deploy branch and push::
+
+    git checkout deploy
     git merge master
-    ssh <dogbert>
-    su - intranet
-    ~/bin/testdeploy
-
-To refresh db from production to staging, do::
-
-    su - djangotest
-    ~/bin/sqlreload-intranet
+    git push
 
 
 Deploying from staging to production
@@ -56,7 +55,4 @@ Deploying from staging to production
 
 ::
 
-    ssh <dogbert>
-    su - intranet
-    ~/bin/deploy intranet v<current>+1
-    ~/bin/runintranet v<current>+1
+    bin/fab production_deploy -H hostname
