@@ -7,6 +7,7 @@ import time
 from fabric.api import run, env, local
 from fabric.context_managers import settings, cd, lcd
 from fabric.contrib.files import upload_template
+from fabric.contrib.files import exists
 
 
 env.user = 'intranet'
@@ -23,15 +24,16 @@ env.branch = 'deploy'
 
 def install_default_buildout():
     """Populates ~/.buildout/default.cfg"""
-    run('mkdir -p %(home_folder)s.buildout/{eggs,downloads}' % env)
-    upload_template('buildout.d/default.cfg.in', '%(home_folder)s.buildout/default.cfg' % env, env)
+    if not exists('%(home_folder)s.buildout/default.cfg' % env):
+        run('mkdir -p %(home_folder)s.buildout/{eggs,downloads}' % env)
+        upload_template('buildout.d/default.cfg.in', '%(home_folder)s.buildout/default.cfg' % env, env)
 
 
 def check_for_new_commits():
     """Check for fresh deploy branch commits"""
     with lcd(env.staging_folder):
         local('git fetch origin')
-        output = local('git log %(branch)s...origin/%(branch)s' % env)
+        output = local('git log %(branch)s...origin/%(branch)s' % env, capture=True)
     if output.strip():
         print "new commits!"
         return True
