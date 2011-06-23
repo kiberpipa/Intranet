@@ -5,7 +5,7 @@ import os
 import time
 
 from fabric.api import run, env, local
-from fabric.context_managers import settings, cd
+from fabric.context_managers import settings, cd, lcd
 from fabric.contrib.files import upload_template
 
 
@@ -29,8 +29,9 @@ def install_default_buildout():
 
 def check_for_new_commits():
     """Check for fresh deploy branch commits"""
-    local('git fetch origin')
-    output = local('git log %(deploy)s...origin/%(deploy)s')
+    with lcd(env.staging_folder):
+        local('git fetch origin')
+        output = local('git log %(branch)s...origin/%(branch)s' % env)
     if output.strip():
         print "new commits!"
         return True
@@ -67,12 +68,11 @@ def staging_bootstrap():
 
 def staging_redeploy():
     """Check for update and rebootstrap staging"""
-    with cd(env.staging_folder):
-        if not check_for_new_commits():
-            return
+    if not check_for_new_commits():
+        return
 
-        # delete current staging
-        run('rm -rf %(stagging_folder)s' % env)
+    # delete current staging
+    local('rm -rf %(stagging_folder)s' % env)
 
     staging_bootstrap()
 
@@ -111,7 +111,7 @@ def production_latest_version():
     return versions and int(versions[-1].strip('v')) or 0
 
 
-def production_copy_data_to_staging():
+def production_copy_livedata_to_staging():
     """"""
     ver = production_latest_version()
     run('cp -r %d/ data/' % ver)
@@ -135,6 +135,4 @@ def production_rollback():
     # cleanup
     run('rm -rf v%d' % env.ver)
 
-# TODO: localsettings.py
-# TODO: data files
-# TODO: set .buildout/default.cfg for env.user with eggs/downloads directory
+# TODO: media files
