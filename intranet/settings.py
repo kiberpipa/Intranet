@@ -58,7 +58,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
     'intranet.middleware.exception.StandardExceptionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
     'localeurl.middleware.LocaleURLMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
