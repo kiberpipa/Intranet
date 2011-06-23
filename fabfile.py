@@ -118,7 +118,7 @@ def production_deploy():
 def production_latest_version():
     """Version number of latest production dir"""
     versions = run('find %(production_folder)s -maxdepth 1 -name "v*"' % env).split() or ['v0']
-    latest = "%.4d" % sorted(int(os.path.basename(ver).strip('v')) for ver in versions)[-1]
+    latest = sorted(int(os.path.basename(ver).strip('v')) for ver in versions)[-1]
     print "Latest production version: %d" % latest
     return latest
 
