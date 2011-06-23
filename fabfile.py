@@ -19,7 +19,7 @@ env.backup_folder = '/var/backups/'
 env.staging_django_settings = os.path.join(env.root_folder, 'staging_localsettings.py')
 env.production_django_settings = os.path.join(env.root_folder, 'production_localsettings.py')
 env.repository = 'git://github.com/kiberpipa/Intranet.git'
-env.branch = 'deploy'
+env.branch = 'new_deploy'
 
 
 def install_default_buildout():
@@ -74,7 +74,7 @@ def staging_redeploy():
         return
 
     with settings(warn_only=True):
-        run('%(staging_folder)s/bin/supervisorctl shutdown' % env.ver)
+        run('%(staging_folder)s/bin/supervisorctl shutdown' % env)
 
     # delete current staging
     local('rm -rf %(staging_folder)s' % env)
