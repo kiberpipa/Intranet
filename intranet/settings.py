@@ -44,7 +44,8 @@ LOCALE_INDEPENDENT_PATHS = (
 
 SITE_ID = 1
 
-# Make this unique, and don't share it with anybody.
+MEDIA_URL = '/smedia/'
+ADMIN_MEDIA_PREFIX = '/amedia/'
 MEDIA_ROOT = next_to_this_file(__file__, '../media')
 ADMIN_MEDIA_PREFIX = '/admin-media/'
 
