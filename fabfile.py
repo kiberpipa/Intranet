@@ -71,8 +71,13 @@ def staging_redeploy():
     if not check_for_new_commits():
         return
 
+    with settings(warn_only=True):
+        run('%(staging_folder)s/bin/supervisorctl shutdown' % env.ver)
+
     # delete current staging
-    local('rm -rf %(stagging_folder)s' % env)
+    local('rm -rf %(staging_folder)s' % env)
+
+    # TODO: drop database
 
     staging_bootstrap()
 
@@ -136,3 +141,4 @@ def production_rollback():
     run('rm -rf v%d' % env.ver)
 
 # TODO: media files
+# TODO: instructions: build-deps, localsettings files, ssh to same user,
