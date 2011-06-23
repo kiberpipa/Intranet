@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
-
 from setuptools import setup, find_packages
 
 
@@ -23,7 +21,8 @@ setup(name='kiberpipa-intranet',
     install_requires=[
         'BeautifulSoup',
         'python-ldap',
-        'Pillow', # proper distributed PIL
+        'python-memcached',
+        'Pillow',  # proper distributed PIL
         'feedjack',
         'reportlab',
         'PyExcelerator',
