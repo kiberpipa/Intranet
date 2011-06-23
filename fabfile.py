@@ -8,6 +8,7 @@ from fabric.api import run, env, local
 from fabric.context_managers import settings, cd, lcd
 from fabric.contrib.files import upload_template
 from fabric.contrib.files import exists
+from fabric import operations, utils
 
 
 env.user = 'intranet'
@@ -47,19 +48,20 @@ def deploy():
     run('bin/django syncdb --noinput --traceback --migrate')
     run('bin/django createinitialrevisions')  # django-revision
     run('bin/supervisord')
-    time.sleep(5)
+    time.sleep(15)
     run('bin/supervisorctl status')
-    return True
 
 
 def staging_bootstrap():
     """Install and run staging from scratch"""
+    env.environment = 'staging'
     install_default_buildout()
+    run('rm -rf %(staging_folder)s' % env)
     run('mkdir -p %(staging_folder)s' % env)
     with cd(env.staging_folder):
         run('git clone %s .' % env.repository)
         run('git checkout %s' % env.branch)
-        run('ln -s buildout.d/staging.cfg buildout.cfg')
+        upload_template('buildout.d/buildout.cfg.in', 'buildout.cfg', env)
         run('python bootstrap.py')
         run('cp %(staging_django_settings)s intranet/localsettings.py' % env)
         run('bin/buildout')
@@ -76,9 +78,6 @@ def staging_redeploy():
     with settings(warn_only=True):
         run('%(staging_folder)s/bin/supervisorctl shutdown' % env)
 
-    # delete current staging
-    local('rm -rf %(staging_folder)s' % env)
-
     # TODO: drop database
 
     staging_bootstrap()
@@ -86,36 +85,42 @@ def staging_redeploy():
 
 def production_deploy():
     """Staging to production and rollback on failure"""
+    env.environment = 'production'
+    run('mkdir -p %(production_folder)s' % env)
     env.ver = production_latest_version()
     env.next_ver = env.ver + 1
 
-    run('mkdir -p %(production_folder)s' % env)
     with cd(env.production_folder):
+        run('mkdir v%(next_ver)d' % env)
+
         # TODO: do backup
 
-        run('mkdir v%(next_ver)d' % env)
-        with cd('v%(next_ver)d' % env):
-            with settings(warn_only=True):
-                failed = 0
-                while not failed:
-                    failed = run('cp -R %(staging_folder)s* .' % env).return_code
-                    run('unlink buildout.cfg')
-                    failed = run('ln -s buildout.d/production.cfg buildout.cfg').return_code
-                    failed = run('cp %(production_django_settings)s intranet/localsettings.py' % env).return_code
-                    failed = run('bin/buildout').return_code
+        # monkey patch abort function so we just get raised exception
+        operations.abort = abort_with_exception
+        try:
+            with cd('v%(next_ver)d' % env):
+                run('cp -R %(staging_folder)s* .' % env)
+                upload_template('buildout.d/buildout.cfg.in', 'buildout.cfg', env)
+                run('cp %(production_django_settings)s intranet/localsettings.py' % env)
+                run('bin/buildout -o')
 
-                    # everthing went fine.
-                    run('../v%(ver)d/bin/supervisorctl shutdown')
-                    failed = deploy() is not True
-
-        if failed:
+                # everthing went fine.
+                run('../v%(ver)d/bin/supervisorctl shutdown' % env)
+                deploy()
+        except FabricFailure:
+            operations.abort = utils.abort  # unmonkeypatch
             production_rollback()
+            print "Production v%d failed, rollback completed." % env.next_ver
+        else:
+            print "Production v%d successfully deployed." % env.next_ver
 
 
 def production_latest_version():
     """Version number of latest production dir"""
-    versions = sorted(run('find %(production_folder) -name "v*"' % env).split())
-    return versions and int(versions[-1].strip('v')) or 0
+    versions = run('find %(production_folder)s -maxdepth 1 -name "v*"' % env).split() or ['v0']
+    latest = "%.4d" % sorted(int(os.path.basename(ver).strip('v')) for ver in versions)[-1]
+    print "Latest production version: %d" % latest
+    return latest
 
 
 def production_copy_livedata_to_staging():
@@ -131,16 +136,25 @@ def production_rollback():
     """"""
     env.ver = production_latest_version()
     env.prev_ver = env.ver - 1
-
     with settings(warn_only=True):
         run('v%d/bin/supervisorctl shutdown' % env.ver)
 
-    with cd('v%d' % env.prev_ver):
+    with cd('v%d' % env.prev_er):
         # TODO: restore backup
-        deploy()
+        run('bin/supervisord')
+        time.sleep(5)
+        run('bin/supervisorctl status')
 
     # cleanup
     run('rm -rf v%d' % env.ver)
 
 # TODO: media files
 # TODO: instructions: build-deps, localsettings files, ssh to same user,
+
+
+class FabricFailure(Exception):
+    """Raise this exception instead of sysexit on fabric failure"""
+
+
+def abort_with_exception(msg):
+    raise FabricFailure(msg)
