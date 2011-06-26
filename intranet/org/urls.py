@@ -174,9 +174,6 @@ urlpatterns = patterns('',
     (r'^dezurni/(?P<year>\d+)/(?P<month>[a-z]{3})/$', 'intranet.org.views.dezurni_monthly'),
     (r'^dezurni/(?P<year>\d+)/(?P<week>\d+)/$', 'intranet.org.views.dezurni'),
 
-    (r'^kb/(?P<kbcat>[-\w]+)/(?P<article>[-\w]+)', 'intranet.org.views.kb_article'),
-    (r'^kb/$', 'intranet.org.views.kb_index'),
-
     (r'^addressbook/$', 'pipa.addressbook.views.addressbook'),
     (r'^mercenaries/', include('pipa.mercenaries.urls')),
     url(r'^statistika/(?P<year>\d{4})?', 'intranet.org.views.year_statistics', name='statistics_by_year'),

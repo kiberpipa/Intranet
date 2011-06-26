@@ -26,7 +26,7 @@ from PIL import Image
 from pipa.video.utils import prepare_video_zip
 from intranet.org.models import (Project, Category, Email,
     Event, Shopping, Person, Sodelovanje, TipSodelovanja, Task, Diary,
-    Lend, KbCategory, KB, Tag, Scratchpad)
+    Lend, Tag, Scratchpad)
 from intranet.org.forms import (DiaryFilter, PersonForm, AddEventEmails,
     EventForm, SodelovanjeFilter, LendForm, ShoppingForm, DiaryForm,
     ImageResizeForm, IntranetImageForm)
@@ -162,13 +162,9 @@ def search(request):
         query = request.POST.get('term', '')
 
         kategorije = Category.objects.all()
-        kb = KB.objects.all()
         users = User.objects.all()
         events = Event.objects.all()
 
-        for term in query.split():
-            kb = kb.filter(content__icontains=term)
-            kb = kb.filter(title__icontains=term)
         for term in query.split():
             events = events.filter(announce__icontains=term)
         for term in query.split():
@@ -176,7 +172,7 @@ def search(request):
         for term in query.split():
             kategorije = kategorije.filter(name__icontains=term)
 
-        objects = list(set(events) | set(kb))
+        objects = list(set(events))
 
         return render_to_response('org/search_results.html', {
                                     'object_list': objects,
@@ -1049,22 +1045,6 @@ def dezurni_add(request):
               log_informal=request.POST['log_informal'],)
     p.save()
     return HttpResponseRedirect('../')
-
-
-@login_required
-def kb_index(request):
-    object_list = KbCategory.objects.all()
-    return render_to_response('org/kb_index.html',
-                              {'object_list': object_list},
-                              context_instance=RequestContext(request))
-
-
-@login_required
-def kb_article(request, kbcat, article):
-    article = get_object_or_404(KB, slug=article)
-    return render_to_response('org/kb_article.html',
-                              {'article': article},
-                              context_instance=RequestContext(request))
 
 
 def timeline_xml(request):

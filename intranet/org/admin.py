@@ -69,7 +69,6 @@ admin.site.register(Phone)
 admin.site.register(Organization)
 admin.site.register(Role)
 admin.site.register(Shopping)
-admin.site.register(KbCategory)
 admin.site.register(IntranetImage)
 
 
