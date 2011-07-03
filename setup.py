@@ -21,6 +21,7 @@ setup(name='intranet',
     install_requires=[
         'BeautifulSoup',
         'python-ldap',
+        'python-memcached',
         'Pillow',  # proper distributed PIL
         'feedjack',
         'reportlab',

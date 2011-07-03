@@ -447,42 +447,6 @@ class Lend(models.Model):
         verbose_name_plural = 'Sposoja'
 
 
-class KbCategory(models.Model):
-    title = models.CharField(max_length=150)
-    slug = models.SlugField(max_length=75, )
-
-    pub_date = models.DateTimeField(auto_now_add=True)
-    chg_date = models.DateTimeField(auto_now=True)
-
-    class Admin:
-        pass
-
-    def __unicode__(self):
-        return self.title
-
-
-class KB(models.Model):
-    title = models.CharField(max_length=150)
-    slug = models.SlugField(max_length=75, )
-    category = models.ForeignKey(KbCategory)
-    project = models.ManyToManyField(Project, blank=True, null=True)
-    task = models.ManyToManyField(Task, blank=True, null=True)
-    content = models.TextField()
-    editor = models.ForeignKey(User)
-
-    pub_date = models.DateTimeField(auto_now_add=True)
-    chg_date = models.DateTimeField(auto_now=True)
-
-    class Admin:
-        pass
-
-    def __unicode__(self):
-        return self.title
-
-    def get_absolute_url(self):
-        return "/intranet/kb/%s/%s/" % (self.category.slug, self.slug)
-
-
 class Shopping(models.Model):
     name = models.CharField(max_length=100)
     author = models.ForeignKey(User, related_name="shopping_author")
