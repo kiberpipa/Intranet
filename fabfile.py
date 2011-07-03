@@ -1,33 +1,62 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""Fabric set of commands for deploying django.
+
+TODO: future versions
+*  postgres specific
+
+"""
 
 import os
 import time
 
 from fabric.api import run, env, local
 from fabric.context_managers import settings, cd, lcd
-from fabric.contrib.files import upload_template
-from fabric.contrib.files import exists
+from fabric.contrib.files import upload_template, exists, append
+from fabric.contrib import django
+from fabric.colors import red
 from fabric import operations, utils
 
 
+# linux
 env.user = 'intranet'
-env.root_folder = '/home/intranet/'
+env.umask = '0027'
+# folders/locations
 env.home_folder = '/home/%(user)s/' % env
+env.root_folder = '/home/intranet/'
 env.staging_folder = os.path.join(env.root_folder, 'staging/')
 env.production_folder = os.path.join(env.root_folder, 'production/')
-env.backup_folder = '/var/backups/'
-env.staging_django_settings = os.path.join(env.root_folder, 'staging_localsettings.py')
-env.production_django_settings = os.path.join(env.root_folder, 'production_localsettings.py')
+env.production_media_folder = os.path.join(env.production_folder, 'media')
+env.backup_folder = os.path.join(env.root_folder, 'backups')
+# code
 env.repository = 'git://github.com/kiberpipa/Intranet.git'
 env.branch = 'new_deploy'
+# django
+env.django_project = 'intranet'
+env.production_django_settings = os.path.join(env.root_folder, 'production_localsettings.py')
+env.staging_django_settings = os.path.join(env.root_folder, 'staging_localsettings.py')
 
 
-def install_default_buildout():
-    """Populates ~/.buildout/default.cfg"""
-    if not exists('%(home_folder)s.buildout/default.cfg' % env):
+def install_defaults():
+    """Populates sane defaults"""
+    # install default buildout
+    if not exists('%(home_folder)s.buildout/' % env):
         run('mkdir -p %(home_folder)s.buildout/{eggs,downloads}' % env)
-        upload_template('buildout.d/default.cfg.in', '%(home_folder)s.buildout/default.cfg' % env, env)
+    upload_template('buildout.d/default.cfg.in', '%(home_folder)s.buildout/default.cfg' % env, env)
+
+    # set umask
+    for f in ['%(home_folder)s/.bashrc', '%(home_folder)s/.bash_profile']:
+        append(f % env, 'umask %(umask)s' % env)
+
+    # warn about ssh pub key for -H localhost
+    with settings(warn_only=True):
+        if run('grep -q -f ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys').return_code != 0:
+            operations.abort('%(user)s must be able to run "ssh localhost", please configure .ssh/authorized_keys' % env)
+
+    # warn about localsettings
+    for f in [env.staging_django_settings, env.production_django_settings]:
+        if not exists(f):
+            operations.abort('%s does not exists. Please upload the file and rerun fabric.' % f)
 
 
 def check_for_new_commits():
@@ -46,41 +75,47 @@ def check_for_new_commits():
 def deploy():
     """Deploy rutine for Django"""
     run('bin/django syncdb --noinput --traceback --migrate')
-    run('bin/django createinitialrevisions')  # django-revision
+    with settings(warn_only=True):
+        run('bin/django createinitialrevisions')  # django-revision
+        run('bin/django collectstatic')  # staticfiles
     run('bin/supervisord')
     time.sleep(15)
     run('bin/supervisorctl status')
 
 
-def staging_bootstrap():
+def staging_bootstrap(fresh=True):
     """Install and run staging from scratch"""
     env.environment = 'staging'
-    install_default_buildout()
+    install_defaults()
+
+    # cleanup
     run('rm -rf %(staging_folder)s' % env)
+
     run('mkdir -p %(staging_folder)s' % env)
     with cd(env.staging_folder):
         run('git clone %s .' % env.repository)
         run('git checkout %s' % env.branch)
         upload_template('buildout.d/buildout.cfg.in', 'buildout.cfg', env)
         run('python bootstrap.py')
-        run('cp %(staging_django_settings)s intranet/localsettings.py' % env)
+        run('cp %(staging_django_settings)s %(django_project)s/localsettings.py' % env)
         run('bin/buildout')
-        run('bin/django syncdb --noinput --traceback --all')
-        run('bin/django migrate --fake')
+        if fresh:
+            run('bin/django syncdb --noinput --traceback --all')
+            run('bin/django migrate --fake')
+        else:
+            run('bin/fab production_data_restore')
         deploy()
 
 
 def staging_redeploy():
-    """Check for update and rebootstrap staging"""
+    """Check for new commits and rebootstrap staging"""
     if not check_for_new_commits():
         return
 
     with settings(warn_only=True):
         run('%(staging_folder)s/bin/supervisorctl shutdown' % env)
 
-    # TODO: drop database
-
-    staging_bootstrap()
+    staging_bootstrap(fresh=False)
 
 
 def production_deploy():
@@ -90,10 +125,10 @@ def production_deploy():
     env.ver = production_latest_version()
     env.next_ver = env.ver + 1
 
+    run('bin/fab production_data_backup')
+
     with cd(env.production_folder):
         run('mkdir v%(next_ver)d' % env)
-
-        # TODO: do backup
 
         # monkey patch abort function so we just get raised exception
         operations.abort = abort_with_exception
@@ -101,7 +136,8 @@ def production_deploy():
             with cd('v%(next_ver)d' % env):
                 run('cp -R %(staging_folder)s* .' % env)
                 upload_template('buildout.d/buildout.cfg.in', 'buildout.cfg', env)
-                run('cp %(production_django_settings)s intranet/localsettings.py' % env)
+                run('cp %(production_django_settings)s %(django_project)s/localsettings.py' % env)
+                run('bin/fab production_media_symlink')
                 run('bin/buildout -o')
 
                 # everthing went fine.
@@ -125,31 +161,85 @@ def production_latest_version():
 
 def production_copy_livedata_to_staging():
     """"""
-    ver = production_latest_version()
-    run('cp -r %d/ data/' % ver)
-    run('v%d/bin/django dumpdata' % ver)
+    run('bin/fab production_data_backup')
+    staging_bootstrap()
 
-    # TODO: think through with migrations
+
+def production_media_symlink():
+    """"""
+    django.project(env.django_project)
+    from django.conf import settings
+    local('ln -s %s %s' % (env.production_media_folder, settings.MEDIA_ROOT))
 
 
 def production_rollback():
     """"""
     env.ver = production_latest_version()
     env.prev_ver = env.ver - 1
-    with settings(warn_only=True):
-        run('v%d/bin/supervisorctl shutdown' % env.ver)
 
-    with cd('v%d' % env.prev_er):
-        # TODO: restore backup
-        run('bin/supervisord')
-        time.sleep(5)
-        run('bin/supervisorctl status')
+    with cd(env.production_folder):
+        # cleanup
+        run('rm -rf v%d' % env.ver)
 
-    # cleanup
-    run('rm -rf v%d' % env.ver)
+        with settings(warn_only=True):
+            run('v%d/bin/supervisorctl shutdown' % env.ver)
 
-# TODO: media files
-# TODO: instructions: build-deps, localsettings files, ssh to same user,
+        with cd('v%d' % env.prev_er):
+            run('bin/fab production_data_restore:to=production')
+            run('bin/supervisord')
+            time.sleep(5)
+            run('bin/supervisorctl status')
+
+
+def production_data_backup(version=None):
+    """Backup database and static files"""
+    env.ver = version or production_latest_version()
+    ver_dir = "v%d/" % env.ver
+    env.backup_location = os.path.join(env.backup_folder, ver_dir)
+    production = os.path.join(env.production_folder, ver_dir)
+
+    if not exists(env.backup_location):
+        local('mkdir -p %(backup_location)s' % env)
+
+    # backup static files
+    local('tar cvfz -C %(media_folder)s %(backup_location)s/mediafiles.tar.gz .' % env)
+
+    # backup database
+    with lcd(production):
+        django.project(env.django_project)
+        from django.conf import settings
+        env.update(settings.DATABASES['default'])
+
+        local('pg_dump -c -p %(PORT)s -U %(USER)s -Fc --no-acl -c %(NAME)s -f %(backup_location)s/db.sql' % env)
+
+
+def production_data_restore(to):
+    """Restore latests database and static files"""
+    env.ver = production_latest_version()
+    ver_dir = "v%d/" % env.ver
+    env.backup_location = os.path.join(env.backup_folder, ver_dir)
+
+    if not exists(env.backup_location):
+        print red("No backup for production version %d yet." % env.ver, bold=True)
+        return
+
+    if to == "staging":
+        env.restore_location = env.staging_folder
+    elif to == "production":
+        env.restore_location = os.path.join(env.production_folder, ver_dir)
+    else:
+        operations.abort("unknown '%s' restore location" % to)
+
+    # restore static files
+    local('tar xvfz -C %(production_media_folder)s %(backup_location)s/mediafiles.tar.gz' % env)
+
+    # restore database
+    with lcd(env.restore_location):
+        django.project(env.django_project)
+        from django.conf import settings
+        env.update(settings.DATABASES['default'])
+
+        local('pg_restore -c -p %(PORT)s -U %(USER)s -Fc --no-acl -c %(NAME)s -f %(backup_location)s/db.sql' % env)
 
 
 class FabricFailure(Exception):
