@@ -132,20 +132,23 @@ def staging_redeploy():
 def production_deploy():
     """Staging to production and rollback on failure"""
     env.environment = 'production'
-    run('mkdir -p %(production_folder)s' % env)
     env.ver = production_latest_version()
     env.next_ver = env.ver + 1
     is_fresh = env.ver == 0
+    if not exists(env.production_folder):
+        run('mkdir -p %(production_folder)s' % env)
+    if not exists(env.production_media_folder):
+        run('mkdir %(production_media_folder)s' % env)
 
     with cd(env.production_folder):
-        run('mkdir v%(next_ver)d' % env)
-        if not is_fresh:
-            with cd('v%(ver)d' % env):
-                run('bin/fab production_data_backup -H localhost')
-
         # monkey patch abort function so we just get raised exception
         operations.abort = abort_with_exception
         try:
+            if not is_fresh:
+                with cd('v%(ver)d' % env):
+                    run('bin/fab production_data_backup -H localhost')
+
+            run('mkdir v%(next_ver)d' % env)
             with cd('v%(next_ver)d' % env):
                 run('cp -R %(staging_folder)s* .' % env)
                 upload_template('buildout.d/buildout.cfg.in', 'buildout.cfg', env)
@@ -165,7 +168,7 @@ def production_deploy():
             production_rollback()
             print red("Production v%d deploy failed, rollback completed." % env.next_ver)
         else:
-            print green("Production v%d successfully deployed." % env.next_ver)
+            print green("Successfully deployed production v%d." % env.next_ver)
 
 
 def production_latest_version():
