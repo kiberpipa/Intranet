@@ -89,7 +89,8 @@ def staging_bootstrap(fresh=True):
     install_defaults()
 
     # cleanup
-    run('rm -rf %(staging_folder)s' % env)
+    with settings(warn_only=True):
+        run('rm -rf %(staging_folder)s' % env)
 
     run('mkdir -p %(staging_folder)s' % env)
     with cd(env.staging_folder):
