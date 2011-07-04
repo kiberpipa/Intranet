@@ -6,9 +6,12 @@ Before sure to provide the following:
 
 * create DB for production and staging according to localsettings.py
 
-TODO: future versions
-* postgres specific
+TODO
+====
+
+* shouldn't be postgres specific
 * staticfiles with intranet.www and intranet.org
+* uninstall crontab
 
 """
 
@@ -20,7 +23,7 @@ from fabric.api import run, env, local
 from fabric.context_managers import settings, cd, lcd
 from fabric.contrib.files import upload_template, exists, append
 from fabric.contrib import django
-from fabric.colors import red
+from fabric.colors import red, green
 from fabric.decorators import task
 
 
@@ -97,6 +100,7 @@ def staging_bootstrap(fresh=True):
 
     # cleanup
     with settings(warn_only=True):
+        run('%(staging_folder)sbin/supervisorctl shutdown' % env)
         run('rm -rf %(staging_folder)s' % env)
 
     run('mkdir -p %(staging_folder)s' % env)
@@ -111,7 +115,7 @@ def staging_bootstrap(fresh=True):
             run('bin/django syncdb --noinput --traceback --all')
             run('bin/django migrate --fake')
         else:
-            run('bin/fab production_data_restore')
+            run('bin/fab production_data_restore -H localhost')
         deploy()
 
 
@@ -120,9 +124,6 @@ def staging_redeploy():
     """Check for new commits and rebootstrap staging"""
     if not check_for_new_commits():
         return
-
-    with settings(warn_only=True):
-        run('%(staging_folder)s/bin/supervisorctl shutdown' % env)
 
     staging_bootstrap(fresh=False)
 
@@ -140,7 +141,7 @@ def production_deploy():
         run('mkdir v%(next_ver)d' % env)
         if not is_fresh:
             with cd('v%(ver)d' % env):
-                run('bin/fab production_data_backup')
+                run('bin/fab production_data_backup -H localhost')
 
         # monkey patch abort function so we just get raised exception
         operations.abort = abort_with_exception
@@ -149,18 +150,22 @@ def production_deploy():
                 run('cp -R %(staging_folder)s* .' % env)
                 upload_template('buildout.d/buildout.cfg.in', 'buildout.cfg', env)
                 run('cp %(production_django_settings)s %(django_project)s/localsettings.py' % env)
-                run('bin/fab production_media_symlink')
                 run('bin/buildout -o')
+                run('bin/fab production_media_symlink')
 
                 # everthing went fine.
-                run('../v%(ver)d/bin/supervisorctl shutdown' % env)
+                if is_fresh:
+                    run('bin/django syncdb --noinput --traceback --all')
+                    run('bin/django migrate --fake')
+                else:
+                    run('../v%(ver)d/bin/supervisorctl shutdown' % env)
                 deploy()
         except FabricFailure:
             operations.abort = utils.abort  # unmonkeypatch
             production_rollback()
-            print "Production v%d failed, rollback completed." % env.next_ver
+            print red("Production v%d deploy failed, rollback completed." % env.next_ver)
         else:
-            print "Production v%d successfully deployed." % env.next_ver
+            print green("Production v%d successfully deployed." % env.next_ver)
 
 
 def production_latest_version():
@@ -174,7 +179,7 @@ def production_latest_version():
 @task
 def production_copy_livedata_to_staging():
     """"""
-    run('bin/fab production_data_backup')
+    run('bin/fab production_data_backup -H localhost')
     staging_bootstrap()
 
 
@@ -183,6 +188,7 @@ def production_media_symlink():
     """"""
     django.project(env.django_project)
     from django.conf import settings
+    local('rm -rf %s' % settings.MEDIA_ROOT)
     local('ln -s %s %s' % (env.production_media_folder, settings.MEDIA_ROOT))
 
 
@@ -191,19 +197,19 @@ def production_rollback():
     """"""
     env.ver = production_latest_version()
     env.prev_ver = env.ver - 1
+    print red("Starting rollback...", bold=True)
 
     with cd(env.production_folder):
         # cleanup
-        run('rm -rf v%d' % env.ver)
-
         with settings(warn_only=True):
             run('v%d/bin/supervisorctl shutdown' % env.ver)
+        run('rm -rf v%d' % env.ver)
 
         if env.ver == 1:
             operations.abort('Could not rollback since this is first production deploy.')
 
         with cd('v%d' % env.prev_ver):
-            run('bin/fab production_data_restore:to=production')
+            run('bin/fab production_data_restore:to=production -H localhost')
             run('bin/supervisord')
             time.sleep(5)
             run('bin/supervisorctl status')
@@ -213,7 +219,7 @@ def production_rollback():
 def production_data_backup(version=None):
     """Backup database and static files"""
     env.ver = version or production_latest_version()
-    ver_dir = "v%d/" % env.ver
+    ver_dir = "v%d" % env.ver
     env.backup_location = os.path.join(env.backup_folder, ver_dir)
     production = os.path.join(env.production_folder, ver_dir)
 
@@ -221,7 +227,7 @@ def production_data_backup(version=None):
         local('mkdir -p %(backup_location)s' % env)
 
     # backup static files
-    local('tar cvfz -C %(production_media_folder)s %(backup_location)s/mediafiles.tar.gz .' % env)
+    local('tar cvfz %(backup_location)s/mediafiles.tar.gz %(production_media_folder)s' % env)
 
     # backup database
     with lcd(production):
@@ -236,7 +242,7 @@ def production_data_backup(version=None):
 def production_data_restore(to):
     """Restore latests database and static files"""
     env.ver = production_latest_version()
-    ver_dir = "v%d/" % env.ver
+    ver_dir = "v%d" % env.ver
     env.backup_location = os.path.join(env.backup_folder, ver_dir)
 
     if not exists(env.backup_location):
@@ -251,7 +257,7 @@ def production_data_restore(to):
         operations.abort("unknown '%s' restore location" % to)
 
     # restore static files
-    local('tar xvfz -C %(production_media_folder)s %(backup_location)s/mediafiles.tar.gz' % env)
+    local('tar -C %(production_media_folder)s xvfz %(backup_location)s/mediafiles.tar.gz' % env)
 
     # restore database
     with lcd(env.restore_location):
