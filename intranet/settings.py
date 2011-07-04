@@ -65,8 +65,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.doc.XViewMiddleware',
     'reversion.middleware.RevisionMiddleware',
-    #'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
-    'intranet.middleware.FlatPage.FlatPage',
+    'intranet.middleware.FlatPage.FlatPage',  # uses 'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'intranet.middleware.NginxCache.NginxMemCacheMiddleWare',
     'django.middleware.csrf.CsrfResponseMiddleware',
 )
@@ -94,7 +93,7 @@ INSTALLED_APPS = (
     'django.contrib.markup',
     'django.contrib.redirects',
     'reversion',
-    'feedjack', # FIXME
+    'feedjack',  # FIXME
     'localeurl',
     'syncr.twitter',
     'tagging',
