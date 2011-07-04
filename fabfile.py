@@ -7,7 +7,8 @@ Before sure to provide the following:
 * create DB for production and staging according to localsettings.py
 
 TODO: future versions
-*  postgres specific
+* postgres specific
+* staticfiles with intranet.www and intranet.org
 
 """
 
@@ -133,11 +134,13 @@ def production_deploy():
     run('mkdir -p %(production_folder)s' % env)
     env.ver = production_latest_version()
     env.next_ver = env.ver + 1
-
-    run('bin/fab production_data_backup')
+    is_fresh = env.ver == 0
 
     with cd(env.production_folder):
         run('mkdir v%(next_ver)d' % env)
+        if not is_fresh:
+            with cd('v%(ver)d' % env):
+                run('bin/fab production_data_backup')
 
         # monkey patch abort function so we just get raised exception
         operations.abort = abort_with_exception
@@ -175,6 +178,7 @@ def production_copy_livedata_to_staging():
     staging_bootstrap()
 
 
+@task
 def production_media_symlink():
     """"""
     django.project(env.django_project)
@@ -195,7 +199,10 @@ def production_rollback():
         with settings(warn_only=True):
             run('v%d/bin/supervisorctl shutdown' % env.ver)
 
-        with cd('v%d' % env.prev_er):
+        if env.ver == 1:
+            operations.abort('Could not rollback since this is first production deploy.')
+
+        with cd('v%d' % env.prev_ver):
             run('bin/fab production_data_restore:to=production')
             run('bin/supervisord')
             time.sleep(5)
