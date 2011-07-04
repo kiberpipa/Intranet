@@ -10,7 +10,7 @@ from os.path import join
 class FlatPage(FlatpageFallbackMiddleware):
     def process_response(self, request, response):
         orig = request.path_info
-        if not hasattr(self, 'LANGUAGE_CODE'):
+        if hasattr(request, 'LANGUAGE_CODE'):
             request.is_flatpage = True
             request.org_path_info = request.path_info
             request.path_info = join('/' + request.LANGUAGE_CODE, request.path_info[1:])
