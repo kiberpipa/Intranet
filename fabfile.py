@@ -2,6 +2,10 @@
 # -*- coding: utf-8 -*-
 """Fabric set of commands for deploying django.
 
+Before sure to provide the following:
+
+* create DB for production and staging according to localsettings.py
+
 TODO: future versions
 *  postgres specific
 
@@ -10,12 +14,13 @@ TODO: future versions
 import os
 import time
 
+from fabric import operations, utils
 from fabric.api import run, env, local
 from fabric.context_managers import settings, cd, lcd
 from fabric.contrib.files import upload_template, exists, append
 from fabric.contrib import django
 from fabric.colors import red
-from fabric import operations, utils
+from fabric.decorators import task
 
 
 # linux
@@ -83,6 +88,7 @@ def deploy():
     run('bin/supervisorctl status')
 
 
+@task
 def staging_bootstrap(fresh=True):
     """Install and run staging from scratch"""
     env.environment = 'staging'
@@ -108,6 +114,7 @@ def staging_bootstrap(fresh=True):
         deploy()
 
 
+@task
 def staging_redeploy():
     """Check for new commits and rebootstrap staging"""
     if not check_for_new_commits():
@@ -119,6 +126,7 @@ def staging_redeploy():
     staging_bootstrap(fresh=False)
 
 
+@task
 def production_deploy():
     """Staging to production and rollback on failure"""
     env.environment = 'production'
@@ -160,6 +168,7 @@ def production_latest_version():
     return latest
 
 
+@task
 def production_copy_livedata_to_staging():
     """"""
     run('bin/fab production_data_backup')
@@ -173,6 +182,7 @@ def production_media_symlink():
     local('ln -s %s %s' % (env.production_media_folder, settings.MEDIA_ROOT))
 
 
+@task
 def production_rollback():
     """"""
     env.ver = production_latest_version()
@@ -192,6 +202,7 @@ def production_rollback():
             run('bin/supervisorctl status')
 
 
+@task
 def production_data_backup(version=None):
     """Backup database and static files"""
     env.ver = version or production_latest_version()
@@ -203,7 +214,7 @@ def production_data_backup(version=None):
         local('mkdir -p %(backup_location)s' % env)
 
     # backup static files
-    local('tar cvfz -C %(media_folder)s %(backup_location)s/mediafiles.tar.gz .' % env)
+    local('tar cvfz -C %(production_media_folder)s %(backup_location)s/mediafiles.tar.gz .' % env)
 
     # backup database
     with lcd(production):
@@ -214,6 +225,7 @@ def production_data_backup(version=None):
         local('pg_dump -c -p %(PORT)s -U %(USER)s -Fc --no-acl -c %(NAME)s -f %(backup_location)s/db.sql' % env)
 
 
+@task
 def production_data_restore(to):
     """Restore latests database and static files"""
     env.ver = production_latest_version()
