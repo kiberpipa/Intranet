@@ -11,6 +11,7 @@ from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.core.urlresolvers import reverse
 
 from pipa.mercenaries.models import CostCenter, SalaryType
 
@@ -219,7 +220,7 @@ class Event(models.Model):
         return '/intranet/events/%i/' % self.id
 
     def get_public_url(self):
-        return '/'.join(['', 'event', self.start_date.strftime('%Y-%b-%d').lower(), unicode(self.id), self.slug, ''])
+        return reverse('event_detail', kwargs=dict(id=self.id, slug=self.slug))
 
     @property
     def length(self):
