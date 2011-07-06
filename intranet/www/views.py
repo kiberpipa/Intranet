@@ -79,7 +79,7 @@ def ajax_add_mail(request, event, email):
     return HttpResponse(message)
 
 
-def event(request, date, id, slug):
+def event(request, slug, id):
     event = get_object_or_404(Event, pk=id)
     if not request.path.endswith(event.get_public_url()):
         return HttpResponseRedirect(event.get_public_url())

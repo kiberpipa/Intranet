@@ -98,7 +98,6 @@ class EventTest(BaseCase):
             'event_repeat': 0,
             'event_repeat_freq': 1,
             'event_repeat_freq_type': 0,
-            'end_date': '',
             'title': u'Dogodek v Kleti',
             'project': self.project.id,
             'author': u'Gašper Žejn',
@@ -121,6 +120,10 @@ class EventTest(BaseCase):
         self.assertEqual(resp.status_code, 302)
         # if we don't get location, form failed
         redirect_url, event_id = re.match('http://\w+(/intranet/events/(\d+)/)$', resp._headers['location'][1]).groups()
+
+        # validate urls
+        self.assertEqual(self.client.get('/event/dogodek-v-kleti-1/', follow=True).redirect_chain[-1], ('http://testserver/sl/event/dogodek-v-kleti-1/', 301))
+        self.assertEqual(self.client.get('/event/2001-jul-06/1/dogodek-v-kleti/', follow=True).redirect_chain[-1], ('http://testserver/sl/event/dogodek-v-kleti-1/', 302))
 
         resp = self.client.get(redirect_url)
         self.assertEqual(resp.status_code, 200)
