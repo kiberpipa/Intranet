@@ -166,16 +166,15 @@ class IntranetImage(models.Model):
 # koledar dogodkov
 class Event(models.Model):
     title = models.CharField(max_length=100)
-    # XXX FIXME: unique is false on SlugField because of data inconsistancy
     slug = models.SlugField("event_slug", max_length=150, unique=False, blank=True, null=True)
-    length = models.TimeField(verbose_name="Trajanje")
 
     require_technician = models.BooleanField(verbose_name="Dogodek potrebuje tehnika", default=False)
     require_video = models.BooleanField(verbose_name="Dogodek bo sneman", default=False)
     require_photo = models.BooleanField(verbose_name="Dogodek bo poslikan", default=True)
+    # TODO: migrate to is_public
     public = models.BooleanField(verbose_name="Dogodek je javen", default=True)
 
-    visitors = models.IntegerField(default=0, verbose_name="Številko obiskovalcev", blank=True, null=True)
+    visitors = models.IntegerField(default=0, verbose_name=u"Številko obiskovalcev", blank=True, null=True)
     language = models.CharField(verbose_name="Jezik", max_length=2, default='sl', choices=settings.LANGUAGES, blank=True, null=True)
     #for iCal
     sequence = models.PositiveIntegerField(default=0)
@@ -186,22 +185,23 @@ class Event(models.Model):
     short_announce = models.TextField(verbose_name="Kratka najava", blank=True, null=True)
     note = models.TextField(verbose_name="Opombe", blank=True, null=True)
 
-    start_date = models.DateTimeField(verbose_name="Čas pričetka", db_index=True)
-    end_date = models.DateTimeField(blank=True, null=True)
+    # time fields
+    start_date = models.DateTimeField(verbose_name="Pričetek", db_index=True)
+    end_date = models.DateTimeField(verbose_name="Zaključek", blank=True, null=True)
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
 
-    # flickr set id
-    # TODO: refactor in new app
-    flickr_set_id = models.BigIntegerField(verbose_name="Flickr set ID", blank=True, null=True)
-
+    # relations
     responsible = models.ForeignKey(User, verbose_name="Odgovorna oseba")
     place = models.ForeignKey(Place, verbose_name="Prostor")
     category = models.ForeignKey(Category, verbose_name="Kategorija")
     project = models.ForeignKey(Project, verbose_name="V okviru projekta")
-
     tags = models.ManyToManyField(Tag, blank=True, null=True)
     technician = models.ManyToManyField(User, verbose_name="Tehnik", blank=True, null=True, related_name="event_technican")
+
+    # flickr set id
+    # TODO: refactor in new app
+    flickr_set_id = models.BigIntegerField(verbose_name="Flickr set ID", blank=True, null=True)
 
     # for video spamming
     emails = models.ManyToManyField(Email, blank=True, null=True)
@@ -220,6 +220,10 @@ class Event(models.Model):
 
     def get_public_url(self):
         return '/'.join(['', 'event', self.start_date.strftime('%Y-%b-%d').lower(), unicode(self.id), self.slug, ''])
+
+    @property
+    def length(self):
+        return (self.end_date - self.start_date).seconds / 3600.0
 
     def save(self):
         self.slug = slugify(self.title)
@@ -242,13 +246,9 @@ class Event(models.Model):
         return 'http://www.flickr.com/photos/kiberpipa/sets/%s/' % self.flickr_set_id
 
     def google_calendar_url(self):
-        start_time = self.start_date
-        t = self.length
-        end_time = self.start_date + timedelta(0, t.second, 0, 0, t.minute, t.hour)
-
         data = [('action', 'TEMPLATE'),
             ('text', self.title.encode('utf-8')),
-            ('dates', '%s/%s' % (time.strftime('%Y%m%dT%H%M%SZ', to_utc(start_time)), time.strftime('%Y%m%dT%H%M%SZ', to_utc(end_time)))),
+            ('dates', '%s/%s' % (time.strftime('%Y%m%dT%H%M%SZ', to_utc(self.start_date)), time.strftime('%Y%m%dT%H%M%SZ', to_utc(self.end_date)))),
             ('sprop', 'website:www.kiberpipa.org'),
             ('sprop', 'name:Kiberpipa - %s' % self.project.name.encode('utf-8')),
             # take first 24 words of announce

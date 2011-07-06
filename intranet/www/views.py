@@ -143,7 +143,6 @@ def ical(request):
         # ther's gotta be a nicer way to do this
         # TODO: yes, use icalendar library
         # http://pypi.python.org/pypi/icalendar/
-        end_date = e.start_date + datetime.timedelta(hours=e.length.hour, minutes=e.length.minute)
         if e.public:
             classification = u'PUBLIC'
         else:
@@ -160,7 +159,7 @@ def ical(request):
             #pub_date.strftime('CREATED:%Y%m%dT%H%M%SZ'),
             time.strftime(u'DTSTART:%Y%m%dT%H%M%S', to_utc(e.start_date)),
             u'UID:event-%s@kiberpipa.org' % e.id,
-            time.strftime(u'DTEND:%Y%m%dT%H%M%S', to_utc(end_date)),
+            time.strftime(u'DTEND:%Y%m%dT%H%M%S', to_utc(e.end_date)),
             time.strftime(u'LAST-MODIFIED:%Y%m%dT%H%M%SZ', to_utc(e.chg_date)),
             u'SUMMARY:%s: %s' % (unicode(e.project), e.title),
             u'URL:http://www.kiberpipa.org%s' % e.get_public_url(),

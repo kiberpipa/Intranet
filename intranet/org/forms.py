@@ -104,8 +104,8 @@ class IntranetImageForm(forms.ModelForm):
         exclude = ('md5',)
 
 class EventForm(forms.ModelForm):
-    start_date = forms.DateTimeField(label="Čas pričetka", widget=DateTimeWidget)
-    end_date = forms.DateTimeField(label="Zadnja ponovitev", widget=DateTimeWidget, required=False)
+    start_date = forms.DateTimeField(label=u"Pričetek", widget=DateTimeWidget)
+    end_date = forms.DateTimeField(label=u"Zaključek", widget=DateTimeWidget, required=False)
     title = forms.CharField(label="Naslov", max_length=Event._meta.get_field('title').max_length,
         widget=forms.TextInput(attrs={'size':'60'}))
     responsible = forms.CharField(label="Odgovorna oseba")
@@ -144,8 +144,9 @@ class EventForm(forms.ModelForm):
                 self._errors["event_image"] = ErrorList(['Javni dogodki potrebujejo sliko.'])
             if not cleaned_data.get("announce"):
                 self._errors["announce"] = ErrorList([u'Javni dogodki potrebujejo najavo.'])
-        
+
         return cleaned_data
+
 
 class SodelovanjeFilter(forms.ModelForm):
     ##override the person in 'Sodelovanje', as there is required

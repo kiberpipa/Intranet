@@ -108,7 +108,6 @@ class EventTest(BaseCase):
             'responsible': TESTUSER,
             'public': '',
             'start_date': tomorrow_noon.strftime('%Y-%m-%d %H:%M'),
-            'length': '01:00:00',
             'require_technician': 'on',
             'require_video': 'on',
             'place': self.place.id,
@@ -179,7 +178,6 @@ class EventTest(BaseCase):
 
         # add diary
         diarydata = {
-            'length': 2,
             'log_formal': 'no kidding',
             'log_informal': 'just joking',
             'uniqueSpot': event_id
@@ -188,7 +186,7 @@ class EventTest(BaseCase):
         self.assertEqual(resp.status_code, 200)
 
         # check monthly view
-        month = ['jan', 'feb', 'mar', 'apr', 'maj', 'jun', 'jul', 'avg', 'sep', 'okt', 'nov', 'dec'][tomorrow_noon.month-1]
+        month = ['jan', 'feb', 'mar', 'apr', 'maj', 'jun', 'jul', 'avg', 'sep', 'okt', 'nov', 'dec'][tomorrow_noon.month - 1]
         resp = self.client.get('/intranet/tehniki/%s/%s/' % (tomorrow_noon.year, month))
         self.assertEqual(resp.status_code, 200)
 
@@ -218,7 +216,6 @@ class DiaryTest(BaseCase):
 
         diarydata = {
             'date': diary_day.strftime('%Y-%m-%d %H:%M:%S'),
-            'length': '04:00:00',
             'log_formal': 'to je formalni dnevnik',
             'log_informal': 'to je neformalni dnevnik',
             'task': self.project.id,
@@ -243,7 +240,7 @@ class DiaryTest(BaseCase):
         resp = self.client.post('/intranet/diarys/%s/edit/' % diary_id, updatedata)
         self.assertEqual(resp.status_code, 302)
 
-        resp = self.client.post('/intranet/diarys/', {'author':'', 'task': self.project.id})
+        resp = self.client.post('/intranet/diarys/', {'author': '', 'task': self.project.id})
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content.find(redirect_url) > -1, True)
 
