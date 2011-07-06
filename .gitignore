@@ -5,4 +5,4 @@ lib/
 kiberpipa_intranet.egg-info/
 
 localsettings.py*
-intranet.db
+db.intranet
