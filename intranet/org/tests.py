@@ -45,7 +45,7 @@ class EventTest(BaseCase):
         self.place = Place(name='Kiberpipa', note='Bla')
         self.place.save()
         self.project = Project(id=23, name='Tehnicarjenje', responsible=self.user)
-        self.project.save()
+        self.project.save(200)
         self.category = Category(name='Drugo', note='Another bla.')
         self.category.save()
         self.tip = TipSodelovanja(name="Predavatelj")
@@ -183,7 +183,8 @@ class EventTest(BaseCase):
         diarydata = {
             'log_formal': 'no kidding',
             'log_informal': 'just joking',
-            'uniqueSpot': event_id
+            'length': '4',
+            'uniqueSpot': event_id,
         }
         resp = self.client.post('/intranet/tehniki/add/', diarydata, follow=True)
         self.assertEqual(resp.status_code, 200)
@@ -218,9 +219,10 @@ class DiaryTest(BaseCase):
         diary_day = datetime.datetime(now.year, now.month, now.day, 0, 0, 0)
 
         diarydata = {
-            'date': diary_day.strftime('%Y-%m-%d %H:%M:%S'),
+            'date': diary_day.strftime('%d.%m.%Y %H:%M:%S'),
             'log_formal': 'to je formalni dnevnik',
             'log_informal': 'to je neformalni dnevnik',
+            'length': '04:00:00',
             'task': self.project.id,
         }
         resp = self.client.post('/intranet/diarys/add/', diarydata)
