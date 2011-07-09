@@ -12,7 +12,7 @@
 {% block content %}
   <div id="koledar">
     <div class="koledar-img">
-      <a href="/calendar/ical/">iCal</a> <a href="{% url rss %}" ><img src="{{ media_url }}www/images/rss20x20.png" alt="RSS Feeds" /></a>
+      <a href="/calendar/ical/">iCal</a> <a href="{% url rss %}" ><img src="{{ settings.STATIC_URL }}www/images/rss20x20.png" alt="RSS Feeds" /></a>
     </div>
     <div class="koledar-title-main">
       <small><a href="{{ prev }}"> &lt;&lt; {% trans "Previous month" %}</a></small>

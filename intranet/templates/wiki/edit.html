@@ -9,10 +9,10 @@
   div.field_wrapper {margin-left:10px; margin-right:10px;}
 
 </style>
-<script type="text/javascript" src="{{ media_url }}markitup/jquery.markitup.js"></script>
-<link rel="stylesheet" type="text/css" href="{{ media_url }}markitup/skins/markitup/style.css" />
-<link rel="stylesheet" type="text/css" href="{{ media_url }}markitup/sets/markdown/style.css" />
-<script type="text/javascript" src="{{ media_url }}markitup/sets/markdown/set.js"></script>
+<script type="text/javascript" src="{{ settings.STATIC_URL }}markitup/jquery.markitup.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ settings.STATIC_URL }}markitup/skins/markitup/style.css" />
+<link rel="stylesheet" type="text/css" href="{{ settings.STATIC_URL }}markitup/sets/markdown/style.css" />
+<script type="text/javascript" src="{{ settings.STATIC_URL }}markitup/sets/markdown/set.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
     $('#id_content').markItUp(mySettings);

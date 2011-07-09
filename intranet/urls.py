@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from django.conf.urls.static import static
 from django.conf import settings
 from feedjack.models import Post
 
@@ -43,8 +44,4 @@ urlpatterns = patterns('',
 )
 
 if settings.DEBUG:
-    from intranet.settings import next_to_this_file
-    urlpatterns += patterns('',
-        (r'^smedia/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
-        (r'^amedia/(?P<path>.*)$', 'django.views.static.serve', {'document_root':   next_to_this_file(__file__, '../admin-media')}),
-    )
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

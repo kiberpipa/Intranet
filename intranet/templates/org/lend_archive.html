@@ -2,13 +2,11 @@
 {% block title %}Reverzi opreme{% endblock %}
 
 {% block extrahead %}
-          <script>
-  $(document).ready(function(){
-    $('#id_due_date').datepicker({firstDay: 1});
+    <script>
+    $(document).ready(function(){
+        $('#id_due_date').datepicker({firstDay: 1});
     });
     </script>
-  <link rel="stylesheet" href="{{ media_url }}/css/flora.datepicker.css" type="text/css" media="screen" title="Flora (Default)">
-<script src="{{ media_url }}/js/ui.datepicker.js"></script>
 {% endblock %}
 {% load box %}
 {% block heading %}

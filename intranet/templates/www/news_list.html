@@ -4,7 +4,7 @@
 {% load markup i18n %}
 
 {% block heading %}
-<div class="rss-index"><a href="/rss/" ><img src="{{ media_url }}/www/images/rss20x20.png" alt="RSS Feeds" /></a></div>
+<div class="rss-index"><a href="/rss/" ><img src="{{ settings.STATIC_URL }}www/images/rss20x20.png" alt="RSS Feeds" /></a></div>
     <h2>{% trans "News" %}</h1>
 {% endblock %}
 {% block content%}

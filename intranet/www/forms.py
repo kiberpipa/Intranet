@@ -15,15 +15,16 @@ class EmailForm(forms.Form):
 
 # http://plugins.jquery.com/project/datetime
 class EventContactForm(forms.Form):
+    # TODO: upgrade jquery and use internal
     class Media:
         js = (
             'http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js',
             'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.8/jquery-ui.min.js',
-            settings.MEDIA_URL + 'js/jquery.ui.datetime.min.js',
+            settings.STATIC_URL + 'www/js/jquery.ui.datetime.min.js',
         )
         css = {'all': (
             'http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/ui-darkness/jquery-ui.css',
-            settings.MEDIA_URL + 'css/jquery.ui.datetime.css',
+            settings.STATIC_URL + 'www/css/jquery.ui.datetime.css',
         )}
 
     facility = forms.ModelChoiceField(label=_(u'Prostor'), queryset=Place.objects.all())

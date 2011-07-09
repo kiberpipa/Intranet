@@ -11,9 +11,6 @@ DATABASES = {
 
 BASE_URL = 'http://localhost:8000'
 
-MEDIA_URL = '/smedia/'
-ADMIN_MEDIA_PREFIX = '/amedia/'
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 SEND_BROKEN_LINK_EMAILS = False

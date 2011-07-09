@@ -14,12 +14,6 @@
 	</div>
 {% endblock %}
 
-{% block extrahead %}
-    <script type="text/javascript" src="{{ media_url }}/dojo/dojo.js"></script>
-    <script type="text/javascript" src="{{ media_url }}/dojo/src/fx/html.js"></script>
-    <script type="text/javascript" language="javascript" src="{{ media_url }}/dezuranje.js"></script>
-{% endblock %}
-
 {% block heading %}
         <h1>Dnevnik dezuranja - mesecni</h1>
 {% endblock %}
@@ -81,11 +75,11 @@
         	{{ object.task }} ({{ object.length }})</A></h2>
       {% if object.log_formal %}
           <h5><b>Dnevnik:</b></h5>
-          <p dojoType="inlineEditBox" id="dn"><br />{{ object.log_formal|linebreaks }}</p>
+          <p id="dn"><br />{{ object.log_formal|linebreaks }}</p>
       {% endif %}
       {% if object.log_informal %}
           <h5><b>Blog:</b></h5>
-          <p dojoType="inlineEditBox" mode="textarea" id="bl"><br />
+          <p mode="textarea" id="bl"><br />
           {{ object.log_informal|linebreaks }}</p>
       {% endif %}
 	</div>

@@ -4,7 +4,7 @@
 
 {% block extrahead %}
 <style>
-.community-content-img { background-image: url({{ media_url }}/www/images/picture-skupnost.gif); }
+.community-content-img { background-image: url({{ settings.STATIC_URL }}/www/images/picture-skupnost.gif); }
 </style>
 {% endblock %}
 
@@ -25,16 +25,16 @@
             </div>
             <div class="community-img-s">
             {% if alumni.twitter and alumni.twitter_public %}
-                <a href="{{ alumni.twitter }}"><img src="{{ media_url }}/www/images/twitter20x20.png" alt="Twitter" title="Twitter" /></a>
+                <a href="{{ alumni.twitter }}"><img src="{{ settings.STATIC_URL }}www/images/twitter20x20.png" alt="Twitter" title="Twitter" /></a>
             {% endif %}
             {% if alumni.facebook and alumni.facebook_public %}
-                <a href="{{ alumni.facebook }}"><img src="{{ media_url }}/www/images/facebook20x20.png" alt="Facebook" title="Facebook" /></a>
+                <a href="{{ alumni.facebook }}"><img src="{{ settings.STATIC_URL }}www/images/facebook20x20.png" alt="Facebook" title="Facebook" /></a>
             {% endif %}
             {% if alumni.linkedin and alumni.linkedin_public %}
-                <a href="{{ alumni.linkedin }}"><img src="{{ media_url }}/www/images/linkedin20x20.png" alt="LinkedIn" title="LikedIn" /></a>
+                <a href="{{ alumni.linkedin }}"><img src="{{ settings.STATIC_URL }}www/images/linkedin20x20.png" alt="LinkedIn" title="LikedIn" /></a>
             {% endif %}
             {% if alumni.flickr and alumni.flickr_public %} 
-                <a href="{{ alumni.flickr }}"><img src="{{ media_url }}/www/images/flickr20x20.png" alt="Flickr" title="Flickr" /></a>
+                <a href="{{ alumni.flickr }}"><img src="{{ settings.STATIC_URL }}www/images/flickr20x20.png" alt="Flickr" title="Flickr" /></a>
             {% endif %}
             </div>
             <div class="community-details">

@@ -8,77 +8,72 @@
 
     <title>{% block title %}Intranet | Kiberpipa{% endblock %}</title>
 
-    <link rel="stylesheet" type="text/css" href="{{ media_url }}/base.css" />
-    <link rel="stylesheet" type="text/css" href="{{ media_url }}/nifty.css" />
-    <link rel="stylesheet" type="text/css" href="{{ media_url }}/dezuranje.css" />
-    <link rel="stylesheet" type="text/css" href="{{ media_url }}/css/jquery.suggest.css" />
-	
-    <script type="text/javascript" src="{{ media_url }}nifty.js"></script>
-    <script type="text/javascript" src="{{ media_url }}sorttable.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ settings.STATIC_URL }}org/css/base.css" />
+    <link rel="stylesheet" type="text/css" href="{{ settings.STATIC_URL }}org/css/nifty.css" />
+    <link rel="stylesheet" type="text/css" href="{{ settings.STATIC_URL }}org/css/dezuranje.css" />
+    <link rel="stylesheet" type="text/css" href="{{ settings.STATIC_URL }}org/css/jquery.suggest.css" />
+    <link rel="stylesheet" type="text/css" href="{{ settings.STATIC_URL }}org/css/flora.datepicker.css" />
 
+    <script type="text/javascript" src="/intranet/admin/jsi18n/"></script>
     <script type="text/javascript" src="/jsi18n/"></script>
-    <script type="text/javascript" src="{{ admin_media_prefix }}js/core.js"></script>
-    <script type="text/javascript" src="{{ admin_media_prefix }}js/admin/RelatedObjectLookups.js"></script>
-    <script type="text/javascript" src="{{ admin_media_prefix }}js/calendar.js"></script>
-    <script type="text/javascript" src="{{ admin_media_prefix }}js/admin/DateTimeShortcuts.js"></script>
-  
-    <script type="text/javascript" src="{{ media_url }}js/jquery-1.2.6.js" ></script>
-    <script type="text/javascript" src="{{ media_url }}js/effects.js" ></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery-1.2.6.min.js" ></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/nifty.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/sorttable.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/ui.datepicker.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/effects.js"></script>
 
-  <script>
-  $(document).ready(function(){
-
-     $("#togglePipci").click(function () {
-      $("#Dogajanje").hide();
-      $("#Znanje").hide();
-      $("#Sredstva").hide();
-      $("#Razno").hide();
-      $("#Pipci").toggle();
+    <script>
+    $(document).ready(function(){
+ 
+       $("#togglePipci").click(function () {
+        $("#Dogajanje").hide();
+        $("#Znanje").hide();
+        $("#Sredstva").hide();
+        $("#Razno").hide();
+        $("#Pipci").toggle();
+      });
+ 
+       $("#toggleDogajanje").click(function () {
+        $("#Pipci").hide();
+        $("#Znanje").hide();
+        $("#Sredstva").hide();
+        $("#Razno").hide();
+        $("#Dogajanje").toggle();
+      });
+ 
+       $("#toggleZnanje").click(function () {
+        $("#Pipci").hide();
+        $("#Dogajanje").hide();
+        $("#Sredstva").hide();
+        $("#Razno").hide();
+        $("#Znanje").toggle();
+      });
+ 
+       $("#toggleSredstva").click(function () {
+        $("#Pipci").hide();
+        $("#Dogajanje").hide();
+        $("#Znanje").hide();
+        $("#Razno").hide();
+        $("#Sredstva").toggle();
+      });
+ 
+       $("#toggleRazno").click(function () {
+        $("#Pipci").hide();
+        $("#Dogajanje").hide();
+        $("#Znanje").hide();
+        $("#Sredstva").hide();
+        $("#Razno").toggle();
+      });
+ 
     });
-
-     $("#toggleDogajanje").click(function () {
-      $("#Pipci").hide();
-      $("#Znanje").hide();
-      $("#Sredstva").hide();
-      $("#Razno").hide();
-      $("#Dogajanje").toggle();
-    });
-
-     $("#toggleZnanje").click(function () {
-      $("#Pipci").hide();
-      $("#Dogajanje").hide();
-      $("#Sredstva").hide();
-      $("#Razno").hide();
-      $("#Znanje").toggle();
-    });
-
-     $("#toggleSredstva").click(function () {
-      $("#Pipci").hide();
-      $("#Dogajanje").hide();
-      $("#Znanje").hide();
-      $("#Razno").hide();
-      $("#Sredstva").toggle();
-    });
-
-     $("#toggleRazno").click(function () {
-      $("#Pipci").hide();
-      $("#Dogajanje").hide();
-      $("#Znanje").hide();
-      $("#Sredstva").hide();
-      $("#Razno").toggle();
-    });
-
-  });
-  </script>
-
-    {% block extrahead %}{% endblock %}
+    </script>
 </head>
 {% block extrabody %}<body>{% endblock %}
 
 <div id="header">
     <div id="login_info">
         <a href="/intranet/">
-            <img id="logo" alt="Kiberpipa" src="{{ media_url }}/kiberpipa-white.png" />
+            <img id="logo" alt="Kiberpipa" src="{{ settings.STATIC_URL }}org/images/kiberpipa-white.png" />
         </a>
         {% if user.is_authenticated %}
         <p>
@@ -101,15 +96,12 @@
         <li><a href="/intranet/admin">Administracija</a></li>
     </ul>
     <div id="bugs">
-        <a href="https://www.kiberpipa.org/projekti/intranet/">
-          <img src="/smedia/img/hrosc.png" width="48" height="40" alt="hrošč" title="Sporoči napako" />
+        <a href="https://dev.kiberpipa.org/projects/kiberpipa-intranet/issues/new">
+          <img src="{{ settings.STATIC_URL }}org/images/hrosc.png" width="48" height="40" alt="hrošč" title="Sporoči napako" />
         </a>
     </div>
 </div>
 
 {% block content %}{% endblock %}
-<p>
-<!-- STATS: Total: %(totTime).2f Python: %(pyTime).2f DB: %(dbTime).2f Queries: %(queries)d -->
-</p>
 </body>
 </html>

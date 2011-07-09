@@ -1,8 +1,9 @@
 <!-- highslide -->
-<link rel="stylesheet" type="text/css" href="{{ settings.MEDIA_URL }}css/highslide.css" />
-<script type="text/javascript" src="{{ settings.MEDIA_URL }}js/highslide.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ settings.STATIC_URL }}org/css/highslide.css" />
+<script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/highslide.js"></script>
 <script type="text/javascript">
-hs.graphicsDir = '{{ settings.MEDIA_URL }}css/graphics/'; // unfortunatelly we cant put this in /media/img/ due do highlight.css hardcode.
+// unfortunatelly we cant put this in /media/img/ due do highlight.css hardcode.
+hs.graphicsDir = '{{ settings.STATIC_URL }}org/css/graphics/'; 
 hs.align = 'center';
 hs.transitions = ['expand', 'crossfade'];
 hs.outlineType = 'rounded-white';
@@ -22,7 +23,7 @@ hs.addSlideshow({
 	}
 });
 </script>
-<!-- highslide -->
+<!-- /highslide -->
 
 <h1>Galerija</h1>
 <table>
@@ -40,4 +41,3 @@ hs.addSlideshow({
 	{% endif %}
  {% endfor %}
 </table>
-

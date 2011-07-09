@@ -14,7 +14,7 @@
             </a>
         {% else %}
             <a href="{{ event.get_public_url }}">
-                <img width="250" height="130" src="{{ media_url }}www/images/img-upcoming.gif" alt="slika" />
+                <img width="250" height="130" src="{{ settings.STATIC_URL }}www/images/img-upcoming.gif" alt="slika" />
             </a>
         {% endif %}
          <div class="present-event-text"><a href="{{ event.get_public_url }}">{{ event }}</a></div>

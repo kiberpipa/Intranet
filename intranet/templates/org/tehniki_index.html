@@ -1,11 +1,6 @@
 {% extends "org/base_3col.html" %}
 
 {% load box %}
-{% block extrahead %}
-    <script type="text/javascript" src="{{ media_url }}/dojo/dojo.js"></script>
-    <script type="text/javascript" src="{{ media_url }}/dojo/src/fx/html.js"></script>
-    <script type="text/javascript" src="{{ media_url }}/dezuranje.js"></script>
-{% endblock %}
 
 {% load markup %}
 {% block title %}Dnevnik tehničarjenja{% endblock %}
@@ -47,7 +42,7 @@
                 <td class="date">{{ e.start_date|date:"D j. M H:i" }} ({{ e.length|time:"f" }}h)</td>
                 <td>
                     <a href="/intranet/events/{{ e.id }}">
-                        {{ e.get_project }} {{ e.title }} {% if e.require_video %}<img src="{{ media_url }}img/film.png" alt="help" />{% endif %}
+                        {{ e.get_project }} {{ e.title }} {% if e.require_video %}<img src="{{ settings.STATIC_URL }}org/images/film.png" alt="help" />{% endif %}
                     </a>
                 </td>
                 <td>

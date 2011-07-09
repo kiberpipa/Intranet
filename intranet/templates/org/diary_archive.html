@@ -6,15 +6,12 @@
 {% load markup 
 
 {% block extrahead %}
-  <script src="{{ media_url }}/jquery-1.2.6.min.js"></script> 
-          <script>
+  <script>
   $(document).ready(function(){
     $('#id_date').datepicker({firstDay: 1, dateFormat: "yy-mm-dd"});
-    });
-    </script>
-  <link rel="stylesheet" href="{{ media_url }}/css/flora.datepicker.css" type="text/css" media="screen" title="Flora (Default)">
-<script src="{{ media_url }}/js/ui.datepicker.js"></script>
-    <link rel="alternate" type="application/rss+xml" title="Diarys RSS Feed" href="/intranet/feeds/diarys/" />
+  });
+  </script>
+  <link rel="alternate" type="application/rss+xml" title="Diarys RSS Feed" href="/intranet/feeds/diarys/" />
 {% endblock %}
 
 {% block toplinks %}

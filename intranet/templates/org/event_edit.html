@@ -1,20 +1,13 @@
 {% extends "org/base.html" %}
 {% block extrahead %}
-<link rel="stylesheet" type="text/css" href="{{ media_url }}markitup/skins/markitup/style.css" />
-<link rel="stylesheet" type="text/css" href="{{ media_url }}markitup/sets/html/style.css" />
-<script type="text/javascript" src="{{ media_url }}markitup/jquery.markitup.js"></script>
-<script type="text/javascript" src="{{ media_url }}markitup/sets/html/set.js"></script>
-<script type="text/javascript" src="{{ media_url }}js/jquery.highlightFade.js" ></script>
-<script src="{{ media_url }}/js/ui.datepicker.js"></script>
-<!-- jquery date picker -->
-<link rel="stylesheet" href="{{ media_url }}/css/flora.datepicker.css" type="text/css" media="screen" title="Flora (Default)">
-<link rel="stylesheet" type="text/css" href="{{ media_url }}js/cal/calendar-win2k-cold-2.css" />
-<script type="text/javascript" src="{{ media_url }}js/cal/calendar.js"></script>
-<script type="text/javascript" src="{{ media_url }}js/cal/lang/calendar-en.js"></script>
-<script type="text/javascript" src="{{ media_url }}js/cal/calendar-setup.js"></script>
-<script type="text/javascript" src="{{ media_url }}js/jquery.suggest.js" ></script>
-<script type="text/javascript" src="{{ media_url }}js/jquery.ajaxUpload.js" ></script>
-<script type="text/javascript" src="{{ media_url }}js/jquery.imgareaselect-0.6.1.min.js" ></script>
+<link rel="stylesheet" type="text/css" href="{{ settings.STATIC_URL }}org/markitup/skins/markitup/style.css" />
+<link rel="stylesheet" type="text/css" href="{{ settings.STATIC_URL }}org/markitup/sets/html/style.css" />
+<script type="text/javascript" src="{{ settings.STATIC_URL }}org/markitup/jquery.markitup.js"></script>
+<script type="text/javascript" src="{{ settings.STATIC_URL }}org/markitup/sets/html/set.js"></script>
+<script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.highlightFade.js" ></script>
+<script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.suggest.js" ></script>
+<script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.ajaxUpload.js" ></script>
+<script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.imgareaselect-0.6.1.min.js" ></script>
 <script type="text/javascript">
 function addFormField() {
     var id = document.getElementById("id").value;

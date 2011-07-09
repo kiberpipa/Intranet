@@ -2,12 +2,8 @@
 {% block title %}Sodelovanja{% endblock %}
 
 {% block extrahead %}
-<script type="text/javascript" src="{{ media_url }}js/jquery.highlightFade.js" ></script>
-<script src="{{ media_url }}/js/ui.datepicker.js"></script>
-
+<script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.highlightFade.js" ></script>
 <script type="text/javascript">
-
-
 {% comment %} generate the JS functions for addition/removal of fields {% endcomment %}
 {% for field in person_form %}
 function add{{ field.name }}() {
@@ -37,11 +33,7 @@ $(document).ready(function() {
   });
 });
 {% endfor %}
-
-  </script>
-
-  <link rel="stylesheet" href="{{ media_url }}/css/flora.datepicker.css" type="text/css" media="screen" title="Flora (Default)">
-  
+</script>
 {% endblock %}
 
 {% block heading %}

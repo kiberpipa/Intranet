@@ -11,13 +11,13 @@
     <link rel="alternate" type="application/rss+xml" title="Kiberpipa - VIP" href="/feeds/vip/" />
     <link rel="alternate" type="application/rss+xml" title="Kiberpipa - Muzej" href="/feeds/muzej/" />
     <link rel="alternate" type="application/rss+xml" title="Kiberpipa - Planet" href="/feeds/planet/" />
-    <link rel="stylesheet" href="{{ media_url }}www/css/style.css" type="text/css" />
-    <link rel="shortcut icon" href="{{ media_url }}www/images/favicon.ico" />
+    <link rel="stylesheet" href="{{ settings.STATIC_URL }}www/css/style.css" type="text/css" />
+    <link rel="shortcut icon" href="{{ settings.STATIC_URL }}www/images/favicon.ico" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="linux,open source,kiberpipa" />
     <title>{% block title %}{% trans "All our code are belong to you" %}{% endblock %} :: Kiberpipa.org</title>
-    <script type='text/javascript' src='{{ media_url }}/js/jquery-1.2.6.js'></script>
-    <script type='text/javascript' src="http://jqueryrotate.googlecode.com/files/jQueryRotate.2.1.js"></script>
+    <script type='text/javascript' src='{{ settings.STATIC_URL }}www/js/jquery-1.2.6.min.js'></script>
+    <script type='text/javascript' src="{{ settings.STATIC_URL }}www/js/jQueryRotate.2.1.js"></script>
     {% block extrahead %}{% endblock %}
 </head>
 
@@ -25,7 +25,7 @@
     <div id="container">
         <div id="header">
             <div class="header-logo">
-                <a href="http://www.kiberpipa.org"><img src="{{ media_url }}www/images/logo.png" alt="Kiberpipa Logo" /></a>
+                <a href="http://www.kiberpipa.org"><img src="{{ settings.STATIC_URL }}www/images/logo.png" alt="Kiberpipa Logo" /></a>
             </div>
             <div class="primary-nav">
                 <a href="/{{ LANGUAGE_CODE }}/about/">{% trans "about" %}</a>
@@ -74,10 +74,10 @@
             </div>
             
             <div class="footer-support">
-                <a href="http://www.k6-4.org/"><img src="{{ media_url }}www/images/zavod_pasica.png" alt="Zavod K6/4" /></a>
-                <a href="http://www.m3c.si/dat/M3C/"><img src="{{ media_url }}www/images/logo_m3c.png" alt="M3C - Mreža Multimedijskih Centrov Slovenije" /></a>
-                <a href="http://www.gov.si/euskladi/skladi/strukt_esrr.html"><img src="{{ media_url }}www/images/logo_evropski_sklad.png" alt="Evropski Sklad za Regionalni Razvoj" /></a>
-                <a href="http://www.kultura.gov.si/"><img src="{{ media_url }}www/images/logo_kultura.png" alt="Kultura" /></a>
+                <a href="http://www.k6-4.org/"><img src="{{ settings.STATIC_URL }}www/images/zavod_pasica.png" alt="Zavod K6/4" /></a>
+                <a href="http://www.m3c.si/dat/M3C/"><img src="{{ settings.STATIC_URL }}www/images/logo_m3c.png" alt="M3C - Mreža Multimedijskih Centrov Slovenije" /></a>
+                <a href="http://www.gov.si/euskladi/skladi/strukt_esrr.html"><img src="{{ settings.STATIC_URL }}www/images/logo_evropski_sklad.png" alt="Evropski Sklad za Regionalni Razvoj" /></a>
+                <a href="http://www.kultura.gov.si/"><img src="{{ settings.STATIC_URL }}www/images/logo_kultura.png" alt="Kultura" /></a>
             </div>
         </div>
     </div>

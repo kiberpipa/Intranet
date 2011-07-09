@@ -26,7 +26,7 @@ function initialize() {
         
         for (var i=0; i<poi_list.length;i++){
             var poiicon = new GIcon(G_DEFAULT_ICON);
-            poiicon.image = '/smedia/www/images/' + poi_list[i].icon + '_icon.png';
+            poiicon.image = '{{ settings.STATIC_URL }}/www/images/' + poi_list[i].icon + '_icon.png';
             poiicon.iconSize = new GSize(28,28);
             poiicon.iconAnchor = new GPoint(14, 14);
             poiicon.shadowSize = new GSize(0,0);

@@ -45,9 +45,10 @@ LOCALE_INDEPENDENT_PATHS = (
 SITE_ID = 1
 
 MEDIA_URL = '/smedia/'
-ADMIN_MEDIA_PREFIX = '/amedia/'
 MEDIA_ROOT = next_to_this_file(__file__, '../media')
-ADMIN_MEDIA_PREFIX = '/admin-media/'
+STATIC_URL = '/static/'
+STATIC_ROOT = next_to_this_file(__file__, '../static')
+ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -78,8 +79,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.i18n',
     'django.core.context_processors.request',
     'intranet.org.context_processors.django_settings',
-    'intranet.org.context_processors.media_url',
-    'intranet.org.context_processors.admin_media_prefix',
 )
 
 INSTALLED_APPS = (
@@ -92,6 +91,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.markup',
     'django.contrib.redirects',
+    'django.contrib.staticfiles',
     'reversion',
     'feedjack',  # FIXME
     'localeurl',

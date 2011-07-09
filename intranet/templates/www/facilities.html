@@ -3,7 +3,7 @@
 
 {% block extrahead %}
     {{ form.media }}
-    <script type="text/javascript" src="{{ settings.MEDIA_URL }}/js/jquery.maphilight.min.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}www/js/jquery.maphilight.min.js"></script>
     <script>
     $(function() {
         $('.map').maphilight({
@@ -65,7 +65,7 @@
         <br />
     {% endif %}
     <div id="map">
-        <img src="{{ settings.MEDIA_URL }}/img/tloris.png" class="map" usemap="#tloris">
+        <img src="{{ settings.STATIC_URL }}www/images/tloris.png" class="map" usemap="#tloris">
             <map name="tloris">
                 <area id="kinodvorana"
                         shape="rect"

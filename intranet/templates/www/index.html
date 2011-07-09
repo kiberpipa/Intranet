@@ -2,10 +2,10 @@
 {% load www i18n %}
 
 {% block extrahead %}
-<link href='{{ media_url }}/www/scroll.css' type='text/css' rel='stylesheet' />
-<script type='text/javascript' src='{{ media_url }}/www/js/jquery.scrollable.js'></script>
-<script type='text/javascript' src='{{ media_url }}/www/js/jquery.serialScroll-1.2.1.js'></script>
-<script type='text/javascript' src='{{ media_url }}/www/js/jquery.scrollTo-1.4.0.js'></script>
+<link href='{{ settings.STATIC_URL }}www/css/scroll.css' type='text/css' rel='stylesheet' />
+<script type='text/javascript' src='{{ settings.STATIC_URL }}www/js/jquery.scrollable.js'></script>
+<script type='text/javascript' src='{{ settings.STATIC_URL }}www/js/jquery.serialScroll-1.2.1.js'></script>
+<script type='text/javascript' src='{{ settings.STATIC_URL }}www/js/jquery.scrollTo-1.4.0.js'></script>
 <script type='text/javascript'>
 <!-- TODO create init.js -->
 
@@ -66,12 +66,12 @@ $(document).ready(function() {
 </script>
 {% endblock %}
 {% block content %}
-	<div class="rss-index"><a href="/rss/" ><img src="{{ media_url }}www/images/rss20x20.png" alt="RSS Feeds" /></a></div>
+	<div class="rss-index"><a href="/rss/" ><img src="{{ settings.STATIC_URL }}www/images/rss20x20.png" alt="RSS Feeds" /></a></div>
     {% if events %}
 	<div id="upcoming">
 		<div class="next3-left">
-			<div class="past3"><a href="#" onclick="return false;"><img src="{{ media_url }}www/images/puscica-3levo.gif" alt="tri dogodke nazaj" /></a></div>
-			<div class="past"><a href="#" onclick="return false;"><img src="{{ media_url }}www/images/puscica-levo.gif" alt="en dogodek nazaj" /></a></div>
+			<div class="past3"><a href="#" onclick="return false;"><img src="{{ settings.STATIC_URL }}www/images/puscica-3levo.gif" alt="tri dogodke nazaj" /></a></div>
+			<div class="past"><a href="#" onclick="return false;"><img src="{{ settings.STATIC_URL }}www/images/puscica-levo.gif" alt="en dogodek nazaj" /></a></div>
 		</div>
         <div class="present">
             {% for event in events %}
@@ -91,7 +91,7 @@ $(document).ready(function() {
                     </a>
                 {% else %}
                     <a href="{{ event.get_public_url }}">
-                        <img width="250" height="130" src="{{ media_url }}www/images/img-upcoming.gif" alt="slika" />
+                        <img width="250" height="130" src="{{ settings.STATIC_URL }}www/images/img-upcoming.gif" alt="slika" />
                     </a>
                 {% endif %}
                 <div class="present-event-text"><a href="{{ event.get_public_url }}">{{ event }}</a></div>
@@ -101,8 +101,8 @@ $(document).ready(function() {
          </div>
 
          <div class="next3-right">
-             <div class="future"><a href="#" onclick="return false;"><img src="{{ media_url }}www/images/puscica-desno.gif" alt="en dogodek naprej" /></a></div>
-             <div class="future3"><a href="#" onclick="return false;"><img src="{{ media_url }}www/images/puscica-3desno.gif" alt="tri dogodke naprej" /></a></div>
+             <div class="future"><a href="#" onclick="return false;"><img src="{{ settings.STATIC_URL }}www/images/puscica-desno.gif" alt="en dogodek naprej" /></a></div>
+             <div class="future3"><a href="#" onclick="return false;"><img src="{{ settings.STATIC_URL }}www/images/puscica-3desno.gif" alt="tri dogodke naprej" /></a></div>
         </div>
     </div>
     {% else %}

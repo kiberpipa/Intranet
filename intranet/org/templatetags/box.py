@@ -3,13 +3,14 @@
 
 import datetime
 
-from django.template import Library
 from django import template
+from django.conf import settings
+from django.template import Library
 from django.template import resolve_variable
 from django.core.exceptions import ObjectDoesNotExist
 
 from intranet.org.models import Scratchpad
-from intranet.localsettings import MEDIA_URL
+
 
 register = Library()
 
@@ -89,7 +90,7 @@ register.inclusion_tag('org/print_diary.html')(print_diary)
 
 
 def print_event(form):
-    return {'event': form, 'media_url': MEDIA_URL }
+    return {'event': form, 'settings': settings}
 register.inclusion_tag('org/print_event.html')(print_event)
 
 def form_event(form):

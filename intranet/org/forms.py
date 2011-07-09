@@ -17,7 +17,7 @@ from intranet.org.models import (TipSodelovanja, Person, Event, Sodelovanje,
 
 # DATETIMEWIDGET
 # TODO: FUUUUUUUUcked up.
-calbtn = u"""<img src="/smedia/img/calendar.jpg" alt="calendar" id="%s_btn" style="cursor: pointer; border: 1px solid #8888aa;" title="Select date and time"
+calbtn = u"""<img src="/static/org/images/calendar.jpg" alt="calendar" id="%s_btn" style="cursor: pointer; border: 1px solid #8888aa;" title="Select date and time"
             onmouseover="this.style.background='#444444';" onmouseout="this.style.background=''" />
 <script type="text/javascript">
     Calendar.setup({

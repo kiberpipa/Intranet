@@ -18,7 +18,7 @@
 {% block heading %}
     <h1>Aktualni dogodki
         <a href="/intranet/feeds/events/">
-            <img src="{{ media_url }}/img/rss.png" alt="event rss" />
+            <img src="{{ settings.STATIC_URL }}org/images/rss.png" alt="event rss" />
         </a>
     </h1>
 {% endblock %}
@@ -28,9 +28,9 @@
     <h2>Urejanje</h2>
         <ul class="actionlist">
             <li><a href="create/">Dodajanje</a></li>
-            <li>Snemanje: <img src="{{ media_url }}img/film.png" alt="video" /></li>
-            <li>Fotografije: <img src="{{ media_url }}img/photo.png" alt="tech" /></li>
-            <li>Tehnik: <img src="{{ media_url }}img/tools.png" alt="tech" /></li>
+            <li>Snemanje: <img src="{{ settings.STATIC_URL }}org/images/film.png" alt="video" /></li>
+            <li>Fotografije: <img src="{{ settings.STATIC_URL }}org/images/photo.png" alt="tech" /></li>
+            <li>Tehnik: <img src="{{ settings.STATIC_URL }}org/images/tools.png" alt="tech" /></li>
         </ul>
   </div>
 {% endblock %}
