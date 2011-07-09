@@ -48,7 +48,7 @@ MEDIA_URL = '/smedia/'
 MEDIA_ROOT = next_to_this_file(__file__, '../media')
 STATIC_URL = '/static/'
 STATIC_ROOT = next_to_this_file(__file__, '../static')
-ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
+ADMIN_MEDIA_PREFIX = STATIC_URL + 'grappelli/'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -88,6 +88,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.flatpages',
     'django.contrib.comments',
+    'grappelli',  # must be before admin
     'django.contrib.admin',
     'django.contrib.markup',
     'django.contrib.redirects',

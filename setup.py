@@ -43,6 +43,7 @@ setup(name='intranet',
         'django-honeypot',
         'python-dateutil',
         'django-reversion',
+        'django-grappelli',
         # commands
         'twitter',
     ],

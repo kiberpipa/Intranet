@@ -28,8 +28,8 @@ js_info_dict = {
 
 urlpatterns = patterns('',
     (r'^', include('intranet.www.urls')),
-    (r'^gallery/', include('pipa.gallery.urls')),
     (r'^intranet/', include('intranet.org.urls')),
+    (r'^gallery/', include('pipa.gallery.urls')),
     (r'^planet/', 'django.views.generic.list_detail.object_list', planet_dict),
 
     # keep this here as a way to force normalization of feeds
@@ -41,6 +41,7 @@ urlpatterns = patterns('',
     (r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
 
     (r'services/ltsp/', include('pipa.ltsp.urls')),
+    (r'^grappelli/', include('grappelli.urls')),
 )
 
 if settings.DEBUG:
