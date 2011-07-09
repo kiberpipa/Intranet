@@ -100,7 +100,6 @@ INSTALLED_APPS = (
     'tagging',
     'south',
     'intranet.org',
-    'intranet.wiki',
     'intranet.www',
     'pipa.video',
     'pipa.ldap',

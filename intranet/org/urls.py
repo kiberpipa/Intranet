@@ -120,7 +120,6 @@ urlpatterns = patterns('',
     (r'^search/$', 'intranet.org.views.search'),
     (r'^stats/$', 'intranet.org.views.stats'),
     (r'^admin/', include(admin.site.urls)),
-    (r'^oldwiki/', include('intranet.wiki.urls')),
     url(r'^ldappass/', 'pipa.ldap.views.password_change', name='ldap_password_change'),
 
     url(r'^events/$', 'intranet.org.views.events', name="event_list"),
