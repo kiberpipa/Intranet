@@ -162,6 +162,8 @@ def production_deploy():
                     run('bin/django migrate --fake')
                 else:
                     run('../v%(ver)d/bin/supervisorctl shutdown' % env)
+                # symlink supervisord for cronjob on startup
+                run('ln -f -s bin/supervisord %(root_folder)s/supervisord' % env)
                 deploy()
         except FabricFailure:
             operations.abort = utils.abort  # unmonkeypatch
