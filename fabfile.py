@@ -6,14 +6,13 @@ Before sure to provide the following:
 
 * create DB for production and staging according to localsettings.py
 
-TODO
-====
-
-* shouldn't be postgres specific
-* staticfiles with intranet.www and intranet.org
-* uninstall crontab
-
 """
+# TODO:
+# * shouldn't be postgres specific
+# * fix staging
+
+# TODO future:
+# * remove ugly hack with symlinking supervisor (probably by patching z3c.recipe.usercrontab)
 
 import os
 import time
@@ -86,7 +85,7 @@ def deploy():
     run('bin/django syncdb --noinput --traceback --migrate')
     with settings(warn_only=True):
         run('bin/django createinitialrevisions')  # django-revision
-        run('bin/django collectstatic')  # staticfiles
+        run('bin/django collectstatic --noinput -l')  # staticfiles
     run('bin/supervisord')
     time.sleep(15)
     run('bin/supervisorctl status')
@@ -154,7 +153,6 @@ def production_deploy():
                 upload_template('buildout.d/buildout.cfg.in', 'buildout.cfg', env)
                 run('cp %(production_django_settings)s %(django_project)s/localsettings.py' % env)
                 run('bin/buildout -o')
-                run('bin/fab production_media_symlink')
 
                 # everthing went fine.
                 if is_fresh:
@@ -186,15 +184,6 @@ def production_copy_livedata_to_staging():
     """"""
     run('bin/fab production_data_backup -H localhost')
     staging_bootstrap()
-
-
-@task
-def production_media_symlink():
-    """"""
-    django.project(env.django_project)
-    from django.conf import settings
-    local('rm -rf %s' % settings.MEDIA_ROOT)
-    local('ln -s %s %s' % (env.production_media_folder, settings.MEDIA_ROOT))
 
 
 @task
@@ -232,7 +221,7 @@ def production_data_backup(version=None):
         local('mkdir -p %(backup_location)s' % env)
 
     # backup static files
-    local('tar cvfz %(backup_location)s/mediafiles.tar.gz %(production_media_folder)s' % env)
+    local('tar cvfz %(backup_location)s/mediafiles.tar.gz -C %(production_media_folder)s' % env)
 
     # backup database
     with lcd(production):
@@ -262,7 +251,7 @@ def production_data_restore(to):
         operations.abort("unknown '%s' restore location" % to)
 
     # restore static files
-    local('tar -C %(production_media_folder)s xvfz %(backup_location)s/mediafiles.tar.gz' % env)
+    local('tar xvfz %(backup_location)s/mediafiles.tar.gz -C %(production_media_folder)s' % env)
 
     # restore database
     with lcd(env.restore_location):
