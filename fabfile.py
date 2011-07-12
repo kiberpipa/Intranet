@@ -95,7 +95,8 @@ def deploy():
 def staging_bootstrap(fresh=True):
     """Install and run staging from scratch"""
     env.environment = 'staging'
-    install_defaults()
+    if fresh:
+        install_defaults()
 
     # cleanup
     with settings(warn_only=True):
