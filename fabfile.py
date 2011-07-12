@@ -67,7 +67,7 @@ def install_defaults():
             operations.abort('%s does not exists. Please upload the file and rerun fabric.' % f)
 
 
-def check_for_new_commits():
+def has_new_commits():
     """Check for fresh deploy branch commits"""
     with lcd(env.staging_folder):
         local('git fetch origin')
@@ -121,7 +121,7 @@ def staging_bootstrap(fresh=True):
 @task
 def staging_redeploy():
     """Check for new commits and rebootstrap staging"""
-    if not check_for_new_commits():
+    if not has_new_commits():
         return
 
     staging_bootstrap(fresh=False)
