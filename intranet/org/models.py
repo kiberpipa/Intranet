@@ -187,8 +187,8 @@ class Event(models.Model):
     note = models.TextField(verbose_name="Opombe", blank=True, null=True)
 
     # time fields
-    start_date = models.DateTimeField(verbose_name="Pričetek", db_index=True)
-    end_date = models.DateTimeField(verbose_name="Zaključek", blank=True, null=True)
+    start_date = models.DateTimeField(verbose_name=u"Pričetek", db_index=True)
+    end_date = models.DateTimeField(verbose_name=u"Zaključek", blank=True, null=True)
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
 

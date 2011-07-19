@@ -1,74 +1,102 @@
 # coding=utf-8
 
-import datetime
 import re
-import time
 import httplib
+import datetime
 
 from django import forms
 from django.contrib.auth.models import User
-from django.utils.encoding import force_unicode
-from django.conf import settings
 from django.forms.util import ErrorList
 from django.forms.models import ModelChoiceField
 
 from intranet.org.models import (Person, Event, Sodelovanje,
     Project, Lend, Diary, Shopping, IntranetImage, EmailBlacklist)
 
-# DATETIMEWIDGET
-# TODO: FUUUUUUUUcked up.
-calbtn = u"""<img src="/static/org/images/calendar.jpg" alt="calendar" id="%s_btn" style="cursor: pointer; border: 1px solid #8888aa;" title="Select date and time"
-            onmouseover="this.style.background='#444444';" onmouseout="this.style.background=''" />
-<script type="text/javascript">
-    Calendar.setup({
-        inputField     :    "%s",
-        ifFormat       :    "%s",
-        button         :    "%s_btn",
-        singleClick    :    true,
-        showsTime      :    true,
-    });
-</script>"""
+
+# TODO: i18n for widget
+# TODO: obey settings.DATETIME_FORMAT
+# TODO: document jquery ui css font-size change
+# TODO: problem using existing datetime: https://github.com/trentrichardson/jQuery-Timepicker-Addon/issues/197
+
+
+PYTHON_TO_JQUERY_DATETIME_FORMAT = {
+        '%d': 'dd',
+        '%m': 'mm',
+        '%Y': 'yy',
+        '%M': 'mm',
+        '%H': 'hh',
+        '%S': 'ss',
+        #'%': '',
+}
+
 
 class DateTimeWidget(forms.widgets.TextInput):
-    dformat = '%Y-%m-%d %H:%M'
+    """Datetimepicker implementation for Django.
+
+    Dependencies: jquery, jquery.ui, slider
+    URL: https://github.com/trentrichardson/jQuery-Timepicker-Addon
+
+    """
+
+    separator = " "
+    date_format = "%Y/%m/%d"
+    time_format = "%H:%M"
+    class_ = 'jquery-timepicker'
+    template = """
+<script type="text/javascript">
+    $('.%s').datetimepicker({
+        dateFormat: '%s',
+        timeFormat: '%s',
+        stepHour: 1,
+        stepMinute: 1,
+        showButtonPanel: false,
+        %s
+    })
+</script>
+"""
+
+    def __init__(self, *a, **kw):
+        self.extra = kw.pop('extra', '')
+
+        super(DateTimeWidget, self).__init__(*a, **kw)
+
+    @property
+    def format(self):
+        return self.separator.join([self.date_format, self.time_format])
 
     def render(self, name, value, attrs=None):
-        if value is None:
-            value = ''
-        final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
-        if value != '':
-            try:
-                final_attrs['value'] = \
-                                   force_unicode(value.strftime(self.dformat))
-            except:
-                final_attrs['value'] = \
-                                   force_unicode(value)
-        if 'id' not in final_attrs:
-            final_attrs['id'] = u'%s_id' % (name)
-        id = final_attrs['id']
+        if not attrs:
+            attrs = {}
 
-        jsdformat = self.dformat  # .replace('%', '%%')
-        cal = calbtn % (id, id, jsdformat, id)
-        a = u'<input%s />%s' % (forms.util.flatatt(final_attrs), cal)
-        return a
+        try:
+            value = value.strftime(self.format)
+        except:
+            pass
+
+        if 'class' in attrs:
+            attrs['class'] += ' %s' % self.class_
+        else:
+            attrs.update({'class': self.class_})
+
+        # convert python datetime format to jquerys
+        for k, v in PYTHON_TO_JQUERY_DATETIME_FORMAT.iteritems():
+            self.date_format = self.date_format.replace(k, v)
+            self.time_format = self.time_format.replace(k, v)
+
+        # render widget
+        return super(DateTimeWidget, self).render(name, value, attrs) + self.template % (self.class_, self.date_format, self.time_format, self.extra)
 
     def value_from_datadict(self, data, files, name):
-        dtf = forms.fields.DEFAULT_DATETIME_INPUT_FORMATS
-        empty_values = forms.fields.EMPTY_VALUES
+        value = super(DateTimeWidget, self).value_from_datadict(data, files, name)
 
-        value = data.get(name, None)
-        if value in empty_values:
-            return None
         if isinstance(value, datetime.datetime):
             return value
-        if isinstance(value, datetime.date):
-            return datetime(value.year, value.month, value.day)
-        for format in dtf:
+
+        for fmt in [self.format] + list(forms.fields.DEFAULT_DATETIME_INPUT_FORMATS):
             try:
-                return datetime.datetime(*(time.strptime(value, format))[:6])
+                return datetime.datetime.strptime(value, fmt)
             except ValueError:
-                continue
-        return None
+                pass
 
 
 class DiaryFilter(forms.Form):
@@ -114,8 +142,6 @@ class IntranetImageForm(forms.ModelForm):
 
 
 class EventForm(forms.ModelForm):
-    start_date = forms.DateTimeField(label=u"Pričetek", widget=DateTimeWidget)
-    end_date = forms.DateTimeField(label=u"Zaključek", widget=DateTimeWidget, required=False)
     title = forms.CharField(label="Naslov", max_length=Event._meta.get_field('title').max_length,
         widget=forms.TextInput(attrs={'size': '60'}))
     responsible = forms.CharField(label="Odgovorna oseba")
@@ -123,7 +149,16 @@ class EventForm(forms.ModelForm):
     class Meta:
         model = Event
         exclude = ('sequence', 'emails')
-        widgets = {}
+        widgets = {
+            'start_date': DateTimeWidget(extra="""
+                onClose: function(date, inst) {
+                    if ($('#id_end_date').datepicker('getDate') == null) {
+                        $('#id_end_date').datepicker('setDate', date);
+                    }
+                }
+            """),
+            'end_date': DateTimeWidget,
+        }
 
     def __init__(self, *a, **kw):
         super(EventForm, self).__init__(*a, **kw)
@@ -143,7 +178,7 @@ class EventForm(forms.ModelForm):
             conn = httplib.HTTPConnection("www.flickr.com")
             conn.request("HEAD", "/photos/kiberpipa/sets/%s/" % resp)
             if conn.getresponse().status != 200:
-                raise forms.ValidationError("Set z takšnim id-jem ne obstaja")
+                raise forms.ValidationError(u"Set z takšnim id-jem ne obstaja")
         return resp
 
     def clean(self):
@@ -189,3 +224,6 @@ class DiaryForm(forms.ModelForm):
     class Meta:
         model = Diary
         fields = ('task', 'date', 'length', 'log_formal', 'log_informal')
+        widgets = {
+            'date': DateTimeWidget,
+        }

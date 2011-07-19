@@ -58,6 +58,11 @@ function imgResized(img, sel) {
     $("#id_resize").attr("value", result.join(','));
 }
 $(document).ready(function() {
+    // datetime logic
+    if ($('#id_start_date').datepicker('getDate') == null) {
+        $('#id_start_date').datepicker('setDate', '0');
+    }
+
     $("#id_image").change(function(){
         $.ajaxFileUpload
         (
@@ -90,7 +95,7 @@ $(document).ready(function() {
 
     $("#id_project").change(function(){
         var now = new Date();
-        var time = now.getYear() + 1900 + '-' + (now.getMonth() + 1) + '-' + now.getDate() + ' 19:00';
+        var time = now.getYear() + 1900 + '/' + (now.getMonth() + 1) + '/' + now.getDate() + ' 19:00';
         switch ($("#id_project").children()[this.selectedIndex].value) {
             case '6': //su
                 $("#id_start_date").attr("value", time);
@@ -126,6 +131,7 @@ $(document).ready(function() {
     $(".input_author").suggest("/intranet/autocomplete/person/");
     $("#id_responsible").suggest("/intranet/autocomplete/active_user/");
     $('#id_announce').markItUp(mySettings);
+
 });
 </script>
 <style type="text/css">      
