@@ -143,7 +143,6 @@ $(document).ready(function() {
     {% comment %}
     # TODO: django-schedule
     <h2>Ponavljanje</h2>
-    <form method="POST" action="" enctype="multipart/form-data"> 
     <div id="content-related" class="sidebar">
         <div  class="module" id="recent-actions-module">
             {% box_reccurings form %}
@@ -152,6 +151,7 @@ $(document).ready(function() {
     {% endcomment %}
 
     <div id="content-full" class="flex">
+        <form method="POST" action="" enctype="multipart/form-data"> 
         <div class="module">
             <h2>Dodaj dogodek v koledar</h2>
             {% if form.errors %}
