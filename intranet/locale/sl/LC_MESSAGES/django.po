@@ -5,319 +5,25 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: Intranet\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-12 17:45+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2011-07-20 12:03+0200\n"
+"PO-Revision-Date: 2011-07-06 15:13+0100\n"
+"Last-Translator: Klemen Robnik <klemen.robnik@kiberpipa.org>\n"
+"Language-Team: intranet <info@kiberpipa.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: feedjack/admin.py:31
-msgid "Fields updated automatically by Feedjack"
-msgstr ""
-
-#: feedjack/models.py:17
-msgid "Date published."
-msgstr ""
-
-#: feedjack/models.py:18
-msgid "Date the post was first obtained."
-msgstr ""
-
-#: feedjack/models.py:22 feedjack/models.py:38 feedjack/models.py:98
-#: feedjack/models.py:126 feedjack/models.py:173
-msgid "name"
-msgstr ""
-
-#: feedjack/models.py:23 feedjack/models.py:26 feedjack/models.py:105
-#: feedjack/models.py:142
-msgid "link"
-msgstr ""
-
-#: feedjack/models.py:27 feedjack/models.py:61
-msgid "links"
-msgstr ""
-
-#: feedjack/models.py:39
-msgid "url"
-msgstr ""
-
-#: feedjack/models.py:42
-msgid "Example"
-msgstr ""
-
-#: feedjack/models.py:45 feedjack/models.py:103 feedjack/models.py:141
-msgid "title"
-msgstr ""
-
-#: feedjack/models.py:46
-msgid "description"
-msgstr ""
-
-#: feedjack/models.py:47
-msgid "welcome"
-msgstr ""
-
-#: feedjack/models.py:48
-msgid "greets"
-msgstr ""
-
-#: feedjack/models.py:50
-msgid "default site"
-msgstr ""
-
-#: feedjack/models.py:51
-msgid "posts per page"
-msgstr ""
-
-#: feedjack/models.py:52
-msgid "order posts by"
-msgstr ""
-
-#: feedjack/models.py:54
-msgid "tagcloud level"
-msgstr ""
-
-#: feedjack/models.py:55
-msgid "show tagcloud"
-msgstr ""
-
-#: feedjack/models.py:57
-msgid "use internal cache"
-msgstr ""
-
-#: feedjack/models.py:58
-msgid "cache duration"
-msgstr ""
-
-#: feedjack/models.py:59
-msgid "Duration in seconds of the cached pages and data."
-msgstr ""
-
-#: feedjack/models.py:63
-msgid "template"
-msgstr ""
-
-#: feedjack/models.py:65
-msgid ""
-"This template must be a directory in your feedjack templates directory. "
-"Leave blank to use the default template."
-msgstr ""
-
-#: feedjack/models.py:69 feedjack/models.py:170
-msgid "site"
-msgstr ""
-
-#: feedjack/models.py:70
-msgid "sites"
-msgstr ""
-
-#: feedjack/models.py:96
-msgid "feed url"
-msgstr ""
-
-#: feedjack/models.py:99 feedjack/models.py:175
-msgid "shortname"
-msgstr ""
-
-#: feedjack/models.py:100 feedjack/models.py:178
-msgid "is active"
-msgstr ""
-
-#: feedjack/models.py:101
-msgid "If disabled, this feed will not be further updated."
-msgstr ""
-
-#: feedjack/models.py:104
-msgid "tagline"
-msgstr ""
-
-#: feedjack/models.py:108
-msgid "etag"
-msgstr ""
-
-#: feedjack/models.py:109
-msgid "last modified"
-msgstr ""
-
-#: feedjack/models.py:110
-msgid "last checked"
-msgstr ""
-
-#: feedjack/models.py:113 feedjack/models.py:140 feedjack/models.py:171
-msgid "feed"
-msgstr ""
-
-#: feedjack/models.py:114
-msgid "feeds"
-msgstr ""
-
-#: feedjack/models.py:129
-msgid "tag"
-msgstr ""
-
-#: feedjack/models.py:130 feedjack/models.py:149
-msgid "tags"
-msgstr ""
-
-#: feedjack/models.py:143
-msgid "content"
-msgstr ""
-
-#: feedjack/models.py:144
-msgid "date modified"
-msgstr ""
-
-#: feedjack/models.py:145
-msgid "guid"
-msgstr ""
-
-#: feedjack/models.py:146
-msgid "author"
-msgstr ""
-
-#: feedjack/models.py:147
-msgid "author email"
-msgstr ""
-
-#: feedjack/models.py:148
-msgid "comments"
-msgstr ""
-
-#: feedjack/models.py:150
-msgid "date created"
-msgstr ""
-
-#: feedjack/models.py:153
-msgid "post"
-msgstr ""
-
-#: feedjack/models.py:154
-msgid "posts"
-msgstr ""
-
-#: feedjack/models.py:174
-msgid "Keep blank to use the Feed's original name."
-msgstr ""
-
-#: feedjack/models.py:177
-msgid "Keep blank to use the Feed's original shortname."
-msgstr ""
-
-#: feedjack/models.py:179
-msgid ""
-"If disabled, this subscriber will not appear in the site or in the site's "
-"feed."
-msgstr ""
-
-#: feedjack/models.py:183
-msgid "subscriber"
-msgstr ""
-
-#: feedjack/models.py:184
-msgid "subscribers"
-msgstr ""
-
-#: templates/admin/base.html:70
-msgid "Hello"
-msgstr "Pozdravljen"
-
-#: templates/admin/base.html:71
-msgid "Log out"
-msgstr "Odjava"
-
-#: templates/admin/base.html:76
-msgid "control panel"
-msgstr "nadzorna plošča"
-
-#: templates/admin/base.html:79
-msgid "Kiberpipa folks"
-msgstr "Pipci"
-
-#: templates/admin/base.html:80
-msgid "Happening"
-msgstr "Dogajanja"
-
-#: templates/admin/base.html:81 templates/admin/base.html.py:101
-msgid "Knowledge"
-msgstr "Znanje"
-
-#: templates/admin/base.html:82
-msgid "Assets"
-msgstr "Sredstva"
-
-#: templates/admin/base.html:83
-msgid "Misc"
-msgstr "Razno"
-
-#: templates/admin/base.html:86
-msgid "On duty"
-msgstr "Dezurstva"
-
-#: templates/admin/base.html:87
-msgid "Technicians"
-msgstr "Tehniki"
-
-#: templates/admin/base.html:88
-msgid "Adress book"
-msgstr "Imenik"
-
-#: templates/admin/base.html:92
-msgid "Diarys"
-msgstr "Dnevniki"
-
-#: templates/admin/base.html:93
-msgid "Events"
-msgstr "Dogodki"
-
-#: templates/admin/base.html:94
-msgid "Bugs"
-msgstr "Hrošči"
-
-#: templates/admin/base.html:98
-msgid "Wiki"
-msgstr "Wiki"
-
-#: templates/admin/base.html:99
-msgid "Cooperations"
-msgstr "Sodelovanja"
-
-#: templates/admin/base.html:100
-msgid "Clipping"
-msgstr "Clipping"
-
-#: templates/admin/base.html:105
-msgid "Lends"
-msgstr "Reverzi"
-
-#: templates/admin/base.html:106
-msgid "Shopping"
-msgstr "Nakupi"
-
-#: templates/admin/base.html:107
-msgid "Mercenaries"
-msgstr "Mercenaries"
-
-#: templates/admin/base.html:119
-msgid "Home"
-msgstr "Dom"
-
-#: templates/admin/base_site.html:4
-msgid "Kiberpipa site admin"
-msgstr "Kiberpipa administracija"
-
-#: templates/admin/base_site.html:7
-msgid "Kiberpipa administration"
-msgstr "Kiberpipa administracija"
-
-#: templates/www/alumni.html:8
+"X-Poedit-Language: Slovenian\n"
+"X-Poedit-Country: SLOVENIA\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: templates/alumni/alumni.html:14
 msgid "Community"
 msgstr "Skupnost"
 
-#: templates/www/alumni.html:11
+#: templates/alumni/alumni.html:17
 msgid ""
 "Kiberpipa is possible because of all the volunteers that are interested in "
 "tech, computers, art and the mix of everything through everyday life. "
@@ -333,111 +39,87 @@ msgstr ""
 "sodelovali in pripomogli, da je Kiberpipa sedaj najboljši Kibercenter v "
 "Evropi."
 
-#: templates/www/alumni.html:14
-msgid "Active"
-msgstr "Aktivni"
-
-#: templates/www/alumni.html:68
-msgid "Not active"
-msgstr "Ne aktivni"
-
-#: templates/www/base.html:9
+#: templates/www/base.html:18
 msgid "All our code are belong to you"
-msgstr ""
+msgstr "All our code are belong to you"
 
-#: templates/www/base.html:23
+#: templates/www/base.html:31
 msgid "about"
 msgstr "o nas"
 
-#: templates/www/base.html:23
-msgid "community"
-msgstr "skupnost"
-
-#: templates/www/base.html:23
+#: templates/www/base.html:34
 msgid "calendar"
 msgstr "koledar"
 
-#: templates/www/base.html:23
+#: templates/www/base.html:35
+msgid "community"
+msgstr "skupnost"
+
+#: templates/www/base.html:36
 msgid "support"
 msgstr "podpora"
 
-#: templates/www/base.html:23
+#: templates/www/base.html:37
 msgid "press"
 msgstr "press"
+
+#: templates/www/base.html:64
+msgid "Mon. - Fri."
+msgstr ""
+
+#: templates/www/base.html:65
+msgid "10am - 10pm"
+msgstr ""
 
 #: templates/www/calendar.html:6 templates/www/calendar.html.py:9
 msgid "Calendar of Events in Kiberpipa"
 msgstr "Kiberpipin koledar dogodkov"
 
-#: templates/www/calendar.html:15
-msgid "Calendar"
-msgstr "Koledar"
+#: templates/www/calendar.html:18
+msgid "Previous month"
+msgstr "Prejšnji mesec"
 
-#: templates/www/calendar.html:24
+#: templates/www/calendar.html:20
+msgid "Next month"
+msgstr "Naslednji mesec"
+
+#: templates/www/calendar.html:25
 msgid "Monday"
 msgstr "Ponedeljek"
 
-#: templates/www/calendar.html:27
+#: templates/www/calendar.html:28
 msgid "Tuesday"
 msgstr "Torek"
 
-#: templates/www/calendar.html:30
+#: templates/www/calendar.html:31
 msgid "Wednesday"
 msgstr "Sreda"
 
-#: templates/www/calendar.html:33
+#: templates/www/calendar.html:34
 msgid "Thursday"
 msgstr "Četrtek"
 
-#: templates/www/calendar.html:36
+#: templates/www/calendar.html:37
 msgid "Friday"
 msgstr "Petek"
 
-#: templates/www/calendar.html:39
+#: templates/www/calendar.html:40
 msgid "Saturday"
 msgstr "Sobota"
 
-#: templates/www/calendar.html:42
+#: templates/www/calendar.html:43
 msgid "Sunday"
 msgstr "Nedelja"
 
 #: templates/www/calendar.html:57
-msgid "Private."
-msgstr ""
-
-#: templates/www/calendar.html:83
 msgid "Reserved."
 msgstr "Rezervirano."
 
-#: templates/www/calendar.html:94
-msgid "Previous month"
-msgstr "Prejšnji mesec"
-
-#: templates/www/calendar.html:97
-msgid "Next month"
-msgstr "Naslednji mesec"
-
-#: templates/www/event.html:38
-msgid "Upload photos"
-msgstr ""
-
-#: templates/www/event.html:43 templates/www/event.html.py:81
-msgid "submit"
-msgstr "pošlji"
-
-#: templates/www/event.html:46 templates/www/event.html.py:84
-msgid ""
-"Note: your email will be used only to deliver the message about video "
-"availability."
-msgstr ""
-"Opomba: vaš elektronski naslov bo uporabljen samo za dostavo sporočila o "
-"dosegljivosti video posnetka. "
-
-#: templates/www/event.html:74
+#: templates/www/event.html:45
 msgid "Please inform me when the video of this lecture is available"
 msgstr "Želim biti obveščen, ko bo video na voljo"
 
-#: templates/www/event.html:77
+#: templates/www/event.html:48
 msgid ""
 "Please enter your contact data so we can inform you when the video will be "
 "available."
@@ -445,36 +127,58 @@ msgstr ""
 "Vnesite vaše kontaktne podatke, če želite biti obveščeni, ko bo video "
 "posnetek na voljo"
 
-#: templates/www/index.html:120
-msgid "Last added videos to the Video Archive"
+#: templates/www/event.html:52
+msgid "submit"
+msgstr "pošlji"
+
+#: templates/www/event.html:55
+msgid ""
+"Note: your email will be used only to deliver the message about video "
+"availability."
+msgstr ""
+"Opomba: vaš elektronski naslov bo uporabljen samo za dostavo sporočila o "
+"dosegljivosti video posnetka. "
+
+#: templates/www/index.html:85
+msgid "at"
+msgstr "ob"
+
+#: templates/www/index.html:109
+msgid "Currently no events are scheduled."
+msgstr "Trenutno v koledarju ni dogodkov."
+
+#: templates/www/index.html:125
+#, fuzzy
+msgid "Newest videos in the Video Archive"
 msgstr "Zadnji dodani posnetki v Video arhiv"
 
-#: templates/www/index.html:163
-msgid "Writings from the world without windows"
+#: templates/www/index.html:150
+#, fuzzy
+msgid "Writings from the world with no windows"
 msgstr "Zapisi iz sveta brez oken"
 
-#: templates/www/index.html:170 templates/www/index.html.py:192
+#: templates/www/index.html:157 templates/www/index.html.py:179
+#: templates/www/news_list.html:14
 msgid "Published by"
 msgstr "Objavil"
 
-#: templates/www/index.html:170 templates/www/index.html.py:192
+#: templates/www/index.html:157 templates/www/index.html.py:179
 msgid "on"
 msgstr "dne"
 
-#: templates/www/index.html:185
+#: templates/www/index.html:172
 msgid "Reflections from /dev/random"
 msgstr "Razmišljanja iz /dev/random"
 
 #: templates/www/locale.html:14
-#, fuzzy
 msgid "Send"
-msgstr "Reverzi"
+msgstr "Pošlji"
 
 #: templates/www/news.html:7
 msgid "Kiberpipas blog"
 msgstr "Kiberpipin blog"
 
-#: templates/www/news.html:13 templates/www/news_list.html:14
+#: templates/www/news.html:13
 msgid "Author"
 msgstr "Avtor"
 
@@ -498,41 +202,154 @@ msgstr "Pošlji komentar"
 msgid "News"
 msgstr "Novice"
 
-#: templates/www/press.html:9
-msgid "About Kiberpipa in Media"
-msgstr "O Kiberpipi v medijih"
-
-#: templates/www/press.html:35
+#: templates/www/press.html:32
 msgid "Press kit"
 msgstr "Press kit"
 
-#: templates/www/press.html:41
+#: templates/www/press.html:38
 msgid "Kiberpipa Logo"
 msgstr "Kiberpipa Logo"
 
-#: templates/www/press.html:45
+#: templates/www/press.html:42
 msgid "Supporters of Kiberpipa Banner"
 msgstr "Podporniki Kiberpipe Pasica"
 
-#: templates/www/press.html:49
+#: templates/www/press.html:46
 msgid "Text about Kiberpipa"
 msgstr "Tekst o Kiberpipi"
 
-#: templates/www/press.html:68
+#: templates/www/press.html:65
 msgid "Projects in Kiberpipa"
 msgstr "Kiberpipini projekti"
 
-#: www/views.py:137
-msgid "You are already subscribed to this event."
-msgstr "Ste že prijavljeni."
+#: www/forms.py:30
+msgid "Space"
+msgstr "Prostor"
 
-#: www/views.py:141
-msgid "You will recieve the notification when the video is available."
-msgstr "Ko bo video na voljo vas bomo obvestili."
+#: www/forms.py:31
+msgid "Event start"
+msgstr "Začetek"
 
-#: www/views.py:143
-msgid "Please enter valid email address"
-msgstr "Prosimo vnesite veljaven email naslov"
+#: www/forms.py:33
+#, fuzzy
+msgid "Event end"
+msgstr "konec dogodka"
+
+#: www/forms.py:35
+msgid "Event description"
+msgstr "opis dogodka"
+
+#: www/forms.py:36
+#, fuzzy
+msgid "Contact person (email)"
+msgstr "Kontakt (e-pošta)"
+
+#: www/views.py:71
+msgid "You have already subscribed to this event."
+msgstr "Na ta dogodek ste se že prijavili"
+
+#: www/views.py:75
+msgid "We will send you a notification when the video will be available."
+msgstr "Ko bo video na voljo, vas bomo obvestili."
+
+#: www/views.py:77
+msgid "Please enter a valid email address"
+msgstr "Prosimo vnesite veljaven naslov e-pošte."
+
+#: www/views.py:205 www/views.py:211
+msgid "Your email address has been removed from our messaging list."
+msgstr "Vaš naslov e-pošte smo odstranili s seznama za obveščanje."
+
+#: www/views.py:234
+msgid ""
+"Your rental inquiry has been sent. We will answer it in a couple of work days"
+msgstr ""
+"Vaše povpraševanje za najem prostora je bilo poslano. Odgovorili bomo v "
+"naslednjih delovnih dneh."
+
+#~ msgid "Hello"
+#~ msgstr "Pozdravljen"
+
+#~ msgid "Log out"
+#~ msgstr "Odjava"
+
+#~ msgid "control panel"
+#~ msgstr "nadzorna plošča"
+
+#~ msgid "Kiberpipa folks"
+#~ msgstr "Pipci"
+
+#~ msgid "Happening"
+#~ msgstr "Dogajanja"
+
+#~ msgid "Knowledge"
+#~ msgstr "Znanje"
+
+#~ msgid "Assets"
+#~ msgstr "Sredstva"
+
+#~ msgid "Misc"
+#~ msgstr "Razno"
+
+#~ msgid "On duty"
+#~ msgstr "Dezurstva"
+
+#~ msgid "Technicians"
+#~ msgstr "Tehniki"
+
+#~ msgid "Adress book"
+#~ msgstr "Imenik"
+
+#~ msgid "Diarys"
+#~ msgstr "Dnevniki"
+
+#~ msgid "Events"
+#~ msgstr "Dogodki"
+
+#~ msgid "Wiki"
+#~ msgstr "Wiki"
+
+#~ msgid "Cooperations"
+#~ msgstr "Sodelovanja"
+
+#~ msgid "Clipping"
+#~ msgstr "Clipping"
+
+#~ msgid "Lends"
+#~ msgstr "Reverzi"
+
+#~ msgid "Shopping"
+#~ msgstr "Nakupi"
+
+#~ msgid "Mercenaries"
+#~ msgstr "Mercenaries"
+
+#~ msgid "Home"
+#~ msgstr "Dom"
+
+#~ msgid "Kiberpipa site admin"
+#~ msgstr "Kiberpipa administracija"
+
+#~ msgid "Kiberpipa administration"
+#~ msgstr "Kiberpipa administracija"
+
+#~ msgid "Space rental inquiry"
+#~ msgstr "Povpraševanje o najemu prostora"
+
+#~ msgid "Bugs"
+#~ msgstr "Hrošči"
+
+#~ msgid "Active"
+#~ msgstr "Aktivni"
+
+#~ msgid "Not active"
+#~ msgstr "Ne aktivni"
+
+#~ msgid "Calendar"
+#~ msgstr "Koledar"
+
+#~ msgid "About Kiberpipa in Media"
+#~ msgstr "O Kiberpipi v medijih"
 
 #~ msgid "Thanks for the comment."
 #~ msgstr "Hvala za vaš komentar."

@@ -27,10 +27,10 @@ class EventContactForm(forms.Form):
             settings.STATIC_URL + 'www/css/jquery.ui.datetime.css',
         )}
 
-    facility = forms.ModelChoiceField(label=_(u'Prostor'), queryset=Place.objects.all())
-    start_time = forms.DateTimeField(label=_(u'Začetek dogodka'),
+    facility = forms.ModelChoiceField(label=_(u'Space'), queryset=Place.objects.all())
+    start_time = forms.DateTimeField(label=_(u'Event start'),
         widget=widgets.DateTimeInput(attrs={'class': 'datetime-ui'}))
-    end_time = forms.DateTimeField(label=_(u'Konec dogodka'),
+    end_time = forms.DateTimeField(label=_(u'Event end'),
         widget=widgets.DateTimeInput(attrs={'class': 'datetime-ui'}))
-    text = forms.CharField(label=_(u'Opis dogodka'), widget=widgets.Textarea)
-    contact = forms.EmailField(label=_(u'Kontaktna oseba (email)'))
+    text = forms.CharField(label=_(u'Event description'), widget=widgets.Textarea)
+    contact = forms.EmailField(label=_(u'Contact person (email)'))

@@ -26,8 +26,8 @@ from pipa.video.models import Video
 
 
 def anti_spam(request):
-    # make sure the users have taken at least 5 seconds from to read
-    # the page and write the comment (spam bots don't)
+    # make sure users have taken at least 5 seconds to read
+    # this page before writing a comment (spam bots don't)
     # TODO: replace this with honeypot method
     if int(request.POST['timestamp']) + 5 > int(datetime.datetime.now().strftime('%s')):
         return HttpResponsePermanentRedirect('/')
@@ -68,13 +68,13 @@ def ajax_add_mail(request, event, email):
     if form.is_valid():
         email = Email.objects.get_or_create(email=form.cleaned_data['email'])[0]
         if email in event.emails.all():
-            message = _('You are already subscribed to this event.')
+            message = _(u'You have already subscribed to this event.')
         else:
             event.emails.add(email)
             event.save()
-            message = _('You will recieve the notification when the video is available.')
+            message = _(u'We will send you a notification when the video will be available.')
     else:
-        message = _('Please enter valid email address')
+        message = _(u'Please enter a valid email address')
 
     return HttpResponse(message)
 
@@ -140,7 +140,7 @@ def ical(request):
     cal.append(u'')
 
     for e in events:
-        # ther's gotta be a nicer way to do this
+        # there's gotta be a nicer way to do this
         # TODO: yes, use icalendar library
         # http://pypi.python.org/pypi/icalendar/
         if e.public:
@@ -202,13 +202,13 @@ def odjava(request):
     if request.method == 'POST':
         form = EmailBlacklistForm(request.POST)
         if form.is_valid():
-            message = 'Vaš e-naslov smo odstranili iz seznama naslovnikov.'
+            message = _(u'Your email address has been removed from our messaging list.')
             form.save()
             success = True
         else:
             try:
                 EmailBlacklist.objects.get(blacklisted=request.POST['blacklisted'].strip())
-                message = 'Vaš e-naslov smo odstranili iz seznama naslovnikov.'
+                message = _(u'Your email address has been removed from our messaging list.')
                 success = True
             except EmailBlacklist.DoesNotExist:
                 pass
@@ -225,13 +225,13 @@ def odjava(request):
 
 @check_honeypot
 def facilities(request):
-    """Information about facilities and contact form"""
+    """Facilities info and contact form"""
     if request.method == 'POST':
         form = EventContactForm(request.POST)
         if form.is_valid():
             text = get_template('mail/facilities_request.txt').render(Context(form.cleaned_data))
             send_mail("Povpraševanje o prostorih", text, settings.DEFAULT_FROM_EMAIL, ['info@kiberpipa.org'])
-            done = _(u'Povpraševanje je poslano, odgovor bo sledil v naslednjih delovnih dnevih!')
+            done = _(u'Your rental inquiry has been sent. We will answer it in a couple of work days')
     else:
         form = EventContactForm()
     return render_to_response('www/facilities.html', RequestContext(request, locals()))

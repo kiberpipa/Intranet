@@ -11,7 +11,7 @@ from intranet.www.models import News
 class NewsFeed(Feed):
     title = "Kiberpipa - Novice"
     link = "/sl/feeds/novice/"
-    description = ""
+    description = "Novice"
 
     def items(self):
         return News.objects.order_by('-date')[:10]
