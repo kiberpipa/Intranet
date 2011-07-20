@@ -178,14 +178,15 @@ class BoxListNode(template.Node):
         return template.loader.get_template(template_name).render(context)
 
 def box_list(parser, token):
-      bits = token.split_contents()
-      object_name = bits[1]
-      queryset = bits[2][1:-1]
-      if len(bits) > 3:
-          params = bits[3][1:-1]
-      else:
-          params = ''
-      m = __import__("intranet.org.models", '','', object_name)
-      object = getattr(m, object_name)
-      return BoxListNode(object, queryset, params)
+    bits = token.split_contents()
+    object_name = bits[1]
+    queryset = bits[2][1:-1]
+    if len(bits) > 3:
+        params = bits[3][1:-1]
+    else:
+        params = ''
+    m = __import__("intranet.org.models", '','', object_name)
+    object = getattr(m, object_name)
+    return BoxListNode(object, queryset, params)
+
 register.tag('box_list', box_list)

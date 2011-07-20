@@ -144,6 +144,26 @@ def index(request):
     today = datetime.datetime.today()
     nextday = today + datetime.timedelta(days=8)
 
+    events = Event.objects.all()
+
+    # events that are newer or equal may pass
+    events = events.filter(start_date__gte=(today - datetime.timedelta(days=14)))
+
+    # is public and no visitors
+    no_visitors = events.filter(public__exact=True)
+    no_visitors = no_visitors.filter(visitors__exact=0)
+
+    # is videoed and no attached video
+    no_video = events.filter(require_video__exact=True)
+#    no_video = [ev for ev in no_video if ev.video.count()==0]
+    no_video = no_video.filter(video__isnull=True)
+
+    # is pictured and no flicker id
+    no_pictures = events.filter(require_photo__exact=True)
+    no_pictures = no_pictures.filter(flickr_set_id__exact=None)
+
+    unfinished_events = (no_visitors, no_video, no_pictures)
+
     return render_to_response('org/index.html',
                               {'start_date': today,
                                 'end_date': nextday,
@@ -152,6 +172,7 @@ def index(request):
                                 'diary_edit': False,
                                 'lend_form': LendForm(),
                                 'lend_edit': False,
+                                'unfinished_events': unfinished_events
                               },
                               context_instance=RequestContext(request))
 
