@@ -548,7 +548,7 @@ def info_txt(request, event):
     content.append(u'title: %s' % event.title)
     content.append(u'date: %s' % event.start_date.strftime('%d.%m.%Y'))
     content.append(u'cat: %s' % event.project)
-    desc = event.short_announce or event.announce
+    desc = event.announce
     desc = re.sub('\s+', ' ', re.sub('<.*?>', '', desc))
     content.append(u'desc: %s' % (desc,))
     content.append(u'url: http://www.kiberpipa.org%s' % event.get_public_url())

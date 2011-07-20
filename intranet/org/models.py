@@ -183,7 +183,6 @@ class Event(models.Model):
     slides = models.FileField(upload_to='slides/%Y/%m/', verbose_name="Prosojnice", blank=True, null=True)
 
     announce = models.TextField(verbose_name="Uradna najava", blank=True, null=True)
-    short_announce = models.TextField(verbose_name="Kratka najava", blank=True, null=True)
     note = models.TextField(verbose_name="Opombe", blank=True, null=True)
 
     # time fields

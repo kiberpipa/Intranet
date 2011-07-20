@@ -21,15 +21,6 @@
   <div class="module" id="recent-actions-module">
     <h2>Urejanje</h2>
         <ul class="actionlist">
-        {% comment %}
-            <li>
-                <h3>Dodaj .zip slikc</h3>
-                <form action="photos/" method="POST" enctype="multipart/form-data">
-                    {{ file_form }}
-                    <input type="submit" value="uploadaj slikce">
-                </form>
-            </li>
-        {% endcomment %}
             <li><a href="edit/">Uredi podatke</a></li>
             <li><a href="../create/">Dodaj novega</a></li>
             <li>Preštej obisk (hit ENTER):
@@ -110,10 +101,6 @@
           <h4>Vsebina:</h4>
           <p>
             {{ object.announce|safe }}</p>
-	
-	  <h4>Kratka vsebina:</h4>
-          <p>
-            {{ object.short_announce|linebreaks }}</p>          
 
       <h4>Opomba:</h4>
           <p>

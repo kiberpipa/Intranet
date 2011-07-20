@@ -113,7 +113,6 @@ class EventTest(BaseCase):
             'slides': '',
             'event_image': self.image_id,
             'announce': 'Test event for intranet tests.',
-            'short_announce': '',
             'note': '',
         }
         resp = self.client.post('/intranet/events/create/', createdata)
