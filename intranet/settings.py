@@ -151,6 +151,10 @@ SOUTH_TESTS_MIGRATE = False
 PHOTOS_FLICKR_IMAGE_URL_S = 'http://farm%(farm)s.static.flickr.com/%(server)s/%(id)s_%(secret)s_s.jpg'
 PHOTOS_FLICKR_IMAGE_URL = 'http://farm%(farm)s.static.flickr.com/%(server)s/%(id)s_%(secret)s.jpg'
 
+# pipa.video
+LIVE_STREAM_URL = 'http://kiberpipa.org:8000/kiberpipa.ogg'
+PUBLIC_LIVE_STREAM_URL = 'http://video.kiberpipa.org/live.html'
+
 # honeypot
 HONEYPOT_FIELD_NAME = "nezazeljeni_neljudje"
 

@@ -107,7 +107,9 @@ a img {
 
 .present {
 	float: left;
-    width: 300px;
+    width: 832px;
+    height: 300px;
+
 }
 
 .present-event-text {
@@ -116,7 +118,7 @@ a img {
 
 .present-event-date {
 	width: 250px;
-	padding:5px 0;
+	padding: 5px 0;
 	font-size: 12px;
 }
 
@@ -131,6 +133,25 @@ a img {
 	padding-top:5px;
 	font-size: 12px;
 	font-weight: bold;
+}
+
+
+.present-event-image {
+    position: relative;
+}
+.present-event-layer {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: #FFF;
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+    width: 22px;
+    height: 130px;
+    padding: 3px;
+}
+.present-event-layer img {
+    margin-bottom: 3px;
 }
 
 .present-now {
