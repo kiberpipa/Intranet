@@ -108,6 +108,7 @@ INSTALLED_APPS = (
     'pipa.addressbook',
     'pipa.gallery',
     'honeypot',
+    'django_extensions',
 )
 
 TEMPLATE_DIRS = (

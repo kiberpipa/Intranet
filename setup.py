@@ -46,6 +46,9 @@ setup(name='intranet',
         'django-grappelli',
         # commands
         'twitter',
+        'Werkzeug',
+        'django-extensions',
+
     ],
     tests_require=[
         'nose',
