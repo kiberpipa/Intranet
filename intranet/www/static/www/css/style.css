@@ -1211,7 +1211,6 @@ div.community-content-img img {
 	height: 100%;
 	padding-top: 20px;
 	padding-bottom: 25px;
-	text-align: center;
 	}
 	
 .koledar-title-main {
@@ -1230,8 +1229,6 @@ div.community-content-img img {
 	line-height: 16px;
 }
 	
-
-	
 #koledar-wrapper {
 	float: left;
 	width: 880px;
@@ -1241,7 +1238,7 @@ div.community-content-img img {
 	padding-left: 50px;
 	}
 
-#koledar-wrapper li {margin-left: -30px; margin-bottom: 5px; list-style: disc inside; padding: 0;}
+#koledar-wrapper li {margin-left: -30px; margin-bottom: 5px; list-style: none; padding: 0;}
 	
 .koledar-title {
 	font-size: 16px;
