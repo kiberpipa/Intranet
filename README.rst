@@ -1,6 +1,10 @@
 Development setup
 =================
 
+Prerequisites::
+
+    sudo apt-get install git python2.7 libpq-dev libldap2-dev libsasl2-dev
+
 Get Kiberpipa intranet::
 
     git clone git://github.com/kiberpipa/Intranet.git kiberpipa-intranet
