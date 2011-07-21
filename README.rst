@@ -51,7 +51,7 @@ Running tests
 
 ::
 
-    ./bin test
+    ./bin/test
 
 
 Deploying to staging (https://new.kiberpipa.org)
