@@ -23,6 +23,7 @@ from intranet.org.forms import EmailBlacklistForm
 from intranet.www.models import Ticker, News
 from intranet.www.forms import EmailForm, EventContactForm
 from pipa.video.models import Video
+from pipa.video.utils import is_streaming
 
 
 def anti_spam(request):
@@ -35,7 +36,6 @@ def anti_spam(request):
 
 
 def index(request):
-
     return render_to_response('www/index.html', {
         'events': Event.objects.filter(public=True, start_date__gte=datetime.datetime.today()).order_by('start_date'),
         'ticker': Ticker.objects.filter(is_active=True),
@@ -45,6 +45,7 @@ def index(request):
     }, context_instance=RequestContext(request))
 
 
+# TODO: cache for 3min
 def ajax_index_events(request):
     month = datetime.datetime.today() - datetime.timedelta(30)
     try:
@@ -56,10 +57,15 @@ def ajax_index_events(request):
         events = Event.objects.filter(public=True, start_date__gte=month).order_by('start_date')
         position = events.count() - 1
 
-    return render_to_response('www/ajax_index_events.html', {
-      'position': position,
-      'events': events,
-    }, context_instance=RequestContext(request))
+    streaming_event = None
+    if is_streaming():
+        try:
+            streaming_event = Event.objects.filter(public=True, start_date__lte=datetime.datetime.now()).order_by('-start_date')[0]
+        except IndexError:
+            pass
+
+    return render_to_response('www/ajax_index_events.html', locals(),
+        context_instance=RequestContext(request))
 
 
 def ajax_add_mail(request, event, email):

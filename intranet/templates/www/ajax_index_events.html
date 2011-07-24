@@ -1,27 +1,47 @@
-{% load www %}
+{% load www i18n %}
 {% for event in events %}
-    <div id="event{{ event.id }}" class="present-now">
-       
-        <div class="present-event-date">
-            <strong {% if event.project.verbose_name %} title="{{ event.project.verbose_name }}"{% endif %}>{{ event.project }}: </strong>
-                {{ event.start_date|date:"l, d. "|capfirst }}
-                {{ event.start_date|date:"b Y"|capfirst }}
-                <strong>{{ event.start_date|date:"G:i" }}</strong>
-        </div>
-        {% if event.event_image %}
-            <a href="{{ event.get_public_url }}">
-                <img width="250" height="130" src="{{ event.event_image.image.url }}" alt="{{ event.event_image.title }}" />
-            </a>
-        {% else %}
-            <a href="{{ event.get_public_url }}">
-                <img width="250" height="130" src="{{ settings.STATIC_URL }}www/images/img-upcoming.gif" alt="slika" />
-            </a>
-        {% endif %}
-         <div class="present-event-text"><a href="{{ event.get_public_url }}">{{ event }}</a></div>
+<div id="event{{ event.id }}" class="present-now">
+	<div class="present-event-date">
+		<strong {% if event.project.verbose_name %} title="{{ event.project.verbose_name }}"{% endif %}>{{ event.project }}: </strong>
+		{{ event.start_date|date:"l, d. "|capfirst }}
+		{{ event.start_date|date:"b Y"|capfirst }}
+		{% trans "at" %}
+		<strong>{{ event.start_date|date:"G:i" }}</strong>
+	</div>
+	
+	<div class="present-event-image">
+		{% if streaming_event and streaming_event == event %}
+		<a href="{{ settings.PUBLIC_LIVE_STREAM_URL }}">
+		{% else %}
+		<a href="{{ event.get_public_url }}">
+		{% endif %}
+			<img width="250" height="130"
+				{% if streaming_event and streaming_event == event %}
+				src="{{ settings.STATIC_URL }}www/images/streaming_logo.png"
+				{% else %}
+					{% if event.event_image %}
+					src="{{ event.event_image.image.url }}"
+					{% else %}
+					src="{{ settings.STATIC_URL }}www/images/img-upcoming.gif"
+					{% endif %}
+				{% endif %}
+				alt="{{ event.event_image.title }}" />
+		</a>
 
-        <div class="present-event-desc">{{ event.announce|truncatewords_html:"30"|safe }}</div>
-    </div>
+		{% if event.video.all or event.flickr_set_id %}
+		<div class="present-event-layer">
+			{% if event.video.all %}
+			<a href="{{ event.get_video_url }}" title="{% trans "Video of event" %}"><img src="{{ settings.STATIC_URL }}www/images/video20x20.png" /></a>
+			{% endif %}
+			{% if event.flickr_set_id %}
+			<a href="{{ event.get_public_url }}" title="{% trans "Pictures of event" %}" ><img src="{{ settings.STATIC_URL }}www/images/images20x20.png" /></a>
+			<!-- TODO: activate gallery with javascript -->
+			{% endif %}
+		</div>
+		{% endif %}
+	</div>
+	<p class="present-event-text"><a href="{{ event.get_public_url }}">{{ event }}</a></p>
+	<p class="present-event-desc">{{ event.announce|truncatewords_html:"30"|safe }}</p>
+</div>
 {% endfor %}
-
 <div id="scroll-position" style="display: none;">{{ position }}</div>
-

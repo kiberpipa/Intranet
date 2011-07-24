@@ -1,6 +1,10 @@
 Development setup
 =================
 
+Prerequisites::
+
+    sudo apt-get install git python2.7 libpq-dev libldap2-dev libsasl2-dev
+
 Get Kiberpipa intranet::
 
     git clone git://github.com/kiberpipa/Intranet.git kiberpipa-intranet
@@ -25,6 +29,22 @@ Start the development server. Wohoo!::
 
     bin/django runserver
 
+
+Coding standards
+================
+
+* all code MUST be written in English
+* `PEP8 coding style <http://www.python.org/dev/peps/pep-0008/>`_ should be followed except 80 char line limit
+
+
+Managing with translations
+==========================
+
+* First you have to make some changes to translated strings (either in templates or code itself)
+* run bin/django makemessages (this will update translation strings into django.po)
+* edit locale/sl/LC_MESSAGES/django.po and translate new/updated strings
+* run bin/django compilemessages (this will generate django.mo file that is used for translations)
+* commit django.po and django.mo
 
 Running tests
 =============
