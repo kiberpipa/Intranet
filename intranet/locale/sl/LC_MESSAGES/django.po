@@ -44,9 +44,8 @@ msgid "Basic overview"
 msgstr "Osnovni pregled"
 
 #: templates/org/index.html:18
-#, fuzzy
 msgid "Control panel"
-msgstr "nadzorna plošča"
+msgstr "Nadzorna plošča"
 
 #: templates/org/index.html:23
 msgid "Add diary"
@@ -69,9 +68,8 @@ msgid "My responsibilities"
 msgstr "Moje odgovornosti"
 
 #: templates/org/index.html:58
-#, fuzzy
 msgid "My events:"
-msgstr "Dogodki"
+msgstr "Moji dogodki:"
 
 #: templates/org/index.html:61
 msgid "I lent:"
@@ -79,7 +77,7 @@ msgstr "Sem posodil:"
 
 #: templates/org/index.html:63
 msgid "My wishlist shopping:"
-msgstr "Moje želje po nakupih"
+msgstr "Moje želje po nakupih:"
 
 #: templates/org/index.html:71
 msgid "Unfinished events"
@@ -102,9 +100,8 @@ msgid "Current"
 msgstr "Aktualni"
 
 #: templates/org/index.html:112
-#, fuzzy
 msgid "events"
-msgstr "Dogodki"
+msgstr "dogodki"
 
 #: templates/www/ajax_index_events.html:8
 msgid "at"
