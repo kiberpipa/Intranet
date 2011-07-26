@@ -1,4 +1,6 @@
 {% extends "org/base_3col.html" %}
+{% load box i18n %}
+
 
 {% block extrahead %}
 <script>
@@ -10,29 +12,27 @@
 </script>
 {% endblock %}
 
-{% block title %}Osnovni pregled{% endblock %}
-
-{% load box %}
+{% block title %}{% trans "Basic overview" %}{% endblock %}
 
 {% block heading %}
-        <h1>Nadzorna plošča</h1>
+        <h1>{% trans "Control panel" %}</h1>
 {% endblock %}
 
 {% block content-related-left %}
   <div class="module">
-    <h2 class="expand"><img src="{{ settings.STATIC_URL }}org/images/expand.gif" alt="expand diary" />Dodaj dnevnik</h2>
+    <h2 class="expand"><img src="{{ settings.STATIC_URL }}org/images/expand.gif" alt="expand diary" />{% trans "Add diary" %}</h2>
 		<div id="diary_box" class="hideme">{% include "org/content/diary_form.html" %}</div>
   </div>
 
   <div class="module">
-    <h2 class="expand"><img src="{{ settings.STATIC_URL }}org/images/expand.gif" alt="expand lends" />Posodi opremo</h2>
+    <h2 class="expand"><img src="{{ settings.STATIC_URL }}org/images/expand.gif" alt="expand lends" />{% trans "Loan equipment" %}</h2>
     <div id="lend_box" class="hideme">
     {% include "org/content/lend_form.html" %}
     </div>
   </div>
   
   <div class="module">
-    <h2>Kracarka</h2>
+    <h2>{% trans "Scratchpad" %}</h2>
     <div id="scratchpad">{% box_scratchpad user.id %}</div>
   </div>
 
@@ -42,7 +42,7 @@
   <div class="module" id="messages-module">
     <h2>
       <img src="{{ settings.STATIC_URL }}org/images/information.png" alt="notification icon" /> 
-      <a href="/intranet/admin/org/stickynote">Obvestila</a>
+      <a href="/intranet/admin/org/stickynote">{% trans "Notices" %}</a>
     </h2>
     {% box_list StickyNote "due_date__gte=today" "template=org/list_sticky.html" %}
   </div>
@@ -52,26 +52,27 @@
         <a href="/intranet/feeds/todos/{{ user }}">
             <img src="{{ settings.STATIC_URL }}org/images/rss.png" alt="rss responsibilities" />
         </a>
-        Moje odgovornosti
+        {% trans "My responsibilities" %}
     </h2>
 
-    <h4>Moji dogodki:</h4>
+    <h4>{% trans "My events:" %}</h4>
     {% box_list Event "responsible__exact=user.id, start_date__gte=start_date" "template=org/list_my_event.html" %}
     {% box_list Event "technician__exact=user.id, start_date__gte=start_date" "template=org/list_my_event.html" %}
-    <h4>Sem posodil:</h4>
+    <h4>{% trans "I lent:" %}</h4>
     {% box_list Lend "from_who__exact=user.id, returned__exact=False" "template=org/list_lend.html" %}
-    <h4>Moje želje po nakupih</h4>
+    <h4>{% trans "My wishlist shopping:" %}</h4>
     {% box_list Shopping "author__exact=user.id, bought__exact=False" "template=org/list_shopping.html" %}
 
   </div>
 
+    {% if unfinished_events.0 or unfinished_events.1 or unfinished_events.2 %}
     <div class="module">
     <h2>
-        Unfinished events
+        {% trans "Unfinished events" %}
     </h2>
 
     {% if unfinished_events.0 %}
-    <h4>Public events with no visitors:</h4>
+    <h4>{% trans "Public events with no visitors:" %}</h4>
     <ul>
         {% for event in unfinished_events.0 %}
             <li> <a href="{% url event_edit event.id %}">{{ event }}</a> </li>
@@ -80,7 +81,7 @@
     {% endif %}
 
     {% if unfinished_events.1 %}
-    <h4>Events marked as recorded but no video attached:</h4>
+    <h4>{% trans "Events marked as recorded but no video attached:" %}</h4>
     <ul>
         {% for event in unfinished_events.1 %}
             <li> <a href="{% url event_edit event.id %}">{{ event }}</a> </li>
@@ -89,7 +90,7 @@
     {% endif %}
 
     {% if unfinished_events.2 %}
-    <h4>Events with required pictures has no flickr id:</h4>
+    <h4>{% trans "Events with required pictures has no flickr id:" %}</h4>
     <ul>
         {% for event in unfinished_events.2 %}
             <li> <a href="{% url event_edit event.id %}">{{ event }}</a> </li>
@@ -98,6 +99,7 @@
     {% endif %}
 
     </div>
+    {% endif %}
 
 {% endblock %}
 
@@ -107,7 +109,7 @@
         <a href="/intranet/feeds/events/">
             <img src="{{ settings.STATIC_URL }}org/images/rss.png" alt="rss events" />
         </a>
-        Aktualni <a href="/intranet/events/">dogodki</a>
+        {% trans "Current" %} <a href="/intranet/events/">{% trans "events" %}</a>
     </h2>
 
      <ul class="actionlist">
