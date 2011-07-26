@@ -41,9 +41,10 @@ Managing with translations
 ==========================
 
 * First you have to make some changes to translated strings (either in templates or code itself)
-* run bin/django makemessages (this will update translation strings into django.po)
-* edit locale/sl/LC_MESSAGES/django.po and translate new/updated strings
-* run bin/django compilemessages (this will generate django.mo file that is used for translations)
+* `cd intranet`
+* run `../bin/django makemessages -a` (this will update translation strings into django.po)
+* `vim locale/sl/LC_MESSAGES/django.po` and translate new/updated strings
+* run `../bin/django compilemessages -a` (this will generate django.mo file that is used for translations)
 * commit django.po and django.mo
 
 Running tests
