@@ -1,0 +1,39 @@
+{% load i18n %}
+
+<h2>Events</h2>
+
+<h4>{% trans "Events from last" %} {{ days_range }} {% trans  "days:" %}</h4>
+<ul>
+    {% for event in events %}
+        <li> <a href="{% url event_detail event.id %}">{{ event }}</a> {% trans "visitors:" %} {{ event.visitors }} </li>
+    {% endfor %}
+</ul>
+
+<h4>{% trans "Overall visitors:" %} {{ all_visitors }} </h4>
+
+{% if unfinished_events.0 %}
+<h4>{% trans "Public events with no visitors:" %}</h4>
+<ul>
+    {% for event in unfinished_events.0 %}
+        <li> <a href="{% url event_edit event.id %}">{{ event }}</a> </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% if unfinished_events.1 %}
+<h4>{% trans "Events marked as recorded but no video attached:" %}</h4>
+<ul>
+    {% for event in unfinished_events.1 %}
+        <li> <a href="{% url event_edit event.id %}">{{ event }}</a> </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% if unfinished_events.2 %}
+<h4>{% trans "Events with required pictures has no flickr id:" %}</h4>
+<ul>
+    {% for event in unfinished_events.2 %}
+        <li> <a href="{% url event_edit event.id %}">{{ event }}</a> </li>
+    {% endfor %}
+</ul>
+{% endif %}
