@@ -12,6 +12,6 @@ DATABASES = {
 BASE_URL = 'http://localhost:8000'
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+TEMPLATE_DEBUG = True
 SEND_BROKEN_LINK_EMAILS = False
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
