@@ -1,3 +1,4 @@
 localsettings.py*
 intranet.db
 buildout.cfg
+*.pyc
