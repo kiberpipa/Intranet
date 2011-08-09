@@ -86,12 +86,10 @@
                     tehnik
                 {% endif %}
                 {% if object.require_video %}
-                    ,video
+                  , video
                 {% endif %}
-                {% if object.place%}
-                  {% for o in object.place.all %}
-                    , {{ o }}
-                  {% endfor %}
+                {% if object.place %}
+                  , {{ object.place }}
                 {% endif %}
           </p>
           	{% if object.visitors %}

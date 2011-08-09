@@ -12,7 +12,6 @@ from django.forms.models import ModelChoiceField
 from intranet.org.models import (Person, Event, Sodelovanje,
     Project, Lend, Diary, Shopping, IntranetImage, EmailBlacklist)
 
-
 # TODO: i18n for widget
 # TODO: obey settings.DATETIME_FORMAT
 # TODO: document jquery ui css font-size change
@@ -29,6 +28,13 @@ PYTHON_TO_JQUERY_DATETIME_FORMAT = {
         #'%': '',
 }
 
+class SelectWidget(forms.widgets.Select):
+    wattrs = {}
+    wattrs['class'] = "chzn-select"
+    wattrs['style'] = "width:50%"
+
+    def render(self, name, value, attrs=None, choices=()):
+        return forms.widgets.Select.render(self, name, value, attrs=self.wattrs, choices=choices)
 
 class DateTimeWidget(forms.widgets.TextInput):
     """Datetimepicker implementation for Django.
@@ -144,12 +150,17 @@ class IntranetImageForm(forms.ModelForm):
 class EventForm(forms.ModelForm):
     title = forms.CharField(label="Naslov", max_length=Event._meta.get_field('title').max_length,
         widget=forms.TextInput(attrs={'size': '60'}))
-    responsible = forms.CharField(label="Odgovorna oseba")
 
     class Meta:
         model = Event
         exclude = ('sequence', 'emails')
         widgets = {
+            'project': SelectWidget(),
+            'place': SelectWidget(),
+            'responsible': SelectWidget(),
+            'category': SelectWidget(),
+            'language': SelectWidget(),
+            'event_image': SelectWidget(),
             'start_date': DateTimeWidget(extra="""
                 onClose: function(date, inst) {
                     if ($('#id_end_date').datepicker('getDate') == null) {
@@ -162,8 +173,6 @@ class EventForm(forms.ModelForm):
 
     def __init__(self, *a, **kw):
         super(EventForm, self).__init__(*a, **kw)
-        if self.initial.get('responsible', None):
-            self.initial['responsible'] = User.objects.get(id=self.initial['responsible']).username
 
     def clean_responsible(self):
         resp = self.cleaned_data['responsible']
