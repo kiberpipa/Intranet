@@ -593,7 +593,8 @@ def event_edit(request, event_pk=None):
 
     if request.method == 'POST':
         form = EventForm(request.POST, instance=instance)
-        authors = zip(request.POST.getlist('author'), request.POST.getlist('tip'))
+
+        authors = [a.split(' - ') for a in request.POST.getlist('authors')]
 
         if form.is_valid():
             new_event = form.save()
@@ -603,7 +604,7 @@ def event_edit(request, event_pk=None):
 
             sodelovanja = set()
             for author, tip in authors:
-                tip = TipSodelovanja.objects.get(pk=tip)
+                tip = TipSodelovanja.objects.get(name=tip)
                 # ensure the Person actually exists
                 try:
                     person = Person.objects.get(name=author)

@@ -9,25 +9,6 @@
 <script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.ajaxUpload.js" ></script>
 <script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.imgareaselect-0.6.1.min.js" ></script>
 <script type="text/javascript">
-function addFormField() {
-    var id = document.getElementById("id").value;
-    $("#divTxt").append("<p id=\"row" + id + "\"><label for=\"id_author\">Avtor(ji?): </label><input type=\"text\" class=\"input_author\" name=\"author\" id=\"id_author\" /><label for=\"id_tip\"></label><select name=\"tip\" id=\"id_tip\">{% for t in tipi %}<option value=\"{{ t.id }}\">{{ t }}</option>{% endfor %}</select><a href='#' onClick='removeFormField(\"#row" + id + "\"); return false;'>Remove</a></p>");
-
-
-    $('#row' + id).highlightFade({
-        speed:1000
-    });
-
-    id = (id - 1) + 2;
-    document.getElementById("id").value = id;
-
-    $(".input_author").suggest("/intranet/autocomplete/person/");
-}
-
-function removeFormField(id) {
-    $(id).remove();
-}
-
 maxL=64;
 var bName = navigator.appName;
 function taLimit(taObj) {
@@ -132,7 +113,36 @@ $(document).ready(function() {
     $("#id_responsible").suggest("/intranet/autocomplete/active_user/");
     $('#id_announce').markItUp(mySettings);
 
+
 });
+
+    function add_author_click() {
+        a = $('#author_field');
+        if (add_author(a.val(), $('#type_id option:selected').text()))
+            a.val("");
+    }
+
+    function add_author(author, type) {
+        if (author.length==0)
+            return;
+
+        formatted = author + " - " + type;
+        opt_exists = false;
+        $('#authorsid > option').each(function() {
+            if ($(this).text() == formatted) {
+                opt_exists = true;
+                return false;
+            }
+        });
+
+        if (!opt_exists) {
+            opt = $('<option></option>');
+            opt.attr({'selected': 'true'}).text(formatted);
+            $('#authorsid').append(opt).trigger("liszt:updated");
+            return true;
+        }
+        return false;
+    }
 </script>
 <style type="text/css">      
   h3 {background:#f5f5f5 none repeat scroll 0 0;}
@@ -158,6 +168,7 @@ $(document).ready(function() {
 
     <div id="content-full" class="flex">
         <form method="POST" action="" enctype="multipart/form-data"> 
+
         <div class="module">
             <h2>Dodaj dogodek v koledar</h2>
             {% if form.errors %}
@@ -173,39 +184,26 @@ $(document).ready(function() {
                 {{ form.project.label_tag }}
                 {{ form.project }}
             </p>
-            {% if sodelovanja %}
-                <input type="hidden" id="id" value="{{ sodelovanja.count|add:"1"}}">
-                <div id="divTxt">
-                {% for sodelovanje in sodelovanja %}
-                    <p id="row{{ forloop.counter }}">
-                        <label for="id_author">Avtor(ji): </label>
-                        <input type="text" name="author" class="input_author" id="id_author" value="{{ sodelovanje.person }}" />
-                        <select name="tip" id="id_tip">
-                        {% for t in tipi %}              
-                            <option {% ifequal t sodelovanje.tip %}selected="selected"{% endifequal %} value="{{ t.id }}">{{ t }}</option>
-                        {% endfor %}
-                        </select> 
-                        <a href='#' onClick='removeFormField("#row{{ forloop.counter }}"); return false;'>Remove</a>
-                        | <a href="#" onClick="addFormField(); return false;">Dodaj še enega avtorja</a>
-                    </p>
-                {% endfor %}
-                </div>
-            {% else %}
-                <input type="hidden" id="id" value="2">
-                <div id="divTxt">
-                    <p id="row1">
-                        <label for="id_author">Izvajalci dogodka:</label>
-                        <input type="text" name="author" class="input_author" id="id_author" />
-                        <select name="tip" id="id_tip">
-                        {% for t in tipi %}              
-                            <option {% ifequal t tip %}selected="selected"{% endifequal %} value="{{ t.id }}">{{ t }}</option>
-                        {% endfor %}
-                        </select> 
-                        <a href='#' onClick='removeFormField("#row1"); return false;'>Remove</a>
-                        | <a href="#" onClick="addFormField(); return false;">Dodaj še enega avtorja</a>
-                    </p>
-                </div>
-            {% endif %}  
+
+            <p>
+                <label for="authorsid">Authors:</label>
+                <select data-placeholder="Authors" id="authorsid" name="authors" class="chzn-select" style="width:50%" multiple>
+                    {% for sodelovanje in sodelovanja %}
+                        <option selected="selected">{{ sodelovanje.person }} - {{ sodelovanje.tip }}</option>
+                    {% endfor %}
+                </select>
+
+                <br />
+
+                <label for="author_field">Add new author:</label>
+                <input type="text" id="author_field"/>
+                <select class="chzn-select" style="width: 20%" id="type_id">
+                    {% for t in tipi %}
+                        <option value="{{ t.id }}">{{ t }}</option>
+                    {% endfor %}
+                </select>
+                <a href="#" onclick="add_author_click()">Add author</a>
+            </p>
         <p>
             {{ form.category.errors }}
             {{ form.category.label_tag }}
@@ -214,7 +212,7 @@ $(document).ready(function() {
         <p>
             {{ form.place.errors }}
             {{ form.place.label_tag }}
-            {{ form.place}}
+            {{ form.place }}
         </p>
         <p>
             {{ form.responsible.errors }}
