@@ -59,7 +59,7 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
-    'intranet.middleware.exception.StandardExceptionMiddleware',
+    #'intranet.middleware.exception.StandardExceptionMiddleware',
     'localeurl.middleware.LocaleURLMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -69,6 +69,7 @@ MIDDLEWARE_CLASSES = (
     'intranet.middleware.FlatPage.FlatPage',  # uses 'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'intranet.middleware.NginxCache.NginxMemCacheMiddleWare',
     'django.middleware.csrf.CsrfResponseMiddleware',
+    'sentry.client.middleware.Sentry404CatchMiddleware',
 )
 
 ROOT_URLCONF = 'intranet.urls'
@@ -109,6 +110,8 @@ INSTALLED_APPS = (
     'pipa.gallery',
     'honeypot',
     'django_extensions',
+    'sentry',
+    'sentry.client',
 )
 
 TEMPLATE_DIRS = (

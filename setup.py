@@ -48,7 +48,7 @@ setup(name='intranet',
         'twitter',
         'Werkzeug',
         'django-extensions',
-
+        'django-sentry'
     ],
     tests_require=[
         'nose',

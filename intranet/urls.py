@@ -42,6 +42,7 @@ urlpatterns = patterns('',
 
     (r'services/ltsp/', include('pipa.ltsp.urls')),
     (r'^grappelli/', include('grappelli.urls')),
+    (r'^sentry/', include('sentry.web.urls')),
 )
 
 if settings.DEBUG:
