@@ -23,6 +23,9 @@ Copy over default settings::
 Create the (default is Sqlite3) database::
 
     bin/django syncdb --all
+
+Django will ask you to create user with administration privileges, follow instructions and remember username/password. Continue with migrations::
+
     bin/django migrate --fake
 
 Start the development server. Wohoo!::
