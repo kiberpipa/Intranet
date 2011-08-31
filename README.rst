@@ -47,7 +47,7 @@ Managing with translations
 * `cd intranet`
 * run `../bin/django makemessages -a` (this will update translation strings into django.po)
 * `vim locale/sl/LC_MESSAGES/django.po` and translate new/updated strings
-* run `../bin/django compilemessages -a` (this will generate django.mo file that is used for translations)
+* run `../bin/django compilemessages` (this will generate django.mo file that is used for translations)
 * commit django.po and django.mo
 
 Running tests
