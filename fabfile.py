@@ -9,6 +9,7 @@ Before sure to provide the following:
 """
 # TODO:
 # * shouldn't be postgres specific
+# * fix racing conditions (keep state when running bootstrap/deploy)
 
 # TODO future:
 # * remove ugly hack with symlinking supervisor (probably by patching z3c.recipe.usercrontab)
@@ -114,11 +115,9 @@ def staging_bootstrap(fresh=True):
         run('cp %(staging_django_settings)s %(django_project)s/localsettings.py' % env)
         run('bin/buildout')
         # TODO: restore if there is backup, fallback to fresh database instead
-        if fresh:
+        if run('bin/fab production_data_restore:staging -H localhost') == False:
             run('bin/django syncdb --noinput --traceback --all')
             run('bin/django migrate --fake')
-        else:
-            run('bin/fab production_data_restore:staging -H localhost')
         deploy()
 
 
@@ -245,7 +244,7 @@ def production_data_restore(to):
 
     if not exists(env.backup_location):
         print red("No backup for production version %d yet." % env.ver, bold=True)
-        return
+        return False
 
     if to == "staging":
         env.restore_location = env.staging_folder
