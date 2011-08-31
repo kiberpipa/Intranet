@@ -70,6 +70,7 @@ MIDDLEWARE_CLASSES = (
     'intranet.middleware.NginxCache.NginxMemCacheMiddleWare',
     'django.middleware.csrf.CsrfResponseMiddleware',
     'sentry.client.middleware.Sentry404CatchMiddleware',
+    'honeypot.middleware.HoneypotMiddleware',
 )
 
 ROOT_URLCONF = 'intranet.urls'
