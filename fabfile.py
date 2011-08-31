@@ -9,7 +9,6 @@ Before sure to provide the following:
 """
 # TODO:
 # * shouldn't be postgres specific
-# * fix staging
 
 # TODO future:
 # * remove ugly hack with symlinking supervisor (probably by patching z3c.recipe.usercrontab)
