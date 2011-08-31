@@ -121,7 +121,7 @@ def calendar(request, year=None, month=None, en=False):
 
     for week in cal:
         for day in week:
-            events.append([day, Event.objects.filter(start_date__year=day.year, start_date__month=day.month, start_date__day=day.day)])
+            events.append([day, Event.objects.filter(start_date__year=day.year, start_date__month=day.month, start_date__day=day.day).order_by('start_date')])
 
     next_month = events[15][0] + relativedelta(months=+1)
     prev_month = events[15][0] + relativedelta(months=-1)
