@@ -231,7 +231,7 @@ def production_data_backup(version=None):
         from django.conf import settings
         env.update(settings.DATABASES['default'])
 
-        local('pg_dump -c -p %(PORT)s -U %(USER)s -Fc --no-acl -d %(NAME)s -f %(backup_location)s/db.sql' % env)
+        local('pg_dump -c -p %(PORT)s -U %(USER)s -Fc --no-acl -c %(NAME)s -f %(backup_location)s/db.sql' % env)
 
 
 @task
