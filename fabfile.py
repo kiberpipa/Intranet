@@ -20,7 +20,7 @@ import time
 from fabric import operations, utils
 from fabric.api import run, env, local
 from fabric.context_managers import settings, cd, lcd
-from fabric.contrib.files import upload_template, exists, append
+from fabric.contrib.files import upload_template, exists, append, sed
 from fabric.contrib import django
 from fabric.colors import red, green
 from fabric.decorators import task
@@ -107,7 +107,8 @@ def staging_bootstrap(fresh=True):
     with cd(env.staging_folder):
         run('git clone %s .' % env.repository)
         run('git checkout %s' % env.branch)
-        upload_template('buildout.d/buildout.cfg.in', 'buildout.cfg', env)
+        run('cp buildout.d/buildout.cfg.in buildout.cfg')
+        sed('buildout.cfg', '%\(environment\)s', env.environment)
         run('python bootstrap.py')
         run('cp %(staging_django_settings)s %(django_project)s/localsettings.py' % env)
         run('bin/buildout')
