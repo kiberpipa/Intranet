@@ -42,6 +42,8 @@ env.branch = 'new_deploy'
 env.django_project = 'intranet'
 env.production_django_settings = os.path.join(env.root_folder, 'production_localsettings.py')
 env.staging_django_settings = os.path.join(env.root_folder, 'staging_localsettings.py')
+# django settinsg
+env.PORT = 5432
 
 
 def install_defaults():
@@ -111,11 +113,12 @@ def staging_bootstrap(fresh=True):
         run('python bootstrap.py')
         run('cp %(staging_django_settings)s %(django_project)s/localsettings.py' % env)
         run('bin/buildout')
+        # TODO: restore if there is backup, fallback to fresh database instead
         if fresh:
             run('bin/django syncdb --noinput --traceback --all')
             run('bin/django migrate --fake')
         else:
-            run('bin/fab production_data_restore -H localhost')
+            run('bin/fab production_data_restore:staging -H localhost')
         deploy()
 
 
@@ -222,7 +225,7 @@ def production_data_backup(version=None):
         local('mkdir -p %(backup_location)s' % env)
 
     # backup static files
-    local('tar cvfz %(backup_location)s/mediafiles.tar.gz -C %(production_media_folder)s' % env)
+    local('tar cvfz %(backup_location)s/mediafiles.tar.gz -C %(production_media_folder)s .' % env)
 
     # backup database
     with lcd(production):
@@ -230,7 +233,7 @@ def production_data_backup(version=None):
         from django.conf import settings
         env.update(settings.DATABASES['default'])
 
-        local('pg_dump -c -p %(PORT)s -U %(USER)s -Fc --no-acl -c %(NAME)s -f %(backup_location)s/db.sql' % env)
+        local('pg_dump -c -p %(PORT)s -U %(USER)s -Fc --no-acl -d %(NAME)s -f %(backup_location)s/db.sql' % env)
 
 
 @task
@@ -260,7 +263,7 @@ def production_data_restore(to):
         from django.conf import settings
         env.update(settings.DATABASES['default'])
 
-        local('pg_restore -c -p %(PORT)s -U %(USER)s -Fc --no-acl -c %(NAME)s -f %(backup_location)s/db.sql' % env)
+        local('pg_restore -c -p %(PORT)s -U %(USER)s -Fc --no-acl -d %(NAME)s %(backup_location)s/db.sql' % env)
 
 
 class FabricFailure(Exception):
