@@ -114,7 +114,6 @@ def staging_bootstrap(fresh=True):
         run('python bootstrap.py')
         run('cp %(staging_django_settings)s %(django_project)s/localsettings.py' % env)
         run('bin/buildout')
-        # TODO: restore if there is backup, fallback to fresh database instead
         if run('bin/fab production_data_restore:staging -H localhost') == False:
             run('bin/django syncdb --noinput --traceback --all')
             run('bin/django migrate --fake')
