@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Intranet\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-24 22:56+0200\n"
+"POT-Creation-Date: 2011-09-01 00:32+0200\n"
 "PO-Revision-Date: 2011-07-06 15:13+0100\n"
 "Last-Translator: Klemen Robnik <klemen.robnik@kiberpipa.org>\n"
 "Language-Team: intranet <info@kiberpipa.org>\n"
@@ -38,6 +38,34 @@ msgstr ""
 "veliko pa jih še vedno vztraja. Tu je seznam ljudi, ki so kakorkoli "
 "sodelovali in pripomogli, da je Kiberpipa sedaj najboljši Kibercenter v "
 "Evropi."
+
+#: templates/mail/events_report.html:5
+msgid "Events from last"
+msgstr ""
+
+#: templates/mail/events_report.html:5
+msgid "days:"
+msgstr "dni:"
+
+#: templates/mail/events_report.html:8
+msgid "visitors:"
+msgstr "obiskovalcev:"
+
+#: templates/mail/events_report.html:12
+msgid "Overall visitors:"
+msgstr "Skupaj obiskovalcev:"
+
+#: templates/mail/events_report.html:15 templates/org/index.html:75
+msgid "Public events with no visitors:"
+msgstr "Javni dogodki brez vpisanih obiskovalcev:"
+
+#: templates/mail/events_report.html:24 templates/org/index.html:84
+msgid "Events marked as recorded but no video attached:"
+msgstr "Snemani dogodki brez dodanih video posnetkov:"
+
+#: templates/mail/events_report.html:33 templates/org/index.html:93
+msgid "Events with required pictures has no flickr id:"
+msgstr "Dogodki z zahtevanimi slikami ampak nimajo Flickr identifikacije:"
 
 #: templates/org/index.html:15
 msgid "Basic overview"
@@ -82,18 +110,6 @@ msgstr "Moje želje po nakupih:"
 #: templates/org/index.html:71
 msgid "Unfinished events"
 msgstr "Nedokončani dogodki"
-
-#: templates/org/index.html:75
-msgid "Public events with no visitors:"
-msgstr "Javni dogodki brez vpisanih obiskovalcev:"
-
-#: templates/org/index.html:84
-msgid "Events marked as recorded but no video attached:"
-msgstr "Snemani dogodki brez dodanih video posnetkov:"
-
-#: templates/org/index.html:93
-msgid "Events with required pictures has no flickr id:"
-msgstr "Dogodki z zahtevanimi slikami ampak nimajo Flickr identifikacije:"
 
 #: templates/org/index.html:112
 msgid "Current"
@@ -141,11 +157,11 @@ msgstr "press"
 
 #: templates/www/base.html:64
 msgid "Mon. - Fri."
-msgstr ""
+msgstr "Pon. - Pet."
 
 #: templates/www/base.html:65
 msgid "10am - 10pm"
-msgstr ""
+msgstr "10h - 22h"
 
 #: templates/www/calendar.html:6 templates/www/calendar.html.py:9
 msgid "Calendar of Events in Kiberpipa"
@@ -220,12 +236,10 @@ msgid "Currently no events are scheduled."
 msgstr "Trenutno v koledarju ni dogodkov."
 
 #: templates/www/index.html:94
-#, fuzzy
-msgid "Newest videos in the Video Archive"
-msgstr "Zadnji dodani posnetki v Video arhiv"
+msgid "Newest videos in video.kiberpipa.org"
+msgstr "Zadnji dodani posnetki v video.kiberpipa.org"
 
 #: templates/www/index.html:119
-#, fuzzy
 msgid "Writings from the world with no windows"
 msgstr "Zapisi iz sveta brez oken"
 
