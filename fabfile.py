@@ -78,6 +78,7 @@ def has_new_commits():
         local('git fetch origin')
         output = local('git log %(branch)s...origin/%(branch)s' % env, capture=True)
     if output.strip():
+        local('git pull origin')
         print "new commits!"
         return True
     else:
