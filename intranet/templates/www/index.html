@@ -99,20 +99,19 @@ $(document).ready(function() {
 			</div>
 			{% endfor %}
 		</div>
+        <div id="screen" class="notifier-chamber">
+            <div id="sections">
+                <ul>
+                    {% for i in ticker %}
+                        <li>
+                            <h2>{{ i.name }}</h2>
+                            <p>{{ i.note|safe }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
     </div>
-
-	<div id="screen" class="notifier-chamber">
-		<div id="sections">
-			<ul>
-				{% for i in ticker %}
-					<li>
-						<h2>{{ i.name }}</h2>
-						<p>{{ i.note|safe }}</p>
-					</li>
-				{% endfor %}
-			</ul>
-		</div>
-	</div>
 
 	<div id="blog-cp">
 		<div class="blog-cp-title">
