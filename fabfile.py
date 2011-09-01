@@ -31,30 +31,31 @@ from fabric.decorators import task, runs_once
 # linux
 env.user = 'intranet'
 # folders/locations
-env.home_folder = '/home/%(user)s/' % env
-env.root_folder = '/home/intranet/'
-env.staging_folder = os.path.join(env.root_folder, 'staging/')
-env.production_folder = os.path.join(env.root_folder, 'production/')
+env.home_folder = '/home/%(user)s' % env
+env.root_folder = '/home/intranet'
+env.staging_folder = os.path.join(env.root_folder, 'staging')
+env.production_folder = os.path.join(env.root_folder, 'production')
 env.production_static_folder = os.path.join(env.production_folder, 'static')
 env.production_media_folder = os.path.join(env.production_folder, 'media')
 env.backup_folder = os.path.join(env.root_folder, 'backups')
 # code
 env.repository = 'git://github.com/kiberpipa/Intranet.git'
 env.branch = 'deploy'
+env.code_folder = os.path.join(env.home_folder, 'code')
 # django
 env.django_project = 'intranet'
 env.production_django_settings = os.path.join(env.root_folder, 'production_localsettings.py')
 env.staging_django_settings = os.path.join(env.root_folder, 'staging_localsettings.py')
-# django settinsg
+# django settings
 env.PORT = 5432
 
 
 def install_defaults():
     """Populates sane defaults"""
     # install default buildout
-    if not exists('%(home_folder)s.buildout/' % env):
-        run('mkdir -p %(home_folder)s.buildout/{eggs,downloads}' % env)
-    upload_template('buildout.d/default.cfg.in', '%(home_folder)s.buildout/default.cfg' % env, env)
+    if not exists('%(home_folder)s/.buildout/' % env):
+        run('mkdir -p %(home_folder)s/.buildout/{eggs,downloads}' % env)
+    upload_template('etc/default.cfg.in', '%(home_folder)s/.buildout/default.cfg' % env, env)
 
     # warn about ssh pub key for -H localhost
     with settings(warn_only=True):
@@ -66,10 +67,14 @@ def install_defaults():
         if not exists(f):
             operations.abort('%s does not exists. Please upload the file and rerun fabric.' % f)
 
+    # prepare code
+    if not exists(env.code):
+        run('git clone git://github.com/kiberpipa/Intranet.git %s' % env.code)
+
 
 def has_new_commits():
     """Check for fresh deploy branch commits"""
-    with lcd(env.staging_folder):
+    with lcd(env.code_folder):
         local('git fetch origin')
         output = local('git log %(branch)s...origin/%(branch)s' % env, capture=True)
     if output.strip():
@@ -86,8 +91,16 @@ def deploy():
     with settings(warn_only=True):
         run('bin/django createinitialrevisions')  # django-revision
         run('bin/django collectstatic --noinput -l')  # staticfiles
+
     # strict permissions for settings
     run('chmod 750 %s' % getattr(env, '%s_django_settings' % env.environment))
+
+    # install crontab
+    upload_template('etc/crontab', '/tmp/intranet.crontab', env)
+    run('crontab -l > /tmp/intranet.crontab.old')
+    run('crontab < /tmp/intranet.crontab')
+
+    # start supervisord
     run('bin/supervisord')
     time.sleep(15)
     run('bin/supervisorctl status')
@@ -102,14 +115,14 @@ def staging_bootstrap(fresh=True):
 
     # cleanup
     with settings(warn_only=True):
-        run('%(staging_folder)sbin/supervisorctl shutdown' % env)
+        run('%(staging_folder)s/bin/supervisorctl shutdown' % env)
         run('rm -rf %(staging_folder)s' % env)
 
     run('mkdir -p %(staging_folder)s' % env)
     with cd(env.staging_folder):
         run('git clone %s .' % env.repository)
         run('git checkout %s' % env.branch)
-        run('cp buildout.d/buildout.cfg.in buildout.cfg')
+        run('cp etc/buildout.cfg.in buildout.cfg')
         sed('buildout.cfg', '%\(environment\)s', env.environment)
         run('python bootstrap.py')
         run('cp %(staging_django_settings)s %(django_project)s/localsettings.py' % env)
@@ -126,7 +139,8 @@ def staging_redeploy():
     if not has_new_commits():
         return
 
-    staging_bootstrap(fresh=False)
+    with cd(env.code_folder):
+        staging_bootstrap(fresh=False)
 
 
 @task
@@ -151,8 +165,8 @@ def production_deploy():
 
             run('mkdir v%(next_ver)d' % env)
             with cd('v%(next_ver)d' % env):
-                run('cp -R %(staging_folder)s* .' % env)
-                upload_template('buildout.d/buildout.cfg.in', 'buildout.cfg', env)
+                run('cp -R %(staging_folder)s/* .' % env)
+                upload_template('etc/buildout.cfg.in', 'buildout.cfg', env)
                 run('cp %(production_django_settings)s %(django_project)s/localsettings.py' % env)
                 run('bin/buildout -o')
 
@@ -162,8 +176,6 @@ def production_deploy():
                     run('bin/django migrate --fake')
                 else:
                     run('../v%(ver)d/bin/supervisorctl shutdown' % env)
-                # symlink supervisord for cronjob on startup
-                run('ln -f -s bin/supervisord %(root_folder)s/supervisord' % env)
                 deploy()
         except FabricFailure:
             operations.abort = utils.abort  # unmonkeypatch
@@ -233,7 +245,7 @@ def production_data_backup(version=None):
         from django.conf import settings
         env.update(settings.DATABASES['default'])
 
-        local('pg_dump -c -p %(PORT)s -U %(USER)s -Fc --no-acl -c %(NAME)s -f %(backup_location)s/db.sql' % env)
+        local('pg_dump -c -p %(PORT)s -U %(USER)s -Fc --no-owner --no-acl -c %(NAME)s -f %(backup_location)s/db.sql' % env)
 
 
 @task
@@ -263,7 +275,7 @@ def production_data_restore(to):
         from django.conf import settings
         env.update(settings.DATABASES['default'])
 
-        local('pg_restore -c -p %(PORT)s -U %(USER)s -Fc --no-acl -e -d %(NAME)s %(backup_location)s/db.sql' % env)
+        local('pg_restore -c -p %(PORT)s -U %(USER)s -Fc --no-acl -e --no-owner -d %(NAME)s %(backup_location)s/db.sql' % env)
 
 
 class FabricFailure(Exception):
