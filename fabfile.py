@@ -69,14 +69,13 @@ def install_defaults():
 
     # prepare code
     if not exists(env.code_folder):
-        run('git clone git://github.com/kiberpipa/Intranet.git %s' % env.code_folder)
-        run('git checkout %(branch)s' % env)
+        run('git clone git://github.com/kiberpipa/Intranet.git %(code_folder)s -b %(branch)s' % env.code_folder)
 
 
 def has_new_commits():
     """Check for fresh deploy branch commits"""
     with lcd(env.code_folder):
-        local('git pull')
+        local('git fetch origin')
         output = local('git log %(branch)s...origin/%(branch)s' % env, capture=True)
     if output.strip():
         print "new commits!"
