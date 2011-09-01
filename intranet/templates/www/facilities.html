@@ -22,15 +22,43 @@
         $('.datetime-ui').datetime({value: '+1min'});
 
         var facilities = new Object();
-        facilities['kinodvorana'] = '5';
-        facilities['ucilnica'] = '4';
-        facilities['lab'] = '3';
-        facilities['glavni'] = '2';
+        facilities['kinodvorana'] = '4';
+        facilities['ucilnica'] = '3';
+        facilities['lab'] = '2';
+        facilities['glavni'] = '1';
+        var facilitiesl = new Object();
+        facilitiesl = ["",'glavni','lab','ucilnica','kinodvorana'];
 
-        $('map area').click(function() {
+        function clear_hilight() {
+            $('map area').each(function(idx, item) {
+                var data = $(this).data('maphilight') || {};
+                data.fillColor = '444444';
+                data.alwaysOn = false;
+                $(this).data('maphilight', data).trigger('fillColor.maphilight');
+                $(this).data('maphilight', data).trigger('alwaysOn.maphilight');
+            });
+        }
+
+        $('#id_facility').change(function() {
+            var ajdi = "map area#" + facilitiesl[$(this).val()];
+            hilight($(ajdi));
+        });
+
+
+        function hilight(area) {
+            clear_hilight()
+            <!--e.preventDefault();-->
+            var data = area.data('maphilight') || {};
+            data.fillColor = 'ee0000';
+            data.alwaysOn = true;
+            area.data('maphilight', data).trigger('fillColor.maphilight');
+            area.data('maphilight', data).trigger('alwaysOn.maphilight');
+        }
+
+        $('map area').click(function(e) {
             var id = facilities[$(this).attr('id')];
             $('#id_facility').val(id);
-
+            hilight($(this))
             // load description of the facility
             $.ajax({
               url: '{% url facility_description_ajax 999 %}'.replace('999', id),

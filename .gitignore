@@ -1,4 +1,11 @@
+*.pyc
+bin/
+include/
+lib/
+kiberpipa_intranet.egg-info/
+
 localsettings.py*
 intranet.db
+db.intranet
 buildout.cfg
 *.pyc
