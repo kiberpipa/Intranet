@@ -214,7 +214,7 @@ def production_rollback():
 
 @task
 def production_data_backup(version=None):
-    """Backup database and static files"""
+    """Backup database and media files"""
     env.ver = version or production_latest_version()
     ver_dir = "v%d" % env.ver
     env.backup_location = os.path.join(env.backup_folder, ver_dir)
@@ -223,8 +223,9 @@ def production_data_backup(version=None):
     if not exists(env.backup_location):
         local('mkdir -p %(backup_location)s' % env)
 
-    # backup static files
-    local('tar cvfz %(backup_location)s/mediafiles.tar.gz -C %(production_media_folder)s .' % env)
+    # backup media files
+    # use transform to strip leading dot
+    local("tar cvfz %(backup_location)s/mediafiles.tar.gz -C %(production_media_folder)s --transform 's/^\.//' ." % env)
 
     # backup database
     with lcd(production):
@@ -237,7 +238,7 @@ def production_data_backup(version=None):
 
 @task
 def production_data_restore(to):
-    """Restore latests database and static files"""
+    """Restore latests database and media files"""
     env.ver = production_latest_version()
     ver_dir = "v%d" % env.ver
     env.backup_location = os.path.join(env.backup_folder, ver_dir)
@@ -262,7 +263,7 @@ def production_data_restore(to):
         from django.conf import settings
         env.update(settings.DATABASES['default'])
 
-        local('pg_restore -c -p %(PORT)s -U %(USER)s -Fc --no-acl -d %(NAME)s %(backup_location)s/db.sql' % env)
+        local('pg_restore -c -p %(PORT)s -U %(USER)s -Fc --no-acl -e -d %(NAME)s %(backup_location)s/db.sql' % env)
 
 
 class FabricFailure(Exception):
