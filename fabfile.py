@@ -23,7 +23,7 @@ from fabric.context_managers import settings, cd, lcd
 from fabric.contrib.files import upload_template, exists, append, sed
 from fabric.contrib import django
 from fabric.colors import red, green
-from fabric.decorators import task
+from fabric.decorators import task, runs_once
 
 
 # linux
@@ -173,6 +173,7 @@ def production_deploy():
             print green("Successfully deployed production v%d." % env.next_ver)
 
 
+@runs_once
 def production_latest_version():
     """Version number of latest production dir"""
     versions = run('find %(production_folder)s -maxdepth 1 -name "v*"' % env).split() or ['v0']
