@@ -40,8 +40,8 @@
 		</div>
 		{% endif %}
 	</div>
-	<span class="present-event-text"><a href="{{ event.get_public_url }}">{{ event }}</a></span>
-	<p class="present-event-desc">{{ event.announce|truncatewords_html:"30"|safe }}</p>
+	<div class="present-event-text"><a href="{{ event.get_public_url }}">{{ event }}</a></div>
+	<div class="present-event-desc">{{ event.announce|truncatewords_html:"30"|safe }}</div>
 </div>
 {% endfor %}
 <div id="scroll-position" style="display: none;">{{ position }}</div>
