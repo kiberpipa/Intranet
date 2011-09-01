@@ -15,6 +15,8 @@ Before sure to provide the following:
 
 # TODO for future:
 # * shouldn't be postgres specific
+# * date tag backups
+# * restore supporting multiple versions, not only latests
 
 import os
 import time
@@ -108,7 +110,7 @@ def deploy():
 
 
 @task
-def staging_bootstrap(fresh=True):
+def remote_staging_bootstrap(fresh=True):
     """Install and run staging from scratch"""
     env.environment = 'staging'
     if fresh:
@@ -128,27 +130,35 @@ def staging_bootstrap(fresh=True):
         run('python bootstrap.py')
         run('cp %(staging_django_settings)s %(django_project)s/localsettings.py' % env)
         run('bin/buildout')
-        if run('bin/fab production_data_restore:staging -H localhost') == False:
+        if remote_production_data_restore('staging') == False:
             run('bin/django syncdb --noinput --traceback --all')
             run('bin/django migrate --fake')
         deploy()
 
 
 @task
-def staging_redeploy():
+def local_staging_redeploy():
     """Check for new commits and rebootstrap staging"""
     if not has_new_commits():
         return
 
     with cd(env.code_folder):
-        staging_bootstrap(fresh=False)
+        remote_staging_bootstrap(fresh=False)
 
 
 @task
-def production_deploy():
+def remote_staging_redeploy_with_production_data():
+    """Production backup and reboostrap staging"""
+    remote_production_data_backup('staging')
+    with cd(env.code_folder):
+        remote_staging_bootstrap(fresh=False)
+
+
+@task
+def remote_production_deploy():
     """Staging to production and rollback on failure"""
     env.environment = 'production'
-    env.ver = production_latest_version()
+    env.ver = remote_production_latest_version()
     env.next_ver = env.ver + 1
     is_fresh = env.ver == 0
     if not exists(env.production_folder):
@@ -162,7 +172,7 @@ def production_deploy():
         try:
             if not is_fresh:
                 with cd('v%(ver)d' % env):
-                    run('bin/fab production_data_backup -H localhost')
+                    remote_production_data_backup(env.ver)
 
             run('mkdir v%(next_ver)d' % env)
             with cd('v%(next_ver)d' % env):
@@ -180,14 +190,15 @@ def production_deploy():
                 deploy()
         except FabricFailure:
             operations.abort = utils.abort  # unmonkeypatch
-            production_rollback()
+            remote_production_rollback()
             print red("Production v%d deploy failed, rollback completed." % env.next_ver)
         else:
+            remote_production_data_backup(env.next_ver)
             print green("Successfully deployed production v%d." % env.next_ver)
 
 
 @runs_once
-def production_latest_version():
+def remote_production_latest_version():
     """Version number of latest production dir"""
     versions = run('find %(production_folder)s -maxdepth 1 -name "v*"' % env).split() or ['v0']
     latest = sorted(int(os.path.basename(ver).strip('v')) for ver in versions)[-1]
@@ -196,16 +207,9 @@ def production_latest_version():
 
 
 @task
-def production_copy_livedata_to_staging():
-    """Production backup and reboostrap staging"""
-    run('bin/fab production_data_backup -H localhost')
-    staging_bootstrap()
-
-
-@task
-def production_rollback():
+def remote_production_rollback():
     """Clean latest production and deploy previous"""
-    env.ver = production_latest_version()
+    env.ver = remote_production_latest_version()
     env.prev_ver = env.ver - 1
     print red("Starting rollback...", bold=True)
 
@@ -219,64 +223,73 @@ def production_rollback():
             operations.abort('Could not rollback since this is first production deploy.')
 
         with cd('v%d' % env.prev_ver):
-            run('bin/fab production_data_restore:to=production -H localhost')
+            remote_production_data_restore('production', env.prev_ver)
             run('bin/supervisord')
             time.sleep(5)
             run('bin/supervisorctl status')
 
 
 @task
-def production_data_backup(version=None):
+def local_production_data_backup(backup_location):
     """Backup database and media files"""
-    env.ver = version or production_latest_version()
-    ver_dir = "v%d" % env.ver
-    env.backup_location = os.path.join(env.backup_folder, ver_dir)
-    production = os.path.join(env.production_folder, ver_dir)
+    env.backup_location = backup_location
 
     if not exists(env.backup_location):
         local('mkdir -p %(backup_location)s' % env)
 
     # backup media files
-    # use transform to strip leading dot
-    local("tar cvfz %(backup_location)s/mediafiles.tar.gz -C %(production_media_folder)s --transform 's/^\.//' ." % env)
+    local("tar cvfz %(backup_location)s/mediafiles.tar.gz -C %(production_media_folder)s ." % env)
 
     # backup database
-    with lcd(production):
-        django.project(env.django_project)
-        from django.conf import settings
-        env.update(settings.DATABASES['default'])
+    django.project(env.django_project)
+    from django.conf import settings
+    env.update(settings.DATABASES['default'])
 
-        local('pg_dump -c -p %(PORT)s -U %(USER)s -Fc --no-owner --no-acl -c %(NAME)s -f %(backup_location)s/db.sql' % env)
+    local('pg_dump -c -p %(PORT)s -U %(USER)s -Fc --no-owner --no-acl -c %(NAME)s -f %(backup_location)s/db.sql' % env)
 
 
 @task
-def production_data_restore(to):
-    """Restore latests database and media files"""
-    env.ver = production_latest_version()
-    ver_dir = "v%d" % env.ver
+def remote_production_data_backup(version=None):
+    """Backup database and media files"""
+    ver_dir = "v%d" % (version or remote_production_latest_version())
     env.backup_location = os.path.join(env.backup_folder, ver_dir)
+    env.production_location = os.path.join(env.production_folder, ver_dir)
+    return run('cd %(production_location)s && bin/fab local_production_data_backup:%(backup_location)s -H localhost' % env).suceeded
 
+
+@task
+def local_production_data_restore(backup_location):
+    """Restore latests database and media files"""
     if not exists(env.backup_location):
-        print red("No backup for production version %d yet." % env.ver, bold=True)
+        print red("No backup yet: %(backup_location)s" % env, bold=True)
         return False
-
-    if to == "staging":
-        env.restore_location = env.staging_folder
-    elif to == "production":
-        env.restore_location = os.path.join(env.production_folder, ver_dir)
-    else:
-        operations.abort("unknown '%s' restore location" % to)
 
     # restore static files
     local('tar xvfz %(backup_location)s/mediafiles.tar.gz -C %(production_media_folder)s' % env)
 
     # restore database
-    with lcd(env.restore_location):
-        django.project(env.django_project)
-        from django.conf import settings
-        env.update(settings.DATABASES['default'])
+    django.project(env.django_project)
+    from django.conf import settings
+    env.update(settings.DATABASES['default'])
 
-        local('pg_restore -c -p %(PORT)s -U %(USER)s -Fc --no-acl -e --no-owner -d %(NAME)s %(backup_location)s/db.sql' % env)
+    local('pg_restore -c -p %(PORT)s -U %(USER)s -Fc --no-acl -e --no-owner -d %(NAME)s %(backup_location)s/db.sql' % env)
+
+
+@task
+def remote_production_data_restore(environment, version=None):
+    """Restore latests database and media files"""
+    env.ver = version or remote_production_latest_version()
+    ver_dir = "v%d" % env.ver
+    env.backup_location = os.path.join(env.backup_folder, ver_dir)
+
+    if environment == "staging":
+        env.restore_location = env.staging_folder
+    elif environment == "production":
+        env.restore_location = os.path.join(env.production_folder, ver_dir)
+    else:
+        operations.abort("unknown '%s' restore environment" % environment)
+
+    return run('cd %(restore_location)s && bin/fab local_production_data_restore:%(backup_location)s -H localhost' % env).suceeded
 
 
 class FabricFailure(Exception):
