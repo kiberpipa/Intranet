@@ -40,7 +40,7 @@ env.production_media_folder = os.path.join(env.production_folder, 'media')
 env.backup_folder = os.path.join(env.root_folder, 'backups')
 # code
 env.repository = 'git://github.com/kiberpipa/Intranet.git'
-env.branch = 'new_deploy'
+env.branch = 'deploy'
 # django
 env.django_project = 'intranet'
 env.production_django_settings = os.path.join(env.root_folder, 'production_localsettings.py')
