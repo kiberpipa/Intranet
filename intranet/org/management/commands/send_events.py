@@ -22,11 +22,9 @@ class Command(BaseCommand):
         else:
             # yesterday
             now = datetime.date.today() - datetime.timedelta(1)
-        
+
         subject = 'Kiberpipa, weekly report: %d. %d. %d' % (now.day, now.month, now.year)
-
-        days_range = 7;
-
+        days_range = 7
         events = Event.objects.all()
 
         # 1. events that are newer or equal may pass
@@ -39,10 +37,10 @@ class Command(BaseCommand):
 
         # is public and no visitors
         no_visitors = events.filter(public__exact=True).filter(visitors__exact=0)
-    
+
         # is videoed and no attached video
         no_video = events.filter(require_video__exact=True).filter(video__isnull=True)
-    
+
         # is pictured and no flicker id
         no_pictures = events.filter(require_photo__exact=True).filter(flickr_set_id__exact=None)
 
@@ -51,18 +49,17 @@ class Command(BaseCommand):
             return
 
         unfinished_events = (no_visitors, no_video, no_pictures)
-
         html = get_template('mail/events_report.html').render(Context({
                                                               'days_range': days_range,
                                                               'all_visitors': all_visitors,
                                                               'events': events,
-                                                              'unfinished_events': unfinished_events 
+                                                              'unfinished_events': unfinished_events
                                                               }))
         text = get_template('mail/events_report.txt').render(Context({
                                                               'days_range': days_range,
                                                               'all_visitors': all_visitors,
                                                               'events': events,
-                                                              'unfinished_events': unfinished_events 
+                                                              'unfinished_events': unfinished_events
                                                               }))
 
         email = EmailMultiAlternatives(subject, text, settings.DEFAULT_FROM_EMAIL, ['pipa-org@list.sou-lj.si'])
