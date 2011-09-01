@@ -8,11 +8,13 @@ Before sure to provide the following:
 
 """
 # TODO:
-# * shouldn't be postgres specific
 # * fix racing conditions (keep state when running bootstrap/deploy)
+# * media backup is absolute path
+# * use template for crontab instead of usercrontab and remove ugly hack with symlinking supervisor (probably by patching z3c.recipe.usercrontab)
+# * test rollback and backup/restore
 
-# TODO future:
-# * remove ugly hack with symlinking supervisor (probably by patching z3c.recipe.usercrontab)
+# TODO for future:
+# * shouldn't be postgres specific
 
 import os
 import time
