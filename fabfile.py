@@ -68,8 +68,8 @@ def install_defaults():
             operations.abort('%s does not exists. Please upload the file and rerun fabric.' % f)
 
     # prepare code
-    if not exists(env.code):
-        run('git clone git://github.com/kiberpipa/Intranet.git %s' % env.code)
+    if not exists(env.code_folder):
+        run('git clone git://github.com/kiberpipa/Intranet.git %s' % env.code_folder)
 
 
 def has_new_commits():
