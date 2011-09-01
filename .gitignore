@@ -9,3 +9,5 @@ intranet.db
 db.intranet
 buildout.cfg
 *.pyc
+src/
+media/
