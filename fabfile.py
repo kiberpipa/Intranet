@@ -96,7 +96,7 @@ def deploy():
     run('chmod 750 %s' % getattr(env, '%s_django_settings' % env.environment))
 
     # install crontab
-    upload_template('etc/crontab', '/tmp/intranet.crontab', env)
+    upload_template('etc/crontab.in', '/tmp/intranet.crontab', env)
     run('crontab -l > /tmp/intranet.crontab.old')
     run('crontab < /tmp/intranet.crontab')
 

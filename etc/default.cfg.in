@@ -1,5 +1,5 @@
 [buildout]
-eggs-directory = %(home_folder)s.buildout/eggs
-download-cache = %(home_folder)s.buildout/downloads
+eggs-directory = %(home_folder)s/.buildout/eggs
+download-cache = %(home_folder)s/.buildout/downloads
 unzip = true
 # this file should be copied to ~/.buildout/
