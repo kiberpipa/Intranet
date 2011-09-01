@@ -20,7 +20,7 @@ import time
 from fabric import operations, utils
 from fabric.api import run, env, local
 from fabric.context_managers import settings, cd, lcd
-from fabric.contrib.files import upload_template, exists, append, sed
+from fabric.contrib.files import upload_template, exists, sed
 from fabric.contrib import django
 from fabric.colors import red, green
 from fabric.decorators import task, runs_once
@@ -28,12 +28,12 @@ from fabric.decorators import task, runs_once
 
 # linux
 env.user = 'intranet'
-env.umask = '0027'
 # folders/locations
 env.home_folder = '/home/%(user)s/' % env
 env.root_folder = '/home/intranet/'
 env.staging_folder = os.path.join(env.root_folder, 'staging/')
 env.production_folder = os.path.join(env.root_folder, 'production/')
+env.production_static_folder = os.path.join(env.production_folder, 'static')
 env.production_media_folder = os.path.join(env.production_folder, 'media')
 env.backup_folder = os.path.join(env.root_folder, 'backups')
 # code
@@ -53,10 +53,6 @@ def install_defaults():
     if not exists('%(home_folder)s.buildout/' % env):
         run('mkdir -p %(home_folder)s.buildout/{eggs,downloads}' % env)
     upload_template('buildout.d/default.cfg.in', '%(home_folder)s.buildout/default.cfg' % env, env)
-
-    # set umask
-    for f in ['%(home_folder)s/.bashrc', '%(home_folder)s/.bash_profile']:
-        append(f % env, 'umask %(umask)s' % env)
 
     # warn about ssh pub key for -H localhost
     with settings(warn_only=True):
@@ -88,6 +84,8 @@ def deploy():
     with settings(warn_only=True):
         run('bin/django createinitialrevisions')  # django-revision
         run('bin/django collectstatic --noinput -l')  # staticfiles
+    # strict permissions for settings
+    run('chmod 750 %s' % getattr(env, '%s_django_settings' % env.environment))
     run('bin/supervisord')
     time.sleep(15)
     run('bin/supervisorctl status')
@@ -184,14 +182,14 @@ def production_latest_version():
 
 @task
 def production_copy_livedata_to_staging():
-    """"""
+    """Production backup and reboostrap staging"""
     run('bin/fab production_data_backup -H localhost')
     staging_bootstrap()
 
 
 @task
 def production_rollback():
-    """"""
+    """Clean latest production and deploy previous"""
     env.ver = production_latest_version()
     env.prev_ver = env.ver - 1
     print red("Starting rollback...", bold=True)
