@@ -147,8 +147,8 @@ def local_staging_redeploy():
     if not has_new_commits():
         return
 
-    with cd(env.code_folder):
-        remote_staging_bootstrap(fresh=False)
+    os.chdir(env.code_folder)
+    remote_staging_bootstrap(fresh=False)
 
 
 @task
