@@ -9,8 +9,6 @@ Before sure to provide the following:
 """
 # TODO:
 # * fix racing conditions (keep state when running bootstrap/deploy)
-# * media backup is absolute path
-# * use template for crontab instead of usercrontab and remove ugly hack with symlinking supervisor (probably by patching z3c.recipe.usercrontab)
 # * test rollback and backup/restore
 
 # TODO for future:
