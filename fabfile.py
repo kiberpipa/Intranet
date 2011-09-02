@@ -131,9 +131,7 @@ def remote_staging_bootstrap(fresh=True):
         run('python bootstrap.py')
         run('cp %(staging_django_settings)s %(django_project)s/localsettings.py' % env)
         run('bin/buildout')
-
-        # recreate database
-        #run('bin/django')
+        run('bin/fab local_clear_database')
 
         if not remote_production_data_restore('staging'):
             run('bin/django syncdb --noinput --traceback --all')
@@ -149,6 +147,15 @@ def local_staging_redeploy():
 
     with cd(env.code_folder):
         remote_staging_bootstrap(fresh=False)
+
+
+@task
+def local_clear_database():
+    """Recreate schema"""
+    django.project(env.django_project)
+    from django.conf import settings
+    role = settings.DATABASES['default']['USER']
+    local('echo "DROP SCHEMA public CASCADE;CREATE SCHEMA public AUTHORIZATION %s;GRANT ALL ON SCHEMA public TO %s;" | bin/django dbshell' % role)
 
 
 @task
