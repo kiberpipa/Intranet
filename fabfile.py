@@ -34,8 +34,8 @@ env.user = 'intranet'
 env.home_folder = '/home/%(user)s' % env
 env.root_folder = '/home/intranet'
 env.staging_folder = os.path.join(env.root_folder, 'staging')
+env.staging_media_folder = os.path.join(env.production_folder, 'media')
 env.production_folder = os.path.join(env.root_folder, 'production')
-env.production_static_folder = os.path.join(env.production_folder, 'static')
 env.production_media_folder = os.path.join(env.production_folder, 'media')
 env.backup_folder = os.path.join(env.root_folder, 'backups')
 # code
@@ -53,8 +53,10 @@ env.PORT = 5432
 def install_defaults():
     """Populates sane defaults"""
     # install default buildout
-    if not exists('%(home_folder)s/.buildout/' % env):
-        run('mkdir -p %(home_folder)s/.buildout/{eggs,downloads}' % env)
+    run('mkdir -p %(home_folder)s/.buildout/{eggs,downloads}' % env)
+    run('mkdir -p %(production_folder)s' % env)
+    run('mkdir -p %(production_media_folder)s' % env)
+    run('mkdir -p %(staging_media_folder)s' % env)
     upload_template('etc/default.cfg.in', '%(home_folder)s/.buildout/default.cfg' % env, env)
 
     # warn about ssh pub key for -H localhost
@@ -70,11 +72,6 @@ def install_defaults():
     # prepare code
     if not exists(env.code_folder):
         run('git clone %(repository)s %(code_folder)s -b %(branch)s' % env)
-
-    if not exists(env.production_folder):
-        run('mkdir -p %(production_folder)s' % env)
-    if not exists(env.production_media_folder):
-        run('mkdir %(production_media_folder)s' % env)
 
 
 def has_new_commits():
@@ -138,7 +135,7 @@ def remote_staging_bootstrap(fresh=True):
         # recreate database
         #run('bin/django')
 
-        if remote_production_data_restore('staging') == False:
+        if not remote_production_data_restore('staging'):
             run('bin/django syncdb --noinput --traceback --all')
             run('bin/django migrate --fake')
         deploy()
@@ -192,6 +189,7 @@ def remote_production_deploy():
                     run('bin/django migrate --fake')
                 else:
                     run('../v%(ver)d/bin/supervisorctl shutdown' % env)
+                run('ln -s ../media')
                 deploy()
         except FabricFailure:
             operations.abort = utils.abort  # unmonkeypatch
@@ -243,7 +241,7 @@ def local_production_data_backup(backup_location):
         local('mkdir -p %(backup_location)s' % env)
 
     # backup media files
-    local("tar cvfz %(backup_location)s/mediafiles.tar.gz -C %(production_media_folder)s ." % env)
+    local("tar cvfz %(backup_location)s/mediafiles.tar.gz -C media/ ." % env)
 
     # backup database
     django.project(env.django_project)
@@ -270,7 +268,7 @@ def local_production_data_restore(backup_location):
         operations.abort(red("No backup yet: %(backup_location)s" % env, bold=True))
 
     # restore static files
-    local('tar xvfz %(backup_location)s/mediafiles.tar.gz -C %(production_media_folder)s' % env)
+    local('tar xvfz %(backup_location)s/mediafiles.tar.gz -C media/' % env)
 
     # restore database
     django.project(env.django_project)
