@@ -34,7 +34,7 @@ env.user = 'intranet'
 env.home_folder = '/home/%(user)s' % env
 env.root_folder = '/home/intranet'
 env.staging_folder = os.path.join(env.root_folder, 'staging')
-env.staging_media_folder = os.path.join(env.production_folder, 'media')
+env.staging_media_folder = os.path.join(env.staging_folder, 'media')
 env.production_folder = os.path.join(env.root_folder, 'production')
 env.production_media_folder = os.path.join(env.production_folder, 'media')
 env.backup_folder = os.path.join(env.root_folder, 'backups')
@@ -189,7 +189,7 @@ def remote_production_deploy():
                     run('bin/django migrate --fake')
                 else:
                     run('../v%(ver)d/bin/supervisorctl shutdown' % env)
-                run('ln -s ../media')
+                run('ln -s ../media media')
                 deploy()
         except FabricFailure:
             operations.abort = utils.abort  # unmonkeypatch
