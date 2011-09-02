@@ -156,13 +156,14 @@ def remote_staging_redeploy_with_production_data():
 def remote_production_deploy():
     """Staging to production and rollback on failure"""
     env.environment = 'production'
-    env.ver = remote_production_latest_version()
-    env.next_ver = env.ver + 1
-    is_fresh = env.ver == 0
     if not exists(env.production_folder):
         run('mkdir -p %(production_folder)s' % env)
     if not exists(env.production_media_folder):
         run('mkdir %(production_media_folder)s' % env)
+
+    env.ver = remote_production_latest_version()
+    env.next_ver = env.ver + 1
+    is_fresh = env.ver == 0
 
     with cd(env.production_folder):
         # monkey patch abort function so we just get raised exception
