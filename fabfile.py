@@ -294,7 +294,8 @@ def remote_production_data_restore(environment, version=None):
     else:
         operations.abort("unknown '%s' restore environment" % environment)
 
-    return run('cd %(restore_location)s && bin/fab local_production_data_restore:%(backup_location)s -H localhost' % env).succeeded
+    with settings(warn_only=True):
+        return run('cd %(restore_location)s && bin/fab local_production_data_restore:%(backup_location)s -H localhost' % env).succeeded
 
 
 class FabricFailure(Exception):
