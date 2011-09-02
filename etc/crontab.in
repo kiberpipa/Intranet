@@ -1,6 +1,6 @@
 # staging
 @reboot %(staging_folder)s/bin/supervisord
-*/5 * * * * cd %(staging_folder)s && %(staging_folder)s/bin/fab staging_redeploy -H localhost > /dev/null
+*/5 * * * * cd %(staging_folder)s && %(staging_folder)s/bin/fab local_staging_redeploy -H localhost > /dev/null
 
 # production
 @reboot %(production_folder)s/bin/supervisord

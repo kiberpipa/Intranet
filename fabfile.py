@@ -77,13 +77,13 @@ def has_new_commits():
     with lcd(env.code_folder):
         local('git fetch origin')
         output = local('git log %(branch)s...origin/%(branch)s' % env, capture=True)
-    if output.strip():
-        local('git pull origin')
-        print "new commits!"
-        return True
-    else:
-        print "no new commits."
-        return False
+        if output.strip():
+            local('git pull origin')
+            print "new commits!"
+            return True
+        else:
+            print "no new commits."
+            return False
 
 
 def deploy():
