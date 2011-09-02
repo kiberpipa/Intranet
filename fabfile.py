@@ -69,7 +69,12 @@ def install_defaults():
 
     # prepare code
     if not exists(env.code_folder):
-        run('git clone git://github.com/kiberpipa/Intranet.git %(code_folder)s -b %(branch)s' % env.code_folder)
+        run('git clone %(repository)s %(code_folder)s -b %(branch)s' % env)
+
+    if not exists(env.production_folder):
+        run('mkdir -p %(production_folder)s' % env)
+    if not exists(env.production_media_folder):
+        run('mkdir %(production_media_folder)s' % env)
 
 
 def has_new_commits():
@@ -121,6 +126,7 @@ def remote_staging_bootstrap(fresh=True):
 
     run('mkdir -p %(staging_folder)s' % env)
     with cd(env.staging_folder):
+        # TODO: export from /code
         run('git clone %s .' % env.repository)
         run('git checkout %s' % env.branch)
         run('cp etc/buildout.cfg.in buildout.cfg')
@@ -128,6 +134,10 @@ def remote_staging_bootstrap(fresh=True):
         run('python bootstrap.py')
         run('cp %(staging_django_settings)s %(django_project)s/localsettings.py' % env)
         run('bin/buildout')
+
+        # recreate database
+        #run('bin/django')
+
         if remote_production_data_restore('staging') == False:
             run('bin/django syncdb --noinput --traceback --all')
             run('bin/django migrate --fake')
@@ -156,10 +166,6 @@ def remote_staging_redeploy_with_production_data():
 def remote_production_deploy():
     """Staging to production and rollback on failure"""
     env.environment = 'production'
-    if not exists(env.production_folder):
-        run('mkdir -p %(production_folder)s' % env)
-    if not exists(env.production_media_folder):
-        run('mkdir %(production_media_folder)s' % env)
 
     env.ver = remote_production_latest_version()
     env.next_ver = env.ver + 1
@@ -261,8 +267,7 @@ def local_production_data_restore(backup_location):
     """Restore latests database and media files"""
     env.backup_location = backup_location
     if not exists(env.backup_location):
-        print red("No backup yet: %(backup_location)s" % env, bold=True)
-        return False
+        operations.abort(red("No backup yet: %(backup_location)s" % env, bold=True))
 
     # restore static files
     local('tar xvfz %(backup_location)s/mediafiles.tar.gz -C %(production_media_folder)s' % env)
