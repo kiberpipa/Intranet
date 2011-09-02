@@ -147,7 +147,7 @@ def local_staging_redeploy():
 @task
 def remote_staging_redeploy_with_production_data():
     """Production backup and reboostrap staging"""
-    remote_production_data_backup('staging')
+    remote_production_data_backup()
     with cd(env.code_folder):
         remote_staging_bootstrap(fresh=False)
 
