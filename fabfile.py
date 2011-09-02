@@ -51,64 +51,6 @@ env.staging_django_settings = os.path.join(env.root_folder, 'staging_localsettin
 env.PORT = 5432
 
 
-def install_defaults():
-    """Populates sane defaults"""
-    # install default buildout
-    run('mkdir -p %(home_folder)s/.buildout/{eggs,downloads}' % env)
-    run('mkdir -p %(production_folder)s' % env)
-    run('mkdir -p %(production_media_folder)s' % env)
-    upload_template('etc/default.cfg.in', '%(home_folder)s/.buildout/default.cfg' % env, env)
-
-    # warn about ssh pub key for -H localhost
-    with settings(warn_only=True):
-        if run('grep -q -f ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys').return_code != 0:
-            operations.abort('%(user)s must be able to run "ssh localhost", please configure .ssh/authorized_keys' % env)
-
-    # warn about localsettings
-    for f in [env.staging_django_settings, env.production_django_settings]:
-        if not exists(f):
-            operations.abort('%s does not exists. Please upload the file and rerun fabric.' % f)
-
-    # prepare code
-    if not exists(env.code_folder):
-        run('git clone %(repository)s %(code_folder)s -b %(branch)s' % env)
-
-
-def has_new_commits():
-    """Check for fresh deploy branch commits"""
-    with lcd(env.code_folder):
-        local('git fetch origin')
-        output = local('git log %(branch)s...origin/%(branch)s' % env, capture=True)
-        if output.strip():
-            local('git pull origin')
-            print "new commits!"
-            return True
-        else:
-            print "no new commits."
-            return False
-
-
-def deploy():
-    """Deploy rutine for Django"""
-    run('bin/django syncdb --noinput --traceback --migrate')
-    with settings(warn_only=True):
-        run('bin/django createinitialrevisions')  # django-revision
-        run('bin/django collectstatic --noinput -l')  # staticfiles
-
-    # strict permissions for settings
-    run('chmod 750 %s' % getattr(env, '%s_django_settings' % env.environment))
-
-    # install crontab
-    upload_template('etc/crontab.in', '/tmp/intranet.crontab', env)
-    run('crontab -l > /tmp/intranet.crontab.old')
-    run('crontab < /tmp/intranet.crontab')
-
-    # start supervisord
-    run('bin/supervisord')
-    time.sleep(15)
-    run('bin/supervisorctl status')
-
-
 @task
 def remote_staging_bootstrap(fresh=True):
     """Install and run staging from scratch"""
@@ -303,6 +245,67 @@ def remote_production_data_restore(environment, version=None):
 
     with settings(warn_only=True):
         return run('cd %(restore_location)s && bin/fab local_production_data_restore:%(backup_location)s -H localhost' % env).succeeded
+
+
+# --- utils ---
+
+
+def install_defaults():
+    """Populates sane defaults"""
+    # install default buildout
+    run('mkdir -p %(home_folder)s/.buildout/{eggs,downloads}' % env)
+    run('mkdir -p %(production_folder)s' % env)
+    run('mkdir -p %(production_media_folder)s' % env)
+    upload_template('etc/default.cfg.in', '%(home_folder)s/.buildout/default.cfg' % env, env)
+
+    # warn about ssh pub key for -H localhost
+    with settings(warn_only=True):
+        if run('grep -q -f ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys').return_code != 0:
+            operations.abort('%(user)s must be able to run "ssh localhost", please configure .ssh/authorized_keys' % env)
+
+    # warn about localsettings
+    for f in [env.staging_django_settings, env.production_django_settings]:
+        if not exists(f):
+            operations.abort('%s does not exists. Please upload the file and rerun fabric.' % f)
+
+    # prepare code
+    if not exists(env.code_folder):
+        run('git clone %(repository)s %(code_folder)s -b %(branch)s' % env)
+
+
+def has_new_commits():
+    """Check for fresh deploy branch commits"""
+    with lcd(env.code_folder):
+        local('git fetch origin')
+        output = local('git log %(branch)s...origin/%(branch)s' % env, capture=True)
+        if output.strip():
+            local('git pull origin')
+            print "new commits!"
+            return True
+        else:
+            print "no new commits."
+            return False
+
+
+def deploy():
+    """Deploy rutine for Django"""
+    run('bin/django syncdb --noinput --traceback --migrate')
+    with settings(warn_only=True):
+        run('bin/django createinitialrevisions')  # django-revision
+        run('bin/django collectstatic --noinput -l')  # staticfiles
+
+    # strict permissions for settings
+    run('chmod 750 %s' % getattr(env, '%s_django_settings' % env.environment))
+
+    # install crontab
+    upload_template('etc/crontab.in', '/tmp/intranet.crontab', env)
+    run('crontab -l > /tmp/intranet.crontab.old')
+    run('crontab < /tmp/intranet.crontab')
+
+    # start supervisord
+    run('bin/supervisord')
+    time.sleep(15)
+    run('bin/supervisorctl status')
 
 
 class FabricFailure(Exception):
