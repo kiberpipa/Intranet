@@ -258,6 +258,7 @@ def remote_production_data_backup(version=None):
 @task
 def local_production_data_restore(backup_location):
     """Restore latests database and media files"""
+    env.backup_location = backup_location
     if not exists(env.backup_location):
         print red("No backup yet: %(backup_location)s" % env, bold=True)
         return False
