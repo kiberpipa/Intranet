@@ -9,7 +9,8 @@ Before sure to provide the following:
 """
 # TODO:
 # * fix racing conditions (keep state when running bootstrap/deploy)
-# * test rollback and backup/restore
+# * rollback fails to restore static files
+# * staging fails to restore production database
 
 # TODO for future:
 # * shouldn't be postgres specific
@@ -56,7 +57,6 @@ def install_defaults():
     run('mkdir -p %(home_folder)s/.buildout/{eggs,downloads}' % env)
     run('mkdir -p %(production_folder)s' % env)
     run('mkdir -p %(production_media_folder)s' % env)
-    run('mkdir -p %(staging_media_folder)s' % env)
     upload_template('etc/default.cfg.in', '%(home_folder)s/.buildout/default.cfg' % env, env)
 
     # warn about ssh pub key for -H localhost
@@ -122,9 +122,11 @@ def remote_staging_bootstrap(fresh=True):
         run('rm -rf %(staging_folder)s' % env)
 
     run('mkdir -p %(staging_folder)s' % env)
+
     with cd(env.staging_folder):
         # TODO: export from /code
         run('git clone %s .' % env.repository)
+        run('mkdir -p %(staging_media_folder)s' % env)
         run('git checkout %s' % env.branch)
         run('cp etc/buildout.cfg.in buildout.cfg')
         sed('buildout.cfg', '%\(environment\)s', env.environment)
@@ -196,7 +198,8 @@ def remote_production_deploy():
                     run('bin/django migrate --fake')
                 else:
                     run('../v%(ver)d/bin/supervisorctl shutdown' % env)
-                run('ln -s ../media media')
+                with settings(warn_only=True):
+                    run('ln -s ../media media')
                 deploy()
         except FabricFailure:
             operations.abort = utils.abort  # unmonkeypatch
@@ -219,6 +222,7 @@ def remote_production_latest_version():
 @task
 def remote_production_rollback():
     """Clean latest production and deploy previous"""
+    env.environment = 'production'
     env.ver = remote_production_latest_version()
     env.prev_ver = env.ver - 1
     print red("Starting rollback...", bold=True)
@@ -234,9 +238,7 @@ def remote_production_rollback():
 
         with cd('v%d' % env.prev_ver):
             remote_production_data_restore('production', env.prev_ver)
-            run('bin/supervisord')
-            time.sleep(5)
-            run('bin/supervisorctl status')
+            deploy()
 
 
 @task
