@@ -252,7 +252,7 @@ def remote_production_data_backup(version=None):
     ver_dir = "v%d" % (version or remote_production_latest_version())
     env.backup_location = os.path.join(env.backup_folder, ver_dir)
     env.production_location = os.path.join(env.production_folder, ver_dir)
-    return run('cd %(production_location)s && bin/fab local_production_data_backup:%(backup_location)s -H localhost' % env).suceeded
+    return run('cd %(production_location)s && bin/fab local_production_data_backup:%(backup_location)s -H localhost' % env).succeeded
 
 
 @task
@@ -288,7 +288,7 @@ def remote_production_data_restore(environment, version=None):
     else:
         operations.abort("unknown '%s' restore environment" % environment)
 
-    return run('cd %(restore_location)s && bin/fab local_production_data_restore:%(backup_location)s -H localhost' % env).suceeded
+    return run('cd %(restore_location)s && bin/fab local_production_data_restore:%(backup_location)s -H localhost' % env).succeeded
 
 
 class FabricFailure(Exception):
