@@ -154,8 +154,8 @@ def local_clear_database():
     """Recreate schema"""
     django.project(env.django_project)
     from django.conf import settings
-    role = settings.DATABASES['default']['USER']
-    local('echo "DROP SCHEMA public CASCADE;CREATE SCHEMA public AUTHORIZATION %s;GRANT ALL ON SCHEMA public TO %s;" | bin/django dbshell' % role)
+    env.role = settings.DATABASES['default']['USER']
+    local('echo "DROP SCHEMA public CASCADE;CREATE SCHEMA public AUTHORIZATION %(role)s;GRANT ALL ON SCHEMA public TO %(role)s;" | bin/django dbshell' % env)
 
 
 @task
