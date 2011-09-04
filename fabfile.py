@@ -130,6 +130,8 @@ def remote_production_deploy():
             run('mkdir v%(next_ver)d' % env)
             with cd('v%(next_ver)d' % env):
                 run('cp -R %(staging_folder)s/* .' % env)
+                run('rm -rf media')
+                run('ln -s ../media media')
                 upload_template('etc/buildout.cfg.in', 'buildout.cfg', env)
                 run('cp %(production_django_settings)s %(django_project)s/localsettings.py' % env)
                 run('bin/buildout -o')
@@ -140,8 +142,6 @@ def remote_production_deploy():
                     run('bin/django migrate --fake')
                 else:
                     run('../v%(ver)d/bin/supervisorctl shutdown' % env)
-                with settings(warn_only=True):
-                    run('ln -s ../media media')
                 deploy()
         except FabricFailure:
             operations.abort = utils.abort  # unmonkeypatch
