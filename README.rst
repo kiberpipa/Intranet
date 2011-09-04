@@ -1,3 +1,9 @@
+About
+=====
+
+Intranet is a web application based on Django framework for management of information in Kiberpipa NGO. Goal is to refactor current code to smaller modules and port to some existing CMS so that modules could be reused by someone else (eg. hackerspace).
+
+
 Development setup
 =================
 
