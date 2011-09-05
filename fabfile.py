@@ -65,9 +65,8 @@ def remote_staging_bootstrap(fresh=True):
 
     with cd(env.staging_folder):
         # TODO: export from /code
-        run('git clone %s .' % env.repository)
+        run('git clone -b %(branch)s %(repository)s .' % env.repository)
         run('mkdir -p %(staging_media_folder)s' % env)
-        run('git checkout %s' % env.branch)
         run('cp etc/buildout.cfg.in buildout.cfg')
         sed('buildout.cfg', '%\(environment\)s', env.environment)
         run('python bootstrap.py')
@@ -270,8 +269,7 @@ def install_defaults():
 
     # prepare code
     if not exists(env.code_folder):
-        run('git clone %(repository)s %(code_folder)s' % env)
-        run('cd %(code_folder)s && git checkout %(branch)s' % env)
+        run('git clone -b %(branch)s %(repository)s %(code_folder)s' % env)
 
     # TODO: check for crontab support
     # TODO: check for used ports
