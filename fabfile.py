@@ -273,6 +273,7 @@ def install_defaults():
         run('git clone %(repository)s %(code_folder)s -b %(branch)s' % env)
 
     # TODO: check for crontab support
+    # TODO: check for used ports
 
 
 def has_new_commits():
