@@ -271,7 +271,7 @@ def install_defaults():
     # prepare code
     if not exists(env.code_folder):
         run('git clone %(repository)s %(code_folder)s' % env)
-        run('git checkout %s' % env.branch)
+        run('cd %(code_folder)s && git checkout %(branch)s' % env)
 
     # TODO: check for crontab support
     # TODO: check for used ports
