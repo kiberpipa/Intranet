@@ -29,11 +29,9 @@ from fabric.colors import red, green
 from fabric.decorators import task, runs_once
 
 
-# linux
-env.user = 'intranet'
 # folders/locations
 env.home_folder = '/home/%(user)s' % env
-env.root_folder = '/home/intranet'
+env.root_folder = env.home_folder
 env.staging_folder = os.path.join(env.root_folder, 'staging')
 env.staging_media_folder = os.path.join(env.staging_folder, 'media')
 env.production_folder = os.path.join(env.root_folder, 'production')
@@ -302,6 +300,7 @@ def deploy():
     # install crontab
     ver = remote_production_latest_version()
     env.production_location = "%s/v%d" % (env.production_folder, ver)
+    # TODO: find a better way
     upload_template('etc/crontab.in', '/tmp/intranet.crontab', env)
     run('crontab -l > /tmp/intranet.crontab.old')
     run('crontab < /tmp/intranet.crontab')
