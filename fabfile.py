@@ -129,6 +129,7 @@ def remote_production_deploy():
 
             run('mkdir v%(next_ver)d' % env)
             with cd('v%(next_ver)d' % env):
+                # TODO: do rsync with --exclude
                 run('cp -R %(staging_folder)s/* .' % env)
                 run('rm -rf media')
                 run('ln -s ../media media')
