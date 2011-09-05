@@ -30,12 +30,12 @@ PYTHON_TO_JQUERY_DATETIME_FORMAT = {
 
 
 class SelectWidget(forms.widgets.Select):
-    wattrs = {}
-    wattrs['class'] = "chzn-select"
-    wattrs['style'] = "width:50%"
 
     def render(self, name, value, attrs=None, choices=()):
-        return forms.widgets.Select.render(self, name, value, attrs=self.wattrs, choices=choices)
+        wattrs = attrs or dict()
+        wattrs['class'] = "chzn-select"
+        wattrs['style'] = "width:50%"
+        return forms.widgets.Select.render(self, name, value, attrs=wattrs, choices=choices)
 
 
 class DateTimeWidget(forms.widgets.TextInput):
