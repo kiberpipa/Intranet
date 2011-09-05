@@ -160,12 +160,15 @@ $(document).ready(function() {
                     {% for sodelovanje in sodelovanja %}
                         <option selected="selected">{{ sodelovanje.person }} - {{ sodelovanje.tip }}</option>
                     {% endfor %}
+                    {% for sodelovanje in prev_sodelovanja %}
+                        <option>{{ sodelovanje.person }} - {{ sodelovanje.tip }}</option>
+                    {% endfor %}
                 </select>
 
                 <br />
 
                 <label for="author_field">Add new author:</label>
-                <input type="text" id="author_field"/>
+                <input type="text" id="author_field" />
                 <select class="chzn-select" style="width: 20%" id="type_id">
                     {% for t in tipi %}
                         <option value="{{ t.id }}">{{ t }}</option>

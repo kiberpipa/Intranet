@@ -633,6 +633,7 @@ def event_edit(request, event_pk=None):
         'form': form,
         'tipi': TipSodelovanja.objects.all(),
         'sodelovanja': instance and instance.sodelovanje_set.all() or None,
+        'prev_sodelovanja': Sodelovanje.objects.all(),
         'image': (instance and instance.event_image and instance.event_image.image) or None
         }
     return render_to_response('org/event_edit.html', RequestContext(request, context))
