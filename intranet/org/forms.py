@@ -28,6 +28,7 @@ PYTHON_TO_JQUERY_DATETIME_FORMAT = {
         #'%': '',
 }
 
+
 class SelectWidget(forms.widgets.Select):
     wattrs = {}
     wattrs['class'] = "chzn-select"
@@ -35,6 +36,7 @@ class SelectWidget(forms.widgets.Select):
 
     def render(self, name, value, attrs=None, choices=()):
         return forms.widgets.Select.render(self, name, value, attrs=self.wattrs, choices=choices)
+
 
 class DateTimeWidget(forms.widgets.TextInput):
     """Datetimepicker implementation for Django.
@@ -160,7 +162,7 @@ class EventForm(forms.ModelForm):
             'responsible': SelectWidget(),
             'category': SelectWidget(),
             'language': SelectWidget(),
-            'event_image': SelectWidget(),
+            # TODO: breaks ajax image 'event_image': SelectWidget(),
             'start_date': DateTimeWidget(extra="""
                 onClose: function(date, inst) {
                     if ($('#id_end_date').datepicker('getDate') == null) {

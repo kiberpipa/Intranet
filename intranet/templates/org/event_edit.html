@@ -1,4 +1,5 @@
 {% extends "org/base.html" %}
+{% load markup box i18n %}
 {% block extrahead %}
 <link rel="stylesheet" type="text/css" href="{{ settings.STATIC_URL }}org/markitup/skins/markitup/style.css" />
 <link rel="stylesheet" type="text/css" href="{{ settings.STATIC_URL }}org/markitup/sets/html/style.css" />
@@ -9,40 +10,12 @@
 <script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.ajaxUpload.js" ></script>
 <script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.imgareaselect-0.6.1.min.js" ></script>
 <script type="text/javascript">
-maxL=64;
-var bName = navigator.appName;
-function taLimit(taObj) {
-    if (taObj.value.length==maxL) return false;
-    return true;
-}
-
-function taCount(taObj,Cnt) {
-    objCnt=createObject(Cnt);
-    objVal=taObj.value;
-    if (objVal.length>maxL) objVal=objVal.substring(0,maxL);
-    if (objCnt) {
-        if(bName == "Netscape"){
-            objCnt.textContent=maxL-objVal.length;}
-        else{objCnt.innerText=maxL-objVal.length;}
-    }
-    return true;
-}
-function createObject(objId) {
-    if (document.getElementById) return document.getElementById(objId);
-    else if (document.layers) return eval("document." + objId);
-    else if (document.all) return eval("document.all." + objId);
-    else return eval("document." + objId);
-}
-
 function imgResized(img, sel) {
     var result = new Array(sel.x1, sel.x2, sel.y1, sel.y2)
     $("#id_resize").attr("value", result.join(','));
 }
+
 $(document).ready(function() {
-    // datetime logic
-    if ($('#id_start_date').datepicker('getDate') == null) {
-        $('#id_start_date').datepicker('setDate', '0');
-    }
 
     $("#id_image").change(function(){
         $.ajaxFileUpload
@@ -112,8 +85,6 @@ $(document).ready(function() {
     $(".input_author").suggest("/intranet/autocomplete/person/");
     $("#id_responsible").suggest("/intranet/autocomplete/active_user/");
     $('#id_announce').markItUp(mySettings);
-
-
 });
 
     function add_author_click() {
@@ -151,8 +122,6 @@ $(document).ready(function() {
 
 {% block title %}Dogodki{% endblock %}
 
-{% load markup %}
-{% load box %}
 
 {% block content %}
 <div id="content" class="colMS">
