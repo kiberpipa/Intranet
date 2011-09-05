@@ -65,7 +65,7 @@ def remote_staging_bootstrap(fresh=True):
 
     with cd(env.staging_folder):
         # TODO: export from /code
-        run('git clone -b %(branch)s %(repository)s .' % env.repository)
+        run('git clone -b %(branch)s %(repository)s .' % env)
         run('mkdir -p %(staging_media_folder)s' % env)
         run('cp etc/buildout.cfg.in buildout.cfg')
         sed('buildout.cfg', '%\(environment\)s', env.environment)
