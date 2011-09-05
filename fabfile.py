@@ -199,7 +199,7 @@ def local_production_data_backup(backup_location):
     from django.conf import settings
     env.update(settings.DATABASES['default'])
 
-    local('pg_dump -c -p %(PORT)s -U %(USER)s -Fc --no-owner --no-acl -c %(NAME)s -f %(backup_location)s/db.sql' % env)
+    local('pg_dump -Fc --no-owner --no-acl -p %(PORT)s -U %(USER)s %(NAME)s -f %(backup_location)s/db.sql' % env)
 
 
 @task
@@ -214,6 +214,7 @@ def remote_production_data_backup(version=None):
 @task
 def local_production_data_restore(backup_location):
     """Restore latests database and media files"""
+    local_clear_database()
     env.backup_location = backup_location
     if not exists(env.backup_location):
         operations.abort(red("No backup yet: %(backup_location)s" % env, bold=True))
@@ -226,7 +227,7 @@ def local_production_data_restore(backup_location):
     from django.conf import settings
     env.update(settings.DATABASES['default'])
 
-    local('pg_restore -c -p %(PORT)s -U %(USER)s -Fc --no-acl -e --no-owner -d %(NAME)s %(backup_location)s/db.sql' % env)
+    local('pg_restore -Fc --no-acl -e --no-owner -p %(PORT)s -U %(USER)s -d %(NAME)s %(backup_location)s/db.sql' % env)
 
 
 @task
@@ -298,6 +299,8 @@ def deploy():
     run('chmod 750 %s' % getattr(env, '%s_django_settings' % env.environment))
 
     # install crontab
+    ver = remote_production_latest_version()
+    env.production_location = "%s/v%d" % (env.production_folder, ver)
     upload_template('etc/crontab.in', '/tmp/intranet.crontab', env)
     run('crontab -l > /tmp/intranet.crontab.old')
     run('crontab < /tmp/intranet.crontab')
