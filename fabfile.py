@@ -272,6 +272,8 @@ def install_defaults():
     if not exists(env.code_folder):
         run('git clone %(repository)s %(code_folder)s -b %(branch)s' % env)
 
+    # TODO: check for crontab support
+
 
 def has_new_commits():
     """Check for fresh deploy branch commits"""
@@ -302,7 +304,6 @@ def deploy():
     env.production_location = "%s/v%d" % (env.production_folder, ver)
     # TODO: find a better way
     upload_template('etc/crontab.in', '/tmp/intranet.crontab', env)
-    run('crontab -l > /tmp/intranet.crontab.old')
     run('crontab < /tmp/intranet.crontab')
 
     # start supervisord
