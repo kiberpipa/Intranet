@@ -1,5 +1,8 @@
 from django.db import models
+from django.contrib import admin
+
 from intranet.org.models import Event
+
 
 class Video(models.Model):
     #compatiblity layer with current video archive
@@ -15,3 +18,5 @@ class Video(models.Model):
 
     def get_absolute_url(self):
         return self.play_url
+
+admin.site.register(Video)
