@@ -71,7 +71,7 @@ To first time deploy intranet to hostname:
 
 ::
 
-    bin/fab staging_deploy -H hostname
+    bin/fab remote_staging_deploy -H HOSTNAME -u REMOTE_USER
 
 For staging to rebuild, you just need to update deploy branch and push::
 
@@ -85,4 +85,4 @@ Deploying from staging to production
 
 ::
 
-    bin/fab production_deploy -H hostname
+    bin/fab remote_production_deploy -H HOSTNAME -u REMOTE_USER
