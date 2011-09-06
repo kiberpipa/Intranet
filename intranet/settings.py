@@ -57,6 +57,7 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'sentry.client.middleware.Sentry404CatchMiddleware',  # must be first, to catch all good responses
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
     #'intranet.middleware.exception.StandardExceptionMiddleware',
@@ -69,7 +70,6 @@ MIDDLEWARE_CLASSES = (
     'intranet.middleware.FlatPage.FlatPage',  # uses 'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'intranet.middleware.NginxCache.NginxMemCacheMiddleWare',
     'django.middleware.csrf.CsrfResponseMiddleware',
-    'sentry.client.middleware.Sentry404CatchMiddleware',
     'honeypot.middleware.HoneypotMiddleware',
 )
 
