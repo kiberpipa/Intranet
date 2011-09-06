@@ -1,5 +1,4 @@
 {% extends "www/base-second.html" %}
-{% load honeypot %}
 
 {% block extrahead %}
     {{ form.media }}
@@ -126,7 +125,6 @@
             {{ form }}
             <tr>
                 <td>
-                {% render_honeypot_field %}
                 <input type="submit" value="Pošlji" />
                 </td>
             </tr>

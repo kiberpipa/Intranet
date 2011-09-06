@@ -29,8 +29,10 @@ class EventContactForm(forms.Form):
 
     facility = forms.ModelChoiceField(label=_(u'Space'), queryset=Place.objects.all())
     start_time = forms.DateTimeField(label=_(u'Event start'),
+        input_formats=settings.DATETIME_INPUT_FORMATS,
         widget=widgets.DateTimeInput(attrs={'class': 'datetime-ui'}))
     end_time = forms.DateTimeField(label=_(u'Event end'),
+        input_formats=settings.DATETIME_INPUT_FORMATS,
         widget=widgets.DateTimeInput(attrs={'class': 'datetime-ui'}))
     text = forms.CharField(label=_(u'Event description'), widget=widgets.Textarea)
     contact = forms.EmailField(label=_(u'Contact person (email)'))
