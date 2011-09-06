@@ -108,13 +108,12 @@ def remote_staging_redeploy_with_production_data():
 
 
 @task
-def remote_production_deploy():
+def remote_production_deploy(is_fresh=False):
     """Staging to production and rollback on failure"""
     env.environment = 'production'
 
     env.ver = remote_production_latest_version()
     env.next_ver = env.ver + 1
-    is_fresh = env.ver == 0
 
     with cd(env.production_folder):
         # monkey patch abort function so we just get raised exception
