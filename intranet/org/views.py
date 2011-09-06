@@ -149,7 +149,7 @@ def index(request):
     # 1. events that are newer or equal may pass
     # 2. events that are older or equal may pass
     events = events.filter(start_date__gte=(today - datetime.timedelta(days=14))).filter(start_date__lte=today)
-   
+
     # is public and no visitors
     no_visitors = events.filter(public__exact=True).filter(visitors__exact=0)
 

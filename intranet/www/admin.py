@@ -1,7 +1,9 @@
-from intranet.www.models import *
 from django.template.defaultfilters import slugify
 from django.contrib import admin
 from reversion.admin import VersionAdmin
+
+from intranet.www.models import *
+
 
 class NewsAdmin(VersionAdmin):
     fields = ['title', 'image', 'text', 'language']

@@ -20,12 +20,10 @@ this_week = today + datetime.timedelta(days=7)
 next_week = this_week + datetime.timedelta(days=7)
 next_week2 = next_week + datetime.timedelta(days=7)
 
-event_last =  Event.objects.filter(start_date__gte=prev_week, start_date__lt=today).order_by('start_date')
-event_this =  Event.objects.filter(start_date__gte=today, start_date__lt=this_week).order_by('start_date')
-event_next =  Event.objects.filter(start_date__gte=this_week, start_date__lt=next_week).order_by('start_date')
-event_next2 =  Event.objects.filter(start_date__gte=next_week, start_date__lt=next_week2).order_by('start_date')
-
-
+event_last = Event.objects.filter(start_date__gte=prev_week, start_date__lt=today).order_by('start_date')
+event_this = Event.objects.filter(start_date__gte=today, start_date__lt=this_week).order_by('start_date')
+event_next = Event.objects.filter(start_date__gte=this_week, start_date__lt=next_week).order_by('start_date')
+event_next2 = Event.objects.filter(start_date__gte=next_week, start_date__lt=next_week2).order_by('start_date')
 
 event_dict = {
     'queryset': Event.objects.all().order_by('-start_date'),
@@ -39,10 +37,10 @@ event_year.update({'make_object_list': True})
 
 event_month = event_dict.copy()
 months = []
-for i in range(1,13):
+for i in range(1, 13):
     months.append(datetime.datetime(2008, i, 1))
 
-event_month.update({'month_format': '%m', 
+event_month.update({'month_format': '%m',
     'extra_context': {'months': months}})
 
 event_index = {
@@ -53,7 +51,7 @@ event_index = {
     'num_latest': 50,
     'template_name': 'org/event_archive.html',
     'extra_context': {'event_last': event_last, 'event_this': event_this,
-		'event_next': event_next, 'event_next2': event_next2, 'years': range (2006, datetime.date.today().year+1)},
+    'event_next': event_next, 'event_next2': event_next2, 'years': range(2006, datetime.date.today().year + 1)},
 }
 
 event_year = {
@@ -204,7 +202,7 @@ urlpatterns += patterns('django.views.generic.date_based',
     (r'events/arhiv/(?P<year>\d{4})/(?P<month>[a-z]{3}|[0-9]{1,2})/$', 'archive_month', event_month),
     url(r'events/arhiv/(?P<year>\d{4})/$', 'archive_year', event_year, name="event_arhive_year"),
 
-    (r'diarys/arhiv/(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\w{1,2})/$',    'archive_day',   diary_dict),
+    (r'diarys/arhiv/(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\w{1,2})/$', 'archive_day', diary_dict),
     (r'diarys/arhiv/(?P<year>\d{4})/(?P<month>\d{1,2})/$', 'archive_month', diary_dict),
     (r'diarys/arhiv/(?P<year>\d{4})/$', 'archive_year', diary_year),
 )
