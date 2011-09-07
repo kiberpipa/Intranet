@@ -9,7 +9,7 @@ Development setup
 
 Prerequisites::
 
-    sudo apt-get install git python2.7 libpq-dev libldap2-dev libsasl2-dev
+    sudo apt-get install git python2.7 python2.7-dev libpq-dev libldap2-dev libsasl2-dev
 
 Get Kiberpipa intranet::
 
