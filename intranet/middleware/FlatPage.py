@@ -4,16 +4,17 @@
 # - calculate the flat page (if any)
 # - restore path_info
 # - return whatever the django stock middleware returned to us
-from django.contrib.flatpages.middleware import FlatpageFallbackMiddleware
-from os.path import join
 
-class FlatPage(FlatpageFallbackMiddleware):
+from django.contrib.flatpages.middleware import FlatpageFallbackMiddleware
+
+
+class FlatPageLocaleURLFallbackMiddleware(FlatpageFallbackMiddleware):
     def process_response(self, request, response):
         orig = request.path_info
         if hasattr(request, 'LANGUAGE_CODE'):
-            request.is_flatpage = True
             request.org_path_info = request.path_info
-            request.path_info = join('/' + request.LANGUAGE_CODE, request.path_info[1:])
-        ret = super(FlatPage, self).process_response(request, response)
+            request.path_info = '/' + request.LANGUAGE_CODE + request.path_info
+        ret = super(FlatPageLocaleURLFallbackMiddleware, self).process_response(request, response)
+        # TODO: even if we have a flatpage, response.status_code is still 404, which sux for django-sentry
         request.path_info = orig
         return ret
