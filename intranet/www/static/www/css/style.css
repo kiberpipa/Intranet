@@ -793,9 +793,8 @@ a img {
 .dogodek-komentarji li {margin:0;padding:0;display:block;clear:both;padding:.5em 0;}
 .dogodek-komentarji li label {width:12em;display:-moz-inline-box;display:inline-block;vertical-align:top;}
 .dogodek-komentarji li.submit input {margin:10px 0 10px 16em;position:relative;left:3px;width:auto;}
-#id_honeypot label {display: none;}
+label[for=id_honeypot] {display: none;}
 #id_honeypot {display: none;}
-.komentar-poslji li label[for="id_honeypot"] {display: none;}
 
 /* End of Dogodek */
 
