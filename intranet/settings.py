@@ -160,6 +160,6 @@ LIVE_STREAM_URL = 'http://kiberpipa.org:8000/kiberpipa.ogg'
 PUBLIC_LIVE_STREAM_URL = 'http://video.kiberpipa.org/live.html'
 
 # honeypot
-HONEYPOT_FIELD_NAME = "nezazeljeni_neljudje"
+HONEYPOT_FIELD_NAME = "enter_your_email"
 
 from localsettings import *
