@@ -15,7 +15,6 @@ from django.contrib.comments.views.comments import post_comment
 from django.views.generic.list_detail import object_list
 from django.utils.translation import ugettext as _
 from feedjack.models import Post
-from honeypot.decorators import check_honeypot
 from dateutil.relativedelta import relativedelta
 
 from intranet.org.models import to_utc, Event, Email, EmailBlacklist
@@ -229,7 +228,6 @@ def odjava(request):
     return render_to_response('www/odjava.html', RequestContext(request, context))
 
 
-@check_honeypot
 def facilities(request):
     """Facilities info and contact form"""
     if request.method == 'POST':
