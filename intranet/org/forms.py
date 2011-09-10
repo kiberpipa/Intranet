@@ -8,6 +8,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.forms.util import ErrorList
 from django.forms.models import ModelChoiceField
+from django.utils.formats import get_format
 
 from intranet.org.models import (Person, Event, Sodelovanje,
     Project, Lend, Diary, Shopping, IntranetImage, EmailBlacklist)
@@ -100,7 +101,7 @@ class DateTimeWidget(forms.widgets.TextInput):
         if isinstance(value, datetime.datetime):
             return value
 
-        for fmt in [self.format] + list(forms.fields.DEFAULT_DATETIME_INPUT_FORMATS):
+        for fmt in [self.format] + list(get_format('DATETIME_INPUT_FORMATS')):
             try:
                 return datetime.datetime.strptime(value, fmt)
             except ValueError:
