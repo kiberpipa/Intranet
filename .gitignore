@@ -11,3 +11,11 @@ buildout.cfg
 *.pyc
 src/
 media/
+
+.installed.cfg
+.mr.developer.cfg
+develop-eggs/
+downloads/
+eggs/
+parts/
+
