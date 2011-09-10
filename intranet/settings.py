@@ -60,7 +60,6 @@ MIDDLEWARE_CLASSES = (
     'sentry.client.middleware.Sentry404CatchMiddleware',  # must be first, to catch all good responses
     #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
-    #'intranet.middleware.exception.StandardExceptionMiddleware',
     'localeurl.middleware.LocaleURLMiddleware',
     'honeypot.middleware.HoneypotMiddleware', # as soon as possible
     'django.middleware.common.CommonMiddleware',
@@ -69,7 +68,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.doc.XViewMiddleware',
     'reversion.middleware.RevisionMiddleware',
     'intranet.middleware.flatpage.FlatPageLocaleURLFallbackMiddleware',
-    # 'intranet.middleware.NginxCache.NginxMemCacheMiddleWare',
 )
 
 ROOT_URLCONF = 'intranet.urls'
