@@ -58,10 +58,11 @@ TEMPLATE_LOADERS = (
 
 MIDDLEWARE_CLASSES = (
     'sentry.client.middleware.Sentry404CatchMiddleware',  # must be first, to catch all good responses
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
     #'intranet.middleware.exception.StandardExceptionMiddleware',
     'localeurl.middleware.LocaleURLMiddleware',
+    'honeypot.middleware.HoneypotMiddleware', # as soon as possible
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -69,7 +70,6 @@ MIDDLEWARE_CLASSES = (
     'reversion.middleware.RevisionMiddleware',
     'intranet.middleware.flatpage.FlatPageLocaleURLFallbackMiddleware',
     # 'intranet.middleware.NginxCache.NginxMemCacheMiddleWare',
-    'honeypot.middleware.HoneypotMiddleware',
 )
 
 ROOT_URLCONF = 'intranet.urls'
