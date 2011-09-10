@@ -1,4 +1,4 @@
-#hack to make flat pages play nicelly with localeurl middleware
+#hack to make flat pages play nicely with localeurl middleware
 # basically it does this:
 # - reattach the language code prefix (only if it has been stripped)
 # - calculate the flat page (if any)
@@ -15,6 +15,5 @@ class FlatPageLocaleURLFallbackMiddleware(FlatpageFallbackMiddleware):
             request.org_path_info = request.path_info
             request.path_info = '/' + request.LANGUAGE_CODE + request.path_info
         ret = super(FlatPageLocaleURLFallbackMiddleware, self).process_response(request, response)
-        # TODO: even if we have a flatpage, response.status_code is still 404, which sux for django-sentry
         request.path_info = orig
         return ret
