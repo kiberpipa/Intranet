@@ -69,7 +69,6 @@ MIDDLEWARE_CLASSES = (
     'reversion.middleware.RevisionMiddleware',
     'intranet.middleware.flatpage.FlatPageLocaleURLFallbackMiddleware',
     # 'intranet.middleware.NginxCache.NginxMemCacheMiddleWare',
-    'django.middleware.csrf.CsrfResponseMiddleware',
     'honeypot.middleware.HoneypotMiddleware',
 )
 
