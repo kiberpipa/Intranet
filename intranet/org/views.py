@@ -594,7 +594,7 @@ def event_edit(request, event_pk=None):
     if request.method == 'POST':
         form = EventForm(request.POST, instance=instance)
 
-        authors = [a.split(' - ') for a in request.POST.getlist('authors')]
+        authors = [a.split(' - ') for a in request.POST.getlist('authors') if ' - ' in a]
 
         if form.is_valid():
             new_event = form.save()
