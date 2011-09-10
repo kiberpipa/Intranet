@@ -376,41 +376,6 @@ def stats(request):
                               context_instance=RequestContext(request))
 
 
-def process_cloud_tag(instance):
-    ''' distribution algo n tags to b bucket, where b represents
-    font size. '''
-    entry = instance
-    # be sure you save twice the same entry, otherwise it wont update the new tags.
-    entry_tag_list = entry.tags.all()
-    for tag in entry_tag_list:
-        tag.total_ref = tag.entry_set.all().count()
-        tag.save()
-
-    tag_list = Tag.objects.all()
-    nbr_of_buckets = 8
-    base_font_size = 11
-    tresholds = []
-    max_tag = max(tag_list)
-    min_tag = min(tag_list)
-    delta = (float(max_tag.total_ref) - float(min_tag.total_ref)) / (float(nbr_of_buckets))
-    # set a treshold for all buckets
-    for i in range(nbr_of_buckets):
-        tresh_value = float(min_tag.total_ref) + (i + 1) * delta
-        tresholds.append(tresh_value)
-    # set font size for tags (per bucket)
-    for tag in tag_list:
-        font_set_flag = False
-        for bucket in range(nbr_of_buckets):
-            if font_set_flag == False:
-                if (tag.total_ref <= tresholds[bucket]):
-                    tag.font_size = base_font_size + bucket * 2
-                    tag.save()
-                    font_set_flag = True
-
-# connect signal
-#dispatcher.connect(process_cloud_tag, sender = Event, signal = signals.post_save)
-
-
 @login_required
 def diarys_form(request, id=None, action=None):
     if request.method == 'POST':
