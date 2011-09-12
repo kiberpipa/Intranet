@@ -149,7 +149,7 @@ def remote_production_deploy(is_fresh=False):
             print green("Successfully deployed production v%d." % env.next_ver)
 
 
-@runs_once
+@task
 def remote_production_latest_version():
     """Version number of latest production dir"""
     versions = run('find %(production_folder)s -maxdepth 1 -name "v*"' % env).split() or ['v0']
