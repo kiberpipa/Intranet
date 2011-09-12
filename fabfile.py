@@ -22,11 +22,11 @@ import time
 
 from fabric import operations, utils
 from fabric.api import run, env, local
-from fabric.context_managers import settings, cd, lcd
+from fabric.context_managers import settings, cd, lcd, hide
 from fabric.contrib.files import upload_template, exists, sed
 from fabric.contrib import django
 from fabric.colors import red, green
-from fabric.decorators import task, runs_once
+from fabric.decorators import task
 
 
 # folders/locations
@@ -138,6 +138,8 @@ def remote_production_deploy(is_fresh=False):
                     run('bin/django syncdb --noinput --traceback --all')
                     run('bin/django migrate --fake')
                 else:
+                    # TODO: shutdown old version before starting the new one
+                    # setup "upgrading" splash screen when doing so
                     run('../v%(ver)d/bin/supervisorctl shutdown' % env)
                 deploy()
         except FabricFailure:
@@ -152,7 +154,8 @@ def remote_production_deploy(is_fresh=False):
 @task
 def remote_production_latest_version():
     """Version number of latest production dir"""
-    versions = run('find %(production_folder)s -maxdepth 1 -name "v*"' % env).split() or ['v0']
+    with hide('stdout'):
+        versions = run('find %(production_folder)s -maxdepth 1 -name "v*"' % env).split() or ['v0']
     latest = sorted(int(os.path.basename(ver).strip('v')) for ver in versions)[-1]
     print "Latest production version: %d" % latest
     return latest
@@ -292,8 +295,10 @@ def deploy():
     """Deploy rutine for Django"""
     run('bin/django syncdb --noinput --traceback --migrate')
     with settings(warn_only=True):
-        run('bin/django createinitialrevisions')  # django-revision
-        run('bin/django collectstatic --noinput -l')  # staticfiles
+        # don't always run createinitialrevisions since it takes a lot of time
+        #run('bin/django createinitialrevisions')  # django-revision
+        with hide('stdout'):
+            run('bin/django collectstatic --noinput -l')  # staticfiles
 
     # strict permissions for settings
     run('chmod 750 %s' % getattr(env, '%s_django_settings' % env.environment))
