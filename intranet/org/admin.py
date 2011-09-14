@@ -70,8 +70,6 @@ admin.site.register(Organization)
 admin.site.register(Role)
 admin.site.register(Shopping)
 admin.site.register(IntranetImage)
-
-
 admin.site.register(Sodelovanje, SodelovanjeAdmin)
 admin.site.register(Diary, DiaryAdmin)
 admin.site.register(Person, PersonAdmin)

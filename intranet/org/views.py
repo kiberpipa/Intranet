@@ -26,10 +26,11 @@ from PIL import Image
 from pipa.video.utils import prepare_video_zip
 from intranet.org.models import (Project, Category, Email,
     Event, Shopping, Person, Sodelovanje, TipSodelovanja, Task, Diary,
-    Lend, Tag, Scratchpad)
+    Lend, Scratchpad)
 from intranet.org.forms import (DiaryFilter, PersonForm, AddEventEmails,
     EventForm, SodelovanjeFilter, LendForm, ShoppingForm, DiaryForm,
     ImageResizeForm, IntranetImageForm)
+
 
 month_dict = {'jan': 1, 'feb': 2, 'mar': 3,
     'apr': 4, 'maj': 5, 'jun': 6,
