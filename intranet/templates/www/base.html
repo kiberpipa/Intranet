@@ -38,7 +38,7 @@
                 {% if LANGUAGE_CODE == 'sl' %} | <a href="/{{ LANGUAGE_CODE }}/dohodnina/">dohodnina</a>{% endif %}
             </div>
             <div class="language">
-                {% if request.is_flatpage %}
+                {% if request.org_path_info %}
                 <a href="/sl{{ request.org_path_info }}" >slo</a> | <a href="/en{{ request.org_path_info }}">eng</a>
                 {% else %}
                 <a href="/sl{{ request.path_info }}" >slo</a> | <a href="/en{{ request.path_info }}">eng</a> 
