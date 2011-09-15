@@ -5,9 +5,12 @@ import datetime
 
 from django.core.management.base import BaseCommand
 from django.core.mail import EmailMultiAlternatives
+from django.core.urlresolvers import set_script_prefix
 from django.conf import settings
+from django.contrib.sites.models import Site
 from django.template import Context
 from django.template.loader import get_template
+from django.utils import translation
 
 from intranet.org.models import Event
 
@@ -17,6 +20,12 @@ class Command(BaseCommand):
     help = "Sends weekly email repot about events"
 
     def handle(self, *args, **options):
+        # commands need explicit activation of translations
+        translation.activate(settings.LANGUAGE_CODE)
+        # this causes url handling to force absolute urls
+        url = "https://%s/" % Site.objects.get_current().domain
+        set_script_prefix(url)
+
         if args:
             now = datetime.datetime.strptime(args[0], '%d.%m.%Y')
         else:
