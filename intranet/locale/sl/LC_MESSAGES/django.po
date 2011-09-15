@@ -1,13 +1,13 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Copyright (C) 2011 Kiberpipa
+# This file is distributed under the same license as the intranet package.
+# Domen Kožar <domen@dev.si>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Intranet\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-01 00:32+0200\n"
+"POT-Creation-Date: 2011-09-15 12:58+0200\n"
 "PO-Revision-Date: 2011-07-06 15:13+0100\n"
 "Last-Translator: Klemen Robnik <klemen.robnik@kiberpipa.org>\n"
 "Language-Team: intranet <info@kiberpipa.org>\n"
@@ -41,7 +41,7 @@ msgstr ""
 
 #: templates/mail/events_report.html:5
 msgid "Events from last"
-msgstr ""
+msgstr "Dogodki zadnjih"
 
 #: templates/mail/events_report.html:5
 msgid "days:"
@@ -109,7 +109,7 @@ msgstr "Moje želje po nakupih:"
 
 #: templates/org/index.html:71
 msgid "Unfinished events"
-msgstr "Nedokončani dogodki"
+msgstr "Nepopolni dogodki"
 
 #: templates/org/index.html:112
 msgid "Current"
@@ -316,37 +316,35 @@ msgstr "Prostor"
 msgid "Event start"
 msgstr "Začetek"
 
-#: www/forms.py:33
-#, fuzzy
+#: www/forms.py:34
 msgid "Event end"
 msgstr "konec dogodka"
 
-#: www/forms.py:35
+#: www/forms.py:37
 msgid "Event description"
 msgstr "opis dogodka"
 
-#: www/forms.py:36
-#, fuzzy
+#: www/forms.py:38
 msgid "Contact person (email)"
 msgstr "Kontakt (e-pošta)"
 
-#: www/views.py:77
+#: www/views.py:76
 msgid "You have already subscribed to this event."
 msgstr "Na ta dogodek ste se že prijavili"
 
-#: www/views.py:81
+#: www/views.py:80
 msgid "We will send you a notification when the video will be available."
 msgstr "Ko bo video na voljo, vas bomo obvestili."
 
-#: www/views.py:83
+#: www/views.py:82
 msgid "Please enter a valid email address"
 msgstr "Prosimo vnesite veljaven naslov e-pošte."
 
-#: www/views.py:211 www/views.py:217
+#: www/views.py:210 www/views.py:216
 msgid "Your email address has been removed from our messaging list."
 msgstr "Vaš naslov e-pošte smo odstranili s seznama za obveščanje."
 
-#: www/views.py:240
+#: www/views.py:238
 msgid ""
 "Your rental inquiry has been sent. We will answer it in a couple of work days"
 msgstr ""
