@@ -77,17 +77,12 @@ diary_year = {
     'make_object_list': 1,
 }
 
-responsible = []
-for l in Lend.objects.filter(returned=False):
-    if l.from_who not in responsible:
-        responsible.append(l.from_who)
-
 lend_dict = {
     'queryset': Lend.objects.all().order_by('due_date'),
     'date_field': 'from_date',
     'allow_empty': 1,
     'extra_context': {
-        'responsible': responsible,
+        'responsible': Lend.objects.filter(returned=False).distinct(),
     }
 }
 
