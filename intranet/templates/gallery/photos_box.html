@@ -1,3 +1,4 @@
+{% load i18n %}
 <!-- highslide -->
 <link rel="stylesheet" type="text/css" href="{{ settings.STATIC_URL }}org/css/highslide.css" />
 <script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/highslide.js"></script>
@@ -25,7 +26,7 @@ hs.addSlideshow({
 </script>
 <!-- /highslide -->
 
-<h1>Galerija</h1>
+<h1>{% trans "Gallery" %}</h1>
 <table>
  {% for image in images %}
 	{% if forloop.counter0|divisibleby:"4" %}

@@ -30,7 +30,7 @@
                 <img src="{{ event.event_image.image.url }}" alt="{{ event.event_image.title }}" />
                 {% TODO: MOVE TO pipa.video templatetag_ %}
                 {% if event.video.all %}
-                    {% Videos %}
+                    {% trans "Videos" %}
                     {% for video in event.video.all %}
                         <div class="dogodek-video-button">
                             <a href="{{ video.play_url }}"><img  src="{{ video.image_url }}" /></a>

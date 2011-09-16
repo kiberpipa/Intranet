@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Intranet\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-15 12:58+0200\n"
+"POT-Creation-Date: 2011-09-16 23:30+0200\n"
 "PO-Revision-Date: 2011-07-06 15:13+0100\n"
 "Last-Translator: Klemen Robnik <klemen.robnik@kiberpipa.org>\n"
 "Language-Team: intranet <info@kiberpipa.org>\n"
@@ -38,6 +38,10 @@ msgstr ""
 "veliko pa jih še vedno vztraja. Tu je seznam ljudi, ki so kakorkoli "
 "sodelovali in pripomogli, da je Kiberpipa sedaj najboljši Kibercenter v "
 "Evropi."
+
+#: templates/gallery/photos_box.html:29
+msgid "Gallery"
+msgstr "Galerija"
 
 #: templates/mail/events_report.html:5
 msgid "Events from last"
@@ -207,11 +211,15 @@ msgstr "Nedelja"
 msgid "Reserved."
 msgstr "Rezervirano."
 
-#: templates/www/event.html:45
+#: templates/www/event.html:33
+msgid "Videos"
+msgstr "Video"
+
+#: templates/www/event.html:47
 msgid "Please inform me when the video of this lecture is available"
 msgstr "Želim biti obveščen, ko bo video na voljo"
 
-#: templates/www/event.html:48
+#: templates/www/event.html:50
 msgid ""
 "Please enter your contact data so we can inform you when the video will be "
 "available."
@@ -219,11 +227,11 @@ msgstr ""
 "Vnesite vaše kontaktne podatke, če želite biti obveščeni, ko bo video "
 "posnetek na voljo"
 
-#: templates/www/event.html:52
+#: templates/www/event.html:54
 msgid "submit"
 msgstr "pošlji"
 
-#: templates/www/event.html:55
+#: templates/www/event.html:57
 msgid ""
 "Note: your email will be used only to deliver the message about video "
 "availability."
@@ -328,28 +336,27 @@ msgstr "opis dogodka"
 msgid "Contact person (email)"
 msgstr "Kontakt (e-pošta)"
 
-#: www/views.py:76
+#: www/views.py:75
 msgid "You have already subscribed to this event."
 msgstr "Na ta dogodek ste se že prijavili"
 
-#: www/views.py:80
+#: www/views.py:79
 msgid "We will send you a notification when the video will be available."
 msgstr "Ko bo video na voljo, vas bomo obvestili."
 
-#: www/views.py:82
+#: www/views.py:81
 msgid "Please enter a valid email address"
 msgstr "Prosimo vnesite veljaven naslov e-pošte."
 
-#: www/views.py:210 www/views.py:216
-msgid "Your email address has been removed from our messaging list."
-msgstr "Vaš naslov e-pošte smo odstranili s seznama za obveščanje."
-
-#: www/views.py:238
+#: www/views.py:210
 msgid ""
 "Your rental inquiry has been sent. We will answer it in a couple of work days"
 msgstr ""
 "Vaše povpraševanje za najem prostora je bilo poslano. Odgovorili bomo v "
 "naslednjih delovnih dneh."
+
+#~ msgid "Your email address has been removed from our messaging list."
+#~ msgstr "Vaš naslov e-pošte smo odstranili s seznama za obveščanje."
 
 #~ msgid "Hello"
 #~ msgstr "Pozdravljen"
@@ -451,9 +458,6 @@ msgstr ""
 
 #~ msgid "The Best Cybercenter in Europe"
 #~ msgstr "Najboljši Kibercenter v Evropi"
-
-#~ msgid "All Galleries"
-#~ msgstr "Vse galerije"
 
 #~ msgid "full size"
 #~ msgstr "polna velikost"
