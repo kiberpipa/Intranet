@@ -4,7 +4,7 @@ import urllib
 import re
 import datetime
 import time
-from optparse import make_option
+import logging
 
 from django.core.management.base import BaseCommand
 from django.core.mail import send_mail
@@ -14,16 +14,16 @@ from pipa.video.models import Video
 from intranet.org.models import Event
 
 
+logger = logging.getLogger(__name__)
 TABINDEX_URL = 'http://video.kiberpipa.org/tabindex.txt'
 INFOTXT_URL = 'http://video.kiberpipa.org/media/%s/info.txt'
+INTRANETID_REGEX = re.compile('\n\s*intranet-id:\s*(\d+)\s*\n*')
 
 
 class Command(BaseCommand):
-    option_list = BaseCommand.option_list + (
-        make_option('--notifications', action='store_true', dest='notifications', default=False, help='Send away email notifications.'),
-    )
+    """Parse videoarchive, store metadata and send notifications"""
 
-    def video_generator(self):
+    def parse_videoarchive(self):
         """"""
         u = urllib.urlopen(TABINDEX_URL)
         file_data = u.read()
@@ -34,49 +34,52 @@ class Command(BaseCommand):
         for line in data:
             yield dict(zip(fields, line))
 
-    def _send_notification_emails(self, events):
+    def parse_intranet_id(self, id_):
+        """fetch info.txt to see if intranet id is set"""
+        info_data = urllib.urlopen(INFOTXT_URL % id_).read()
+        m = INTRANETID_REGEX.search(info_data, re.I | re.M | re.S)
+        if m:
+            # this might be an error
+            try:
+                return Event.objects.get(pk=int(m.group(1)))
+            except Event.DoesNotExist:
+                logger.error('Wrong intranet id in videoarchive', extra=locals())
+
+    def send_notification_emails(self, videos):
         subscribers = {}
-        for ev in events:
-            for em in ev.emails.all():
+        for video in videos:
+            if video.event is None:
+                logger.error('Video is not asigned to any event', extra={'video': video})
+                continue
+            for em in video.event.emails.all():
                 event_list = subscribers.setdefault(em.email, [])
-                event_list.append(ev)
+                event_list.append(video.event)
 
         for email, event_list in subscribers.iteritems():
-            message = loader.render_to_string('org/video_published_email.txt', {
+            message = loader.render_to_string('video/video_published_email.txt', {
                 'email': email,
                 'events': event_list,
             })
             send_mail(u'[Kiberpipa] Sveže objavljeni posnetki dogodka', message, u'info@kiberpipa.org', [email])
 
-    def handle(self, *args, **options):
-        if options.get('notifications'):
-            print 'Sending email notifications.'
-            videos = Video.objects.filter(pub_date__lt=datetime.date.today(), pub_date__gte=datetime.date.today() - datetime.timedelta(1))
-            events = [v.event for v in videos]
-            self._send_notification_emails(events)
-            return
-
-        intranet_id_re = re.compile('\n\s*intranet-id:\s*(\d+)\s*\n*')
-
-        for x in self.video_generator():
+    def handle(self, *a, **kw):
+        videos_to_notify = []
+        for x in self.parse_videoarchive():
             try:
-                pub_date = datetime.date(*time.strptime(x['day_published'], '%d.%m.%Y')[:3])
-
                 vid, is_created = Video.objects.get_or_create(
                     videodir=x['id'],
                     defaults={
                         'image_url': 'http://video.kiberpipa.org/media/%(id)s/image-t.jpg' % x,
-                        'pub_date': pub_date,
+                        'pub_date': datetime.date(*time.strptime(x['day_published'], '%d.%m.%Y')[:3]),
                         'play_url': 'http://video.kiberpipa.org/media/%(id)s/play.html' % x,
                     },
                 )
+                if is_created:
+                    videos_to_notify.append(vid)
 
-                # fetch info.txt to see if intranet id is set
-                info_data = urllib.urlopen(INFOTXT_URL % (x['id'],)).read()
-                m = intranet_id_re.search(info_data, re.I | re.M | re.S)
-                if m:
-                    vid.event = Event.objects.get(pk=int(m.group(1)))
+                vid.event = self.parse_intranet_id(x['id'])
                 vid.save()
+            except:
+                logger.error('Could not parse videoarchive', exc_info=True, extra=locals())
 
-            except Exception, e:
-                print x, e
+        self.send_notification_emails(videos_to_notify)

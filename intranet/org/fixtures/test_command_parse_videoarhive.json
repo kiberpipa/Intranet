@@ -1,0 +1,322 @@
+[
+ {
+  "pk": 23,
+  "model": "org.project",
+  "fields": {
+   "salary_rate": null,
+   "name": "lala",
+   "parent": null,
+   "pub_date": "2011-07-07 16:06:40",
+   "responsible": null,
+   "email_members": true,
+   "chg_date": "2011-07-07 16:06:40",
+   "note": null,
+   "cost_center": null,
+   "verbose_name": null,
+   "email": null,
+   "salary_type": null
+  }
+ },
+ {
+  "pk": 1,
+  "model": "org.project",
+  "fields": {
+   "salary_rate": null,
+   "name": "test",
+   "parent": null,
+   "pub_date": "2011-07-06 13:24:42",
+   "responsible": null,
+   "email_members": true,
+   "chg_date": "2011-07-06 13:24:42",
+   "note": "",
+   "cost_center": null,
+   "verbose_name": "",
+   "email": "",
+   "salary_type": null
+  }
+ },
+ {
+  "pk": 1,
+  "model": "org.category",
+  "fields": {
+   "note": "",
+   "pub_date": "2011-07-06 13:27:14",
+   "name": "test",
+   "chg_date": "2011-07-06 13:27:14"
+  }
+ },
+ {
+  "pk": 1,
+  "model": "org.place",
+  "fields": {
+   "note": "",
+   "name": "Prostor"
+  }
+ },
+ {
+  "pk": 2,
+  "model": "org.place",
+  "fields": {
+   "note": "",
+   "name": "Glavni prostor"
+  }
+ },
+ {
+  "pk": 1,
+  "model": "org.email",
+  "fields": {
+   "email": "test@kiberpipa.org"
+  }
+ },
+ {
+  "pk": 2,
+  "model": "org.email",
+  "fields": {
+   "email": "Blabla@kiberpipa.org"
+  }
+ },
+ {
+  "pk": 3,
+  "model": "org.email",
+  "fields": {
+   "email": "marija@slovenija.si"
+  }
+ },
+ {
+  "pk": 1,
+  "model": "org.intranetimage",
+  "fields": {
+   "image": "events/2011/07/Basketball.png",
+   "md5": "9b7295eb2c0ed7d21f08e8c7e6d0425f",
+   "title": "test"
+  }
+ },
+ {
+  "pk": 4,
+  "model": "org.event",
+  "fields": {
+   "sequence": 1,
+   "event_image": 1,
+   "category": 1,
+   "title": "test",
+   "responsible": 1,
+   "emails": [],
+   "note": "",
+   "require_video": false,
+   "announce": "test",
+   "start_date": "2011-09-13 11:00:00",
+   "end_date": "2011-09-13 11:00:00",
+   "tags": [],
+   "require_photo": true,
+   "flickr_set_id": null,
+   "chg_date": "2011-09-01 01:24:48",
+   "slides": "",
+   "visitors": 0,
+   "technician": [],
+   "pub_date": "2011-09-01 01:24:48",
+   "slug": "test",
+   "language": "sl",
+   "require_technician": false,
+   "public": true,
+   "project": 23,
+   "place": 1
+  }
+ },
+ {
+  "pk": 2,
+  "model": "org.event",
+  "fields": {
+   "sequence": 1,
+   "event_image": 1,
+   "category": 1,
+   "title": "test 1",
+   "responsible": 4,
+   "emails": [],
+   "note": "",
+   "require_video": false,
+   "announce": "test",
+   "start_date": "2011-07-20 17:00:00",
+   "end_date": "2011-07-20 19:00:00",
+   "tags": [],
+   "require_photo": true,
+   "flickr_set_id": null,
+   "chg_date": "2011-07-20 18:07:24",
+   "slides": "",
+   "visitors": 0,
+   "technician": [],
+   "pub_date": "2011-07-20 18:07:24",
+   "slug": "test-1",
+   "language": "sl",
+   "require_technician": false,
+   "public": true,
+   "project": 23,
+   "place": 1
+  }
+ },
+ {
+  "pk": 3,
+  "model": "org.event",
+  "fields": {
+   "sequence": 3,
+   "event_image": 1,
+   "category": 1,
+   "title": "test 2",
+   "responsible": 1,
+   "emails": [],
+   "note": "",
+   "require_video": false,
+   "announce": "test213",
+   "start_date": "2011-07-20 11:00:00",
+   "end_date": "2011-07-20 12:00:00",
+   "tags": [],
+   "require_photo": true,
+   "flickr_set_id": null,
+   "chg_date": "2011-07-20 18:15:57",
+   "slides": "",
+   "visitors": 0,
+   "technician": [],
+   "pub_date": "2011-07-20 18:14:57",
+   "slug": "test-2",
+   "language": "sl",
+   "require_technician": false,
+   "public": true,
+   "project": 23,
+   "place": 1
+  }
+ },
+ {
+  "pk": 1,
+  "model": "org.event",
+  "fields": {
+   "sequence": 20,
+   "event_image": 1,
+   "category": 1,
+   "title": "test 7.7 3",
+   "responsible": 1,
+   "emails": [],
+   "note": "",
+   "require_video": true,
+   "announce": "test",
+   "start_date": "2011-07-21 22:00:00",
+   "end_date": "2011-07-21 23:00:00",
+   "tags": [],
+   "require_photo": true,
+   "flickr_set_id": 72157626009078689,
+   "chg_date": "2011-07-20 17:18:48",
+   "slides": "",
+   "visitors": 0,
+   "technician": [],
+   "pub_date": "2011-07-06 13:28:21",
+   "slug": "test-77-3",
+   "language": "sl",
+   "require_technician": true,
+   "public": true,
+   "project": 1,
+   "place": 1
+  }
+ },
+ {
+  "pk": 5,
+  "model": "org.event",
+  "fields": {
+   "sequence": 6,
+   "event_image": 1,
+   "category": 1,
+   "title": "test2",
+   "responsible": 1,
+   "emails": [
+    1,
+    2,
+    3
+   ],
+   "note": "",
+   "require_video": false,
+   "announce": "test",
+   "start_date": "2011-09-13 14:00:00",
+   "end_date": "2011-09-13 14:00:00",
+   "tags": [],
+   "require_photo": true,
+   "flickr_set_id": 72157625676326097,
+   "chg_date": "2011-09-16 18:45:58",
+   "slides": "",
+   "visitors": 0,
+   "technician": [],
+   "pub_date": "2011-09-01 01:25:54",
+   "slug": "test2",
+   "language": "sl",
+   "require_technician": false,
+   "public": true,
+   "project": 1,
+   "place": 1
+  }
+ },
+ {
+  "pk": 6,
+  "model": "org.event",
+  "fields": {
+   "sequence": 1,
+   "event_image": 1,
+   "category": 1,
+   "title": "test3",
+   "responsible": 1,
+   "emails": [],
+   "note": "",
+   "require_video": false,
+   "announce": "test",
+   "start_date": "2011-09-13 08:00:00",
+   "end_date": "2011-09-13 08:00:00",
+   "tags": [],
+   "require_photo": true,
+   "flickr_set_id": null,
+   "chg_date": "2011-09-01 01:26:28",
+   "slides": "",
+   "visitors": 0,
+   "technician": [],
+   "pub_date": "2011-09-01 01:26:28",
+   "slug": "test3",
+   "language": "sl",
+   "require_technician": false,
+   "public": true,
+   "project": 23,
+   "place": 1
+  }
+ },
+ {
+  "pk": 1,
+  "model": "org.tipsodelovanja",
+  "fields": {
+   "name": "predavatelj"
+  }
+ },
+ {
+  "pk": 2,
+  "model": "org.tipsodelovanja",
+  "fields": {
+   "name": "Ucenec"
+  }
+ },
+ {
+  "pk": 1,
+  "model": "org.person",
+  "fields": {
+   "name": "Domen Ko\u017ear",
+   "title": null,
+   "note": null,
+   "phone": [],
+   "role": [],
+   "organization": [],
+   "email": []
+  }
+ },
+ {
+  "pk": 1,
+  "model": "org.sodelovanje",
+  "fields": {
+   "project": 1,
+   "person": 1,
+   "note": "",
+   "tip": 1,
+   "event": 1
+  }
+ }
+]

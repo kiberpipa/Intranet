@@ -6,6 +6,5 @@
 @reboot %(production_location)s/bin/supervisord
 22 * * * * %(production_location)s/bin/feedjack_update --settings=intranet.settings> /dev/null
 22 * * * * %(production_location)s/bin/django parse_videoarhiv > /dev/null
-30 7 * * * %(production_location)s/bin/django parse_videoarhiv --notifications > /dev/null
 0 6 * * * %(production_location)s/bin/django send_diary > /dev/null
 0 6 * * sun %(production_location)s/bin/django send_events > /dev/null

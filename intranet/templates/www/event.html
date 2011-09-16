@@ -28,18 +28,20 @@
         <div class="dogodek-content">
             <div class="dogodek-right">
                 <img src="{{ event.event_image.image.url }}" alt="{{ event.event_image.title }}" />
+                {% TODO: MOVE TO pipa.video templatetag_ %}
+                {% if event.video.all %}
+                    {% Videos %}
+                    {% for video in event.video.all %}
+                        <div class="dogodek-video-button">
+                            <a href="{{ video.play_url }}"><img  src="{{ video.image_url }}" /></a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
                 {% photos_box %}
             </div>
             <div class="dogodek-left">
                 {{ event.announce|safe|linebreaks }}
                 <div class="dogodek-video">
-                    {% if event.video.all %}
-                        {% for video in event.video.all %}
-                            <div class="dogodek-video-button">
-                                <a href="{{ video.play_url }}"><img width="80" height="80" src="{{ video.image_url }}" alt="slika" /></a>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
                     {% if not event.video.all and event.require_video %}
                         <div>
                             <a href="#" onclick="return false;" class="expand">{% trans "Please inform me when the video of this lecture is available" %}</a>

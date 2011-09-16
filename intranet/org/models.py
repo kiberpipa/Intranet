@@ -286,12 +286,9 @@ class Event(models.Model):
         """
         return self._next_previous_helper('previous')
 
-    def get_video_url(self):
+    def get_video_urls(self):
         from pipa.video.models import Video  # circular dependency
-        videos = Video.objects.filter(event=self)
-        if videos:
-            # TODO: chose best quality
-            return videos[0].play_url
+        return [vid.play_url for vid in Video.objects.filter(event=self)]
 
 
 class TipSodelovanja(models.Model):

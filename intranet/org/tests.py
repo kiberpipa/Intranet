@@ -250,12 +250,23 @@ class DiaryTest(BaseCase):
 
 
 class CommandsTest(BaseCase):
+    # ./manage.py dumpdata --indent=1 org.Diary org.Scratchpad
     fixtures = ['test_send_diary.json']
 
     def setUp(self):
         self.ensure_test_user()
 
     def test_send_diary(self):
-        # ./manage.py dumpdata --indent=1 org.Diary org.Scratchpad
         call_command('send_diary', '17.12.2010')
         self.assertEqual(len(mail.outbox), 1)
+
+
+class ParseVideoArhivTest(BaseCase):
+    fixtures = ['test_command_parse_videoarhive.json']
+
+    def setUp(self):
+        self.ensure_test_user()
+
+    def test_parse_empty_videoarhiv(self):
+        call_command('parse_videoarhiv')
+        self.assertEqual(len(mail.outbox), 3)
