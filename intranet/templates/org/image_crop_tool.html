@@ -1,11 +1,12 @@
 {% extends "org/base.html" %}
+{% load honeypot i18n %}
 {% block extrahead %}
 <script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.highlightFade.js" ></script>
 <script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.suggest.js" ></script>
 <script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.ajaxUpload.js" ></script>
 <script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.imgareaselect-0.6.1.min.js" ></script>
 <script type="text/javascript">
-function imgResized(img, sel) {
+var imgResized = function imgResized(img, sel) {
     var result = new Array(sel.x1, sel.x2, sel.y1, sel.y2);
     $("#id_resize").attr("value", result.join(','));
     
@@ -18,32 +19,27 @@ function imgResized(img, sel) {
                 var tim = new Date();
                 $("#final_image").html('<img id="final_img" src="' + data["resized_url"] + '?t=' + tim.getTime() + '" />');
                 $("#id_resized_filename").attr("value", data['resized_filename']);
-            }
+        }
     });
     
 }
 
-$(document).ready(function() {
-    $("#id_image").change(function(){
-        $.ajaxFileUpload
-        (
-            {
-                url:'/intranet/tmp_upload/',
-                secureuri: true,
-                fileElementId:'id_image',
-                dataType: 'json',
-                success: function (data, status)
-                {
-                    $("#ajax_img").html('<img id="rect" src="' + data['link'] + '">');
-                    $('#id_filename').attr("value", data['filename']);
-                    $('img#rect').imgAreaSelect({ selectionColor: null, aspectRatio: "250:130", onSelectEnd: imgResized});
-                },
-                error: function (data, status, e)
-                {
-                    alert("Nekaj je narobe:" + e);
-                }
+$(document).ready(function () {
+    $("#id_image").change(function () {
+        $.ajaxFileUpload({
+            url: '/intranet/tmp_upload/',
+            secureuri: true,
+            fileElementId: 'id_image',
+            dataType: 'json',
+            success: function (data, status) {
+                $("#ajax_img").html('<img id="rect" src="' + data['link'] + '">');
+                $('#id_filename').attr("value", data['filename']);
+                $('img#rect').imgAreaSelect({ selectionColor: null, aspectRatio: "250:130", onSelectEnd: imgResized});
+            },
+            error: function (data, status, e) {
+                alert("Nekaj je narobe:" + e);
             }
-        );
+         });
 
     });
     $("#id_imageok").click(function () {
@@ -54,9 +50,9 @@ $(document).ready(function() {
             dataType: "json",
             data:$("#imageok_form").serialize(),
             success: function (data, status) {
-                    $("#id_imageok").disabled = false;
-                    $("#message").html("Saved.");
-                }
+                $("#id_imageok").disabled = false;
+                $("#message").html("Saved.");
+            }
         });
     });
 });
@@ -73,7 +69,7 @@ $(document).ready(function() {
     <div id="content-related" class="sidebar">
         <div id="recent-actions-module" class="module">
             <h2>Nalaganje slike</h2>
-            <form method="POST" action="" enctype="multipart/form-data"> 
+            <form id="upload_image" method="POST" action="" enctype="multipart/form-data">
                 <input name="image" type="file" id="id_image" />
                 {% csrf_token %}
             </form>
