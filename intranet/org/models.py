@@ -111,14 +111,7 @@ class Place(models.Model):
         js = ('js/tags.js',)
 
 
-##there's gotta be a better way to do this
-class EmailBlacklist(models.Model):
-    blacklisted = models.EmailField(db_index=True, unique=True)
-
-    def __unicode__(self):
-        return self.email
-
-
+# subscriber emails, should be onetomany or smth
 class Email(models.Model):
     email = models.EmailField()
 

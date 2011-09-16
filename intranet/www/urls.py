@@ -24,7 +24,6 @@ urlpatterns = patterns('',
         'queryset': Place.objects.all()}, name="facility_description_ajax"),
     url(r'^locale/$', 'django.views.generic.simple.direct_to_template', {'template': 'www/locale.html'}),
     url(r'^kjesmo/$', 'django.views.generic.simple.direct_to_template', {'template': 'www/kjesmo.html'}),
-    url(r'^odjava/$', 'intranet.www.views.odjava'),
 
     url(r'^comments/', include('django.contrib.comments.urls')),
     url(r'^comments/post/$', 'intranet.www.views.anti_spam'),

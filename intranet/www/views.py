@@ -17,8 +17,7 @@ from django.utils.translation import ugettext as _
 from feedjack.models import Post
 from dateutil.relativedelta import relativedelta
 
-from intranet.org.models import to_utc, Event, Email, EmailBlacklist
-from intranet.org.forms import EmailBlacklistForm
+from intranet.org.models import to_utc, Event, Email
 from intranet.www.models import Ticker, News
 from intranet.www.forms import EmailForm, EventContactForm
 from pipa.video.models import Video
@@ -199,33 +198,6 @@ def news_list(request):
     if request.LANGUAGE_CODE == 'en':
         queryset = queryset.filter(language='en')
     return object_list(request, queryset=queryset[:10], template_name='www/news_list.html')
-
-
-def odjava(request):
-    message = ''
-    success = False
-    if request.method == 'POST':
-        form = EmailBlacklistForm(request.POST)
-        if form.is_valid():
-            message = _(u'Your email address has been removed from our messaging list.')
-            form.save()
-            success = True
-        else:
-            try:
-                EmailBlacklist.objects.get(blacklisted=request.POST['blacklisted'].strip())
-                message = _(u'Your email address has been removed from our messaging list.')
-                success = True
-            except EmailBlacklist.DoesNotExist:
-                pass
-    else:
-        form = EmailBlacklistForm(initial={'blacklisted': request.GET.get('email', None)})
-
-    context = {
-        'form': form,
-        'message': message,
-        'success': success,
-        }
-    return render_to_response('www/odjava.html', RequestContext(request, context))
 
 
 def facilities(request):

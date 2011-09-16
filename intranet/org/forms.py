@@ -11,7 +11,7 @@ from django.forms.models import ModelChoiceField
 from django.utils.formats import get_format
 
 from intranet.org.models import (Person, Event, Sodelovanje,
-    Project, Lend, Diary, Shopping, IntranetImage, EmailBlacklist)
+    Project, Lend, Diary, Shopping, IntranetImage)
 
 # TODO: i18n for widget
 # TODO: obey settings.DATETIME_FORMAT
@@ -137,11 +137,6 @@ class CommaSeparatedIntegerField(forms.CharField):
 class ImageResizeForm(forms.Form):
     resize = CommaSeparatedIntegerField(widget=forms.HiddenInput)
     filename = forms.CharField(widget=forms.HiddenInput)
-
-
-class EmailBlacklistForm(forms.ModelForm):
-    class Meta:
-        model = EmailBlacklist
 
 
 class IntranetImageForm(forms.ModelForm):

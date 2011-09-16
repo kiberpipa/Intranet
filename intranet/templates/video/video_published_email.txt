@@ -6,7 +6,4 @@ Sporočamo Vam, da je video dogodka, ki smo ga posneli, na voljo za ogled.
 {{ e.title }} - {{ e.get_video_urls|join:", " }}
 {% endfor %}
 
-V kolikor tega in podobnih sporočil ne želite več prejemati, kliknite na povezavo:
-http://www.kiberpipa.org/sl/odjava/?email={{ email }}
-
 Ekipa Kiberpipe
