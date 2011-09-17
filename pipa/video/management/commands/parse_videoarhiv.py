@@ -58,12 +58,11 @@ class Command(BaseCommand):
                 logger.error('Video is not asigned to any event', extra={'video': video})
                 continue
             for em in video.event.emails.all():
-                event_list = subscribers.setdefault(em.email, [])
-                event_list.append(video.event)
+                event_list = subscribers.setdefault(em.email, set())
+                event_list.add(video.event)
 
         for email, event_list in subscribers.iteritems():
             message = loader.render_to_string('video/video_published_email.txt', {
-                'email': email,
                 'events': event_list,
             })
             send_mail(
