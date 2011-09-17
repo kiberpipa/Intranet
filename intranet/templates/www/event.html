@@ -28,14 +28,6 @@
         <div class="dogodek-content">
             <div class="dogodek-right">
                 <img src="{{ event.event_image.image.url }}" alt="{{ event.event_image.title }}" />
-                {% if event.video.all %}
-                    <h1>{% trans "Videos" %}</h1>
-                    {% for video in event.video.all %}
-                        <div class="dogodek-video-button">
-                            <a href="{{ video.play_url }}"><img  src="{{ video.image_url }}" /></a>
-                        </div>
-                    {% endfor %}
-                {% endif %}
                 {% photos_box %}
             </div>
             <div class="dogodek-left">
@@ -43,19 +35,24 @@
                 <div class="dogodek-video">
                     {% if not event.video.all and event.require_video %}
                         <div>
-                            <a href="#" onclick="return false;" class="expand">{% trans "Please inform me when the video of this lecture is available" %}</a>
-                            <div class="hideme">
                             <br />
                             {% trans "Please enter your contact data so we can inform you when the video will be available." %}
                             <form method="post" action="">
                                 <input id="add_email_id" type="hidden" value="{{ event.id }}">
-                                {{ form.as_p }}
+                                {{ form.as_table }}
                                 <input value="{% trans "submit" %}" id="add_email" type="submit">
                             </form>
                             <br />
-                            {% trans "Note: your email will be used only to deliver the message about video availability." %}
-                            </div>
                         </div>
+                    {% endif %}
+                    {% if event.video.all %}
+                        <h1>{% trans "Videos" %}</h1>
+                        {% for video in event.video.all %}
+                            <div class="dogodek-video-button">
+                                <a href="{{ video.play_url }}"><img  src="{{ video.image_url }}" /></a>
+                                <p>{{ video.title }}</p>
+                            </div>
+                        {% endfor %}
                     {% endif %}
                 </div>
                 <div class="dogodek-social">
