@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 TABINDEX_URL = 'http://video.kiberpipa.org/tabindex.txt'
 INFOTXT_URL = 'http://video.kiberpipa.org/media/%s/info.txt'
 INTRANETID_REGEX = re.compile(r'\n\s*intranet-id:\s*(\d+)\s*\n*')
-INTRANETTITLE_REGEX = re.compile(r'\s*title:\s*(.+)\s*\n*')
+INTRANETTITLE_REGEX = re.compile(r'\s*title:\s*(.+)\s*\n')
 
 
 class Command(BaseCommand):
@@ -86,11 +86,7 @@ class Command(BaseCommand):
                     },
                 )
 
-                if vid.event is None:
-                    vid = self.parse_details(x['id'], vid)
-                    if vid.event is not None:
-                        # trigger notifications even if only intranet id was updated
-                        is_created = True
+                vid = self.parse_details(x['id'], vid)
                 vid.save()
 
                 if is_created:
