@@ -10,6 +10,7 @@ class Video(models.Model):
     image_url = models.CharField(max_length=240)
     play_url = models.CharField(max_length=240)
     pub_date = models.DateField(db_index=True)
+    title = models.CharField(max_length=240, blank=True, null=True)
 
     def __unicode__(self):
         return self.videodir

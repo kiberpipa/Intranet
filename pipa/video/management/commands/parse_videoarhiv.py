@@ -17,7 +17,8 @@ from intranet.org.models import Event
 logger = logging.getLogger(__name__)
 TABINDEX_URL = 'http://video.kiberpipa.org/tabindex.txt'
 INFOTXT_URL = 'http://video.kiberpipa.org/media/%s/info.txt'
-INTRANETID_REGEX = re.compile('\n\s*intranet-id:\s*(\d+)\s*\n*')
+INTRANETID_REGEX = re.compile(r'\n\s*intranet-id:\s*(\d+)\s*\n*')
+INTRANETTITLE_REGEX = re.compile(r'\s*title:\s*(.+)\s*\n*')
 
 
 class Command(BaseCommand):
@@ -34,16 +35,21 @@ class Command(BaseCommand):
         for line in data:
             yield dict(zip(fields, line))
 
-    def parse_intranet_id(self, id_):
+    def parse_details(self, id_, video):
         """fetch info.txt to see if intranet id is set"""
         info_data = urllib.urlopen(INFOTXT_URL % id_).read()
         m = INTRANETID_REGEX.search(info_data, re.I | re.M | re.S)
         if m:
             # this might be an error
             try:
-                return Event.objects.get(pk=int(m.group(1)))
+                video.event = Event.objects.get(pk=int(m.group(1)))
             except Event.DoesNotExist:
                 logger.error('Wrong intranet id in videoarchive', extra=locals())
+        m = INTRANETTITLE_REGEX.search(info_data, re.I | re.M | re.S)
+        if m:
+            video.title = m.group(1)
+        print video.title
+        return video
 
     def send_notification_emails(self, videos):
         subscribers = {}
@@ -72,6 +78,7 @@ class Command(BaseCommand):
         videos_to_notify = []
         for x in self.parse_videoarchive():
             try:
+                # TODO: rewrite this to rely on intranet-id and always update all other info
                 vid, is_created = Video.objects.get_or_create(
                     videodir=x['id'],
                     defaults={
@@ -82,7 +89,7 @@ class Command(BaseCommand):
                 )
 
                 if vid.event is None:
-                    vid.event = self.parse_intranet_id(x['id'])
+                    vid = self.parse_details(x['id'], vid)
                     if vid.event is not None:
                         # trigger notifications even if only intranet id was updated
                         is_created = True
