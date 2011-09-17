@@ -60,7 +60,13 @@ class Command(BaseCommand):
                 'email': email,
                 'events': event_list,
             })
-            send_mail(u'[Kiberpipa] Sveže objavljeni posnetki dogodka', message, u'info@kiberpipa.org', [email])
+            send_mail(
+                subject=u'[Kiberpipa] Sveže objavljeni posnetki dogodka',
+                message=message,
+                from_email=u'info@kiberpipa.org',
+                recipient_list=[email],
+                fail_silently=True,
+            )
 
     def handle(self, *a, **kw):
         videos_to_notify = []
