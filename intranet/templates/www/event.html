@@ -29,7 +29,7 @@
             <div class="dogodek-right">
                 <img src="{{ event.event_image.image.url }}" alt="{{ event.event_image.title }}" />
                 {% if event.video.all %}
-                    <h2>{% trans "Videos" %}</h2>
+                    <h1>{% trans "Videos" %}</h1>
                     {% for video in event.video.all %}
                         <div class="dogodek-video-button">
                             <a href="{{ video.play_url }}"><img  src="{{ video.image_url }}" /></a>
