@@ -74,12 +74,17 @@ class Command(BaseCommand):
                         'play_url': 'http://video.kiberpipa.org/media/%(id)s/play.html' % x,
                     },
                 )
+
+                if vid.event is None:
+                    vid.event = self.parse_intranet_id(x['id'])
+                    if vid.event is not None:
+                        # trigger notifications even if only intranet id was updated
+                        is_created = True
+                vid.save()
+
                 if is_created:
                     videos_to_notify.append(vid)
-
-                vid.event = self.parse_intranet_id(x['id'])
-                vid.save()
             except:
-                logger.error('Could not parse videoarchive', exc_info=True, extra=locals())
+                logger.error('Could not parse videoarchive: %s' % x, exc_info=True, extra=locals())
 
         self.send_notification_emails(videos_to_notify)
