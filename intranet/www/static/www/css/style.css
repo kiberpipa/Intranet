@@ -721,48 +721,15 @@ a img {
 }
 	
 .dogodek-video-button {
-	float: left;
 	padding-left: 50px;
 	padding-right: 10px;
 	padding-bottom: 10px;
 	padding-top: 10px;
-	}
-	
-.dogodek-video-button2 {
-	float: left;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-bottom: 10px;
-	padding-top: 10px;
-	}
-	
-.dogodek-video-button3 {
-	float: left;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-bottom: 10px;
-	padding-top: 10px;
-	}
-	
-.dogodek-video-button4 {
-	float: left;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-bottom: 10px;
-	padding-top: 10px;
-	}
-	
-.dogodek-video-button5 {
-	float: left;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-bottom: 10px;
-	padding-top: 10px;
-	}
+}
 	
 .dogodek-video img {
 	border: 1px solid #000;
-	}
+}
 	
 .dogodek-related {
 	font-size: 12px;

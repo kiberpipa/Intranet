@@ -48,7 +48,6 @@ class Command(BaseCommand):
         m = INTRANETTITLE_REGEX.search(info_data, re.I | re.M | re.S)
         if m:
             video.title = m.group(1)
-        print video.title
         return video
 
     def send_notification_emails(self, videos):

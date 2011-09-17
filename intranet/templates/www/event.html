@@ -50,7 +50,7 @@
                         {% for video in event.video.all %}
                             <div class="dogodek-video-button">
                                 <a href="{{ video.play_url }}"><img  src="{{ video.image_url }}" /></a>
-                                <p>{{ video.title }}</p>
+                                <p>{{ video.title|default:"" }}</p>
                             </div>
                         {% endfor %}
                     {% endif %}
