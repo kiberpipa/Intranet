@@ -45,7 +45,7 @@ class Command(BaseCommand):
                 video.event = Event.objects.get(pk=int(m.group(1)))
             except Event.DoesNotExist:
                 logger.error('Wrong intranet id in videoarchive', extra=locals())
-        m = INTRANETTITLE_REGEX.search(info_data, re.I | re.M | re.S)
+        m = INTRANETTITLE_REGEX.search(info_data)
         if m:
             video.title = m.group(1)
         return video
