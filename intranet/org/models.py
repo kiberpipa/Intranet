@@ -133,13 +133,6 @@ class Organization(models.Model):
         return self.organization
 
 
-class Role(models.Model):
-    role = models.CharField(max_length=100)
-
-    def __unicode__(self):
-        return self.role
-
-
 class IntranetImage(models.Model):
     title = models.CharField(max_length=255)
     image = models.ImageField(upload_to='events/%Y/%m/', verbose_name="Slikca za Event page")
@@ -299,7 +292,6 @@ class Person(models.Model):
     email = models.ManyToManyField(Email, blank=True, null=True)
     phone = models.ManyToManyField(Phone, blank=True, null=True)
     organization = models.ManyToManyField(Organization, blank=True, null=True)
-    role = models.ManyToManyField(Role, blank=True, null=True)
 
     #najbrz bi blo pametno met poljubno stevilo teh stvari
     #phone = models.CharField(max_length=40)
