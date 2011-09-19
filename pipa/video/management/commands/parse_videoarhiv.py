@@ -80,7 +80,7 @@ class Command(BaseCommand):
                 vid, is_created = Video.objects.get_or_create(
                     videodir=x['id'],
                     defaults={
-                        'image_url': 'http://video.kiberpipa.org/media/%(id)s/image-t.jpg' % x,
+                        'image_url': 'http://video.kiberpipa.org/media/%(id)s/image-i.jpg' % x,
                         'pub_date': datetime.date(*time.strptime(x['day_published'], '%d.%m.%Y')[:3]),
                         'play_url': 'http://video.kiberpipa.org/media/%(id)s/play.html' % x,
                     },
