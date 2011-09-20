@@ -52,7 +52,7 @@
             {% endif %}
             {% if object.event_image.image %}
                 <h4> uploaded image</h4>
-                <img src="{{ settings.STATIC_URL }}{{ object.event_image.image }}"></img>
+                <img src="{{ settings.MEDIA_URL }}{{ object.event_image.image }}"></img>
             {% endif %}
             <h4>M3C kategorija</h4>
             <p>
