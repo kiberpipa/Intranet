@@ -322,15 +322,15 @@ msgstr "Prostor"
 
 #: www/forms.py:31
 msgid "Event start"
-msgstr "Začetek"
+msgstr "Začetek dogodka"
 
 #: www/forms.py:34
 msgid "Event end"
-msgstr "konec dogodka"
+msgstr "Konec dogodka"
 
 #: www/forms.py:37
 msgid "Event description"
-msgstr "opis dogodka"
+msgstr "Opis dogodka"
 
 #: www/forms.py:38
 msgid "Contact person (email)"
