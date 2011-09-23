@@ -27,7 +27,9 @@ class EventContactForm(forms.Form):
             settings.STATIC_URL + 'www/css/jquery.ui.datetime.css',
         )}
 
-    facility = forms.ModelChoiceField(label=_(u'Space'), queryset=Place.objects.all())
+    facility = forms.ModelChoiceField(label=_(u'Space'),
+        queryset=Place.objects.filter(is_public=True),
+        )
     start_time = forms.DateTimeField(label=_(u'Event start'),
         input_formats=settings.DATETIME_INPUT_FORMATS,
         widget=widgets.DateTimeInput(attrs={'class': 'datetime-ui'}))
