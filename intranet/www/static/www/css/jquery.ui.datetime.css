@@ -1,4 +1,4 @@
-.ui-datetime { position: absolute; z-index: 9999; }
+.ui-datetime { float:left; z-index: 9999; font-size: 80% }
 .ui-datetime-inline { position: static; display: block; clear: both; }
 .ui-datetime-to { margin-left: 0; float: left; clear: right; }
 
