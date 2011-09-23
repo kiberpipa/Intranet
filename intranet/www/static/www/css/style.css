@@ -159,17 +159,17 @@ a img {
 	padding-left: 13px;
 	padding-right: 13px;
 	}
-	
+
 .present-now img {
 	border: 1px solid #000;
 	}
-	
+
 .present-now2 {
 	float: left;
 	padding-left: 10px;
 	padding-right: 15px;
 	}
-	
+
 .present-now2 img {
 	border: 1px solid #000;
 	}
@@ -179,11 +179,11 @@ a img {
 	padding-left: 10px;
 	padding-right: 12px;
 	}
-	
+
 .present-now3 img {
 	border: 1px solid #000;
 	}
-	
+
 .future3 {
 	float: left;
 	width: 27px;
@@ -195,19 +195,19 @@ a img {
 	width: 27px;
 	margin: 65px 10px 0 0;
 	}
-		
+
 #notifier {
 	width: 960px;
 	padding: 30px 0 20px 75px;
 	height: 150px;
 	}
-	
-.button-chamber {	
+
+.button-chamber {
 	width: 400px;
 	float: left;
 	margin-right: 10px;
 	}
-	
+
 .gallery {
 	float: left;
 	width: 100px;
@@ -218,7 +218,7 @@ a img {
 	padding-bottom: 10px;
 	padding-top: 10px;
 	}
-	
+
 .gallery-button {
 	float: left;
 	padding-left: 10px;
@@ -226,11 +226,11 @@ a img {
 	padding-bottom: 10px;
 	padding-top: 10px;
 	}
-	
+
 .gallery-button img {
 	border: 1px solid #000;
 	}
-	
+
 .gallery-button2 {
 	float: left;
 	padding-left: 10px;
@@ -242,7 +242,7 @@ a img {
 .gallery-button2 img {
 	border: 1px solid #000;
 	}
-	
+
 .gallery-button3 {
 	float: left;
 	padding-left: 10px;
@@ -250,23 +250,23 @@ a img {
 	padding-bottom: 10px;
 	padding-top: 10px;
 	}
-	
+
 .gallery-button3 img {
 	border: 1px solid #000;
 	}
-	
+
 .video {
 	text-align: left;
 	}
 
 .video p {font-size: 16px; font-weight: bold; margin: 0 0 10px 0;}
-	
+
 .video-button {
 	float: left;
 	margin-right: 10px;
 	}
-	
-	
+
+
 .video-button2 {
 	float: left;
 	padding-left: 10px;
@@ -274,7 +274,7 @@ a img {
 	padding-bottom: 10px;
 	padding-top: 10px;
 	}
-	
+
 .video-button3 {
 	float: left;
 	padding-left: 10px;
@@ -282,12 +282,12 @@ a img {
 	padding-bottom: 10px;
 	padding-top: 10px;
 	}
-	
-.notifier-chamber {	
+
+.notifier-chamber {
 	float: left;
 	width: 400px;
 	}
-	
+
 .notifier-chamber img {
 	border: 1px solid #000;
 	}
@@ -295,13 +295,13 @@ a img {
 #sections ul {margin: 0; padding: 0;}
 #sections li {font-size: 14px; padding: 0 10px; list-style: none;}
 #sections li p {width: 370px;}
-	
+
 /* End of upcoming and notifier */
-	
+
 /* Secondary navigation */
 
 #second-nav {
-	float:left; 
+	float:left;
 	width: 960px;
 	height: 20px;
 	padding-bottom: 20px;
@@ -310,14 +310,14 @@ a img {
 	}
 
 #second-nav-front {
-	float:left; 
+	float:left;
 	width: 960px;
 	height: 20px;
 	padding-bottom: 50px;
 	text-align: center;
 	color: #000;
 	}
-	
+
 /* End of secondary navigation */
 
 /* Kiberpipin blog in Planet */
@@ -328,21 +328,21 @@ a img {
 	height: 100%;
 	padding: 0 5px 25px 0;
 	}
-	
+
 .blog-cp-title {
 	font-size: 16px;
 	font-weight: bold;
 	padding-top: 25px;
 	padding-bottom: 5px;
 	}
-	
+
 .blog-cp-news-title {
 	font-size: 20px;
 	font-weight: normal;
 	text-decoration: underline;
 	padding: 0 5px 5px 0;
 	}
-	
+
 .blog-cp-publish {
 	font-size: 11px;
 	font-weight: normal;
@@ -350,7 +350,7 @@ a img {
 	padding-top: 0px;
 	padding-bottom: 5px;
 	}
-	
+
 .blog-cp-content {
 	font-size: 12px;
 	font-weight: normal;
@@ -358,7 +358,7 @@ a img {
 	padding-bottom: 5px;
 	padding-right: 10px;
 	}
-	
+
 .blog-cp-more {
 	font-size: 12px;
 	font-weight: normal;
@@ -367,14 +367,14 @@ a img {
 	padding-right: 10px;
 	float: right;
 	}
-	
+
 #planet {
 	float: left;
 	width: 480px;
 	height: 100%;
 	padding-bottom: 25px;
 	}
-	
+
 .planet-title {
 	font-size: 16px;
 	font-weight: bold;
@@ -389,7 +389,7 @@ a img {
 	padding-top: 0px;
 	padding-bottom: 5px;
 	}
-	
+
 .planet-publish {
 	font-size: 11px;
 	font-weight: normal;
@@ -397,7 +397,7 @@ a img {
 	padding-top: 0px;
 	padding-bottom: 5px;
 	}
-	
+
 .planet-content {
 	font-size: 12px;
 	font-weight: normal;
@@ -405,7 +405,7 @@ a img {
 	padding-bottom: 5px;
 	padding-right: 10px;
 	}
-	
+
 .planet-more {
 	font-size: 12px;
 	font-weight: normal;
@@ -425,14 +425,14 @@ a img {
 	height: 100%;
 	padding-bottom: 25px;
 	}
-	
+
 .kiberpipa-title {
 	font-size: 16px;
 	font-weight: bold;
 	padding-top: 25px;
 	padding-bottom: 5px;
 	}
-	
+
 .kiberpipa-news-title {
 	font-size: 20px;
 	font-weight: normal;
@@ -440,7 +440,7 @@ a img {
 	padding-top: 0px;
 	padding-bottom: 5px;
 	}
-	
+
 .kiberpipa-content {
 	font-size: 12px;
 	font-weight: normal;
@@ -450,14 +450,14 @@ a img {
 	}
 
 .kiberpipa-content p {margin-top: 0;}
-	
+
 #projekti {
 	float: left;
 	width: 480px;
 	height: 100%;
 	padding-bottom: 25px;
 	}
-	
+
 .projekti-title {
 	font-size: 16px;
 	font-weight: bold;
@@ -472,7 +472,7 @@ a img {
 	padding-top: 0px;
 	padding-bottom: 5px;
 	}
-		
+
 .projekti-content {
 	font-size: 12px;
 	font-weight: normal;
@@ -482,7 +482,7 @@ a img {
 	}
 
 .projekti-content p {margin-top: 0;}
-	
+
 /* End of O nas */
 
 /* Press */
@@ -493,14 +493,14 @@ a img {
 	height: 100%;
 	padding-bottom: 25px;
 	}
-	
+
 .kiberpipa-press-title {
 	font-size: 16px;
 	font-weight: bold;
 	padding-top: 25px;
 	padding-bottom: 5px;
 	}
-	
+
 .kiberpipa-press-news-title {
 	font-size: 12px;
 	font-weight: normal;
@@ -509,7 +509,7 @@ a img {
 	padding-bottom: 5px;
 	line-height: 20px;
 	}
-	
+
 .kiberpipa-press-content {
 	font-size: 12px;
 	font-weight: normal;
@@ -517,7 +517,7 @@ a img {
 	padding-bottom: 5px;
 	padding-right: 10px;
 	}
-	
+
 .kiberpipa-press-more {
 	font-size: 12px;
 	font-weight: normal;
@@ -526,14 +526,14 @@ a img {
 	padding-right: 30px;
 	float: right;
 	}
-	
+
 #press-kit {
 	float: left;
 	width: 550px;
 	height: 100%;
 	padding-bottom: 25px;
 	}
-	
+
 .press-kit-title {
 	font-size: 16px;
 	font-weight: bold;
@@ -548,7 +548,7 @@ a img {
 	padding-top: 0px;
 	padding-bottom: 5px;
 	}
-		
+
 .press-kit-content {
 	font-size: 12px;
 	font-weight: normal;
@@ -561,7 +561,7 @@ a img {
 
 .press-kit-content ul {margin: 0;}
 .press-kit-content li {line-height: 18px;}
-	
+
 /* Dogodek */
 
 #dogodek {
@@ -571,7 +571,7 @@ a img {
 	padding-top: 20px;
 	padding-bottom: 25px;
 	}
-		
+
 .dogodek-news-title {
 	font-size: 20px;
 	font-weight: normal;
@@ -579,7 +579,7 @@ a img {
 	padding-top: 0px;
 	padding-bottom: 5px;
 	}
-	
+
 .dogodek-publish {
 	font-size: 11px;
 	font-weight: normal;
@@ -587,7 +587,7 @@ a img {
 	padding-top: 0px;
 	padding-bottom: 5px;
 	}
-	
+
 .dogodek-content {
 	font-size: 12px;
 	font-weight: normal;
@@ -611,7 +611,7 @@ a img {
     float: left;
     width: 590px;
     }
-	
+
 .dogodek-tags {
 	float: left;
 	width: 960px;
@@ -629,7 +629,7 @@ a img {
 	padding-bottom: 10px;
 	padding-top: 10px;
 	}
-	
+
 .dogodek-gallery-title {
 	font-size: 16px;
 	font-weight: normal;
@@ -637,7 +637,7 @@ a img {
 	padding-top: 0px;
 	padding-bottom: 15px;
 }
-	
+
 .dogodek-gallery-button1 {
 	float: left;
 	padding-left: 50px;
@@ -645,7 +645,7 @@ a img {
 	padding-bottom: 10px;
 	padding-top: 10px;
 	}
-	
+
 .dogodek-gallery-button2 {
 	float: left;
 	padding-left: 10px;
@@ -653,7 +653,7 @@ a img {
 	padding-bottom: 10px;
 	padding-top: 10px;
 	}
-	
+
 .dogodek-gallery-button3 {
 	float: left;
 	padding-left: 10px;
@@ -661,7 +661,7 @@ a img {
 	padding-bottom: 10px;
 	padding-top: 10px;
 	}
-	
+
 .dogodek-gallery-button4 {
 	float: left;
 	padding-left: 10px;
@@ -669,7 +669,7 @@ a img {
 	padding-bottom: 10px;
 	padding-top: 10px;
 	}
-	
+
 .dogodek-gallery-button5 {
 	float: left;
 	padding-left: 10px;
@@ -677,11 +677,11 @@ a img {
 	padding-bottom: 10px;
 	padding-top: 10px;
 	}
-	
+
 .dogodek-gallery img {
 	border: 1px solid #000;
 	}
-	
+
 .dogodek-gallery-more {
 	font-size: 12px;
 	font-weight: normal;
@@ -690,7 +690,7 @@ a img {
 	padding-right: 10px;
 	float: right;
 	}
-	
+
 .dogodek-video {
 	float: left;
 	width: 960px;
@@ -699,7 +699,7 @@ a img {
 	padding-bottom: 10px;
 	padding-top: 10px;
 	}
-	
+
 .dogodek-video-title {
 	font-size: 16px;
 	font-weight: normal;
@@ -707,14 +707,14 @@ a img {
 	padding-top: 0px;
 	padding-bottom: 15px;
 }
-	
+
 .dogodek-video-button {
 	padding-left: 50px;
 	padding-right: 10px;
 	padding-bottom: 10px;
 	padding-top: 10px;
 }
-	
+
 .dogodek-related {
 	font-size: 12px;
 	font-weight: normal;
@@ -766,14 +766,14 @@ label[for=id_honeypot] {display: none;!important} /* TODO: offset */
 	padding-top: 20px;
 	padding-bottom: 25px;
 	}
-	
+
 .english-news-title {
 	font-size: 16px;
 	font-weight: bold;
 	padding-top: 0px;
 	padding-bottom: 5px;
 	}
-		
+
 .english-news-en-title {
 	font-size: 20px;
 	font-weight: normal;
@@ -781,7 +781,7 @@ label[for=id_honeypot] {display: none;!important} /* TODO: offset */
 	padding-top: 0px;
 	padding-bottom: 5px;
 	}
-	
+
 .english-news-publish {
 	font-size: 11px;
 	font-weight: normal;
@@ -789,7 +789,7 @@ label[for=id_honeypot] {display: none;!important} /* TODO: offset */
 	padding-top: 0px;
 	padding-bottom: 0px;
 	}
-	
+
 .english-news-content {
 	font-size: 12px;
 	font-weight: normal;
@@ -797,13 +797,13 @@ label[for=id_honeypot] {display: none;!important} /* TODO: offset */
 	padding-bottom: 25px;
 	padding-right: 10px;
 	}
-	
+
 .english-news-content img {
 	float: right;
 	padding-left: 10px;
 	padding-bottom: 10px;
 	}
-	
+
 /* End of English news */
 
 /* Kiberpipin blog single */
@@ -815,14 +815,14 @@ label[for=id_honeypot] {display: none;!important} /* TODO: offset */
 	padding-top: 20px;
 	padding-bottom: 25px;
 	}
-	
+
 .blog-news-title {
 	font-size: 16px;
 	font-weight: bold;
 	padding-top: 0px;
 	padding-bottom: 5px;
 	}
-		
+
 .blog-news-en-title {
 	font-size: 20px;
 	font-weight: normal;
@@ -830,7 +830,7 @@ label[for=id_honeypot] {display: none;!important} /* TODO: offset */
 	padding-top: 0px;
 	padding-bottom: 5px;
 	}
-	
+
 .blog-news-publish {
 	font-size: 11px;
 	font-weight: normal;
@@ -838,7 +838,7 @@ label[for=id_honeypot] {display: none;!important} /* TODO: offset */
 	padding-top: 0px;
 	padding-bottom: 0px;
 	}
-	
+
 .blog-news-content {
 	font-size: 12px;
 	font-weight: normal;
@@ -846,13 +846,13 @@ label[for=id_honeypot] {display: none;!important} /* TODO: offset */
 	padding-bottom: 25px;
 	padding-right: 10px;
 	}
-	
+
 .blog-news-content img {
 	float: right;
 	padding-left: 10px;
 	padding-bottom: 10px;
 	}
-	
+
 /* End of Kiberpipin blog single */
 
 /* Sponsors */
@@ -864,14 +864,14 @@ label[for=id_honeypot] {display: none;!important} /* TODO: offset */
 	padding-top: 20px;
 	padding-bottom: 25px;
 	}
-	
+
 .sponsors-title {
 	font-size: 16px;
 	font-weight: bold;
 	padding-top: 0px;
 	padding-bottom: 0px;
 	}
-	
+
 .sponsors-content {
 	font-size: 14px;
 	font-weight: normal;
@@ -879,7 +879,7 @@ label[for=id_honeypot] {display: none;!important} /* TODO: offset */
 	padding-bottom: 25px;
 	padding-right: 10px;
 	}
-	
+
 .sponsors-donate {
 	font-weight: bold;
 	margin-bottom: 10px;
@@ -888,20 +888,20 @@ label[for=id_honeypot] {display: none;!important} /* TODO: offset */
 .sponsors-donate-img {
 	padding-bottom: 20px;
 	}
-	
+
 .sponsors-content img {
 	float: right;
 	padding-left: 10px;
 	padding-bottom: 10px;
 	}
-	
+
 .sponsors-left {
 	float: left;
 	width: 600px;
 	height: 100%;
 	padding-bottom: 25px;
 	}
-	
+
 .sponsors-left-title {
 	font-size: 16px;
 	font-weight: bold;
@@ -909,7 +909,7 @@ label[for=id_honeypot] {display: none;!important} /* TODO: offset */
 	padding-bottom: 5px;
 	clear:left;
 	}
-		
+
 .sponsors-button {
 	float: left;
 	padding-left: 10px;
@@ -917,11 +917,11 @@ label[for=id_honeypot] {display: none;!important} /* TODO: offset */
 	padding-bottom: 10px;
 	padding-top: 10px;
 	}
-	
+
 .sponsors-button img {
 	border: 1px solid #000;
 	}
-		
+
 .sponsors-left-news-title {
 	font-size: 12px;
 	font-weight: normal;
@@ -930,7 +930,7 @@ label[for=id_honeypot] {display: none;!important} /* TODO: offset */
 	padding-bottom: 5px;
 	line-height: 20px;
 	}
-	
+
 .sponsors-left-content {
 	font-size: 12px;
 	font-weight: normal;
@@ -938,7 +938,7 @@ label[for=id_honeypot] {display: none;!important} /* TODO: offset */
 	padding-bottom: 5px;
 	padding-right: 10px;
 	}
-	
+
 .sponsors-left-more {
 	font-size: 12px;
 	font-weight: normal;
@@ -947,7 +947,7 @@ label[for=id_honeypot] {display: none;!important} /* TODO: offset */
 	padding-right: 30px;
 	float: right;
 	}
-	
+
 #sponsors-right {
 	float: left;
 	width: 200px;
@@ -955,7 +955,7 @@ label[for=id_honeypot] {display: none;!important} /* TODO: offset */
 	padding-bottom: 25px;
 	text-align: right;
 	}
-	
+
 .sponsors-right-title {
 	font-size: 16px;
 	font-weight: bold;
@@ -971,7 +971,7 @@ label[for=id_honeypot] {display: none;!important} /* TODO: offset */
 	padding-top: 0px;
 	padding-bottom: 5px;
 	}
-		
+
 .sponsors-right-content {
 	font-size: 12px;
 	font-weight: normal;
@@ -979,7 +979,7 @@ label[for=id_honeypot] {display: none;!important} /* TODO: offset */
 	padding-bottom: 5px;
 	padding-right: 0px;
 	}
-	
+
 /* End of Sponsors */
 
 /* Skupnost */
@@ -991,7 +991,7 @@ label[for=id_honeypot] {display: none;!important} /* TODO: offset */
 	padding-top: 20px;
 	padding-bottom: 25px;
 	}
-	
+
 .community-title {
 	width: 480px;
 	font-size: 16px;
@@ -999,7 +999,7 @@ label[for=id_honeypot] {display: none;!important} /* TODO: offset */
 	padding-top: 0px;
 	padding-bottom: 0px;
 	}
-	
+
 .community-title2 {
 	width: 480px;
 	font-size: 14px;
@@ -1010,7 +1010,7 @@ label[for=id_honeypot] {display: none;!important} /* TODO: offset */
 	}
 
 .community-text {font-size: 14px; margin: 5px 0 5px 0;}
-	
+
 .community-content {
 	width: 960px;
 	font-size: 12px;
@@ -1018,7 +1018,7 @@ label[for=id_honeypot] {display: none;!important} /* TODO: offset */
 	padding-bottom: 25px;
 	padding-right: 10px;
 	}
-	
+
 .community-person {
 	width: 478px;
 	float: left;
@@ -1074,27 +1074,27 @@ div.community-content-img img {
 	padding-top: 20px;
 	padding-bottom: 25px;
 	}
-		
+
 .rss-news-title {
 	font-size: 16px;
 	font-weight: bold;
 	padding-top: 0px;
 	padding-bottom: 5px;
 	}
-		
+
 .rss-content {
 	font-size: 14px;
 	font-weight: normal;
 	padding-top: 0px;
 	padding-right: 10px;
 	}
-	
+
 .rss-content img {
 	float: right;
 	padding-left: 10px;
 	padding-bottom: 10px;
 	}
-	
+
 .rss-related {
 	font-size: 14px;
 	font-weight: normal;
@@ -1110,7 +1110,7 @@ div.community-content-img img {
 	font-weight: bold;
 	margin-left: 40px;
 }
-	
+
 /* End of RSS seznam */
 
 /* Staticne strani */
@@ -1122,14 +1122,14 @@ div.community-content-img img {
 	padding-top: 20px;
 	padding-bottom: 25px;
 	}
-		
+
 .static-title {
 	font-size: 16px;
 	font-weight: bold;
 	padding-top: 0px;
 	padding-bottom: 5px;
 	}
-		
+
 .static-content {
 	font-size: 12px;
 	font-weight: normal;
@@ -1137,13 +1137,13 @@ div.community-content-img img {
 	padding-bottom: 5px;
 	padding-right: 10px;
 	}
-	
+
 .static-content img {
 	float: right;
 	padding-left: 10px;
 	padding-bottom: 10px;
 	}
-	
+
 .static-related {
 	font-size: 12px;
 	font-weight: normal;
@@ -1162,13 +1162,13 @@ div.community-content-img img {
 	padding-top: 20px;
 	padding-bottom: 25px;
 	}
-	
+
 .koledar-title-main {
 	font-size: 16px;
 	padding-top: 0px;
 	padding-bottom: 5px;
 	}
-	
+
 .koledar-img {
 	text-align: right;
 	float: right;
@@ -1178,7 +1178,7 @@ div.community-content-img img {
 	font-size: 14px;
 	line-height: 16px;
 }
-	
+
 #koledar-wrapper {
 	float: left;
 	width: 880px;
@@ -1189,7 +1189,7 @@ div.community-content-img img {
 	}
 
 #koledar-wrapper li {margin-left: -30px; margin-bottom: 5px; list-style: none; padding: 0;}
-	
+
 .koledar-title {
 	font-size: 16px;
 	float: left;
@@ -1223,7 +1223,7 @@ div.community-content-img img {
  color: white;
  background-color: #0063FF;
 }
-	
+
 /* End of koledar */
 
 /* Galerija */
@@ -1235,7 +1235,7 @@ div.community-content-img img {
 	padding-top: 20px;
 	padding-bottom: 25px;
 	}
-		
+
 .galerija-title {
 	width: 870px;
 	text-align: right;
@@ -1245,7 +1245,7 @@ div.community-content-img img {
 	padding-bottom: 5px;
 	margin-right: 90px;
 	}
-		
+
 .galerija-nav {
 	font-size: 12px;
 	font-weight: normal;
@@ -1258,13 +1258,13 @@ div.community-content-img img {
 	border: 1px solid #000000;
 	float: left;
 	}
-	
+
 .galerija-content {
 	width:500px;
 	float: left;
 	margin-bottom: 10px;
 	}
-	
+
 .galerija-content2 {
 	width: 600px;
 	height: 100%;
@@ -1272,11 +1272,11 @@ div.community-content-img img {
 	margin-bottom: 10px;
 	margin-left: 44px;
 	}
-	
+
 .galleria_wrapper img {
 	width:500px;
 }
-	
+
 .galerija-levo {
 	float: left;
 	width: 27px;
@@ -1285,7 +1285,7 @@ div.community-content-img img {
 	margin-right: 10px;
 	margin-left: 10px;
 	}
-	
+
 .galerija-desno {
 	float: left;
 	width: 27px;
@@ -1293,7 +1293,7 @@ div.community-content-img img {
 	margin-top: 140px;
 	margin-left: 10px;
 	}
-	
+
 .galerija-button {
 	border: 1px solid #000000;
 	float: left;
@@ -1317,6 +1317,13 @@ div.community-content-img img {
 
 /* End of Galerija */
 
+/* Prostori */
+
+.map {
+	margin: 20px;
+}
+
+/* End of prostori */
 
 /* Footer */
 
@@ -1328,14 +1335,14 @@ div.community-content-img img {
 	margin-bottom: 10px;
 	border-top: 2px solid #000;
 	}
-	
+
 .footer-cp-logo {
 	width: 153px;
 	float: left;
 	margin-left: 205px;
 	padding-top: 7px;
 	}
-	
+
 .footer-text {
 	font-size: 12px;
 	font-weight: normal;
@@ -1345,7 +1352,7 @@ div.community-content-img img {
 	margin-left: 40px;
 	float: left;
 	}
-	
+
 .footer-text2 {
 	font-size: 12px;
 	font-weight: normal;
@@ -1357,7 +1364,7 @@ div.community-content-img img {
 	}
 
 .footer-text2 p.italic {padding: 0; margin: 0; font-style: italic; font-weight: bold;}
-	
+
 .footer-text3 {
 	font-size: 12px;
 	font-weight: normal;
@@ -1367,7 +1374,7 @@ div.community-content-img img {
 	margin-left: 40px;
 	float: left;
 	}
-		
+
 .footer-support {
 	padding-top: 20px;
 	clear:left;
