@@ -9,10 +9,9 @@ from cStringIO import StringIO
 
 import mx.DateTime
 from django.conf import settings
-from django.core import template_loader
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.shortcuts import render_to_response, get_object_or_404
-from django.template import RequestContext, Context
+from django.template import RequestContext
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -1033,13 +1032,6 @@ def dezurni_add(request):
     return HttpResponseRedirect('../')
 
 
-def timeline_xml(request):
-    event_list = Event.objects.all()
-    t = template_loader.get_template("org/timeline_xml.html")
-    c = Context({'event_list': event_list})
-    return HttpResponse(t.render(c), 'application/xml')
-
-
 @login_required
 def scratchpad_change(request):
     if request.POST:
@@ -1076,7 +1068,10 @@ def year_statistics(request, year=None):
     all_events = q.order_by('start_date').only("visitors", "title", "start_date").all()
 
     # po_tipu_dogodka.csv
-    by_project_events = Project.objects.filter(event__start_date__year=year).values('name').annotate(num_events=models.Count('event'), num_visitors=models.Sum('event__visitors'))
+    by_project_events = Project.objects.filter(event__start_date__year=year)\
+        .values('name')\
+        .annotate(num_events=models.Count('event'), num_visitors=models.Sum('event__visitors'))
+
     # TODO: average of visitors per event
     #by_project_events = q.values('project__name').annotate(num_visitors=models.Sum('visitors'), num_events=models.Count('project__name')).extra(tables=['org_project'])
 

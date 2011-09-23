@@ -188,7 +188,6 @@ urlpatterns = patterns('',
     (r'^feeds/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
 
     #timelines
-    (r'^timelines/source.xml$', 'intranet.org.views.timeline_xml'),
     (r'^timelines/$', 'django.views.generic.simple.direct_to_template', {'template': 'org/timeline.html'}),
 )
 
