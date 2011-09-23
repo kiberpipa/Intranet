@@ -10,7 +10,7 @@ from cStringIO import StringIO
 import mx.DateTime
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
@@ -696,59 +696,6 @@ def sodelovanja(request):
         context_instance=RequestContext(request))
 
 
-@login_required
-def tehniki_monthly(request, year=None, month=None):
-    iso_week = mx.DateTime.now().iso_week[1]
-    if month:
-        month = mx.DateTime.Date(int(year), int(month_dict[month]), 1).month
-    else:
-        month = mx.DateTime.now().month
-    if year:
-        year = mx.DateTime.Date(int(year), int(month), 1).year
-    else:
-        year = mx.DateTime.now().year
-
-    month_start = mx.DateTime.Date(year, month, 1)
-    month_end = month_start + mx.DateTime.DateTimeDelta(month_start.days_in_month)
-
-    month_number = month
-    events = Event.objects.filter(start_date__range=(month_start, month_end), require_technician__exact=True).order_by('start_date')
-    log_list = Diary.objects.filter(task=23, date__range=(month_start, month_end))
-    for log in log_list:
-        print "Found billable technician log #%s: %s on %s for %s hours" % (log.pk, log.author, log.date, log.length)
-
-    month = []
-    for e in events:
-        try:
-            diary = e.diary_set.get()
-            e.diary = diary.id
-            e.diary_length = diary.length
-        except:
-            e.diary = 0
-
-        try:
-            e.tech = e.technician.username
-        except:
-            e.tech = 0
-        month.append((set(), e))
-
-    navigation = monthly_navigation(year, month_number)
-
-    return render_to_response('org/tehniki_index.html', {
-         'month': month,
-         'log_list': log_list,
-         'month_number': month_number,
-         'month_name': month_to_string(month_number),
-         'what': 'mesec',
-         'iso_week': iso_week,
-         'year': year,
-         'navigation': navigation,
-         'start_date': month_start,
-         'end_date': month_end,
-         'ure': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-     }, context_instance=RequestContext(request))
-
-
 def monthly_navigation(year=None, month=None):
     month_prev = month - 1
     month_next = month + 1
@@ -792,23 +739,61 @@ def weekly_navigation(year=None, week=None, week_start=None, week_end=None):
 
 
 @login_required
-def tehniki(request, year=None, week=None):
-    iso_week = mx.DateTime.now().iso_week
-
+def tehniki_monthly(request, year=None, month=None):
+    iso_week = mx.DateTime.now().iso_week[1]
+    if month:
+        month = mx.DateTime.Date(int(year), int(month_dict[month]), 1).month
+    else:
+        month = mx.DateTime.now().month
     if year:
-        year = int(year)
+        year = mx.DateTime.Date(int(year), int(month), 1).year
     else:
         year = mx.DateTime.now().year
 
-    if week:
-        i = int(week)
-    else:
-        i = iso_week[1]
+    month_start = mx.DateTime.Date(year, month, 1)
+    month_end = month_start + mx.DateTime.DateTimeDelta(month_start.days_in_month)
 
-    week_start = mx.DateTime.ISO.Week(year, i, 1)
-    week_end = mx.DateTime.ISO.Week(year, i, 8)
+    month_number = month
+    events = Event.objects.filter(start_date__range=(month_start, month_end), require_technician__exact=True).order_by('start_date')
+    log_list = Diary.objects.filter(task=23, date__range=(month_start, month_end))
 
-    week_number = i
+    month = []
+    for e in events:
+        try:
+            diary = e.diary_set.get()
+            e.diary = diary.id
+            e.diary_length = diary.length
+        except:
+            e.diary = 0
+
+        month.append((set(), e))
+
+    navigation = monthly_navigation(year, month_number)
+
+    return render_to_response('org/technicians_index.html', {
+         'month': month,
+         'log_list': log_list,
+         'month_number': month_number,
+         'month_name': month_to_string(month_number),
+         'what': 'mesec',
+         'iso_week': iso_week,
+         'year': year,
+         'navigation': navigation,
+         'start_date': month_start,
+         'end_date': month_end,
+         'ure': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+     }, context_instance=RequestContext(request))
+
+
+@login_required
+def tehniki(request, year=None, week=None):
+    iso_week = mx.DateTime.now().iso_week
+
+    year = int(year or mx.DateTime.now().year)
+    week_number = int(week or iso_week[1])
+
+    week_start = mx.DateTime.ISO.Week(year, week_number, 1)
+    week_end = mx.DateTime.ISO.Week(year, week_number, 8)
     month_number = week_start.month
 
     events = Event.objects.filter(start_date__range=(week_start, week_end), require_technician__exact=True).order_by('start_date')
@@ -823,7 +808,7 @@ def tehniki(request, year=None, week=None):
 
     navigation = weekly_navigation(year, week_number, week_start, week_end)
 
-    return render_to_response('org/tehniki_index.html', {
+    return render_to_response('org/technicians_index.html', {
         'month': week,
          'log_list': log_list,
          'month_number': week_number,
@@ -865,7 +850,7 @@ def tehniki_take(request, id):
     e = Event.objects.get(pk=id)
     e.technician.add(request.user)
     e.save()
-    return HttpResponseRedirect('../../')
+    return redirect('technician_list')
 
 
 @login_required

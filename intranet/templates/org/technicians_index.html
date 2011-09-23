@@ -3,10 +3,24 @@
 
 {% block title %}{% trans "Technicians diaries" %}{% endblock %}
 
+{% block extrahead%}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.newdiary').click(function (e) {
+            e.preventDefault();
+            $('#dnevnikForm').show().find('input[name=uniqueSpot]').val($(this).attr('href'));
+        });
+        $('#dnevnikForm input[type=reset]').click(function (e) {
+            e.preventDefault();
+            $('#dnevnikiForm').hide();
+        });
+    });
+</script>
+{% endblock %}
 {% block toplinks %}
     <div class="breadcrumbs">
         <ul id="breadcrumbs">
-            <li>{% trans "Views" %}</li>
+            <li>{% trans "Views" %}:</li>
             <li><a href="/intranet/tehniki/{{ year }}/{{ iso_week }}">{% trans "Weekly" %}</a></li>
             <li><a href="/intranet/tehniki/{{ year }}/{{ month_name }}">{% trans "Monthly" %}</a></li>
         </ul>
@@ -14,7 +28,7 @@
 {% endblock %}
 
 {% block heading %}
-    <h1>{% trans "Technicians diaries" %}- {{ what }} {{ month_number }}</h1>
+    <h1>{% trans "Technicians diaries" %} - {{ what }} {{ month_number }}</h1>
 {% endblock %}
 
 {% block content-related-left %}
@@ -30,8 +44,9 @@
         <tr>
             <th scope="col">
                 <a href="/intranet/tehniki/{{ navigation.prev }}">&lt;&lt;</a>
-                | {{ month_number }}
-                | <a href="/intranet/tehniki/{{ navigation.next }}">&gt;&gt;</a></th>
+                {{ month_number }}
+                <a href="/intranet/tehniki/{{ navigation.next }}">&gt;&gt;</a>
+            </th>
             <th scope="col">{% trans "Event" %}</th>
             <th scope="col">{% trans "Technician" %}</th>
         </tr>
@@ -40,7 +55,7 @@
                 <td class="date">{{ e.start_date|date:"D j. M H:i" }} ({{ e.length|time:"f" }}h)</td>
                 <td>
                     <a href="/intranet/events/{{ e.id }}">
-                        {{ e.get_project }} {{ e.title }} {% if e.require_video %}<img src="{{ settings.STATIC_URL }}org/images/film.png" alt="help" />{% endif %}
+                        {{ e.get_project }} {{ e.title }} {% if e.require_video %}<img src="{{ settings.STATIC_URL }}org/images/film.png" />{% endif %}
                     </a>
                 </td>
                 <td>
@@ -49,17 +64,18 @@
                             {{ diary.author }} ({{ diary.length }})
                         </a><br>
                     {% endfor %}
-                    {% for technician in non_diary %}
-                        {% ifequal technician user %}
-                            <a href="#" onclick="formExplode(this, '{{ e.id }}')">{{ technician }}</a> (<a href="/intranet/tehniki/cancel/{{ e.id }}/">odjavi</a>)
+                    {% for technician in e.technician.all %}
+                        {% ifequal technician request.user %}
+                        <a class="newdiary" href="{{ e.id }}">{{ technician }}</a>
+                            (<a href="/intranet/tehniki/cancel/{{ e.id }}/">{% trans "Sign off" %}</a>)
                         {% else %}
                             {{ technician }}
                         {% endifequal %}
                         <br>
                     {% endfor %}
-                    {% ifnotequal technician user %}
+                    {% if user not in e.technician.all %}
                     <a href="/intranet/tehniki/add/{{ e.id }}/">{% trans "Volunteer" %}</a>
-                    {% endifnotequal %}
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}
@@ -77,8 +93,8 @@
        <h3>{% trans "Informal log" %}:</h3>
        <p>
            <textarea name="log_informal" id="log_if" rows="5" cols="20"></textarea>
-           <input type="submit" value="Vnesi" />
-           <input type="reset" value="Obupaj" onclick="formImplode(this)"/>
+           <input type="submit" value="{% trans "OK" %}" />
+           <input type="reset" value="{% trans "Cancel" %}" />
        </p>
 
        <h3>{% trans "Length interval" %}:</h3>
