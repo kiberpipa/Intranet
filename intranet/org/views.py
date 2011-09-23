@@ -48,15 +48,17 @@ def temporary_upload(request):
     if not 'image' in request.FILES:
         return HttpResponse(simplejson.dumps({'status': 'fail'}))
 
-    filename = request.FILES['image']._get_name()
+    filename = request.FILES['image']._get_name().strip().lower()
     imgdata = StringIO(request.FILES['image'].read())
     imgdata.seek(0)
     # check that it's image
+    if not (filename.endswith('.jpg') or filename.endswith('.jpeg')):
+        return HttpResponse(simplejson.dumps({'status': '.jpeg only!'}))
+
     try:
         im = Image.open(imgdata)
         im.size
-    except Exception, e:
-        print e
+    except Exception:
         return HttpResponse(simplejson.dumps({'status': 'fail'}))
 
     local_dir = os.path.join(settings.MEDIA_ROOT, 'tmp', request.session.session_key)
