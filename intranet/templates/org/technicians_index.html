@@ -87,23 +87,25 @@
        <h3>{% trans "Formal log" %}:</h3>
        <p>
            <input type="hidden" name="uniqueSpot" value="" />
-           <textarea name="log_formal" id="log_f" rows="10" cols="20"></textarea>
+           <textarea name="log_formal" id="log_f" rows="20" cols="20"></textarea>
        </p>
 
        <h3>{% trans "Informal log" %}:</h3>
        <p>
-           <textarea name="log_informal" id="log_if" rows="5" cols="20"></textarea>
-           <input type="submit" value="{% trans "OK" %}" />
-           <input type="reset" value="{% trans "Cancel" %}" />
+           <textarea name="log_informal" id="log_if" rows="10" cols="20"></textarea>
        </p>
 
-       <h3>{% trans "Length interval" %}:</h3>
+       <h3>{% trans "Number of hours" %}:</h3>
        <p>
            <select name="length" size="5">
                {% for u in ure %}
                <option value="{{ u }}">{{ u }}</option>
                {% endfor %}
            </select>
+       </p>
+       <p>
+           <input type="submit" value="{% trans "OK" %}" />
+           <input type="reset" value="{% trans "Cancel" %}" />
        </p>
     </form>
 </div>
