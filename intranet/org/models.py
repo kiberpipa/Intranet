@@ -114,7 +114,7 @@ class Place(models.Model):
 
 # subscriber emails, should be onetomany or smth
 class Email(models.Model):
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
 
     def __unicode__(self):
         return self.email
