@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import urllib2
 
 import flickrapi
 from django.core.cache import cache
@@ -31,11 +32,15 @@ class PhotosBoxNode(Node):
         if not flickr_set_id:
             return ''
 
-        r = api.flickr_call(
+        try:
+            r = api.flickr_call(
                 method='flickr.photosets.getPhotos',
                 photoset_id=flickr_set_id,
                 format="json",
                 nojsoncallback=1)
+        except urllib2.URLError:
+            # probably flickr is down or glitch in connection
+            return ""
 
         images = []
         json = simplejson.loads(r)
