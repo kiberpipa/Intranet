@@ -39,8 +39,16 @@
         }
 
         $('#id_facility').change(function() {
-            var ajdi = "map area#" + facilitiesl[$(this).val()];
+	    var id = $(this).val()
+            var ajdi = "map area#" + facilitiesl[id];
             hilight($(ajdi));
+            $.ajax({
+              url: '{% url facility_description_ajax 999 %}'.replace('999', id),
+              context: $('#map-description'),
+              success: function(data) {
+                $(this).html(data);
+              }
+            });
         });
 
 
