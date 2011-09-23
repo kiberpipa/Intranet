@@ -1,42 +1,40 @@
 {% extends "org/base_3col.html" %}
+{% load box markup i18n %}
 
-{% load box %}
-
-{% load markup %}
-{% block title %}Dnevnik tehničarjenja{% endblock %}
+{% block title %}{% trans "Technicians diaries" %}{% endblock %}
 
 {% block toplinks %}
     <div class="breadcrumbs">
         <ul id="breadcrumbs">
-            <li>Pogledi:</li>
-            <li><a href="/intranet/tehniki/{{ year }}/{{ iso_week }}">Tedenski</a></li>
-            <li><a href="/intranet/tehniki/{{ year }}/{{ month_name }}">Mesecni</a></li>
-<!--
-            <li>Meseci:</li>
--->
+            <li>{% trans "Views" %}</li>
+            <li><a href="/intranet/tehniki/{{ year }}/{{ iso_week }}">{% trans "Weekly" %}</a></li>
+            <li><a href="/intranet/tehniki/{{ year }}/{{ month_name }}">{% trans "Monthly" %}</a></li>
         </ul>
     </div>
 {% endblock %}
 
 {% block heading %}
-        <h1>Dnevnik tehnikov - {{ what }} {{ month_number }}</h1>
+    <h1>{% trans "Technicians diaries" %}- {{ what }} {{ month_number }}</h1>
 {% endblock %}
 
 {% block content-related-left %}
   <div class="module" id="recent-actions-module">
-    <h2>Plache</h2>
+    <h2>{% trans "Salaries" %}</h2>
     {% box_plache log_list user %}
   </div>
 {% endblock %}
 
 {% block content-main %}
     <div class="module">
-        <table>
-            <tr>
-        <th scope="col"><a href="/intranet/tehniki/{{ navigation.prev }}">&lt;&lt;</a>| {{ month_number }} |<a href="/intranet/tehniki/{{ navigation.next }}">&gt;&gt;</a></th>
-        <th scope="col">Dogodek</th>
-        <th scope="col">Tehnik</th>
-            </tr>
+      <table>
+        <tr>
+            <th scope="col">
+                <a href="/intranet/tehniki/{{ navigation.prev }}">&lt;&lt;</a>
+                | {{ month_number }}
+                | <a href="/intranet/tehniki/{{ navigation.next }}">&gt;&gt;</a></th>
+            <th scope="col">{% trans "Event" %}</th>
+            <th scope="col">{% trans "Technician" %}</th>
+        </tr>
         {% for non_diary, e in month %}
             <tr>
                 <td class="date">{{ e.start_date|date:"D j. M H:i" }} ({{ e.length|time:"f" }}h)</td>
@@ -59,7 +57,7 @@
                         {% endifequal %}
                         <br>
                     {% endfor %}
-                    <a href="/intranet/tehniki/add/{{ e.id }}/">Javi se</a>
+                    <a href="/intranet/tehniki/add/{{ e.id }}/">{% trans "Volunteer" %}</a>
                 </td>
             </tr>
         {% endfor %}
@@ -68,37 +66,41 @@
 
 <div id="dnevnikForm">
     <form action="/intranet/tehniki/add/" method="post" name="dnevnikForm" class="dnevnikForm">
-       <h3>Sem napišeš vse resne stvari, ki so se zgodile:</h3>
-          <p><input type="hidden" name="uniqueSpot" value="" />
-          <textarea name="log_formal" id="log_f" rows="10" cols="20"></textarea></p>
-       <h3>Sem pa manj resne:</h3>
-          <p><textarea name="log_informal" id="log_if" rows="5" cols="20"></textarea>
-          <input type="submit" value="Vnesi" />
-          <input type="reset" value="Obupaj" onclick="formImplode(this)"/></p>
-        <h3>To je pa dolzina dela:</h3>
-            <p>
-            <select name="length" size="5">
-                {% for u in ure %}
-                    <option>{{ u }}</option>
-                {% endfor %}
-            </select>
-            </p>
+       <h3>{% trans "Formal log" %}:</h3>
+       <p>
+           <input type="hidden" name="uniqueSpot" value="" />
+           <textarea name="log_formal" id="log_f" rows="10" cols="20"></textarea>
+       </p>
+
+       <h3>{% trans "Informal log" %}:</h3>
+       <p>
+           <textarea name="log_informal" id="log_if" rows="5" cols="20"></textarea>
+           <input type="submit" value="Vnesi" />
+           <input type="reset" value="Obupaj" onclick="formImplode(this)"/>
+       </p>
+
+       <h3>{% trans "Length interval" %}:</h3>
+       <p>
+           <select name="length" size="5">
+               {% for u in ure %}
+               <option>{{ u }}</option>
+               {% endfor %}
+           </select>
+       </p>
     </form>
 </div>
-<p><br /></p>
 
 {% for object in log_list %}
     {% print_diary object %}
 {% endfor %}
-
 {% endblock %}
 
 
 {% block content-related-right %}
-  <div class="module">
-    <h2>Dogodki obdobja</h2>
-       <ul class="actionlist">
-        {% box_list Event "start_date__gte=start_date,start_date__lte=end_date" "template=org/list_event.html,order_by=start_date" %}
-        </ul>
-  </div>
+<div class="module">
+    <h2>{% trans "Current events" %}</h2>
+    <ul class="actionlist">
+    {% box_list Event "start_date__gte=start_date,start_date__lte=end_date" "template=org/list_event.html,order_by=start_date" %}
+    </ul>
+</div>
 {% endblock %}
