@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Intranet\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-30 15:12+0200\n"
+"POT-Creation-Date: 2011-09-30 17:26+0200\n"
 "PO-Revision-Date: 2011-07-06 15:13+0100\n"
 "Last-Translator: Klemen Robnik <klemen.robnik@kiberpipa.org>\n"
 "Language-Team: intranet <info@kiberpipa.org>\n"
@@ -361,12 +361,12 @@ msgid "press"
 msgstr "press"
 
 #: templates/www/base.html:64
-msgid "Mon. - Fri."
-msgstr "Pon. - Pet."
+msgid "Opening Hours"
+msgstr "Odpiralni čas"
 
 #: templates/www/base.html:65
-msgid "10am - 10pm"
-msgstr "10h - 22h"
+msgid "only during events"
+msgstr "samo ob času dogodkov"
 
 #: templates/www/calendar.html:6 templates/www/calendar.html.py:9
 msgid "Calendar of Events in Kiberpipa"
@@ -543,6 +543,12 @@ msgid ""
 msgstr ""
 "Vaše povpraševanje za najem prostora je bilo poslano. Odgovorili bomo v "
 "naslednjih delovnih dneh."
+
+#~ msgid "Mon. - Fri."
+#~ msgstr "Pon. - Pet."
+
+#~ msgid "10am - 10pm"
+#~ msgstr "10h - 22h"
 
 #~ msgid ""
 #~ "Note: your email will be used only to deliver the message about video "
