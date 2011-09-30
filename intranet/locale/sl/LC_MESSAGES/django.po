@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Intranet\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-30 17:26+0200\n"
+"POT-Creation-Date: 2011-09-30 18:13+0200\n"
 "PO-Revision-Date: 2011-07-06 15:13+0100\n"
 "Last-Translator: Klemen Robnik <klemen.robnik@kiberpipa.org>\n"
 "Language-Team: intranet <info@kiberpipa.org>\n"
@@ -43,33 +43,38 @@ msgstr ""
 msgid "Gallery"
 msgstr "Galerija"
 
+#: templates/mail/events_report.html:3 templates/org/base.html:92
+#: templates/org/event_edit.html:122
+msgid "Events"
+msgstr "Dogodki"
+
 #: templates/mail/events_report.html:5
-msgid "Events from last"
-msgstr "Dogodki zadnjih"
+msgid "From last"
+msgstr "Zadnjih"
 
 #: templates/mail/events_report.html:5
 msgid "days:"
 msgstr "dni:"
 
 #: templates/mail/events_report.html:8
-msgid "visitors:"
-msgstr "obiskovalcev:"
+msgid "visitors"
+msgstr "obiskovalcev"
 
 #: templates/mail/events_report.html:12
 msgid "Overall visitors:"
 msgstr "Skupaj obiskovalcev:"
 
-#: templates/mail/events_report.html:15 templates/org/index.html:75
-msgid "Public events with no visitors:"
-msgstr "Javni dogodki brez vpisanih obiskovalcev:"
+#: templates/mail/events_report.html:15
+msgid "Public with no visitors:"
+msgstr "Javni brez vpisanih obiskovalcev:"
 
-#: templates/mail/events_report.html:24 templates/org/index.html:84
-msgid "Events marked as recorded but no video attached:"
-msgstr "Snemani dogodki brez dodanih video posnetkov:"
+#: templates/mail/events_report.html:24
+msgid "Marked as recorded, but no video attached:"
+msgstr "Snemani brez dodanih video posnetkov:"
 
-#: templates/mail/events_report.html:33 templates/org/index.html:93
-msgid "Events with required pictures has no flickr id:"
-msgstr "Dogodki z zahtevanimi slikami ampak nimajo Flickr identifikacije:"
+#: templates/mail/events_report.html:33
+msgid "With required pictures, but no flickr set id:"
+msgstr "Z zahtevanimi slikami, ampak nimajo Flickr set id-ja:"
 
 #: templates/org/base.html:85
 msgid "Welcome"
@@ -86,10 +91,6 @@ msgstr "Dezurstva"
 #: templates/org/base.html:91
 msgid "Diarys"
 msgstr "Dnevniki"
-
-#: templates/org/base.html:92 templates/org/event_edit.html:122
-msgid "Events"
-msgstr "Dogodki"
 
 #: templates/org/base.html:93
 msgid "Address book"
@@ -259,6 +260,18 @@ msgstr "Moje želje po nakupih:"
 msgid "Unfinished events"
 msgstr "Nepopolni dogodki"
 
+#: templates/org/index.html:75
+msgid "Public events with no visitors:"
+msgstr "Javni dogodki brez vpisanih obiskovalcev:"
+
+#: templates/org/index.html:84
+msgid "Events marked as recorded but no video attached:"
+msgstr "Snemani dogodki brez dodanih video posnetkov:"
+
+#: templates/org/index.html:93
+msgid "Events with required pictures has no flickr id:"
+msgstr "Dogodki z zahtevanimi slikami ampak nimajo Flickr identifikacije:"
+
 #: templates/org/index.html:112
 msgid "Current"
 msgstr "Aktualni"
@@ -314,7 +327,7 @@ msgstr "Število ur"
 
 #: templates/org/technicians_index.html:107
 msgid "OK"
-msgstr "Vredu"
+msgstr "V redu"
 
 #: templates/org/technicians_index.html:108
 msgid "Cancel"
@@ -323,6 +336,22 @@ msgstr "Prekliči"
 #: templates/org/technicians_index.html:121
 msgid "Current events"
 msgstr "Aktualni dogodki"
+
+#: templates/search/search.html:5
+msgid "Search results"
+msgstr "Rezultati iskanja"
+
+#: templates/search/search.html:15
+msgid "No results found"
+msgstr "Ni zadetkov"
+
+#: templates/search/search.html:23
+msgid "Previous"
+msgstr "Nazaj"
+
+#: templates/search/search.html:29
+msgid "Next"
+msgstr "Naprej"
 
 #: templates/www/ajax_index_events.html:8
 msgid "at"
@@ -336,7 +365,7 @@ msgstr "Video dogodka"
 msgid "Pictures of event"
 msgstr "Slike dogodka"
 
-#: templates/www/base.html:18
+#: templates/www/base.html:17
 msgid "All our code are belong to you"
 msgstr "All our code are belong to you"
 
@@ -360,11 +389,15 @@ msgstr "podpora"
 msgid "press"
 msgstr "press"
 
-#: templates/www/base.html:64
+#: templates/www/base.html:49
+msgid "Search events ..."
+msgstr "Išči po dogodkih ..."
+
+#: templates/www/base.html:70
 msgid "Opening Hours"
 msgstr "Odpiralni čas"
 
-#: templates/www/base.html:65
+#: templates/www/base.html:71
 msgid "only during events"
 msgstr "samo ob času dogodkov"
 
@@ -428,28 +461,36 @@ msgstr "pošlji"
 msgid "Videos"
 msgstr "Video"
 
-#: templates/www/index.html:83
+#: templates/www/index.html:86
 msgid "Currently no events are scheduled."
 msgstr "Trenutno v koledarju ni dogodkov."
 
-#: templates/www/index.html:94
+#: templates/www/index.html:92
 msgid "Newest videos in video.kiberpipa.org"
 msgstr "Najnovejši posnetki v video arhivu"
 
-#: templates/www/index.html:119
+#: templates/www/index.html:101
+msgid "Subscribe to Cyberpipe mailing list"
+msgstr "Prijava na Kiberpipina obvestila"
+
+#: templates/www/index.html:102
+msgid "Would you like to subscribe to information about weekly events?"
+msgstr "Želite prejemati obvestila o Kiberpipinih dogodkih po elektronski pošti?"
+
+#: templates/www/index.html:112
 msgid "Writings from the world with no windows"
 msgstr "Zapisi iz sveta brez oken"
 
-#: templates/www/index.html:126 templates/www/index.html.py:148
+#: templates/www/index.html:119 templates/www/index.html.py:136
 #: templates/www/news_list.html:14
 msgid "Published by"
 msgstr "Objavil"
 
-#: templates/www/index.html:126 templates/www/index.html.py:148
+#: templates/www/index.html:119 templates/www/index.html.py:136
 msgid "on"
 msgstr "dne"
 
-#: templates/www/index.html:141
+#: templates/www/index.html:129
 msgid "Reflections from /dev/random"
 msgstr "Razmišljanja iz /dev/random"
 
@@ -525,30 +566,35 @@ msgstr "Opis dogodka"
 msgid "Contact person (email)"
 msgstr "Kontakt (e-pošta)"
 
-#: www/views.py:75
+#: www/views.py:80
 msgid "You have already subscribed to this event."
 msgstr "Na ta dogodek ste se že prijavili"
 
-#: www/views.py:79
+#: www/views.py:84
 msgid "We will send you a notification when the video will be available."
 msgstr "Ko bo video na voljo, vas bomo obvestili."
 
-#: www/views.py:81
+#: www/views.py:86
 msgid "Please enter a valid email address"
 msgstr "Prosimo vnesite veljaven naslov e-pošte."
 
-#: www/views.py:210
+#: www/views.py:100
+msgid "Added!"
+msgstr "Dodano!"
+
+#: www/views.py:105
+msgid "Wrong email!"
+msgstr "Nepravilen email!"
+
+#: www/views.py:232
 msgid ""
 "Your rental inquiry has been sent. We will answer it in a couple of work days"
 msgstr ""
 "Vaše povpraševanje za najem prostora je bilo poslano. Odgovorili bomo v "
 "naslednjih delovnih dneh."
 
-#~ msgid "Mon. - Fri."
-#~ msgstr "Pon. - Pet."
-
-#~ msgid "10am - 10pm"
-#~ msgstr "10h - 22h"
+#~ msgid "Please inform me when the video of this lecture is available"
+#~ msgstr "Želim biti obveščen, ko bo video na voljo"
 
 #~ msgid ""
 #~ "Note: your email will be used only to deliver the message about video "
@@ -583,9 +629,6 @@ msgstr ""
 
 #~ msgid "Wiki"
 #~ msgstr "Wiki"
-
-#~ msgid "Clipping"
-#~ msgstr "Clipping"
 
 #~ msgid "Home"
 #~ msgstr "Dom"
