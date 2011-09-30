@@ -840,7 +840,7 @@ def tehniki_add(request):
         task=Project.objects.get(pk=23),
         log_formal=request.POST['log_formal'],
         log_informal=request.POST['log_informal'],
-        length=datetime.time(int(request.POST['length']), 0),
+        length=datetime.time(int(request.POST.get('length', 1)), 0),
     )
     p.save()
 
