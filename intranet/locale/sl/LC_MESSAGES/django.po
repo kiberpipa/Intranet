@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Intranet\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-16 23:30+0200\n"
+"POT-Creation-Date: 2011-09-30 15:12+0200\n"
 "PO-Revision-Date: 2011-07-06 15:13+0100\n"
 "Last-Translator: Klemen Robnik <klemen.robnik@kiberpipa.org>\n"
 "Language-Team: intranet <info@kiberpipa.org>\n"
@@ -71,6 +71,150 @@ msgstr "Snemani dogodki brez dodanih video posnetkov:"
 msgid "Events with required pictures has no flickr id:"
 msgstr "Dogodki z zahtevanimi slikami ampak nimajo Flickr identifikacije:"
 
+#: templates/org/base.html:85
+msgid "Welcome"
+msgstr "Pozdravljen"
+
+#: templates/org/base.html:85
+msgid "Logout"
+msgstr "Odjava"
+
+#: templates/org/base.html:90
+msgid "On duty"
+msgstr "Dezurstva"
+
+#: templates/org/base.html:91
+msgid "Diarys"
+msgstr "Dnevniki"
+
+#: templates/org/base.html:92 templates/org/event_edit.html:122
+msgid "Events"
+msgstr "Dogodki"
+
+#: templates/org/base.html:93
+msgid "Address book"
+msgstr "Imenik"
+
+#: templates/org/base.html:95
+msgid "Technicians"
+msgstr "Tehniki"
+
+#: templates/org/base.html:96 templates/org/event_detail.html:73
+msgid "Collaboration"
+msgstr "Sodelovanja"
+
+#: templates/org/base.html:97
+msgid "Lends"
+msgstr "Reverzi"
+
+#: templates/org/base.html:98
+msgid "Shopping"
+msgstr "Nakupi"
+
+#: templates/org/base.html:99
+msgid "Mercenaries"
+msgstr "Mercenaries"
+
+#: templates/org/base.html:100
+msgid "Statistics"
+msgstr "Statistika"
+
+#: templates/org/base.html:101
+msgid "Administration"
+msgstr "Kiberpipa administracija"
+
+#: templates/org/event_detail.html:18 templates/org/technicians_index.html:50
+msgid "Event"
+msgstr "Dogodki"
+
+#: templates/org/event_detail.html:23
+msgid "Editing"
+msgstr "Urejanje"
+
+#: templates/org/event_detail.html:25
+msgid "Edit data"
+msgstr "Uredi podatke"
+
+#: templates/org/event_detail.html:26
+msgid "Add new"
+msgstr "Dodaj novega"
+
+#: templates/org/event_detail.html:27
+msgid "Visitors (hit ENTER)"
+msgstr "Preštej obisk (pritisni ENTER)"
+
+#: templates/org/event_detail.html:33
+msgid "Add emails (one per line)"
+msgstr "Dodaj emaile (enega v vrstico)"
+
+#: templates/org/event_detail.html:36
+msgid "Send emails"
+msgstr "Pošlji emaile"
+
+#: templates/org/event_detail.html:51
+msgid "Slides"
+msgstr "Prosojnice"
+
+#: templates/org/event_detail.html:58
+msgid "M3C category"
+msgstr "M3C kategorija"
+
+#: templates/org/event_detail.html:62
+msgid "Project"
+msgstr "Projekt"
+
+#: templates/org/event_detail.html:67
+msgid "Informed when the video is available"
+msgstr "Želim biti obveščen, ko bo video na voljo"
+
+#: templates/org/event_detail.html:80
+msgid "Language"
+msgstr "Jezik"
+
+#: templates/org/event_detail.html:84
+msgid "Requests"
+msgstr "Zahteve"
+
+#: templates/org/event_detail.html:97
+msgid "Visitors"
+msgstr "Število obiskovalcev"
+
+#: templates/org/event_detail.html:100
+msgid "Content"
+msgstr "Vsebina"
+
+#: templates/org/event_detail.html:104
+msgid "Notes"
+msgstr "Opomba"
+
+#: templates/org/event_edit.html:142
+msgid "Add event to calendar"
+msgstr "Dodaj dogodek v koledar"
+
+#: templates/org/event_edit.html:144
+msgid "Please fix following errors"
+msgstr "Prosimo popravite sledeče napake"
+
+#: templates/org/event_edit.html:158 templates/org/event_edit.html.py:159
+msgid "Authors"
+msgstr "Avtorji"
+
+#: templates/org/event_edit.html:170
+msgid "Add new author"
+msgstr "Dodaj novega avtorja"
+
+#: templates/org/event_edit.html:177
+msgid "Add author"
+msgstr "Dodaj avtorja"
+
+#: templates/org/event_edit.html:252
+msgid "Add new picture"
+msgstr "Dodaj novo sliko"
+
+#: templates/org/event_edit.html:273
+msgid "Submit"
+msgstr "Shrani"
+
 #: templates/org/index.html:15
 msgid "Basic overview"
 msgstr "Osnovni pregled"
@@ -122,6 +266,63 @@ msgstr "Aktualni"
 #: templates/org/index.html:112
 msgid "events"
 msgstr "dogodki"
+
+#: templates/org/technicians_index.html:4
+#: templates/org/technicians_index.html:31
+msgid "Technicians diaries"
+msgstr "Dnevniki tehnikov"
+
+#: templates/org/technicians_index.html:23
+msgid "Views"
+msgstr "Pogledi"
+
+#: templates/org/technicians_index.html:24
+msgid "Weekly"
+msgstr "Tedensko"
+
+#: templates/org/technicians_index.html:25
+msgid "Monthly"
+msgstr "Mesečno"
+
+#: templates/org/technicians_index.html:36
+msgid "Salaries"
+msgstr "Plače"
+
+#: templates/org/technicians_index.html:51
+msgid "Technician"
+msgstr "Tehnik"
+
+#: templates/org/technicians_index.html:70
+msgid "Sign off"
+msgstr "Odjavi se"
+
+#: templates/org/technicians_index.html:77
+msgid "Volunteer"
+msgstr "Javi se"
+
+#: templates/org/technicians_index.html:87
+msgid "Formal log"
+msgstr "Uradni del dnevnika"
+
+#: templates/org/technicians_index.html:93
+msgid "Informal log"
+msgstr "Neuradni del dnevnika"
+
+#: templates/org/technicians_index.html:98
+msgid "Number of hours"
+msgstr "Število ur"
+
+#: templates/org/technicians_index.html:107
+msgid "OK"
+msgstr "Vredu"
+
+#: templates/org/technicians_index.html:108
+msgid "Cancel"
+msgstr "Prekliči"
+
+#: templates/org/technicians_index.html:121
+msgid "Current events"
+msgstr "Aktualni dogodki"
 
 #: templates/www/ajax_index_events.html:8
 msgid "at"
@@ -211,15 +412,7 @@ msgstr "Nedelja"
 msgid "Reserved."
 msgstr "Rezervirano."
 
-#: templates/www/event.html:33
-msgid "Videos"
-msgstr "Video"
-
-#: templates/www/event.html:47
-msgid "Please inform me when the video of this lecture is available"
-msgstr "Želim biti obveščen, ko bo video na voljo"
-
-#: templates/www/event.html:50
+#: templates/www/event.html:39
 msgid ""
 "Please enter your contact data so we can inform you when the video will be "
 "available."
@@ -227,17 +420,13 @@ msgstr ""
 "Vnesite vaše kontaktne podatke, če želite biti obveščeni, ko bo video "
 "posnetek na voljo"
 
-#: templates/www/event.html:54
+#: templates/www/event.html:43
 msgid "submit"
 msgstr "pošlji"
 
-#: templates/www/event.html:57
-msgid ""
-"Note: your email will be used only to deliver the message about video "
-"availability."
-msgstr ""
-"Opomba: vaš elektronski naslov bo uporabljen samo za dostavo sporočila o "
-"dosegljivosti video posnetka. "
+#: templates/www/event.html:49
+msgid "Videos"
+msgstr "Video"
 
 #: templates/www/index.html:83
 msgid "Currently no events are scheduled."
@@ -245,7 +434,7 @@ msgstr "Trenutno v koledarju ni dogodkov."
 
 #: templates/www/index.html:94
 msgid "Newest videos in video.kiberpipa.org"
-msgstr "Zadnji dodani posnetki v video.kiberpipa.org"
+msgstr "Najnovejši posnetki v video arhivu"
 
 #: templates/www/index.html:119
 msgid "Writings from the world with no windows"
@@ -320,19 +509,19 @@ msgstr "Kiberpipini projekti"
 msgid "Space"
 msgstr "Prostor"
 
-#: www/forms.py:31
+#: www/forms.py:33
 msgid "Event start"
 msgstr "Začetek dogodka"
 
-#: www/forms.py:34
+#: www/forms.py:36
 msgid "Event end"
 msgstr "Konec dogodka"
 
-#: www/forms.py:37
+#: www/forms.py:39
 msgid "Event description"
 msgstr "Opis dogodka"
 
-#: www/forms.py:38
+#: www/forms.py:40
 msgid "Contact person (email)"
 msgstr "Kontakt (e-pošta)"
 
@@ -354,6 +543,13 @@ msgid ""
 msgstr ""
 "Vaše povpraševanje za najem prostora je bilo poslano. Odgovorili bomo v "
 "naslednjih delovnih dneh."
+
+#~ msgid ""
+#~ "Note: your email will be used only to deliver the message about video "
+#~ "availability."
+#~ msgstr ""
+#~ "Opomba: vaš elektronski naslov bo uporabljen samo za dostavo sporočila o "
+#~ "dosegljivosti video posnetka. "
 
 #~ msgid "Your email address has been removed from our messaging list."
 #~ msgstr "Vaš naslov e-pošte smo odstranili s seznama za obveščanje."
@@ -379,43 +575,16 @@ msgstr ""
 #~ msgid "Misc"
 #~ msgstr "Razno"
 
-#~ msgid "On duty"
-#~ msgstr "Dezurstva"
-
-#~ msgid "Technicians"
-#~ msgstr "Tehniki"
-
-#~ msgid "Adress book"
-#~ msgstr "Imenik"
-
-#~ msgid "Diarys"
-#~ msgstr "Dnevniki"
-
 #~ msgid "Wiki"
 #~ msgstr "Wiki"
 
-#~ msgid "Cooperations"
-#~ msgstr "Sodelovanja"
-
 #~ msgid "Clipping"
 #~ msgstr "Clipping"
-
-#~ msgid "Lends"
-#~ msgstr "Reverzi"
-
-#~ msgid "Shopping"
-#~ msgstr "Nakupi"
-
-#~ msgid "Mercenaries"
-#~ msgstr "Mercenaries"
 
 #~ msgid "Home"
 #~ msgstr "Dom"
 
 #~ msgid "Kiberpipa site admin"
-#~ msgstr "Kiberpipa administracija"
-
-#~ msgid "Kiberpipa administration"
 #~ msgstr "Kiberpipa administracija"
 
 #~ msgid "Space rental inquiry"
@@ -442,11 +611,6 @@ msgstr ""
 #~ msgid "Peview your comment"
 #~ msgstr "Predogled komentarja"
 
-#~ msgid "Please correct the following error"
-#~ msgid_plural "Please correct the following errors"
-#~ msgstr[0] "Prosimo popravite sledečo napako"
-#~ msgstr[1] "Prosimo popravite sledeče napake"
-
 #~ msgid "and"
 #~ msgstr "in"
 
@@ -461,9 +625,6 @@ msgstr ""
 
 #~ msgid "full size"
 #~ msgstr "polna velikost"
-
-#~ msgid "exif data"
-#~ msgstr "exif podatki"
 
 #~ msgid "Video archive"
 #~ msgstr "Video arhiv"

@@ -119,7 +119,7 @@ $(document).ready(function() {
 </style>
 {% endblock %}
 
-{% block title %}Dogodki{% endblock %}
+{% block title %}{% trans "Events" %}{% endblock %}
 
 
 {% block content %}
@@ -138,9 +138,9 @@ $(document).ready(function() {
         <form method="POST" action="" enctype="multipart/form-data"> 
 
         <div class="module">
-            <h2>Dodaj dogodek v koledar</h2>
+            <h2>{% trans "Add event to calendar" %}</h2>
             {% if form.errors %}
-                <h3>Prosim popravi naslednje napake:</h3>
+                <h3>{% trans "Please fix following errors" %}:</h3>
             {% endif %}
             <p>
                 {{ form.title.errors }}
@@ -154,8 +154,8 @@ $(document).ready(function() {
             </p>
 
             <p>
-                <label for="authorsid">Authors:</label>
-                <select data-placeholder="Authors" id="authorsid" name="authors" class="chzn-select" style="width:50%" multiple>
+                <label for="authorsid">{% trans "Authors" %}:</label>
+                <select data-placeholder="{% trans "Authors" %}" id="authorsid" name="authors" class="chzn-select" style="width:50%" multiple>
                     {% for sodelovanje in sodelovanja %}
                         <option selected="selected">{{ sodelovanje.person }} - {{ sodelovanje.tip }}</option>
                     {% endfor %}
@@ -166,14 +166,14 @@ $(document).ready(function() {
 
                 <br />
 
-                <label for="author_field">Add new author:</label>
+                <label for="author_field">{% trans "Add new author" %}:</label>
                 <input type="text" id="author_field" />
                 <select class="chzn-select" style="width: 20%" id="type_id">
                     {% for t in tipi %}
                         <option value="{{ t.id }}">{{ t }}</option>
                     {% endfor %}
                 </select>
-                <a href="#" onclick="add_author_click()">Add author</a>
+                <a href="#" onclick="add_author_click()">{% trans "Add author" %}</a>
             </p>
         <p>
             {{ form.category.errors }}
@@ -248,7 +248,7 @@ $(document).ready(function() {
             {{ form.event_image.errors }}
             {{ form.event_image.label_tag }}
             {{ form.event_image }}
-            <a href="/intranet/image_crop_tool/" target="_blank">Dodaj novo sliko</a>
+            <a href="/intranet/image_crop_tool/" target="_blank">{% trans "Add new picture" %}</a>
         </p>
         <p>
             <div id="ajax_img">
@@ -269,7 +269,7 @@ $(document).ready(function() {
             {{ form.note }}
         </p>
     </div>
-    <h3><input type="submit" value="Vpiši" /></h3>
+    <h3><input type="submit" value="{% trans "Submit" %}" /></h3>
 	</form>
 </div>
 {% endblock %}

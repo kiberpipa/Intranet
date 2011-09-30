@@ -1,3 +1,4 @@
+{% load i18n %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="sl" >
 <head>
@@ -81,23 +82,23 @@
         </a>
         {% if user.is_authenticated %}
         <p>
-            Pozdravljen {{ user.username }}! <a href="/intranet/accounts/logout/">Odjava</a>
+            {% trans "Welcome" %} {{ user.username }}! <a href="/intranet/accounts/logout/">{% trans "Logout" %}</a>
         </p>
         {% endif %}
     </div>
     <ul id="mainmenu">
-        <li><a href="/intranet/dezurni/">Dežurni</a></li>
-        <li><a href="/intranet/diarys/">Dnevniki</a></li>
-        <li><a href="/intranet/events/">Dogodki</a></li>
-        <li><a href="/intranet/addressbook/">Imenik</a></li>
+        <li><a href="/intranet/dezurni/">{% trans "On duty" %}</a></li>
+        <li><a href="/intranet/diarys/">{% trans "Diarys" %}</a></li>
+        <li><a href="/intranet/events/">{% trans "Events" %}</a></li>
+        <li><a href="/intranet/addressbook/">{% trans "Address book" %}</a></li>
         <li><a href="/intranet/wiki/">Wiki</a></li>
-        <li><a href="/intranet/tehniki/">Tehniki</a></li>
-        <li><a href="/intranet/sodelovanja/">Sodelovanja</a></li>
-        <li><a href="/intranet/lends/">Reverzi</a></li>
-        <li><a href="/intranet/shopping/">Nakupi</a></li>
-        <li><a href="/intranet/mercenaries/">Mercenaries</a></li>
-        <li><a href="{% url statistics_by_year %}">Statistika</a></li>
-        <li><a href="/intranet/admin">Administracija</a></li>
+        <li><a href="/intranet/tehniki/">{% trans "Technicians" %}</a></li>
+        <li><a href="/intranet/sodelovanja/">{% trans "Collaboration" %}</a></li>
+        <li><a href="/intranet/lends/">{% trans "Lends" %}</a></li>
+        <li><a href="/intranet/shopping/">{% trans "Shopping" %}</a></li>
+        <li><a href="/intranet/mercenaries/">{% trans "Mercenaries" %}</a></li>
+        <li><a href="{% url statistics_by_year %}">{% trans "Statistics" %}</a></li>
+        <li><a href="/intranet/admin">{% trans "Administration" %}</a></li>
     </ul>
     <div id="bugs">
         <a href="https://dev.kiberpipa.org/projects/kiberpipa-intranet/issues/new">

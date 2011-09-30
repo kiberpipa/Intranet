@@ -2,6 +2,7 @@
 {% block extrahead %}{% endblock %}
 {% block title %}Dogodki{% endblock %}
 {% load markup %}
+{% load i18n %}
 
 {% block toplinks %}
     <div class="breadcrumbs">
@@ -14,25 +15,25 @@
 {% endblock %}
 
 {% block heading %}
-    <h1>Dogodek</h1>
+    <h1>{% trans "Event" %}</h1>
 {% endblock %}
 
 {% block content-related-left %}
   <div class="module" id="recent-actions-module">
-    <h2>Urejanje</h2>
+    <h2>{% trans "Editing" %}</h2>
         <ul class="actionlist">
-            <li><a href="edit/">Uredi podatke</a></li>
-            <li><a href="../create/">Dodaj novega</a></li>
-            <li>Preštej obisk (hit ENTER):
+            <li><a href="edit/">{% trans "Edit data" %}</a></li>
+            <li><a href="../create/">{% trans "Add new" %}</a></li>
+            <li>{% trans "Visitors (hit ENTER)" %}:
                 <form  method="POST" action="count/">
                      <input type="text" name="visitors" size="3" value="{{ object.visitors|default:"" }}" maxlength="3" />
                 </form>
             </li>
             <li><a href="info.txt/">info.txt</a></li>
-            <li>Dodaj emaile (po enga v vrsitco):
+            <li>{% trans "Add emails (one per line)" %}:
                 <form method="POST" action="emails/">
                     {{ emails_form }}
-                    <input type="submit" value="Poslji emaile">
+                    <input type="submit" value="{% trans "Send emails" %}">
                 </form>
             </li>
         </ul>
@@ -47,40 +48,40 @@
             <p><a href="{{ object.get_public_url }}">{{ object.title }}</a></p>
             <p>{{ object.start_date|date:"D d.m.Y H:i" }}  ({{ object.length }})</p>
             {% if object.slides %}
-            <h4> Slajdi</h4>
+            <h4>{% trans "Slides" %}</h4>
             {{ object.slides }}
             {% endif %}
             {% if object.event_image.image %}
                 <h4> uploaded image</h4>
                 <img src="{{ settings.MEDIA_URL }}{{ object.event_image.image }}"></img>
             {% endif %}
-            <h4>M3C kategorija</h4>
+            <h4>{% trans "M3C category" %}</h4>
             <p>
                 {{ object.category }}
             </p>
-            <h4>Projekt</h4>
+            <h4>{% trans "Project" %}</h4>
             <p>
                 {{ object.project }}
             </p>
             {% if object.emails.all %}
-                <h4>Subscribani (za spammanje ko je video objavljen):</h4>
+                <h4>{% trans "Informed when the video is available" %}:</h4>
                 <p>
                     {{ object.emails.all|join:", " }}
                 </p>
             {% endif %}
             {% if sodelovanja %}
-            <h4>Sodelovanja:</h4>
+            <h4>{% trans "Collaboration" %}:</h4>
             <p>
             {% for sodelovanje in sodelovanja %}
                 {{ sodelovanje.tip }}: {{ sodelovanje.person }}
             {% endfor %}
             </p>
             {% endif %}
-            <h4>Jezik</h4>
+            <h4>{% trans "Language" %}</h4>
             <p>
                 {{ object.language }}
             </p>
-          <h4>Zahteve:</h4>
+          <h4>{% trans "Requests" %}:</h4>
           <p>
                 {% if object.require_technician %}
                     tehnik
@@ -93,14 +94,14 @@
                 {% endif %}
           </p>
           	{% if object.visitors %}
-          <h4>Število obiskovalcev:</h4>
+          <h4>{% trans "Visitors" %}:</h4>
           <p>{{ object.visitors }}</p>
           	{% endif %}
-          <h4>Vsebina:</h4>
+          <h4>{% trans "Content" %}:</h4>
           <p>
             {{ object.announce|safe }}</p>
 
-      <h4>Opomba:</h4>
+      <h4>{% trans "Notes" %}:</h4>
           <p>
             {{ object.note|linebreaks }}</p>   
     </div>
