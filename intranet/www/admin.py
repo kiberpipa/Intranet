@@ -1,6 +1,7 @@
 from django.template.defaultfilters import slugify
 from django.contrib import admin
 from reversion.admin import VersionAdmin
+from django_mailman.models import List
 
 from intranet.www.models import *
 
@@ -13,6 +14,6 @@ class NewsAdmin(VersionAdmin):
         obj.author = request.user
         obj.save()
 
-admin.site.register(Ticker)
 
 admin.site.register(News, NewsAdmin)
+admin.site.register(List)

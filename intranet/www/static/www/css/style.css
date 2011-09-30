@@ -206,60 +206,23 @@ a img {
 	width: 400px;
 	float: left;
 	margin-right: 10px;
-	}
+}
+.button-chamber h4 {
+	margin: 8px 0;
+	text-decoration: underline;
+}
+.button-chamber label {
+	margin-right: 10px;
+}
+.button-chamber #id_email {
+	width: 200px;
+}
 
-.gallery {
-	float: left;
-	width: 100px;
-	height: 67px;
-	text-align: left;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-bottom: 10px;
-	padding-top: 10px;
-	}
-
-.gallery-button {
-	float: left;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-bottom: 10px;
-	padding-top: 10px;
-	}
-
-.gallery-button img {
-	border: 1px solid #000;
-	}
-
-.gallery-button2 {
-	float: left;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-bottom: 10px;
-	padding-top: 10px;
-	}
-
-.gallery-button2 img {
-	border: 1px solid #000;
-	}
-
-.gallery-button3 {
-	float: left;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-bottom: 10px;
-	padding-top: 10px;
-	}
-
-.gallery-button3 img {
-	border: 1px solid #000;
-	}
-
-.video {
-	text-align: left;
-	}
-
-.video p {font-size: 16px; font-weight: bold; margin: 0 0 10px 0;}
+.video p {
+	font-size: 16px;
+	font-weight: bold;
+	margin: 0 0 10px 0;
+}
 
 .video-button {
 	float: left;
@@ -282,19 +245,6 @@ a img {
 	padding-bottom: 10px;
 	padding-top: 10px;
 	}
-
-.notifier-chamber {
-	float: left;
-	width: 400px;
-	}
-
-.notifier-chamber img {
-	border: 1px solid #000;
-	}
-
-#sections ul {margin: 0; padding: 0;}
-#sections li {font-size: 14px; padding: 0 10px; list-style: none;}
-#sections li p {width: 370px;}
 
 /* End of upcoming and notifier */
 
@@ -621,75 +571,6 @@ a img {
 	padding-bottom: 15px;
 }
 
-.dogodek-gallery {
-	float: left;
-	width: 960px;
-	height: 100%;
-	text-align: left;
-	padding-bottom: 10px;
-	padding-top: 10px;
-	}
-
-.dogodek-gallery-title {
-	font-size: 16px;
-	font-weight: normal;
-	text-decoration: underline;
-	padding-top: 0px;
-	padding-bottom: 15px;
-}
-
-.dogodek-gallery-button1 {
-	float: left;
-	padding-left: 50px;
-	padding-right: 10px;
-	padding-bottom: 10px;
-	padding-top: 10px;
-	}
-
-.dogodek-gallery-button2 {
-	float: left;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-bottom: 10px;
-	padding-top: 10px;
-	}
-
-.dogodek-gallery-button3 {
-	float: left;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-bottom: 10px;
-	padding-top: 10px;
-	}
-
-.dogodek-gallery-button4 {
-	float: left;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-bottom: 10px;
-	padding-top: 10px;
-	}
-
-.dogodek-gallery-button5 {
-	float: left;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-bottom: 10px;
-	padding-top: 10px;
-	}
-
-.dogodek-gallery img {
-	border: 1px solid #000;
-	}
-
-.dogodek-gallery-more {
-	font-size: 12px;
-	font-weight: normal;
-	padding-top: 0px;
-	padding-bottom: 5px;
-	padding-right: 10px;
-	float: right;
-	}
 
 .dogodek-video {
 	float: left;

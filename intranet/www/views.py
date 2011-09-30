@@ -2,6 +2,7 @@
 
 import datetime
 import time
+import logging
 from calendar import Calendar
 
 from django.conf import settings
@@ -16,12 +17,16 @@ from django.views.generic.list_detail import object_list
 from django.utils.translation import ugettext as _
 from feedjack.models import Post
 from dateutil.relativedelta import relativedelta
+from django_mailman.models import List
 
 from intranet.org.models import to_utc, Event, Email
-from intranet.www.models import Ticker, News
+from intranet.www.models import News
 from intranet.www.forms import EmailForm, EventContactForm
 from pipa.video.models import Video
 from pipa.video.utils import is_streaming
+
+
+logger = logging.getLogger(__name__)
 
 
 def anti_spam(request):
@@ -36,10 +41,10 @@ def anti_spam(request):
 def index(request):
     return render_to_response('www/index.html', {
         'events': Event.objects.filter(public=True, start_date__gte=datetime.datetime.today()).order_by('start_date'),
-        'ticker': Ticker.objects.filter(is_active=True),
         'news': News.objects.order_by('-date')[0:4],
         'planet': Post.objects.order_by('-date_created')[:4],
         'videos': Video.objects.order_by('-pub_date')[:4],
+        'emailform': EmailForm,
     }, context_instance=RequestContext(request))
 
 
@@ -81,6 +86,23 @@ def ajax_add_mail(request, event, email):
         message = _(u'Please enter a valid email address')
 
     return HttpResponse(message)
+
+
+def ajax_subscribe_mailinglist(request):
+    # TODO: refactor to form validation
+    # TODO: django-mailman does not handle situations if member already exists
+    # TODO: invite instead of subscribe (patch for django-mailman)
+    form = EmailForm(request.POST or None)
+    if form.is_valid():
+        try:
+            mailman_list = List.objects.get(id=1)
+            mailman_list.subscribe(form.cleaned_data['email'])
+            return HttpResponse(_(u'Added!'))
+        except Exception, e:
+            logger.exception('Mailing list subscription problem')
+            return HttpResponse(e.message)
+    else:
+        return HttpResponse(_(u'Wrong email!'))
 
 
 def event(request, slug, id):

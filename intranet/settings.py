@@ -110,6 +110,8 @@ INSTALLED_APPS = (
     'django_extensions',
     'sentry',
     'sentry.client',
+    'django_mailman',
+    'haystack',  # http://charlesleifer.com/blog/solr-ubuntu-revisited/
 )
 
 LOGGING = {
@@ -191,6 +193,11 @@ TWITTER_SYNC = {
     'keywords': ['kiberpipa'],
     'users': ['Kiberpipa', 'FilmSteka', 'cyberpipe', 'MoMoSlo', 'wwwh'],
 }
+
+# haystack
+HAYSTACK_SEARCH_ENGINE = 'solr'
+HAYSTACK_SITECONF = 'intranet.haystacksearch'
+HAYSTACK_SOLR_URL = 'http://localhost:8983/solr/intranet/'
 
 # south
 SOUTH_TESTS_MIGRATE = False

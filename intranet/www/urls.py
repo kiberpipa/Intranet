@@ -31,6 +31,7 @@ urlpatterns = patterns('',
     # ajax
     url(r'^ajax/index/events/$', 'intranet.www.views.ajax_index_events'),
     url(r'^ajax/add_mail/(?P<event>[0-9]+)/(?P<email>[^/]*)$', 'intranet.www.views.ajax_add_mail'),
+    url(r'^ajax/subscribe_mailinglist/', 'intranet.www.views.ajax_subscribe_mailinglist', name="ajax_subscribe_mailinglist"),
 
     # backwards compatibility
     url(r'^press-en/', 'django.views.generic.simple.redirect_to', {'url': '/en/press/'},),

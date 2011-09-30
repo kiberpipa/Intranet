@@ -2,7 +2,6 @@
 {% load www i18n %}
 
 {% block extrahead %}
-<link href='{{ settings.STATIC_URL }}www/css/scroll.css' type='text/css' rel='stylesheet' />
 <script type='text/javascript' src='{{ settings.STATIC_URL }}www/js/jquery.scrollable.js'></script>
 <script type='text/javascript' src='{{ settings.STATIC_URL }}www/js/jquery.serialScroll-1.2.1.js'></script>
 <script type='text/javascript' src='{{ settings.STATIC_URL }}www/js/jquery.scrollTo-1.4.0.js'></script>
@@ -10,150 +9,135 @@
 <!-- TODO create init.js -->
 
 jQuery.easing.easeOutQuart = function (x, t, b, c, d) {
-	return -c * ((t=t/d-1)*t*t*t - 1) + b;
+     return -c * ((t=t/d-1)*t*t*t - 1) + b;
 };
 
 $(document).ready(function() {
-	$('.present').load('/ajax/index/events/', function(responseText, textStatus, XMLHttpRequest) {
-		$(".present").scrollable({horizontal:true, speed:500, size:3 });
-		$(".present").scrollable("seekTo", parseInt($('#scroll-position').text()), 1)
-		$(".future").click(function(){
-			$(".present").scrollable("next");
-		});
-		$(".past").click(function(){
-			$(".present").scrollable("prev");
-		});
-		$(".past3").click(function(){
-			$(".present").scrollable("prevPage");
-		});
-		$(".future3").click(function(){
-			$(".present").scrollable("nextPage");
-		});
+     $('.present').load('/ajax/index/events/', function(responseText, textStatus, XMLHttpRequest) {
+          $(".present").scrollable({horizontal:true, speed:500, size:3 });
+          $(".present").scrollable("seekTo", parseInt($('#scroll-position').text()), 1)
+          $(".future").click(function(){
+               $(".present").scrollable("next");
+          });
+          $(".past").click(function(){
+               $(".present").scrollable("prev");
+          });
+          $(".past3").click(function(){
+               $(".present").scrollable("prevPage");
+          });
+          $(".future3").click(function(){
+               $(".present").scrollable("nextPage");
+          });
 
-		$('#screen').serialScroll({
-			target:'#sections',
-			items:'li', // Selector to the items ( relative to the matched elements, '#sections' in this case )
-			prev:'img.prev',// Selector to the 'prev' button (absolute!, meaning it's relative to the document)
-			next:'img.next',// Selector to the 'next' button (absolute too)
-			navigation:'#navigation li a',
-			duration:2000,// Length of the animation (if you scroll 2 axes and use queue, then each axis take half this time)
-			force:true, // Force a scroll to the element specified by 'start' (some browsers don't reset on refreshes)
-			interval:10000, // It's the number of milliseconds to automatically go to the next
+          $('#screen').serialScroll({
+               target:'#sections',
+               items:'li', // Selector to the items ( relative to the matched elements, '#sections' in this case )
+               prev:'img.prev',// Selector to the 'prev' button (absolute!, meaning it's relative to the document)
+               next:'img.next',// Selector to the 'next' button (absolute too)
+               navigation:'#navigation li a',
+               duration:2000,// Length of the animation (if you scroll 2 axes and use queue, then each axis take half this time)
+               force:true, // Force a scroll to the element specified by 'start' (some browsers don't reset on refreshes)
+               interval:10000, // It's the number of milliseconds to automatically go to the next
 
-			onBefore:function( e, elem, $pane, $items, pos ){
-				e.preventDefault();
-				if( this.blur )
-					this.blur();
-			}
-		});
-	});
-	
-	
-	$('#sections').hover(function(){
-		$('#sections').trigger('stop');
-		},function(){
-		$('#sections').trigger('start');
-	});
-	{% for i in ticker %}
-		$('#stop{{ forloop.counter }}').click(function(){
-			$('#sections').trigger('stop');
-		});
-		$('#stop{{ forloop.counter }}').mouseout(function(){
-			$('#sections').trigger('start');
-		});
-	{% endfor %}
-	});
+               onBefore: function (e, elem, $pane, $items, pos) {
+                    e.preventDefault();
+                    if (this.blur)
+                         this.blur();
+               }
+          });
+     });
+    $('#subscribe_mailinglist').keypress(function (e) {
+        var self = $(this);
+        if (e.which === 13) {
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                data: self.serialize(),
+                url: self.attr('action'),
+                success: function (text) {
+                    self.find('i').text(text);
+                },
+                error: function (text) {
+                    self.find('i').text("Nekaj je slo narobe, poskusite znova kasneje!");
+                }
+            });
+        }
+     });
+ });
 </script>
 {% endblock %}
+
 {% block content %}
-	<div class="rss-index"><a href="/rss/" ><img src="{{ settings.STATIC_URL }}www/images/rss20x20.png" alt="RSS Feeds" /></a></div>
+     <div class="rss-index"><a href="/rss/" ><img src="{{ settings.STATIC_URL }}www/images/rss20x20.png" alt="RSS Feeds" /></a></div>
     {% if events %}
-	<div id="upcoming">
-		<div class="next3-left">
-			<div class="past3"><a href="#" onclick="return false;"><img src="{{ settings.STATIC_URL }}www/images/puscica-3levo.gif" alt="tri dogodke nazaj" /></a></div>
-			<div class="past"><a href="#" onclick="return false;"><img src="{{ settings.STATIC_URL }}www/images/puscica-levo.gif" alt="en dogodek nazaj" /></a></div>
-		</div>
+     <div id="upcoming">
+        <div class="next3-left">
+           <div class="past3"><a href="#" onclick="return false;"><img src="{{ settings.STATIC_URL }}www/images/puscica-3levo.gif" alt="tri dogodke nazaj" /></a></div>
+           <div class="past"><a href="#" onclick="return false;"><img src="{{ settings.STATIC_URL }}www/images/puscica-levo.gif" alt="en dogodek nazaj" /></a></div>
+        </div>
         <div class="present"></div>
         <div class="next3-right">
-          <div class="future"><a href="#" onclick="return false;"><img src="{{ settings.STATIC_URL }}www/images/puscica-desno.gif" alt="en dogodek naprej" /></a></div>
-          <div class="future3"><a href="#" onclick="return false;"><img src="{{ settings.STATIC_URL }}www/images/puscica-3desno.gif" alt="tri dogodke naprej" /></a></div>
+            <div class="future"><a href="#" onclick="return false;"><img src="{{ settings.STATIC_URL }}www/images/puscica-desno.gif" alt="en dogodek naprej" /></a></div>
+            <div class="future3"><a href="#" onclick="return false;"><img src="{{ settings.STATIC_URL }}www/images/puscica-3desno.gif" alt="tri dogodke naprej" /></a></div>
         </div>
     </div>
     {% else %}
-    <div id="noupcoming"><strong>{% trans "Currently no events are scheduled." %}</strong></div>
+    <div id="noupcoming">
+        <strong>{% trans "Currently no events are scheduled." %}</strong>
+    </div>
     {% endif %}
 
-	<div id="notifier">
-		<div class="button-chamber">
-            {% comment %}
-                TODO: gallery
-            {% endcomment %}
-			
-			<div class="video">
-                <p><a href="http://video.kiberpipa.org/">{% trans "Newest videos in video.kiberpipa.org" %}</a></p>
-			</div>
-			
-			{% for video in videos %}
-			<div class="video-button">
-				<a href="{{ video.play_url }}"><img width="67" src="{{ video.image_url }}" alt="slika" /></a>
-			</div>
-			{% endfor %}
-		</div>
-        <div id="screen" class="notifier-chamber">
-            <div id="sections">
-                <ul>
-                    {% for i in ticker %}
-                        <li>
-                            <h2>{{ i.name }}</h2>
-                            <p>{{ i.note|safe }}</p>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
+    <div id="notifier">
+       <div class="button-chamber">
+           <h4><a href="http://video.kiberpipa.org/">{% trans "Newest videos in video.kiberpipa.org" %}</a></h4>
+
+           {% for video in videos %}
+               <div class="video-button">
+                   <a href="{{ video.play_url }}"><img width="67" src="{{ video.image_url }}" alt="slika" /></a>
+               </div>
+           {% endfor %}
+       </div>
+       <div class="button-chamber">
+           <h4>{% trans "Subscribe to Cyberpipe mailing list" %}</h4>
+           <span>{% trans "Would you like to subscribe to information about weekly events?" %}</span>
+           <form id="subscribe_mailinglist" method="post" action="{% url ajax_subscribe_mailinglist %}">
+               {{ emailform.as_table }}
+               <i class="response"></i>
+           </form>
+       </div>
     </div>
 
-	<div id="blog-cp">
-		<div class="blog-cp-title">
-		<a href="/{{ LANGUAGE_CODE }}/news/">{% trans "Writings from the world with no windows" %}</a>
-		</div>
-		{% for i in news %}
-			<div class="blog-cp-news-title">
-			<a href="{{ i.get_absolute_url }}">{{ i.title }}</a>
-			</div>
-			<div class="blog-cp-publish">
-			{% trans "Published by" %} {{ i.author }} {% trans "on" %} {{ i.date }}
-			</div>
-			<div class="blog-cp-content">
-			{{ i.text|santize|truncatewords:"60" }}
-			</div>
-{% comment %}
-			<div class="blog-cp-more">
-			more &gt;&gt;
-			</div>
-{% endcomment %}
-		{% endfor %}
-	</div>
-	
-	<div id="planet">
-		<div class="planet-title">
-		{% trans "Reflections from /dev/random" %}
-		</div>
-		{% for post in planet %}
-			<div class="planet-news-title">
-                <a href="{{ post.link }}">{{ post.title }}</a>
-			</div>
-			<div class="planet-publish">
-                {% trans "Published by" %} {{ post.author }} {% trans "on" %} {{ post.date_modified }}
-			</div>
-			<div class="planet-content">
-                {{ post.content|santize|safe|truncatewords:"60" }}
-			</div>
-{% comment %}
-			<div class="planet-more">
-			more &gt;&gt;
-			</div>
-{% endcomment %}
-		{% endfor %}
-	</div>
+    <div id="blog-cp">
+         <div class="blog-cp-title">
+         <a href="/{{ LANGUAGE_CODE }}/news/">{% trans "Writings from the world with no windows" %}</a>
+         </div>
+         {% for i in news %}
+              <div class="blog-cp-news-title">
+              <a href="{{ i.get_absolute_url }}">{{ i.title }}</a>
+              </div>
+              <div class="blog-cp-publish">
+              {% trans "Published by" %} {{ i.author }} {% trans "on" %} {{ i.date }}
+              </div>
+              <div class="blog-cp-content">
+              {{ i.text|santize|truncatewords:"60" }}
+              </div>
+         {% endfor %}
+    </div>
+
+    <div id="planet">
+         <div class="planet-title">
+         {% trans "Reflections from /dev/random" %}
+         </div>
+         {% for post in planet %}
+              <div class="planet-news-title">
+               <a href="{{ post.link }}">{{ post.title }}</a>
+              </div>
+              <div class="planet-publish">
+               {% trans "Published by" %} {{ post.author }} {% trans "on" %} {{ post.date_modified }}
+              </div>
+              <div class="planet-content">
+               {{ post.content|santize|safe|truncatewords:"60" }}
+              </div>
+         {% endfor %}
+    </div>
 {% endblock %}
