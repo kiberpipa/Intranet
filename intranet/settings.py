@@ -171,7 +171,7 @@ FIXTURE_DIRS = (
 SESSION_COOKIE_AGE = 2209600
 
 AUTH_PROFILE_MODULE = 'addressbook.PipaProfile'
-LOGIN_REDIRECT_URL = '/intranet/accounts/profile/'
+LOGIN_REDIRECT_URL = '/intranet/'
 LOGIN_URL = '/intranet/accounts/login/'
 LOGOUT_URL = '/intranet/accounts/logout/'
 AUTHENTICATION_BACKENDS = (
