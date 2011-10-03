@@ -170,8 +170,6 @@ urlpatterns = patterns('',
     (r'^mercenaries/', include('pipa.mercenaries.urls')),
     url(r'^statistika/(?P<year>\d{4})?', 'intranet.org.views.year_statistics', name='statistics_by_year'),
 
-    # ugly hack for wiki redirect to work
-    (r'^wiki/(?P<wiki_url>.+)$', 'django.views.generic.simple.redirect_to', {'url': '%(wiki_url)s', 'permanent': False}),
     (r'^wiki/$', 'django.views.generic.simple.redirect_to', {'url': 'https://wiki.kiberpipa.org/'}),
 
     (r'^autocomplete/person/$', 'intranet.org.views.person_autocomplete'),

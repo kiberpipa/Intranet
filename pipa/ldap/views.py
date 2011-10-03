@@ -1,3 +1,5 @@
+import urlparse
+
 import ldap
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -52,5 +54,11 @@ def login(request, *args, **kwargs):
     redirect_to = request.REQUEST.get(REDIRECT_FIELD_NAME, '')
     if request.method == "GET" and request.user.is_authenticated() and redirect_to:
         return HttpResponseRedirect(redirect_to)
+
+    # hack: django does not allow redirects out of its domain
+    if redirect_to:
+        def get_host():
+            return urlparse.urlparse(redirect_to)[1]
+        request.get_host = get_host
 
     return auth_views.login(request, *args, **kwargs)
