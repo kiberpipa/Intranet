@@ -58,7 +58,6 @@ TEMPLATE_LOADERS = (
 
 MIDDLEWARE_CLASSES = (
     'sentry.client.middleware.Sentry404CatchMiddleware',  # must be first, to catch all good responses
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
     'localeurl.middleware.LocaleURLMiddleware',
     'honeypot.middleware.HoneypotMiddleware',  # as soon as possible
@@ -111,6 +110,7 @@ INSTALLED_APPS = (
     'sentry',
     'sentry.client',
     'django_mailman',
+    'haystack',  # http://charlesleifer.com/blog/solr-ubuntu-revisited/
 )
 
 LOGGING = {
