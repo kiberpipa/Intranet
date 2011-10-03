@@ -1,13 +1,15 @@
-
 import ldap
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import views as auth_views
+from django.contrib.auth import views as auth_views, REDIRECT_FIELD_NAME
 from django.conf import settings
+from django.http import HttpResponseRedirect
 
 from pipa.ldap.forms import LDAPPasswordChangeForm
 
+
+@login_required
 def password_change(request):
     msg = ''
     pw_form = LDAPPasswordChangeForm()
@@ -38,10 +40,17 @@ def password_change(request):
         }
     return render_to_response('ldap/password_change.html', RequestContext(request, context))
 
+
 def login(request, *args, **kwargs):
     if request.method == 'POST':
         if request.POST.get('remember_me', None) == 'on':
             request.session.set_expiry(settings.SESSION_COOKIE_AGE)
         else:
             request.session.set_expiry(0)
+
+    # if we have next parameter, do redirect
+    redirect_to = request.REQUEST.get(REDIRECT_FIELD_NAME, '')
+    if request.method == "GET" and request.user.is_authenticated() and redirect_to:
+        return HttpResponseRedirect(redirect_to)
+
     return auth_views.login(request, *args, **kwargs)
