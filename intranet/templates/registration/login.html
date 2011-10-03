@@ -1,28 +1,32 @@
 {% extends "org/base.html" %}
 
 {% block extrahead %}
-<script>
-function SetInitialFocus(){document.LoginForm.username.focus();}
-</script>
+    <script>
+    $(function () {
+        $('#id_username').focus();
+    });
+    </script>
 {% endblock %}
-{% block extrabody %}
-<body onLoad="SetInitialFocus()">
-{% endblock %}
+
 {% block content %}
-{% if user.is_authenticated %}
-    <p>V sistem ste ze prijavljeni kot: <tt>{{ user.username }}</tt>. Če se želite prijaviti kot kdo drug uporabnik, 
-       <a href="{% url account_logout %}" title="Odjavite se in potem ponovno prijavite">se najprej odjavite</a>.
-    </p>
-{% else %}
-    <div id="loginbox">
-        <table>
+    {% if user.is_authenticated %}
+        <p>V sistem ste ze prijavljeni kot: <tt>{{ user.username }}</tt>. Če se želite prijaviti kot kdo drug uporabnik, 
+           <a href="{% url account_logout %}" title="Odjavite se in potem ponovno prijavite">se najprej odjavite</a>.
+        </p>
+    {% else %}
+        <div id="loginbox">
             <form method="POST" action="" name="LoginForm">
-            {% csrf_token %}
-            {{ form }}
-        </table>
-        <input class="right" name="prijava" value="Prijava" type="submit">
-        <input type="hidden" id="next" name="next" value="{{next}}" />
-        </form>
-    </div>
-{% endif %}
+                <table>
+                    {{ form.as_table }}
+                    <tr>
+                        <td>
+                            {% csrf_token %}
+                            <input class="right" name="prijava" value="Prijava" type="submit" />
+                            <input type="hidden" id="next" name="next" value="{{next}}" />
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    {% endif %}
 {% endblock %}
