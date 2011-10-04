@@ -6,7 +6,11 @@
     {% for result in page.object_list %}
     <div class="searchresult">
         <div class="image">
-            <img src="{{ result.object.event_image.image.url }}" />
+            {% if result.object.event_image %}
+                <img src="{{ result.object.event_image.image.url }}" />
+            {% else %}
+                <img src="{{ settings.STATIC_URL }}www/images/img-upcoming.gif" />
+            {% endif %}
             {% if result.object.flickr_set_id %}
                 <a href="{{ result.object.get_public_url }}#gallery" title="{% trans "Pictures of event" %}" >
                     {% trans "gallery" %}
