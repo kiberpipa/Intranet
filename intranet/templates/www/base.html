@@ -13,11 +13,11 @@
     <link rel="alternate" type="application/rss+xml" title="Kiberpipa - Planet" href="/feeds/planet/" />
     <link rel="stylesheet" href="{{ settings.STATIC_URL }}www/css/style.css" type="text/css" />
     <link rel="shortcut icon" href="{{ settings.STATIC_URL }}www/images/favicon.ico" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="linux,open source,kiberpipa" />
     <title>{% block title %}{% trans "All our code are belong to you" %}{% endblock %} :: Kiberpipa.org</title>
     <script type='text/javascript' src='{{ settings.STATIC_URL }}www/js/jquery-1.2.6.min.js'></script>
     <script type='text/javascript' src="{{ settings.STATIC_URL }}www/js/jQueryRotate.2.1.js"></script>
+    <script type='text/javascript' src="{{ settings.STATIC_URL }}www/js/global.js"></script>
     {% block extrahead %}{% endblock %}
 </head>
 
@@ -45,12 +45,19 @@
                 {% endif %}
             </div>
         </div>
+        <div id="search">
+	   <form method="get" action="{% url event_search %}" id="searchform">
+               <input name="q" id="q" type="search" placeholder="{% trans 'Search events ...' %}" size="20" />
+           </form>
+        </div>
 
-        {% block content %}{% endblock %}
+        <div id="content">
+            {% block content %}{% endblock %}
+        </div>
 
         <div id="footer">
-        {% block extrafooter %}	
-        {%  endblock %}
+         {% block extrafooter %}
+         {%  endblock %}
             <div class="footer-cp-logo">
                 <img src="http://static.kiberpipa.org/i3-media/www/images/logo.png" border="0" alt="slika" />
             </div>
@@ -68,10 +75,10 @@
                 +386 1 438 03 05<br />
                 <a href="mailto:info@kiberpipa.org">info@kiberpipa.org</a><br />
                 <a href="http://twitter.com/kiberpipa/">twitter</a><br />
-								<a href="http://bit.ly/nTo3">facebook</a><br />
+                <a href="http://bit.ly/nTo3">facebook</a><br />
                 <a href="irc://irc.sioff.net/#kiberpipa">IRC</a>
             </div>
-            
+ 
             <div class="footer-support">
                 <a href="http://www.k6-4.org/"><img src="{{ settings.STATIC_URL }}www/images/zavod_pasica.png" alt="Zavod K6/4" /></a>
                 <a href="http://www.m3c.si/dat/M3C/"><img src="{{ settings.STATIC_URL }}www/images/logo_m3c.png" alt="M3C - Mreža Multimedijskih Centrov Slovenije" /></a>
@@ -80,12 +87,5 @@
             </div>
         </div>
     </div>
-
-    <script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
-    </script>
-    <script type="text/javascript">
-      _uacct = "UA-306569-3"; urchinTracker();
-    </script>
-
 </body>
 </html>

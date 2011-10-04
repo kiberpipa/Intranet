@@ -44,16 +44,24 @@ a img {
 	color: #000;
 }
 
-.searchbox {
+#searchform {
 	float: left;
-	width: 70px;
-	padding-top: 15px;
-	padding-left: 15px;
-	background: #fff;
+	margin: 5px 0;
 }
-
-.searchbox-form {
-	margin: 5px 10px 5px 10px;
+.searchresult {
+	margin-bottom: 10px;
+	overflow: hidden;
+}
+.searchresult .image {
+ 	width: 250px;
+	float: left;
+}
+.searchresult .content {
+ 	margin-left: 270px;
+}
+#searchpagination {
+	margin: 10px 0;
+	text-align: center;
 }
 
 .language {
@@ -400,6 +408,10 @@ a img {
 	}
 
 .kiberpipa-content p {margin-top: 0;}
+
+#content {
+	clear: both;	
+}
 
 #projekti {
 	float: left;

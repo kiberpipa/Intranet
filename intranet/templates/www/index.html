@@ -68,7 +68,11 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block content %}
-     <div class="rss-index"><a href="/rss/" ><img src="{{ settings.STATIC_URL }}www/images/rss20x20.png" alt="RSS Feeds" /></a></div>
+    <div class="rss-index">
+        <a href="/rss/" >
+            <img src="{{ settings.STATIC_URL }}www/images/rss20x20.png" alt="RSS Feeds" />
+        </a>
+    </div>
     {% if events %}
      <div id="upcoming">
         <div class="next3-left">
@@ -109,17 +113,17 @@ $(document).ready(function() {
 
     <div id="blog-cp">
          <div class="blog-cp-title">
-         <a href="/{{ LANGUAGE_CODE }}/news/">{% trans "Writings from the world with no windows" %}</a>
+             <a href="/{{ LANGUAGE_CODE }}/news/">{% trans "Writings from the world with no windows" %}</a>
          </div>
          {% for i in news %}
               <div class="blog-cp-news-title">
-              <a href="{{ i.get_absolute_url }}">{{ i.title }}</a>
+                  <a href="{{ i.get_absolute_url }}">{{ i.title }}</a>
               </div>
               <div class="blog-cp-publish">
-              {% trans "Published by" %} {{ i.author }} {% trans "on" %} {{ i.date }}
+                  {% trans "Published by" %} {{ i.author }} {% trans "on" %} {{ i.date }}
               </div>
               <div class="blog-cp-content">
-              {{ i.text|santize|truncatewords:"60" }}
+                  {{ i.text|santize|truncatewords:"60" }}
               </div>
          {% endfor %}
     </div>

@@ -106,7 +106,7 @@ def ajax_subscribe_mailinglist(request):
 
 
 def event(request, slug, id):
-    event = get_object_or_404(Event, pk=id)
+    event = get_object_or_404(Event, pk=id, public=True)
     if not request.path.endswith(event.get_public_url()):
         return HttpResponseRedirect(event.get_public_url())
     return render_to_response('www/event.html', {

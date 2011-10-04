@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import *
+from haystack.query import SearchQuerySet
 
-from intranet.org.models import Place
+from intranet.org.models import Place, Event
 
 urlpatterns = patterns('',
     url(r'^$', 'intranet.www.views.index'),
@@ -8,6 +9,10 @@ urlpatterns = patterns('',
     # deprecated
     url(r'^event/\d{4}-[a-z]{3}-[0-9]{1,2}/(?P<id>\d+)/(?P<slug>[-\w]+)/$', 'intranet.www.views.event'),
     url(r'^event/(?P<slug>[-\w]+)-(?P<id>\d+)/$', 'intranet.www.views.event', name="event_detail"),
+    url(r'^event/search/', 'haystack.views.basic_search', dict(
+        template='search/search_event.html',
+        searchqueryset=SearchQuerySet().models(Event).filter(is_public=True),
+        ), name="event_search"),
     url(r'^news/$', 'intranet.www.views.news_list'),
     url(r'^news/comments/post/$', 'intranet.www.views.anti_spam'),
     url(r'^news/(?P<id>\d+)/(?P<slug>[-\w]+)/$', 'intranet.www.views.news_detail'),

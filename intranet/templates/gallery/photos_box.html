@@ -26,7 +26,7 @@ hs.addSlideshow({
 </script>
 <!-- /highslide -->
 
-<h1>{% trans "Gallery" %}</h1>
+<h1><a name="gallery">{% trans "Gallery" %}</a></h1>
 <table>
  {% for image in images %}
 	{% if forloop.counter0|divisibleby:"4" %}

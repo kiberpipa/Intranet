@@ -1,4 +1,6 @@
 {% extends "www/base-second.html" %}
+{% load markup i18n photos_box more_like_this %}
+
 {% block extrahead %}
 <script language="Javascript">
     $(document).ready(function() { 
@@ -9,15 +11,14 @@
     })
 </script>
 {% endblock %}
+
 {% block title %}{{ event }}{% endblock %}
-{% load markup i18n %}
-{% load i18n %}
-{% load photos_box %}
 
 {% block heading %}
     <h1>{{ event }}</h1>
 {% endblock %}
-{% block content%}
+
+{% block content %}
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/effects.js"></script>
     <div id="dogodek">
         <div class="dogodek-news-title">
@@ -46,7 +47,7 @@
                         </div>
                     {% endif %}
                     {% if event.video.all %}
-                        <h1>{% trans "Videos" %}</h1>
+                        <h1><a name="video">{% trans "Videos" %}</a></h1>
                         {% for video in event.video.all %}
                             <div class="dogodek-video-button">
                                 <a href="{{ video.play_url }}"><img  src="{{ video.image_url }}" /></a>
@@ -58,6 +59,17 @@
                 <div class="dogodek-social">
                     <a href="{{ event.google_calendar_url }}"><img src="http://www.google.com/calendar/images/ext/gc_button6.gif" alt="Dodaj v Google Koledar" title="Dodaj v Google Koledar" /></a>
                 </div>
+                {% more_like_this event as related_content limit 5  %}
+                {% for event in related_content %}
+                    {% if forloop.first %}
+                        <h3>{% trans "Similar events" %}</h3>
+                        <ul>
+                    {% endif %}
+                    <li><a href="{{ event.object.get_public_url }}">{{ event.object.title }}</a></li>
+                    {% if forloop.last %}
+                        </ul>
+                    {% endif %}
+                {% endfor %}
             </div>
         </div>
     </div>

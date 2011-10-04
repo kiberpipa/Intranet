@@ -110,6 +110,7 @@ INSTALLED_APPS = (
     'sentry',
     'sentry.client',
     'django_mailman',
+    'haystack',  # http://charlesleifer.com/blog/solr-ubuntu-revisited/
 )
 
 LOGGING = {

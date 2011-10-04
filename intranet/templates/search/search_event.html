@@ -1,0 +1,52 @@
+{% extends "www/base-second.html" %}
+{% load i18n %}
+
+{% block content %}
+<h2>{% trans "Search results:" %} {{ query }}</h2>
+    {% for result in page.object_list %}
+    <div class="searchresult">
+        <div class="image">
+            <!--<img src="{{ result.object.event_image.image.url }}" />-->
+            <img src="http://www.kiberpipa.org/smedia/events/2010/06/SU_logo____.jpg" />
+            {% if result.object.flickr_set_id %}
+                <a href="{{ result.object.get_public_url }}#gallery" title="{% trans "Pictures of event" %}" >
+                    {% trans "gallery" %}
+                </a>
+            {% endif %}
+            {% if result.object.get_video_urls %}
+                <a href="{{ result.object.get_public_url }}#video" title="{% trans "Videos of event" %}" >
+                    {% trans "videos" %}
+                </a>
+            {% endif %}
+        </div>
+        <div class="content">
+            <div><a href="{{ result.object.get_public_url }}">{{ result.object.title }}</a> (<i>{{ result.object.start_date }}</i>)</div>
+            {% for sodelovanje in result.object.sodelovanje_set.all %}
+                {% if forloop.first %}<strong>{% trans "Collaborators:" %}</strong>{% endif %}
+                <i>{{ sodelovanje.person }} ({{ sodelovanje.tip }})</i>{% if not forloop.last %},{% endif %}
+            {% endfor %}
+            <p>{{ result.object.announce|safe|linebreaks }}</p>
+        </div>
+    </div>
+    {% empty %}
+        <p>{% trans "No results found" %}.</p>
+    {% endfor %}
+
+    {% if page.has_previous or page.has_next %}
+    <div id="searchpagination">
+        <span>
+            {% if page.has_previous %}
+                <a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">
+            {% endif %}
+            &laquo; {% trans "Previous" %}
+            {% if page.has_previous %}</a>{% endif %}
+            |
+            {% if page.has_next %}
+                <a href="?q={{ query }}&amp;page={{ page.next_page_number }}">
+            {% endif %}
+            {% trans "Next" %} &raquo;
+            {% if page.has_next %}</a>{% endif %}
+        </span>
+    </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,4 @@
+{{ object.title }}
+{{ object.announce|safe|linebreaks }}
+{{ object.note|safe|linebreaks }}
+{# TODO: sodelovanja #}
