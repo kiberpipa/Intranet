@@ -7,14 +7,14 @@
     <div class="searchresult">
         <div class="image">
             {% if result.object.event_image %}
-                <img src="{{ result.object.event_image.image.url }}" />
+                <img src="{{ result.object.event_image.image.url }}" width="250"/>
             {% else %}
-                <img src="{{ settings.STATIC_URL }}www/images/img-upcoming.gif" />
+                <img src="{{ settings.MEDIA_URL }}events/2010/04/POT___.gif" />
             {% endif %}
             {% if result.object.flickr_set_id %}
                 <a href="{{ result.object.get_public_url }}#gallery" title="{% trans "Pictures of event" %}" >
                     {% trans "gallery" %}
-                </a>
+                </a>&nbsp;
             {% endif %}
             {% if result.object.get_video_urls %}
                 <a href="{{ result.object.get_public_url }}#video" title="{% trans "Videos of event" %}" >
