@@ -6,8 +6,7 @@
     {% for result in page.object_list %}
     <div class="searchresult">
         <div class="image">
-            <!--<img src="{{ result.object.event_image.image.url }}" />-->
-            <img src="http://www.kiberpipa.org/smedia/events/2010/06/SU_logo____.jpg" />
+            <img src="{{ result.object.event_image.image.url }}" />
             {% if result.object.flickr_set_id %}
                 <a href="{{ result.object.get_public_url }}#gallery" title="{% trans "Pictures of event" %}" >
                     {% trans "gallery" %}

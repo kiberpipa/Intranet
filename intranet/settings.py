@@ -196,7 +196,6 @@ TWITTER_SYNC = {
 # haystack
 HAYSTACK_SEARCH_ENGINE = 'solr'
 HAYSTACK_SITECONF = 'intranet.haystacksearch'
-HAYSTACK_SOLR_URL = 'http://localhost:8983/solr/intranet/'
 
 # south
 SOUTH_TESTS_MIGRATE = False
