@@ -26,6 +26,7 @@ from pipa.video.utils import prepare_video_zip
 from intranet.org.models import (Project, Category, Email,
     Event, Shopping, Person, Sodelovanje, TipSodelovanja, Task, Diary,
     Lend, Scratchpad)
+from intranet.org.models import EventManager
 from intranet.org.forms import (DiaryFilter, PersonForm, AddEventEmails,
     EventForm, SodelovanjeFilter, LendForm, ShoppingForm, DiaryForm,
     ImageResizeForm, IntranetImageForm)
@@ -1088,3 +1089,15 @@ def year_statistics(request, year=None):
 
     return render_to_response('org/statistics_year.html',
         locals(), context_instance=RequestContext(request))
+
+
+def event_template(self, year=None, week=None):
+    """docstring for event_template"""
+    if not week:
+        week = datetime.date.today().isocalendar()[1]
+    if not year:
+        year = datetime.date.today().year
+
+    q = Event.objects.get_week_events(int(year), int(week))
+    return render_to_response("org/event_week.html", {"q": q})
+    #return HttpResponse("test %s, %s" % (year, week))

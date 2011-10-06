@@ -19,6 +19,28 @@ from pipa.mercenaries.models import CostCenter, SalaryType
 def to_utc(dt):
     return time.gmtime(time.mktime(dt.timetuple()))
 
+#####
+# Managers
+#####
+
+
+class EventManager(models.Manager):
+    """docstring for EventManager"""
+
+    def get_week_events(self, year, week_num):
+        """docstring for get_week_events"""
+        d = datetime.datetime(year, 1, 1)
+        start_d = d + timedelta(days=-d.weekday(), weeks=week_num)
+        end_d = d + timedelta(days=-d.weekday(), weeks=week_num + 1)
+        return self.filter(start_date__gt=start_d, start_date__lt=end_d)
+
+    def get_date_events(self, start_d, end_d):
+        """docstring for get_date_events"""
+        return super(EventManager, self).filter(start_date__gt=start_d, start_date__lt=end_d)
+
+#####
+# Models
+#####
 
 class Tag(models.Model):
     name = models.CharField(max_length=200, primary_key='True')
@@ -193,6 +215,9 @@ class Event(models.Model):
     # for video spamming
     emails = models.ManyToManyField(Email, blank=True, null=True)
     event_image = models.ForeignKey(IntranetImage, verbose_name="Slika", null=True, blank=True)
+
+    # event manager
+    objects = EventManager()
 
     class Meta:
         verbose_name = 'Dogodek'
@@ -466,3 +491,6 @@ class Scratchpad(models.Model):
     class Meta:
         verbose_name = 'Kracarka'
         verbose_name_plural = 'Kracarka'
+
+
+

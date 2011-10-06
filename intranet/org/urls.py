@@ -123,6 +123,8 @@ urlpatterns = patterns('',
     url(r'^events/(?P<event_id>\d+)/emails/$', 'intranet.org.views.add_event_emails'),
     url(r'^events/(?P<event>\d+)/info.txt/$', 'intranet.org.views.info_txt'),
     url(r'^events/(?P<event>\d+)/sablona/$', 'intranet.org.views.sablona'),
+    (r'events/pr/(?P<year>\d{4})/(?P<week>\d{1,2})/$', 'intranet.org.views.event_template'),
+    (r'events/pr/$', 'intranet.org.views.event_template'),
 
     (r'^diarys/$', 'intranet.org.views.diarys'),
     (r'^diarys/(?P<id>\d+)?/?(?P<action>(add|edit))/$', 'intranet.org.views.diarys_form'),
