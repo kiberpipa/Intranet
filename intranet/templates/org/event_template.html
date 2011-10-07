@@ -3,7 +3,8 @@
 {% endblock %}
 
 {% for event in events %}
-  <h2> {{ event.title }} </h2>
+  <h2>{{ event.title }}</h2>
+  <i>{{ event.start_date }}</i>
 
   <p>
   {{ event.announce|safe }}

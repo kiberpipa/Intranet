@@ -32,7 +32,7 @@ class EventManager(models.Manager):
         d = datetime.datetime(year, 1, 1)
         start_d = d + timedelta(days=-d.weekday(), weeks=week_num)
         end_d = d + timedelta(days=-d.weekday(), weeks=week_num + 1)
-        return self.filter(start_date__gt=start_d, start_date__lt=end_d)
+        return self.filter(start_date__gt=start_d, start_date__lt=end_d).order_by('start_date')
 
     def get_date_events(self, start_d, end_d):
         """docstring for get_date_events"""

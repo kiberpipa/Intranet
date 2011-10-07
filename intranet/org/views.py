@@ -1095,5 +1095,5 @@ def event_template(self, year=None, week=None):
     week = week or datetime.date.today().isocalendar()[1]
     year = year or datetime.date.today().year
 
-    events = Event.objects.get_week_events(int(year), int(week))
+    events = Event.objects.get_week_events(int(year), int(week + 1))
     return render_to_response("org/event_template.html", {"events": events})
