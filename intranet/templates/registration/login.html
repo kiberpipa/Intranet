@@ -20,7 +20,6 @@
                     {{ form.as_table }}
                     <tr>
                         <td>
-                            {% csrf_token %}
                             <input class="right" name="prijava" value="Prijava" type="submit" />
                             <input type="hidden" id="next" name="next" value="{{next}}" />
                         </td>

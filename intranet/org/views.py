@@ -17,7 +17,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic import list_detail, date_based
-from django.views.decorators.csrf import csrf_exempt
 from django.utils import simplejson
 from django.db import models
 from PIL import Image
@@ -39,7 +38,6 @@ month_dict = {'jan': 1, 'feb': 2, 'mar': 3,
 reverse_month_dict = dict(((i[1], i[0]) for i in month_dict.iteritems()))
 
 
-@csrf_exempt
 @login_required
 def temporary_upload(request):
     """
@@ -78,7 +76,6 @@ def temporary_upload(request):
     return HttpResponse(ret)
 
 
-@csrf_exempt
 @login_required
 def image_resize(request):
     if not request.POST:
@@ -116,7 +113,6 @@ def image_resize(request):
     return HttpResponse(simplejson.dumps({'status': 'ok'}))
 
 
-@csrf_exempt
 @login_required
 def image_save(request):
     if request.method == 'POST':

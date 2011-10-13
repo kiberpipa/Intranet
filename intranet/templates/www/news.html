@@ -1,42 +1,47 @@
 {% extends "www/base-second.html" %}
-{% load i18n %}
+{% load i18n comments %}
 
 {% block content %}
-    <div id="blog-news">
-    	<div class="blog-news-title">
-        {% trans "Kiberpipas blog" %}
-        </div>
-        <div class="blog-news-en-title">
-        {{ news }}
-        </div>
-        <div class="blog-news-publish">
-        {% trans "Author" %} {{ news.author }} {% trans "date" %} {{ news.date }}
-        </div>
-        <div class="blog-news-content">
-        <div class="blog-news-content img">{% if news.image %}<img src="{{ news.image.url }}" />{% endif %}</div>
-                        {{ news.text|safe }}
-        </div>
+  <div id="blog-news">
+    <div class="blog-news-title">
+      {% trans "Kiberpipas blog" %}
+    </div>
+    <div class="blog-news-en-title">
+      {{ news }}
+    </div>
+    <div class="blog-news-publish">
+      {% trans "Author" %} {{ news.author }} {% trans "date" %} {{ news.date }}
+    </div>
+    <div class="blog-news-content">
+      <div class="blog-news-content img">
+	{% if news.image %}
+	  <img src="{{ news.image.url }}" />
+	{% endif %}
+      </div>
+      {{ news.text|safe }}
+    </div>
 
-{% load comments %}
 
-<div class="dogodek-komentarji">
-<p class="title-kom">{% trans "Comments:" %}</p>
+    <div class="dogodek-komentarji">
+      <p class="title-kom">{% trans "Comments:" %}</p>
 
-{% get_comment_list for news as comment_list %}
-{% for comment in comment_list %}
+      {% get_comment_list for news as comment_list %}
+      {% for comment in comment_list %}
 	<p class="komentar-avtor"><a href="{{ comment.url }}">{{ comment.name }}</a> {% trans "has wrote:" %}</p>
 	<p class="date-kom">{{ comment.submit_date|date:"j N Y, H:i" }}</p>
 	<p class="komentar-vsebina">{{ comment.comment }}</p>
-{% endfor %}
+      {% endfor %}
 
-
-
-{% get_comment_form for news as form %}
-<form action="{% comment_form_target %}" method="POST">
-  {{ form.as_ul }}
-  <li class="submit">
-    <input type="submit" name="submit" class="submit-post" value="{% trans "Send comment" %}">
-  </li>
-</form>
-</div>
+      {% get_comment_form for news as form %}
+      <form action="{% comment_form_target %}" method="POST">
+	<ul>
+	  {{ form.as_ul }}
+	  {% csrf_token %}
+	  <li class="submit">
+	    <input type="submit" name="submit" class="submit-post" value="{% trans "Send comment" %}">
+	  </li>
+	</ul>
+      </form>
+    </div>
+  </div>
 {% endblock %}

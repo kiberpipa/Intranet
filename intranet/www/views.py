@@ -14,6 +14,7 @@ from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
 from django.contrib.comments.views.comments import post_comment
 from django.views.generic.list_detail import object_list
+from django.views.decorators.csrf import csrf_protect
 from django.utils.translation import ugettext as _
 from feedjack.models import Post
 from dateutil.relativedelta import relativedelta
@@ -29,6 +30,7 @@ from pipa.video.utils import is_streaming
 logger = logging.getLogger(__name__)
 
 
+@csrf_protect
 def anti_spam(request):
     # make sure users have taken at least 5 seconds to read
     # this page before writing a comment (spam bots don't)
@@ -116,6 +118,7 @@ def event(request, slug, id):
         context_instance=RequestContext(request))
 
 
+@csrf_protect
 def news_detail(request, slug=None, id=None):
     if id is None:
         n = News.objects.get(slug=slug)
