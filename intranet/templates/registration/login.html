@@ -18,6 +18,7 @@
             <form method="POST" action="" name="LoginForm">
                 <table>
                     {{ form.as_table }}
+                    {% csrf_token %}
                     <tr>
                         <td>
                             <input class="right" name="prijava" value="Prijava" type="submit" />
