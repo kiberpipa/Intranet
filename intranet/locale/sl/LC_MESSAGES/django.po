@@ -112,12 +112,12 @@ msgstr "Statistika"
 
 #: templates/org/base.html:101
 msgid "Administration"
-msgstr "Kiberpipa administracija"
+msgstr "Administracija"
 
 #: templates/org/event_detail.html:18
 #: templates/org/technicians_index.html:50
 msgid "Event"
-msgstr "Dogodki"
+msgstr "Dogodek"
 
 #: templates/org/event_detail.html:23
 msgid "Editing"

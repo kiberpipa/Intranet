@@ -9,11 +9,11 @@
     <h1>Tedenski napovednik</h1>
 
     {% for event in events %}
-      <h2>{{ event.start_date }}: {{ event.title }}</h2>
+    <h2>{{ event.start_date|date:"l (j N)" }} ob {{ event.start_date|date:"G:i" }}: {{ event.title }}</h2>
 
-      <p>
+      <div style="font-size: 0.9em">
       {{ event.announce|safe|linebreaks }}
-      </p>
+      </div>
     {% endfor %}
   </body>
 </html>
