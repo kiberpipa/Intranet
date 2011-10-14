@@ -1086,10 +1086,10 @@ def year_statistics(request, year=None):
         locals(), context_instance=RequestContext(request))
 
 
-def event_template(self, year=None, week=None):
+def event_template(request, year=None, week=None):
     """docstring for event_template"""
     week = week or datetime.date.today().isocalendar()[1]
     year = year or datetime.date.today().year
 
     events = Event.objects.get_week_events(int(year), int(week + 1))
-    return render_to_response("org/event_template.html", {"events": events})
+    return render_to_response("org/event_template.html", {"events": events}, context_instance=RequestContext(request))

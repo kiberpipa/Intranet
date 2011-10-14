@@ -1,12 +1,19 @@
-{% block extrahead %}
-<!-- add print.css -->
-{% endblock %}
+<html>
+  <head>
+  </head>
+  <body>
+    <img src="{{ settings.STATIC_URL }}www/images/logo.png"></img><br />
+    <span><strong>Prijava na elektronske novice:</strong> http://www.kiberpipa.org/</span><br />
+    <span><strong>Lokacija:</strong> http://www.kiberpipa.org/sl/kjesmo/</span><br />
+    <span><strong>Kontakt:</strong> info@kiberpipa.org</span><br />
+    <h1>Tedenski napovednik</h1>
 
-{% for event in events %}
-  <h2>{{ event.title }}</h2>
-  <i>{{ event.start_date }}</i>
+    {% for event in events %}
+      <h2>{{ event.start_date }}: {{ event.title }}</h2>
 
-  <p>
-  {{ event.announce|safe }}
-  </p>
-{% endfor %}
+      <p>
+      {{ event.announce|safe|linebreaks }}
+      </p>
+    {% endfor %}
+  </body>
+</html>
