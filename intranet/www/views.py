@@ -99,7 +99,7 @@ def ajax_subscribe_mailinglist(request):
         try:
             mailman_list = List.objects.get(id=1)
             mailman_list.subscribe(form.cleaned_data['email'])
-            return HttpResponse(_(u'Added!'))
+            return HttpResponse(_(u'Sent approval email!'))
         except Exception, e:
             logger.exception('Mailing list subscription problem')
             return HttpResponse(e.message)

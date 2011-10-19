@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Intranet\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-04 21:50+0200\n"
+"POT-Creation-Date: 2011-10-19 13:19+0200\n"
 "PO-Revision-Date: 2011-10-04 21:51+0100\n"
 "Last-Translator: Domen Kožar <domen@dev.si>\n"
 "Language-Team: intranet <info@kiberpipa.org>\n"
@@ -24,15 +24,26 @@ msgid "Community"
 msgstr "Skupnost"
 
 #: templates/alumni/alumni.html:17
-msgid "Kiberpipa is possible because of all the volunteers that are interested in tech, computers, art and the mix of everything through everyday life. Through the years there were many people that helped around, some stayed for a short while, while others are still helping around. Here is a list of people that helped in anyway and build Kiberpipa to be The Best Cybercenter in Europe."
-msgstr "Kiberpipa je v prvi vrsti sestavljena iz prostovoljcev, ki jih zanima tehnika, računalniki, umetnost in preplet vsega skozi vsakdan. Skozi leta je mnogo ljudi prišlo in odšlo skozi vrata, nekateri so pomagali krajši čas, veliko pa jih še vedno vztraja. Tu je seznam ljudi, ki so kakorkoli sodelovali in pripomogli, da je Kiberpipa sedaj najboljši Kibercenter v Evropi."
+msgid ""
+"Kiberpipa is possible because of all the volunteers that are interested in "
+"tech, computers, art and the mix of everything through everyday life. "
+"Through the years there were many people that helped around, some stayed for "
+"a short while, while others are still helping around. Here is a list of "
+"people that helped in anyway and build Kiberpipa to be The Best Cybercenter "
+"in Europe."
+msgstr ""
+"Kiberpipa je v prvi vrsti sestavljena iz prostovoljcev, ki jih zanima "
+"tehnika, računalniki, umetnost in preplet vsega skozi vsakdan. Skozi leta je "
+"mnogo ljudi prišlo in odšlo skozi vrata, nekateri so pomagali krajši čas, "
+"veliko pa jih še vedno vztraja. Tu je seznam ljudi, ki so kakorkoli "
+"sodelovali in pripomogli, da je Kiberpipa sedaj najboljši Kibercenter v "
+"Evropi."
 
 #: templates/gallery/photos_box.html:29
 msgid "Gallery"
 msgstr "Galerija"
 
-#: templates/mail/events_report.html:3
-#: templates/org/base.html:92
+#: templates/mail/events_report.html:3 templates/org/base.html:92
 #: templates/org/event_edit.html:122
 msgid "Events"
 msgstr "Dogodki"
@@ -82,40 +93,42 @@ msgid "Diarys"
 msgstr "Dnevniki"
 
 #: templates/org/base.html:93
+msgid "PR"
+msgstr "PR"
+
+#: templates/org/base.html:94
 msgid "Address book"
 msgstr "Imenik"
 
-#: templates/org/base.html:95
+#: templates/org/base.html:96
 msgid "Technicians"
 msgstr "Tehniki"
 
-#: templates/org/base.html:96
-#: templates/org/event_detail.html:73
+#: templates/org/base.html:97 templates/org/event_detail.html:73
 msgid "Collaboration"
 msgstr "Sodelovanja"
 
-#: templates/org/base.html:97
+#: templates/org/base.html:98
 msgid "Lends"
 msgstr "Reverzi"
 
-#: templates/org/base.html:98
+#: templates/org/base.html:99
 msgid "Shopping"
 msgstr "Nakupi"
 
-#: templates/org/base.html:99
+#: templates/org/base.html:100
 msgid "Mercenaries"
 msgstr "Mercenaries"
 
-#: templates/org/base.html:100
+#: templates/org/base.html:101
 msgid "Statistics"
 msgstr "Statistika"
 
-#: templates/org/base.html:101
+#: templates/org/base.html:102
 msgid "Administration"
 msgstr "Administracija"
 
-#: templates/org/event_detail.html:18
-#: templates/org/technicians_index.html:50
+#: templates/org/event_detail.html:18 templates/org/technicians_index.html:50
 msgid "Event"
 msgstr "Dogodek"
 
@@ -187,8 +200,7 @@ msgstr "Dodaj dogodek v koledar"
 msgid "Please fix following errors"
 msgstr "Prosimo popravite sledeče napake"
 
-#: templates/org/event_edit.html:158
-#: templates/org/event_edit.html.py:159
+#: templates/org/event_edit.html:158 templates/org/event_edit.html.py:159
 msgid "Authors"
 msgstr "Avtorji"
 
@@ -333,38 +345,36 @@ msgstr "Aktualni dogodki"
 msgid "Search results:"
 msgstr "Rezultati iskanja:"
 
-#: templates/search/search_event.html:12
-#: templates/www/ajax_index_events.html:37
-#: templates/www/calendar.html:62
+#: templates/search/search_event.html:15
+#: templates/www/ajax_index_events.html:37 templates/www/calendar.html:62
 msgid "Pictures of event"
 msgstr "Slike dogodka"
 
-#: templates/search/search_event.html:13
+#: templates/search/search_event.html:16
 msgid "gallery"
 msgstr "galerija"
 
-#: templates/search/search_event.html:17
-#: templates/www/calendar.html:59
+#: templates/search/search_event.html:20 templates/www/calendar.html:59
 msgid "Videos of event"
 msgstr "Video posnetek dogodka"
 
-#: templates/search/search_event.html:18
+#: templates/search/search_event.html:21
 msgid "videos"
 msgstr "video posnetki"
 
-#: templates/search/search_event.html:25
+#: templates/search/search_event.html:28
 msgid "Collaborators:"
 msgstr "Sodelovanja:"
 
-#: templates/search/search_event.html:32
+#: templates/search/search_event.html:35
 msgid "No results found"
 msgstr "Ni zadetkov"
 
-#: templates/search/search_event.html:41
+#: templates/search/search_event.html:44
 msgid "Previous"
 msgstr "Nazaj"
 
-#: templates/search/search_event.html:47
+#: templates/search/search_event.html:50
 msgid "Next"
 msgstr "Naprej"
 
@@ -412,8 +422,7 @@ msgstr "Odpiralni čas"
 msgid "only during events"
 msgstr "samo ob času dogodkov"
 
-#: templates/www/calendar.html:6
-#: templates/www/calendar.html.py:9
+#: templates/www/calendar.html:6 templates/www/calendar.html.py:9
 msgid "Calendar of Events in Kiberpipa"
 msgstr "Kiberpipin koledar dogodkov"
 
@@ -458,8 +467,12 @@ msgid "Reserved."
 msgstr "Rezervirano."
 
 #: templates/www/event.html:40
-msgid "Please enter your contact data so we can inform you when the video will be available."
-msgstr "Vnesite vaše kontaktne podatke, če želite biti obveščeni, ko bo video posnetek na voljo"
+msgid ""
+"Please enter your contact data so we can inform you when the video will be "
+"available."
+msgstr ""
+"Vnesite vaše kontaktne podatke, če želite biti obveščeni, ko bo video "
+"posnetek na voljo"
 
 #: templates/www/event.html:44
 msgid "submit"
@@ -487,20 +500,19 @@ msgstr "Prijava na Kiberpipina obvestila"
 
 #: templates/www/index.html:106
 msgid "Would you like to subscribe to information about weekly events?"
-msgstr "Želite prejemati obvestila o Kiberpipinih dogodkih po elektronski pošti?"
+msgstr ""
+"Želite prejemati obvestila o Kiberpipinih dogodkih po elektronski pošti?"
 
 #: templates/www/index.html:116
 msgid "Writings from the world with no windows"
 msgstr "Zapisi iz sveta brez oken"
 
-#: templates/www/index.html:123
-#: templates/www/index.html.py:140
+#: templates/www/index.html:123 templates/www/index.html.py:140
 #: templates/www/news_list.html:14
 msgid "Published by"
 msgstr "Objavil"
 
-#: templates/www/index.html:123
-#: templates/www/index.html.py:140
+#: templates/www/index.html:123 templates/www/index.html.py:140
 msgid "on"
 msgstr "dne"
 
@@ -520,20 +532,19 @@ msgstr "Kiberpipin blog"
 msgid "Author"
 msgstr "Avtor"
 
-#: templates/www/news.html:13
-#: templates/www/news_list.html:14
+#: templates/www/news.html:13 templates/www/news_list.html:14
 msgid "date"
 msgstr "datum"
 
-#: templates/www/news.html:23
+#: templates/www/news.html:26
 msgid "Comments:"
 msgstr "Komentarji:"
 
-#: templates/www/news.html:27
+#: templates/www/news.html:30
 msgid "has wrote:"
 msgstr "je napisal:"
 
-#: templates/www/news.html:38
+#: templates/www/news.html:41
 msgid "Send comment"
 msgstr "Pošlji komentar"
 
@@ -581,29 +592,32 @@ msgstr "Opis dogodka"
 msgid "Contact person (email)"
 msgstr "Kontakt (e-pošta)"
 
-#: www/views.py:80
+#: www/views.py:82
 msgid "You have already subscribed to this event."
 msgstr "Na ta dogodek ste se že prijavili"
 
-#: www/views.py:84
+#: www/views.py:86
 msgid "We will send you a notification when the video will be available."
 msgstr "Ko bo video na voljo, vas bomo obvestili."
 
-#: www/views.py:86
+#: www/views.py:88
 msgid "Please enter a valid email address"
 msgstr "Prosimo vnesite veljaven naslov e-pošte."
 
-#: www/views.py:100
-msgid "Added!"
-msgstr "Dodano!"
+#: www/views.py:102
+msgid "Sent approval email!"
+msgstr "Poslan potrditveni email!"
 
-#: www/views.py:105
+#: www/views.py:107
 msgid "Wrong email!"
 msgstr "Nepravilen email!"
 
-#: www/views.py:232
-msgid "Your rental inquiry has been sent. We will answer it in a couple of work days"
-msgstr "Vaše povpraševanje za najem prostora je bilo poslano. Odgovorili bomo v naslednjih delovnih dneh."
+#: www/views.py:235
+msgid ""
+"Your rental inquiry has been sent. We will answer it in a couple of work days"
+msgstr ""
+"Vaše povpraševanje za najem prostora je bilo poslano. Odgovorili bomo v "
+"naslednjih delovnih dneh."
 
 #~ msgid "Please inform me when the video of this lecture is available"
 #~ msgstr "Želim biti obveščen, ko bo video na voljo"
