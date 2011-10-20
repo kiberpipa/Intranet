@@ -20,13 +20,13 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if args:
-            now = datetime.datetime.strptime(args[0], '%d.%m.%Y')
+            interested_datetime = datetime.datetime.strptime(args[0], '%d.%m.%Y')
         else:
             # yesterday
-            now = datetime.date.today() - datetime.timedelta(1)
-        subject = 'Kiberpipa, dnevno porocilo: %d. %d. %d' % (now.day, now.month, now.year)
+            interested_datetime = datetime.date.today() - datetime.timedelta(1)
+        subject = 'Kiberpipa, dnevno porocilo: %d. %d. %d' % (interested_datetime.day, interested_datetime.month, interested_datetime.year)
 
-        diaries = Diary.objects.filter(pub_date__year=now.year, pub_date__month=now.month, pub_date__day=now.day)
+        diaries = Diary.objects.filter(pub_date__year=interested_datetime.year, pub_date__month=interested_datetime.month, pub_date__day=interested_datetime.day)
         try:
             scratchpad = Scratchpad.objects.all()[0].content
         except Scratchpad.DoesNotExist:
@@ -35,8 +35,10 @@ class Command(BaseCommand):
         
         # warnings for events:
         # today and tomorrow
-        events = Event.objects.filter(start_date__gt=datetime.datetime(now.year, now.month, now.day+1, 0, 0))
-        events = events.filter(start_date__lt=datetime.datetime(now.year, now.month, now.day+3, 0, 0))
+        events = Event.objects.get_date_events(
+                                               datetime.datetime(interested_datetime.year, interested_datetime.month, interested_datetime.day+1, 0, 0),
+                                               datetime.datetime(interested_datetime.year, interested_datetime.month, interested_datetime.day+3, 0, 0)
+                                               )
         # no technician
         no_tech = events.filter(require_technician__exact=True).filter(technician__isnull=True)
         # no responsible (for future compatibility)
