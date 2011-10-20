@@ -110,7 +110,6 @@ feeds = {
 
 urlpatterns = patterns('',
     (r'^$', 'intranet.org.views.index'),
-    (r'^search/$', 'intranet.org.views.search'),
     (r'^stats/$', 'intranet.org.views.stats'),
     (r'^admin/', include(admin.site.urls)),
     url(r'^ldappass/', 'pipa.ldap.views.password_change', name='ldap_password_change'),

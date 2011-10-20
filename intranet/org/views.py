@@ -12,7 +12,6 @@ from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
-from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
@@ -22,7 +21,7 @@ from django.db import models
 from PIL import Image
 
 from pipa.video.utils import prepare_video_zip
-from intranet.org.models import (Project, Category, Email,
+from intranet.org.models import (Project, Email,
     Event, Shopping, Person, Sodelovanje, TipSodelovanja, Task, Diary,
     Lend, Scratchpad)
 from intranet.org.forms import (DiaryFilter, PersonForm, AddEventEmails,
@@ -170,32 +169,6 @@ def index(request):
                                 'unfinished_events': unfinished_events
                               },
                               context_instance=RequestContext(request))
-
-
-@login_required
-def search(request):
-    if request.POST:
-        query = request.POST.get('term', '')
-
-        kategorije = Category.objects.all()
-        users = User.objects.all()
-        events = Event.objects.all()
-
-        for term in query.split():
-            events = events.filter(announce__icontains=term)
-        for term in query.split():
-            users = users.filter(name__icontains=term)
-        for term in query.split():
-            kategorije = kategorije.filter(name__icontains=term)
-
-        objects = list(set(events))
-
-        return render_to_response('org/search_results.html', {
-                                    'object_list': objects,
-                                    'search_term': query,
-                                })
-    else:
-        return HttpResponseRedirect("/intranet/")
 
 
 @login_required
@@ -560,7 +533,7 @@ def event_edit(request, event_pk=None):
         authors = [a.split(' - ') for a in request.POST.getlist('authors') if ' - ' in a]
 
         if form.is_valid():
-            new_event = form.save()
+            new_event = form.save(commit=False)
             old_sodelovanja = set()
             if instance is not None:
                 old_sodelovanja = set(instance.sodelovanje_set.all())
@@ -581,8 +554,9 @@ def event_edit(request, event_pk=None):
                     s = Sodelovanje(event=new_event, tip=tip, person=person)
                     s.save()
                 sodelovanja.add(s)
-            new_event.slug = slugify(new_event.title)
             new_event.save()
+            # somehow this causes event.technician to become empty??
+            #form.save_m2m()
 
             # remove old objects, that were not POSTed
             for i in old_sodelovanja & sodelovanja ^ old_sodelovanja:
@@ -596,6 +570,7 @@ def event_edit(request, event_pk=None):
         'form': form,
         'tipi': TipSodelovanja.objects.all(),
         'sodelovanja': instance and instance.sodelovanje_set.all() or None,
+        # TODO: remove duplicates
         'prev_sodelovanja': Sodelovanje.objects.all(),
         'image': (instance and instance.event_image and instance.event_image.image) or None
         }
@@ -1044,6 +1019,7 @@ def year_statistics(request, year=None):
     num_events = q.count()
     num_public_events = q.filter(public=True).count()
     num_flickr_events = q.filter(flickr_set_id__isnull=False).count()
+    # TODO: this produces wrong results
     num_video_events = q.filter(video__isnull=False).count()
 
     # all visitors in chosen year
