@@ -106,7 +106,7 @@ $(document).ready(function() {
            <span>{% trans "Would you like to subscribe to information about weekly events?" %}</span>
            <form id="subscribe_mailinglist" method="post" action="{% url ajax_subscribe_mailinglist %}">
                {{ emailform.as_table }}
-               <i class="response"></i>
+               <p><i class="response"></i></p>
            </form>
        </div>
     </div>
