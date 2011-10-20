@@ -1,6 +1,24 @@
+{% if no_tech %}
+<h2 style="color:red">Dogodki potrebujejo tehnika:</h2>
+<ul>
+    {% for event in no_tech %}
+        <li> <a href="{% url event_edit event.id %}">{{ event }}</a> </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% if no_responsible %}
+<h2 style="color:red">Dogodki potrebujejo dežurnega:</h2>
+<ul>
+    {% for event in no_responsible %}
+        <li> <a href="{% url event_edit event.id %}">{{ event }}</a> </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
 <h2>Dnevniki</h2>
 {% for diary in diaries %}
-<strong>{{ diary.date }} - {{ diary.author }} - {{ diary.task }} - {{ diary.length }}</strong
+<strong>{{ diary.date }} - {{ diary.author }} - {{ diary.task }} - {{ diary.length }}</strong>
 <p>{{ diary.log_formal|linebreaksbr }}</p>
 {% if diary.log_informal %}
 <br />

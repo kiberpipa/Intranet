@@ -8,8 +8,10 @@ from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 from django.template import Context
 from django.template.loader import get_template
+from django.contrib.sites.models import Site
+from django.core.urlresolvers import set_script_prefix
 
-from intranet.org.models import Scratchpad, Diary, Lend
+from intranet.org.models import Scratchpad, Diary, Lend, Event
 
 
 class Command(BaseCommand):
@@ -30,14 +32,29 @@ class Command(BaseCommand):
         except Scratchpad.DoesNotExist:
             pass
         lends =  Lend.objects.filter(returned=False)
+        
+        # warnings for events:
+        # today and tomorrow
+        events = Event.objects.filter(start_date__gt=datetime.datetime(now.year, now.month, now.day+1, 0, 0))
+        events = events.filter(start_date__lt=datetime.datetime(now.year, now.month, now.day+3, 0, 0))
+        # no technician
+        no_tech = events.filter(require_technician__exact=True).filter(technician__isnull=True)
+        # no responsible (for future compatibility)
+        no_responsible = events.filter(responsible__isnull=True)
 
-        # don't send email if we have no diaries
-        if not diaries:
-            print "no diaries"
+        if diaries or no_tech or no_responsible:
+            pass
+        else:
+            print "nothing to send"
             return
+
+        # this causes url handling to force absolute urls
+        url = "https://%s/" % Site.objects.get_current().domain
+        set_script_prefix(url)
 
         text = get_template('mail/diary_report.txt').render(Context(locals()))
         html = get_template('mail/diary_report.html').render(Context(locals()))
+
         email = EmailMultiAlternatives(subject, text, settings.DEFAULT_FROM_EMAIL, ['pipa-org@list.sou-lj.si'])
         email.attach_alternative(html, 'text/html')
         email.send()
