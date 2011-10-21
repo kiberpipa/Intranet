@@ -1,9 +1,12 @@
 {% extends "org/base_2col.html" %}
+{% load box i18n %}
+
 {% block extrahead %}
-       <link rel="alternate" type="application/rss+xml" title="Events RSS Feed" href="/intranet/feeds/events/" />
+   <link rel="alternate" type="application/rss+xml" title="Events RSS Feed" href="/intranet/feeds/events/" />
 {% endblock %}
+
 {% block title %}Dogodki{% endblock %}
-{% load box %}
+
 {% block toplinks %}
     <div class="breadcrumbs">
     <ul id="breadcrumbs">
@@ -36,42 +39,42 @@
 {% endblock %}
 
 {% block content-main %}
-{% if event_last %}
-<div class="module">
-    <h2>Prejšnji teden</h2>
-    {% for log in event_last %}  
-        {% print_event log %}
-    {% endfor %}
-</div>
-<br/>
-{% endif %}
+  {% if event_last %}
+    <div class="module">
+        <h2>Prejšnji teden</h2>
+        {% for log in event_last %}  
+            {% print_event log %}
+        {% endfor %}
+    </div>
+    <br/>
+  {% endif %}
 
-{% if event_this %}
-<div class="module">
-    <h2>Ta teden</h2>
-    {% for log in event_this %}
-        {% print_event log %}
-    {% endfor %}
-</div>
-<br/>
-{% endif %}
+  {% if event_this %}
+    <div class="module">
+        <h2>Tekoči teden</h2>
+        {% for log in event_this %}
+            {% print_event log %}
+        {% endfor %}
+    </div>
+    <br/>
+  {% endif %}
 
-{% if event_next %}
-<div class="module">
-    <h2>Naslednji teden</h2>
-    {% for log in event_next %}  
-        {% print_event log %}
-    {% endfor %}
-</div>
-<br/>
-{% endif %}
+  {% if event_next %}
+    <div class="module">
+        <h2>Naslednji teden</h2>
+        {% for log in event_next %}  
+            {% print_event log %}
+        {% endfor %}
+    </div>
+    <br/>
+  {% endif %}
 
-{% if event_next2 %}
-<div class="module">
-    <h2>Čez 2 tedna</h2>
-    {% for log in event_next2 %}
-        {% print_event log %}
-    {% endfor %}
-</div>
-{% endif %}
+  {% if event_next2 %}
+    <div class="module">
+        <h2>Čez 2 tedna</h2>
+        {% for log in event_next2 %}
+            {% print_event log %}
+        {% endfor %}
+    </div>
+  {% endif %}
 {% endblock %}

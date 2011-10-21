@@ -458,23 +458,19 @@ def active_user_autocomplete(request):
 
 @login_required
 def events(request):
-    events = Event.objects.all()
     today = datetime.datetime.today()
-    while today.weekday() != 0:
-        today = today - datetime.timedelta(1)
+    week_number = int(today.strftime('%W'))
 
-    week = datetime.timedelta(7)
     return date_based.archive_index(request,
-        queryset=events,
+        queryset=Event.objects.all(),
         date_field='start_date',
         allow_empty=1,
         extra_context={
-            'events': events,
-            'event_last': Event.objects.filter(start_date__lte=today, start_date__gt=today - week).order_by('start_date'),
-            'event_this': Event.objects.filter(start_date__lte=today + week, start_date__gt=today).order_by('start_date'),
-            'event_next': Event.objects.filter(start_date__lte=today + 2 * week, start_date__gt=today + week).order_by('start_date'),
-            'event_next2': Event.objects.filter(start_date__lte=today + 3 * week, start_date__gt=today + 2 * week).order_by('start_date'),
-            'years': range(2006, datetime.datetime.today().year + 1),
+            'event_last': Event.objects.get_week_events(today.year, week_number - 1),
+            'event_this': Event.objects.get_week_events(today.year, week_number),
+            'event_next': Event.objects.get_week_events(today.year, week_number + 1),
+            'event_next2': Event.objects.get_week_events(today.year, week_number + 2),
+            'years': range(2006, today.year + 1),
         },
     )
 

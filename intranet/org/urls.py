@@ -50,8 +50,12 @@ event_index = {
     'allow_future': 1,
     'num_latest': 50,
     'template_name': 'org/event_archive.html',
-    'extra_context': {'event_last': event_last, 'event_this': event_this,
-    'event_next': event_next, 'event_next2': event_next2, 'years': range(2006, datetime.date.today().year + 1)},
+    'extra_context': {
+        'event_last': event_last, 'event_this': event_this,
+        'event_next': event_next,
+        'event_next2': event_next2,
+        'years': range(2006, datetime.date.today().year + 1)
+    },
 }
 
 event_year = {
