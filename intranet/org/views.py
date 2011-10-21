@@ -276,7 +276,7 @@ def shoppings_form(request, id=None, action=None):
         else:
             shopping_form = ShoppingForm()
 
-    return render_to_response('org/shopping.html', {
+    return render_to_response('org/shopping_detail.html', {
         'shopping_form': shopping_form,
         'shopping_edit': True,
         }, context_instance=RequestContext(request)
