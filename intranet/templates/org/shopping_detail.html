@@ -1,25 +1,22 @@
 {% extends "org/base_3col.html" %}
+{% load box %}
+
 {% block title %}Nakupi{% endblock %}
 
-{% block extrahead %}
-{% load box %}
-{% endblock %}
-
 {% block heading %}
-        <h1>Želja</h1>
+  <h1>Želje</h1>
 {% endblock %}
 
 {% block content-related-left %}
   <div class="module" id="recent-actions-module">
     <h2>Urejanje</h2>
-        <ul>
-            {% if not object.bought %}
-            <li><a href="buy/">Označi kot kupljeno</a></li>
-            {% endif %}
-            <li><a href="support/">Podpri</a></li>
-        </ul>
-
-				{% include "org/content/shopping_form.html" %}
+    <ul>
+	{% if not object.bought %}
+	<li><a href="buy/">Označi kot kupljeno</a></li>
+	{% endif %}
+	<li><a href="support/">Podpri</a></li>
+    </ul>
+    {% include "org/content/shopping_form.html" %}
   </div>
 {% endblock %}
 
