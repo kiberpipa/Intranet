@@ -145,7 +145,7 @@ def index(request):
 
     # 1. events that are newer or equal may pass
     # 2. events that are older or equal may pass
-    events = events.get_date_events(today - datetime.timedelta(days=14), start_date__lte=today)
+    events = events.get_date_events(today - datetime.timedelta(days=14), today)
 
     # is public and no visitors
     no_visitors = events.filter(public__exact=True).filter(visitors__exact=0)
@@ -276,7 +276,7 @@ def shoppings_form(request, id=None, action=None):
         else:
             shopping_form = ShoppingForm()
 
-    return render_to_response('org/shopping_detail.html', {
+    return render_to_response('org/shopping_index.html', {
         'shopping_form': shopping_form,
         'shopping_edit': True,
         }, context_instance=RequestContext(request)
@@ -1007,7 +1007,7 @@ def year_statistics(request, year=None):
     today = datetime.date.today()
     this_year = today.year
     if year:
-        date_range = (datetime.datetime(year, 1, 1, 0, 0), datetime.datetime(year, 12, 31, 23, 59))
+        date_range = (datetime.datetime(int(year), 1, 1, 0, 0), datetime.datetime(int(year), 12, 31, 23, 59))
     else:
         year = this_year
         date_range = (datetime.datetime(year, 1, 1, 0, 0), today - datetime.timedelta(1))
