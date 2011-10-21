@@ -145,13 +145,13 @@ def index(request):
 
     # 1. events that are newer or equal may pass
     # 2. events that are older or equal may pass
-    events = events.filter(start_date__gte=(today - datetime.timedelta(days=14))).filter(start_date__lte=today)
+    events = events.get_date_events(today - datetime.timedelta(days=14), start_date__lte=today)
 
     # is public and no visitors
     no_visitors = events.filter(public__exact=True).filter(visitors__exact=0)
 
     # is videoed and no attached video
-    no_video = events.filter(require_video__exact=True).filter(video__isnull=True)
+    no_video = events.needs_video()
 
     # is pictured and no flicker id
     no_pictures = events.filter(require_photo__exact=True).filter(flickr_set_id__exact=None)
@@ -723,7 +723,7 @@ def tehniki_monthly(request, year=None, month=None):
     month_end = month_start + mx.DateTime.DateTimeDelta(month_start.days_in_month)
 
     month_number = month
-    events = Event.objects.filter(start_date__range=(month_start, month_end), require_technician__exact=True).order_by('start_date')
+    events = Event.objects.get_date_events(month_start, month_end).filter(require_technician__exact=True)
     log_list = Diary.objects.filter(task=23, date__range=(month_start, month_end))
 
     month = []
@@ -1001,36 +1001,29 @@ def scratchpad_change(request):
 
 @login_required
 def year_statistics(request, year=None):
-    """Most common statistics from database, aggregated nicely and with some csv output."""
-    this_year = datetime.date.today().year
-    if not year:
+    """Most common statistics from database,
+    aggregated nicely and with some csv output.
+    """
+    today = datetime.date.today()
+    this_year = today.year
+    if year:
+        date_range = (datetime.datetime(year, 1, 1, 0, 0), datetime.datetime(year, 12, 31, 23, 59))
+    else:
         year = this_year
+        date_range = (datetime.datetime(year, 1, 1, 0, 0), today - datetime.timedelta(1))
 
     # common query
-    q = Event.objects.filter(start_date__year=year)
+    q = Event.objects.filter(start_date__range=date_range)
     min_year = Event.objects.aggregate(models.Min('pub_date'))['pub_date__min']
     years = range(min_year.year, this_year + 1)
 
-    # basic statistics
-    num_events = q.count()
-    num_public_events = q.filter(public=True).count()
-    num_flickr_events = q.filter(flickr_set_id__isnull=False).count()
-    # TODO: this produces wrong results
-    num_video_events = q.filter(video__isnull=False).count()
-
-    # all visitors in chosen year
-    num_visitors = q.aggregate(models.Sum('visitors'))['visitors__sum']
-    all_events = q.order_by('start_date').only("visitors", "title", "start_date").all()
-
-    # po_tipu_dogodka.csv
-    by_project_events = Project.objects.filter(event__start_date__year=year)\
+    # TODO: Project manager
+    by_project_events = Project.objects.filter(event__start_date__range=date_range)\
         .values('name')\
         .annotate(num_events=models.Count('event'), num_visitors=models.Sum('event__visitors'))
 
-    # TODO: average of visitors per event
-    #by_project_events = q.values('project__name').annotate(num_visitors=models.Sum('visitors'), num_events=models.Count('project__name')).extra(tables=['org_project'])
-
     # TODO: make this one big query that is customizable through html forms
+    # TODO: https://github.com/joshourisman/django-tablib
     csv_file = request.GET.get('csv', None)
     if csv_file:
         response = HttpResponse(mimetype='text/csv')

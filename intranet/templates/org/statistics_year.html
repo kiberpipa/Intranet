@@ -13,18 +13,17 @@
     {% for year in years %}
         <p><a href="{% url statistics_by_year year %}">{{ year }}</a></p>
     {% endfor %}
-    
 </div>
 {% endblock %}
 
 {% block content-main %}
 <div class="module">
     <h2><a href="{% url event_arhive_year year %}">Seznam dogodkov za leto {{ year }}</a></h2>
-    <p>Skupaj dogodkov: <strong>{{ num_events }}</strong></p>
-    <p>Skupaj javnih dogodkov: <strong>{{ num_public_events }}</strong></p>
-    <p>Dogodki, ki imajo galerijo: <strong>{{ num_flickr_events }}</strong></p>
-    <p>Dogodki, ki imajo video posnetek: <strong>{{ num_video_events }}</strong></p>
-    <p>Skupno število obiskovalcev na dogodkih: <strong>{{ num_visitors }}</strong></p>
+    <p>Skupaj dogodkov: <strong>{{ q.count }}</strong></p>
+    <p>Skupaj javnih dogodkov: <strong>{{ q.is_public.count }}</strong></p>
+    <p>Dogodki, ki imajo galerijo: <strong>{{ q.has_pictures.count }}</strong></p>
+    <p>Dogodki, ki imajo video posnetek: <strong>{{ q.has_video.count }}</strong></p>
+    <p>Skupno število obiskovalcev na dogodkih: <strong>{{ q.num_total_visitors }}</strong></p>
     <table>
         <thead>
           <tr>

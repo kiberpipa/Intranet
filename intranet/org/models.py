@@ -8,6 +8,7 @@ from hashlib import md5
 from datetime import date, timedelta
 
 from django.db import models
+from django.db.models.query import QuerySet
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from django.conf import settings
@@ -20,23 +21,52 @@ def to_utc(dt):
     return time.gmtime(time.mktime(dt.timetuple()))
 
 #####
-# Managers
+# Managers http://hunterford.me/django-custom-model-manager-chaining/
 #####
-
-
-class EventManager(models.Manager):
-    """docstring for EventManager"""
-
+class EventMixin(object):
     def get_week_events(self, year, week_num):
-        """docstring for get_week_events"""
+        """Return events in given week"""
         d = datetime.datetime(year, 1, 1)
         start_d = d + timedelta(days=-d.weekday(), weeks=week_num)
         end_d = d + timedelta(days=-d.weekday(), weeks=week_num + 1)
-        return self.filter(start_date__gt=start_d, start_date__lt=end_d).order_by('start_date')
+        return self.get_date_events(start_d, end_d)
 
     def get_date_events(self, start_d, end_d):
-        """docstring for get_date_events"""
-        return super(EventManager, self).filter(start_date__gt=start_d, start_date__lt=end_d)
+        """Return events in given range"""
+        return self.filter(start_date__range=(start_d, end_d)).order_by('start_date')
+
+    def needs_video(self):
+        """Return events that still need video"""
+        return self.filter(require_video__exact=True).filter(video__isnull=True)
+
+    def has_video(self):
+        """Return events that have video recording"""
+        return self.filter(video__isnull=False)
+
+    def has_pictures(self):
+        """Return events that have pictures information"""
+        return self.filter(flickr_set_id__isnull=False)
+
+    def num_total_visitors(self):
+        """Return integer of number of total visitors for events"""
+        return self.aggregate(models.Sum('visitors'))['visitors__sum']
+
+    def is_public(self):
+        """Return public events"""
+        return self.filter(public=True)
+
+
+    # TODO: average of visitors per event
+    #by_project_events = q.values('project__name').annotate(num_visitors=models.Sum('visitors'), num_events=models.Count('project__name')).extra(tables=['org_project'])
+
+
+class EventQuerySet(QuerySet, EventMixin):
+    pass
+
+class EventManager(models.Manager, EventMixin):
+    def get_query_set(self):
+        return EventQuerySet(self.model, using=self._db)
+
 
 #####
 # Models
@@ -491,6 +521,3 @@ class Scratchpad(models.Model):
     class Meta:
         verbose_name = 'Kracarka'
         verbose_name_plural = 'Kracarka'
-
-
-
