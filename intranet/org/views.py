@@ -1056,5 +1056,5 @@ def event_template(request, year=0, week=0):
     week = int(week) or datetime.date.today().isocalendar()[1] + 1
     year = int(year) or datetime.date.today().year
 
-    events = Event.objects.get_week_events(int(year), int(week))
+    events = Event.objects.get_week_events(int(year), int(week)).is_public()
     return render_to_response("org/event_template.html", {"events": events}, context_instance=RequestContext(request))
