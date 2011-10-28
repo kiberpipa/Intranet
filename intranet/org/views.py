@@ -341,13 +341,6 @@ def shopping_by_task(request, task):
 
 
 @login_required
-def stats(request):
-    return render_to_response('org/stats.html',
-                              {'today': datetime.date.today()},
-                              context_instance=RequestContext(request))
-
-
-@login_required
 def diarys_form(request, id=None, action=None):
     if request.method == 'POST':
         if id:
