@@ -514,7 +514,7 @@ def sablona(request, event):
 def event_edit(request, event_pk=None):
     instance = None
     if event_pk is not None:
-        instance = Event.objects.get(pk=event_pk)
+        instance = Event.objects.select_related().get(pk=event_pk)
 
     if request.method == 'POST':
         form = EventForm(request.POST, instance=instance)
@@ -560,7 +560,7 @@ def event_edit(request, event_pk=None):
         'tipi': TipSodelovanja.objects.all(),
         'sodelovanja': instance and instance.sodelovanje_set.all() or None,
         # TODO: remove duplicates
-        'prev_sodelovanja': Sodelovanje.objects.all(),
+        'prev_sodelovanja': Sodelovanje.objects.values('tip__name', 'person__name').distinct().order_by('-person__name'),
         'image': (instance and instance.event_image and instance.event_image.image) or None
         }
     return render_to_response('org/event_edit.html', RequestContext(request, context))

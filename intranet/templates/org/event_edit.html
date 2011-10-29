@@ -160,7 +160,7 @@ $(document).ready(function() {
                         <option selected="selected">{{ sodelovanje.person }} - {{ sodelovanje.tip }}</option>
                     {% endfor %}
                     {% for sodelovanje in prev_sodelovanja %}
-                        <option>{{ sodelovanje.person }} - {{ sodelovanje.tip }}</option>
+                        <option>{{ sodelovanje.person__name }} - {{ sodelovanje.tip__name }}</option>
                     {% endfor %}
                 </select>
 
