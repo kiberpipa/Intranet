@@ -28,17 +28,20 @@ hs.addSlideshow({
 
 <h1><a name="gallery">{% trans "Gallery" %}</a></h1>
 <table>
- {% for image in images %}
-	{% if forloop.counter0|divisibleby:"4" %}
-  <tr>
+	{% for image in images %}
+		{% if forloop.counter0|divisibleby:"4" %}
+			<tr>
+		{% endif %}
+		<td>
+			<a href="{{ image.url }}" class="highslide" onclick="return hs.expand(this)">
+				<img src="{{ image.thumb_url }}" alt="{{ image.title }}" title="{{ image.title }}" />
+			</a>
+		</td>
+		{% if forloop.counter|divisibleby:"4" %}
+			</tr>
+		{% endif %}
+	{% endfor %}
+	{% if not images|length|add:"1"|divisibleby:"4" %}
+			</tr>
 	{% endif %}
-  <td>
-	  <a href="{{ image.url }}" class="highslide" onclick="return hs.expand(this)">
-			<img src="{{ image.thumb_url }}" alt="{{ image.title }}" title="{{ image.title }}" />
-		</a>
-	</td>
-	{% if forloop.counter|divisibleby:"4" %}
-	</tr>
-	{% endif %}
- {% endfor %}
 </table>
