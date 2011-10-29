@@ -2,7 +2,7 @@
 {% load markup i18n photos_box more_like_this %}
 
 {% block extrahead %}
-<script language="Javascript">
+<script type="text/javascript">
     $(document).ready(function() { 
         $('#add_email').click(function(){
             $('.hideme').load('/ajax/add_mail/' + $('#add_email_id').val() + '/' + $('#id_email').val());
@@ -40,7 +40,9 @@
                             {% trans "Please enter your contact data so we can inform you when the video will be available." %}
                             <form method="post" action="">
                                 <input id="add_email_id" type="hidden" value="{{ event.id }}">
-                                {{ form.as_table }}
+                                <table>
+                                    {{ form.as_table }}
+                                </table>
                                 <input value="{% trans "submit" %}" id="add_email" type="submit">
                             </form>
                             <br />
