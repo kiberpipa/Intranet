@@ -17,6 +17,7 @@
                         <li>Ta predmet je ze vrnjen</li>
                 {% else %}
                         <li><a href="/intranet/lends/{{ object.id }}/back/">Vrni!</a></li>
+                        <li><a href="/intranet/lends/">Dodaj novega!</a></li>
                 {% endif %}
         </ul>
 				{% include "org/content/lend_form.html" %}
