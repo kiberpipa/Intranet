@@ -5,6 +5,7 @@ import datetime
 import os
 import re
 import csv
+import shutil
 from cStringIO import StringIO
 
 import mx.DateTime
@@ -60,6 +61,7 @@ def temporary_upload(request):
 
     local_dir = os.path.join(settings.MEDIA_ROOT, 'tmp', request.session.session_key)
     try:
+        shutil.rmtree(local_dir, onerror=lambda f, p, e: None)
         os.makedirs(local_dir)
     except IOError:
         pass
@@ -77,12 +79,10 @@ def temporary_upload(request):
 
 @login_required
 def image_resize(request):
-    if not request.POST:
-        return HttpResponse(simplejson.dumps({'status': 'fail1'}))
-    else:
+    if request.POST:
         form = ImageResizeForm(request.POST)
         if form.errors:
-            return HttpResponse(simplejson.dumps({'status': 'fail2'}))
+            return HttpResponse(simplejson.dumps({'status': form.errors}))
         else:
             if form.cleaned_data.get('filename') != request.session.get('temporary_filename'):
                 return HttpResponse(simplejson.dumps({'status': 'fail3'}))
