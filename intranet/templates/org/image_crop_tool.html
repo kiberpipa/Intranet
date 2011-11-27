@@ -12,9 +12,9 @@ var imgResized = function imgResized(img, sel) {
     
     $.ajax({
         type: 'POST',
-        url:"/intranet/image_crop_tool/resize/",
+        url: "/intranet/image_crop_tool/resize/",
         dataType: "json",
-        data:$("#resizeform").serialize(),
+        data: $("#resizeform").serialize(),
         success: function (data, status) {
                 var tim = new Date();
                 $("#final_image").html('<img id="final_img" src="' + data["resized_url"] + '?t=' + tim.getTime() + '" />');
@@ -34,7 +34,7 @@ $(document).ready(function () {
             success: function (data, status) {
                 $("#ajax_img").html('<img id="rect" src="' + data['link'] + '">');
                 $('#id_filename').attr("value", data['filename']);
-                $('img#rect').imgAreaSelect({ selectionColor: null, aspectRatio: "250:130", onSelectEnd: imgResized});
+                $('img#rect').imgAreaSelect({selectionColor: null, aspectRatio: "250:130", onSelectEnd: imgResized});
             },
             error: function (data, status, e) {
                 alert("Nekaj je narobe:" + e);
