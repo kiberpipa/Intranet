@@ -24,11 +24,6 @@
         <ul class="actionlist">
             <li><a href="edit/">{% trans "Edit data" %}</a></li>
             <li><a href="../create/">{% trans "Add new" %}</a></li>
-            <li>{% trans "Visitors (hit ENTER)" %}:
-                <form  method="POST" action="count/">
-                     <input type="text" name="visitors" size="3" value="{{ object.visitors|default:"" }}" maxlength="3" />
-                </form>
-            </li>
             <li><a href="info.txt/">info.txt</a></li>
             <li>{% trans "Add emails (one per line)" %}:
                 <form method="POST" action="emails/">
