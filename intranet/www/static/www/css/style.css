@@ -632,7 +632,7 @@ a img {
 .date-kom {font-size: 11px;}
 .komentar-vsebina {border-bottom: 1px solid black; padding: 5px 0;}
 
-.dogodek-komentarji {font-size: 14px;}
+.dogodek-komentarji {font-size: 14px; clear: both}
 .dogodek-komentarji ul {list-style: none; margin: 0;padding: 0;}
 .dogodek-komentarji li {margin:0;padding:0;display:block;clear:both;padding:.5em 0;}
 .dogodek-komentarji li label {width:12em;display:-moz-inline-box;display:inline-block;vertical-align:top;}
