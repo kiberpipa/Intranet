@@ -93,6 +93,8 @@ $(document).ready(function() {
     }
 
     function add_author(author, type) {
+        author = $.trim(author);
+
         if (author.length==0)
             return;
 
