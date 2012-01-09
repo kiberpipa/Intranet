@@ -226,7 +226,7 @@ class Event(models.Model):
 
     # time fields
     start_date = models.DateTimeField(verbose_name=u"Pričetek", db_index=True)
-    end_date = models.DateTimeField(verbose_name=u"Zaključek", blank=True, null=True)
+    end_date = models.DateTimeField(verbose_name=u"Zaključek")
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
 
