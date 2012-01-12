@@ -3,6 +3,7 @@
 import re
 import httplib
 import datetime
+from datetime import date
 
 from django import forms
 from django.contrib.auth.models import User
@@ -237,3 +238,7 @@ class DiaryForm(forms.ModelForm):
         widgets = {
             'date': DateTimeWidget,
         }
+
+    def __init__(self, *a, **kw):
+        self.base_fields['date'].initial = date.today()
+        super(DiaryForm, self).__init__(*a, **kw)
