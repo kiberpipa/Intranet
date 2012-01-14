@@ -55,9 +55,8 @@ class Command(BaseCommand):
             if x.get('remote_ref'):
                 try:
                     slug = x.get('slug')
+                    # ignore video entries from old archive as metadata is too different
                     if Video.objects.filter(videodir__istartswith=slug).exists():
-                        # ignore video entries from old archive as metadata is too different
-                        if Video.objects.filter(videodir__istartswith=slug)[0].id <= 907:
                             continue
 
                     event = None
@@ -69,12 +68,14 @@ class Command(BaseCommand):
 
                     # TODO: rewrite this to rely on intranet-id and always update all other info
                     vid, is_created = Video.objects.get_or_create(
-                            event = event,
-                            videodir = slug,
-                            title    = x.get('title'),
-                            image_url='http://video.kiberpipa.org/media/%s/image-i.jpg' % slug,
-                            pub_date = datetime.date(*time.strptime(x['published'], '%Y-%m-%d')[:3]),
-                            play_url = 'http://video.kiberpipa.org/media/%s/play.html' % slug,
+                        remote_id=x['id'],
+                        defaults={
+                            'title': x.get('title'),
+                            'event': event,
+                            'image_url': 'http://video.kiberpipa.org/media/%s/image-i.jpg' % slug,
+                            'pub_date': datetime.date(*time.strptime(x['published'], '%Y-%m-%d')[:3]),
+                            'play_url': 'http://video.kiberpipa.org/media/%s/play.html' % slug,
+                        },
                     )
 
                     if is_created:
