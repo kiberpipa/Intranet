@@ -11,17 +11,11 @@ class Migration(SchemaMigration):
         # Changing field 'Event.end_date'
         db.alter_column('org_event', 'end_date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.date(2012, 1, 9)))
 
-        # Adding field 'Place.is_public'
-        db.add_column('org_place', 'is_public', self.gf('django.db.models.fields.BooleanField')(default=False), keep_default=False)
-
 
     def backwards(self, orm):
         
         # Changing field 'Event.end_date'
         db.alter_column('org_event', 'end_date', self.gf('django.db.models.fields.DateTimeField')(null=True))
-
-        # Deleting field 'Place.is_public'
-        db.delete_column('org_place', 'is_public')
 
 
     models = {
