@@ -62,19 +62,21 @@
                     {% for diary in e.diary_set.all %}
                         <a href="/intranet/diarys/{{ diary.id }}">
                             {{ diary.author }} ({{ diary.length }})
-                        </a><br>
+                        </a>
+                        <br />
+                        <!-- TODO: entry will be double if diary exists -->
                     {% endfor %}
                     {% for technician in e.technician.all %}
-                        {% ifequal technician request.user %}
-                        <a class="newdiary" href="{{ e.id }}">{{ technician }}</a>
+                        {% ifequal technician user %}
+                            <a class="newdiary" href="{{ e.id }}">{{ technician }}</a>
                             (<a href="/intranet/tehniki/cancel/{{ e.id }}/">{% trans "Sign off" %}</a>)
                         {% else %}
                             {{ technician }}
                         {% endifequal %}
-                        <br>
+                        <br />
                     {% endfor %}
                     {% if user not in e.technician.all %}
-                    <a href="/intranet/tehniki/add/{{ e.id }}/">{% trans "Volunteer" %}</a>
+                        <a href="/intranet/tehniki/add/{{ e.id }}/">{% trans "Volunteer" %}</a>
                     {% endif %}
                 </td>
             </tr>
