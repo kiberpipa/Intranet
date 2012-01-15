@@ -52,35 +52,35 @@ class Command(BaseCommand):
     def handle(self, *a, **kw):
         videos_to_notify = []
         for x in self.parse_videoarchive():
-            if x.get('remote_ref'):
+            if not x.get('remote_ref', None):
+                continue
+
+            try:
+                slug = x.get('slug')
+                # ignore video entries from old archive as metadata is too different
+                if Video.objects.filter(videodir__istartswith=slug).exists():
+                        continue
+
                 try:
-                    slug = x.get('slug')
-                    # ignore video entries from old archive as metadata is too different
-                    if Video.objects.filter(videodir__istartswith=slug).exists():
-                            continue
+                    event = Event.objects.get(pk=int(x.get('remote_ref')))
+                except Event.DoesNotExist:
+                    logger.error('Wrong intranet id in videoarchive', extra={'remote':x})
+                    continue
 
-                    event = None
-                    try:
-                        event = Event.objects.get(pk=int(x.get('remote_ref')))
-                    except Event.DoesNotExist:
-                        logger.error('Wrong intranet id in videoarchive', extra={'remote':x})
-                        continue #don't create video records for videos without intranet id
+                vid, is_created = Video.objects.get_or_create(
+                    remote_id=x['id'],
+                    defaults={
+                        'title': x.get('title'),
+                        'event': event,
+                        'image_url': 'http://video.kiberpipa.org/media/%s/image-i.jpg' % slug,
+                        'pub_date': datetime.date(*time.strptime(x['published'], '%Y-%m-%d')[:3]),
+                        'play_url': 'http://video.kiberpipa.org/media/%s/play.html' % slug,
+                    },
+                )
 
-                    # TODO: rewrite this to rely on intranet-id and always update all other info
-                    vid, is_created = Video.objects.get_or_create(
-                        remote_id=x['id'],
-                        defaults={
-                            'title': x.get('title'),
-                            'event': event,
-                            'image_url': 'http://video.kiberpipa.org/media/%s/image-i.jpg' % slug,
-                            'pub_date': datetime.date(*time.strptime(x['published'], '%Y-%m-%d')[:3]),
-                            'play_url': 'http://video.kiberpipa.org/media/%s/play.html' % slug,
-                        },
-                    )
-
-                    if is_created:
-                        videos_to_notify.append(vid)
-                except:
-                    logger.error('Could not parse videoarchive: %s' % x, exc_info=True, extra=locals())
+                if is_created:
+                    videos_to_notify.append(vid)
+            except:
+                logger.error('Could not parse videoarchive: %s' % x, exc_info=True, extra=locals())
 
         self.send_notification_emails(videos_to_notify)
