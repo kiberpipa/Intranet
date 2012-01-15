@@ -191,11 +191,12 @@ class EventForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = self.cleaned_data
-        if cleaned_data.get('start_date') >= cleaned_data.get('end_date'):
+        start_date = cleaned_data.get('start_date')
+        end_date = cleaned_data.get('end_date')
+        if  start_date and end_date and start_date >= end_date:
             self._errors["end_date"] = ErrorList(['Zaključek se lahko zgodi samo po začetku dogodka.'])
 
-        public = cleaned_data.get("public")
-        if public:
+        if cleaned_data.get("public"):
             if not (cleaned_data.get("event_image") or self.instance.sequence > 0):
                 self._errors["event_image"] = ErrorList(['Javni dogodki potrebujejo sliko.'])
             if not cleaned_data.get("announce"):
