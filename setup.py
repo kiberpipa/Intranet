@@ -19,39 +19,44 @@ setup(name='intranet',
     classifiers=[
     ],
     install_requires=[
+        # deprecated
         'BeautifulSoup',
-        'python-ldap',
-        'python-memcached',
-        'Pillow',  # proper distributed PIL
-        'feedjack',
+        'simplejson',  # TODO: use json
+        # other
         'reportlab',
         'PyExcelerator',
-        'egenix-mx-base',
         'pytz',
         'pygments',
-        'simplejson',
-        # wiki
-        'markdown2',
+        # intranet.org
+        'python-ldap',
+        # intranet.www
+        'python-memcached',
+        'flickrapi',
+        'python-dateutil',
+        'django-mailman',
+        'django-syncr',
         # django stuff
         'Django>=1.3,<1.4',
         'django-localeurl',
+        'feedjack',
         'django-tagging',
+        'Pillow',  # properly distributed PIL
         'South',
-        'psycopg2',
-        'flickrapi',
+        'django-honeypot',
+        'django-grappelli',
+        'django-extensions',
+        'Werkzeug',  # interactive debug
+        # solr
         'django-haystack',
         'pysolr',
-        'django-syncr',
-        'django-honeypot',
-        'python-dateutil',
-        'django-reversion',
-        'django-grappelli',
+        # database
+        'psycopg2',
+        'egenix-mx-base',
         # commands
         'twitter',
-        'Werkzeug',
-        'django-extensions',
+        # admin
         'django-sentry',
-        'django-mailman',
+        'django-reversion',
     ],
     tests_require=[
         'nose',
