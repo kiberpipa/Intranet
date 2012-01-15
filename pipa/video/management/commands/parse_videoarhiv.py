@@ -5,6 +5,7 @@ import re
 import datetime
 import time
 import logging
+import simplejson
 
 from django.core.management.base import BaseCommand
 from django.core.mail import send_mail
@@ -15,40 +16,16 @@ from intranet.org.models import Event
 
 
 logger = logging.getLogger(__name__)
-TABINDEX_URL = 'http://video.kiberpipa.org/tabindex.txt'
-INFOTXT_URL = 'http://video.kiberpipa.org/media/%s/info.txt'
-INTRANETID_REGEX = re.compile(r'\n\s*intranet-id:\s*(\d+)\s*\n*')
-INTRANETTITLE_REGEX = re.compile(r'\s*title:\s*(.+)\s*\n')
-
+JSON_URL = 'http://kiberpipa.openlectures.net/site/api/lectures/recent/?format=json'
 
 class Command(BaseCommand):
     """Parse videoarchive, store metadata and send notifications"""
 
     def parse_videoarchive(self):
         """"""
-        u = urllib.urlopen(TABINDEX_URL)
-        file_data = u.read()
-        lines = [x for x in file_data.split('\n') if x]
-        data = [x.split('\t') for x in lines]
-        fields, data = data[0], data[1:]
-        fields = [i.lower() for i in fields]
-        for line in data:
-            yield dict(zip(fields, line))
-
-    def parse_details(self, id_, video):
-        """fetch info.txt to see if intranet id is set"""
-        info_data = urllib.urlopen(INFOTXT_URL % id_).read()
-        m = INTRANETID_REGEX.search(info_data, re.I | re.M | re.S)
-        if m:
-            # this might be an error
-            try:
-                video.event = Event.objects.get(pk=int(m.group(1)))
-            except Event.DoesNotExist:
-                logger.error('Wrong intranet id in videoarchive', extra=locals())
-        m = INTRANETTITLE_REGEX.search(info_data)
-        if m:
-            video.title = m.group(1)
-        return video
+        u = urllib.urlopen(JSON_URL)
+        data = simplejson.loads(u.read())
+        return data['recent_lectures']
 
     def send_notification_emails(self, videos):
         subscribers = {}
@@ -75,23 +52,35 @@ class Command(BaseCommand):
     def handle(self, *a, **kw):
         videos_to_notify = []
         for x in self.parse_videoarchive():
-            try:
-                # TODO: rewrite this to rely on intranet-id and always update all other info
-                vid, is_created = Video.objects.get_or_create(
-                    videodir=x['id'],
-                    defaults={
-                        'image_url': 'http://video.kiberpipa.org/media/%(id)s/image-i.jpg' % x,
-                        'pub_date': datetime.date(*time.strptime(x['day_published'], '%d.%m.%Y')[:3]),
-                        'play_url': 'http://video.kiberpipa.org/media/%(id)s/play.html' % x,
-                    },
-                )
+            if x.get('remote_ref'):
+                try:
+                    slug = x.get('slug')
+                    # ignore video entries from old archive as metadata is too different
+                    if Video.objects.filter(videodir__istartswith=slug).exists():
+                            continue
 
-                vid = self.parse_details(x['id'], vid)
-                vid.save()
+                    event = None
+                    try:
+                        event = Event.objects.get(pk=int(x.get('remote_ref')))
+                    except Event.DoesNotExist:
+                        logger.error('Wrong intranet id in videoarchive', extra={'remote':x})
+                        continue #don't create video records for videos without intranet id
 
-                if is_created:
-                    videos_to_notify.append(vid)
-            except:
-                logger.error('Could not parse videoarchive: %s' % x, exc_info=True, extra=locals())
+                    # TODO: rewrite this to rely on intranet-id and always update all other info
+                    vid, is_created = Video.objects.get_or_create(
+                        remote_id=x['id'],
+                        defaults={
+                            'title': x.get('title'),
+                            'event': event,
+                            'image_url': 'http://video.kiberpipa.org/media/%s/image-i.jpg' % slug,
+                            'pub_date': datetime.date(*time.strptime(x['published'], '%Y-%m-%d')[:3]),
+                            'play_url': 'http://video.kiberpipa.org/media/%s/play.html' % slug,
+                        },
+                    )
+
+                    if is_created:
+                        videos_to_notify.append(vid)
+                except:
+                    logger.error('Could not parse videoarchive: %s' % x, exc_info=True, extra=locals())
 
         self.send_notification_emails(videos_to_notify)
