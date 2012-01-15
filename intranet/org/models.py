@@ -90,15 +90,13 @@ class Tag(models.Model):
 
 class Project(models.Model):
     name = models.CharField(max_length=100)
+    verbose_name = models.CharField(max_length=255, blank=True, null=True)
     responsible = models.ForeignKey(User, blank=True, null=True)
     note = models.TextField(blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
-    salary_rate = models.FloatField(blank=True, null=True)
-    verbose_name = models.CharField(max_length=255, blank=True, null=True)
-
-    parent = models.ForeignKey('self', blank=True, null=True)
 
     salary_type = models.ForeignKey(SalaryType, blank=True, null=True)
+    salary_rate = models.FloatField(blank=True, null=True)
     cost_center = models.ForeignKey(CostCenter, blank=True, null=True)
 
     pub_date = models.DateTimeField(auto_now_add=True)
@@ -109,6 +107,7 @@ class Project(models.Model):
     email_members = models.NullBooleanField(default=True)
 
     #tags = models.ManyToManyField(Tag, blank=True, null=True)
+    parent = models.ForeignKey('self', blank=True, null=True)
 
     class Meta:
         verbose_name = 'Projekt'
@@ -284,6 +283,7 @@ class Event(models.Model):
         else:
             return self.image._name
 
+    # TODO: migrat to pipa.gallery
     def flickr_url(self):
         return 'http://www.flickr.com/photos/kiberpipa/sets/%s/' % self.flickr_set_id
 
