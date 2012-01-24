@@ -3,6 +3,7 @@ import urllib2
 from zipfile import ZipFile
 from cStringIO import StringIO
 
+import requests
 from django.template import Template, Context
 from django.http import HttpResponse
 from django.conf import settings
@@ -39,11 +40,6 @@ def prepare_video_zip(slug, title, date, person):
 
 
 def is_streaming():
-    try:
-        f = urllib2.urlopen(settings.LIVE_STREAM_URL)
-    except:
-        is_live = False
-    else:
-        is_live = True
-        f.close()
-    return is_live
+    """Check if video live stream is running."""
+    r = requests.head((settings.LIVE_STREAM_URL)
+    return 200 < r.status_code < 300

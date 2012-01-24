@@ -32,6 +32,7 @@ setup(name='intranet',
         # intranet.www
         'python-memcached',
         'flickrapi',
+        'requests',
         'python-dateutil',
         'django-mailman',
         'django-syncr',
