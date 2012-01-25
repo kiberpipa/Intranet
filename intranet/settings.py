@@ -205,7 +205,7 @@ PHOTOS_FLICKR_IMAGE_URL_S = 'http://farm%(farm)s.static.flickr.com/%(server)s/%(
 PHOTOS_FLICKR_IMAGE_URL = 'http://farm%(farm)s.static.flickr.com/%(server)s/%(id)s_%(secret)s.jpg'
 
 # pipa.video
-LIVE_STREAM_URL = 'http://www.kiberpipa.org:8100/info/first?password=secret'
+LIVE_STREAM_URL = 'http://live.kiberpipa.org:8100/info/first?password=secret'
 PUBLIC_LIVE_STREAM_URL = 'http://live.kiberpipa.org/live.html'
 
 # honeypot
