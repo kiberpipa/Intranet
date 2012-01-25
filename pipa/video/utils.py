@@ -41,5 +41,5 @@ def prepare_video_zip(slug, title, date, person):
 
 def is_streaming():
     """Check if video live stream is running."""
-    r = requests.head((settings.LIVE_STREAM_URL)
+    r = requests.head(settings.LIVE_STREAM_URL)
     return 200 < r.status_code < 300
