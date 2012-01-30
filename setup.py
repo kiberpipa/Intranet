@@ -58,6 +58,8 @@ setup(name='intranet',
         # admin
         'django-sentry',
         'django-reversion',
+        # jenkins
+        'django_jenkins',
     ],
     tests_require=[
         'nose',
