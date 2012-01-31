@@ -52,14 +52,15 @@ def index(request):
 
 # TODO: cache for 3min
 def ajax_index_events(request):
-    month = datetime.datetime.today() - datetime.timedelta(30)
+    past_month = datetime.datetime.today() - datetime.timedelta(30)
+    last_midnight = datetime.datetime.today().replace(hour=0, minute=0, second=0)
+
+    events = list(Event.objects.filter(public=True, start_date__gte=past_month).order_by('start_date'))
     try:
-        next = Event.objects.filter(public=True, start_date__gte=datetime.datetime.today()).order_by('start_date')[0]
-        events = list(Event.objects.filter(public=True, start_date__gte=month).order_by('start_date'))
+        next = Event.objects.filter(public=True, start_date__gte=past_midnight).order_by('start_date')[0]
         position = events.index(next)
     except IndexError:
-        # if we don't have upcoming events, show this month events
-        events = Event.objects.filter(public=True, start_date__gte=month).order_by('start_date')
+        # if we don't have upcoming events, show this past_month events
         position = events.count() - 1
 
     streaming_event = None
