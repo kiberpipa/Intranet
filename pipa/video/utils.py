@@ -1,5 +1,4 @@
 import os
-import urllib2
 from zipfile import ZipFile
 from cStringIO import StringIO
 
