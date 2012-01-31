@@ -57,7 +57,7 @@ def ajax_index_events(request):
 
     events = list(Event.objects.filter(public=True, start_date__gte=past_month).order_by('start_date'))
     try:
-        next = Event.objects.filter(public=True, start_date__gte=past_midnight).order_by('start_date')[0]
+        next = Event.objects.filter(public=True, start_date__gte=last_midnight).order_by('start_date')[0]
         position = events.index(next)
     except IndexError:
         # if we don't have upcoming events, show this past_month events
