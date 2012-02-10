@@ -42,7 +42,6 @@ def anti_spam(request):
 
 def index(request):
     return render_to_response('www/index.html', {
-        'events': Event.objects.filter(public=True, start_date__gte=datetime.datetime.today()).order_by('start_date'),
         'news': News.objects.order_by('-date')[0:4],
         'planet': Post.objects.order_by('-date_created')[:4],
         'videos': Video.objects.order_by('-pub_date')[:4],

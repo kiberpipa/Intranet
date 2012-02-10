@@ -73,7 +73,6 @@ $(document).ready(function() {
             <img src="{{ settings.STATIC_URL }}www/images/rss20x20.png" alt="RSS Feeds" />
         </a>
     </div>
-    {% if events %}
      <div id="upcoming">
         <div class="next3-left">
            <div class="past3"><a href="#" onclick="return false;"><img src="{{ settings.STATIC_URL }}www/images/puscica-3levo.gif" alt="tri dogodke nazaj" /></a></div>
@@ -85,11 +84,6 @@ $(document).ready(function() {
             <div class="future3"><a href="#" onclick="return false;"><img src="{{ settings.STATIC_URL }}www/images/puscica-3desno.gif" alt="tri dogodke naprej" /></a></div>
         </div>
     </div>
-    {% else %}
-    <div id="noupcoming">
-        <strong>{% trans "Currently no events are scheduled." %}</strong>
-    </div>
-    {% endif %}
 
     <div id="notifier">
        <div class="button-chamber">
