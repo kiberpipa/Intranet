@@ -32,6 +32,7 @@
                 | <a href="/{{ LANGUAGE_CODE }}/kjesmo/">kje smo</a>
                 | <a href="/{{ LANGUAGE_CODE }}/prostori/">prostori</a>
                 | <a href="/{{ LANGUAGE_CODE }}/calendar/">{% trans "calendar" %}</a>
+                | <a href="http://www.flickr.com/photos/kiberpipa/collections/">{% trans "gallery" %}</a>
                 | <a href="/{{ LANGUAGE_CODE }}/alumni/">{% trans "community" %}</a>
                 | <a  href="/{{ LANGUAGE_CODE }}/support/">{% trans "support" %}</a>
                 | <a href="/{{ LANGUAGE_CODE }}/press/">{% trans "press" %}</a>
@@ -41,7 +42,7 @@
                 {% if request.org_path_info %}
                 <a href="/sl{{ request.org_path_info }}" >slo</a> | <a href="/en{{ request.org_path_info }}">eng</a>
                 {% else %}
-                <a href="/sl{{ request.path_info }}" >slo</a> | <a href="/en{{ request.path_info }}">eng</a> 
+                <a href="/sl{{ request.path_info }}" >slo</a> | <a href="/en{{ request.path_info }}">eng</a>
                 {% endif %}
             </div>
         </div>
@@ -78,7 +79,7 @@
                 <a href="https://www.facebook.com/pages/Kiberpipa/233872970013161">facebook</a><br />
                 <a href="irc://irc.sioff.net/#kiberpipa">IRC</a>
             </div>
- 
+
             <div class="footer-support">
                 <a href="http://www.k6-4.org/"><img src="{{ settings.STATIC_URL }}www/images/zavod_pasica.png" alt="Zavod K6/4" /></a>
                 <a href="http://www.m3c.si/dat/M3C/"><img src="{{ settings.STATIC_URL }}www/images/logo_m3c.png" alt="M3C - Mreža Multimedijskih Centrov Slovenije" /></a>
