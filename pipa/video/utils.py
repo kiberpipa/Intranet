@@ -41,7 +41,7 @@ def prepare_video_zip(slug, title, date, person):
 def is_streaming():
     """Check if video live stream is running."""
     try:
-        r = requests.head(settings.LIVE_STREAM_URL)
+        r = requests.head(settings.LIVE_STREAM_URL, timeout=1)
     except requests.ConnectionError:
         return False
     else:
