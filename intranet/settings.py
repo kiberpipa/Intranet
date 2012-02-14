@@ -13,7 +13,6 @@ ADMINS = (
 MANAGERS = (
     ('Gasper Zejn', 'zejn@kiberpipa.org'),
 )
-
 TIME_ZONE = 'Europe/Ljubljana'
 LANGUAGE_CODE = 'sl'
 
@@ -180,6 +179,9 @@ AUTHENTICATION_BACKENDS = (
     'pipa.ldap.authbackend.LDAPAuthBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+PHOTOS_FLICKR_APIKEY = "apikey"
+PHOTOS_FLICKR_SECRET = "secret"
 
 LDAP_SERVER = 'ldap://localhost'
 SEND_BROKEN_LINK_EMAILS = True
