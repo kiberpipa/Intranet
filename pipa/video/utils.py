@@ -42,7 +42,7 @@ def is_streaming():
     """Check if video live stream is running."""
     try:
         r = requests.head(settings.LIVE_STREAM_URL, timeout=1)
-    except requests.ConnectionError:
+    except (requests.ConnectionError, requests.Timeout):
         return False
     else:
         return 200 <= r.status_code < 300
