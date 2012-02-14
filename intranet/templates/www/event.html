@@ -3,9 +3,9 @@
 
 {% block extrahead %}
 <script type="text/javascript">
-    $(document).ready(function() { 
+    $(document).ready(function() {
         $('#add_email').click(function(){
-            $('.hideme').load('/ajax/add_mail/' + $('#add_email_id').val() + '/' + $('#id_email').val());
+            $('#video-response').load('/ajax/add_mail/' + $('#add_email_id').val() + '/' + $('#id_email').val());
             return false;
         })
     })
@@ -46,6 +46,7 @@
                                 <input value="{% trans "submit" %}" id="add_email" type="submit">
                             </form>
                             <br />
+			    <p id="video-response"></p>
                         </div>
                     {% endif %}
                     {% if event.video.all %}
