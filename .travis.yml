@@ -3,7 +3,7 @@ python:
   - 2.6
   - 2.7
 install:
-  - sudo apt-get install git python2.7 python2.7-dev python2.7-setuptools libpq-dev libldap2-dev libsasl2-dev
+  - sudo apt-get install git python-dev libpq-dev libldap2-dev libsasl2-dev
   - ln -s buildout.d/development.cfg buildout.cfg
   - python bootstrap.py
   - bin/buildout
