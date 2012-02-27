@@ -10,7 +10,6 @@ install:
   - cp intranet/localsettings.py.example intranet/localsettings.py
   - bin/django syncdb --all --noinput
   - bin/django migrate --fake --noinput
-  - bin/django test
 script: bin/test
 
 notifications:
