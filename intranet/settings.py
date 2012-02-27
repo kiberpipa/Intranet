@@ -106,7 +106,6 @@ INSTALLED_APPS = (
     'pipa.gallery',
     'honeypot',
     'django_extensions',
-    'django_jenkins',
     'sentry',
     'sentry.client',
     'django_mailman',
