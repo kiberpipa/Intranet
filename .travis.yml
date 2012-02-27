@@ -15,3 +15,5 @@ script: bin/test
 notifications:
   irc:
     - "irc.sioff.net#kiberpipa"
+  email:
+    - domen@dev.si
