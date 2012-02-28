@@ -39,7 +39,7 @@ setup(name='intranet',
         # django stuff
         'Django>=1.3,<1.4',
         'django-localeurl',
-        'feedjack',
+        'Feedjack',
         'django-tagging',
         'Pillow',  # properly distributed PIL
         'South',
