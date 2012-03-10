@@ -96,7 +96,8 @@ def local_clear_database():
     django.project(env.django_project)
     from django.conf import settings
     env.role = settings.DATABASES['default']['USER']
-    local('echo "DROP SCHEMA public CASCADE;CREATE SCHEMA public AUTHORIZATION %(role)s;GRANT ALL ON SCHEMA public TO %(role)s;" | bin/django dbshell' % env)
+    env.db_password = settings.DATABASES['default']['PASSWORD']
+    local('echo "DROP SCHEMA public CASCADE;CREATE SCHEMA public AUTHORIZATION %(role)s;GRANT ALL ON SCHEMA public TO %(role)s;" | PGPASSWORD="%(db_password)s" bin/django dbshell' % env)
 
 
 @task
