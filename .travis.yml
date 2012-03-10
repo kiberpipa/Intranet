@@ -2,6 +2,9 @@ language: python
 python:
   - 2.6
   - 2.7
+branches:
+  except:
+    - deploy
 install:
   - sudo apt-get install git python-dev libpq-dev libldap2-dev libsasl2-dev
   - ln -s buildout.d/development.cfg buildout.cfg
@@ -15,5 +18,3 @@ script: bin/test
 notifications:
   irc:
     - "irc.sioff.net#kiberpipa"
-  email:
-    - domen@dev.si
