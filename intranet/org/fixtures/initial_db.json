@@ -1,0 +1,117 @@
+[
+ {
+  "pk": 1,
+  "model": "org.project",
+  "fields": {
+   "salary_rate": null,
+   "name": "Prvi projekt",
+   "parent": null,
+   "pub_date": "2011-09-17 21:13:35",
+   "responsible": null,
+   "email_members": true,
+   "chg_date": "2011-09-17 21:13:35",
+   "note": "",
+   "cost_center": null,
+   "verbose_name": "",
+   "email": "",
+   "salary_type": null
+  }
+ },
+ {
+  "pk": 1,
+  "model": "org.category",
+  "fields": {
+   "note": "",
+   "pub_date": "2011-09-17 21:14:31",
+   "name": "m3c kategorija",
+   "chg_date": "2011-09-17 21:14:31"
+  }
+ },
+ {
+  "pk": 1,
+  "model": "org.place",
+  "fields": {
+   "note": "",
+   "name": "Prvi prostor"
+  }
+ },
+ {
+  "pk": 1,
+  "model": "org.email",
+  "fields": {
+   "email": "foo@bar.com"
+  }
+ },
+ {
+  "pk": 1,
+  "model": "org.intranetimage",
+  "fields": {
+   "image": "events/2011/09/sample-4.jpg",
+   "md5": "e60a189a3ef2b5f8b53eb446056bb389",
+   "title": "opis"
+  }
+ },
+ {
+  "pk": 1,
+  "model": "org.event",
+  "fields": {
+   "sequence": 2,
+   "event_image": 1,
+   "category": 1,
+   "title": "test 1",
+   "responsible": 1,
+   "emails": [
+    1
+   ],
+   "note": "",
+   "require_video": true,
+   "announce": "najava",
+   "start_date": "2011-09-17 19:00:00",
+   "end_date": "2011-09-17 19:00:00",
+   "tags": [],
+   "require_photo": true,
+   "flickr_set_id": null,
+   "chg_date": "2011-09-17 21:18:45",
+   "slides": "",
+   "visitors": 0,
+   "technician": [],
+   "pub_date": "2011-09-17 21:18:30",
+   "slug": "test-1",
+   "language": "sl",
+   "require_technician": true,
+   "public": true,
+   "project": 1,
+   "place": 1
+  }
+ },
+ {
+  "pk": 1,
+  "model": "org.tipsodelovanja",
+  "fields": {
+   "name": "Programer"
+  }
+ },
+ {
+  "pk": 1,
+  "model": "org.person",
+  "fields": {
+   "name": "Domen",
+   "title": null,
+   "note": null,
+   "phone": [],
+   "organization": [],
+   "email": []
+  }
+ },
+ {
+  "pk": 1,
+  "model": "org.sodelovanje",
+  "fields": {
+   "project": 1,
+   "person": 1,
+   "note": null,
+   "tip": 1,
+   "event": 1
+  }
+ }
+]
