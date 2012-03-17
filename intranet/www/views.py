@@ -43,7 +43,7 @@ def anti_spam(request):
 def index(request):
     return render_to_response('www/index.html', {
         'news': News.objects.order_by('-date')[0:4],
-        'planet': Post.objects.order_by('-date_created')[:4],
+        'planet': Post.objects.order_by('-date_modified')[:4],
         'videos': Video.objects.order_by('-pub_date')[:4],
         'emailform': EmailForm,
     }, context_instance=RequestContext(request))
