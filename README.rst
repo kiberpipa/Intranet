@@ -22,6 +22,8 @@ Install and run buildout::
     python2.7 bootstrap.py
     bin/buildout
 
+(bootstrap.py is braindead and might want write access to /usr/local/lib/python2.7/dist-packages. The simplest workaround is to temporarily change permissions of that directory to be writeable by your account. You can later delete files bootstrap.py puts there and restore permissions without any obvious problems.)
+
 Copy over default settings::
 
     cp intranet/localsettings.py.example intranet/localsettings.py
