@@ -1,7 +1,7 @@
 {% extends "www/base-second.html" %}
-{% block extrahead %}{% endblock %}
-{% block title %}{{ event }}{% endblock %}
 {% load markup i18n %}
+{% block extrahead %}{% endblock %}
+{% block title %}{% trans "News" %}{% endblock %}
 
 {% block heading %}
 <div class="rss-index"><a href="/rss/" ><img src="{{ settings.STATIC_URL }}www/images/rss20x20.png" alt="RSS Feeds" /></a></div>
