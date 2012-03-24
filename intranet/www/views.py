@@ -19,6 +19,7 @@ from django.utils.translation import ugettext as _
 from feedjack.models import Post
 from dateutil.relativedelta import relativedelta
 from django_mailman.models import List
+from haystack.query import SearchQuerySet
 
 from intranet.org.models import to_utc, Event, Email
 from intranet.www.models import News
@@ -111,9 +112,13 @@ def event(request, slug, id):
     event = get_object_or_404(Event, pk=id, public=True)
     if not request.path.endswith(event.get_public_url()):
         return HttpResponseRedirect(event.get_public_url())
+
+    mlt = SearchQuerySet().filter(is_public=True).more_like_this(event)[:5]
+
     return render_to_response('www/event.html', {
         'event': event,
         'form': EmailForm(),
+        'related_content': mlt,
         },
         context_instance=RequestContext(request))
 
