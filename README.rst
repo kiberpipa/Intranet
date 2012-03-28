@@ -41,6 +41,38 @@ Start the development server. Wohoo!::
     bin/django runserver
 
 
+Solr setup
+==========
+
+If you want search to work you also need to setup a development instance of Solr.
+
+Get the latest Apache Solr binary distribution::
+
+    wget http://apache.mirrors.hoobly.com/lucene/solr/3.5.0/apache-solr-3.5.0.tgz
+    tar -xzf apache-solr-3.5.0.tgz
+
+Update the schema::
+
+    bin/django build_solr_schema > apache-solr-3.5.0/example/solr/conf/schema.xml
+
+Add MoreLikeThisHandler to apache-solr-3.5.0/example/solr/conf/solrconfig.xml. Append the following lines inside the <config> tag::
+
+    <requestHandler name="/mlt" class="solr.MoreLikeThisHandler">
+      <lst name="defaults">
+        <int name="mlt.mindf">1</int>
+      </lst>
+    </requestHandler>
+
+Set the HAYSTACK_SOLR_URL in intranet/localsettings.py::
+
+    HAYSTACK_SOLR_URL = 'http://localhost:8983/solr/'
+
+Start the server. Yay!::
+
+    cd apache-solr-3.5.0/example
+    java -jar start.jar
+
+
 Coding standards
 ================
 
