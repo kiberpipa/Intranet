@@ -35,7 +35,6 @@ setup(name='intranet',
         'requests',
         'python-dateutil',
         'django-mailman',
-        'django-syncr',
         # django stuff
         'Django>=1.3,<1.4',
         'django-localeurl',
