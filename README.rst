@@ -40,6 +40,10 @@ Start the development server. Wohoo!::
 
     bin/django runserver
 
+Load testing data::
+
+    bin/django loaddata initial_db
+
 
 Solr setup
 ==========
