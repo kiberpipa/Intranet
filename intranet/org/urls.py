@@ -106,12 +106,6 @@ sodelovanje_detail = {
     'queryset': Sodelovanje.objects.all(),
 }
 
-feeds = {
-    'diarys': LatestDiarys,
-    'todos': ToDo,
-    'events': LatestEvents,
-}
-
 urlpatterns = patterns('',
     url(r'^$', 'intranet.org.views.index'),
     url(r'^admin/', include(admin.site.urls)),
@@ -189,7 +183,8 @@ urlpatterns = patterns('',
 
     #rss
     (r'^feeds/$', 'django.views.generic.simple.direct_to_template', {'template': 'org/feeds_index.html'}),
-    (r'^feeds/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
+    (r'^feeds/diarys/$', LatestDiarys()),
+    (r'^feeds/events/$', LatestEvents()),
 
     #timelines
     (r'^timelines/$', 'django.views.generic.simple.direct_to_template', {'template': 'org/timeline.html'}),

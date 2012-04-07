@@ -51,8 +51,10 @@ ADMIN_MEDIA_PREFIX = STATIC_URL + 'grappelli/'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.load_template_source',
+    ('django.template.loaders.cached.Loader', (
+        'django.template.loaders.filesystem.Loader',
+        'django.template.loaders.app_directories.Loader',
+    )),
 )
 
 MIDDLEWARE_CLASSES = (
@@ -93,7 +95,6 @@ INSTALLED_APPS = (
     'reversion',
     'feedjack',  # FIXME
     'localeurl',
-    'syncr.twitter',
     'tagging',
     'south',
     'intranet.org',

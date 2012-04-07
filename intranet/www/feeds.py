@@ -1,7 +1,7 @@
 # *-* coding: utf-8 *-*
 import datetime
 
-from django.contrib.syndication.feeds import Feed
+from django.contrib.syndication.views import Feed
 from feedjack.models import Post
 
 from intranet.org.models import Event, Project

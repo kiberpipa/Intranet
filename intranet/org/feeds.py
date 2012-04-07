@@ -1,8 +1,10 @@
-from django.contrib.syndication.feeds import Feed
-from intranet.org.models import Diary, Event
+import datetime
+
+from django.contrib.syndication.views import Feed
 from django.contrib.auth.models import User
 
-import datetime
+from intranet.org.models import Diary, Event
+
 
 today = datetime.date.today()
 yesterday = today - datetime.timedelta(days=3)
