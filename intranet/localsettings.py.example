@@ -16,3 +16,4 @@ TEMPLATE_DEBUG = True
 SEND_BROKEN_LINK_EMAILS = False
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 HAYSTACK_SOLR_URL = 'http://localhost:8983/solr/intranet/'
+SENTRY_DSN = ''  # getsentry.com api key

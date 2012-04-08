@@ -55,7 +55,7 @@ setup(name='intranet',
         # commands
         'twitter',
         # admin
-        'django-sentry',
+        'raven',
         'django-reversion',
     ],
     tests_require=[

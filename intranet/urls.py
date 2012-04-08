@@ -34,7 +34,6 @@ urlpatterns = patterns('',
     (r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
 
     (r'^grappelli/', include('grappelli.urls')),
-    (r'^sentry/', include('sentry.web.urls')),
 )
 
 if settings.DEBUG:

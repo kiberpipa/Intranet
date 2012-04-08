@@ -58,7 +58,7 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'sentry.client.middleware.Sentry404CatchMiddleware',  # must be first, to catch all good responses
+    'raven.contrib.django.middleware.Sentry404CatchMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
     'localeurl.middleware.LocaleURLMiddleware',
     'honeypot.middleware.HoneypotMiddleware',  # as soon as possible
@@ -107,8 +107,7 @@ INSTALLED_APPS = (
     'pipa.gallery',
     'honeypot',
     'django_extensions',
-    'sentry',
-    'sentry.client',
+    'raven.contrib.django',
     'django_mailman',
     'haystack',  # http://charlesleifer.com/blog/solr-ubuntu-revisited/
 )
@@ -116,18 +115,19 @@ INSTALLED_APPS = (
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
+    'root': {
+        'level': 'WARNING',
+        'handlers': ['sentry', 'console'],
+    },
     'formatters': {
         'verbose': {
             'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
         },
-        'simple': {
-            'format': '%(levelname)s %(message)s'
-        },
     },
     'handlers': {
         'sentry': {
-            'level': 'DEBUG',
-            'class': 'sentry.client.handlers.SentryHandler',
+            'level': 'ERROR',
+            'class': 'raven.contrib.django.handlers.SentryHandler',
             'formatter': 'verbose'
         },
         'console': {
@@ -190,11 +190,6 @@ EMAIL_SUBJECT_PREFIX = '[intranet] '
 
 SERVER_EMAIL = 'intranet@kiberpipa.org'
 APPEND_SLASH = True
-
-TWITTER_SYNC = {
-    'keywords': ['kiberpipa'],
-    'users': ['Kiberpipa', 'FilmSteka', 'cyberpipe', 'MoMoSlo', 'wwwh'],
-}
 
 # haystack
 HAYSTACK_SEARCH_ENGINE = 'solr'
