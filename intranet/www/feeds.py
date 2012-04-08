@@ -8,6 +8,12 @@ from intranet.org.models import Event, Project
 from intranet.www.models import News
 
 
+def _get_events():
+    # announcing events up to two days in future
+    # TODO: move to Event objects manager
+    return Event.objects.filter(public=True, start_date__lte=datetime.datetime.today() + datetime.timedelta(5)).order_by('-start_date')
+
+
 class NewsFeed(Feed):
     title = "Kiberpipa - Novice"
     link = "/sl/feeds/novice/"
@@ -15,11 +21,6 @@ class NewsFeed(Feed):
 
     def items(self):
         return News.objects.order_by('-date')[:10]
-
-
-def _get_events():
-    # announcing events up to two days in future
-    return Event.objects.filter(public=True, start_date__lte=datetime.datetime.today() + datetime.timedelta(5)).order_by('-start_date')
 
 
 class EventsFeed(Feed):
@@ -83,18 +84,13 @@ class AllInOne(Feed):
     title = "Kiberpipa - vse"
     link = '/sl/feeds/all/'
 
-    def __init__(self, slug, request):
-        #painfully slow, cache me!!
-        Feed.__init__(self, slug, request)
+    def items(self):
         events = [(e.start_date, e) for e in _get_events()[:10]]
         news = [(n.date, n) for n in News.objects.order_by('-date')[:10]]
         items = events + news
         items.sort()
         items.reverse()
-        self.items = [f for d, f in items]
-
-    def items(self):
-        return self.items
+        return [f for d, f in items]
 
     def item_link(self, obj):
         if isinstance(obj, Event):

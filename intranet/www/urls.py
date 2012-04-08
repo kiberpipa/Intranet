@@ -2,6 +2,8 @@ from django.conf.urls.defaults import *
 from haystack.query import SearchQuerySet
 
 from intranet.org.models import Place, Event
+from intranet.www.feeds import *
+
 
 urlpatterns = patterns('',
     url(r'^$', 'intranet.www.views.index'),
@@ -37,6 +39,16 @@ urlpatterns = patterns('',
     url(r'^ajax/index/events/$', 'intranet.www.views.ajax_index_events'),
     url(r'^ajax/add_mail/(?P<event>[0-9]+)/(?P<email>[^/]*)$', 'intranet.www.views.ajax_add_mail'),
     url(r'^ajax/subscribe_mailinglist/', 'intranet.www.views.ajax_subscribe_mailinglist', name="ajax_subscribe_mailinglist"),
+
+    # feeds
+    (r'^feeds/all/', AllInOne()),
+    (r'^feeds/novice/', NewsFeed()),
+    (r'^feeds/dogodki/', EventsFeed()),
+    (r'^feeds/pot/', POTFeed()),
+    (r'^feeds/su/', SUFeed()),
+    (r'^feeds/vip/', VIPFeed()),
+    (r'^feeds/planet/', PlanetFeed()),
+    (r'^feeds/muzej/', MuzejFeed()),
 
     # backwards compatibility
     url(r'^press-en/', 'django.views.generic.simple.redirect_to', {'url': '/en/press/'},),
