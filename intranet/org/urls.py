@@ -1,10 +1,10 @@
 import datetime
 
-from django.conf.urls.defaults import *
+from django.conf.urls import patterns, url, include
 from django.contrib import admin
 
 from intranet.org.models import Event, Diary, Lend, Shopping, Sodelovanje
-from intranet.org.feeds import LatestDiarys, ToDo, LatestEvents
+from intranet.org.feeds import LatestDiarys, LatestEvents
 from pipa.ldap.forms import LoginForm
 
 

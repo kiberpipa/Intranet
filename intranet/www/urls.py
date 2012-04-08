@@ -1,16 +1,16 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import patterns, url, include
 from haystack.query import SearchQuerySet
 
 from intranet.org.models import Place, Event
-from intranet.www.feeds import *
+from intranet.www.feeds import AllInOne, NewsFeed, EventsFeed, POTFeed, SUFeed, VIPFeed, PlanetFeed, MuzejFeed
 
 
 urlpatterns = patterns('',
     url(r'^$', 'intranet.www.views.index'),
     url(r'^rss/$', 'intranet.www.views.rss', name="rss"),
     # deprecated
-    url(r'^event/\d{4}-[a-z]{3}-[0-9]{1,2}/(?P<id>\d+)/(?P<slug>[-\w]+)/$', 'intranet.www.views.event'),
-    url(r'^event/(?P<slug>[-\w]+)-(?P<id>\d+)/$', 'intranet.www.views.event', name="event_detail"),
+    url(r'^event/\d{4}-[a-z]{3}-[0-9]{1,2}/(?P<id>\d+)/(?P<slug>[-\w]+)/', 'intranet.www.views.event'),
+    url(r'^event/(?P<slug>[-\w]+)-(?P<id>\d+)/', 'intranet.www.views.event', name="event_detail"),
     url(r'^event/search/', 'haystack.views.basic_search', dict(
         template='search/search_event.html',
         searchqueryset=SearchQuerySet().models(Event).filter(is_public=True),
