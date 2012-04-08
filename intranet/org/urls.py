@@ -183,8 +183,8 @@ urlpatterns = patterns('',
 
     #rss
     (r'^feeds/$', 'django.views.generic.simple.direct_to_template', {'template': 'org/feeds_index.html'}),
-    (r'^feeds/diarys/$', LatestDiarys()),
-    (r'^feeds/events/$', LatestEvents()),
+    (r'^feeds/diarys/', LatestDiarys()),
+    (r'^feeds/events/', LatestEvents()),
 
     #timelines
     (r'^timelines/$', 'django.views.generic.simple.direct_to_template', {'template': 'org/timeline.html'}),
