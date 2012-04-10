@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, url, include
+from django.views.generic import RedirectView, TemplateView
 from haystack.query import SearchQuerySet
 
 from intranet.org.models import Place, Event
@@ -8,9 +9,7 @@ from intranet.www.feeds import AllInOne, NewsFeed, EventsFeed, POTFeed, SUFeed, 
 urlpatterns = patterns('',
     url(r'^$', 'intranet.www.views.index'),
     url(r'^rss/$', 'intranet.www.views.rss', name="rss"),
-    # deprecated
-    url(r'^event/\d{4}-[a-z]{3}-[0-9]{1,2}/(?P<id>\d+)/(?P<slug>[-\w]+)/', 'intranet.www.views.event'),
-    url(r'^event/(?P<slug>[-\w]+)-(?P<id>\d+)/', 'intranet.www.views.event', name="event_detail"),
+    url(r'^event/(?P<slug>[-\w]*)-(?P<id>\d+)/', 'intranet.www.views.event', name="event_detail"),
     url(r'^event/search/', 'haystack.views.basic_search', dict(
         template='search/search_event.html',
         searchqueryset=SearchQuerySet().models(Event).filter(is_public=True),
@@ -23,14 +22,14 @@ urlpatterns = patterns('',
     url(r'^calendar/$', 'intranet.www.views.calendar'),
     url(r'^calendar/ical/$', 'intranet.www.views.ical'),
     url(r'^calendar/(?P<year>\d{4})/(?P<month>[0-1]?[0-9])?', 'intranet.www.views.calendar'),
-    url(r'^alumni/', 'pipa.addressbook.views.alumni'),
-    url(r'^press/', 'intranet.www.views.press'),
     url(r'^prostori/$', 'intranet.www.views.facilities'),
     url(r'^prostori/(?P<object_id>\d+)/opis.ajax$', 'django.views.generic.list_detail.object_detail',
         {'template_name': 'www/facility_description_ajax.html',
         'queryset': Place.objects.all()}, name="facility_description_ajax"),
-    url(r'^locale/$', 'django.views.generic.simple.direct_to_template', {'template': 'www/locale.html'}),
-    url(r'^kjesmo/$', 'django.views.generic.simple.direct_to_template', {'template': 'www/kjesmo.html'}),
+    url(r'^locale/$', TemplateView.as_view(template_name='www/locale.html'),
+    url(r'^kjesmo/$', TemplateView.as_view(template_name='www/kjesmo.html'),
+    url(r'^alumni/', 'pipa.addressbook.views.alumni'),
+    url(r'^press/', 'intranet.www.views.press'),
 
     url(r'^comments/', include('django.contrib.comments.urls')),
     url(r'^comments/post/$', 'intranet.www.views.anti_spam'),
@@ -51,7 +50,9 @@ urlpatterns = patterns('',
     (r'^feeds/muzej/', MuzejFeed()),
 
     # backwards compatibility
-    url(r'^press-en/', 'django.views.generic.simple.redirect_to', {'url': '/en/press/'},),
-    url(r'^alumni-en/', 'django.views.generic.simple.redirect_to', {'url': '/en/alumni/'},),
-    url(r'^calendar-en/', 'django.views.generic.simple.redirect_to', {'url': '/en/calendar/'},),
+    url(r'^press-en/', RedirectView.as_view(url='/en/press/', permanent=True),
+    url(r'^alumni-en/', RedirectView.as_view(url='/en/alumni/', permanent=True),
+    url(r'^calendar-en/', RedirectView.as_view(url='/en/calendar/', permanent=True),
+    url(r'^event/\d{4}-[a-z]{3}-[0-9]{1,2}/(?P<id>\d+)/(?P<slug>[-\w]*)',
+        RedirectView.as_view(url='event/%(slug)s-%(id)s/', permanent=True)),
 )

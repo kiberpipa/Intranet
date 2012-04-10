@@ -108,7 +108,7 @@ def ajax_subscribe_mailinglist(request):
         return HttpResponse(_(u'Wrong email!'))
 
 
-def event(request, slug, id):
+def event(request, slug=None, id=None):
     event = get_object_or_404(Event, pk=id, public=True)
     if not request.path.endswith(event.get_public_url()):
         return HttpResponseRedirect(event.get_public_url())

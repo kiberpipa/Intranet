@@ -514,7 +514,7 @@ def sablona(request, event):
 def event_edit(request, event_pk=None):
     instance = None
     if event_pk is not None:
-        instance = Event.objects.select_related().get(pk=event_pk)
+        instance = get_object_or_404(Event.objects.select_related(), pk=event_pk)
 
     if request.method == 'POST':
         form = EventForm(request.POST, instance=instance)
