@@ -1,9 +1,10 @@
 from django.conf.urls import patterns, url, include
-from django.views.generic import RedirectView, TemplateView
+from django.views.generic import RedirectView, TemplateView, DetailView
 from haystack.query import SearchQuerySet
 
 from intranet.org.models import Place, Event
 from intranet.www.feeds import AllInOne, NewsFeed, EventsFeed, POTFeed, SUFeed, VIPFeed, PlanetFeed, MuzejFeed
+from intranet.www.views import NewsList
 
 
 urlpatterns = patterns('',
@@ -14,7 +15,7 @@ urlpatterns = patterns('',
         template='search/search_event.html',
         searchqueryset=SearchQuerySet().models(Event).filter(is_public=True),
         ), name="event_search"),
-    url(r'^news/$', 'intranet.www.views.news_list'),
+    url(r'^news/$', NewsList.as_view()),
     url(r'^news/comments/post/$', 'intranet.www.views.anti_spam'),
     url(r'^news/(?P<id>\d+)/(?P<slug>[-\w]+)/$', 'intranet.www.views.news_detail'),
     url(r'^news/(?P<id>\d+)/$', 'intranet.www.views.news_detail'),
@@ -23,9 +24,10 @@ urlpatterns = patterns('',
     url(r'^calendar/ical/$', 'intranet.www.views.ical', name="calendar_ical"),
     url(r'^calendar/(?P<year>\d{4})/(?P<month>[0-1]?[0-9])?', 'intranet.www.views.calendar'),
     url(r'^prostori/$', 'intranet.www.views.facilities'),
-    url(r'^prostori/(?P<object_id>\d+)/opis.ajax$', 'django.views.generic.list_detail.object_detail',
-        {'template_name': 'www/facility_description_ajax.html',
-        'queryset': Place.objects.all()}, name="facility_description_ajax"),
+    url(r'^prostori/(?P<object_id>\d+)/opis.ajax$', DetailView.as_view(
+        queryset=Place.objects.all(),
+        template_name="www/facility_description_ajax.html",
+    ), name="facility_description_ajax"),
     url(r'^locale/$', TemplateView.as_view(template_name='www/locale.html')),
     url(r'^kjesmo/$', TemplateView.as_view(template_name='www/kjesmo.html')),
     url(r'^alumni/', 'pipa.addressbook.views.alumni'),

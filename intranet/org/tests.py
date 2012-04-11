@@ -145,6 +145,8 @@ class EventTest(BaseCase):
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content.find(redirect_url) > -1, True)
 
+        # TODO: test archive events
+
         # add a number of visitors
         resp = self.client.post(redirect_url + 'count/', {'visitors': 10, 'enter_your_email': ''})
         self.assertEqual(resp.status_code, 302)
@@ -249,6 +251,8 @@ class DiaryTest(BaseCase):
         resp = self.client.post('/intranet/diarys/', {'author': '', 'task': self.project.id, 'enter_your_email': ''})
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content.find(redirect_url) > -1, True)
+
+        # TODO: test archive diary
 
 
 class CommandsTest(BaseCase):

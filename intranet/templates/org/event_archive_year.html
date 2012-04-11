@@ -7,7 +7,7 @@
 	<ul id="breadcrumbs">
 		<li>Meseci: </li>
 		{% for obj in date_list %}
-			<li><a href="{{ obj|date:"m"}}/">{{ obj|date:"F" }}</a></li>
+			<li><a href="{{ obj|date:"b"}}/">{{ obj|date:"F" }}</a></li>
 		{% endfor %}
 	</ul>
 	</div>

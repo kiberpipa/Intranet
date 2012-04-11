@@ -13,7 +13,7 @@ from django.http import HttpResponsePermanentRedirect, HttpResponse, HttpRespons
 from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
 from django.contrib.comments.views.comments import post_comment
-from django.views.generic.list_detail import object_list
+from django.views.generic import ListView
 from django.views.decorators.csrf import csrf_protect
 from django.utils.translation import ugettext as _
 from feedjack.models import Post
@@ -214,22 +214,6 @@ def rss(request):
     return render_to_response('www/rss.html', context_instance=RequestContext(request))
 
 
-# Generic views wrappers.
-def press(request):
-    if request.LANGUAGE_CODE == 'en':
-        template = 'www/press_en.html'
-    else:
-        template = 'www/press.html'
-    return render_to_response(template, RequestContext(request, {}))
-
-
-def news_list(request):
-    queryset = News.objects.order_by('-date')
-    if request.LANGUAGE_CODE == 'en':
-        queryset = queryset.filter(language='en')
-    return object_list(request, queryset=queryset[:10], template_name='www/news_list.html')
-
-
 def facilities(request):
     """Facilities info and contact form"""
     if request.method == 'POST':
@@ -241,3 +225,24 @@ def facilities(request):
     else:
         form = EventContactForm()
     return render_to_response('www/facilities.html', RequestContext(request, locals()))
+
+
+# TODO: use locale aware flatpages for this
+def press(request):
+    if request.LANGUAGE_CODE == 'en':
+        template = 'www/press_en.html'
+    else:
+        template = 'www/press.html'
+    return render_to_response(template, RequestContext(request, {}))
+
+
+class NewsList(ListView):
+    template_name = 'www/news_list.html'
+    queryset = News.objects.order_by('-date')
+    paginate_by = 10
+
+    def get_queryset(self):
+        if self.request.LANGUAGE_CODE == 'en':
+            return self.queryset.filter(language='en')
+        else:
+            return self.queryset

@@ -16,7 +16,7 @@ from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
-from django.views.generic import list_detail, date_based
+from django.views.generic import DetailView, ArchiveIndexView, YearArchiveView, MonthArchiveView
 from django.utils import simplejson
 from django.db import models
 from PIL import Image
@@ -183,29 +183,6 @@ def lend_back(request, id=None):
 
 
 @login_required
-def lends(request):
-    if request.method == 'POST':
-        form = LendForm(request.POST)
-        if form.is_valid():
-            new_lend = form.save()
-            if 'due_date' not in form.cleaned_data:
-                new_lend.due_date = datetime.datetime.today() + datetime.timedelta(7)
-
-            return HttpResponseRedirect(new_lend.get_absolute_url())
-    else:
-        form = LendForm()
-
-    return date_based.archive_index(request,
-        queryset=Lend.objects.all().order_by('due_date'),
-        date_field='from_date',
-        allow_empty=1,
-        extra_context={
-            'form': form,
-        },
-    )
-
-
-@login_required
 def lends_form(request, id=None, action=None):
     #process the add/edit requests, redirect to full url if successful, display form with errors if not.
     if request.method == 'POST':
@@ -228,17 +205,6 @@ def lends_form(request, id=None, action=None):
         'lend_edit': True,
         }, context_instance=RequestContext(request)
     )
-
-
-@login_required
-def lend_detail(request, object_id):
-    return list_detail.object_detail(request,
-        object_id=object_id,
-        queryset=Lend.objects.all(),
-        extra_context={
-            'lend_form': LendForm(instance=Lend.objects.get(id=object_id)),
-            'lend_edit': True,
-        })
 
 
 @login_required
@@ -366,43 +332,6 @@ def diarys_form(request, id=None, action=None):
     )
 
 
-@login_required
-def diarys(request):
-    diarys = Diary.objects.all()
-    if request.POST:
-        filter = DiaryFilter(request.POST)
-        if filter.is_valid():
-            for key, value in filter.cleaned_data.items():
-                if value:
-                    ##'**' rabis zato da ti python resolva spremenljivke (as opposed da passa dobesedni string)
-                    diarys = diarys.filter(**{key: value})
-    else:
-        filter = DiaryFilter()
-
-    return date_based.archive_index(request,
-        queryset=diarys.order_by('date'),
-        date_field='date',
-        allow_empty=1,
-        extra_context={
-            'filter': filter,
-            'diary_form': DiaryForm(),
-        }
-    )
-
-
-@login_required
-def diary_detail(request, object_id):
-    return list_detail.object_detail(request,
-        object_id=object_id,
-        queryset=Diary.objects.all(),
-        extra_context={
-            #the next line is the reason for wrapper function, dunno how to
-            #pass generic view dynamic form.
-            'diary_form': DiaryForm(instance=Diary.objects.get(id=object_id)),
-            'diary_edit': True,
-        })
-
-
 # dodaj podatek o obiskovalcih dogodka
 @login_required
 def shopping_buy(request, id=None):
@@ -421,19 +350,6 @@ def shopping_support(request, id=None):
 
 
 @login_required
-def shopping_detail(request, object_id):
-    return list_detail.object_detail(request,
-        object_id=object_id,
-        queryset=Shopping.objects.all(),
-        extra_context={
-            #the next line is the reason for wrapper function, dunno how to
-            #pass generic view dynamic form.
-            'shopping_form': ShoppingForm(instance=Shopping.objects.get(id=object_id)),
-            'shopping_edit': True,
-        })
-
-
-@login_required
 def person_autocomplete(request):
     hits = []
     if 'q' in request.GET:
@@ -447,25 +363,6 @@ def active_user_autocomplete(request):
     if 'q' in request.GET:
         hits = ['%s\n' % i for i in User.objects.filter(is_active=True).order_by('username').filter(username__icontains=request.GET['q'])]
     return HttpResponse(''.join(hits), mimetype='text/plain')
-
-
-@login_required
-def events(request):
-    today = datetime.datetime.today()
-    week_number = int(today.strftime('%W'))
-
-    return date_based.archive_index(request,
-        queryset=Event.objects.all(),
-        date_field='start_date',
-        allow_empty=1,
-        extra_context={
-            'event_last': Event.objects.get_week_events(today.year, week_number - 1),
-            'event_this': Event.objects.get_week_events(today.year, week_number),
-            'event_next': Event.objects.get_week_events(today.year, week_number + 1),
-            'event_next2': Event.objects.get_week_events(today.year, week_number + 2),
-            'years': range(2006, today.year + 1),
-        },
-    )
 
 
 @login_required
@@ -564,18 +461,6 @@ def event_edit(request, event_pk=None):
         'image': (instance and instance.event_image and instance.event_image.image) or None
         }
     return render_to_response('org/event_edit.html', RequestContext(request, context))
-
-
-@login_required
-def event(request, event_id):
-    return list_detail.object_detail(request,
-        queryset=Event.objects.all(),
-        object_id=event_id,
-        extra_context={
-            'sodelovanja': Sodelovanje.objects.filter(event=event_id),
-            'emails_form': AddEventEmails(),
-        }
-    )
 
 
 @login_required
@@ -1041,7 +926,8 @@ def year_statistics(request, year=None):
         return response
 
     return render_to_response('org/statistics_year.html',
-        locals(), context_instance=RequestContext(request))
+                              locals(),
+                              context_instance=RequestContext(request))
 
 
 def event_template(request, year=0, week=0):
@@ -1051,3 +937,135 @@ def event_template(request, year=0, week=0):
 
     events = Event.objects.get_week_events(int(year), int(week)).is_public()
     return render_to_response("org/event_template.html", {"events": events}, context_instance=RequestContext(request))
+
+
+# generic views
+
+class DetailLend(DetailView):
+    model = Lend
+
+    def get_context_data(self, **kw):
+        context = super(DetailLend, self).get_context_data(**kw)
+        context['lend_form'] = LendForm(instance=self.model.objects.get(id=self.kwargs['pk']))
+        context['lend_edit'] = True
+        return context
+
+
+class DetailDiary(DetailView):
+    model = Diary
+
+    def get_context_data(self, **kw):
+        context = super(DetailDiary, self).get_context_data(**kw)
+        context['diary_form'] = DiaryForm(instance=self.model.objects.get(id=self.kwargs['pk']))
+        context['diary_edit'] = True
+        return context
+
+
+class DetailShopping(DetailView):
+    model = Shopping
+
+    def get_context_data(self, **kw):
+        context = super(DetailShopping, self).get_context_data(**kw)
+        context['shopping_form'] = ShoppingForm(instance=self.model.objects.get(id=self.kwargs['pk']))
+        context['shopping_edit'] = True
+        return context
+
+
+class DetailEvent(DetailView):
+    model = Event
+
+    def get_context_data(self, **kw):
+        context = super(DetailEvent, self).get_context_data(**kw)
+        context['emails_form'] = AddEventEmails()
+        context['sodelovanja'] = Sodelovanje.objects.filter(event=self.kwargs['pk'])
+        return context
+
+
+class ArchiveIndexLend(ArchiveIndexView):
+    queryset = Lend.objects.all().order_by('due_date')
+    date_field = 'from_date'
+    allow_empty = True
+
+    def get_context_data(self, **kw):
+        context = super(ArchiveIndexLend, self).get_context_data(**kw)
+        form = LendForm(self.request.POST)
+        context['form'] = form
+        if self.request.method == 'POST' and form.is_valid():
+            new_lend = form.save()
+            if 'due_date' not in form.cleaned_data:
+                # TODO: specify as default on model
+                new_lend.due_date = datetime.datetime.today() + datetime.timedelta(7)
+
+            return HttpResponseRedirect(new_lend.get_absolute_url())
+        return context
+
+
+class ArchiveIndexDiary(ArchiveIndexView):
+    date_field = 'date'
+    allow_empty = True
+
+    post = ArchiveIndexView.get
+
+    def get_queryset(self):
+        diarys = Diary.objects.all()
+        form = DiaryFilter(self.request.POST)
+        if self.request.POST and form.is_valid():
+            for key, value in form.cleaned_data.items():
+                if value:
+                    diarys = diarys.filter(**{key: value})
+
+        return diarys.order_by('date')
+
+    def get_context_data(self, **kw):
+        context = super(ArchiveIndexDiary, self).get_context_data(**kw)
+        context['diary_form'] = DiaryForm()
+        context['filter'] = DiaryFilter(self.request.POST)
+        return context
+
+
+class ArchiveIndexEvent(ArchiveIndexView):
+    model = Event
+    date_field = 'start_date'
+    allow_empty = True
+
+    post = ArchiveIndexView.get
+
+    def get_context_data(self, **kw):
+        context = super(ArchiveIndexEvent, self).get_context_data(**kw)
+        today = datetime.datetime.today()
+        week_number = int(today.strftime('%W'))
+        context['event_last'] = Event.objects.get_week_events(today.year, week_number - 1)
+        context['event_this'] = Event.objects.get_week_events(today.year, week_number)
+        context['event_next'] = Event.objects.get_week_events(today.year, week_number + 1)
+        context['event_next2'] = Event.objects.get_week_events(today.year, week_number + 2)
+        return context
+
+
+class MixinArchiveEvent(object):
+    queryset = Event.objects.all().order_by('start_date')
+    date_field = 'start_date'
+    allow_empty = True
+    allow_future = True
+
+
+class YearArchiveEvent(MixinArchiveEvent, YearArchiveView):
+    make_object_list = True
+
+
+class MonthArchiveEvent(MixinArchiveEvent, MonthArchiveView):
+    pass
+
+
+class MixinArchiveDiary(object):
+    queryset = Diary.objects.all().order_by('date')
+    date_field = 'date'
+    allow_empty = True
+    allow_future = True
+
+
+class YearArchiveDiary(MixinArchiveDiary, YearArchiveView):
+    make_object_list = True
+
+
+class MonthArchiveDiary(MixinArchiveDiary, MonthArchiveView):
+    pass

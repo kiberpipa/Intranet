@@ -45,16 +45,6 @@
 {% block title %}Dnevniki{% endblock %}
 {% load markup %}
 {% load box %}
-{% block toplinks %}
-    <div class="breadcrumbs">
-    <ul id="breadcrumbs">
-        <li>Dnevi:</li>
-        {% for obj in date_list %}
-            <li><a href="{{ obj|date:"D"|lower }}/">{{ obj.day }}</a></li>
-        {% endfor %}
-    </ul>
-    </div>
-{% endblock %}
 
 {% block heading %}
         <h1>Arhiv Dnevnikov - mesec {{ month|date:"F"|capfirst }}</h1>

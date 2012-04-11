@@ -194,18 +194,14 @@ EMAIL_SUBJECT_PREFIX = '[intranet] '
 SERVER_EMAIL = 'intranet@kiberpipa.org'
 APPEND_SLASH = True
 
+TEST_RUNNER = 'django_coverage.coverage_runner.CoverageRunner'
+
 # haystack
 HAYSTACK_SEARCH_ENGINE = 'solr'
 HAYSTACK_SITECONF = 'intranet.haystacksearch'
 
 # south
 SOUTH_TESTS_MIGRATE = False
-
-# django-jenkins
-PROJECT_APPS = (
-    "intranet.org",
-    "intranet.www",
-)
 
 # pipa.photo
 PHOTOS_FLICKR_IMAGE_URL_S = 'http://farm%(farm)s.static.flickr.com/%(server)s/%(id)s_%(secret)s_s.jpg'

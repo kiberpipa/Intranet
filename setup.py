@@ -46,6 +46,8 @@ setup(name='intranet',
         'django-grappelli',
         'django-extensions',
         'Werkzeug',  # interactive debug
+        'django-coverage',
+        'coverage',
         # solr
         'django-haystack',
         'pysolr',
