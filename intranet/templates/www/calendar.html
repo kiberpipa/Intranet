@@ -1,5 +1,6 @@
 {% extends "www/base-second.html" %}
 {% load markup www i18n %}
+{% load url from future %}
 
 {% block extrahead %}{% endblock %}
 
@@ -12,7 +13,7 @@
 {% block content %}
   <div id="koledar">
     <div class="koledar-img">
-      <a href="/calendar/ical/">iCal</a> <a href="{% url rss %}" ><img src="{{ settings.STATIC_URL }}www/images/rss20x20.png" alt="RSS Feeds" /></a>
+      <a href="{% url 'calendar_ical' %}">iCal</a> <a href="{% url 'rss' %}" ><img src="{{ settings.STATIC_URL }}www/images/rss20x20.png" alt="RSS Feeds" /></a>
     </div>
     <div class="koledar-title-main">
       <small><a href="{{ prev }}"> &lt;&lt; {% trans "Previous month" %}</a></small>

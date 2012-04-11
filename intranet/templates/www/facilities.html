@@ -1,4 +1,5 @@
 {% extends "www/base-second.html" %}
+{% load url from future %}
 
 {% block title %}Opis in rezervacija prostorov{% endblock %}
 
@@ -45,7 +46,7 @@
             var ajdi = "map area#" + facilitiesl[id];
             hilight($(ajdi));
             $.ajax({
-              url: '{% url facility_description_ajax 999 %}'.replace('999', id),
+              url: '{% url "facility_description_ajax" 999 %}'.replace('999', id),
               context: $('#map-description'),
               success: function(data) {
                 $(this).html(data);
@@ -70,7 +71,7 @@
             hilight($(this))
             // load description of the facility
             $.ajax({
-              url: '{% url facility_description_ajax 999 %}'.replace('999', id),
+              url: '{% url "facility_description_ajax" 999 %}'.replace('999', id),
               context: $('#map-description'),
               success: function(data) {
                 $(this).html(data);

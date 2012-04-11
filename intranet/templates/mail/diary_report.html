@@ -1,8 +1,10 @@
+{% load url from future %}
+
 {% if no_tech %}
 <h2 style="color:red">Dogodki potrebujejo tehnika:</h2>
 <ul>
     {% for event in no_tech %}
-        <li> <a href="{% url event_edit event.id %}">{{ event }}</a> </li>
+        <li> <a href="{% url 'event_edit' event.id %}">{{ event }}</a> </li>
     {% endfor %}
 </ul>
 {% endif %}
@@ -11,7 +13,7 @@
 <h2 style="color:red">Dogodki potrebujejo dežurnega:</h2>
 <ul>
     {% for event in no_responsible %}
-        <li> <a href="{% url event_edit event.id %}">{{ event }}</a> </li>
+        <li> <a href="{% url 'event_edit' event.id %}">{{ event }}</a> </li>
     {% endfor %}
 </ul>
 {% endif %}

@@ -1,5 +1,6 @@
 {% extends "www/base-second.html" %}
 {% load www i18n %}
+{% load url from future %}
 
 {% block extrahead %}
 <script type='text/javascript' src='{{ settings.STATIC_URL }}www/js/jquery.scrollable.js'></script>
@@ -98,7 +99,7 @@ $(document).ready(function() {
        <div class="button-chamber">
            <h4>{% trans "Subscribe to Cyberpipe mailing list" %}</h4>
            <span>{% trans "Would you like to subscribe to information about weekly events?" %}</span>
-           <form id="subscribe_mailinglist" method="post" action="{% url ajax_subscribe_mailinglist %}">
+           <form id="subscribe_mailinglist" method="post" action="{% url 'ajax_subscribe_mailinglist' %}">
                {{ emailform.as_table }}
                <p><i class="response"></i></p>
            </form>

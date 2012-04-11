@@ -1,4 +1,5 @@
 {% extends "org/base.html" %}
+{% load url from future %}
 
 {% block extrahead %}
     <script>
@@ -11,7 +12,7 @@
 {% block content %}
     {% if user.is_authenticated %}
         <p>V sistem ste ze prijavljeni kot: <tt>{{ user.username }}</tt>. Če se želite prijaviti kot kdo drug uporabnik, 
-           <a href="{% url account_logout %}" title="Odjavite se in potem ponovno prijavite">se najprej odjavite</a>.
+           <a href="{% url 'account_logout' %}" title="Odjavite se in potem ponovno prijavite">se najprej odjavite</a>.
         </p>
     {% else %}
         <div id="loginbox">

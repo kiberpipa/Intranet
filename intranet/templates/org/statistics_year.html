@@ -1,5 +1,6 @@
 {% extends "org/base_3col.html" %}
 {% load ldapauth %}
+{% load url from future %}
 
 {% block title %}Statistika za leto {{ year }}{% endblock %}
 
@@ -11,14 +12,14 @@
 <div class="module" id="recent-actions-module">
     <h2 class="expand">Izberi leto:</h2>
     {% for year in years %}
-        <p><a href="{% url statistics_by_year year %}">{{ year }}</a></p>
+        <p><a href="{% url 'statistics_by_year' year %}">{{ year }}</a></p>
     {% endfor %}
 </div>
 {% endblock %}
 
 {% block content-main %}
 <div class="module">
-    <h2><a href="{% url event_arhive_year year %}">Seznam dogodkov za leto {{ year }}</a></h2>
+    <h2><a href="{% url 'event_arhive_year' year %}">Seznam dogodkov za leto {{ year }}</a></h2>
     <p>Skupaj dogodkov: <strong>{{ q.count }}</strong></p>
     <p>Skupaj javnih dogodkov: <strong>{{ q.is_public.count }}</strong></p>
     <p>Dogodki, ki imajo galerijo: <strong>{{ q.has_pictures.count }}</strong></p>
@@ -48,7 +49,7 @@
 {% block content-related-right %}
 <div class="module">
     <h2>Seznami statistik</h2>
-    <p><a href="{% url statistics_by_year year %}?csv=javni_dogodki">Seznam javnih dogodkov</a><p/>
-    <p><a href="{% url statistics_by_year year %}?csv=izpis_dogodkov_z_udelezenci">Izpis dogodkov z udeleženci</a><p/>
+    <p><a href="{% url 'statistics_by_year' year %}?csv=javni_dogodki">Seznam javnih dogodkov</a><p/>
+    <p><a href="{% url 'statistics_by_year' year %}?csv=izpis_dogodkov_z_udelezenci">Izpis dogodkov z udeleženci</a><p/>
 </div>
 {% endblock %}

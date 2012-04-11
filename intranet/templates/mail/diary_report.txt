@@ -1,14 +1,15 @@
+{% load url from future %}
 {% if no_tech %}
 === Dogodki potrebujejo tehnika ===
 {% for event in no_tech %}
-{{ event }} - {% url event_edit event.id %}
+{{ event }} - {% url 'event_edit' event.id %}
 {% endfor %}
 {% endif %}
 
 {% if no_responsible %}
 === Dogodki potrebujejo dežurnega ===
 {% for event in no_responsible %}
-{{ event }} - {% url event_edit event.id %}
+{{ event }} - {% url 'event_edit' event.id %}
 {% endfor %}
 {% endif %}
 

@@ -1,5 +1,6 @@
 {% extends "org/base_3col.html" %}
 {% load box i18n %}
+{% load url from future %}
 
 {% block extrahead %}
 <script>
@@ -73,7 +74,7 @@
 	<h4>{% trans "Public events with no visitors:" %}</h4>
 	<ul>
 	  {% for event in unfinished_events.0 %}
-	    <li> <a href="{% url event_edit event.id %}">{{ event }}</a> </li>
+	    <li> <a href="{% url 'event_edit' event.id %}">{{ event }}</a> </li>
 	  {% endfor %}
 	</ul>
       {% endif %}
@@ -82,7 +83,7 @@
       <h4>{% trans "Events marked as recorded but no video attached:" %}</h4>
       <ul>
 	  {% for event in unfinished_events.1 %}
-	      <li> <a href="{% url event_edit event.id %}">{{ event }}</a> </li>
+	      <li> <a href="{% url 'event_edit' event.id %}">{{ event }}</a> </li>
 	  {% endfor %}
       </ul>
       {% endif %}
@@ -91,7 +92,7 @@
       <h4>{% trans "Events with required pictures has no flickr id:" %}</h4>
       <ul>
 	  {% for event in unfinished_events.2 %}
-	      <li> <a href="{% url event_edit event.id %}">{{ event }}</a> </li>
+	      <li> <a href="{% url 'event_edit' event.id %}">{{ event }}</a> </li>
 	  {% endfor %}
       </ul>
       {% endif %}

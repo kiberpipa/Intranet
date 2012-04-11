@@ -1,3 +1,4 @@
+{% load url from future %}
 <div class="{{ event.project.name|slugify }}">
 	<ul class="event">
 		<li>
@@ -16,7 +17,7 @@
             <a href="{{ event.flickr_url }}" title="Ima fotografije">
                 <img src="{{ settings.STATIC_URL }}org/images/accept.png" class="has" alt="has" />
             {% else %}
-            <a href="{% url event_edit event.id %}" title="Ni fotografij">
+            <a href="{% url 'event_edit' event.id %}" title="Ni fotografij">
             {% endif %}
                 <img src="{{ settings.STATIC_URL }}org/images/photo.png"
                     class="{% if not event.require_photo %}notrequired{% endif %}" alt="photo" />
@@ -39,6 +40,6 @@
 		<li><i>{{ event.project }}</i></li>
 		<li><a href="/intranet/events/{{ event.id }}/">{{ event.title }}</a></li>
 		<li>({{ event.length|time:"H:i" }})</li>
-		<li><a href="{% url event_edit event.id %}">[Uredi]</a></li>
+		<li><a href="{% url 'event_edit' event.id %}">[Uredi]</a></li>
   </ul>
 </div>

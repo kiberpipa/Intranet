@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     {% load i18n localeurl_tags %}
+    {% load url from future %}
     {% get_current_language as LANGUAGE_CODE %}
     <link rel="alternate" type="application/rss+xml" title="Kiberpipa - Vse" href="/feeds/all/" />
     <link rel="alternate" type="application/rss+xml" title="Kiberpipa - Novice" href="/feeds/novice/" />
@@ -47,7 +48,7 @@
             </div>
         </div>
         <div id="search">
-	   <form method="get" action="{% url event_search %}" id="searchform">
+	   <form method="get" action="{% url 'event_search' %}" id="searchform">
                <input name="q" id="q" type="search" placeholder="{% trans 'Search events ...' %}" size="20" />
            </form>
         </div>
