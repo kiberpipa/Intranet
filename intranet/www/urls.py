@@ -26,8 +26,8 @@ urlpatterns = patterns('',
     url(r'^prostori/(?P<object_id>\d+)/opis.ajax$', 'django.views.generic.list_detail.object_detail',
         {'template_name': 'www/facility_description_ajax.html',
         'queryset': Place.objects.all()}, name="facility_description_ajax"),
-    url(r'^locale/$', TemplateView.as_view(template_name='www/locale.html'),
-    url(r'^kjesmo/$', TemplateView.as_view(template_name='www/kjesmo.html'),
+    url(r'^locale/$', TemplateView.as_view(template_name='www/locale.html')),
+    url(r'^kjesmo/$', TemplateView.as_view(template_name='www/kjesmo.html')),
     url(r'^alumni/', 'pipa.addressbook.views.alumni'),
     url(r'^press/', 'intranet.www.views.press'),
 
@@ -50,9 +50,9 @@ urlpatterns = patterns('',
     (r'^feeds/muzej/', MuzejFeed()),
 
     # backwards compatibility
-    url(r'^press-en/', RedirectView.as_view(url='/en/press/', permanent=True),
-    url(r'^alumni-en/', RedirectView.as_view(url='/en/alumni/', permanent=True),
-    url(r'^calendar-en/', RedirectView.as_view(url='/en/calendar/', permanent=True),
+    url(r'^press-en/', RedirectView.as_view(url='/en/press/', permanent=True)),
+    url(r'^alumni-en/', RedirectView.as_view(url='/en/alumni/', permanent=True)),
+    url(r'^calendar-en/', RedirectView.as_view(url='/en/calendar/', permanent=True)),
     url(r'^event/\d{4}-[a-z]{3}-[0-9]{1,2}/(?P<id>\d+)/(?P<slug>[-\w]*)',
         RedirectView.as_view(url='event/%(slug)s-%(id)s/', permanent=True)),
 )
