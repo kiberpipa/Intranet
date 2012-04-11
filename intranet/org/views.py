@@ -985,11 +985,13 @@ class ArchiveIndexLend(ArchiveIndexView):
     queryset = Lend.objects.all().order_by('due_date')
     date_field = 'from_date'
     allow_empty = True
+    paginate_by = 50
 
     def get_context_data(self, **kw):
         context = super(ArchiveIndexLend, self).get_context_data(**kw)
         form = LendForm(self.request.POST)
         context['form'] = form
+        # TODO: refactor this in new view
         if self.request.method == 'POST' and form.is_valid():
             new_lend = form.save()
             if 'due_date' not in form.cleaned_data:
@@ -1003,6 +1005,7 @@ class ArchiveIndexLend(ArchiveIndexView):
 class ArchiveIndexDiary(ArchiveIndexView):
     date_field = 'date'
     allow_empty = True
+    paginate_by = 50
 
     post = ArchiveIndexView.get
 
@@ -1027,6 +1030,7 @@ class ArchiveIndexEvent(ArchiveIndexView):
     model = Event
     date_field = 'start_date'
     allow_empty = True
+    paginate_by = 50
 
     post = ArchiveIndexView.get
 
