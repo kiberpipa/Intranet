@@ -2,8 +2,8 @@ import os
 import re
 
 
-def next_to_this_file(this_file, additional_path):
-    return os.path.join(os.path.dirname(os.path.abspath(this_file)), additional_path)
+def next_to_this_file(this_file, *additional_paths):
+    return os.path.join(os.path.dirname(os.path.abspath(this_file)), *additional_paths)
 
 
 ADMINS = (
@@ -39,6 +39,9 @@ LOCALE_INDEPENDENT_PATHS = (
     re.compile('event_photos/'),
     re.compile('^favicon.ico'),
     re.compile('^/services/'),
+)
+LOCALE_PATHS = (
+    next_to_this_file(__file__, 'intranet', 'locale')
 )
 
 SITE_ID = 1

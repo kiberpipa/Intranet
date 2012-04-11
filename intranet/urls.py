@@ -8,10 +8,6 @@ planet_dict = {
     'queryset': Post.objects.order_by('-date_modified')[:30],
 }
 
-js_info_dict = {
-    'packages': ('intranet.www', 'intranet.org'),
-}
-
 urlpatterns = patterns('',
     (r'^', include('intranet.www.urls')),
     (r'^intranet/', include('intranet.org.urls')),
@@ -20,7 +16,7 @@ urlpatterns = patterns('',
     (r'^planet/', 'django.views.generic.list_detail.object_list', planet_dict),
 
     (r'^i18n/', include('django.conf.urls.i18n')),
-    (r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
+    (r'^jsi18n/$', 'django.views.i18n.javascript_catalog'),
 
     (r'^grappelli/', include('grappelli.urls')),
 )
