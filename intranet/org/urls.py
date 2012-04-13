@@ -33,6 +33,7 @@ urlpatterns = patterns('',
     url(r'^events/pr/$', 'intranet.org.views.event_template'),
 
     (r'^diarys/$', login_required(ArchiveIndexDiary.as_view())),
+    (r'^diarys/commit_hook/$', 'intranet.org.views.commit_hook'),
     (r'^diarys/arhiv/(?P<year>\d{4})/$', login_required(YearArchiveDiary.as_view())),
     (r'^diarys/arhiv/(?P<year>\d{4})/(?P<month>[a-z]{3}|[0-9]{1,2})/$', login_required(MonthArchiveDiary.as_view())),
     (r'^diarys/(?P<id>\d+)?/?(?P<action>(add|edit))/$', 'intranet.org.views.diarys_form'),

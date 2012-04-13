@@ -15,7 +15,7 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
 from django.views.generic import DetailView, ArchiveIndexView, YearArchiveView, MonthArchiveView
 from django.utils import simplejson
 from django.db import models
@@ -939,7 +939,35 @@ def event_template(request, year=0, week=0):
     return render_to_response("org/event_template.html", {"events": events}, context_instance=RequestContext(request))
 
 
+def commit_hook(request):
+    """github post commit hook to log diaryies"""
+    if request.META['REMOTE_ADDR'] not in ['207.97.227.253', '50.57.128.197']:
+        # see http://help.github.com/post-receive-hooks/
+        return HttpResponseForbidden('Request not from github.')
+
+    payload = simplejson.loads(request.POST['payload'])
+    diaries = {}
+
+    for commit in payload['commits']:
+        first_name, last_name = commit['author']['name'].split()
+        user = User.objects.get(models.Q(username=commit['author']['email']) | (models.Q(first_name=first_name) & models.Q(last_name=last_name)))
+        commits = diaries.get(user, [])
+        commits.append("Commit: %(message)s\n %(url)s" % commit)
+        diaries[user] = commits
+
+    for user, text in diaries.iteritems():
+        diary = Diary(
+            log_formal='\n'.join(text),
+            author=user,
+            length=datetime.time(1),  # 1h
+            task=Project.objects.get(id=2),
+        )
+        diary.save()
+    return HttpResponse('OK')
+
+
 # generic views
+
 
 class DetailLend(DetailView):
     model = Lend
