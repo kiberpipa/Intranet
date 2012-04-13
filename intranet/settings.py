@@ -93,7 +93,6 @@ INSTALLED_APPS = (
     'django.contrib.comments',
     'grappelli',  # must be before admin
     'django.contrib.admin',
-    'django.contrib.markup',
     'django.contrib.redirects',
     'django.contrib.staticfiles',
     'reversion',

@@ -1,14 +1,12 @@
-{% load markup %}
-
 {% if object_list %}
 <ul>
 {% for task in object_list %}
-        <div class="{{ task.message }}">
-					<strong><a id="message" href="{{ task.get_absolute_url }}">
-					  {{ task.post_date|date:"j. M" }}, {{ task.author }}:
-					</a></strong>
-					<p>{{ task.note|linebreaks }}</p>
-        </div>
+	<div class="{{ task.message }}">
+		<strong><a id="message" href="{{ task.get_absolute_url }}">
+			{{ task.post_date|date:"j. M" }}, {{ task.author }}:
+		</a></strong>
+		<p>{{ task.note|linebreaks }}</p>
+	</div>
 {% endfor %}
 </ul>
 {% endif %}
