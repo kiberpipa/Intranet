@@ -210,10 +210,6 @@ def ical(request):
     return response
 
 
-def rss(request):
-    return render_to_response('www/rss.html', context_instance=RequestContext(request))
-
-
 def facilities(request):
     """Facilities info and contact form"""
     if request.method == 'POST':

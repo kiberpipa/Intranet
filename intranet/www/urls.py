@@ -9,7 +9,7 @@ from intranet.www.views import NewsList
 
 urlpatterns = patterns('',
     url(r'^$', 'intranet.www.views.index'),
-    url(r'^rss/$', 'intranet.www.views.rss', name="rss"),
+    url(r'^rss/$', TemplateView.as_view(template_name='www/rss.html'), name="rss"),
     url(r'^event/(?P<slug>[-\w]*)-(?P<id>\d+)/', 'intranet.www.views.event', name="event_detail"),
     url(r'^event/search/', 'haystack.views.basic_search', dict(
         template='search/search_event.html',
@@ -21,8 +21,8 @@ urlpatterns = patterns('',
     url(r'^news/(?P<id>\d+)/$', 'intranet.www.views.news_detail'),
     url(r'^news/(?P<slug>[-\w]+)/$', 'intranet.www.views.news_detail'),
     url(r'^calendar/$', 'intranet.www.views.calendar', name="calendar"),
-    url(r'^calendar/ical/$', 'intranet.www.views.ical', name="calendar_ical"),
     url(r'^calendar/(?P<year>\d{4})/(?P<month>[0-1]?[0-9])?', 'intranet.www.views.calendar'),
+    url(r'^calendar/ical/$', 'intranet.www.views.ical', name="calendar_ical"),
     url(r'^prostori/$', 'intranet.www.views.facilities'),
     url(r'^prostori/(?P<object_id>\d+)/opis.ajax$', DetailView.as_view(
         queryset=Place.objects.all(),
@@ -30,6 +30,7 @@ urlpatterns = patterns('',
     ), name="facility_description_ajax"),
     url(r'^kjesmo/$', TemplateView.as_view(template_name='www/kjesmo.html')),
     url(r'^alumni/', 'pipa.addressbook.views.alumni'),
+    # TODO: migrate press to flatpages
     url(r'^press/', 'intranet.www.views.press'),
 
     url(r'^comments/', include('django.contrib.comments.urls')),

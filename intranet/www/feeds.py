@@ -11,7 +11,7 @@ from intranet.www.models import News
 def _get_events():
     # announcing events up to two days in future
     # TODO: move to Event objects manager
-    return Event.objects.filter(public=True, start_date__lte=datetime.datetime.today() + datetime.timedelta(5)).order_by('-start_date')
+    return Event.objects.filter(public=True, start_date__lte=datetime.datetime.today() + datetime.timedelta(8)).order_by('-start_date')
 
 
 class NewsFeed(Feed):
