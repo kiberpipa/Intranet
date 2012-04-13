@@ -1,10 +1,6 @@
 {% extends "org/base.html" %}
 {% load markup box i18n %}
 {% block extrahead %}
-<link rel="stylesheet" type="text/css" href="{{ settings.STATIC_URL }}org/markitup/skins/markitup/style.css" />
-<link rel="stylesheet" type="text/css" href="{{ settings.STATIC_URL }}org/markitup/sets/html/style.css" />
-<script type="text/javascript" src="{{ settings.STATIC_URL }}org/markitup/jquery.markitup.js"></script>
-<script type="text/javascript" src="{{ settings.STATIC_URL }}org/markitup/sets/html/set.js"></script>
 <script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.highlightFade.js" ></script>
 <script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.suggest.js" ></script>
 <script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.ajaxUpload.js" ></script>
@@ -83,7 +79,6 @@ $(document).ready(function() {
         // update image
         $('#id_event_image').change();
     });
-    $('#id_announce').markItUp(mySettings);
 });
 
     function add_author_click() {
@@ -257,14 +252,11 @@ $(document).ready(function() {
               {% if image.url %}<img src="{{ image.url }}" style="border: 1px solid gray;"/>{% endif %}
             </div> 
         </p>
-        <hr>
         <p>
             {{ form.announce.errors }}
             {{ form.announce.label_tag }}
+	    {{ form.announce }}
         </p>
-        <br />
-        {{ form.announce }}
-        <hr>
         <p>
             {{ form.note.errors }}
             {{ form.note.label_tag }}
@@ -272,6 +264,6 @@ $(document).ready(function() {
         </p>
     </div>
     <h3><input type="submit" value="{% trans "Submit" %}" /></h3>
-	</form>
+  </form>
 </div>
 {% endblock %}

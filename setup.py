@@ -48,6 +48,7 @@ setup(name='intranet',
         'Werkzeug',  # interactive debug
         'django-coverage',
         'coverage',
+        'django-tinymce',
         # solr
         'django-haystack',
         'pysolr',

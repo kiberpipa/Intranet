@@ -13,6 +13,7 @@ from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from tinymce.models import HTMLField
 
 from pipa.mercenaries.models import CostCenter, SalaryType
 
@@ -220,8 +221,8 @@ class Event(models.Model):
 
     slides = models.FileField(upload_to='slides/%Y/%m/', verbose_name="Prosojnice", blank=True, null=True)
 
-    announce = models.TextField(verbose_name="Uradna najava", blank=True, null=True)
-    note = models.TextField(verbose_name="Opombe", blank=True, null=True)
+    announce = HTMLField(verbose_name="Uradna najava", blank=True, null=True)
+    note = HTMLField(verbose_name="Opombe", blank=True, null=True)
 
     # time fields
     start_date = models.DateTimeField(verbose_name=u"Pričetek", db_index=True)

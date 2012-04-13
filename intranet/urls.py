@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     (r'^jsi18n/$', 'django.views.i18n.javascript_catalog'),
 
     (r'^grappelli/', include('grappelli.urls')),
+    (r'^tinymce/', include('tinymce.urls')),
 )
 
 if settings.DEBUG:
