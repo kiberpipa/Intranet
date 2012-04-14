@@ -9,7 +9,8 @@ class Migration(DataMigration):
     def forwards(self, orm):
         "Write your forwards methods here."
         for news in orm.News.objects.all():
-            news.text = news.text.replace('\n', '<br />')
+            if news.text:
+                news.text = news.text.replace('\n', '<br />')
             news.save()
 
     def backwards(self, orm):
