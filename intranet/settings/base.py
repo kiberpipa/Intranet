@@ -36,11 +36,12 @@ STATIC_URL = '/static/'
 STATIC_ROOT = next_to_root('static')
 ADMIN_MEDIA_PREFIX = STATIC_URL + 'grappelli/'
 
+
 MIDDLEWARE_CLASSES = (
     'raven.contrib.django.middleware.Sentry404CatchMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
     'intranet.middleware.IgnoreBrowserLanguageMiddleware',
-    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'intranet.middleware.FlatPageLocaleURLFallbackMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'honeypot.middleware.HoneypotMiddleware',  # as soon as possible
     'django.middleware.common.CommonMiddleware',
