@@ -12,7 +12,6 @@ Before sure to provide the following:
 # * get rid of versioning buildouts
 # * use "maintanance" page while upgrading intranet
 # * rollback fails to restore static files
-# * staging fails to restore production database
 
 # TODO for future:
 # * shouldn't be postgres specific
