@@ -232,7 +232,8 @@ def local_production_data_restore(backup_location):
     from django.conf import settings
     env.update(settings.DATABASES['default'])
 
-    local('pg_restore -Fc --no-acl -e --no-owner -p %(PORT)s -U %(USER)s -d %(NAME)s %(backup_location)s/db.sql' % env)
+    local('pg_restore --list %(backup_location)s/db.sql | grep -v LANGUAGE | grep -v FUNCTION > %(backup_location)s/db.list' % env)
+    local('pg_restore -Fc --no-acl -e --no-owner -p %(PORT)s -U %(USER)s -d %(NAME)s -L %(backup_location)s/db.list %(backup_location)s/db.sql' % env)
 
 
 @task
