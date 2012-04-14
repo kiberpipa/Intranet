@@ -44,7 +44,7 @@ env.repository = 'git://github.com/kiberpipa/Intranet.git'
 env.branch = 'deploy'
 env.code_folder = os.path.join(env.home_folder, 'code')
 # django
-env.django_project = 'intranet.local'
+env.django_project = 'intranet.settings.local'
 env.production_django_settings = os.path.join(env.root_folder, 'production_localsettings.py')
 env.staging_django_settings = os.path.join(env.root_folder, 'staging_localsettings.py')
 # django settings
