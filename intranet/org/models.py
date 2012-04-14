@@ -264,7 +264,7 @@ class Event(models.Model):
         return '/intranet/events/%i/' % self.id
 
     def get_public_url(self):
-        return reverse('event_detail', kwargs=dict(id=self.id))
+        return reverse('event_detail', kwargs=dict(id=self.id, slug=self.slug))
 
     @property
     def length(self):
