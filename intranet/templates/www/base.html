@@ -39,19 +39,17 @@
                 | <a href="/{{ LANGUAGE_CODE }}/support/">{% trans "support" %}</a>
                 | <a href="/{{ LANGUAGE_CODE }}/press/">{% trans "press" %}</a>
                 | <a href="/{{ LANGUAGE_CODE }}/dohodnina/">dohodnina</a>
-            </div>
-            <div class="language">
+		| <a href="/rss/" ><img src="{{ settings.STATIC_URL }}www/images/rss20x20.png" alt="RSS Feeds" /></a>
 		{% get_available_languages as languages %}
 		{% for lang_code, lang_name in languages %}
-		    <a href="/{{ lang_code }}/">{{ lang_name }}</a>
+			{% if LANGUAGE_CODE != lang_code %}	
+			| <a href="/{{ lang_code }}/">{{ lang_code }}</a>
+			{% endif %}
 		{% endfor %}
-		<a href="/rss/" ><img src="{{ settings.STATIC_URL }}www/images/rss20x20.png" alt="RSS Feeds" /></a>
+	       <form method="get" action="{% url 'event_search' %}" id="searchform">
+		   <input name="q" id="q" type="search" placeholder="{% trans 'Search events ...' %}" size="15" />
+	       </form>
             </div>
-        </div>
-        <div id="search">
-	   <form method="get" action="{% url 'event_search' %}" id="searchform">
-               <input name="q" id="q" type="search" placeholder="{% trans 'Search events ...' %}" size="20" />
-           </form>
         </div>
 
         <div id="content">

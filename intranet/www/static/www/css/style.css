@@ -38,15 +38,13 @@ a img {
 }
 
 .primary-nav {
-	float: left;
+	float: right;
 	padding-top: 26px;
-	padding-left: 190px;
 	color: #000;
 }
 
 #searchform {
-	float: left;
-	margin: 5px 0;
+	display: inline;
 }
 .searchresult {
 	margin-bottom: 10px;
