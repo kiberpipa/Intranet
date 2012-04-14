@@ -4,6 +4,9 @@
 from intranet.org.models import *
 from django.contrib import admin
 from reversion.admin import VersionAdmin
+from tinymce.widgets import TinyMCE
+from django.contrib.flatpages.admin import FlatPageAdmin
+from django.contrib.flatpages.models import FlatPage
 
 
 class SodelovanjeAdmin(VersionAdmin):
@@ -61,6 +64,15 @@ class ProjectAdmin(VersionAdmin):
     js = ('js/tags.js',)
 
 
+class TinyMCEFlatPageAdmin(FlatPageAdmin):
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        if db_field.name == 'content':
+            return db_field.formfield(widget=TinyMCE())
+        return super(TinyMCEFlatPageAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+
+
+admin.site.unregister(FlatPage)
+admin.site.register(FlatPage, TinyMCEFlatPageAdmin)
 admin.site.register(Category)
 admin.site.register(TipSodelovanja)
 admin.site.register(Place)
