@@ -47,6 +47,7 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'raven.contrib.django.middleware.Sentry404CatchMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
+    'intranet.middleware.IgnoreBrowserLanguageMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'honeypot.middleware.HoneypotMiddleware',  # as soon as possible
     'django.middleware.common.CommonMiddleware',
