@@ -232,6 +232,9 @@ def local_production_data_restore(backup_location):
     from django.conf import settings
     env.update(settings.DATABASES['default'])
 
+    # we can skip this in pg 9.1
+    # see http://postgresql.1045698.n5.nabble.com/Problems-with-pg-restore-plpgsql-already-exists-td5514122.html
+    local('psql -p %(PORT)s -U %(USER)s -w -c "DROP LANGUAGE IF EXISTS plpgsql;" %(NAME)s' % env)
     local('pg_restore -Fc --no-acl -e --no-owner -p %(PORT)s -U %(USER)s -d %(NAME)s %(backup_location)s/db.sql' % env)
 
 
