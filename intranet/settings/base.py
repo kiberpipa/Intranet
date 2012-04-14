@@ -36,14 +36,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = next_to_root('static')
 ADMIN_MEDIA_PREFIX = STATIC_URL + 'grappelli/'
 
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    ('django.template.loaders.cached.Loader', (
-        'django.template.loaders.filesystem.Loader',
-        'django.template.loaders.app_directories.Loader',
-    )),
-)
-
 MIDDLEWARE_CLASSES = (
     'raven.contrib.django.middleware.Sentry404CatchMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
