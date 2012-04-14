@@ -20,8 +20,8 @@ TEMPLATE_LOADERS = (
 )
 
 # django debug toolbar
-MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + ('debug_toolbar.middleware.DebugToolbarMiddleware', 'django_pdb.middleware.PdbMiddleware')
-INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar', 'django_pdb')
+MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + ('debug_toolbar.middleware.DebugToolbarMiddleware',)
+INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar',)
 INTERNAL_IPS = ('127.0.0.1',)
 
 # TODO: use dummy haystack with development

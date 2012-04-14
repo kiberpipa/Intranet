@@ -45,7 +45,6 @@ setup(name='intranet',
         'django-grappelli',
         # development
         'django-debug-toolbar',
-        'django-pdb',
         'django-extensions',
         'Werkzeug',  # interactive debug
         'django-coverage',
