@@ -1,4 +1,5 @@
 from django.contrib.flatpages.middleware import FlatpageFallbackMiddleware
+from django.http import HttpResponseNotFound
 
 
 class IgnoreBrowserLanguageMiddleware(object):
@@ -33,7 +34,7 @@ class FlatPageLocaleURLFallbackMiddleware(FlatpageFallbackMiddleware):
         request.path_info = orig
 
         # find flatpage without language code
-        if not ret:
+        if isinstance(ret, HttpResponseNotFound):
             ret = super(FlatPageLocaleURLFallbackMiddleware, self).process_response(request, response)
 
         return ret
