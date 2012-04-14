@@ -9,7 +9,6 @@ from intranet.www.views import NewsList
 
 urlpatterns = patterns('',
     url(r'^$', 'intranet.www.views.index'),
-    url(r'^rss/$', TemplateView.as_view(template_name='www/rss.html'), name="rss"),
     url(r'^event/(?P<slug>[-\w]*)-(?P<id>\d+)/', 'intranet.www.views.event', name="event_detail"),
     url(r'^event/search/', 'haystack.views.basic_search', dict(
         template='search/search_event.html',
@@ -32,14 +31,6 @@ urlpatterns = patterns('',
     url(r'^alumni/', 'pipa.addressbook.views.alumni'),
     # TODO: migrate press to flatpages
     url(r'^press/', 'intranet.www.views.press'),
-
-    url(r'^comments/', include('django.contrib.comments.urls')),
-    url(r'^comments/post/$', 'intranet.www.views.anti_spam'),
-
-    # ajax
-    url(r'^ajax/index/events/$', 'intranet.www.views.ajax_index_events'),
-    url(r'^ajax/add_mail/(?P<event>[0-9]+)/(?P<email>[^/]*)$', 'intranet.www.views.ajax_add_mail'),
-    url(r'^ajax/subscribe_mailinglist/', 'intranet.www.views.ajax_subscribe_mailinglist', name="ajax_subscribe_mailinglist"),
 
     # feeds
     (r'^feeds/all/', AllInOne()),

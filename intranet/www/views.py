@@ -31,11 +31,11 @@ from pipa.video.utils import is_streaming
 logger = logging.getLogger(__name__)
 
 
+# TODO: replace this with honeypot method
 @csrf_protect
 def anti_spam(request):
     # make sure users have taken at least 5 seconds to read
     # this page before writing a comment (spam bots don't)
-    # TODO: replace this with honeypot method
     if int(request.POST['timestamp']) + 5 > int(datetime.datetime.now().strftime('%s')):
         return HttpResponsePermanentRedirect('/')
     return post_comment(request)

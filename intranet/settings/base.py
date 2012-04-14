@@ -1,9 +1,8 @@
 import os
-import re
 
 
 def next_to_root(*additional_paths):
-    return os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', *additional_paths)
+    return os.path.realpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', *additional_paths))
 
 
 ADMINS = (
@@ -15,33 +14,18 @@ MANAGERS = (
 )
 TIME_ZONE = 'Europe/Ljubljana'
 LANGUAGE_CODE = 'sl'
+ROOT_URLCONF = 'intranet.urls'
 
 USE_I18N = True
 USE_L10N = True
 
 LANGUAGES = (
-  ('sl', 'Slovenscina'),
+  ('sl', 'Slovenian'),
   ('en', 'English'),
 )
 
-# localeurl
-LOCALE_INDEPENDENT_PATHS = (
-    re.compile('^/intranet/'),
-    re.compile('^(modules|index)\.php'),
-    re.compile('^rss/?$'),
-    re.compile('ajax/'),
-    re.compile('[as]media/'),
-    re.compile('/i18n/setlang/'),
-    re.compile('/jsi18n/'),
-    re.compile('^news/comments/post/$'),
-    re.compile('^comments/'),
-    re.compile('^comments/post/$'),
-    re.compile('event_photos/'),
-    re.compile('^favicon.ico'),
-    re.compile('^/services/'),
-)
 LOCALE_PATHS = (
-    next_to_root('intranet', 'locale')
+    next_to_root('locale'),
 )
 
 SITE_ID = 1
@@ -63,7 +47,7 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'raven.contrib.django.middleware.Sentry404CatchMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
-    'localeurl.middleware.LocaleURLMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'honeypot.middleware.HoneypotMiddleware',  # as soon as possible
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -71,10 +55,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.doc.XViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'reversion.middleware.RevisionMiddleware',
-    'intranet.middleware.flatpage.FlatPageLocaleURLFallbackMiddleware',
 )
-
-ROOT_URLCONF = 'intranet.urls'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
@@ -96,8 +77,7 @@ INSTALLED_APPS = (
     'django.contrib.redirects',
     'django.contrib.staticfiles',
     'reversion',
-    'feedjack',  # FIXME
-    'localeurl',
+    'feedjack',
     'tagging',
     'south',
     'intranet.org',

@@ -36,8 +36,7 @@ setup(name='intranet',
         'python-dateutil',
         'django-mailman',
         # django stuff
-        'Django>=1.4,<1.5',
-        'django-localeurl',
+        'Django>=1.4',
         'Feedjack',
         'django-tagging',
         'Pillow',  # properly distributed PIL

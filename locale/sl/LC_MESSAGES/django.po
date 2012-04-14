@@ -2,12 +2,12 @@
 # Copyright (C) 2011 Kiberpipa
 # This file is distributed under the same license as the intranet package.
 # Domen Kožar <domen@dev.si>, 2011.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: Intranet\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-17 21:13+0100\n"
+"POT-Creation-Date: 2012-04-14 14:11+0200\n"
 "PO-Revision-Date: 2011-10-04 21:51+0100\n"
 "Last-Translator: Domen Kožar <domen@dev.si>\n"
 "Language-Team: intranet <info@kiberpipa.org>\n"
@@ -19,11 +19,12 @@ msgstr ""
 "X-Poedit-Country: SLOVENIA\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: templates/alumni/alumni.html:5 templates/alumni/alumni.html.py:15
+#: intranet/templates/alumni/alumni.html:5
+#: intranet/templates/alumni/alumni.html:15
 msgid "Community"
 msgstr "Skupnost"
 
-#: templates/alumni/alumni.html:18
+#: intranet/templates/alumni/alumni.html:18
 msgid ""
 "Kiberpipa is possible because of all the volunteers that are interested in "
 "tech, computers, art and the mix of everything through everyday life. "
@@ -39,426 +40,446 @@ msgstr ""
 "sodelovali in pripomogli, da je Kiberpipa sedaj najboljši Kibercenter v "
 "Evropi."
 
-#: templates/gallery/photos_box.html:29
+#: intranet/templates/gallery/photos_box.html:29
 msgid "Gallery"
 msgstr "Galerija"
 
-#: templates/mail/events_report.html:3 templates/org/base.html:92
-#: templates/org/event_edit.html:124
+#: intranet/templates/mail/events_report.html:4
+#: intranet/templates/mail/events_report.txt:2
+#: intranet/templates/org/base.html:94
+#: intranet/templates/org/event_edit.html:119
 msgid "Events"
 msgstr "Dogodki"
 
-#: templates/mail/events_report.html:5
+#: intranet/templates/mail/events_report.html:6
+#: intranet/templates/mail/events_report.txt:4
 msgid "From last"
 msgstr "Zadnjih"
 
-#: templates/mail/events_report.html:5
+#: intranet/templates/mail/events_report.html:6
+#: intranet/templates/mail/events_report.txt:4
 msgid "days:"
 msgstr "dni:"
 
-#: templates/mail/events_report.html:8
+#: intranet/templates/mail/events_report.html:9
 msgid "visitors"
 msgstr "obiskovalcev"
 
-#: templates/mail/events_report.html:12
+#: intranet/templates/mail/events_report.html:13
+#: intranet/templates/mail/events_report.txt:8
 msgid "Overall visitors:"
 msgstr "Skupaj obiskovalcev:"
 
-#: templates/mail/events_report.html:15
+#: intranet/templates/mail/events_report.html:16
+#: intranet/templates/mail/events_report.txt:10
 msgid "Public with no visitors:"
 msgstr "Javni brez vpisanih obiskovalcev:"
 
-#: templates/mail/events_report.html:24
+#: intranet/templates/mail/events_report.html:25
+#: intranet/templates/mail/events_report.txt:16
 msgid "Marked as recorded, but no video attached:"
 msgstr "Snemani brez dodanih video posnetkov:"
 
-#: templates/mail/events_report.html:33
+#: intranet/templates/mail/events_report.html:34
+#: intranet/templates/mail/events_report.txt:22
 msgid "With required pictures, but no flickr set id:"
 msgstr "Z zahtevanimi slikami, ampak nimajo Flickr set id-ja:"
 
-#: templates/org/base.html:85
+#: intranet/templates/mail/events_report.txt:6
+#, fuzzy
+msgid "visitors:"
+msgstr "obiskovalcev"
+
+#: intranet/templates/org/base.html:87
 msgid "Welcome"
 msgstr "Pozdravljen"
 
-#: templates/org/base.html:85
+#: intranet/templates/org/base.html:87
 msgid "Logout"
 msgstr "Odjava"
 
-#: templates/org/base.html:90
+#: intranet/templates/org/base.html:92
 msgid "On duty"
 msgstr "Dezurstva"
 
-#: templates/org/base.html:91
+#: intranet/templates/org/base.html:93
 msgid "Diarys"
 msgstr "Dnevniki"
 
-#: templates/org/base.html:93
+#: intranet/templates/org/base.html:95
 msgid "PR"
 msgstr "PR"
 
-#: templates/org/base.html:94
+#: intranet/templates/org/base.html:96
 msgid "Address book"
 msgstr "Imenik"
 
-#: templates/org/base.html:96
+#: intranet/templates/org/base.html:98
 msgid "Technicians"
 msgstr "Tehniki"
 
-#: templates/org/base.html:97 templates/org/event_detail.html:68
+#: intranet/templates/org/base.html:99
+#: intranet/templates/org/event_detail.html:67
 msgid "Collaboration"
 msgstr "Sodelovanja"
 
-#: templates/org/base.html:98
+#: intranet/templates/org/base.html:100
 msgid "Lends"
 msgstr "Reverzi"
 
-#: templates/org/base.html:99
+#: intranet/templates/org/base.html:101
 msgid "Shopping"
 msgstr "Nakupi"
 
-#: templates/org/base.html:100
+#: intranet/templates/org/base.html:102
 msgid "Mercenaries"
 msgstr "Mercenaries"
 
-#: templates/org/base.html:101
+#: intranet/templates/org/base.html:103
 msgid "Statistics"
 msgstr "Statistika"
 
-#: templates/org/base.html:102
+#: intranet/templates/org/base.html:104
 msgid "Administration"
 msgstr "Administracija"
 
-#: templates/org/event_detail.html:18 templates/org/technicians_index.html:50
+#: intranet/templates/org/event_detail.html:17
+#: intranet/templates/org/technicians_index.html:50
 msgid "Event"
 msgstr "Dogodek"
 
-#: templates/org/event_detail.html:23
+#: intranet/templates/org/event_detail.html:22
 msgid "Editing"
 msgstr "Urejanje"
 
-#: templates/org/event_detail.html:25
+#: intranet/templates/org/event_detail.html:24
 msgid "Edit data"
 msgstr "Uredi podatke"
 
-#: templates/org/event_detail.html:26
+#: intranet/templates/org/event_detail.html:25
 msgid "Add new"
 msgstr "Dodaj novega"
 
-#: templates/org/event_detail.html:28
+#: intranet/templates/org/event_detail.html:27
 msgid "Add emails (one per line)"
 msgstr "Dodaj emaile (enega v vrstico)"
 
-#: templates/org/event_detail.html:31
+#: intranet/templates/org/event_detail.html:30
 msgid "Send emails"
 msgstr "Pošlji emaile"
 
-#: templates/org/event_detail.html:46
+#: intranet/templates/org/event_detail.html:45
 msgid "Slides"
 msgstr "Prosojnice"
 
-#: templates/org/event_detail.html:53
+#: intranet/templates/org/event_detail.html:52
 msgid "M3C category"
 msgstr "M3C kategorija"
 
-#: templates/org/event_detail.html:57
+#: intranet/templates/org/event_detail.html:56
 msgid "Project"
 msgstr "Projekt"
 
-#: templates/org/event_detail.html:62
+#: intranet/templates/org/event_detail.html:61
 msgid "Informed when the video is available"
 msgstr "Želim biti obveščen, ko bo video na voljo"
 
-#: templates/org/event_detail.html:75
+#: intranet/templates/org/event_detail.html:74
 msgid "Language"
 msgstr "Jezik"
 
-#: templates/org/event_detail.html:79
+#: intranet/templates/org/event_detail.html:78
 msgid "Requests"
 msgstr "Zahteve"
 
-#: templates/org/event_detail.html:92
+#: intranet/templates/org/event_detail.html:91
 msgid "Visitors"
 msgstr "Število obiskovalcev"
 
-#: templates/org/event_detail.html:95
+#: intranet/templates/org/event_detail.html:94
 msgid "Content"
 msgstr "Vsebina"
 
-#: templates/org/event_detail.html:99
+#: intranet/templates/org/event_detail.html:98
 msgid "Notes"
 msgstr "Opomba"
 
-#: templates/org/event_edit.html:144
+#: intranet/templates/org/event_edit.html:139
 msgid "Add event to calendar"
 msgstr "Dodaj dogodek v koledar"
 
-#: templates/org/event_edit.html:146
+#: intranet/templates/org/event_edit.html:141
 msgid "Please fix following errors"
 msgstr "Prosimo popravite sledeče napake"
 
-#: templates/org/event_edit.html:160 templates/org/event_edit.html.py:161
+#: intranet/templates/org/event_edit.html:155
+#: intranet/templates/org/event_edit.html:156
 msgid "Authors"
 msgstr "Avtorji"
 
-#: templates/org/event_edit.html:172
+#: intranet/templates/org/event_edit.html:167
 msgid "Add new author"
 msgstr "Dodaj novega avtorja"
 
-#: templates/org/event_edit.html:179
+#: intranet/templates/org/event_edit.html:174
 msgid "Add author"
 msgstr "Dodaj avtorja"
 
-#: templates/org/event_edit.html:254
+#: intranet/templates/org/event_edit.html:249
 msgid "Add new picture"
 msgstr "Dodaj novo sliko"
 
-#: templates/org/event_edit.html:275
+#: intranet/templates/org/event_edit.html:267
 msgid "Submit"
 msgstr "Shrani"
 
-#: templates/org/index.html:15
+#: intranet/templates/org/index.html:16
 msgid "Basic overview"
 msgstr "Osnovni pregled"
 
-#: templates/org/index.html:19
+#: intranet/templates/org/index.html:20
 msgid "Control panel"
 msgstr "Nadzorna plošča"
 
-#: templates/org/index.html:24
+#: intranet/templates/org/index.html:25
 msgid "Add diary"
 msgstr "Dodaj dnevnik"
 
-#: templates/org/index.html:29
+#: intranet/templates/org/index.html:30
 msgid "Loan equipment"
 msgstr "Posodi opremo"
 
-#: templates/org/index.html:36
+#: intranet/templates/org/index.html:37
 msgid "Scratchpad"
 msgstr "Kracarka"
 
-#: templates/org/index.html:45
+#: intranet/templates/org/index.html:46
 msgid "Notices"
 msgstr "Obvestila"
 
-#: templates/org/index.html:55
+#: intranet/templates/org/index.html:56
 msgid "My responsibilities"
 msgstr "Moje odgovornosti"
 
-#: templates/org/index.html:58
+#: intranet/templates/org/index.html:59
 msgid "My events:"
 msgstr "Moji dogodki:"
 
-#: templates/org/index.html:61
+#: intranet/templates/org/index.html:62
 msgid "I lent:"
 msgstr "Sem posodil:"
 
-#: templates/org/index.html:63
+#: intranet/templates/org/index.html:64
 msgid "My wishlist shopping:"
 msgstr "Moje želje po nakupih:"
 
-#: templates/org/index.html:73
+#: intranet/templates/org/index.html:74
 msgid "Public events with no visitors:"
 msgstr "Javni dogodki brez vpisanih obiskovalcev:"
 
-#: templates/org/index.html:82
+#: intranet/templates/org/index.html:83
 msgid "Events marked as recorded but no video attached:"
 msgstr "Snemani dogodki brez dodanih video posnetkov:"
 
-#: templates/org/index.html:91
+#: intranet/templates/org/index.html:92
 msgid "Events with required pictures has no flickr id:"
 msgstr "Dogodki z zahtevanimi slikami ampak nimajo Flickr identifikacije:"
 
-#: templates/org/index.html:108
+#: intranet/templates/org/index.html:109
 msgid "Current"
 msgstr "Aktualni"
 
-#: templates/org/index.html:108
+#: intranet/templates/org/index.html:109
 msgid "events"
 msgstr "dogodki"
 
-#: templates/org/technicians_index.html:4
-#: templates/org/technicians_index.html:31
+#: intranet/templates/org/technicians_index.html:4
+#: intranet/templates/org/technicians_index.html:31
 msgid "Technicians diaries"
 msgstr "Dnevniki tehnikov"
 
-#: templates/org/technicians_index.html:23
+#: intranet/templates/org/technicians_index.html:23
 msgid "Views"
 msgstr "Pogledi"
 
-#: templates/org/technicians_index.html:24
+#: intranet/templates/org/technicians_index.html:24
 msgid "Weekly"
 msgstr "Tedensko"
 
-#: templates/org/technicians_index.html:25
+#: intranet/templates/org/technicians_index.html:25
 msgid "Monthly"
 msgstr "Mesečno"
 
-#: templates/org/technicians_index.html:36
+#: intranet/templates/org/technicians_index.html:36
 msgid "Salaries"
 msgstr "Plače"
 
-#: templates/org/technicians_index.html:51
+#: intranet/templates/org/technicians_index.html:51
 msgid "Technician"
 msgstr "Tehnik"
 
-#: templates/org/technicians_index.html:72
+#: intranet/templates/org/technicians_index.html:72
 msgid "Sign off"
 msgstr "Odjavi se"
 
-#: templates/org/technicians_index.html:79
+#: intranet/templates/org/technicians_index.html:79
 msgid "Volunteer"
 msgstr "Javi se"
 
-#: templates/org/technicians_index.html:89
+#: intranet/templates/org/technicians_index.html:89
 msgid "Formal log"
 msgstr "Uradni del dnevnika"
 
-#: templates/org/technicians_index.html:95
+#: intranet/templates/org/technicians_index.html:95
 msgid "Informal log"
 msgstr "Neuradni del dnevnika"
 
-#: templates/org/technicians_index.html:100
+#: intranet/templates/org/technicians_index.html:100
 msgid "Number of hours"
 msgstr "Število ur"
 
-#: templates/org/technicians_index.html:109
+#: intranet/templates/org/technicians_index.html:109
 msgid "OK"
 msgstr "V redu"
 
-#: templates/org/technicians_index.html:110
+#: intranet/templates/org/technicians_index.html:110
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: templates/org/technicians_index.html:123
+#: intranet/templates/org/technicians_index.html:123
 msgid "Current events"
 msgstr "Aktualni dogodki"
 
-#: templates/search/search_event.html:5
+#: intranet/templates/search/search_event.html:5
 msgid "Search results:"
 msgstr "Rezultati iskanja:"
 
-#: templates/search/search_event.html:15
-#: templates/www/ajax_index_events.html:37 templates/www/calendar.html:62
+#: intranet/templates/search/search_event.html:15
+#: intranet/templates/www/ajax_index_events.html:37
+#: intranet/templates/www/calendar.html:63
 msgid "Pictures of event"
 msgstr "Slike dogodka"
 
-#: templates/search/search_event.html:16 templates/www/base.html:35
+#: intranet/templates/search/search_event.html:16
+#: intranet/templates/www/base.html:36
 msgid "gallery"
 msgstr "galerija"
 
-#: templates/search/search_event.html:20 templates/www/calendar.html:59
+#: intranet/templates/search/search_event.html:20
+#: intranet/templates/www/calendar.html:60
 msgid "Videos of event"
 msgstr "Video posnetek dogodka"
 
-#: templates/search/search_event.html:21
+#: intranet/templates/search/search_event.html:21
 msgid "videos"
 msgstr "video posnetki"
 
-#: templates/search/search_event.html:28
+#: intranet/templates/search/search_event.html:28
 msgid "Collaborators:"
 msgstr "Sodelovanja:"
 
-#: templates/search/search_event.html:35
+#: intranet/templates/search/search_event.html:35
 msgid "No results found"
 msgstr "Ni zadetkov"
 
-#: templates/search/search_event.html:44
+#: intranet/templates/search/search_event.html:44
 msgid "Previous"
 msgstr "Nazaj"
 
-#: templates/search/search_event.html:50
+#: intranet/templates/search/search_event.html:50
 msgid "Next"
 msgstr "Naprej"
 
-#: templates/www/ajax_index_events.html:8
+#: intranet/templates/www/ajax_index_events.html:8
 msgid "at"
 msgstr "ob"
 
-#: templates/www/ajax_index_events.html:34
+#: intranet/templates/www/ajax_index_events.html:34
 msgid "Video of event"
 msgstr "Video dogodka"
 
-#: templates/www/base.html:17
+#: intranet/templates/www/base.html:18
 msgid "All our code are belong to you"
 msgstr "All our code are belong to you"
 
-#: templates/www/base.html:31
+#: intranet/templates/www/base.html:32
 msgid "about"
 msgstr "o nas"
 
-#: templates/www/base.html:34
+#: intranet/templates/www/base.html:35
 msgid "calendar"
 msgstr "koledar"
 
-#: templates/www/base.html:36
+#: intranet/templates/www/base.html:37
 msgid "community"
 msgstr "skupnost"
 
-#: templates/www/base.html:37
+#: intranet/templates/www/base.html:38
 msgid "support"
 msgstr "podpora"
 
-#: templates/www/base.html:38
+#: intranet/templates/www/base.html:39
 msgid "press"
 msgstr "press"
 
-#: templates/www/base.html:51
+#: intranet/templates/www/base.html:52
 msgid "Search events ..."
 msgstr "Išči po dogodkih ..."
 
-#: templates/www/base.html:72
+#: intranet/templates/www/base.html:73
 msgid "Opening Hours"
 msgstr "Odpiralni čas"
 
-#: templates/www/base.html:73
+#: intranet/templates/www/base.html:74
 msgid "only during events"
 msgstr "samo ob času dogodkov"
 
-#: templates/www/calendar.html:6 templates/www/calendar.html.py:9
+#: intranet/templates/www/calendar.html:7
+#: intranet/templates/www/calendar.html:10
 msgid "Calendar of Events in Kiberpipa"
 msgstr "Kiberpipin koledar dogodkov"
 
-#: templates/www/calendar.html:18
+#: intranet/templates/www/calendar.html:19
 msgid "Previous month"
 msgstr "Prejšnji mesec"
 
-#: templates/www/calendar.html:20
+#: intranet/templates/www/calendar.html:21
 msgid "Next month"
 msgstr "Naslednji mesec"
 
-#: templates/www/calendar.html:25
+#: intranet/templates/www/calendar.html:26
 msgid "Monday"
 msgstr "Ponedeljek"
 
-#: templates/www/calendar.html:28
+#: intranet/templates/www/calendar.html:29
 msgid "Tuesday"
 msgstr "Torek"
 
-#: templates/www/calendar.html:31
+#: intranet/templates/www/calendar.html:32
 msgid "Wednesday"
 msgstr "Sreda"
 
-#: templates/www/calendar.html:34
+#: intranet/templates/www/calendar.html:35
 msgid "Thursday"
 msgstr "Četrtek"
 
-#: templates/www/calendar.html:37
+#: intranet/templates/www/calendar.html:38
 msgid "Friday"
 msgstr "Petek"
 
-#: templates/www/calendar.html:40
+#: intranet/templates/www/calendar.html:41
 msgid "Saturday"
 msgstr "Sobota"
 
-#: templates/www/calendar.html:43
+#: intranet/templates/www/calendar.html:44
 msgid "Sunday"
 msgstr "Nedelja"
 
-#: templates/www/calendar.html:66
+#: intranet/templates/www/calendar.html:67
 msgid "Reserved."
 msgstr "Rezervirano."
 
-#: templates/www/event.html:40
+#: intranet/templates/www/event.html:40
 msgid ""
 "Please enter your contact data so we can inform you when the video will be "
 "available."
@@ -466,154 +487,220 @@ msgstr ""
 "Vnesite vaše kontaktne podatke, če želite biti obveščeni, ko bo video "
 "posnetek na voljo"
 
-#: templates/www/event.html:46
+#: intranet/templates/www/event.html:46
 msgid "submit"
 msgstr "pošlji"
 
-#: templates/www/event.html:53
+#: intranet/templates/www/event.html:53
 msgid "Videos"
 msgstr "Video"
 
-#: templates/www/event.html:68
+#: intranet/templates/www/event.html:67
 msgid "Similar events"
 msgstr "Podobni dogodki"
 
-#: templates/www/index.html:90
+#: intranet/templates/www/index.html:91
 msgid "Newest videos in video.kiberpipa.org"
 msgstr "Najnovejši posnetki v video arhivu"
 
-#: templates/www/index.html:99
+#: intranet/templates/www/index.html:100
 msgid "Subscribe to Cyberpipe mailing list"
 msgstr "Prijava na Kiberpipina obvestila"
 
-#: templates/www/index.html:100
+#: intranet/templates/www/index.html:101
 msgid "Would you like to subscribe to information about weekly events?"
 msgstr ""
 "Želite prejemati obvestila o Kiberpipinih dogodkih po elektronski pošti?"
 
-#: templates/www/index.html:110
+#: intranet/templates/www/index.html:111
 msgid "Writings from the world with no windows"
 msgstr "Zapisi iz sveta brez oken"
 
-#: templates/www/index.html:117 templates/www/index.html.py:134
-#: templates/www/news_list.html:14
+#: intranet/templates/www/index.html:118 intranet/templates/www/index.html:135
+#: intranet/templates/www/news_list.html:14
 msgid "Published by"
 msgstr "Objavil"
 
-#: templates/www/index.html:117 templates/www/index.html.py:134
+#: intranet/templates/www/index.html:118 intranet/templates/www/index.html:135
 msgid "on"
 msgstr "dne"
 
-#: templates/www/index.html:127
+#: intranet/templates/www/index.html:128
 msgid "Reflections from /dev/random"
 msgstr "Razmišljanja iz /dev/random"
 
-#: templates/www/kjesmo.html:4
+#: intranet/templates/www/kjesmo.html:4
 msgid "Location"
 msgstr "Kje smo"
 
-#: templates/www/locale.html:14
-msgid "Send"
-msgstr "Pošlji"
-
-#: templates/www/news.html:7
+#: intranet/templates/www/news.html:9
 msgid "Kiberpipas blog"
 msgstr "Kiberpipin blog"
 
-#: templates/www/news.html:13
+#: intranet/templates/www/news.html:15
 msgid "Author"
 msgstr "Avtor"
 
-#: templates/www/news.html:13 templates/www/news_list.html:14
+#: intranet/templates/www/news.html:15
+#: intranet/templates/www/news_list.html:14
 msgid "date"
 msgstr "datum"
 
-#: templates/www/news.html:26
+#: intranet/templates/www/news.html:28
 msgid "Comments:"
 msgstr "Komentarji:"
 
-#: templates/www/news.html:30
+#: intranet/templates/www/news.html:32
 msgid "has wrote:"
 msgstr "je napisal:"
 
-#: templates/www/news.html:41
+#: intranet/templates/www/news.html:43
 msgid "Send comment"
 msgstr "Pošlji komentar"
 
-#: templates/www/news_list.html:4 templates/www/news_list.html.py:8
+#: intranet/templates/www/news_list.html:4
+#: intranet/templates/www/news_list.html:8
 msgid "News"
 msgstr "Novice"
 
-#: templates/www/press.html:4
+#: intranet/templates/www/press.html:4
 msgid "Press"
 msgstr "Press"
 
-#: templates/www/press.html:34
+#: intranet/templates/www/press.html:34
 msgid "Press kit"
 msgstr "Press kit"
 
-#: templates/www/press.html:40
+#: intranet/templates/www/press.html:40
 msgid "Kiberpipa Logo"
 msgstr "Kiberpipa Logo"
 
-#: templates/www/press.html:44
+#: intranet/templates/www/press.html:44
 msgid "Supporters of Kiberpipa Banner"
 msgstr "Podporniki Kiberpipe Pasica"
 
-#: templates/www/press.html:48
+#: intranet/templates/www/press.html:48
 msgid "Text about Kiberpipa"
 msgstr "Tekst o Kiberpipi"
 
-#: templates/www/press.html:67
+#: intranet/templates/www/press.html:67
 msgid "Projects in Kiberpipa"
 msgstr "Kiberpipini projekti"
 
-#: www/forms.py:30
+#: intranet/www/forms.py:30
 msgid "Space"
 msgstr "Prostor"
 
-#: www/forms.py:33
+#: intranet/www/forms.py:33
 msgid "Event start"
 msgstr "Začetek dogodka"
 
-#: www/forms.py:36
+#: intranet/www/forms.py:36
 msgid "Event end"
 msgstr "Konec dogodka"
 
-#: www/forms.py:39
+#: intranet/www/forms.py:39
 msgid "Event description"
 msgstr "Opis dogodka"
 
-#: www/forms.py:40
+#: intranet/www/forms.py:40
 msgid "Contact person (email)"
 msgstr "Kontakt (e-pošta)"
 
-#: www/views.py:82
+#: intranet/www/views.py:83
 msgid "You have already subscribed to this event."
 msgstr "Na ta dogodek ste se že prijavili"
 
-#: www/views.py:86
+#: intranet/www/views.py:87
 msgid "We will send you a notification when the video will be available."
 msgstr "Ko bo video na voljo, vas bomo obvestili."
 
-#: www/views.py:88
+#: intranet/www/views.py:89
 msgid "Please enter a valid email address"
 msgstr "Prosimo vnesite veljaven naslov e-pošte."
 
-#: www/views.py:102
+#: intranet/www/views.py:103
 msgid "Sent approval email!"
 msgstr "Poslan potrditveni email!"
 
-#: www/views.py:107
+#: intranet/www/views.py:108
 msgid "Wrong email!"
 msgstr "Nepravilen email!"
 
-#: www/views.py:235
+#: intranet/www/views.py:220
 msgid ""
 "Your rental inquiry has been sent. We will answer it in a couple of work days"
 msgstr ""
 "Vaše povpraševanje za najem prostora je bilo poslano. Odgovorili bomo v "
 "naslednjih delovnih dneh."
+
+#: pipa/ldap/forms.py:14
+msgid "Zapomni si me"
+msgstr ""
+
+#: src/django_extensions/django_extensions/admin/__init__.py:127
+msgid "and"
+msgstr "in"
+
+#: src/django_extensions/django_extensions/admin/__init__.py:129
+#, python-format
+msgid ""
+"Use the left field to do %(model_name)s lookups in the fields %(field_list)s."
+msgstr ""
+
+#: src/django_extensions/django_extensions/db/models.py:16
+msgid "created"
+msgstr ""
+
+#: src/django_extensions/django_extensions/db/models.py:17
+msgid "modified"
+msgstr ""
+
+#: src/django_extensions/django_extensions/db/models.py:30
+msgid "title"
+msgstr ""
+
+#: src/django_extensions/django_extensions/db/models.py:31
+msgid "slug"
+msgstr ""
+
+#: src/django_extensions/django_extensions/db/models.py:32
+#, fuzzy
+msgid "description"
+msgstr "Opis dogodka"
+
+#: src/django_extensions/django_extensions/db/models.py:57
+#, fuzzy
+msgid "Inactive"
+msgstr "Aktivni"
+
+#: src/django_extensions/django_extensions/db/models.py:58
+msgid "Active"
+msgstr "Aktivni"
+
+#: src/django_extensions/django_extensions/db/models.py:60
+msgid "status"
+msgstr ""
+
+#: src/django_extensions/django_extensions/db/models.py:63
+msgid "keep empty for an immediate activation"
+msgstr ""
+
+#: src/django_extensions/django_extensions/db/models.py:65
+msgid "keep empty for indefinite activation"
+msgstr ""
+
+#: src/django_extensions/django_extensions/management/commands/show_urls.py:35
+#, python-format
+msgid "%s does not appear to be a urlpattern object"
+msgstr ""
+
+#: src/django_extensions/django_extensions/templates/django_extensions/widgets/foreignkey_searchinput.html:4
+msgid "Lookup"
+msgstr ""
+
+#~ msgid "Send"
+#~ msgstr "Pošlji"
 
 #~ msgid "Visitors (hit ENTER)"
 #~ msgstr "Preštej obisk (pritisni ENTER)"
@@ -673,9 +760,6 @@ msgstr ""
 #~ msgid "Bugs"
 #~ msgstr "Hrošči"
 
-#~ msgid "Active"
-#~ msgstr "Aktivni"
-
 #~ msgid "Not active"
 #~ msgstr "Ne aktivni"
 
@@ -690,9 +774,6 @@ msgstr ""
 
 #~ msgid "Peview your comment"
 #~ msgstr "Predogled komentarja"
-
-#~ msgid "and"
-#~ msgstr "in"
 
 #~ msgid "or make changes"
 #~ msgstr "ali pa ga uredi"

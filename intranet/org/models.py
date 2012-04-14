@@ -24,6 +24,8 @@ def to_utc(dt):
 #####
 # Managers http://hunterford.me/django-custom-model-manager-chaining/
 #####
+
+
 class EventMixin(object):
     def get_week_events(self, year, week_num):
         """Return events in given week"""
@@ -63,6 +65,7 @@ class EventMixin(object):
 
 class EventQuerySet(QuerySet, EventMixin):
     pass
+
 
 class EventManager(models.Manager, EventMixin):
     def get_query_set(self):
@@ -261,7 +264,7 @@ class Event(models.Model):
         return '/intranet/events/%i/' % self.id
 
     def get_public_url(self):
-        return reverse('event_detail', kwargs=dict(id=self.id, slug=self.slug))
+        return reverse('event_detail', kwargs=dict(id=self.id))
 
     @property
     def length(self):

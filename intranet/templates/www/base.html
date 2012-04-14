@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    {% load i18n localeurl_tags %}
+    {% load i18n %}
     {% load url from future %}
     {% get_current_language as LANGUAGE_CODE %}
+    <!-- TODO: get a list from feeds module -->
     <link rel="alternate" type="application/rss+xml" title="Kiberpipa - Vse" href="/feeds/all/" />
     <link rel="alternate" type="application/rss+xml" title="Kiberpipa - Novice" href="/feeds/novice/" />
     <link rel="alternate" type="application/rss+xml" title="Kiberpipa - Dogodki" href="/feeds/dogodki/" />
@@ -35,16 +36,16 @@
                 | <a href="/{{ LANGUAGE_CODE }}/calendar/">{% trans "calendar" %}</a>
                 | <a href="http://www.flickr.com/photos/kiberpipa/collections/">{% trans "gallery" %}</a>
                 | <a href="/{{ LANGUAGE_CODE }}/alumni/">{% trans "community" %}</a>
-                | <a  href="/{{ LANGUAGE_CODE }}/support/">{% trans "support" %}</a>
+                | <a href="/{{ LANGUAGE_CODE }}/support/">{% trans "support" %}</a>
                 | <a href="/{{ LANGUAGE_CODE }}/press/">{% trans "press" %}</a>
-                {% if LANGUAGE_CODE == 'sl' %} | <a href="/{{ LANGUAGE_CODE }}/dohodnina/">dohodnina</a>{% endif %}
+                | <a href="/{{ LANGUAGE_CODE }}/dohodnina/">dohodnina</a>
             </div>
             <div class="language">
-                {% if request.org_path_info %}
-                <a href="/sl{{ request.org_path_info }}" >slo</a> | <a href="/en{{ request.org_path_info }}">eng</a>
-                {% else %}
-                <a href="/sl{{ request.path_info }}" >slo</a> | <a href="/en{{ request.path_info }}">eng</a>
-                {% endif %}
+		{% get_available_languages as languages %}
+		{% for lang_code, lang_name in languages %}
+		    <a href="/{{ lang_code }}/">{{ lang_name }}</a>
+		{% endfor %}
+		<a href="/rss/" ><img src="{{ settings.STATIC_URL }}www/images/rss20x20.png" alt="RSS Feeds" /></a>
             </div>
         </div>
         <div id="search">
