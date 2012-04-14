@@ -41,8 +41,8 @@ MIDDLEWARE_CLASSES = (
     'raven.contrib.django.middleware.Sentry404CatchMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
     'intranet.middleware.IgnoreBrowserLanguageMiddleware',
-    'intranet.middleware.FlatPageLocaleURLFallbackMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+    'intranet.middleware.FlatPageLocaleURLFallbackMiddleware',
     'honeypot.middleware.HoneypotMiddleware',  # as soon as possible
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
