@@ -73,7 +73,7 @@ def remote_staging_bootstrap(fresh=True):
         sed('buildout.cfg', '%\(environment\)s', env.environment)
         run('python bootstrap.py')
         run('cp %(staging_django_settings)s intranet/settings/local.py' % env)
-        run('sed -i "s/development/production/" intrant/settings/local.py' % env)
+        run('sed -i "s/development/production/" intranet/settings/local.py' % env)
         run('bin/buildout')
         run('bin/fab local_clear_database')
 
