@@ -41,7 +41,7 @@
 		{% endif %}
 	</div>
 	<div class="present-event-text"><a href="{{ event.get_public_url }}">{{ event.title|capfirst }}</a></div>
-	<div class="present-event-desc">{{ event.announce|striptags|truncatewords:"30"|safe }}</div>
+	<div class="present-event-desc">{{ event.announce|striptags|truncatewords:"30" }}</div>
 </div>
 {% endfor %}
 <div id="scroll-position" style="display: none;">{{ position }}</div>

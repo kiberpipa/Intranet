@@ -14,7 +14,7 @@
     <h2>{{ event.start_date|date:"l (j N)" }} ob {{ event.start_date|date:"G:i" }}: {{ event.title }}</h2>
 
       <div style="font-size: 0.9em">
-      {{ event.announce|safe|linebreaks }}
+      {{ event.announce|safe }}
       </div>
     {% endfor %}
   </body>

@@ -28,7 +28,7 @@
                 {% if forloop.first %}<strong>{% trans "Collaborators:" %}</strong>{% endif %}
                 <i>{{ sodelovanje.person }} ({{ sodelovanje.tip }})</i>{% if not forloop.last %},{% endif %}
             {% endfor %}
-            <p>{{ result.object.announce|safe|linebreaks }}</p>
+            <p>{{ result.object.announce|safe }}</p>
         </div>
     </div>
     {% empty %}

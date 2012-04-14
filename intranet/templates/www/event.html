@@ -32,7 +32,7 @@
                 {% photos_box %}
             </div>
             <div class="dogodek-left">
-                {{ event.announce|safe|linebreaks }}
+                {{ event.announce|safe }}
                 <div class="dogodek-video">
                     {% if not event.video.all and event.require_video %}
                         <div>
