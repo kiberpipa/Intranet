@@ -44,7 +44,7 @@ env.repository = 'git://github.com/kiberpipa/Intranet.git'
 env.branch = 'deploy'
 env.code_folder = os.path.join(env.home_folder, 'code')
 # django
-env.django_project = 'intranet'
+env.django_project = 'intranet.local'
 env.production_django_settings = os.path.join(env.root_folder, 'production_localsettings.py')
 env.staging_django_settings = os.path.join(env.root_folder, 'staging_localsettings.py')
 # django settings
@@ -96,7 +96,7 @@ def local_staging_redeploy():
 @task
 def local_clear_database():
     """Recreate schema"""
-    django.project(env.django_project)
+    django.settings_module(env.django_project)
     from django.conf import settings
     env.role = settings.DATABASES['default']['USER']
     env.db_password = settings.DATABASES['default']['PASSWORD']
@@ -200,7 +200,7 @@ def local_production_data_backup(backup_location):
     local("tar cvfz %(backup_location)s/mediafiles.tar.gz -C media/ ." % env)
 
     # backup database
-    django.project(env.django_project)
+    django.settings_module(env.django_project)
     from django.conf import settings
     env.update(settings.DATABASES['default'])
 
@@ -228,7 +228,7 @@ def local_production_data_restore(backup_location):
     local('tar xvfz %(backup_location)s/mediafiles.tar.gz -C media/' % env)
 
     # restore database
-    django.project(env.django_project)
+    django.settings_module(env.django_project)
     from django.conf import settings
     env.update(settings.DATABASES['default'])
 
