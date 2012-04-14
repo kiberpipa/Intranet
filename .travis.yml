@@ -10,7 +10,7 @@ install:
   - ln -s buildout.d/development.cfg buildout.cfg
   - python bootstrap.py
   - bin/buildout
-  - cp intranet/localsettings.py.example intranet/localsettings.py
+  - cp intranet/settings/local.py.example intranet/settings/local.py
   - bin/django syncdb --all --noinput
   - bin/django migrate --fake --noinput
 script: bin/test
