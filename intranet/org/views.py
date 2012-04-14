@@ -537,10 +537,11 @@ def sodelovanja(request):
         pass
 
     return render_to_response('org/sodelovanja.html',
-        {'sodelovanja': sodelovanja, 'form': form,
-        'admin_org': '%s/intranet/admin/org/' % settings.BASE_URL,
-        'person_form': person_form},
-        context_instance=RequestContext(request))
+        {'sodelovanja': sodelovanja,
+         'form': form,
+         'admin_org': '/intranet/admin/org/',
+         'person_form': person_form},
+         context_instance=RequestContext(request))
 
 
 def monthly_navigation(year=None, month=None):

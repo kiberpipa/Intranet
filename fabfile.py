@@ -9,6 +9,8 @@ Before sure to provide the following:
 """
 # TODO:
 # * fix racing conditions (keep state when running bootstrap/deploy)
+# * get rid of versioning buildouts
+# * use "maintanance" page while upgrading intranet
 # * rollback fails to restore static files
 # * staging fails to restore production database
 
@@ -70,7 +72,7 @@ def remote_staging_bootstrap(fresh=True):
         run('cp etc/buildout.cfg.in buildout.cfg')
         sed('buildout.cfg', '%\(environment\)s', env.environment)
         run('python bootstrap.py')
-        run('cp %(staging_django_settings)s %(django_project)s/localsettings.py' % env)
+        run('cp %(staging_django_settings)s %(django_project)s/settings/local.py' % env)
         run('bin/buildout')
         run('bin/fab local_clear_database')
 
@@ -131,7 +133,7 @@ def remote_production_deploy(is_fresh=False):
                 run('rm -rf media')
                 run('ln -s ../media media')
                 upload_template('etc/buildout.cfg.in', 'buildout.cfg', env)
-                run('cp %(production_django_settings)s %(django_project)s/localsettings.py' % env)
+                run('cp %(production_django_settings)s %(django_project)s/settings/local.py' % env)
                 run('bin/buildout -o')
 
                 # everthing went fine.

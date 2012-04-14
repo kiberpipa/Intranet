@@ -26,7 +26,7 @@ Install and run buildout::
 
 Copy over default settings::
 
-    cp intranet/localsettings.py.example intranet/localsettings.py
+    cp intranet/settings/local.py.example intranet/settings/local.py
 
 Create the (default is Sqlite3) database::
 
@@ -67,7 +67,7 @@ Add MoreLikeThisHandler to apache-solr-3.5.0/example/solr/conf/solrconfig.xml. A
       </lst>
     </requestHandler>
 
-Set the HAYSTACK_SOLR_URL in intranet/localsettings.py::
+Set the HAYSTACK_SOLR_URL in intranet/settings/local.py::
 
     HAYSTACK_SOLR_URL = 'http://localhost:8983/solr/'
 

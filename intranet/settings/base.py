@@ -2,8 +2,8 @@ import os
 import re
 
 
-def next_to_this_file(this_file, *additional_paths):
-    return os.path.join(os.path.dirname(os.path.abspath(this_file)), *additional_paths)
+def next_to_root(*additional_paths):
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', *additional_paths)
 
 
 ADMINS = (
@@ -41,15 +41,15 @@ LOCALE_INDEPENDENT_PATHS = (
     re.compile('^/services/'),
 )
 LOCALE_PATHS = (
-    next_to_this_file(__file__, 'intranet', 'locale')
+    next_to_root('intranet', 'locale')
 )
 
 SITE_ID = 1
 
 MEDIA_URL = '/smedia/'
-MEDIA_ROOT = next_to_this_file(__file__, '../media')
+MEDIA_ROOT = next_to_root('media')
 STATIC_URL = '/static/'
-STATIC_ROOT = next_to_this_file(__file__, '../static')
+STATIC_ROOT = next_to_root('static')
 ADMIN_MEDIA_PREFIX = STATIC_URL + 'grappelli/'
 
 # List of callables that know how to import templates from various sources.
@@ -165,11 +165,11 @@ LOGGING = {
 
 
 TEMPLATE_DIRS = (
-    next_to_this_file(__file__, 'templates'),
+    next_to_root('intranet', 'templates'),
 )
 
 FIXTURE_DIRS = (
-    next_to_this_file(__file__, 'fixtures'),
+    next_to_root('fixtures'),
 )
 
 # 2 weeks
@@ -219,13 +219,10 @@ HONEYPOT_SKIP_URLS = [u'/intranet/tmp_upload/', u'/intranet/diarys/commit_hook/'
 # tinymce
 TINYMCE_JS_URL = STATIC_URL + 'tiny_mce/tiny_mce.js'
 TINYMCE_DEFAULT_CONFIG = {
-                          'theme': 'advanced',
-                          'theme_advanced_buttons1': 'bold,italic,underline,strikethrough,separator,,bullist,numlist,separator,link,unlink,image,separator,undo,redo,removeformat,separator,fullscreen',
-                          'plugins': 'fullscreen',
-                          'theme_advanced_buttons2': '',
-                          'theme_advanced_buttons3': '',
-                          'theme_advanced_resizing': True,
-                          'theme_advanced_toolbar_location': 'top',
+    'theme': 'advanced',
+    'theme_advanced_buttons1': 'bold,italic,underline,strikethrough,separator,bullist,numlist,separator,link,unlink,image,separator,undo,redo,removeformat,separator,fullscreen',
+    'plugins': 'fullscreen',
+    'theme_advanced_buttons2': '',
+    'theme_advanced_buttons3': '',
+    'theme_advanced_toolbar_location': 'top',
 }
-
-from localsettings import *
