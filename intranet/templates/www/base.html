@@ -27,7 +27,7 @@
     <div id="container">
         <div id="header">
             <div class="header-logo">
-                <a href="http://www.kiberpipa.org"><img src="{{ settings.STATIC_URL }}www/images/logo.png" alt="Kiberpipa Logo" /></a>
+		<a href="{% url 'index' %}"><img src="{{ settings.STATIC_URL }}www/images/logo.png" alt="Kiberpipa Logo" /></a>
             </div>
             <div class="primary-nav">
                 <a href="/{{ LANGUAGE_CODE }}/about/">{% trans "about" %}</a>

@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, url, include
+from django.conf.urls import patterns, url
 from django.views.generic import RedirectView, TemplateView, DetailView
 from haystack.query import SearchQuerySet
 
@@ -8,7 +8,7 @@ from intranet.www.views import NewsList
 
 
 urlpatterns = patterns('',
-    url(r'^$', 'intranet.www.views.index'),
+    url(r'^$', 'intranet.www.views.index', name="index"),
     url(r'^event/(?P<slug>[-\w]*)-(?P<id>\d+)/', 'intranet.www.views.event', name="event_detail"),
     url(r'^event/search/', 'haystack.views.basic_search', dict(
         template='search/search_event.html',

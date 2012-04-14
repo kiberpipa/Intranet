@@ -2,11 +2,10 @@ from django.conf.urls import patterns, include, url
 from django.conf.urls.static import static
 from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
-from django.views.generic import ListView, TemplateView, RedirectView
+from django.views.generic import ListView, TemplateView
 from feedjack.models import Post
 
 urlpatterns = patterns('',
-    (r'^$', RedirectView.as_view(url='/sl/')),
     (r'^intranet/', include('intranet.org.urls')),
     (r'^i18n/', include('django.conf.urls.i18n')),
     (r'^jsi18n/$', 'django.views.i18n.javascript_catalog'),
