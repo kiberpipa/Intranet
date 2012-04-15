@@ -39,7 +39,7 @@ class EventsFeed(Feed):
 
     def item_title(self, item):
         if getattr(item, 'project', None):
-            return "%s: %s" % (item.project, item.title)
+            return u"%s: %s" % (item.project, item.title)
         else:
             return item.title
 
