@@ -3,6 +3,7 @@
 import datetime
 import time
 import logging
+import urlparse
 from calendar import Calendar
 
 from django.conf import settings
@@ -110,7 +111,8 @@ def ajax_subscribe_mailinglist(request):
 
 def event(request, slug=None, id=None):
     event = get_object_or_404(Event, pk=id, public=True)
-    if not request.path.endswith(event.get_public_url()):
+    event_url = urlparse.urlparse(event.get_public_url()).path
+    if not request.path.endswith(event_url):
         return HttpResponseRedirect(event.get_public_url())
 
     mlt = SearchQuerySet().filter(is_public=True).more_like_this(event)[:5]

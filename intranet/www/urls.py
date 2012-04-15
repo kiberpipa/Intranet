@@ -9,10 +9,9 @@ from intranet.www.views import NewsList
 
 urlpatterns = patterns('',
     url(r'^$', 'intranet.www.views.index', name="index"),
-    # deprecated, has to be before next pattern
+    url(r'^event/(?P<slug>[-\w]*)-(?P<id>\d+)/$', 'intranet.www.views.event', name="event_detail"),
     url(r'^event/\d{4}-[a-z]{3}-[0-9]{1,2}/(?P<id>\d+)/(?P<slug>[^/]*)',
-        RedirectView.as_view(url='event/%(slug)s-%(id)s/', permanent=True)),
-    url(r'^event/(?P<slug>[^-]*)-(?P<id>\d+)/$', 'intranet.www.views.event', name="event_detail"),
+        RedirectView.as_view(url='/event/%(slug)s-%(id)s/', permanent=True)),
     url(r'^event/search/', 'haystack.views.basic_search', dict(
         template='search/search_event.html',
         searchqueryset=SearchQuerySet().models(Event).filter(is_public=True),
