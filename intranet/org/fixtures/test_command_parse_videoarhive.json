@@ -22,7 +22,43 @@
   "model": "org.project",
   "fields": {
    "salary_rate": null,
-   "name": "test",
+   "name": "pot",
+   "parent": null,
+   "pub_date": "2011-07-06 13:24:42",
+   "responsible": null,
+   "email_members": true,
+   "chg_date": "2011-07-06 13:24:42",
+   "note": "",
+   "cost_center": null,
+   "verbose_name": "",
+   "email": "",
+   "salary_type": null
+  }
+ },
+ {
+  "pk": 6,
+  "model": "org.project",
+  "fields": {
+   "salary_rate": null,
+   "name": "su",
+   "parent": null,
+   "pub_date": "2011-07-06 13:24:42",
+   "responsible": null,
+   "email_members": true,
+   "chg_date": "2011-07-06 13:24:42",
+   "note": "",
+   "cost_center": null,
+   "verbose_name": "",
+   "email": "",
+   "salary_type": null
+  }
+ },
+ {
+  "pk": 14,
+  "model": "org.project",
+  "fields": {
+   "salary_rate": null,
+   "name": "vip",
    "parent": null,
    "pub_date": "2011-07-06 13:24:42",
    "responsible": null,

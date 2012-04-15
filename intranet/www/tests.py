@@ -4,7 +4,7 @@ import datetime
 
 from django.test import TestCase
 
-from intranet.org.models import Event
+from intranet.org.models import Event, Project
 
 
 class WWWTestCase(TestCase):
@@ -48,3 +48,21 @@ class WWWTestCase(TestCase):
             ('http://testserver/sl/event/blabla-1/', 302),
             ('https://example.com/sl/event/test-77-3-1/', 302),
         ])
+
+    def test_feeds(self):
+        resp = self.client.get('/sl/feeds/novice/', follow=True)
+        self.assertEqual(resp.status_code, 200)
+        resp = self.client.get('/sl/feeds/dogodki/', follow=True)
+        self.assertEqual(resp.status_code, 200)
+        resp = self.client.get('/sl/feeds/pot/', follow=True)
+        self.assertEqual(resp.status_code, 200)
+        resp = self.client.get('/sl/feeds/su/', follow=True)
+        self.assertEqual(resp.status_code, 200)
+        resp = self.client.get('/sl/feeds/vip/', follow=True)
+        self.assertEqual(resp.status_code, 200)
+        resp = self.client.get('/sl/feeds/planet/', follow=True)
+        self.assertEqual(resp.status_code, 200)
+        resp = self.client.get('/sl/feeds/muzej/', follow=True)
+        self.assertEqual(resp.status_code, 200)
+        resp = self.client.get('/sl/feeds/all/', follow=True)
+        self.assertEqual(resp.status_code, 200)
