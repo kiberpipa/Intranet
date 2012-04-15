@@ -170,7 +170,7 @@ class EventTest(BaseCase):
         redirect_url, event_id = re.match('http://\w+(/intranet/events/.*(\d+)/)$', resp._headers['location'][1]).groups()
 
         # validate urls
-        self.assertEqual(self.client.get('/event/dogodek-v-kleti-1/', follow=True).redirect_chain[-1], ('https://example.com/sl/event/dogodek-v-kleti-1/', 302))
+        self.assertEqual(self.client.get('/event/dogodek-v-kleti-1/', follow=True).redirect_chain[-1], ('http://testserver/sl/event/dogodek-v-kleti-1/', 302))
 
         resp = self.client.get(redirect_url)
         self.assertEqual(resp.status_code, 200)

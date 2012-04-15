@@ -34,7 +34,7 @@ class WWWTestCase(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertListEqual(resp.redirect_chain, [
             ('http://testserver/sl/event/blabla-1/', 302),
-            ('http://testserver/sl/event/test-77-3-1/', 302),
+            ('https://example.com/sl/event/test-77-3-1/', 302),
         ])
 
         resp = self.client.get('/sl/event/test-77-3-1/', follow=True)
@@ -46,5 +46,5 @@ class WWWTestCase(TestCase):
         self.assertListEqual(resp.redirect_chain, [
             ('http://testserver/event/blabla-1/', 301),
             ('http://testserver/sl/event/blabla-1/', 302),
-            ('http://testserver/sl/event/test-77-3-1/', 302),
+            ('https://example.com/sl/event/test-77-3-1/', 302),
         ])
