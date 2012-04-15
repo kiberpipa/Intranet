@@ -101,37 +101,39 @@ $(document).ready(function() {
        </div>
     </div>
 
-    <div id="blog-cp">
-         <div class="blog-cp-title">
-             <a href="/{{ LANGUAGE_CODE }}/news/">{% trans "Writings from the world with no windows" %}</a>
-         </div>
-         {% for i in news %}
-              <div class="blog-cp-news-title">
-                  <a href="{{ i.get_absolute_url }}">{{ i.title }}</a>
-              </div>
-              <div class="blog-cp-publish">
-                  {% trans "Published by" %} {{ i.author }} {% trans "on" %} {{ i.date }}
-              </div>
-              <div class="blog-cp-content">
-                  {{ i.text|santize|truncatewords:"60" }}
-              </div>
-         {% endfor %}
-    </div>
+    <div id="notifier">
+     <div class="button-chamber">
+          <div class="blog-cp-title">
+              <a href="/{{ LANGUAGE_CODE }}/news/">{% trans "Writings from the world with no windows" %}</a>
+          </div>
+          {% for i in news %}
+               <div class="blog-cp-news-title">
+                   <a href="{{ i.get_absolute_url }}">{{ i.title }}</a>
+               </div>
+               <div class="blog-cp-publish">
+                   {% trans "Published by" %} {{ i.author }} {% trans "on" %} {{ i.date }}
+               </div>
+               <div class="blog-cp-content">
+                   {{ i.text|santize|truncatewords:"60" }}
+               </div>
+          {% endfor %}
+     </div>
 
-    <div id="planet">
-         <div class="planet-title">
-         {% trans "Reflections from /dev/random" %}
-         </div>
-         {% for post in planet %}
-              <div class="planet-news-title">
-               <a href="{{ post.link }}">{{ post.title }}</a>
-              </div>
-              <div class="planet-publish">
-               {% trans "Published by" %} {{ post.author }} {% trans "on" %} {{ post.date_modified }}
-              </div>
-              <div class="planet-content">
-               {{ post.content|santize|safe|truncatewords:"60" }}
-              </div>
-         {% endfor %}
+     <div class="button-chamber">
+          <div class="planet-title">
+          {% trans "Reflections from /dev/random" %}
+          </div>
+          {% for post in planet %}
+               <div class="planet-news-title">
+                <a href="{{ post.link }}">{{ post.title }}</a>
+               </div>
+               <div class="planet-publish">
+                {% trans "Published by" %} {{ post.author }} {% trans "on" %} {{ post.date_modified }}
+               </div>
+               <div class="planet-content">
+                {{ post.content|santize|safe|truncatewords:"60" }}
+               </div>
+          {% endfor %}
+     </div>
     </div>
 {% endblock %}
