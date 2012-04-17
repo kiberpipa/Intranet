@@ -59,6 +59,7 @@ div#columnwrap {
 
 div#content-main {
     margin: 0px auto;
+    word-wrap: break-word;
 }
 
 h1 { margin: 0 0 0.8em 1em }
