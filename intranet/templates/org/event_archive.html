@@ -1,4 +1,4 @@
-{% extends "org/base_bootstrap_fluid.html" %}
+{% extends "org/base_bootstrap_fluid_span9.html" %}
 {% load box i18n %}
 {% load url from future %}
 {% block title %}Dogodki{% endblock %}
@@ -12,7 +12,12 @@
       <li><a href="arhiv/{{ obj.year }}/">{{ obj.year }}</a></li>
     {% endfor %}
   </ul>
-  <a class="btn btn-large btn-primary" href="{% url 'event_create' %}"><i class="icon-plus-sign"></i> Nov dogodek</a>
+</div>
+
+<div class="well">
+	<div class="module">
+		<a class="btn btn-large btn-primary" href="{% url 'event_create' %}"><i class="icon-plus-sign"></i> Nov dogodek</a>
+	</div>
 </div>
 {% endblock %}
 
@@ -29,8 +34,7 @@
             <th><i class="icon-film"></i> Video</th>
             <th><i class="icon-picture"></i> Slike</th>
             <th><i class="icon-user"></i> Tehnik</th>
-            <th><i class="icon-calendar"></i> Začetek</th>
-            <th><i class="icon-calendar"></i> Konec</th>
+            <th><i class="icon-calendar"></i> Datum</th>
           </tr>
         </thead>
         <tbody>
