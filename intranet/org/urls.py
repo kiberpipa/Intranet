@@ -77,8 +77,6 @@ urlpatterns = patterns('',
 
     (r'^scratchpad/change/$', 'intranet.org.views.scratchpad_change'),
     url(r'^statistika/(?P<year>\d{4})?', 'intranet.org.views.year_statistics', name='statistics_by_year'),
-    (r'^autocomplete/person/$', 'intranet.org.views.person_autocomplete'),
-    (r'^autocomplete/active_user/$', 'intranet.org.views.active_user_autocomplete'),
 
     # rss
     (r'^feeds/$', TemplateView.as_view(template_name='org/feeds_index.html')),

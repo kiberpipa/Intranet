@@ -358,22 +358,6 @@ def shopping_support(request, id=None):
 
 
 @login_required
-def person_autocomplete(request):
-    hits = []
-    if 'q' in request.GET:
-        hits = ['%s\n' % i for i in Person.objects.filter(name__icontains=request.GET['q'])]
-    return HttpResponse(''.join(hits), mimetype='text/plain')
-
-
-@login_required
-def active_user_autocomplete(request):
-    hits = []
-    if 'q' in request.GET:
-        hits = ['%s\n' % i for i in User.objects.filter(is_active=True).order_by('username').filter(username__icontains=request.GET['q'])]
-    return HttpResponse(''.join(hits), mimetype='text/plain')
-
-
-@login_required
 def add_event_emails(request, event_id):
     event = Event.objects.get(pk=event_id)
     if request.method == 'POST':
