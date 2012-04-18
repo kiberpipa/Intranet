@@ -1,4 +1,4 @@
-# SOME DESCRIPTIVE TITLE.
+
 # Copyright (C) 2011 Kiberpipa
 # This file is distributed under the same license as the intranet package.
 # Domen Kožar <domen@dev.si>, 2011.
@@ -29,7 +29,7 @@ msgstr "Projekt"
 
 #: intranet/org/models.py:425
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: intranet/org/models.py:426
 msgid "Duration"
@@ -128,7 +128,7 @@ msgstr "Odjava"
 #: intranet/templates/org/base_bootstrap.html:111
 #: intranet/templates/org/base_bootstrap.html:120
 msgid "On duty"
-msgstr "Dezurstva"
+msgstr "Dežurstva"
 
 #: intranet/templates/org/base.html:93
 #: intranet/templates/org/base_bootstrap.html:113
