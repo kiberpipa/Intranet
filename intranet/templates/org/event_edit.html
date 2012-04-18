@@ -164,7 +164,6 @@ $(document).ready(function() {
 				<label class="control-label" for="{{ form.project.html_name }}">{{ form.project.label }}</label>
 				<div class="controls">
 					{{ form.project }}
-
 					<span class="help-inline">{{ form.project.errors }}</span>
 				</div>
 			</div>
@@ -231,7 +230,7 @@ $(document).ready(function() {
 				</div>
 			</div>
 
-	    	<div class="control-group {% if form.responsible.errors %}error{% endif %}">
+			<div class="control-group {% if form.responsible.errors %}error{% endif %}">
 				<label class="control-label" for="{{ form.responsible.html_name }}">{{ form.responsible.label }}</label>
 				<div class="controls">
 					{{ form.responsible }}
@@ -245,24 +244,20 @@ $(document).ready(function() {
 					{{ form.language }}
 
 					<span class="help-inline">{{ form.language.errors }}</span>
-				</div>
+			</div>
 			</div>
 	    	<div class="control-group {% if form.start_date.errors %}error{% endif %}">
 				<label class="control-label" for="{{ form.start_date.html_name }}">{{ form.start_date.label }}</label>
 				<div class="controls">
-					<input class="jquery-timepicker" type="text" name="start_date" id="id_start_date" />
-					<script type="text/javascript"> $('.jquery-timepicker').datetimepicker({ dateFormat: 'yy/mm/dd', timeFormat: 'hh:mm', stepHour: 1, stepMinute: 1, showButtonPanel: false, onClose: function(date, inst) { if ($('#id_end_date').datepicker('getDate') == null) { $('#id_end_date').datepicker('setDate', date); } } }) </script> 
-
+					{{ form.start_date|safe }}
 					<span class="help-inline">{{ form.start_date.errors }}</span>
 				</div>
 			</div>
 
-	    	<div class="control-group {% if form.end_date.errors %}error{% endif %}">
+	   	<div class="control-group {% if form.end_date.errors %}error{% endif %}">
 				<label class="control-label" for="{{ form.end_date.html_name }}">{{ form.end_date.label }}</label>
 				<div class="controls">
-					<input class="jquery-timepicker" type="text" name="end_date" id="id_end_date" />
-					<script type="text/javascript"> $('.jquery-timepicker').datetimepicker({ dateFormat: 'yy/mm/dd', timeFormat: 'hh:mm', stepHour: 1, stepMinute: 1, showButtonPanel: false, }) </script>
-				
+					{{ form.end_date|safe }}
 					<span class="help-inline">{{ form.end_date.errors }}</span>
 				</div>
 			</div>
@@ -319,7 +314,6 @@ $(document).ready(function() {
 				<label class="control-label" for="{{ form.flickr_set_id.html_name }}">{{ form.flickr_set_id.label }}</label>
 				<div class="controls">
 					{{ form.flickr_set_id }}
-						        
 					<span class="help-inline">{{ form.flickr_set_id.errors }}</span>
 				</div>
 			</div>
