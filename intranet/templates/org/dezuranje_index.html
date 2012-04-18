@@ -15,36 +15,26 @@
 				<li class="nav-header">Pogledi</li>
 				<li class="active"><a href="/intranet/dezurni/{{ year }}/{{ iso_week }}">Tedenski</a></li>
 				<li><a href="/intranet/dezurni/{{ year }}/{{ month_name }}">Mesecni</a></li>
+
+
+				<li class="nav-header">Plache za ta teden</li>
+				<li>
+					{% box_plache log_list user %}
+				</li>
 			</ul>
 		</div>
-
+		
 		<div class="well">
-			<div class="module">
-				<h2>Plache</h2>
-				{% box_plache log_list user %}
-			</div>
-
-			<div class="module">
-				<h2>TODO</h2>
-				{% if dezurni_taski %}
-					<ul>
-					{% for task in dezurni_taski %}
-					    <li><a href="{{ task.get_absolute_url }}">{{ task }}</a></li>
-					{% endfor %}
-					</ul>
-				{% else %}
-					Trenutno ni nedokončanih opravil.
-				{% endif %}
-			</div>
-		</div>
 			
-		<div class="well">
 			{% box_list Event "start_date__gte=start_date,start_date__lte=end_date" "template=org/list_event.html,order_by=-start_date" %}
 		</div>
 {% endblock %}
 
 {% block content-main %}
 	<div class="module">
+
+		<p></p>
+
 	<table class="dezurni table table-striped table-bordered">
 		<tr>
 			<th scope="col"><a href="/intranet/dezurni/{{ navigation.prev }}">&lt;&lt;</a> {{ week_number }} <a href="/intranet/dezurni/{{ navigation.next }}">&gt;&gt;</a></th>
