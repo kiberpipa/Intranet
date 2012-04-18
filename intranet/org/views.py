@@ -340,43 +340,6 @@ def diarys_form(request, id=None, action=None):
     )
 
 
-@login_required
-def diarys(request):
-    diarys = Diary.objects.all()
-    if request.POST:
-        filter = DiaryFilter(request.POST)
-        if filter.is_valid():
-            for key, value in filter.cleaned_data.items():
-                if value:
-                    ##'**' rabis zato da ti python resolva spremenljivke (as opposed da passa dobesedni string)
-                    diarys = diarys.filter(**{key: value})
-    else:
-        filter = DiaryFilter()
-
-    return date_based.archive_index(request,
-        queryset=diarys.order_by('date'),
-        date_field='date',
-        allow_empty=1,
-        extra_context={
-            'filter': filter,
-            'diary_form': DiaryForm(),
-        }
-    )
-
-
-@login_required
-def diary_detail(request, object_id):
-    return list_detail.object_detail(request,
-        object_id=object_id,
-        queryset=Diary.objects.all(),
-        extra_context={
-            #the next line is the reason for wrapper function, dunno how to
-            #pass generic view dynamic form.
-            'diary_form': DiaryForm(instance=Diary.objects.get(id=object_id)),
-            'diary_edit': True,
-        })
-
-
 # dodaj podatek o obiskovalcih dogodka
 @login_required
 def shopping_buy(request, id=None):
