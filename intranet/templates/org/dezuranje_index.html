@@ -13,7 +13,7 @@
 		<div class="well">
 			<ul class="nav nav-list breadcrumbs">
 				<li class="nav-header">Pogledi</li>
-				<li><a href="/intranet/dezurni/{{ year }}/{{ iso_week }}">Tedenski</a></li>
+				<li class="active"><a href="/intranet/dezurni/{{ year }}/{{ iso_week }}">Tedenski</a></li>
 				<li><a href="/intranet/dezurni/{{ year }}/{{ month_name }}">Mesecni</a></li>
 			</ul>
 		</div>
@@ -39,19 +39,15 @@
 		</div>
 			
 		<div class="well">
-			<div class="module">
-				<h2>Dogodki tedna</h2>
-
-				{% box_list Event "start_date__gte=start_date,start_date__lte=end_date" "template=org/list_event.html,order_by=-start_date" %}
-			</div>
+			{% box_list Event "start_date__gte=start_date,start_date__lte=end_date" "template=org/list_event.html,order_by=-start_date" %}
 		</div>
 {% endblock %}
 
 {% block content-main %}
-<div class="module">
+	<div class="module">
 	<table class="dezurni table table-striped table-bordered">
 		<tr>
-			<th scope="col"><a href="/intranet/dezurni/{{ navigation.prev }}">&lt;&lt;</a>| {{ week_number }} |<a href="/intranet/dezurni/{{ navigation.next }}">&gt;&gt;</a></th>
+			<th scope="col"><a href="/intranet/dezurni/{{ navigation.prev }}">&lt;&lt;</a> {{ week_number }} <a href="/intranet/dezurni/{{ navigation.next }}">&gt;&gt;</a></th>
 			{% ifequal nov_urnik 1 %}
 				<th scope="col">1100 - 1600</th>
 				<th scope="col">1600 - 2100 </th>
@@ -82,39 +78,31 @@
 			</td>
 				{% else %}
 			<td id='dezurni{{ forloop.counter }}' class="free">
-				<a href="javascript:;" onclick="formExplode(this, '{{ dezurni.unique }}')">Vpiši</a>
+				<a class="btn btn-mini" href="javascript:void(0);" onclick="return dezurni('{{ dezurni.unique }}')">Vpiši</a>
 			</td>
 				{% endif %}
 			{% endfor %}
 		</tr>
 		{% endfor %}
 	</table>
+	</div>
 
-	<h2>Že vpisani dnevniki</h2>
-	{% if not log_list %}(za ta teden še ni nobenih vpisanih dnevnikov){% endif %}
-	{% for object in log_list %}
-		<div class="module">
-		<h2><a href="/intranet/diarys/{{ object.id }}" class="h2">
-		{{ object.author }}: {{ object.date|date:"D d.m.Y" }},
-			{{ object.task }} ({{ object.length }})</A></h2>
-	      {% if object.log_formal %}
-		  <h5>Dnevnik:</h5>
-		  {{ object.log_formal|linebreaks }}
-	      {% endif %}
-	      {% if object.log_informal %}
-		  <h5>Blog:</h5>
-		  {{ object.log_informal|linebreaks }}
-	      {% endif %}
-		</div>
-	{% endfor %}
-</div>
+	{% if not log_list %}
+	<div class="module">
+		(za ta teden še ni nobenih vpisanih dnevnikov)
+	</div>
+	{% else %}
+		{% for object in log_list %}
+			{% print_diary object %}
+		{% endfor %}
+	{% endif %}
 
 <div id="dnevnikForm" style="display: none;">
 	<form class="well" action="/intranet/dezurni/add/" method="post" name="dnevnikForm" class="dnevnikForm">
 		<input type="hidden" name="uniqueSpot" value="" />
 
 		<label>Med dežuranjem sem počel naslednje stvari:</label>
-		<textarea name="log_formal" id="log_f" rows="10" placeholder=""></textarea>
+		<textarea name="log_formal" id="log_f" rows="10" placeholder="Pospravil server room."></textarea>
 
 		<label>Random stuff (neobvezno):</label>
 		<textarea name="log_informal" id="log_if" rows="5" placeholder="Iskal kreativne nove načine za zlorabo dela in plačila ;-)"></textarea>
@@ -131,11 +119,11 @@
 
 {% block extrahead%}
 <script type="text/javascript">
+	function dezurni(id) {
+		$('#dnevnikForm').show().find('input[name=uniqueSpot]').val(id);
+	}
+
 	$(document).ready(function () {
-		$('.newdiary').click(function (e) {
-			e.preventDefault();
-			$('#dnevnikForm').show().find('input[name=uniqueSpot]').val($(this).attr('href'));
-		});
 		$('#dnevnikForm input[type=reset]').click(function (e) {
 			e.preventDefault();
 			$('#dnevnikForm').hide();
