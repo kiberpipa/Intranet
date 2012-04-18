@@ -2,12 +2,12 @@
 # Copyright (C) 2011 Kiberpipa
 # This file is distributed under the same license as the intranet package.
 # Domen Kožar <domen@dev.si>, 2011.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Intranet\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-14 14:11+0200\n"
+"POT-Creation-Date: 2012-04-18 17:06+0200\n"
 "PO-Revision-Date: 2011-10-04 21:51+0100\n"
 "Last-Translator: Domen Kožar <domen@dev.si>\n"
 "Language-Team: intranet <info@kiberpipa.org>\n"
@@ -18,6 +18,30 @@ msgstr ""
 "X-Poedit-Language: Slovenian\n"
 "X-Poedit-Country: SLOVENIA\n"
 "X-Poedit-SourceCharset: utf-8\n"
+
+#: intranet/org/models.py:423 intranet/templates/www/news.html:15
+msgid "Author"
+msgstr "Avtor"
+
+#: intranet/org/models.py:424 intranet/templates/org/event_detail.html:56
+msgid "Project"
+msgstr "Projekt"
+
+#: intranet/org/models.py:425
+msgid "Date"
+msgstr ""
+
+#: intranet/org/models.py:426
+msgid "Duration"
+msgstr "Trajanje"
+
+#: intranet/org/models.py:428 intranet/templates/org/technicians_index.html:89
+msgid "Formal log"
+msgstr "Uradni del dnevnika"
+
+#: intranet/org/models.py:429 intranet/templates/org/technicians_index.html:95
+msgid "Informal log"
+msgstr "Neuradni del dnevnika"
 
 #: intranet/templates/alumni/alumni.html:5
 #: intranet/templates/alumni/alumni.html:15
@@ -47,7 +71,7 @@ msgstr "Galerija"
 #: intranet/templates/mail/events_report.html:4
 #: intranet/templates/mail/events_report.txt:2
 #: intranet/templates/org/base.html:94
-#: intranet/templates/org/event_edit.html:119
+#: intranet/templates/org/base_bootstrap.html:112
 msgid "Events"
 msgstr "Dogodki"
 
@@ -91,55 +115,69 @@ msgid "visitors:"
 msgstr "obiskovalcev"
 
 #: intranet/templates/org/base.html:87
+#: intranet/templates/org/base_bootstrap.html:139
 msgid "Welcome"
 msgstr "Pozdravljen"
 
 #: intranet/templates/org/base.html:87
+#: intranet/templates/org/base_bootstrap.html:139
 msgid "Logout"
 msgstr "Odjava"
 
 #: intranet/templates/org/base.html:92
+#: intranet/templates/org/base_bootstrap.html:111
+#: intranet/templates/org/base_bootstrap.html:120
 msgid "On duty"
 msgstr "Dezurstva"
 
 #: intranet/templates/org/base.html:93
+#: intranet/templates/org/base_bootstrap.html:113
 msgid "Diarys"
 msgstr "Dnevniki"
 
 #: intranet/templates/org/base.html:95
+#: intranet/templates/org/base_bootstrap.html:128
 msgid "PR"
 msgstr "PR"
 
 #: intranet/templates/org/base.html:96
+#: intranet/templates/org/base_bootstrap.html:114
 msgid "Address book"
 msgstr "Imenik"
 
 #: intranet/templates/org/base.html:98
+#: intranet/templates/org/base_bootstrap.html:121
 msgid "Technicians"
 msgstr "Tehniki"
 
 #: intranet/templates/org/base.html:99
+#: intranet/templates/org/base_bootstrap.html:122
 #: intranet/templates/org/event_detail.html:67
 msgid "Collaboration"
 msgstr "Sodelovanja"
 
 #: intranet/templates/org/base.html:100
+#: intranet/templates/org/base_bootstrap.html:123
 msgid "Lends"
 msgstr "Reverzi"
 
 #: intranet/templates/org/base.html:101
+#: intranet/templates/org/base_bootstrap.html:124
 msgid "Shopping"
 msgstr "Nakupi"
 
 #: intranet/templates/org/base.html:102
+#: intranet/templates/org/base_bootstrap.html:125
 msgid "Mercenaries"
 msgstr "Mercenaries"
 
 #: intranet/templates/org/base.html:103
+#: intranet/templates/org/base_bootstrap.html:127
 msgid "Statistics"
 msgstr "Statistika"
 
 #: intranet/templates/org/base.html:104
+#: intranet/templates/org/base_bootstrap.html:130
 msgid "Administration"
 msgstr "Administracija"
 
@@ -176,10 +214,6 @@ msgstr "Prosojnice"
 msgid "M3C category"
 msgstr "M3C kategorija"
 
-#: intranet/templates/org/event_detail.html:56
-msgid "Project"
-msgstr "Projekt"
-
 #: intranet/templates/org/event_detail.html:61
 msgid "Informed when the video is available"
 msgstr "Želim biti obveščen, ko bo video na voljo"
@@ -204,92 +238,68 @@ msgstr "Vsebina"
 msgid "Notes"
 msgstr "Opomba"
 
-#: intranet/templates/org/event_edit.html:139
-msgid "Add event to calendar"
-msgstr "Dodaj dogodek v koledar"
-
-#: intranet/templates/org/event_edit.html:141
+#: intranet/templates/org/event_edit.html:152
 msgid "Please fix following errors"
 msgstr "Prosimo popravite sledeče napake"
 
-#: intranet/templates/org/event_edit.html:155
-#: intranet/templates/org/event_edit.html:156
+#: intranet/templates/org/event_edit.html:173
+#: intranet/templates/org/event_edit.html:175
 msgid "Authors"
 msgstr "Avtorji"
 
-#: intranet/templates/org/event_edit.html:167
-msgid "Add new author"
-msgstr "Dodaj novega avtorja"
-
-#: intranet/templates/org/event_edit.html:174
-msgid "Add author"
-msgstr "Dodaj avtorja"
-
-#: intranet/templates/org/event_edit.html:249
-msgid "Add new picture"
-msgstr "Dodaj novo sliko"
-
-#: intranet/templates/org/event_edit.html:267
+#: intranet/templates/org/event_edit.html:344
 msgid "Submit"
 msgstr "Shrani"
 
-#: intranet/templates/org/index.html:16
-msgid "Basic overview"
-msgstr "Osnovni pregled"
-
-#: intranet/templates/org/index.html:20
-msgid "Control panel"
-msgstr "Nadzorna plošča"
-
-#: intranet/templates/org/index.html:25
-msgid "Add diary"
-msgstr "Dodaj dnevnik"
-
-#: intranet/templates/org/index.html:30
-msgid "Loan equipment"
-msgstr "Posodi opremo"
-
-#: intranet/templates/org/index.html:37
+#: intranet/templates/org/index.html:31
 msgid "Scratchpad"
 msgstr "Kracarka"
 
 #: intranet/templates/org/index.html:46
-msgid "Notices"
-msgstr "Obvestila"
+msgid "Basic overview"
+msgstr "Osnovni pregled"
+
+#: intranet/templates/org/index.html:51
+msgid "Add diary"
+msgstr "Dodaj dnevnik"
 
 #: intranet/templates/org/index.html:56
+msgid "Loan equipment"
+msgstr "Posodi opremo"
+
+#: intranet/templates/org/index.html:70
 msgid "My responsibilities"
 msgstr "Moje odgovornosti"
 
-#: intranet/templates/org/index.html:59
+#: intranet/templates/org/index.html:76
 msgid "My events:"
 msgstr "Moji dogodki:"
 
-#: intranet/templates/org/index.html:62
+#: intranet/templates/org/index.html:79
 msgid "I lent:"
 msgstr "Sem posodil:"
 
-#: intranet/templates/org/index.html:64
+#: intranet/templates/org/index.html:81
 msgid "My wishlist shopping:"
 msgstr "Moje želje po nakupih:"
 
-#: intranet/templates/org/index.html:74
+#: intranet/templates/org/index.html:93
 msgid "Public events with no visitors:"
 msgstr "Javni dogodki brez vpisanih obiskovalcev:"
 
-#: intranet/templates/org/index.html:83
+#: intranet/templates/org/index.html:102
 msgid "Events marked as recorded but no video attached:"
 msgstr "Snemani dogodki brez dodanih video posnetkov:"
 
-#: intranet/templates/org/index.html:92
+#: intranet/templates/org/index.html:111
 msgid "Events with required pictures has no flickr id:"
 msgstr "Dogodki z zahtevanimi slikami ampak nimajo Flickr identifikacije:"
 
-#: intranet/templates/org/index.html:109
+#: intranet/templates/org/index.html:127
 msgid "Current"
 msgstr "Aktualni"
 
-#: intranet/templates/org/index.html:109
+#: intranet/templates/org/index.html:127
 msgid "events"
 msgstr "dogodki"
 
@@ -326,14 +336,6 @@ msgstr "Odjavi se"
 msgid "Volunteer"
 msgstr "Javi se"
 
-#: intranet/templates/org/technicians_index.html:89
-msgid "Formal log"
-msgstr "Uradni del dnevnika"
-
-#: intranet/templates/org/technicians_index.html:95
-msgid "Informal log"
-msgstr "Neuradni del dnevnika"
-
 #: intranet/templates/org/technicians_index.html:100
 msgid "Number of hours"
 msgstr "Število ur"
@@ -361,7 +363,7 @@ msgid "Pictures of event"
 msgstr "Slike dogodka"
 
 #: intranet/templates/search/search_event.html:16
-#: intranet/templates/www/base.html:36
+#: intranet/templates/www/base.html:37
 msgid "gallery"
 msgstr "galerija"
 
@@ -398,39 +400,39 @@ msgstr "ob"
 msgid "Video of event"
 msgstr "Video dogodka"
 
-#: intranet/templates/www/base.html:18
+#: intranet/templates/www/base.html:19
 msgid "All our code are belong to you"
 msgstr "All our code are belong to you"
 
-#: intranet/templates/www/base.html:32
+#: intranet/templates/www/base.html:33
 msgid "about"
 msgstr "o nas"
 
-#: intranet/templates/www/base.html:35
+#: intranet/templates/www/base.html:36
 msgid "calendar"
 msgstr "koledar"
 
-#: intranet/templates/www/base.html:37
+#: intranet/templates/www/base.html:38
 msgid "community"
 msgstr "skupnost"
 
-#: intranet/templates/www/base.html:38
+#: intranet/templates/www/base.html:39
 msgid "support"
 msgstr "podpora"
 
-#: intranet/templates/www/base.html:39
+#: intranet/templates/www/base.html:40
 msgid "press"
 msgstr "press"
 
-#: intranet/templates/www/base.html:52
+#: intranet/templates/www/base.html:50
 msgid "Search events ..."
 msgstr "Išči po dogodkih ..."
 
-#: intranet/templates/www/base.html:73
+#: intranet/templates/www/base.html:72
 msgid "Opening Hours"
 msgstr "Odpiralni čas"
 
-#: intranet/templates/www/base.html:74
+#: intranet/templates/www/base.html:73
 msgid "only during events"
 msgstr "samo ob času dogodkov"
 
@@ -499,33 +501,33 @@ msgstr "Video"
 msgid "Similar events"
 msgstr "Podobni dogodki"
 
-#: intranet/templates/www/index.html:91
+#: intranet/templates/www/index.html:86
 msgid "Newest videos in video.kiberpipa.org"
 msgstr "Najnovejši posnetki v video arhivu"
 
-#: intranet/templates/www/index.html:100
+#: intranet/templates/www/index.html:95
 msgid "Subscribe to Cyberpipe mailing list"
 msgstr "Prijava na Kiberpipina obvestila"
 
-#: intranet/templates/www/index.html:101
+#: intranet/templates/www/index.html:96
 msgid "Would you like to subscribe to information about weekly events?"
 msgstr ""
 "Želite prejemati obvestila o Kiberpipinih dogodkih po elektronski pošti?"
 
-#: intranet/templates/www/index.html:111
+#: intranet/templates/www/index.html:107
 msgid "Writings from the world with no windows"
 msgstr "Zapisi iz sveta brez oken"
 
-#: intranet/templates/www/index.html:118 intranet/templates/www/index.html:135
+#: intranet/templates/www/index.html:114 intranet/templates/www/index.html:131
 #: intranet/templates/www/news_list.html:14
 msgid "Published by"
 msgstr "Objavil"
 
-#: intranet/templates/www/index.html:118 intranet/templates/www/index.html:135
+#: intranet/templates/www/index.html:114 intranet/templates/www/index.html:131
 msgid "on"
 msgstr "dne"
 
-#: intranet/templates/www/index.html:128
+#: intranet/templates/www/index.html:124
 msgid "Reflections from /dev/random"
 msgstr "Razmišljanja iz /dev/random"
 
@@ -536,10 +538,6 @@ msgstr "Kje smo"
 #: intranet/templates/www/news.html:9
 msgid "Kiberpipas blog"
 msgstr "Kiberpipin blog"
-
-#: intranet/templates/www/news.html:15
-msgid "Author"
-msgstr "Avtor"
 
 #: intranet/templates/www/news.html:15
 #: intranet/templates/www/news_list.html:14
@@ -607,27 +605,27 @@ msgstr "Opis dogodka"
 msgid "Contact person (email)"
 msgstr "Kontakt (e-pošta)"
 
-#: intranet/www/views.py:83
+#: intranet/www/views.py:84
 msgid "You have already subscribed to this event."
 msgstr "Na ta dogodek ste se že prijavili"
 
-#: intranet/www/views.py:87
+#: intranet/www/views.py:88
 msgid "We will send you a notification when the video will be available."
 msgstr "Ko bo video na voljo, vas bomo obvestili."
 
-#: intranet/www/views.py:89
+#: intranet/www/views.py:90
 msgid "Please enter a valid email address"
 msgstr "Prosimo vnesite veljaven naslov e-pošte."
 
-#: intranet/www/views.py:103
+#: intranet/www/views.py:104
 msgid "Sent approval email!"
 msgstr "Poslan potrditveni email!"
 
-#: intranet/www/views.py:108
+#: intranet/www/views.py:109
 msgid "Wrong email!"
 msgstr "Nepravilen email!"
 
-#: intranet/www/views.py:220
+#: intranet/www/views.py:222
 msgid ""
 "Your rental inquiry has been sent. We will answer it in a couple of work days"
 msgstr ""
@@ -698,6 +696,24 @@ msgstr ""
 #: src/django_extensions/django_extensions/templates/django_extensions/widgets/foreignkey_searchinput.html:4
 msgid "Lookup"
 msgstr ""
+
+#~ msgid "Add event to calendar"
+#~ msgstr "Dodaj dogodek v koledar"
+
+#~ msgid "Add new author"
+#~ msgstr "Dodaj novega avtorja"
+
+#~ msgid "Add author"
+#~ msgstr "Dodaj avtorja"
+
+#~ msgid "Add new picture"
+#~ msgstr "Dodaj novo sliko"
+
+#~ msgid "Control panel"
+#~ msgstr "Nadzorna plošča"
+
+#~ msgid "Notices"
+#~ msgstr "Obvestila"
 
 #~ msgid "Send"
 #~ msgstr "Pošlji"

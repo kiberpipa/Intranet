@@ -13,6 +13,7 @@ from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext_lazy as _
 from tinymce.models import HTMLField
 
 from pipa.mercenaries.models import CostCenter, SalaryType
@@ -419,13 +420,13 @@ class Task(models.Model):
 
 # dnevnik dezurnih
 class Diary(models.Model):
-    author = models.ForeignKey(User, related_name="diary_author")
-    task = models.ForeignKey(Project)  # retained name for backwards compatibility
-    date = models.DateTimeField(default=date.today(), db_index=True)
-    length = models.TimeField(default=datetime.time(4, 0))
+    author = models.ForeignKey(User, related_name="diary_author", verbose_name=_("Author"))
+    task = models.ForeignKey(Project, verbose_name=_("Project"))  # retained name for backwards compatibility
+    date = models.DateTimeField(verbose_name=_("Start date"), default=date.today(), db_index=True)
+    length = models.TimeField(default=datetime.time(4, 0), verbose_name=_("Duration"))
     event = models.ForeignKey(Event, blank=True, null=True)
-    log_formal = models.TextField()
-    log_informal = models.TextField(blank=True, null=True)
+    log_formal = models.TextField(verbose_name=_("Formal log"))
+    log_informal = models.TextField(verbose_name=_("Informal log"), blank=True, null=True)
 
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
