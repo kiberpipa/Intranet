@@ -170,7 +170,7 @@ def index(request):
                               {'start_date': today,
                                 'end_date': nextday,
                                 'today': today,
-                                'rageface' : rageface,
+                                'rageface': rageface,
                                 'diary_form': DiaryForm(),
                                 'diary_edit': False,
                                 'lend_form': LendForm(),
@@ -339,19 +339,6 @@ def diarys_form(request, id=None, action=None):
         'diary_edit': True,
         }, context_instance=RequestContext(request)
     )
-
-
-@login_required
-def diary_detail(request, object_id):
-    return list_detail.object_detail(request,
-        object_id=object_id,
-        queryset=Diary.objects.all(),
-        extra_context={
-            #the next line is the reason for wrapper function, dunno how to
-            #pass generic view dynamic form.
-            'diary_form': DiaryForm(instance=Diary.objects.get(id=object_id)),
-            'diary_edit': True,
-        })
 
 
 # dodaj podatek o obiskovalcih dogodka
