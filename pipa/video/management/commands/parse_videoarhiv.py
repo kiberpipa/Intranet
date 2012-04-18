@@ -1,7 +1,6 @@
 # *-* coding: utf-8 *-*
 
 import urllib
-import re
 import datetime
 import time
 import logging
@@ -17,6 +16,7 @@ from intranet.org.models import Event
 
 logger = logging.getLogger(__name__)
 JSON_URL = 'http://video.kiberpipa.org/site/api/lectures/recent/?format=json'
+
 
 class Command(BaseCommand):
     """Parse videoarchive, store metadata and send notifications"""
@@ -64,7 +64,7 @@ class Command(BaseCommand):
                 try:
                     event = Event.objects.get(pk=int(x.get('remote_ref')))
                 except Event.DoesNotExist:
-                    logger.error('Wrong intranet id in videoarchive', extra={'remote':x})
+                    logger.error('Wrong intranet id in videoarchive', extra={'remote': x})
                     continue
 
                 vid, is_created = Video.objects.get_or_create(

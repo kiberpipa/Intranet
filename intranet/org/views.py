@@ -383,7 +383,7 @@ def info_txt(request, event):
     desc = event.announce
     desc = re.sub('\s+', ' ', re.sub('<.*?>', '', desc))
     content.append(u'desc: %s' % (desc,))
-    content.append(u'url: http://www.kiberpipa.org%s' % event.get_public_url())
+    content.append(u'url: http://www.kiberpipa.org%s' % event.get_absolute_url())
     content.append(u'intranet-id: %s' % event.id)
     response = HttpResponse(mimetype='application/octet-stream')
     response['Content-Disposition'] = "attachment; filename=info.txt"

@@ -262,9 +262,6 @@ class Event(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return '/intranet/events/%i/' % self.id
-
-    def get_public_url(self):
         return reverse('event_detail', kwargs=dict(id=self.id, slug=self.slug))
 
     @property

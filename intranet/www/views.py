@@ -111,9 +111,9 @@ def ajax_subscribe_mailinglist(request):
 
 def event(request, slug=None, id=None):
     event = get_object_or_404(Event, pk=id, public=True)
-    event_url = urlparse.urlparse(event.get_public_url()).path
+    event_url = urlparse.urlparse(event.get_absolute_url()).path
     if not request.path.endswith(event_url):
-        return HttpResponseRedirect(event.get_public_url())
+        return HttpResponseRedirect(event.get_absolute_url())
 
     mlt = SearchQuerySet().filter(is_public=True).more_like_this(event)[:5]
 
@@ -198,7 +198,7 @@ def ical(request):
             time.strftime(u'DTEND:%Y%m%dT%H%M%S', to_utc(e.end_date)),
             time.strftime(u'LAST-MODIFIED:%Y%m%dT%H%M%SZ', to_utc(e.chg_date)),
             u'SUMMARY:%s: %s' % (unicode(e.project), e.title),
-            u'URL:http://www.kiberpipa.org%s' % e.get_public_url(),
+            u'URL:http://www.kiberpipa.org%s' % e.get_absolute_url(),
             u'CLASS:%s' % classification,
             u'LOCATION:Kiberpipa, %s' % e.place,
             u'CATEGORIES:%s' % ','.join([e.project.name, e.category.name]),

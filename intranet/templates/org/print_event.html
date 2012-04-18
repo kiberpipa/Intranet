@@ -2,7 +2,7 @@
 {% load url from future %}
 <tr>
 	<td><a href="{% url 'event_edit' event.id %}">{{ event.title }}</a></td>
-	<td><span class="badge">{{ event.project }}</span></td>
+	<td><span class="badge badge-inverse">{{ event.project }}</span></td>
 	<td>
 		{% if event.require_video %}
 			{% if event.video.all %}

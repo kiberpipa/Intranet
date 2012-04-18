@@ -5,7 +5,7 @@ from django.views.generic import TemplateView, RedirectView
 
 from intranet.org.feeds import LatestDiarys, LatestEvents
 from intranet.org.views import (DetailLend, DetailDiary, DetailShopping,
-                                DetailEvent, ArchiveIndexEvent,
+                                ArchiveIndexEvent,
                                 ArchiveIndexLend, ArchiveIndexDiary,
                                 MonthArchiveEvent, YearArchiveEvent,
                                 MonthArchiveDiary, YearArchiveDiary)
@@ -23,7 +23,6 @@ urlpatterns = patterns('',
     url(r'^events/arhiv/(?P<year>\d{4})/$', login_required(YearArchiveEvent.as_view()), name="event_arhive_year"),
     url(r'^events/arhiv/(?P<year>\d{4})/(?P<month>[a-z]{3}|[0-9]{1,2})/$', login_required(MonthArchiveEvent.as_view())),
     url(r'^events/create/', 'intranet.org.views.event_edit', name="event_create"),
-    url(r'^events/(?P<pk>\d+)/$', login_required(DetailEvent.as_view()), name="event_private_detail"),
     url(r'^events/(?P<event_pk>\d+)/edit/$', 'intranet.org.views.event_edit', name="event_edit"),
     url(r'^events/(?P<event_id>\d+)/count/$', 'intranet.org.views.event_count'),
     url(r'^events/(?P<event_id>\d+)/emails/$', 'intranet.org.views.add_event_emails'),
