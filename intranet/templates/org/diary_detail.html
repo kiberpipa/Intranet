@@ -1,9 +1,25 @@
+{% extends "org/base_bootstrap_fluid.html" %}
+{% load box %}
+
+{% block extrahead %}
+<script>
+  $(document).ready(function(){
+    $('#id_date').datepicker({firstDay: 1});
+    });
+</script>
+{% endblock %}
+{% block title %}
+	Dnevnik #{{ object.id }}
+{% endblock %}
+
+{% load markup %}
+
 {% block navigation  %}
 	<div class="well" style="padding: 8px 0;">
 		<ul class="nav nav-list">
 			<li><a href="../../diarys">&larr; Nazaj na dnevnike</a></li>
-	        <li><a href="/intranet/diarys/arhiv/{{ object.date|date:"Y" }}/{{ object.date|date:"M"|lower }}">{{ object.date|date:"M" }}</a></li>
-    	    <li><a href="/intranet/diarys/arhiv/{{ object.date|date:"Y" }}">{{ object.date|date:"Y" }}</a></li>
+			<li><a href="/intranet/diarys/arhiv/{{ object.date|date:"Y" }}/{{ object.date|date:"M"|lower }}">{{ object.date|date:"M" }}</a></li>
+			<li><a href="/intranet/diarys/arhiv/{{ object.date|date:"Y" }}">{{ object.date|date:"Y" }}</a></li>
 		</ul>
 	</div>
 
@@ -21,4 +37,3 @@
 {% block content-main %}
     {% print_diary object%}
 {% endblock %}
-

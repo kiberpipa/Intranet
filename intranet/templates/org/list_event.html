@@ -1,12 +1,18 @@
-{% for task in object_list %}
-
-<li {% ifequal task.start_date.date today %} class="today"{% endifequal %}>
-        <b>{{ task.start_date|date:"D j. M H:i"}} ({{ task.length }})</b><br />
-        <a class="eventlink" href="/intranet/events/{{ task.id }}/">
+{% if object_list %}
+	<ul class="actionlist">
+	{% for task in object_list %}
+		<li {% ifequal task.start_date.date today %} class="today"{% endifequal %}>
+        	<b>{{ task.start_date|date:"D j. M H:i"}} ({{ task.length }})</b><br />
+	        <a class="eventlink" href="/intranet/events/{{ task.id }}/">
                 {{ task.title }} {% if task.note %} [!] {% endif %}
-        </a>
-        <br />
-        <span class="mini quiet">{{ task.project }}</span>
-</li>
+    	    </a>
+        	<br />
+	        <span class="mini quiet">{{ task.project }}</span>
+		</li>
+	{% endfor %}
+	</ul>
 
-{% endfor %}
+{% else %}
+	Ni dogodkov.
+
+{% endif %}

@@ -1,5 +1,6 @@
 {% extends "org/base_bootstrap_fluid.html" %}
 {% block title %}Dnevniki{% endblock %}
+
 {% load box %}
 
 {% block extrahead %}
@@ -8,7 +9,6 @@
     $('#id_date').datepicker({firstDay: 1, dateFormat: "yy-mm-dd"});
   });
   </script>
-  <link rel="alternate" type="application/rss+xml" title="Diarys RSS Feed" href="/intranet/feeds/diarys/" />
   <link rel="alternate" type="application/rss+xml" title="Diarys RSS Feed" href="/intranet/feeds/diarys/" />
 {% endblock %}
 

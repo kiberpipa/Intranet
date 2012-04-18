@@ -42,9 +42,7 @@
 			<div class="module">
 				<h2>Dogodki tedna</h2>
 
-				<ul class="actionlist">
-				    {% box_list Event "start_date__gte=start_date,start_date__lte=end_date" "template=org/list_event.html,order_by=-start_date" %}
-			    </ul>
+				{% box_list Event "start_date__gte=start_date,start_date__lte=end_date" "template=org/list_event.html,order_by=-start_date" %}
 			</div>
 		</div>
 {% endblock %}
