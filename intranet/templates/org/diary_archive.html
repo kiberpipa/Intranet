@@ -1,7 +1,6 @@
-{% extends "org/base_3col.html" %}
-{% load box %}
-
+{% extends "org/base_bootstrap_fluid.html" %}
 {% block title %}Dnevniki{% endblock %}
+{% load box %}
 
 {% block extrahead %}
   <script>
@@ -10,42 +9,46 @@
   });
   </script>
   <link rel="alternate" type="application/rss+xml" title="Diarys RSS Feed" href="/intranet/feeds/diarys/" />
+  <link rel="alternate" type="application/rss+xml" title="Diarys RSS Feed" href="/intranet/feeds/diarys/" />
 {% endblock %}
 
-{% block toplinks %}
-    <div class="breadcrumbs">
-    <ul id="breadcrumbs">
-        <li>Leta:</li>
-        {% for d in date_list %}
-            <li><a href="arhiv/{{ d.year }}/">{{ d.year }}</a></li>
-        {% endfor %}
-    </ul>
-    </div>
-{% endblock %}
+{% block navigation %}
+	<div class="well">
+		<ul class="nav nav-list">
+			<li class="nav-header">Filtiraj po letih</li>
+    	    {% for obj in date_list %}
+        	<li><a href="arhiv/{{ obj.year }}/">{{ obj.year }}</a></li>
+	        {% endfor %}
+    	</ul>
+	    <br/>
 
-{% block heading %}
-    <h1>Arhiv dnevnikov - zadnjih 15</h1>
-{% endblock %}
+		<ul class="nav nav-list">
+			<li class="nav-header">Po projektu</li>
+			<li>		
+				<form action="" method="post">
+		    		{{ filter.as_p }}
+					<p>
+						<label>&nbsp;</label>
+						<button class="btn" type="submit">Find diaries</button>
+					</p>
+				</form>
+			</li>
+		</ul>
+	</div>
+	
+	<div class="well">
+		<ul class="nav nav-list">
+			<li class="nav-header">Dodaj dnevnik</li>
 
-{% block content-related-left %}
-  <div class="module" id="recent-actions-module">
-    <h2>Dodaj dnevnik</h2>
-    {% include "org/content/diary_form.html" %}
-  </div>
+			<li>
+				{% include "org/content/diary_form.html" %}
+			</li>
+		</ul>
+	</div>
 {% endblock %}
 
 {% block content-main %}
-        {% for object in latest %}
-            {% print_diary object%}
-        {% endfor %}
-{% endblock %}
-
-{% block content-related-right %}
-  <div class="module" id="recent-actions-module">
-    <h2>Filtri</h2>
-        <form action="" method="post">
-        {{ filter.as_p }}
-        <input type="submit">
-        </form>
-</div>
+	{% for object in latest %}
+    	{% print_diary object%}
+	{% endfor %}
 {% endblock %}

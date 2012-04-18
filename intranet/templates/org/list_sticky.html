@@ -1,12 +1,14 @@
 {% if object_list %}
-<ul>
 {% for task in object_list %}
-	<div class="{{ task.message }}">
-		<strong><a id="message" href="{{ task.get_absolute_url }}">
-			{{ task.post_date|date:"j. M" }}, {{ task.author }}:
-		</a></strong>
-		<p>{{ task.note|linebreaks }}</p>
+	<div class="alert alert-error">
+		<a class="close" data-dismiss="alert">×</a>
+		<h4 class="alert-heading">Pomembno obvestilo</h4>{{ task.note|linebreaks }}
+	
+		Objavil <a href="../addressbook/#{{ task.author.username }}"><b>{{ task.author.first_name }} {{ task.author.last_name }}</b></a>
+		<span class="username"><a class="nohover" href="../addressbook/#{{ task.author.username }}">@{{ task.author.username }}</a></span>
+		<span class="filed"><a href="/intranet/diarys/{{ object.id }}/">{{ task.post_date|date:"l d.m.Y"|capfirst }}</a>. Traja do {{ task.end_date }}.
+		
+		Link do tja: <a class="message" href="{{ task.get_absolute_url }}">
 	</div>
 {% endfor %}
-</ul>
 {% endif %}

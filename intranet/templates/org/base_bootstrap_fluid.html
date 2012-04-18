@@ -1,0 +1,28 @@
+{% extends "org/base_bootstrap.html" %}
+
+{% block content %}
+	<div class="row-fluid">
+		<div class="span12">
+			{% block heading %}{% endblock %}
+
+		</div>
+	</div>
+		
+	<div class="row-fluid">
+		<div class="span3" id="navigation">
+			{% block navigation %}&nbsp;{% endblock %}
+		</div>
+
+		<div class="span7" id="content">
+			{% block alert %}{% endblock %}
+
+			<div class="title">
+				{% block title-main %}
+					<h1>{% block title %}Untitled{%endblock %}</h1>
+				{% endblock %}
+			</div>
+			
+			{% block content-main %}{% endblock %}
+		</div>
+	</div><!-- / row-fluid -->
+{% endblock %}

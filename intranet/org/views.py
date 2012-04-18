@@ -6,6 +6,7 @@ import os
 import re
 import csv
 import shutil
+import random
 from cStringIO import StringIO
 
 import mx.DateTime
@@ -158,10 +159,18 @@ def index(request):
 
     unfinished_events = (no_visitors, no_video, no_pictures)
 
+    # give us a random rageface!
+    # they're under static/org/images/ragaface/
+    # i'd list them and do a random that way, but apparantly getting the
+    # path to the static dir is quite a chore with a multi-app django
+    # deployment
+    rageface = random.choice(["angry-unhappy.png", "determined-challenge-accepted.png", "happy-big-smile.png", "happy-cuteness-overload.png", "happy-derpina-eyes-closed.png", "happy-derpina.png", "happy-epic-win.png", "happy-everything-went-better-than-expected.png", "happy-female.png", "happy-i-see-what-you-did-there.png", "happy-kitteh-smile.png", "happy-never-alone.png", "happy-oh-stop-it-you.png", "happy-pfftch.png", "happy-smile-he-he-he.png", "happy-smile.png", "happy-thumbs-up.png", "happy-yes.png", "misc-clean-all-the-things.png", "rage-unhappy.png", "sad-forever-alone-happy.png", "trees-happy-smoking.png", "troll-sincere-troll.png"])
+
     return render_to_response('org/index.html',
                               {'start_date': today,
                                 'end_date': nextday,
                                 'today': today,
+                                'rageface' : rageface,
                                 'diary_form': DiaryForm(),
                                 'diary_edit': False,
                                 'lend_form': LendForm(),
@@ -330,6 +339,19 @@ def diarys_form(request, id=None, action=None):
         'diary_edit': True,
         }, context_instance=RequestContext(request)
     )
+
+
+@login_required
+def diary_detail(request, object_id):
+    return list_detail.object_detail(request,
+        object_id=object_id,
+        queryset=Diary.objects.all(),
+        extra_context={
+            #the next line is the reason for wrapper function, dunno how to
+            #pass generic view dynamic form.
+            'diary_form': DiaryForm(instance=Diary.objects.get(id=object_id)),
+            'diary_edit': True,
+        })
 
 
 # dodaj podatek o obiskovalcih dogodka

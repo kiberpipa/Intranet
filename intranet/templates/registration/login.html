@@ -1,12 +1,7 @@
-{% extends "org/base.html" %}
+{% extends "org/base_bootstrap.html" %}
 {% load url from future %}
 
 {% block extrahead %}
-    <script>
-    $(function () {
-        $('#id_username').focus();
-    });
-    </script>
 {% endblock %}
 
 {% block content %}
@@ -18,7 +13,7 @@
         <div id="loginbox">
             <form method="POST" action="" name="LoginForm">
                 <table>
-                    {{ form.as_table }}
+                    {{ form.as_p }}
                     {% csrf_token %}
                     <tr>
                         <td>
@@ -29,5 +24,10 @@
                 </table>
             </form>
         </div>
+	    <script>
+    		$(document).ready(function () {
+		        $('#id_username').focus();
+		    });
+    	</script>
     {% endif %}
 {% endblock %}

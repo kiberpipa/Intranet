@@ -1,15 +1,26 @@
-<div class="diary, module, T{{ object.task.id }}, P{{ object.project.id }}">
-<div class="module">
-          <h2><a href="/intranet/diarys/{{ object.id }}/" class="h2">
-          {{ object.author }}: {{ object.task }}
-          </a></h2>
-          <h4>{{ object.date|date:"l d.m.Y"|capfirst }}, trajanje: {{ object.length|time:"G:i" }}</h4>
-      {% if object.log_formal %}
-          <p>{{ object.log_formal|urlize|linebreaksbr }}</p>
-      {% endif %}
-      {% if object.log_informal %}
-          <hr />
-          <p>{{ object.log_informal|urlize|linebreaksbr }}</p>
-      {% endif %}
-</div>
+<div class="diary T{{ object.task.id }} P{{ object.project.id }}">
+	<a href="../addressbook/#{{ object.author.username }}">
+	{% if object.author.get_profile.image %}
+		<img class="profile_image" src="{{ object.author.get_profile.image.url }}" alt="{{ object.author }}'s avatar" />
+	{% else %}
+		<div class="profile_image profile_image_fake">
+			No image available
+		</div>
+	{% endif %}
+	</a>
+
+	<div style="margin-left: 55px">
+		<a href="../addressbook/#{{ object.author.username }}"><b>{{ object.author.first_name }} {{ object.author.last_name }}</b></a>
+		<span class="username"><a class="nohover" href="../addressbook/#{{ object.author.username }}">@{{ object.author.username }}</a></span>
+		<span class="duration">trajanje: {{ object.length|time:"G:i" }}</span><br/>
+
+		{% if object.log_formal %}
+	    <p class="formal">{{ object.log_formal|urlize|linebreaksbr }}</p>
+    	{% endif %}
+	    {% if object.log_informal %}
+	    	<p class="informal"><i>Informal:</i> {{ object.log_informal|urlize|linebreaksbr }}</p>
+	    {% endif %}
+
+		<span class="filed">Filed on <a href="/intranet/diarys/{{ object.id }}/">{{ object.date|date:"l d.m.Y"|capfirst }}</a> under #{{ object.task }}</span>
+	</div>
 </div>
