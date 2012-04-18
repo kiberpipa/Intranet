@@ -424,7 +424,7 @@ class Diary(models.Model):
     task = models.ForeignKey(Project, verbose_name=_("Project"))  # retained name for backwards compatibility
     date = models.DateTimeField(verbose_name=_("Start date"), default=date.today(), db_index=True)
     length = models.TimeField(default=datetime.time(4, 0), verbose_name=_("Duration"))
-    event = models.ForeignKey(Event, blank=True, null=True)
+    event = models.ForeignKey(Event, verbose_name=_("Event"), blank=True, null=True)
     log_formal = models.TextField(verbose_name=_("Formal log"))
     log_informal = models.TextField(verbose_name=_("Informal log"), blank=True, null=True)
 

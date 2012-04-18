@@ -37,7 +37,6 @@ class SelectWidget(forms.widgets.Select):
     def render(self, name, value, attrs=None, choices=()):
         wattrs = attrs or dict()
         wattrs['class'] = "chzn-select"
-        wattrs['style'] = "width:50%"
         return forms.widgets.Select.render(self, name, value, attrs=wattrs, choices=choices)
 
 
@@ -232,12 +231,12 @@ class ShoppingForm(forms.ModelForm):
 
 
 class DiaryForm(forms.ModelForm):
-
     class Meta:
         model = Diary
-        fields = ('task', 'date', 'length', 'log_formal', 'log_informal')
+        fields = ('task', 'event', 'date', 'length', 'log_formal', 'log_informal')
         widgets = {
             'date': DateTimeWidget,
+            'event': SelectWidget(),
         }
 
     def __init__(self, *a, **kw):

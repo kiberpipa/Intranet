@@ -32,7 +32,7 @@
 					<!-- TODO: link to diary -->
 					<p class="badge badge-success"><i class="icon-user"></i> {{ technician }}
 							{% if technician == user %}
-									<a href="/intranet/tehniki/cancel/{{ event.id }}/">{% trans "Sign off" %}</a>
+									<a class="badge badge-info" href="/intranet/tehniki/cancel/{{ event.id }}/">{% trans "Sign off" %}</a>
 							{% endif %}
 					</p>
 				{% endfor %}

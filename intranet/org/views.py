@@ -690,7 +690,7 @@ def tehniki_take(request, id):
     e = Event.objects.get(pk=id)
     e.technician.add(request.user)
     e.save()
-    return redirect('technician_list')
+    return redirect('event_list')
 
 
 @login_required
@@ -698,7 +698,7 @@ def tehniki_cancel(request, id):
     e = Event.objects.get(pk=id)
     e.technician.remove(request.user)
     e.save()
-    return HttpResponseRedirect('../../')
+    return redirect('event_list')
 
 
 @login_required
