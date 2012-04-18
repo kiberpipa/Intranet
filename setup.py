@@ -43,6 +43,7 @@ setup(name='intranet',
         'South',
         'django-honeypot',
         'django-grappelli',
+        'django-gravatar2',
         # development
         'django-debug-toolbar',
         'django-extensions',

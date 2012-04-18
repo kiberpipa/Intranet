@@ -1,13 +1,14 @@
+{% load gravatar %}
 <div class="diary T{{ object.task.id }} P{{ object.project.id }}">
+	<div class="profile_image profile_image_fake">
 	<a href="../addressbook/#{{ object.author.username }}">
-	{% if object.author.get_profile.image %}
-		<img class="profile_image" src="{{ object.author.get_profile.image.url }}" alt="{{ object.author }}'s avatar" />
-	{% else %}
-		<div class="profile_image profile_image_fake">
-			No image available
-		</div>
-	{% endif %}
+		{% if object.author.get_profile.image %}
+			<img class="profile_image" src="{{ object.author.get_profile.image.url }}" alt="{{ object.author }}'s avatar" />
+		{% else %}
+			{% gravatar object.author.email 50 %}
+		{% endif %}
 	</a>
+	</div>
 
 	<div style="margin-left: 55px">
 		<a href="../addressbook/#{{ object.author.username }}"><b>{{ object.author.first_name }} {{ object.author.last_name }}</b></a>
