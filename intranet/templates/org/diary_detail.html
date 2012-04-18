@@ -8,11 +8,10 @@
     });
 </script>
 {% endblock %}
+
 {% block title %}
 	Dnevnik #{{ object.id }}
 {% endblock %}
-
-{% load markup %}
 
 {% block navigation  %}
 	<div class="well" style="padding: 8px 0;">
@@ -35,5 +34,5 @@
 {% endblock %}
 
 {% block content-main %}
-    {% print_diary object%}
+    {% print_diary object %}
 {% endblock %}
