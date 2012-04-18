@@ -143,8 +143,10 @@
 									<li class="divider"></li>
 									<li><a href="{% url statistics_by_year %}">{% trans "Statistics" %}</a></li>
 									<li><a href="/intranet/events/pr/">{% trans "PR" %}</a></li>
+									{% if user.is_staff %}
 									<li class="divider"></li>
 									<li><a href="/intranet/admin">{% trans "Administration" %}</a></li>
+									{% endif %}
 								</ul>
 							</li>
 						</ul>
@@ -155,20 +157,18 @@
 						{% if user.is_authenticated %}
 							{% trans "Welcome" %}&nbsp;{{ user.username }}!&nbsp;<a href="/intranet/accounts/logout/">{% trans "Logout" %}</a>
 						{% else %}
-							Prijava or sth
+							<a href="/intranet/accounts/login/">{% trans "Login" %}</a>
 						{% endif %}
 						</p>
 					</div>
-				</div>				
 
+				</div>				
 			</div><!--/ .container -->
 		</div><!--/ .navbar-inner -->
-		
 	</div><!--/ .navbar -->
 
 	<div class="container">
 		{% block content %}{% endblock %}
-
 
 		<footer>
 			<div class="row-fluid">
