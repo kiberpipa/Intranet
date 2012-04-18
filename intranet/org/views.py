@@ -1112,10 +1112,12 @@ class ArchiveIndexEvent(ArchiveIndexView):
         context = super(ArchiveIndexEvent, self).get_context_data(**kw)
         today = datetime.datetime.today()
         week_number = int(today.strftime('%W'))
-        context['event_last'] = Event.objects.get_week_events(today.year, week_number - 1)
-        context['event_this'] = Event.objects.get_week_events(today.year, week_number)
-        context['event_next'] = Event.objects.get_week_events(today.year, week_number + 1)
-        context['event_next2'] = Event.objects.get_week_events(today.year, week_number + 2)
+        context['events'] = [
+            [u'Čez dva tedna', Event.objects.get_week_events(today.year, week_number + 2)],
+            [u'Naslednji teden', Event.objects.get_week_events(today.year, week_number + 1)],
+            [u'Trenutni teden', Event.objects.get_week_events(today.year, week_number)],
+            [u'Prejšni teden', Event.objects.get_week_events(today.year, week_number - 1)],
+        ]
         return context
 
 

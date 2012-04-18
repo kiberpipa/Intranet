@@ -155,7 +155,7 @@ $(document).ready(function() {
 	    	<div class="control-group {% if form.title.errors %}error{% endif %}">
 				<label class="control-label" for="id_{{ form.title.html_name }}">{{ form.title.label }}</label>
 				<div class="controls">
-					<input class="input-xlarge" type="text" id="id_{{form.title.html_name}}" name="{{ form.title.html_name}}" placeholder="Naj bo lep in opisen"/>
+					{{ form.title }}
 					<span class="help-inline">{{ form.title.errors }}</span>
 				</div>
 			</div>

@@ -67,7 +67,7 @@ urlpatterns = patterns('',
     (r'^tehniki/(?P<year>\d+)/(?P<month>[a-z]{3})/$', 'intranet.org.views.tehniki_monthly'),
     (r'^tehniki/(?P<year>\d+)/(?P<week>\d+)/$', 'intranet.org.views.tehniki'),
     (r'^tehniki/add/$', 'intranet.org.views.tehniki_add'),
-    (r'^tehniki/add/(\d+)/$', 'intranet.org.views.tehniki_take'),
+    url(r'^tehniki/add/(?P<id>\d+)/$', 'intranet.org.views.tehniki_take', name="tehniki_take"),
     (r'^tehniki/cancel/(\d+)/$', 'intranet.org.views.tehniki_cancel'),
 
     (r'^dezurni/$', 'intranet.org.views.dezurni'),

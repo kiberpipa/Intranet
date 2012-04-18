@@ -4,7 +4,6 @@
 import datetime
 
 from django import template
-from django.conf import settings
 from django.template import Library
 from django.template import resolve_variable
 from django.core.exceptions import ObjectDoesNotExist
@@ -15,17 +14,19 @@ from intranet.org.models import Scratchpad
 register = Library()
 
 
+@register.inclusion_tag('org/showcomments.html')
 def loadcomments(object, user):
-    return {'object': object, 'user': user }
-register.inclusion_tag('org/showcomments.html')(loadcomments)
+    return {'object': object, 'user': user}
 
-# summarize paid, unpaid time for given period of diaries
+
+@register.inclusion_tag('org/box_plache.html')
 def box_plache(diarys, user):
-    list = {} 		# Hash<author.username, hours unpaid>
+    """summarize paid, unpaid time for given period of diaries"""
+    list = {}  # Hash<author.username, hours unpaid>
     paylist = {} 	# Hash<author.username, hours paid>
-    billable_hours = 0	# total paid time, in hours
-    total_hours = 0	# total paid+unpaid time, in hours
-    sum = 0		# total to be paid (= total paid time * tariff)
+    billable_hours = 0  # total paid time, in hours
+    total_hours = 0	 # total paid+unpaid time, in hours
+    sum = 0	 # total to be paid (= total paid time * tariff)
 
     # pupulate list, paylist from diaries
     for o in diarys:
@@ -33,77 +34,80 @@ def box_plache(diarys, user):
         if a in list:
             list[a] += o.length.hour
         else:
-            list[a] = o.length.hour 
+            list[a] = o.length.hour
             paylist[a] = 0
-        total_hours += o.length.hour        
-        
+        total_hours += o.length.hour
+
         # paid projects are dezuranje (22) and tehnicarjenje (23)
         # they must reference an event that requires a technician, also
-        if ( (o.task.id == 22) or (o.task.id == 23 and o.event != None and (o.event.require_technician or o.event.require_video)) ):
+        if ((o.task.id == 22) or (o.task.id == 23 and o.event != None and (o.event.require_technician or o.event.require_video))):
             paylist[a] += o.length.hour
             billable_hours += o.length.hour
-        
 
     # compute per-person summaries
-    tariff = 3.50				# EUR/hour
-    objects = []				# List<Hash<String, Object>> - summaries per person 
+    tariff = 3.50   # EUR/hour
+    objects = []				# List<Hash<String, Object>> - summaries per person
     for o in list:				# for every author.username
         a = {}					# his summary
         a['name'] = o
         a['time'] = list[o]			# unpaid time in hours
         a['paytime'] = paylist[o]		# paid time in hours
-        a['money'] = paylist[o] * tariff	# paid time * tariff (3.13eur/h currently)
+        a['money'] = paylist[o] * tariff  # paid time * tariff (3.13eur/h currently)
         objects.append(a)
 
         # add to totals
         sum += (paylist[o] * tariff)
 
     # sort by a['money']
-    objects.sort(lambda a, b: int( b['money'] - a['money'] ))
+    objects.sort(lambda a, b: int(b['money'] - a['money']))
 
     return {'objects': objects,
             'user': user,
             'billable_hours': billable_hours,
             'total_hours': total_hours,
-            'sum': sum }
+            'sum': sum}
 
 
-register.inclusion_tag('org/box_plache.html')(box_plache)
-
-
+@register.inclusion_tag('org/box_scratchpad.html')
 def box_scratchpad(user):
     try:
-      scratchpad = Scratchpad.objects.latest('id')
+        scratchpad = Scratchpad.objects.latest('id')
     except ObjectDoesNotExist:
-      scratchpad = []
-    
+        scratchpad = []
+
     return {'object': scratchpad}
-register.inclusion_tag('org/box_scratchpad.html')(box_scratchpad)   
 
+
+@register.inclusion_tag('org/print_shopping.html')
 def print_shopping(object):
-    return {'object': object }
-register.inclusion_tag('org/print_shopping.html')(print_shopping)
+    return {'object': object}
 
+
+@register.inclusion_tag('org/print_diary.html')
 def print_diary(form):
-    return {'object': form }
-register.inclusion_tag('org/print_diary.html')(print_diary)
+    return {'object': form}
 
 
-def print_event(form):
-    return {'event': form, 'settings': settings}
-register.inclusion_tag('org/print_event.html')(print_event)
+@register.inclusion_tag('org/print_event.html', takes_context=True)
+def print_event(context, obj):
+    context.update({'event': obj})
+    return context
 
+
+@register.inclusion_tag('org/form_event.html')
 def form_event(form):
-    return {'form': form }
-register.inclusion_tag('org/form_event.html')(form_event)
+    return {'form': form}
 
+
+@register.inclusion_tag('org/form_shopping.html')
 def form_shopping(form):
-    return {'form': form }
-register.inclusion_tag('org/form_shopping.html')(form_shopping)
+    return {'form': form}
 
+
+@register.inclusion_tag('org/box_reccurings.html')
 def box_reccurings(form):
-    return {'form': form }
-register.inclusion_tag('org/box_reccurings.html')(box_reccurings)
+    return {'form': form}
+
 
 def parse(args):
     kwargs = {}
@@ -113,12 +117,14 @@ def parse(args):
             args += ','
         for arg in args.split(','):
             arg = arg.strip()
-            if arg == '': continue
+            if arg == '':
+                continue
             kw, val = arg.split('=', 1)
             kw = kw.lower()
             kwargs[kw] = val
 
     return kwargs
+
 
 class BoxListNode(template.Node):
     """
@@ -132,7 +138,7 @@ class BoxListNode(template.Node):
     """
     def __init__(self, object, queryset, params):
         self.object = object
-        self.queryset  = queryset
+        self.queryset = queryset
         self.params = params
 
     def render(self, context):
@@ -141,19 +147,19 @@ class BoxListNode(template.Node):
 
         for i in kwargs:
             if kwargs[i] == 'False':
-              kwargs[i] = False
+                kwargs[i] = False
             elif kwargs[i] == 'True':
-              kwargs[i] = True
+                kwargs[i] = True
             else:
-              kwargs[i] = resolve_variable(kwargs[i], context)
-        kwargs = dict([(str(x),kwargs[x]) for x in kwargs.keys()]) 
-        
+                kwargs[i] = resolve_variable(kwargs[i], context)
+        kwargs = dict([(str(x), kwargs[x]) for x in kwargs.keys()])
+
         new_queryset = self.object.objects.filter(**kwargs)
 
-        if pargs.has_key('order_by'):
+        if 'order_by' in pargs:
             new_queryset = new_queryset.order_by(pargs['order_by'])
 
-        if pargs.has_key('limit'):
+        if 'limit' in pargs:
             l = pargs['limit']
             i = l.split(':')[0]
             if i:
@@ -167,7 +173,7 @@ class BoxListNode(template.Node):
                 j = 0
             new_queryset = new_queryset[i:j]
 
-        if pargs.has_key('template'):
+        if 'template' in pargs:
             template_name = pargs['template']
         else:
             model = new_queryset.model
@@ -177,6 +183,8 @@ class BoxListNode(template.Node):
         context['today'] = datetime.date.today()
         return template.loader.get_template(template_name).render(context)
 
+
+@register.tag(name='box_list')
 def box_list(parser, token):
     bits = token.split_contents()
     object_name = bits[1]
@@ -185,8 +193,6 @@ def box_list(parser, token):
         params = bits[3][1:-1]
     else:
         params = ''
-    m = __import__("intranet.org.models", '','', object_name)
+    m = __import__("intranet.org.models", '', '', object_name)
     object = getattr(m, object_name)
     return BoxListNode(object, queryset, params)
-
-register.tag('box_list', box_list)
