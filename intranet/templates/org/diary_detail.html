@@ -1,3 +1,6 @@
+{% extends "org/base_bootstrap_fluid.html" %}
+{% load box %}
+
 {% block navigation  %}
 	<div class="well" style="padding: 8px 0;">
 		<ul class="nav nav-list">
@@ -19,6 +22,6 @@
 {% endblock %}
 
 {% block content-main %}
-    {% print_diary object%}
+    {% print_diary object %}
 {% endblock %}
 

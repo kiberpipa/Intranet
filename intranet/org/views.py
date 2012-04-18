@@ -336,7 +336,6 @@ def diarys_form(request, id=None, action=None):
 
     return render_to_response('org/diary.html', {
         'diary_form': diary_form,
-        'diary_edit': True,
         }, context_instance=RequestContext(request)
     )
 
