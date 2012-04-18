@@ -31,13 +31,13 @@ class Command(BaseCommand):
             scratchpad = Scratchpad.objects.all()[0].content
         except Scratchpad.DoesNotExist:
             pass
-        lends =  Lend.objects.filter(returned=False)
-        
+        lends = Lend.objects.filter(returned=False)
+
         # warnings for events:
         # today and tomorrow
         events = Event.objects.get_date_events(
-                                               datetime.datetime(interested_datetime.year, interested_datetime.month, interested_datetime.day+1, 0, 0),
-                                               datetime.datetime(interested_datetime.year, interested_datetime.month, interested_datetime.day+3, 0, 0)
+                                               datetime.datetime(interested_datetime.year, interested_datetime.month, interested_datetime.day + 1, 0, 0),
+                                               datetime.datetime(interested_datetime.year, interested_datetime.month, interested_datetime.day + 3, 0, 0)
                                                )
         # no technician
         no_tech = events.filter(require_technician__exact=True).filter(technician__isnull=True)

@@ -957,6 +957,7 @@ def commit_hook(request):
         diaries[user] = commits
 
     for user, text in diaries.iteritems():
+        # TODO: if there is a diary for intranet for today, append to that
         diary = Diary(
             log_formal='\n'.join(text),
             author=user,
