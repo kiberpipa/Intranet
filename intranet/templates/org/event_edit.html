@@ -121,7 +121,13 @@ $(document).ready(function() {
 </style>
 {% endblock %}
 
-{% block title %}Dodajanje/urejanje dogodka #{{ object.id }} {% endblock %}
+{% block title %}
+  {% if object.id %}
+  Urejanje dogodka #{{ object.id }}
+  {% else %}
+  Dodajanje dogodka
+  {% endif %}
+{% endblock %}
 
 {%block navigation %} 
 			<div class="well"> 
