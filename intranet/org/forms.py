@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.forms.util import ErrorList
 from django.forms.models import ModelChoiceField
 from django.utils.formats import get_format
+from django.utils.translation import ugettext_lazy as _
 
 from intranet.org.models import (Person, Event, Sodelovanje,
     Project, Lend, Diary, Shopping, IntranetImage)
@@ -110,8 +111,8 @@ class DateTimeWidget(forms.widgets.TextInput):
 
 
 class DiaryFilter(forms.Form):
-    task = forms.ModelChoiceField(Project.objects.all().order_by('name'), required=False)
-    author = forms.ModelChoiceField(User.objects.filter(is_active=True).order_by('username'), required=False)
+    task = forms.ModelChoiceField(label=_("Project"), queryset=Project.objects.all().order_by('name'), required=False)
+    author = forms.ModelChoiceField(label=_("Author"), queryset=User.objects.filter(is_active=True).order_by('username'), required=False)
 
 
 class PersonForm(forms.Form):
@@ -231,7 +232,6 @@ class ShoppingForm(forms.ModelForm):
 
 
 class DiaryForm(forms.ModelForm):
-    task = ModelChoiceField(Project.objects.all().order_by('name'))
 
     class Meta:
         model = Diary
@@ -243,3 +243,4 @@ class DiaryForm(forms.ModelForm):
     def __init__(self, *a, **kw):
         self.base_fields['date'].initial = date.today()
         super(DiaryForm, self).__init__(*a, **kw)
+        self.fields['task'].queryset = Project.objects.all().order_by('name')
