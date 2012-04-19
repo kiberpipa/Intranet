@@ -436,6 +436,9 @@ class Diary(models.Model):
     def get_absolute_url(self):
         return "/intranet/diarys/%i/" % self.id
 
+    def is_paid(self):
+        return self.task.id == 22 or self.task.id == 23              
+
     class Meta:
         verbose_name = 'Dnevnik'
         verbose_name_plural = 'Dnevniki'
