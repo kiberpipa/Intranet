@@ -721,6 +721,19 @@ def dezurni_monthly(request, year=None, month=None):
     month_now = month_start
     month = []
 
+	###od tega datuma naprej velja nov urnik
+    Time = mx.DateTime.Time
+    if mx.DateTime.Date(2008, 04, 14) <= month_start and mx.DateTime.Date(2008, 9, 14) > month_start:
+        nov_urnik = 1
+        time_list = [Time(11), Time(16)]
+    elif mx.DateTime.Date(2008, 9, 14) <= month_start:
+        nov_urnik = 2
+        time_list = [Time(10), Time(14), Time(18)]
+    else:
+        nov_urnik = 0
+        time_list = [Time(10), Time(13), Time(16), Time(19)]
+
+    diarys = Diary.objects.filter(task=22, date__range=(month_start, month_end)).order_by('date')
     while month_now < month_end:
         dict = {}
         dict['date'] = month_now.strftime('%d.%m. %a')
@@ -729,7 +742,7 @@ def dezurni_monthly(request, year=None, month=None):
         Time = mx.DateTime.Time
 
         for i in [Time(hours=10), Time(hours=14), Time(hours=18)]:
-            dezurni_list = Diary.objects.filter(task=22, date__range=(month_now + i, month_now + i + Time(3.59))).order_by('date')
+            dezurni_list = diarys.filter(date__range=(month_now + i, month_now + i + Time(3.59))).order_by('date')
             dezurni_dict = {}
             if dezurni_list:
                 dezurni_obj = dezurni_list[0]
@@ -743,7 +756,7 @@ def dezurni_monthly(request, year=None, month=None):
         month.append(dict)
         month_now = month_now + mx.DateTime.oneDay
 
-    log_list = Diary.objects.filter(task=22, date__range=(month_start, month_end)).order_by('-date')
+    log_list = diarys.order_by('-date')
 
     navigation = monthly_navigation(year, month_number)
 
@@ -752,11 +765,14 @@ def dezurni_monthly(request, year=None, month=None):
                                         'log_list': log_list,
                                         'year': year,
                                         'iso_week': iso_week[1],
-                                        'month_name': month_to_string(month),
+                                        'month_start': month_start,
+                                        'month_name': month_to_string(month_number),
                                         'navigation': navigation,
                                         'month_number': month_number,
                                         'start_date': month_start,
                                         'end_date': month_end,
+                                        'nov_urnik':  nov_urnik,
+                                        'time_list': time_list,
                                         },
                               context_instance=RequestContext(request))
 
