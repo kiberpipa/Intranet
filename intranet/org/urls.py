@@ -21,7 +21,7 @@ urlpatterns = patterns('',
 
     url(r'^events/$', login_required(ArchiveIndexEvent.as_view()), name="event_list"),
     url(r'^events/arhiv/(?P<year>\d{4})/$', login_required(YearArchiveEvent.as_view()), name="event_arhive_year"),
-    url(r'^events/arhiv/(?P<year>\d{4})/(?P<month>[a-z]{3}|[0-9]{1,2})/$', login_required(MonthArchiveEvent.as_view())),
+    url(r'^events/arhiv/(?P<year>\d{4})/(?P<month>[a-z]{3}|[0-9]{1,2})/$', login_required(MonthArchiveEvent.as_view()), name="event_arhive_month"),
     url(r'^events/create/', 'intranet.org.views.event_edit', name="event_create"),
     url(r'^events/(?P<event_pk>\d+)/edit/$', 'intranet.org.views.event_edit', name="event_edit"),
     url(r'^events/(?P<event_id>\d+)/count/$', 'intranet.org.views.event_count'),

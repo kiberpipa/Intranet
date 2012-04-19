@@ -6,7 +6,9 @@
 	<td>
 		{% if event.require_video %}
 			{% if event.video.all %}
-				<a href="#"><span class="badge badge-success"><i class="icon-film"></i> Predvajaj</span></a>
+				{% for video in event.video.all %}
+					<a title="{{ video.title }}" href="{{ video.get_absolute_url }}"><span class="badge badge-success"><i class="icon-film"></i> P
+				{% endfor %}
 			{% else %}
 				<span class="badge badge-info">Čaka upload</span>
 			{% endif %}

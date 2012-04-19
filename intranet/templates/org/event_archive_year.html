@@ -1,46 +1,45 @@
-{% extends "org/base_2col.html" %}
-{% block extrahead %}  {% endblock %}
-{% block title %}Dogodki{% endblock %}
-{% load box %}
-{% block toplinks %}
-	<div class="breadcrumbs">
-	<ul id="breadcrumbs">
-		<li>Meseci: </li>
-		{% for obj in date_list %}
-			<li><a href="{{ obj|date:"b"}}/">{{ obj|date:"F" }}</a></li>
-		{% endfor %}
-	</ul>
-	</div>
-{% endblock %}
+{% extends "org/base_bootstrap_fluid.html" %}
+{% load box i18n %}
+{% load url from future %}
+{% block title %}Dogodki za leto {{ year }}{% endblock %}
 
-{% block heading %}
-        <h1>Arhiv dogodkov - leto {{ year }} ({{ object_list|length }} dogodkov)</h1></h1>
-{% endblock %}
 
-{% block content-related-left %}
-  <div class="module" id="recent-actions-module">
-
-  </div>
+{% block navigation %}
+<div class="well">
+  <ul class="nav nav-list">
+    <li class="nav-header">Filtiraj po mesecih</li>
+    {% for obj in date_list %}
+      <li><a href="{% url 'event_arhive_month' obj.year obj.month %}">{{ obj|date:"F" }}</a></li>
+    {% endfor %}
+  </ul>
+  <a class="btn btn-large btn-primary" href="{% url 'event_create' %}"><i class="icon-plus-sign"></i> Nov dogodek</a>
+</div>
 {% endblock %}
 
 {% block content-main %}
-	<div class="module">
-	<h2>Seznam</h2>
-	<ul>
-        {% for log in object_list %}
-			<li>
-				{% print_event log %}
-			</li>
-	    {% endfor %}
-	</ul>
-	</div>
-{% endblock %}
-
-{% block content-related-right %}
-  <div class="module" id="recent-actions-module">
-    <h2>Filtri</h2>
-  	 <ul class="actionlist">
-		<br>
-	</ul>
-</div>
+  <div class="module">
+    {% if object_list %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Ime</th>
+            <th>Projekt</th>
+            <th><i class="icon-film"></i> Video</th>
+            <th><i class="icon-picture"></i> Slike</th>
+            <th><i class="icon-user"></i> Tehnik</th>
+            <th><i class="icon-calendar"></i> Začetek</th>
+            <th><i class="icon-calendar"></i> Konec</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for event in object_list %}  
+          {% print_event event %}
+        {% endfor %}
+        </tbody>
+      </table>
+      <br/>
+    {% else %}
+      <p>Ni dogodkov.</p>
+    {% endif %}
+  </div>
 {% endblock %}

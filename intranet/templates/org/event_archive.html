@@ -9,7 +9,7 @@
   <ul class="nav nav-list">
     <li class="nav-header">Filtiraj po letih</li>
     {% for obj in date_list %}
-      <li><a href="arhiv/{{ obj.year }}/">{{ obj.year }}</a></li>
+      <li><a href="{% url 'event_arhive_year' obj.year %}">{{ obj.year }}</a></li>
     {% endfor %}
   </ul>
 </div>
