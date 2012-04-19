@@ -6,7 +6,7 @@
 {% block title-main %}
 	<h1>Dnevnik dežuranja</h1>
 	
-	Sezona {{ month_start|date:"Y" }}, mesec {{ month_start|date:"F" }}
+	Za mesec {{ month_start|date:"F" }} leta {{ month_start|date:"Y" }}
 {% endblock %}
 
 {% block navigation %}
@@ -31,8 +31,6 @@
 
 {% block content-main %}
 	<div class="module">
-
-		<p>nov_urnik = {{ nov_urnik }}</p>
 
 		<table class="dezurni table table-striped table-bordered">
 		<tr>
@@ -62,14 +60,16 @@
 		{% for day in month %}
 		<tr>
 			<td id='date'>{{ day.date }}</td>
-			{% for dezurni in day.dezurni %}
-				{% if dezurni.name %}
+			{% for slot in day.slots %}
+				{% if slot.diaries %}
 			<td id='dezurni{{ forloop.counter }}'>
-				<a href="/intranet/diarys/{{ dezurni.admin_id }}">{{ dezurni.name }}</a>
+                {% for diary in slot.diaries %}
+				<a href="/intranet/diarys/{{ diary.id }}">{{ diary.author }}</a><br/>
+				{% endfor %}
 			</td>
 				{% else %}
 			<td id='dezurni{{ forloop.counter }}' class="free">
-				<a class="btn btn-mini" href="javascript:void(0);" onclick="return dezurni('{{ dezurni.unique }}')">Vpiši</a>
+				<a class="btn btn-mini" href="javascript:void(0);" onclick="return dezurni('{{ slot.unique }}')">Vpiši</a>
 			</td>
 				{% endif %}
 			{% endfor %}

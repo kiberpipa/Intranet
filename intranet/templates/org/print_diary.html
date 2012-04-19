@@ -21,7 +21,11 @@
 	    {% if object.log_informal %}
 	    	<p class="informal"><i>Informal:</i> {{ object.log_informal|urlize|linebreaksbr }}</p>
 	    {% endif %}
-
-		<span class="filed">Filed on <a href="/intranet/diarys/{{ object.id }}/">{{ object.date|date:"l d.m.Y"|capfirst }}</a> under #{{ object.task }}</span>
+         
+        {% if object.is_paid %}
+    		<span class="filed">Filed for the term of {{ object.date|date:"l d.m.Y H:i"|capfirst }} ({{ object.length|date:"h:i" }})<br/>on <a href="/intranet/diarys/{{ object.id }}/">{{ object.pub_date|date:"l d.m.Y H:m"|capfirst }}</a> under #{{ object.task }}</span>
+        {% else %}
+    		<span class="filed">Filed on <a href="/intranet/diarys/{{ object.id }}/">{{ object.date|date:"l d.m.Y H:m"|capfirst }}</a> under #{{ object.task }}</span>
+    	{% endif %}
 	</div>
 </div>

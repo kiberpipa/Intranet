@@ -8,6 +8,7 @@ import csv
 import shutil
 import random
 from cStringIO import StringIO
+import logging
 
 import mx.DateTime
 from django.conf import settings
@@ -37,7 +38,7 @@ month_dict = {'jan': 1, 'feb': 2, 'mar': 3,
     'okt': 10, 'nov': 11, 'dec': 12,
 }
 reverse_month_dict = dict(((i[1], i[0]) for i in month_dict.iteritems()))
-
+logger = logging.getLogger(__name__)
 
 @login_required
 def temporary_upload(request):
@@ -732,37 +733,50 @@ def dezurni_monthly(request, year=None, month=None):
     else:
         nov_urnik = 0
         time_list = [Time(10), Time(13), Time(16), Time(19)]
+    slot_duration = Time(8) if len(time_list) < 2 else time_list[1] - time_list[0]
+    logging.debug("SLOT DURATION: %s hours" % slot_duration.hours)
 
+    # load the diary objects for this month
     diarys = Diary.objects.filter(task=22, date__range=(month_start, month_end)).order_by('date')
+    d = 0
+
+    # group them in their respective dezuranje slot
     while month_now < month_end:
-        dict = {}
-        dict['date'] = month_now.strftime('%d.%m. %a')
-        dict['dezurni'] = []
+        day_dict = {}
+        day_dict['date'] = month_now.strftime('%d.%m. %a')
+        day_dict['slots'] = []
 
-        Time = mx.DateTime.Time
+        for slot in time_list:
+            slot_range=(month_now + slot, month_now + slot + slot_duration - 0.01)
+            logging.debug("CHECKING SLOT [%s, %s]" % (slot_range[0], slot_range[1]))
+            diarys_in_slot = []
+            slot_dict = { 'unique' : None, 'diaries' : [] }
 
-        for i in [Time(hours=10), Time(hours=14), Time(hours=18)]:
-            dezurni_list = diarys.filter(date__range=(month_now + i, month_now + i + Time(3.59))).order_by('date')
-            dezurni_dict = {}
-            if dezurni_list:
-                dezurni_obj = dezurni_list[0]
-                dezurni_dict['name'] = dezurni_obj.author
-                dezurni_dict['admin_id'] = dezurni_obj.id
+            # find diarys for this particular time slot, if any
+            while d < len(diarys) and diarys[d].date <= slot_range[1]:
+                #if diarys[d].date >= slot_range[0]:
+                logging.debug("Adding diary %s to slot [%s, %s]" % (diarys[d], slot_range[0], slot_range[1]))
+                diarys_in_slot.append(diarys[d])
+                d += 1
+
+            # todo: there may be multiple diarys per term (multiple dezurni etc)            
+            if diarys_in_slot:
+                for diary in diarys_in_slot:
+                    slot_dict['diaries'].append({ 'author' : diary.author, 'id' : diary.id })
             else:
-                dezurni_dict['unique'] = (month_now + i).strftime('%d.%m.%y-%H:%M')
-                dezurni_dict['name'] = None
-            dict['dezurni'].append(dezurni_dict)
+                # noone has signed up for this slot yet
+                slot_dict['unique'] = (month_now + slot).strftime('%d.%m.%y-%H:%M')
 
-        month.append(dict)
+            day_dict['slots'].append(slot_dict)
+
+        month.append(day_dict)
         month_now = month_now + mx.DateTime.oneDay
-
-    log_list = diarys.order_by('-date')
 
     navigation = monthly_navigation(year, month_number)
 
     return render_to_response('org/dezuranje_monthly.html',
                                         {'month': month,
-                                        'log_list': log_list,
+                                        'log_list': diarys,
                                         'year': year,
                                         'iso_week': iso_week[1],
                                         'month_start': month_start,
@@ -1076,10 +1090,10 @@ class ArchiveIndexEvent(ArchiveIndexView):
         today = datetime.datetime.today()
         week_number = int(today.strftime('%W'))
         context['events'] = [
-            [u'Čez dva tedna', Event.objects.get_week_events(today.year, week_number + 2)],
-            [u'Naslednji teden', Event.objects.get_week_events(today.year, week_number + 1)],
-            [u'Trenutni teden', Event.objects.get_week_events(today.year, week_number)],
             [u'Prejšni teden', Event.objects.get_week_events(today.year, week_number - 1)],
+            [u'Trenutni teden', Event.objects.get_week_events(today.year, week_number)],
+            [u'Naslednji teden', Event.objects.get_week_events(today.year, week_number + 1)],
+            [u'Čez dva tedna', Event.objects.get_week_events(today.year, week_number + 2)],
         ]
         return context
 
