@@ -22,32 +22,29 @@
 {% endblock %}
 
 {% block content-main %}
-  <div class="module">
-  {% for title, query in events %}
-    {% if query %}
-      <table class="table">
-        <caption><h2>{{ title }}</h2></caption>
+<div class="module">
+    <table class="table">
         <thead>
           <tr>
-            <th>Ime</th>
-            <th>Projekt</th>
-            <th><i class="icon-film"></i> Video</th>
-            <th><i class="icon-picture"></i> Slike</th>
-            <th><i class="icon-user"></i> Tehnik</th>
             <th><i class="icon-calendar"></i> Datum</th>
+            <th><i class="icon-barcode"></i> Naslov</th>
+            <th><i class="icon-file"></i> Projekt</th>
+            <th><i class="icon-film"></i><i class="icon-picture"></i> {% trans "Media" %}</th>
+            <th><i class="icon-user"></i> Tehniki</th>
           </tr>
         </thead>
         <tbody>
-        {% for event in query %}  
-          {% print_event event %}
-        {% endfor %}
+            {% for title, query in events %}
+                {% if query %}
+                    <tr class="heading"><td colspan="6">{{ title }}</td></tr>
+                    {% for event in query %}  
+                      {% print_event event %}
+                    {% endfor %}
+                {% else %}
+
+                {% endif %}
+            {% endfor %}
         </tbody>
-      </table>
-      <br/>
-    {% else %}
-      <h2>{{ title }}</h2>
-      <p>Ni dogodkov.</p>
-    {% endif %}
-  {% endfor %}
+    </table>
   </div>
 {% endblock %}
