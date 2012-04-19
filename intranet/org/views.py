@@ -17,6 +17,7 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
 from django.views.generic import DetailView, ArchiveIndexView, YearArchiveView, MonthArchiveView
 from django.utils import simplejson
@@ -441,7 +442,7 @@ def event_edit(request, event_pk=None):
             for i in old_sodelovanja & sodelovanja ^ old_sodelovanja:
                 i.delete()
 
-            return HttpResponseRedirect(new_event.get_absolute_url())
+            return HttpResponseRedirect(reverse('intranet.org.views.event_edit', args=[new_event.id]))
     else:
         form = EventForm(instance=instance)
 
@@ -722,7 +723,7 @@ def dezurni_monthly(request, year=None, month=None):
     month_now = month_start
     month = []
 
-	###od tega datuma naprej velja nov urnik
+    ###od tega datuma naprej velja nov urnik
     Time = mx.DateTime.Time
     if mx.DateTime.Date(2008, 04, 14) <= month_start and mx.DateTime.Date(2008, 9, 14) > month_start:
         nov_urnik = 1
@@ -785,7 +786,7 @@ def dezurni_monthly(request, year=None, month=None):
                                         'month_number': month_number,
                                         'start_date': month_start,
                                         'end_date': month_end,
-                                        'nov_urnik':  nov_urnik,
+                                        'nov_urnik': nov_urnik,
                                         'time_list': time_list,
                                         },
                               context_instance=RequestContext(request))

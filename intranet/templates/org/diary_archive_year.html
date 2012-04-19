@@ -12,9 +12,9 @@ Arhiv Dnevnikov - leto {{ year }}
 	<div class="well" style="padding: 8px 0">
 		<ul class="nav nav-list">
 			<li class="nav-header">Filtriraj po mesecih</li>
-    	    {% for obj in date_list %}
-        	<li><a href="{{ obj|date:"n" }}/">{{ obj.date|date:"b" }}</a></li>
-	        {% endfor %}
+			{% for obj in date_list %}
+				<li><a href="{{ obj|date:"b" }}/">{{ obj.date|date:"b" }}</a></li>
+			{% endfor %}
     	</ul>
 	    <br/>
 
