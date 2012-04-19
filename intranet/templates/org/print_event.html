@@ -7,7 +7,7 @@
 		{% if event.require_video %}
 			{% if event.video.all %}
 				{% for video in event.video.all %}
-					<a title="{{ video.title }}" href="{{ video.get_absolute_url }}"><span class="badge badge-success"><i class="icon-film"></i> P
+					<a title="{{ video.title }}" href="{{ video.get_absolute_url }}"><span class="badge badge-success"><i class="icon-film"></i> Predvajaj</a>
 				{% endfor %}
 			{% else %}
 				<span class="badge badge-info">Čaka upload</span>
