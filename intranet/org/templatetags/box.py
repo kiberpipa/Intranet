@@ -99,11 +99,6 @@ def form_event(form):
     return {'form': form}
 
 
-@register.inclusion_tag('org/form_shopping.html')
-def form_shopping(form):
-    return {'form': form}
-
-
 @register.inclusion_tag('org/box_reccurings.html')
 def box_reccurings(form):
     return {'form': form}

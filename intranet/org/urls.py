@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url, include
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
-from django.views.generic import TemplateView, RedirectView
+from django.views.generic import RedirectView
 
 from intranet.org.feeds import LatestDiarys, LatestEvents
 from intranet.org.views import (DetailLend, DetailDiary, DetailShopping,
@@ -46,7 +46,7 @@ urlpatterns = patterns('',
     (r'^shopping/(?P<pk>\d+)/$', login_required(DetailShopping.as_view())),
     (r'^shopping/(?P<id>\d+)?/?(?P<action>(add|edit))/(edit/)?$', 'intranet.org.views.shoppings_form'),
     (r'^shopping/(?P<id>\d+)/buy/$', 'intranet.org.views.shopping_buy'),
-    (r'^shopping/(?P<id>\d+)/support/$', 'intranet.org.views.shopping_support'),
+    url(r'^shopping/(?P<id>\d+)/support/$', 'intranet.org.views.shopping_support', name="shopping_support"),
 
     (r'^lends/$', login_required(ArchiveIndexLend.as_view())),
     (r'^lends/(?P<id>\d+)?/?(?P<action>(add|edit))/(edit/)?$', 'intranet.org.views.lends_form'),
@@ -78,7 +78,6 @@ urlpatterns = patterns('',
     url(r'^statistika/(?P<year>\d{4})?', 'intranet.org.views.year_statistics', name='statistics_by_year'),
 
     # rss
-    (r'^feeds/$', TemplateView.as_view(template_name='org/feeds_index.html')),
     (r'^feeds/diarys/', LatestDiarys()),
     (r'^feeds/events/', LatestEvents()),
 
