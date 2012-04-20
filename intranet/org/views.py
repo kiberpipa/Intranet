@@ -28,8 +28,8 @@ from pipa.video.utils import prepare_video_zip
 from intranet.org.models import (Project, Email,
     Event, Shopping, Person, Sodelovanje, TipSodelovanja, Diary,
     Lend, Scratchpad)
-from intranet.org.forms import (DiaryFilter, PersonForm, AddEventEmails,
-    EventForm, SodelovanjeFilter, LendForm, ShoppingForm, DiaryForm,
+from intranet.org.forms import (DiaryFilter, AddEventEmails,
+    EventForm, LendForm, ShoppingForm, DiaryForm,
     ImageResizeForm, IntranetImageForm)
 
 
@@ -364,78 +364,6 @@ def event_count(request, event_id=None):
     event.visitors = int(request.POST['visitors'])
     event.save()
     return HttpResponseRedirect('/intranet/events/%d/' % event.id)
-
-
-@login_required
-def person(request):
-    if request.method == 'POST':
-        form = PersonForm(request.POST)
-        if form.is_valid():
-            person = Person(name=form.cleaned_data['name'])
-            person.save()
-            for key, value in form.cleaned_data.items():
-                if not value or key == 'name':
-                    continue
-
-                clas = key[0].capitalize() + key[1:]
-                exec 'from intranet.org.models import ' + clas
-                for k in request.POST.getlist(key):
-                    new_var = locals()[clas](**{key: k})
-                    new_var.save()
-                    Person.__dict__[key].__get__(person, clas).add(new_var)
-
-    return HttpResponseRedirect('../')
-
-
-@login_required
-def sodelovanja(request):
-    sodelovanja = Sodelovanje.objects.all()
-    person_form = PersonForm()
-    if request.method == 'POST':
-        form = SodelovanjeFilter(request.POST)
-        if form.is_valid():
-            for key, value in form.cleaned_data.items():
-                ##'**' rabis zato da ti python resolva spremenljivke (as opposed da passa dobesedni string)
-                if value and key != 'export':
-                    sodelovanja = sodelovanja.filter(**{key: value})
-
-    else:
-        form = SodelovanjeFilter()
-
-    try:
-        export = form.cleaned_data['export']
-        if export:
-            from reportlab.pdfgen.canvas import Canvas
-            output = StringIO()
-            if export == 'txt':
-                for i in sodelovanja:
-                    output.write("%s\n" % i)
-            elif export == 'pdf':
-                pdf = Canvas(output)
-                rhyme = pdf.beginText(30, 200)
-                for i in sodelovanja:
-                    rhyme.textLine(i.__unicode__())
-                pdf.drawText(rhyme)
-                pdf.showPage()
-                pdf.save()
-            elif export == 'csv':
-                for i in sodelovanja:
-                    output.write("%s\n" % i)
-
-            response = HttpResponse(mimetype='application/octet-stream')
-            response['Content-Disposition'] = "attachment; filename=" + 'export.' + export
-            response.write(output.getvalue())
-            return response
-
-    except AttributeError:
-        pass
-
-    return render_to_response('org/sodelovanja.html',
-        {'sodelovanja': sodelovanja,
-         'form': form,
-         'admin_org': '/intranet/admin/org/',
-         'person_form': person_form},
-         context_instance=RequestContext(request))
 
 
 def monthly_navigation(year=None, month=None):

@@ -50,9 +50,6 @@ urlpatterns = patterns('',
     (r'^lends/(?P<pk>\d+)/$', login_required(DetailLend.as_view())),
     (r'^lends/(?P<username>\w+)/$', 'intranet.org.views.lends_by_user'),
 
-    (r'^sodelovanja/$', 'intranet.org.views.sodelovanja'),
-    (r'^sodelovanja/person/$', 'intranet.org.views.person'),
-
     (r'^tmp_upload/', 'intranet.org.views.temporary_upload'),
     (r'^image_crop_tool/resize/', 'intranet.org.views.image_resize'),
     (r'^image_crop_tool/save/', 'intranet.org.views.image_save'),

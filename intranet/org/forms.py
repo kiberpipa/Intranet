@@ -13,8 +13,8 @@ from django.forms.models import ModelChoiceField
 from django.utils.formats import get_format
 from django.utils.translation import ugettext_lazy as _
 
-from intranet.org.models import (Person, Event, Sodelovanje,
-    Project, Lend, Diary, Shopping, IntranetImage)
+from intranet.org.models import (Event, Project, Lend,
+                                 Diary, Shopping, IntranetImage)
 
 # TODO: i18n for widget
 # TODO: obey settings.DATETIME_FORMAT
@@ -113,14 +113,6 @@ class DiaryFilter(forms.Form):
     author = forms.ModelChoiceField(label=_("Author"), queryset=User.objects.filter(is_active=True).order_by('username'), required=False)
 
 
-class PersonForm(forms.Form):
-    name = forms.CharField(max_length=200)
-    email = forms.EmailField(required=False)
-    phone = forms.CharField(max_length=200, required=False)
-    organization = forms.CharField(max_length=200, required=False)
-    title = forms.CharField(max_length=200, required=False)
-
-
 class AddEventEmails(forms.Form):
     emails = forms.CharField(widget=forms.Textarea(attrs={'cols': '31'}))
 
@@ -202,17 +194,6 @@ class EventForm(forms.ModelForm):
                 self._errors["announce"] = ErrorList([u'Javni dogodki potrebujejo najavo.'])
 
         return cleaned_data
-
-
-class SodelovanjeFilter(forms.ModelForm):
-    ##override the person in 'Sodelovanje', as there is required
-    person = forms.ModelChoiceField(Person.objects.all(), required=False)
-    c = [('', '---------'), ('txt', 'txt'), ('pdf', 'pdf'), ('csv', 'csv')]
-    export = forms.ChoiceField(choices=c, required=False)
-
-    class Meta:
-        model = Sodelovanje
-        exclude = ('note',)
 
 
 class LendForm(forms.ModelForm):
