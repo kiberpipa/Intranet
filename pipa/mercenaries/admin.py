@@ -1,6 +1,7 @@
+from django.contrib import admin
 
 from pipa.mercenaries.models import *
-from django.contrib import admin
+
 
 admin.site.register(SalaryType)
 admin.site.register(CostCenter)
