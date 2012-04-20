@@ -2,32 +2,30 @@
 {% load url from future %}
 
 {% block extrahead %}
+<script>
+	$(document).ready(function () {
+		$('#id_username').focus();
+	});
+</script>
 {% endblock %}
 
 {% block title %}Prijava{% endblock %}
 
 {% block content-main %}
-	<div class="module">
-	    {% if user.is_authenticated %}
-        <p>V sistem ste ze prijavljeni kot: <tt>{{ user.username }}</tt>. Če se želite prijaviti kot kdo drug uporabnik, 
-           <a href="{% url 'account_logout' %}" title="Odjavite se in potem ponovno prijavite">se najprej odjavite</a>.
-        </p>
+<div class="module">
+	{% if user.is_authenticated %}
+		<p>V sistem ste ze prijavljeni kot: <tt>{{ user.username }}</tt>. Če se želite prijaviti kot kdo drug uporabnik, 
+		   <a href="{% url 'account_logout' %}" title="Odjavite se in potem ponovno prijavite">se najprej odjavite</a>.
+		</p>
     	{% else %}
-        <div id="loginbox">
-            <form method="POST" action="" name="LoginForm" class="form-horizontal">
-            	{{ form.as_p }}
-                {% csrf_token %}
-
-
-				<input class="right" name="prijava" value="Prijava" type="submit" />
-                <input type="hidden" id="next" name="next" value="{{next}}" />
-            </form>
-        </div>
-	    <script>
-    		$(document).ready(function () {
-		        $('#id_username').focus();
-		    });
-    	</script>
-	    {% endif %}
-	</div>
+		<div id="loginbox">
+		    <form method="POST" action="" name="LoginForm" class="form-horizontal">
+			{{ form.as_p }}
+			{% csrf_token %}
+			<input class="btn btn-primary" name="prijava" value="Prijava" type="submit" />
+			<input type="hidden" id="next" name="next" value="{{next}}" />
+		    </form>
+		</div>
+	{% endif %}
+</div>
 {% endblock %}
