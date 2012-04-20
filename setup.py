@@ -44,6 +44,7 @@ setup(name='intranet',
         'django-honeypot',
         'django-grappelli',
         'django-gravatar2',
+        'django-chosen',
         # development
         'django-debug-toolbar',
         'django-extensions',

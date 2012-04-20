@@ -78,11 +78,6 @@ def box_scratchpad(user):
     return {'object': scratchpad}
 
 
-@register.inclusion_tag('org/print_shopping.html')
-def print_shopping(object):
-    return {'object': object}
-
-
 @register.inclusion_tag('org/print_diary.html')
 def print_diary(form):
     return {'object': form}

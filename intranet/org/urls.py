@@ -4,8 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import RedirectView
 
 from intranet.org.feeds import LatestDiarys, LatestEvents
-from intranet.org.views import (DetailLend, DetailDiary, DetailShopping,
-                                ArchiveIndexEvent,
+from intranet.org.views import (DetailLend, DetailDiary,
+                                ArchiveIndexEvent, CreateShopping, UpdateShopping,
                                 ArchiveIndexLend, ArchiveIndexDiary,
                                 MonthArchiveEvent, YearArchiveEvent,
                                 MonthArchiveDiary, YearArchiveDiary)
@@ -38,15 +38,11 @@ urlpatterns = patterns('',
     (r'^diarys/(?P<id>\d+)?/?(?P<action>(add|edit))/$', 'intranet.org.views.diarys_form'),
     (r'^diarys/(?P<pk>\d+)/$', login_required(DetailDiary.as_view())),
 
-    (r'^shopping/$', 'intranet.org.views.shopping_index'),
-    (r'^shopping/cost/(?P<cost>\d+)/$', 'intranet.org.views.shopping_by_cost'),
-    (r'^shopping/task/(?P<task>\d+)/$', 'intranet.org.views.shopping_by_task'),
-    (r'^shopping/user/(?P<user>\d+)/$', 'intranet.org.views.shopping_by_user'),
-    (r'^shopping/proj/(?P<project>\d+)/$', 'intranet.org.views.shopping_by_project'),
-    (r'^shopping/(?P<pk>\d+)/$', login_required(DetailShopping.as_view())),
-    (r'^shopping/(?P<id>\d+)?/?(?P<action>(add|edit))/(edit/)?$', 'intranet.org.views.shoppings_form'),
-    (r'^shopping/(?P<id>\d+)/buy/$', 'intranet.org.views.shopping_buy'),
+    url(r'^shopping/$', login_required(CreateShopping.as_view()), name="shopping_index"),
+    url(r'^shopping/(?P<pk>\d+)/$', login_required(UpdateShopping.as_view()), name="shopping_detail"),
+    url(r'^shopping/(?P<id>\d+)/buy/$', 'intranet.org.views.shopping_buy', name="shopping_buy"),
     url(r'^shopping/(?P<id>\d+)/support/$', 'intranet.org.views.shopping_support', name="shopping_support"),
+    url(r'^shopping/(?P<id>\d+)/responsible/$', 'intranet.org.views.shopping_responsible', name="shopping_responsible"),
 
     (r'^lends/$', login_required(ArchiveIndexLend.as_view())),
     (r'^lends/(?P<id>\d+)?/?(?P<action>(add|edit))/(edit/)?$', 'intranet.org.views.lends_form'),

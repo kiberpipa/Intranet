@@ -5,6 +5,7 @@ import httplib
 import datetime
 from datetime import date
 
+from chosen.widgets import ChosenSelectMultiple
 from django import forms
 from django.contrib.auth.models import User
 from django.forms.util import ErrorList
@@ -33,7 +34,6 @@ PYTHON_TO_JQUERY_DATETIME_FORMAT = {
 
 
 class SelectWidget(forms.widgets.Select):
-
     def render(self, name, value, attrs=None, choices=()):
         wattrs = attrs or dict()
         wattrs['class'] = "chzn-select"
@@ -67,7 +67,6 @@ class DateTimeWidget(forms.widgets.TextInput):
 
     def __init__(self, *a, **kw):
         self.extra = kw.pop('extra', '')
-
         super(DateTimeWidget, self).__init__(*a, **kw)
 
     @property
@@ -227,7 +226,15 @@ class LendForm(forms.ModelForm):
 class ShoppingForm(forms.ModelForm):
     class Meta:
         model = Shopping
-        fields = ('name', 'explanation', 'cost', 'project', )
+        fields = ('name', 'explanation', 'cost', 'project')
+        widgets = {
+            'project': ChosenSelectMultiple(overlay=u'Zberi enega ali več'),
+        }
+
+    def __init__(self, *a, **kw):
+        # TODO: remove after this is applied: https://code.djangoproject.com/ticket/9321
+        super(ShoppingForm, self).__init__(*a, **kw)
+        self.fields['project'].help_text = ''
 
 
 class DiaryForm(forms.ModelForm):

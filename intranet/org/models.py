@@ -494,17 +494,16 @@ class Lend(models.Model):
 
 
 class Shopping(models.Model):
-    name = models.CharField(max_length=100)
-    author = models.ForeignKey(User, related_name="shopping_author")
-    explanation = models.TextField()
-    cost = models.DecimalField(blank=True, null=True, decimal_places=2, max_digits=10)
-    #amount = models.IntegerField(default=1)
+    name = models.CharField(verbose_name=_(u'Name'), max_length=100)
+    author = models.ForeignKey(User, related_name="shopping_author", verbose_name=_(u'Author'))
+    explanation = models.TextField(verbose_name=_(u'Explanation'))
+    cost = models.DecimalField(verbose_name=_(u'Cost'), blank=True, null=True, decimal_places=2, max_digits=10)
     bought = models.BooleanField(default=False)
 
     supporters = models.ManyToManyField(User, blank=True, null=True, related_name="shopping_supporters")
     responsible = models.ForeignKey(User, blank=True, null=True, related_name="shopping_responsible")
 
-    project = models.ManyToManyField(Project, blank=True, null=True)
+    project = models.ManyToManyField(Project, verbose_name=_(u'Project'), blank=True, null=True, help_text='_')
     tags = models.ManyToManyField(Tag, blank=True, null=True)
 
     pub_date = models.DateTimeField(auto_now_add=True)

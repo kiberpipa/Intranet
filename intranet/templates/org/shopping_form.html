@@ -1,0 +1,5 @@
+{% load url from future %}
+<form method="post" action="{% if form.instance.id %}{% url 'shopping_detail' form.instance.pk %}{% else %}{% url 'shopping_index' %}{% endif %}">
+	{{ form.as_p }}
+	<p><input class="btn btn-primary" type="submit" value="{% if form.instance.id %}Uredi{% else %}Dodaj{% endif %}" /></p>
+</form>
