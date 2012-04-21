@@ -39,10 +39,10 @@
 
   <div class="module">
     <h2>
-        {% trans "My responsibilities" %}
         <a href="/intranet/feeds/todos/{{ user }}">
             <img src="{{ settings.STATIC_URL }}org/images/rss.png" alt="rss responsibilities" />
         </a>
+        {% trans "My responsibilities" %}
     </h2>
 
     <h4>{% trans "My events:" %}</h4>
@@ -96,7 +96,7 @@
         <a href="/intranet/feeds/events/">
             <img src="{{ settings.STATIC_URL }}org/images/rss.png" alt="rss events" />
         </a>
-        {% trans "Current" %} <a href="/intranet/events/">{% trans "events" %}</a>
+        {% trans "Current events" %}</a>
     </h2>
 
     <ul class="actionlist">

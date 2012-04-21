@@ -23,7 +23,7 @@
 {% block content-main %}
   <div class="module">
     {% if object_list %}
-      {% include 'org/event_table.html' with object_list=object_list %}
+      {% include 'org/event_table.html' with objects=object_list only %}
     {% else %}
       <p>Ni dogodkov.</p>
     {% endif %}

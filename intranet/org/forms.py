@@ -229,6 +229,7 @@ class DiaryForm(forms.ModelForm):
         widgets = {
             'date': DateTimeWidget,
             'event': SelectWidget(),
+            'task': SelectWidget(),
         }
 
     def __init__(self, *a, **kw):
