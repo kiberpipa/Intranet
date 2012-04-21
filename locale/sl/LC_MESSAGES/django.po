@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Intranet\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-21 12:02+0200\n"
+"POT-Creation-Date: 2012-04-21 16:27+0200\n"
 "PO-Revision-Date: 2011-10-04 21:51+0100\n"
 "Last-Translator: Domen Kožar <domen@dev.si>\n"
 "Language-Team: intranet <info@kiberpipa.org>\n"
@@ -18,53 +18,57 @@ msgstr ""
 "X-Poedit-Country: SLOVENIA\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: intranet/org/forms.py:111 intranet/org/models.py:421
-#: intranet/org/models.py:506
+#: intranet/org/forms.py:111 intranet/org/models.py:402
+#: intranet/org/models.py:487
 msgid "Project"
 msgstr "Projekt"
 
-#: intranet/org/forms.py:112 intranet/org/models.py:420
-#: intranet/org/models.py:498 intranet/templates/www/news.html:15
+#: intranet/org/forms.py:112 intranet/org/models.py:401
+#: intranet/org/models.py:479 intranet/templates/www/news.html:15
 msgid "Author"
 msgstr "Avtor"
 
-#: intranet/org/models.py:422
+#: intranet/org/models.py:245
+msgid "Needs officers on duty"
+msgstr "Potrebuje dežurnega"
+
+#: intranet/org/models.py:403
 msgid "Start date"
 msgstr "Začetek"
 
-#: intranet/org/models.py:423
+#: intranet/org/models.py:404
 msgid "Duration"
 msgstr "Trajanje"
 
-#: intranet/org/models.py:424
+#: intranet/org/models.py:405
 msgid "Event"
 msgstr "Dogodek"
 
-#: intranet/org/models.py:425
+#: intranet/org/models.py:406
 msgid "Formal log"
 msgstr "Uradni del dnevnika"
 
-#: intranet/org/models.py:426
+#: intranet/org/models.py:407
 msgid "Informal log"
 msgstr "Neuradni del dnevnika"
 
-#: intranet/org/models.py:469
+#: intranet/org/models.py:450
 msgid "Predmet"
 msgstr ""
 
-#: intranet/org/models.py:473
+#: intranet/org/models.py:454
 msgid "Due date"
 msgstr "Do"
 
-#: intranet/org/models.py:497
+#: intranet/org/models.py:478
 msgid "Name"
 msgstr "Ime"
 
-#: intranet/org/models.py:499
+#: intranet/org/models.py:480
 msgid "Explanation"
 msgstr "Obrazložitev"
 
-#: intranet/org/models.py:500
+#: intranet/org/models.py:481
 msgid "Cost"
 msgstr "Cena"
 
@@ -95,7 +99,7 @@ msgstr "Galerija"
 
 #: intranet/templates/mail/events_report.html:4
 #: intranet/templates/mail/events_report.txt:2
-#: intranet/templates/org/base_bootstrap.html:135
+#: intranet/templates/org/base_bootstrap.html:134
 msgid "Events"
 msgstr "Dogodki"
 
@@ -138,51 +142,51 @@ msgstr "Z zahtevanimi slikami, ampak nimajo Flickr set id-ja:"
 msgid "visitors:"
 msgstr "obiskovalcev"
 
-#: intranet/templates/org/base_bootstrap.html:136
+#: intranet/templates/org/base_bootstrap.html:135
 msgid "Diarys"
 msgstr "Dnevniki"
 
-#: intranet/templates/org/base_bootstrap.html:137
+#: intranet/templates/org/base_bootstrap.html:136
 msgid "Address book"
 msgstr "Imenik"
 
-#: intranet/templates/org/base_bootstrap.html:138
+#: intranet/templates/org/base_bootstrap.html:137
 msgid "On duty"
 msgstr "Dežurstva"
 
-#: intranet/templates/org/base_bootstrap.html:144
+#: intranet/templates/org/base_bootstrap.html:143
 msgid "Lends"
 msgstr "Reverzi"
 
-#: intranet/templates/org/base_bootstrap.html:145
+#: intranet/templates/org/base_bootstrap.html:144
 msgid "Shopping"
 msgstr "Nakupi"
 
-#: intranet/templates/org/base_bootstrap.html:146
+#: intranet/templates/org/base_bootstrap.html:145
 msgid "Mercenaries"
 msgstr "Plače"
 
-#: intranet/templates/org/base_bootstrap.html:148
+#: intranet/templates/org/base_bootstrap.html:147
 msgid "Statistics"
 msgstr "Statistika"
 
-#: intranet/templates/org/base_bootstrap.html:149
+#: intranet/templates/org/base_bootstrap.html:148
 msgid "PR"
 msgstr "PR"
 
-#: intranet/templates/org/base_bootstrap.html:152
+#: intranet/templates/org/base_bootstrap.html:151
 msgid "Administration"
 msgstr "Administracija"
 
-#: intranet/templates/org/base_bootstrap.html:162
+#: intranet/templates/org/base_bootstrap.html:161
 msgid "Welcome"
 msgstr "Pozdravljen"
 
-#: intranet/templates/org/base_bootstrap.html:162
+#: intranet/templates/org/base_bootstrap.html:161
 msgid "Logout"
 msgstr "Odjava"
 
-#: intranet/templates/org/base_bootstrap.html:164
+#: intranet/templates/org/base_bootstrap.html:163
 msgid "Login"
 msgstr "Prijava"
 
@@ -195,7 +199,7 @@ msgstr "Prosimo popravite sledeče napake"
 msgid "Authors"
 msgstr "Avtorji"
 
-#: intranet/templates/org/event_edit.html:337
+#: intranet/templates/org/event_edit.html:346
 msgid "Submit"
 msgstr "Shrani"
 
@@ -243,34 +247,36 @@ msgstr "Dogodki z zahtevanimi slikami ampak nimajo Flickr identifikacije:"
 msgid "Current events"
 msgstr "Aktualni dogodki"
 
-#: intranet/templates/org/print_event.html:21
+#: intranet/templates/org/print_event.html:29
 msgid "Awaiting upload"
 msgstr "Čaka na upload"
 
-#: intranet/templates/org/print_event.html:34
+#: intranet/templates/org/print_event.html:42
 msgid "No photos"
 msgstr "Ni fotografij"
 
-#: intranet/templates/org/print_event.html:42
+#: intranet/templates/org/print_event.html:49
 msgid "Techie"
 msgstr "Tehnik"
 
-#: intranet/templates/org/print_event.html:44
+#: intranet/templates/org/print_event.html:53
+#: intranet/templates/org/print_event.html:67
 msgid "Sign off"
 msgstr "Odjavi se"
 
-#: intranet/templates/org/print_event.html:50
-msgid "Volunteer"
-msgstr "Javi se"
-
-#: intranet/templates/org/print_event.html:53
-#, fuzzy
-msgid "Volunteer as staff"
-msgstr "Javi se"
-
-#: intranet/templates/org/print_event.html:54
+#: intranet/templates/org/print_event.html:56
 #, fuzzy
 msgid "Volunteer as techie"
+msgstr "Javi se"
+
+#: intranet/templates/org/print_event.html:63
+#, fuzzy
+msgid "Officer on duty"
+msgstr "Dežurstva"
+
+#: intranet/templates/org/print_event.html:70
+#, fuzzy
+msgid "Volunteer as officer"
 msgstr "Javi se"
 
 #: intranet/templates/search/search_event.html:5
@@ -553,8 +559,8 @@ msgstr ""
 "Vaše povpraševanje za najem prostora je bilo poslano. Odgovorili bomo v "
 "naslednjih delovnih dneh."
 
-#: pipa/ldap/forms.py:14
-msgid "Zapomni si me"
+#: pipa/ldap/forms.py:16
+msgid "Remember me"
 msgstr ""
 
 #: src/django_extensions/django_extensions/admin/__init__.py:127
@@ -617,6 +623,9 @@ msgstr ""
 #: src/django_extensions/django_extensions/templates/django_extensions/widgets/foreignkey_searchinput.html:4
 msgid "Lookup"
 msgstr ""
+
+#~ msgid "Volunteer"
+#~ msgstr "Javi se"
 
 #~ msgid "Technicians"
 #~ msgstr "Tehniki"

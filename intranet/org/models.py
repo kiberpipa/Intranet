@@ -212,11 +212,9 @@ class Event(models.Model):
     title = models.CharField(max_length=100)
     slug = models.SlugField("event_slug", max_length=150, unique=False, blank=True, null=True)
 
-    require_technician = models.BooleanField(verbose_name="Dogodek potrebuje tehnika", default=False)
-    require_video = models.BooleanField(verbose_name="Dogodek bo sneman", default=False)
-    require_photo = models.BooleanField(verbose_name="Dogodek bo poslikan", default=True)
+    require_video = models.BooleanField(verbose_name="Bo sneman", default=False)
     # TODO: migrate to is_public
-    public = models.BooleanField(verbose_name="Dogodek je javen", default=True)
+    public = models.BooleanField(verbose_name="Je javen", default=True)
 
     visitors = models.IntegerField(default=0, verbose_name=u"Številko obiskovalcev", blank=True, null=True)
     language = models.CharField(verbose_name="Jezik", max_length=2, default='sl', choices=settings.LANGUAGES, blank=True, null=True)
@@ -240,10 +238,16 @@ class Event(models.Model):
     category = models.ForeignKey(Category, verbose_name="Kategorija")
     project = models.ForeignKey(Project, verbose_name="V okviru projekta")
     tags = models.ManyToManyField(Tag, blank=True, null=True)
+
+    require_technician = models.BooleanField(verbose_name="Potrebuje tehnika", default=False)
     technician = models.ManyToManyField(User, verbose_name="Tehnik", blank=True, null=True, related_name="event_technican")
+
+    require_officers_on_duty = models.BooleanField(verbose_name=_(u'Needs officers on duty'), default=True)
+    officers_on_duty = models.ManyToManyField(User, verbose_name="Tehnik", blank=True, null=True, related_name="event_officers_on_duty")
 
     # flickr set id
     # TODO: refactor in new app
+    require_photo = models.BooleanField(verbose_name="Bo poslikan", default=True)
     flickr_set_id = models.BigIntegerField(verbose_name="Flickr set ID", blank=True, null=True)
 
     # for video spamming

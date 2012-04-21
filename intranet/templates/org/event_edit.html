@@ -195,7 +195,7 @@ $(document).ready(function() {
 					{{ form.announce }}
 					<p class="help-block">{{ form.announce.errors }}</p>
 				</div>
-			</div>
+		</div>
 	    	<div class="control-group {% if form.event_image.errors %}error{% endif %}">
 				<label class="control-label" for="{{ form.event_image.html_name }}">{{ form.event_image.label }}</label>
 				<div class="controls">
@@ -243,72 +243,81 @@ $(document).ready(function() {
 					{{ form.language }}
 
 					<span class="help-inline">{{ form.language.errors }}</span>
-			</div>
-			</div>
-	    	<div class="control-group {% if form.start_date.errors %}error{% endif %}">
-				<label class="control-label" for="{{ form.start_date.html_name }}">{{ form.start_date.label }}</label>
-				<div class="controls">
-					{{ form.start_date|safe }}
-					<span class="help-inline">{{ form.start_date.errors }}</span>
 				</div>
+		</div>
+	    	<div class="control-group {% if form.start_date.errors %}error{% endif %}">
+			<label class="control-label" for="{{ form.start_date.html_name }}">{{ form.start_date.label }}</label>
+			<div class="controls">
+				{{ form.start_date|safe }}
+				<span class="help-inline">{{ form.start_date.errors }}</span>
 			</div>
+		</div>
 
 	   	<div class="control-group {% if form.end_date.errors %}error{% endif %}">
-				<label class="control-label" for="{{ form.end_date.html_name }}">{{ form.end_date.label }}</label>
-				<div class="controls">
-					{{ form.end_date|safe }}
-					<span class="help-inline">{{ form.end_date.errors }}</span>
-				</div>
+			<label class="control-label" for="{{ form.end_date.html_name }}">{{ form.end_date.label }}</label>
+			<div class="controls">
+				{{ form.end_date|safe }}
+				<span class="help-inline">{{ form.end_date.errors }}</span>
 			</div>
+		</div>
 
 		<hr>
-			<div class="control-group {% if form.public.errors %}error{% endif %}">
-				<div class="controls">
-					<label class="checkbox">
-						{{ form.public }}
-						{{ form.public.label }}
-					</label>
-					<span class="help-inline">{{ form.public.errors }}</span>
-				</div>
+		<div class="control-group {% if form.public.errors %}error{% endif %}">
+			<div class="controls">
+				<label class="checkbox">
+					{{ form.public }}
+					{{ form.public.label }}
+				</label>
+				<span class="help-inline">{{ form.public.errors }}</span>
 			</div>
-			<div class="control-group {% if form.require_technician.errors %}error{% endif %}">
-				<div class="controls">
-					<label class="checkbox">
-						{{ form.require_technician }}
-						{{ form.require_technician.label }}
-					</label>
-					<span class="help-inline">{{ form.require_technician.errors }}</span>
-				</div>
+		</div>
+		<div class="control-group {% if form.require_technician.errors %}error{% endif %}">
+			<div class="controls">
+				<label class="checkbox">
+					{{ form.require_technician }}
+					{{ form.require_technician.label }}
+				</label>
+				<span class="help-inline">{{ form.require_technician.errors }}</span>
 			</div>
-			<div class="control-group {% if form.require_video.errors %}error{% endif %}">
-				<div class="controls">
-					<label class="checkbox">
-						{{ form.require_video }}
-						{{ form.require_video.label }}
-					</label>
-					<span class="help-inline">{{ form.require_video.errors }}</span>
-				</div>
+		</div>
+		<div class="control-group {% if form.require_officers_on_duty.errors %}error{% endif %}">
+			<div class="controls">
+				<label class="checkbox">
+					{{ form.require_officers_on_duty }}
+					{{ form.require_officers_on_duty.label }}
+				</label>
+				<span class="help-inline">{{ form.require_officers_on_duty.errors }}</span>
 			</div>
-			<div class="control-group {% if form.require_photo.errors %}error{% endif %}">
-				<div class="controls">
-					<label class="checkbox">
-						{{ form.require_photo }}
-						{{ form.require_photo.label }}
-					</label>
-					<span class="help-inline">{{ form.require_photo.errors }}</span>
-				</div>
+		</div>
+		<div class="control-group {% if form.require_video.errors %}error{% endif %}">
+			<div class="controls">
+				<label class="checkbox">
+					{{ form.require_video }}
+					{{ form.require_video.label }}
+				</label>
+				<span class="help-inline">{{ form.require_video.errors }}</span>
 			</div>
+		</div>
+		<div class="control-group {% if form.require_photo.errors %}error{% endif %}">
+			<div class="controls">
+				<label class="checkbox">
+					{{ form.require_photo }}
+					{{ form.require_photo.label }}
+				</label>
+				<span class="help-inline">{{ form.require_photo.errors }}</span>
+			</div>
+		</div>
 		
 		<hr>
-			<div class="control-group {% if form.slides.errors %}error{% endif %}">
-				<label class="control-label">{{ form.slides.label }}</label>
-				<div class="controls">
-					<label class="checkbox">
-						{{ form.slides }} {{ form.slides_file }}
-					</label>
-					<span class="help-inline">{{ form.slides.errors }}</span>
-				</div>
+		<div class="control-group {% if form.slides.errors %}error{% endif %}">
+			<label class="control-label">{{ form.slides.label }}</label>
+			<div class="controls">
+				<label class="checkbox">
+					{{ form.slides }} {{ form.slides_file }}
+				</label>
+				<span class="help-inline">{{ form.slides.errors }}</span>
 			</div>
+		</div>
 	    	<div class="control-group {% if form.flickr_set_id.errors %}error{% endif %}">
 				<label class="control-label" for="{{ form.flickr_set_id.html_name }}">{{ form.flickr_set_id.label }}</label>
 				<div class="controls">
@@ -326,16 +335,16 @@ $(document).ready(function() {
 			</div>
 
 	    	<div class="control-group {% if form.note.errors %}error{% endif %}">
-				<label class="control-label" for="{{ form.note.html_name }}">{{ form.note.label }}</label>
-				<div class="controls">
-					{{ form.note }}
-					<span class="help-inline">{{ form.note.errors }}</span>
-				</div>
+			<label class="control-label" for="{{ form.note.html_name }}">{{ form.note.label }}</label>
+			<div class="controls">
+				{{ form.note }}
+				<span class="help-inline">{{ form.note.errors }}</span>
 			</div>
+		</div>
 
-			<div class="form-actions">
-				<button type="submit" class="btn btn-primary">{% trans 'Submit' %}</button>
-			</div>
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">{% trans 'Submit' %}</button>
+		</div>
 	</fieldset>
 </form>
 </div>

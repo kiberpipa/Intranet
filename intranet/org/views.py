@@ -208,113 +208,6 @@ def diarys_form(request, id=None, action=None):
     )
 
 
-@login_required
-def add_event_emails(request, event_id):
-    event = Event.objects.get(pk=event_id)
-    if request.method == 'POST':
-        form = AddEventEmails(request.POST)
-        if form.is_valid():
-            for e in form.cleaned_data['emails'].split('\n'):
-                email = Email.objects.get_or_create(email=e.strip())[0]
-                if email not in event.emails.all():
-                    event.emails.add(email)
-        event.save()
-    return HttpResponseRedirect(event.get_absolute_url())
-
-
-@login_required
-def info_txt(request, event):
-    event = get_object_or_404(Event, pk=event)
-    content = []
-    if event.sodelovanje_set.all():
-        content.append(u'author: %s' % u', '.join([s.person.name for s in event.sodelovanje_set.all()]))
-    content.append(u'title: %s' % event.title)
-    content.append(u'date: %s' % event.start_date.strftime('%d.%m.%Y'))
-    content.append(u'cat: %s' % event.project)
-    desc = event.announce
-    desc = re.sub('\s+', ' ', re.sub('<.*?>', '', desc))
-    content.append(u'desc: %s' % (desc,))
-    content.append(u'url: http://www.kiberpipa.org%s' % event.get_absolute_url())
-    content.append(u'intranet-id: %s' % event.id)
-    response = HttpResponse(mimetype='application/octet-stream')
-    response['Content-Disposition'] = "attachment; filename=info.txt"
-    content_str = u'\n'.join(content)
-    response.write(content_str.encode('utf-8'))
-    return response
-
-
-@login_required
-def sablona(request, event):
-    event = get_object_or_404(Event, pk=event)
-    person = u', '.join([i.person.name for i in event.sodelovanje_set.all() if i.tip.id in (1, 5)]),
-    return prepare_video_zip(event.slug, event.title, event.start_date, person)
-
-
-@login_required
-def event_edit(request, event_pk=None):
-    instance = None
-    if event_pk is not None:
-        instance = get_object_or_404(Event.objects.select_related(), pk=event_pk)
-
-    if request.method == 'POST':
-        form = EventForm(request.POST, instance=instance)
-
-        authors = [a.split(' - ') for a in request.POST.getlist('authors') if ' - ' in a]
-
-        if form.is_valid():
-            new_event = form.save(commit=False)
-            old_sodelovanja = set()
-            if instance is not None:
-                old_sodelovanja = set(instance.sodelovanje_set.all())
-
-            sodelovanja = set()
-            for author, tip in authors:
-                tip = TipSodelovanja.objects.get(name=tip)
-                # ensure the Person actually exists
-                try:
-                    person = Person.objects.get(name=author)
-                except Person.DoesNotExist:
-                    person = Person(name=author)
-                    person.save()
-
-                try:
-                    s = Sodelovanje.objects.get(event=new_event, tip=tip, person=person)
-                except Sodelovanje.DoesNotExist:
-                    s = Sodelovanje(event=new_event, tip=tip, person=person)
-                    s.save()
-                sodelovanja.add(s)
-            new_event.save()
-            # somehow this causes event.technician to become empty??
-            #form.save_m2m()
-
-            # remove old objects, that were not POSTed
-            for i in old_sodelovanja & sodelovanja ^ old_sodelovanja:
-                i.delete()
-
-            return HttpResponseRedirect(reverse('intranet.org.views.event_edit', args=[new_event.id]))
-    else:
-        form = EventForm(instance=instance)
-
-    context = {
-        'form': form,
-        'tipi': TipSodelovanja.objects.all(),
-        'sodelovanja': instance and instance.sodelovanje_set.all() or None,
-        # TODO: remove duplicates
-        'prev_sodelovanja': Sodelovanje.objects.values('tip__name', 'person__name').distinct().order_by('-person__name'),
-        'image': (instance and instance.event_image and instance.event_image.image) or None
-        }
-    return render_to_response('org/event_edit.html', RequestContext(request, context))
-
-
-@login_required
-def event_count(request, event_id=None):
-    "dodaj podatek o obiskovalcih dogodka"
-    event = get_object_or_404(Event, pk=event_id)
-    event.visitors = int(request.POST['visitors'])
-    event.save()
-    return HttpResponseRedirect('/intranet/events/%d/' % event.id)
-
-
 def monthly_navigation(year=None, month=None):
     month_prev = month - 1
     month_next = month + 1
@@ -377,22 +270,6 @@ def tehniki_add(request):
     p.save()
 
     return HttpResponseRedirect('../')
-
-
-@login_required
-def tehniki_take(request, id):
-    e = Event.objects.get(pk=id)
-    e.technician.add(request.user)
-    e.save()
-    return redirect('event_list')
-
-
-@login_required
-def tehniki_cancel(request, id):
-    e = Event.objects.get(pk=id)
-    e.technician.remove(request.user)
-    e.save()
-    return redirect('event_list')
 
 
 @login_required
@@ -646,15 +523,6 @@ def year_statistics(request, year=None):
                               context_instance=RequestContext(request))
 
 
-def event_template(request, year=0, week=0):
-    """docstring for event_template"""
-    week = int(week) or datetime.date.today().isocalendar()[1] + 1
-    year = int(year) or datetime.date.today().year
-
-    events = Event.objects.get_week_events(int(year), int(week)).is_public()
-    return render_to_response("org/event_template.html", {"events": events}, context_instance=RequestContext(request))
-
-
 def commit_hook(request):
     """github post commit hook to log diaryies"""
     if request.META['REMOTE_ADDR'] not in ['207.97.227.253', '50.57.128.197']:
@@ -706,16 +574,6 @@ class DetailDiary(DetailView):
         return context
 
 
-class DetailEvent(DetailView):
-    model = Event
-
-    def get_context_data(self, **kw):
-        context = super(DetailEvent, self).get_context_data(**kw)
-        context['emails_form'] = AddEventEmails()
-        context['sodelovanja'] = Sodelovanje.objects.filter(event=self.kwargs['pk'])
-        return context
-
-
 class ArchiveIndexDiary(ArchiveIndexView):
     date_field = 'date'
     allow_empty = True
@@ -740,6 +598,187 @@ class ArchiveIndexDiary(ArchiveIndexView):
         return context
 
 
+class MixinArchiveDiary(object):
+    queryset = Diary.objects.all().order_by('date')
+    date_field = 'date'
+    allow_empty = True
+    allow_future = True
+
+
+class YearArchiveDiary(MixinArchiveDiary, YearArchiveView):
+    make_object_list = True
+
+
+class MonthArchiveDiary(MixinArchiveDiary, MonthArchiveView):
+    pass
+
+
+# event views
+
+
+@login_required
+def add_event_emails(request, event_id):
+    event = Event.objects.get(pk=event_id)
+    if request.method == 'POST':
+        form = AddEventEmails(request.POST)
+        if form.is_valid():
+            for e in form.cleaned_data['emails'].split('\n'):
+                email = Email.objects.get_or_create(email=e.strip())[0]
+                if email not in event.emails.all():
+                    event.emails.add(email)
+        event.save()
+    return HttpResponseRedirect(event.get_absolute_url())
+
+
+@login_required
+def info_txt(request, event):
+    event = get_object_or_404(Event, pk=event)
+    content = []
+    if event.sodelovanje_set.all():
+        content.append(u'author: %s' % u', '.join([s.person.name for s in event.sodelovanje_set.all()]))
+    content.append(u'title: %s' % event.title)
+    content.append(u'date: %s' % event.start_date.strftime('%d.%m.%Y'))
+    content.append(u'cat: %s' % event.project)
+    desc = event.announce
+    desc = re.sub('\s+', ' ', re.sub('<.*?>', '', desc))
+    content.append(u'desc: %s' % (desc,))
+    content.append(u'url: http://www.kiberpipa.org%s' % event.get_absolute_url())
+    content.append(u'intranet-id: %s' % event.id)
+    response = HttpResponse(mimetype='application/octet-stream')
+    response['Content-Disposition'] = "attachment; filename=info.txt"
+    content_str = u'\n'.join(content)
+    response.write(content_str.encode('utf-8'))
+    return response
+
+
+@login_required
+def sablona(request, event):
+    event = get_object_or_404(Event, pk=event)
+    person = u', '.join([i.person.name for i in event.sodelovanje_set.all() if i.tip.id in (1, 5)]),
+    return prepare_video_zip(event.slug, event.title, event.start_date, person)
+
+
+@login_required
+def event_edit(request, event_pk=None):
+    instance = None
+    if event_pk is not None:
+        instance = get_object_or_404(Event.objects.select_related(), pk=event_pk)
+
+    if request.method == 'POST':
+        form = EventForm(request.POST, instance=instance)
+
+        authors = [a.split(' - ') for a in request.POST.getlist('authors') if ' - ' in a]
+
+        if form.is_valid():
+            new_event = form.save(commit=False)
+            old_sodelovanja = set()
+            if instance is not None:
+                old_sodelovanja = set(instance.sodelovanje_set.all())
+
+            sodelovanja = set()
+            for author, tip in authors:
+                tip = TipSodelovanja.objects.get(name=tip)
+                # ensure the Person actually exists
+                try:
+                    person = Person.objects.get(name=author)
+                except Person.DoesNotExist:
+                    person = Person(name=author)
+                    person.save()
+
+                try:
+                    s = Sodelovanje.objects.get(event=new_event, tip=tip, person=person)
+                except Sodelovanje.DoesNotExist:
+                    s = Sodelovanje(event=new_event, tip=tip, person=person)
+                    s.save()
+                sodelovanja.add(s)
+            new_event.save()
+            # somehow this causes event.technician to become empty??
+            #form.save_m2m()
+
+            # remove old objects, that were not POSTed
+            for i in old_sodelovanja & sodelovanja ^ old_sodelovanja:
+                i.delete()
+
+            return HttpResponseRedirect(reverse('intranet.org.views.event_edit', args=[new_event.id]))
+    else:
+        form = EventForm(instance=instance)
+
+    context = {
+        'form': form,
+        'tipi': TipSodelovanja.objects.all(),
+        'sodelovanja': instance and instance.sodelovanje_set.all() or None,
+        # TODO: remove duplicates
+        'prev_sodelovanja': Sodelovanje.objects.values('tip__name', 'person__name').distinct().order_by('-person__name'),
+        'image': (instance and instance.event_image and instance.event_image.image) or None
+        }
+    return render_to_response('org/event_edit.html', RequestContext(request, context))
+
+
+@login_required
+def event_count(request, event_id=None):
+    "dodaj podatek o obiskovalcih dogodka"
+    event = get_object_or_404(Event, pk=event_id)
+    event.visitors = int(request.POST['visitors'])
+    event.save()
+    return HttpResponseRedirect('/intranet/events/%d/' % event.id)
+
+
+@login_required
+def event_technician_take(request, pk):
+    e = Event.objects.get(pk=pk)
+    e.technician.add(request.user)
+    e.save()
+    return redirect('event_list')
+
+
+@login_required
+def event_technician_cancel(request, pk):
+    e = Event.objects.get(pk=pk)
+    e.technician.remove(request.user)
+    e.save()
+    return redirect('event_list')
+
+
+@login_required
+def event_officer_take(request, pk):
+    e = Event.objects.get(pk=pk)
+    e.officers_on_duty.add(request.user)
+    e.save()
+    return redirect('event_list')
+
+
+@login_required
+def event_officer_cancel(request, pk):
+    e = Event.objects.get(pk=pk)
+    e.officers_on_duty.remove(request.user)
+    e.save()
+    return redirect('event_list')
+
+
+def event_template(request, year=0, week=0):
+    """docstring for event_template"""
+    week = int(week) or datetime.date.today().isocalendar()[1] + 1
+    year = int(year) or datetime.date.today().year
+
+    events = Event.objects.get_week_events(int(year), int(week)).is_public()
+    return render_to_response("org/event_template.html", {"events": events}, context_instance=RequestContext(request))
+
+
+class MixinArchiveEvent(object):
+    queryset = Event.objects.all().order_by('start_date')
+    date_field = 'start_date'
+    allow_empty = True
+    allow_future = True
+
+
+class YearArchiveEvent(MixinArchiveEvent, YearArchiveView):
+    make_object_list = True
+
+
+class MonthArchiveEvent(MixinArchiveEvent, MonthArchiveView):
+    pass
+
+
 class ArchiveIndexEvent(ArchiveIndexView):
     model = Event
     date_field = 'start_date'
@@ -759,36 +798,6 @@ class ArchiveIndexEvent(ArchiveIndexView):
             [u'Čez dva tedna', Event.objects.get_week_events(today.year, week_number + 2)],
         ]
         return context
-
-
-class MixinArchiveEvent(object):
-    queryset = Event.objects.all().order_by('start_date')
-    date_field = 'start_date'
-    allow_empty = True
-    allow_future = True
-
-
-class YearArchiveEvent(MixinArchiveEvent, YearArchiveView):
-    make_object_list = True
-
-
-class MonthArchiveEvent(MixinArchiveEvent, MonthArchiveView):
-    pass
-
-
-class MixinArchiveDiary(object):
-    queryset = Diary.objects.all().order_by('date')
-    date_field = 'date'
-    allow_empty = True
-    allow_future = True
-
-
-class YearArchiveDiary(MixinArchiveDiary, YearArchiveView):
-    make_object_list = True
-
-
-class MonthArchiveDiary(MixinArchiveDiary, MonthArchiveView):
-    pass
 
 
 # shopping views

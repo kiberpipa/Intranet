@@ -23,6 +23,6 @@
 
 {% block content-main %}
 <div class="module"> 
-  {% include 'org/event_table.html' with events=events only %}
+  {% include 'org/event_table.html' with events=events user=user only %}
 </div>
 {% endblock %}

@@ -21,15 +21,14 @@
 	</td>
 	<td>{{ event.project }}</td>
 	<td>
-		{% if event.require_video %}
-			{% if event.video.all %}
-				{% for video in event.video.all %}
-					<a title="{{ video.title }}" href="{{ video.get_absolute_url }}"><i class="icon-film"></i></a>
-				{% endfor %}
-			{% else %}
-				<i class="icon-disabled icon-film" title="{% trans 'Awaiting upload' %}"></i>
-			{% endif %}
+		{% if event.video.all %}
+			{% for video in event.video.all %}
+				<a title="{{ video.title }}" href="{{ video.get_absolute_url }}"><i class="icon-film"></i></a>
+			{% endfor %}
 		{% else %}
+			<i class="icon-disabled icon-film" title="{% trans 'Awaiting upload' %}"></i>
+		{% endif %}
+		{% if not event.require_video %}
 			<span class="badge badge-success">Ne potrebuje</span>
 		{% endif %}
 
@@ -44,26 +43,35 @@
 		{% endif %}
 	</td>
 	<td>
-		{% if event.require_technician %}
-			{% if event.technician.all %}
-				{% for technician in event.technician.all %}
-					<!-- TODO: link to diary -->
-					<i class="icon-facetime-video" title="{% trans 'Techie' %}"></i> {{ technician }}
-					{% if technician == user %}
-					<br />
-					<a class="btn btn-mini" href="/intranet/tehniki/cancel/{{ event.id }}/">{% trans "Sign off" %}</a>
-					{% endif %}
-					<br />
-				{% endfor %}
-
-				{% if user not in event.technician.all %}
-					<a href="{% url 'tehniki_take' event.id %}" class="btn btn-small btn-info">{% trans "Volunteer" %}</a>
-				{% endif %}
-			{% else %}
-				<a href="{% url 'tehniki_take' event.id %}" class="btn btn-small" title="{% trans 'Volunteer as staff' %}"><i class="icon-user"></i></a>
-				<a href="{% url 'tehniki_take' event.id %}" class="btn btn-small" title="{% trans 'Volunteer as techie' %}"><i class="icon-facetime-video"></i></a>
-			{% endif %}
+	  	<!-- handle technicians -->
+		{% for technician in event.technician.all %}
+			<!-- TODO: link to diary -->
+			<i class="icon-facetime-video" title="{% trans 'Techie' %}"></i> {{ technician }}
+			<br />
+		{% endfor %}
+		{% if user in event.technician.all %}
+			<a class="btn btn-mini" href="{% url 'event_technician_cancel' event.id %}">{% trans "Sign off" %}</a>
 		{% else %}
+			{% if event.require_technician and user not in event.officers_on_duty.all %}
+				<a href="{% url 'event_technician_take' event.id %}" class="btn btn-small" title="{% trans 'Volunteer as techie' %}"><i class="icon-facetime-video"></i></a>
+			{% endif %}
+		{% endif %}
+
+	  	<!-- handle officers -->
+		{% for officer in event.officers_on_duty.all %}
+			<!-- TODO: link to diary -->
+			<i class="icon-user" title="{% trans 'Officer on duty' %}"></i> {{ officer }}
+			<br />
+		{% endfor %}
+		{% if user in event.officers_on_duty.all %}
+			<a class="btn btn-mini" href="{% url 'event_officer_cancel' event.id %}">{% trans "Sign off" %}</a>
+		{% else %}
+			{% if event.require_officers_on_duty and user not in event.technician.all %}
+				<a href="{% url 'event_officer_take' event.id %}" class="btn btn-small" title="{% trans 'Volunteer as officer' %}"><i class="icon-user"></i></a>
+			{% endif %}
+		{% endif %}
+
+		{% if not event.require_technician and not event.require_officers_on_duty %}
 			<span class="badge badge-success">Ne potrebuje</span>
 		{% endif %}
 	</td>
