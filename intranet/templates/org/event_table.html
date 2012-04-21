@@ -12,7 +12,7 @@
     <tbody>
         {% for title, query in events %}
             {% if query %}
-                <tr class="heading"><td colspan="6">{{ title }}</td></tr>
+            <tr class="heading"><td colspan="6"><strong>{{ title }}</strong></td></tr>
                 {% for event in query %}  
                   {% print_event event %}
                 {% endfor %}
