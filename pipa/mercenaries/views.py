@@ -51,7 +51,7 @@ def _recalculate_mercenarymonth(year, month):
 						wage_per_hour=fm.amount, month=the_month, mercenary_type=MercenaryMonth.TYPE_FIXED, cost_center=cost_ctr, salary_type=slry)
 				mm.save()
 
-def index(request, year, month):
+def index(request, year=None, month=None):
 	today = datetime.date.today()
 	if year == None:
 		return HttpResponseRedirect('%s/%s/' % (today.year, today.month))

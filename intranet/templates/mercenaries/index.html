@@ -1,31 +1,31 @@
-{% extends "org/base_2col.html" %}
+{% extends "org/base_bootstrap_fluid_span9.html" %}
 {% block title %}Mercenaries{% endblock %}
-
 {% load math %}
 
-{% block heading %}
-        <h1>Pipa's mercenaries</h1><br />
-{% endblock %}
 
-{% block content-related-left %}
-    <a href="{{ add_link }}">Dodaj novega</a>
+{% block navigation %}
+<div class="well">
+    <div class="module">
+        <a href="{% ifequal month "1" %}../../{{ year|sub:"1" }}/12/{% else %}../../{{ year }}/{{ month|sub:"1" }}/{% endifequal %}">&lt;&lt;</a>
+        {{ hmonth }} {{ year }}
+        <a href="{% ifequal month "12" %}../../{{ year|add:"1" }}/1/{% else %}../../{{ year }}/{{ month|add:"1" }}/{% endifequal %}">&gt;&gt;</a></h2><br />
+    </div>
+</div>
 {% endblock %} 
 
 {% block content-main %}
-
-        <div class="module" id="recent-actions-module">
-        <h2>
-
-        <a href="{% ifequal month "1" %}../../{{ year|sub:"1" }}/12/{% else %}../../{{ year }}/{{ month|sub:"1" }}/{% endifequal %}">&lt;&lt;</a>
-        {{ year }} -- {{ hmonth }}
-        <a href="{% ifequal month "12" %}../../{{ year|add:"1" }}/1/{% else %}../../{{ year }}/{{ month|add:"1" }}/{% endifequal %}">&gt;&gt;</a></h2><br />
-
-        <div class="module">
-        <form action="{{ request.url }}" method="POST"><p>Nazadnje izračunano: {{ last_calculated|date:"d M Y, H:i" }} <input type="submit" name="recalculate" value="Izračunaj napotnice ponovno" /></p></form>
-{% if recalculation_msg %}<p><font color="red">{{ recalculation_msg }}</font></p>{% endif %}
-        <p>Vsi skupaj prek napotnic: {{ all }} &nbsp; <a href="napotnice/">Stud. Napotnice</a></p>
-        <p>Samo redni &nbsp; <a href="redni/">Redni</a></p>
-        </div>
-
+    <div class="module">
+        <form action="{{ request.url }}" method="POST">
+            <p>Nazadnje izračunano: {{ last_calculated|date:"d M Y, H:i" }}</p>
+            <input class="btn btn-primary" type="submit" name="recalculate" value="Izračunaj napotnice ponovno" />
+        </form>
+        {% if recalculation_msg %}
+        <p><font color="red">{{ recalculation_msg }}</font></p>
+        {% endif %}
+        <p>Vsi skupaj prek napotnic: {{ all }} &nbsp;<p>
+        <p>
+            <a class="btn" href="napotnice/">Stud. Napotnice</a>
+            <a class="btn" href="redni/">Redni</a>
+        </p>
         </div>
 {% endblock %}

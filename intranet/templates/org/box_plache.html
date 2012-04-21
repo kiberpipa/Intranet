@@ -1,11 +1,20 @@
-<table class="sortable" id="unique_id">
+<style type="text/css">
+	th { text-align: left; }
+</style>
 
+<p>Skupno {{ total_hours }} ur dela, od tega {{ billable_hours }} plačanih ur za {{ sum }}&nbsp;&euro;.</p>
+
+<table class="sortable table table-bordered table-striped" id="unique_id" style="width: 100%">
 	<tr>
-		<td>Oseba</td>
-		<td><acronym title="Skupno stevilo delovnih ur">ur</acronym></td>
-		<td><acronym title="Stevilo placanih delovnih ur">&euro; ur</acronym></td>
-		<td><acronym title="Zasluzek">denarja</acronym></td>
+		<th>Oseba</th>
+		<th><acronym title="Skupno stevilo delovnih ur">ur</acronym></th>
+		<th><acronym title="Stevilo placanih delovnih ur">&euro; ur</acronym></th>
+		<th><acronym title="Zasluzek">denarja</acronym></th>
 	</tr>
+
+	{% if not objects %}
+	<tr><td colspan="4">-</td></tr>
+	{% endif %}
 
 {% for o in objects %}
 	<tr>
@@ -15,6 +24,6 @@
 		<td>{{ o.money }}</td>
 	</tr>
 {% endfor %}
-
 </table>
-<p>Skupno {{ total_hours }} ur dela, od tega {{ billable_hours }} &euro; ur za {{ sum }} &euro;. </p>
+
+

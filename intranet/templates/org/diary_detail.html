@@ -1,36 +1,30 @@
-{% extends "org/base_3col.html" %}
+{% extends "org/base_bootstrap_fluid.html" %}
 {% load box %}
 
-{% block extrahead %}
-<script>
-  $(document).ready(function(){
-    $('#id_date').datepicker({firstDay: 1});
-    });
-</script>
-{% endblock %}
-{% block title %}Dnevnik{% endblock %}
-
-{% block toplinks %}
-    <div class="breadcrumbs">
-    <ul id="breadcrumbs">
-        <li>Arhiv: </li>
-        <li><a href="/intranet/diarys/arhiv/{{ object.date|date:"Y" }}/{{ object.date|date:"M"|lower }}">{{ object.date|date:"M" }}</a></li>
-        <li><a href="/intranet/diarys/arhiv/{{ object.date|date:"Y" }}">{{ object.date|date:"Y" }}</a></li>
-    </ul>
-    </div>
+{% block title %}
+	Dnevnik #{{ object.id }}
 {% endblock %}
 
-{% block heading %}
-    <h1>Dnevnik</h1>
-{% endblock %}
+{% block navigation  %}
+	<div class="well" style="padding: 8px 0;">
+		<ul class="nav nav-list">
+			<li><a href="../../diarys">&larr; Nazaj na dnevnike</a></li>
+			<li><a href="/intranet/diarys/arhiv/{{ object.date|date:"Y" }}/{{ object.date|date:"M"|lower }}">{{ object.date|date:"M" }}</a></li>
+			<li><a href="/intranet/diarys/arhiv/{{ object.date|date:"Y" }}">{{ object.date|date:"Y" }}</a></li>
+		</ul>
+	</div>
 
-{% block content-related-left %}
-		{% include "org/content/diary_form.html" %}
+	<div class="well" style="padding: 8px 0;">
+		<ul class="nav nav-list">
+			<li class="nav-header">Uredi dnevnik</li>
+
+			<li>
+				{% include "org/content/diary_form.html" %}
+			</li>
+		</ul>
+	</div>
 {% endblock %}
 
 {% block content-main %}
-    {% print_diary object%}
-{% endblock %}
-
-{% block content-related-right %}
+    {% print_diary object %}
 {% endblock %}

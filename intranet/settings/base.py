@@ -89,6 +89,7 @@ INSTALLED_APPS = (
     'django_mailman',
     'haystack',  # http://charlesleifer.com/blog/solr-ubuntu-revisited/
     'tinymce',
+    'django_gravatar',
 )
 
 LOGGING = {

@@ -1,26 +1,19 @@
-{% extends "org/base_3col.html" %}
-{% load box %}
-{% block title %}Nakupi{% endblock %}
+{% extends "org/base_bootstrap_fluid_span9.html" %}
+{% load box i18n %}
+{% load url from future %}
+{% block title %}Želje po nakupih{% endblock %}
 
-{% block heading %}
-  <h1>Seznam za nakupe</h1>
-{% endblock %}
-
-{% block content-related-left %}
-  <div class="module" id="recent-actions-module">
-    <h2>Vpiši željo</h2>
-    {% include "org/content/shopping_form.html" %}
-  </div>
+{% block navigation %}
+    <div class="well">
+      <ul class="nav nav-list">
+          <li class="nav-header">Vpiši željo</li>
+          <li>		
+            {% include "org/shopping_form.html" %}
+          </li>
+	</ul>
+    </div>
 {% endblock %}
 
 {% block content-main %}
-    <div class="module">
-      <h2>Predlogi za nakupe</h2>
-      <table>
-        <tr><th>Avtor</th><th>Kaj</th><th>Cena</th></tr>
-        {% for wish in wishes %}
-        <tr><td>{{ wish.author }}</td><td><a href="{{ wish.get_absolute_url }}"> {{ wish }}</a></td><td>{{ wish.cost }}</td></tr>
-        {% endfor %}
-      </table>
-    </div>
+	{% include 'org/shopping_table.html' with objects=wishes %}
 {% endblock %}

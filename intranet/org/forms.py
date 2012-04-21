@@ -5,14 +5,15 @@ import httplib
 import datetime
 from datetime import date
 
+from chosen.widgets import ChosenSelectMultiple, ChosenSelect
 from django import forms
 from django.contrib.auth.models import User
 from django.forms.util import ErrorList
-from django.forms.models import ModelChoiceField
 from django.utils.formats import get_format
+from django.utils.translation import ugettext_lazy as _
 
-from intranet.org.models import (Person, Event, Sodelovanje,
-    Project, Lend, Diary, Shopping, IntranetImage)
+from intranet.org.models import (Event, Project, Lend,
+                                 Diary, Shopping, IntranetImage)
 
 # TODO: i18n for widget
 # TODO: obey settings.DATETIME_FORMAT
@@ -32,11 +33,9 @@ PYTHON_TO_JQUERY_DATETIME_FORMAT = {
 
 
 class SelectWidget(forms.widgets.Select):
-
     def render(self, name, value, attrs=None, choices=()):
         wattrs = attrs or dict()
         wattrs['class'] = "chzn-select"
-        wattrs['style'] = "width:50%"
         return forms.widgets.Select.render(self, name, value, attrs=wattrs, choices=choices)
 
 
@@ -67,7 +66,6 @@ class DateTimeWidget(forms.widgets.TextInput):
 
     def __init__(self, *a, **kw):
         self.extra = kw.pop('extra', '')
-
         super(DateTimeWidget, self).__init__(*a, **kw)
 
     @property
@@ -110,16 +108,8 @@ class DateTimeWidget(forms.widgets.TextInput):
 
 
 class DiaryFilter(forms.Form):
-    task = forms.ModelChoiceField(Project.objects.all().order_by('name'), required=False)
-    author = forms.ModelChoiceField(User.objects.filter(is_active=True).order_by('username'), required=False)
-
-
-class PersonForm(forms.Form):
-    name = forms.CharField(max_length=200)
-    email = forms.EmailField(required=False)
-    phone = forms.CharField(max_length=200, required=False)
-    organization = forms.CharField(max_length=200, required=False)
-    title = forms.CharField(max_length=200, required=False)
+    task = forms.ModelChoiceField(label=_("Project"), queryset=Project.objects.all().order_by('name'), required=False)
+    author = forms.ModelChoiceField(label=_("Author"), queryset=User.objects.filter(is_active=True).order_by('username'), required=False)
 
 
 class AddEventEmails(forms.Form):
@@ -205,41 +195,44 @@ class EventForm(forms.ModelForm):
         return cleaned_data
 
 
-class SodelovanjeFilter(forms.ModelForm):
-    ##override the person in 'Sodelovanje', as there is required
-    person = forms.ModelChoiceField(Person.objects.all(), required=False)
-    c = [('', '---------'), ('txt', 'txt'), ('pdf', 'pdf'), ('csv', 'csv')]
-    export = forms.ChoiceField(choices=c, required=False)
-
-    class Meta:
-        model = Sodelovanje
-        exclude = ('note',)
-
-
 class LendForm(forms.ModelForm):
-    from_who = ModelChoiceField(User.objects.filter(is_active=True).order_by('username'))
-
     class Meta:
         model = Lend
-        fields = ('what', 'to_who', 'from_who', 'contact_info', 'due_date',)
+        fields = ('what', 'from_who', 'to_who', 'contact_info', 'due_date',)
+        widgets = {
+            'from_who': ChosenSelect(overlay=u''),
+        }
+
+    def __init__(self, *a, **kw):
+        super(LendForm, self).__init__(*a, **kw)
+        self.fields['from_who'].queryset = User.objects.filter(is_active=True).order_by('username')
 
 
 class ShoppingForm(forms.ModelForm):
     class Meta:
         model = Shopping
-        fields = ('name', 'explanation', 'cost', 'project', )
+        fields = ('name', 'explanation', 'cost', 'project')
+        widgets = {
+            'project': ChosenSelectMultiple(overlay=u'Zberi enega ali več'),
+        }
+
+    def __init__(self, *a, **kw):
+        # TODO: remove after this is applied: https://code.djangoproject.com/ticket/9321
+        super(ShoppingForm, self).__init__(*a, **kw)
+        self.fields['project'].help_text = ''
 
 
 class DiaryForm(forms.ModelForm):
-    task = ModelChoiceField(Project.objects.all().order_by('name'))
-
     class Meta:
         model = Diary
-        fields = ('task', 'date', 'length', 'log_formal', 'log_informal')
+        fields = ('task', 'event', 'date', 'length', 'log_formal', 'log_informal')
         widgets = {
             'date': DateTimeWidget,
+            'event': SelectWidget(),
         }
 
     def __init__(self, *a, **kw):
         self.base_fields['date'].initial = date.today()
         super(DiaryForm, self).__init__(*a, **kw)
+        self.fields['task'].queryset = Project.objects.all().order_by('name')
+        self.fields['event'].queryset = Event.objects.get_date_events(datetime.datetime.now() + datetime.timedelta(days=-21), datetime.datetime.now())

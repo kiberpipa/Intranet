@@ -34,9 +34,6 @@ class EventsFeed(Feed):
     def items(self):
         return self._get_events()[:10]
 
-    def item_link(self, obj):
-        return obj.get_public_url()
-
     def item_title(self, item):
         if getattr(item, 'project', None):
             return u"%s: %s" % (item.project, item.title)
@@ -110,12 +107,6 @@ class AllInOne(EventsFeed):
         items.sort()
         items.reverse()
         return [f for d, f in items]
-
-    def item_link(self, obj):
-        if isinstance(obj, Event):
-            return obj.get_public_url()
-        else:
-            return obj.get_absolute_url()
 
     def item_description(self, item):
         return getattr(item, 'text', '') + getattr(item, 'announce', '') + getattr(item, 'content', '')  # safe

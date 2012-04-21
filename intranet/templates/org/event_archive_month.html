@@ -1,36 +1,11 @@
-{% extends "org/base_2col.html" %}
-{% block extrahead %} {% endblock %}
-{% block title %}Dogodki{% endblock %}
-{% load box %}
-{% load math %}
+{% extends "org/event_archive_year.html" %}
+{% block title %}Dogodki za {{ month|date:"F Y" }}{% endblock %}
+{% load url from future %}
 
-{% block heading %}
-        <h1>Arhiv dogodkov - {{ month|date:"F" }} {{ year }} ({{ object_list|length }} dogodkov)</h1>
-{% endblock %}
-
-{% block content-related-left %}
-  <div class="module" id="recent-actions-module">
+{% block navigation %}
+<div class="well">
+	<div class="module">
+		<a class="btn btn-large btn-primary" href="{% url 'event_create' %}"><i class="icon-plus-sign"></i> Nov dogodek</a>
 	</div>
-{% endblock %}
-
-{% block content-main %}
-<div class="module">
-	<h2>Seznam</h2>
-	<ul>
-        {% for log in object_list %}
-			<li>
-				{% print_event log %}
-			</li>
-	    {% endfor %}
-	</ul>
-</div>
-{% endblock %}
-
-{% block content-related-right %}
-  <div class="module" id="recent-actions-module">
-    <h2>Filtri</h2>
-  	 <ul class="actionlist">
-		<br>
-	</ul>
 </div>
 {% endblock %}

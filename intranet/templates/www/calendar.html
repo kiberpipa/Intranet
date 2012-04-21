@@ -55,12 +55,12 @@
                 <li>
                   <strong>{{ event.start_date|date:"[H:i]"}}</strong>
                   {% if event.public %}
-                    <a href="{{ event.get_public_url }}">{{ event.title|truncchar:"32" }}</a>
+                    <a href="{{ event.get_absolute_url }}">{{ event.title|truncchar:"32" }}</a>
                     {% for video_url in event.get_video_urls %}
                         <a href="{{ video_url }}" title="{% trans "Videos of event" %}"><img src="{{ settings.STATIC_URL }}www/images/video20x20.png" /></a>
                     {% endfor %}
                     {% if event.flickr_set_id %}
-                        <a href="{{ event.get_public_url }}" title="{% trans "Pictures of event" %}" ><img src="{{ settings.STATIC_URL }}www/images/images16x16.png" /></a>
+                        <a href="{{ event.get_absolute_url }}" title="{% trans "Pictures of event" %}" ><img src="{{ settings.STATIC_URL }}www/images/images16x16.png" /></a>
                     <!-- TODO: activate gallery with javascript -->
                     {% endif %}
                   {% else %}

@@ -13,6 +13,7 @@ from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext_lazy as _
 from tinymce.models import HTMLField
 
 from pipa.mercenaries.models import CostCenter, SalaryType
@@ -261,9 +262,6 @@ class Event(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return '/intranet/events/%i/' % self.id
-
-    def get_public_url(self):
         return reverse('event_detail', kwargs=dict(id=self.id, slug=self.slug))
 
     @property
@@ -419,13 +417,13 @@ class Task(models.Model):
 
 # dnevnik dezurnih
 class Diary(models.Model):
-    author = models.ForeignKey(User, related_name="diary_author")
-    task = models.ForeignKey(Project)  # retained name for backwards compatibility
-    date = models.DateTimeField(default=date.today(), db_index=True)
-    length = models.TimeField(default=datetime.time(4, 0))
-    event = models.ForeignKey(Event, blank=True, null=True)
-    log_formal = models.TextField()
-    log_informal = models.TextField(blank=True, null=True)
+    author = models.ForeignKey(User, related_name="diary_author", verbose_name=_("Author"))
+    task = models.ForeignKey(Project, verbose_name=_("Project"))  # retained name for backwards compatibility
+    date = models.DateTimeField(verbose_name=_("Start date"), default=date.today(), db_index=True)
+    length = models.TimeField(default=datetime.time(4, 0), verbose_name=_("Duration"))
+    event = models.ForeignKey(Event, verbose_name=_("Event"), blank=True, null=True)
+    log_formal = models.TextField(verbose_name=_("Formal log"))
+    log_informal = models.TextField(verbose_name=_("Informal log"), blank=True, null=True)
 
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
@@ -437,6 +435,9 @@ class Diary(models.Model):
 
     def get_absolute_url(self):
         return "/intranet/diarys/%i/" % self.id
+
+    def is_paid(self):
+        return self.task.id == 22 or self.task.id == 23
 
     class Meta:
         verbose_name = 'Dnevnik'
@@ -465,11 +466,11 @@ class StickyNote(models.Model):
 
 
 class Lend(models.Model):
-    what = models.CharField(max_length=200, verbose_name='Predmet')
+    what = models.CharField(max_length=200, verbose_name=_(u'Predmet'))
     to_who = models.CharField(max_length=200, verbose_name='Komu', blank=True, null=True)
     from_who = models.ForeignKey(User, verbose_name='Odobril')
     from_date = models.DateField(default=date.today())
-    due_date = models.DateField(default=(date.today() + timedelta(days=1)))
+    due_date = models.DateField(default=(date.today() + timedelta(days=1)), verbose_name=_(u'Due date'))
     contact_info = models.CharField(max_length=100, verbose_name='Kontakt', blank=True, null=True)
     why = models.CharField(max_length=200, verbose_name='Namen', blank=True, null=True)
     returned = models.BooleanField(default=False)
@@ -493,17 +494,16 @@ class Lend(models.Model):
 
 
 class Shopping(models.Model):
-    name = models.CharField(max_length=100)
-    author = models.ForeignKey(User, related_name="shopping_author")
-    explanation = models.TextField()
-    cost = models.DecimalField(blank=True, null=True, decimal_places=2, max_digits=10)
-    #amount = models.IntegerField(default=1)
+    name = models.CharField(verbose_name=_(u'Name'), max_length=100)
+    author = models.ForeignKey(User, related_name="shopping_author", verbose_name=_(u'Author'))
+    explanation = models.TextField(verbose_name=_(u'Explanation'))
+    cost = models.DecimalField(verbose_name=_(u'Cost'), blank=True, null=True, decimal_places=2, max_digits=10)
     bought = models.BooleanField(default=False)
 
     supporters = models.ManyToManyField(User, blank=True, null=True, related_name="shopping_supporters")
     responsible = models.ForeignKey(User, blank=True, null=True, related_name="shopping_responsible")
 
-    project = models.ManyToManyField(Project, blank=True, null=True)
+    project = models.ManyToManyField(Project, verbose_name=_(u'Project'), blank=True, null=True, help_text='_')
     tags = models.ManyToManyField(Tag, blank=True, null=True)
 
     pub_date = models.DateTimeField(auto_now_add=True)

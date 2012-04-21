@@ -1,34 +1,30 @@
-{% extends "org/base_3col.html" %}
-{% load box %}
+{% extends "org/base_bootstrap_fluid_span9.html" %}
+{% load box i18n %}
+{% load url from future %}
+{% block title %}Želje po nakupih{% endblock %}
 
-{% block title %}Nakupi{% endblock %}
-
-{% block heading %}
-  <h1>Želje</h1>
-{% endblock %}
-
-{% block content-related-left %}
-  <div class="module" id="recent-actions-module">
-    <h2>Urejanje</h2>
-    <ul>
+{% block navigation %}
+<div class="well">
+	<ul class="nav nav-list">
+		<li><a href="{% url 'shopping_index' %}">&larr; Nazaj na nakupe</a></li>
+	</ul>
 	{% if not object.bought %}
-	<li><a href="buy/">Označi kot kupljeno</a></li>
-	{% endif %}
-	<li><a href="support/">Podpri</a></li>
-    </ul>
-    {% include "org/content/shopping_form.html" %}
-  </div>
+	<div class="module">
+		<a class="btn btn-primary" href="{% url 'shopping_buy' object.id %}">Označi kot kupljeno</a>
+	</div>
+    	{% endif %}
+</div>
+<div class="well" style="padding: 8px 0;">
+	<ul class="nav nav-list">
+		<li class="nav-header">Uredi nakup</li>
+
+		<li>
+			{% include "org/shopping_form.html" %}
+		</li>
+	</ul>
+</div>
 {% endblock %}
 
 {% block content-main %}
-    {% print_shopping object %}
-{% endblock %}
-
-{% block content-related-right %}
-  <div class="module" id="recent-actions-module">
-    <h2>Željeni predmeti</h2>
-       <ul class="actionlist">
-        {% box_list Shopping "bought=False" "template=org/list_shopping.html" %}
-    </ul>
-</div>
+	{% include 'org/shopping_table.html' with objects=wishes %}
 {% endblock %}

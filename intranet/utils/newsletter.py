@@ -16,7 +16,7 @@ from intranet.www.templatetags.www import truncchar, sanitize_html
 
 #run with LC_ALL=sl_SI.UTF-8
 import locale
-locale.resetlocale() 
+locale.resetlocale()
 
 now = datetime.date.today()
 week = now + datetime.timedelta(7)
@@ -44,7 +44,7 @@ for i in events:
         result += '\n'
     result += '\n\n'
     result += truncchar(sanitize_html(i.announce), 250)
-    result += u'\n\n\nVeč o tem:\nhttp://%s%s\n' % (current_page.domain, i.get_public_url())
+    result += u'\n\n\nVeč o tem:\nhttp://%s%s\n' % (current_page.domain, i.get_absolute_url())
     result += i.start_date.strftime('\n\n//////////////////////////////////////////////////\n\n')
 
 

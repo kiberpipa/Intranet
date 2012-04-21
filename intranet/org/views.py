@@ -6,7 +6,9 @@ import os
 import re
 import csv
 import shutil
+import random
 from cStringIO import StringIO
+import logging
 
 import mx.DateTime
 from django.conf import settings
@@ -15,18 +17,19 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
-from django.views.generic import DetailView, ArchiveIndexView, YearArchiveView, MonthArchiveView
+from django.views.generic import CreateView, UpdateView, DetailView, ArchiveIndexView, YearArchiveView, MonthArchiveView
 from django.utils import simplejson
 from django.db import models
 from PIL import Image
 
 from pipa.video.utils import prepare_video_zip
 from intranet.org.models import (Project, Email,
-    Event, Shopping, Person, Sodelovanje, TipSodelovanja, Task, Diary,
+    Event, Shopping, Person, Sodelovanje, TipSodelovanja, Diary,
     Lend, Scratchpad)
-from intranet.org.forms import (DiaryFilter, PersonForm, AddEventEmails,
-    EventForm, SodelovanjeFilter, LendForm, ShoppingForm, DiaryForm,
+from intranet.org.forms import (DiaryFilter, AddEventEmails,
+    EventForm, LendForm, ShoppingForm, DiaryForm,
     ImageResizeForm, IntranetImageForm)
 
 
@@ -36,6 +39,7 @@ month_dict = {'jan': 1, 'feb': 2, 'mar': 3,
     'okt': 10, 'nov': 11, 'dec': 12,
 }
 reverse_month_dict = dict(((i[1], i[0]) for i in month_dict.iteritems()))
+logger = logging.getLogger(__name__)
 
 
 @login_required
@@ -158,151 +162,24 @@ def index(request):
 
     unfinished_events = (no_visitors, no_video, no_pictures)
 
+    # give us a random rageface!
+    # they're under static/org/images/ragaface/
+    # i'd list them and do a random that way, but apparantly getting the
+    # path to the static dir is quite a chore with a multi-app django
+    # deployment
+    rageface = random.choice(["angry-unhappy.png", "determined-challenge-accepted.png", "happy-big-smile.png", "happy-cuteness-overload.png", "happy-derpina-eyes-closed.png", "happy-derpina.png", "happy-epic-win.png", "happy-everything-went-better-than-expected.png", "happy-female.png", "happy-i-see-what-you-did-there.png", "happy-kitteh-smile.png", "happy-never-alone.png", "happy-oh-stop-it-you.png", "happy-pfftch.png", "happy-smile-he-he-he.png", "happy-smile.png", "happy-thumbs-up.png", "happy-yes.png", "misc-clean-all-the-things.png", "rage-unhappy.png", "sad-forever-alone-happy.png", "trees-happy-smoking.png", "troll-sincere-troll.png"])
+
     return render_to_response('org/index.html',
                               {'start_date': today,
                                 'end_date': nextday,
                                 'today': today,
+                                'rageface': rageface,
                                 'diary_form': DiaryForm(),
                                 'diary_edit': False,
                                 'lend_form': LendForm(),
                                 'lend_edit': False,
                                 'unfinished_events': unfinished_events
                               },
-                              context_instance=RequestContext(request))
-
-
-@login_required
-def lend_back(request, id=None):
-    lend = get_object_or_404(Lend, pk=id)
-    if not lend.note:
-        lend.note = ""
-    lend.note += "\n\n---\nvrnitev potrdil %s, %s " % (request.user, datetime.date.today())
-    lend.returned = True
-    lend.save()
-    return HttpResponseRedirect('../')
-
-
-@login_required
-def lends_form(request, id=None, action=None):
-    #process the add/edit requests, redirect to full url if successful, display form with errors if not.
-    if request.method == 'POST':
-        if id:
-            lend_form = LendForm(request.POST, instance=Lend.objects.get(id=id))
-        else:
-            lend_form = LendForm(request.POST)
-
-        if lend_form.is_valid():
-            lend = lend_form.save()
-            return HttpResponseRedirect(lend.get_absolute_url())
-    else:
-        if id:
-            lend_form = LendForm(instance=Lend.objects.get(id=id))
-        else:
-            lend_form = LendForm()
-
-    return render_to_response('org/lend.html', {
-        'lend_form': lend_form,
-        'lend_edit': True,
-        }, context_instance=RequestContext(request)
-    )
-
-
-@login_required
-def lends_by_user(request, username):
-    responsible = []
-    for l in Lend.objects.filter(returned=False):
-        if l.from_who not in responsible:
-            responsible.append(l.from_who)
-    user = User.objects.get(username__exact=username)
-    lend_list = Lend.objects.filter(returned__exact=False).filter(from_who__exact=user)
-    return render_to_response('org/lend_archive.html',
-                              {'latest': lend_list,
-                                'responsible': responsible,
-                              },
-                              context_instance=RequestContext(request))
-
-
-@login_required
-def shoppings_form(request, id=None, action=None):
-    #process the add/edit requests, redirect to full url if successful, display form with errors if not.
-    if request.method == 'POST':
-        if id:
-            shopping_form = ShoppingForm(request.POST, instance=Shopping.objects.get(pk=id))
-        else:
-            shopping_form = ShoppingForm(request.POST)
-
-        if shopping_form.is_valid():
-            shopping = shopping_form.save(commit=False)
-            shopping.author = request.user
-            shopping.save()
-            return HttpResponseRedirect(shopping.get_absolute_url())
-    else:
-        if id:
-            shopping_form = ShoppingForm(instance=shopping.objects.get(id=id))
-        else:
-            shopping_form = ShoppingForm()
-
-    return render_to_response('org/shopping_index.html', {
-        'shopping_form': shopping_form,
-        'shopping_edit': True,
-        }, context_instance=RequestContext(request)
-    )
-
-
-@login_required
-def shopping_by_cost(request, cost):
-    list = Shopping.objects.filter(bought__exact=False)
-    if int(cost) == 1:
-        list = list.filter(cost__lte=1000)
-    elif int(cost) == 2:
-        list = list.filter(cost__range=(1000, 10000))
-    elif int(cost) == 3:
-        list = list.filter(cost__range=(10000, 20000))
-    elif int(cost) == 4:
-        list = list.filter(cost__range=(20000, 50000))
-    elif int(cost) == 5:
-        list = list.filter(cost__gte=50000)
-    else:
-        list = []
-    return render_to_response('org/shopping_archive.html',
-                              {'latest': list},
-                              context_instance=RequestContext(request))
-
-
-@login_required
-def shopping_index(request):
-    wishes = Shopping.objects.filter(bought=False)
-    return render_to_response('org/shopping_index.html',
-                              {'wishes': wishes,
-                              'shopping_form': ShoppingForm(),
-                              'shopping_edit': False,
-                              },
-                              context_instance=RequestContext(request))
-
-
-@login_required
-def shopping_by_user(request, user):
-    user = get_object_or_404(User, pk=user)
-    lend_list = Shopping.objects.filter(bought__exact=False).filter(author__exact=user)
-    return render_to_response('org/shopping_archive.html', {'latest': lend_list, },
-                              context_instance=RequestContext(request))
-
-
-@login_required
-def shopping_by_project(request, project):
-    project = get_object_or_404(Project, pk=project)
-    lend_list = Shopping.objects.filter(bought__exact=False).filter(task__exact=project)
-    return render_to_response('org/shopping_archive.html',
-                              {'latest': lend_list, },
-                              context_instance=RequestContext(request))
-
-
-@login_required
-def shopping_by_task(request, task):
-    task = get_object_or_404(Task, pk=task)
-    lend_list = Shopping.objects.filter(bought__exact=False).filter(project__exact=task)
-    return render_to_response('org/shopping_archive.html',
-                              {'latest': lend_list, },
                               context_instance=RequestContext(request))
 
 
@@ -327,42 +204,8 @@ def diarys_form(request, id=None, action=None):
 
     return render_to_response('org/diary.html', {
         'diary_form': diary_form,
-        'diary_edit': True,
         }, context_instance=RequestContext(request)
     )
-
-
-# dodaj podatek o obiskovalcih dogodka
-@login_required
-def shopping_buy(request, id=None):
-    event = get_object_or_404(Shopping, pk=id)
-    event.bought = True
-    event.save()
-    return HttpResponseRedirect('../')
-
-
-@login_required
-def shopping_support(request, id=None):
-    wish = get_object_or_404(Shopping, pk=id)
-    wish.supporters.add(request.user)
-    wish.save()
-    return HttpResponseRedirect(wish.get_absolute_url())
-
-
-@login_required
-def person_autocomplete(request):
-    hits = []
-    if 'q' in request.GET:
-        hits = ['%s\n' % i for i in Person.objects.filter(name__icontains=request.GET['q'])]
-    return HttpResponse(''.join(hits), mimetype='text/plain')
-
-
-@login_required
-def active_user_autocomplete(request):
-    hits = []
-    if 'q' in request.GET:
-        hits = ['%s\n' % i for i in User.objects.filter(is_active=True).order_by('username').filter(username__icontains=request.GET['q'])]
-    return HttpResponse(''.join(hits), mimetype='text/plain')
 
 
 @login_required
@@ -391,7 +234,7 @@ def info_txt(request, event):
     desc = event.announce
     desc = re.sub('\s+', ' ', re.sub('<.*?>', '', desc))
     content.append(u'desc: %s' % (desc,))
-    content.append(u'url: http://www.kiberpipa.org%s' % event.get_public_url())
+    content.append(u'url: http://www.kiberpipa.org%s' % event.get_absolute_url())
     content.append(u'intranet-id: %s' % event.id)
     response = HttpResponse(mimetype='application/octet-stream')
     response['Content-Disposition'] = "attachment; filename=info.txt"
@@ -448,7 +291,7 @@ def event_edit(request, event_pk=None):
             for i in old_sodelovanja & sodelovanja ^ old_sodelovanja:
                 i.delete()
 
-            return HttpResponseRedirect(new_event.get_absolute_url())
+            return HttpResponseRedirect(reverse('intranet.org.views.event_edit', args=[new_event.id]))
     else:
         form = EventForm(instance=instance)
 
@@ -470,78 +313,6 @@ def event_count(request, event_id=None):
     event.visitors = int(request.POST['visitors'])
     event.save()
     return HttpResponseRedirect('/intranet/events/%d/' % event.id)
-
-
-@login_required
-def person(request):
-    if request.method == 'POST':
-        form = PersonForm(request.POST)
-        if form.is_valid():
-            person = Person(name=form.cleaned_data['name'])
-            person.save()
-            for key, value in form.cleaned_data.items():
-                if not value or key == 'name':
-                    continue
-
-                clas = key[0].capitalize() + key[1:]
-                exec 'from intranet.org.models import ' + clas
-                for k in request.POST.getlist(key):
-                    new_var = locals()[clas](**{key: k})
-                    new_var.save()
-                    Person.__dict__[key].__get__(person, clas).add(new_var)
-
-    return HttpResponseRedirect('../')
-
-
-@login_required
-def sodelovanja(request):
-    sodelovanja = Sodelovanje.objects.all()
-    person_form = PersonForm()
-    if request.method == 'POST':
-        form = SodelovanjeFilter(request.POST)
-        if form.is_valid():
-            for key, value in form.cleaned_data.items():
-                ##'**' rabis zato da ti python resolva spremenljivke (as opposed da passa dobesedni string)
-                if value and key != 'export':
-                    sodelovanja = sodelovanja.filter(**{key: value})
-
-    else:
-        form = SodelovanjeFilter()
-
-    try:
-        export = form.cleaned_data['export']
-        if export:
-            from reportlab.pdfgen.canvas import Canvas
-            output = StringIO()
-            if export == 'txt':
-                for i in sodelovanja:
-                    output.write("%s\n" % i)
-            elif export == 'pdf':
-                pdf = Canvas(output)
-                rhyme = pdf.beginText(30, 200)
-                for i in sodelovanja:
-                    rhyme.textLine(i.__unicode__())
-                pdf.drawText(rhyme)
-                pdf.showPage()
-                pdf.save()
-            elif export == 'csv':
-                for i in sodelovanja:
-                    output.write("%s\n" % i)
-
-            response = HttpResponse(mimetype='application/octet-stream')
-            response['Content-Disposition'] = "attachment; filename=" + 'export.' + export
-            response.write(output.getvalue())
-            return response
-
-    except AttributeError:
-        pass
-
-    return render_to_response('org/sodelovanja.html',
-        {'sodelovanja': sodelovanja,
-         'form': form,
-         'admin_org': '/intranet/admin/org/',
-         'person_form': person_form},
-         context_instance=RequestContext(request))
 
 
 def monthly_navigation(year=None, month=None):
@@ -587,91 +358,6 @@ def weekly_navigation(year=None, week=None, week_start=None, week_end=None):
 
 
 @login_required
-def tehniki_monthly(request, year=None, month=None):
-    iso_week = mx.DateTime.now().iso_week[1]
-    if month:
-        month = mx.DateTime.Date(int(year), int(month_dict[month]), 1).month
-    else:
-        month = mx.DateTime.now().month
-    if year:
-        year = mx.DateTime.Date(int(year), int(month), 1).year
-    else:
-        year = mx.DateTime.now().year
-
-    month_start = mx.DateTime.Date(year, month, 1)
-    month_end = month_start + mx.DateTime.DateTimeDelta(month_start.days_in_month)
-
-    month_number = month
-    events = Event.objects.get_date_events(month_start, month_end).filter(require_technician__exact=True)
-    log_list = Diary.objects.filter(task=23, date__range=(month_start, month_end))
-
-    month = []
-    for e in events:
-        try:
-            diary = e.diary_set.get()
-            e.diary = diary.id
-            e.diary_length = diary.length
-        except:
-            e.diary = 0
-
-        month.append((set(), e))
-
-    navigation = monthly_navigation(year, month_number)
-
-    return render_to_response('org/technicians_index.html', {
-         'month': month,
-         'log_list': log_list,
-         'month_number': month_number,
-         'month_name': month_to_string(month_number),
-         'what': 'mesec',
-         'iso_week': iso_week,
-         'year': year,
-         'navigation': navigation,
-         'start_date': month_start,
-         'end_date': month_end,
-         'ure': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-     }, context_instance=RequestContext(request))
-
-
-@login_required
-def tehniki(request, year=None, week=None):
-    iso_week = mx.DateTime.now().iso_week
-
-    year = int(year or mx.DateTime.now().year)
-    week_number = int(week or iso_week[1])
-
-    week_start = mx.DateTime.ISO.Week(year, week_number, 1)
-    week_end = mx.DateTime.ISO.Week(year, week_number, 8)
-    month_number = week_start.month
-
-    events = Event.objects.filter(start_date__range=(week_start, week_end), require_technician__exact=True).order_by('start_date')
-    log_list = Diary.objects.filter(task=23, date__range=(week_start, week_end))
-
-    week = []
-    for e in events:
-        authors = [a.author for a in e.diary_set.all()]
-        non_diary = set(e.technician.all()) - set(authors)
-        #(<array of authors of diarys>, event)
-        week += [(non_diary, e)]
-
-    navigation = weekly_navigation(year, week_number, week_start, week_end)
-
-    return render_to_response('org/technicians_index.html', {
-        'month': week,
-         'log_list': log_list,
-         'month_number': week_number,
-         'month_name': reverse_month_dict[month_number],
-         'what': 'teden',
-         'iso_week': week_number,
-         'year': year,
-         'navigation': navigation,
-         'start_date': week_start,
-         'end_date': week_end,
-         'ure': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-     }, context_instance=RequestContext(request))
-
-
-@login_required
 def tehniki_add(request):
     id = request.POST['uniqueSpot']
     if not id:
@@ -698,7 +384,7 @@ def tehniki_take(request, id):
     e = Event.objects.get(pk=id)
     e.technician.add(request.user)
     e.save()
-    return redirect('technician_list')
+    return redirect('event_list')
 
 
 @login_required
@@ -706,7 +392,7 @@ def tehniki_cancel(request, id):
     e = Event.objects.get(pk=id)
     e.technician.remove(request.user)
     e.save()
-    return HttpResponseRedirect('../../')
+    return redirect('event_list')
 
 
 @login_required
@@ -729,42 +415,71 @@ def dezurni_monthly(request, year=None, month=None):
     month_now = month_start
     month = []
 
+    ###od tega datuma naprej velja nov urnik
+    Time = mx.DateTime.Time
+    if mx.DateTime.Date(2008, 04, 14) <= month_start and mx.DateTime.Date(2008, 9, 14) > month_start:
+        nov_urnik = 1
+        time_list = [Time(11), Time(16)]
+    elif mx.DateTime.Date(2008, 9, 14) <= month_start:
+        nov_urnik = 2
+        time_list = [Time(10), Time(14), Time(18)]
+    else:
+        nov_urnik = 0
+        time_list = [Time(10), Time(13), Time(16), Time(19)]
+    slot_duration = Time(8) if len(time_list) < 2 else time_list[1] - time_list[0]
+    logging.debug("SLOT DURATION: %s hours" % slot_duration.hours)
+
+    # load the diary objects for this month
+    diarys = Diary.objects.filter(task=22, date__range=(month_start, month_end)).order_by('date')
+    d = 0
+
+    # group them in their respective dezuranje slot
     while month_now < month_end:
-        dict = {}
-        dict['date'] = month_now.strftime('%d.%m. %a')
-        dict['dezurni'] = []
+        day_dict = {}
+        day_dict['date'] = month_now.strftime('%d.%m. %a')
+        day_dict['slots'] = []
 
-        Time = mx.DateTime.Time
+        for slot in time_list:
+            slot_range = (month_now + slot, month_now + slot + slot_duration - 0.01)
+            logging.debug("CHECKING SLOT [%s, %s]" % (slot_range[0], slot_range[1]))
+            diarys_in_slot = []
+            slot_dict = {'unique': None, 'diaries': []}
 
-        for i in [Time(hours=10), Time(hours=14), Time(hours=18)]:
-            dezurni_list = Diary.objects.filter(task=22, date__range=(month_now + i, month_now + i + Time(3.59))).order_by('date')
-            dezurni_dict = {}
-            if dezurni_list:
-                dezurni_obj = dezurni_list[0]
-                dezurni_dict['name'] = dezurni_obj.author
-                dezurni_dict['admin_id'] = dezurni_obj.id
+            # find diarys for this particular time slot, if any
+            while d < len(diarys) and diarys[d].date <= slot_range[1]:
+                #if diarys[d].date >= slot_range[0]:
+                logging.debug("Adding diary %s to slot [%s, %s]" % (diarys[d], slot_range[0], slot_range[1]))
+                diarys_in_slot.append(diarys[d])
+                d += 1
+
+            # todo: there may be multiple diarys per term (multiple dezurni etc)
+            if diarys_in_slot:
+                for diary in diarys_in_slot:
+                    slot_dict['diaries'].append({'author': diary.author, 'id': diary.id})
             else:
-                dezurni_dict['unique'] = (month_now + i).strftime('%d.%m.%y-%H:%M')
-                dezurni_dict['name'] = None
-            dict['dezurni'].append(dezurni_dict)
+                # noone has signed up for this slot yet
+                slot_dict['unique'] = (month_now + slot).strftime('%d.%m.%y-%H:%M')
 
-        month.append(dict)
+            day_dict['slots'].append(slot_dict)
+
+        month.append(day_dict)
         month_now = month_now + mx.DateTime.oneDay
-
-    log_list = Diary.objects.filter(task=22, date__range=(month_start, month_end)).order_by('-date')
 
     navigation = monthly_navigation(year, month_number)
 
     return render_to_response('org/dezuranje_monthly.html',
                                         {'month': month,
-                                        'log_list': log_list,
+                                        'log_list': diarys,
                                         'year': year,
                                         'iso_week': iso_week[1],
-                                        'month_name': month_to_string(month),
+                                        'month_start': month_start,
+                                        'month_name': month_to_string(month_number),
                                         'navigation': navigation,
                                         'month_number': month_number,
                                         'start_date': month_start,
                                         'end_date': month_end,
+                                        'nov_urnik': nov_urnik,
+                                        'time_list': time_list,
                                         },
                               context_instance=RequestContext(request))
 
@@ -894,7 +609,7 @@ def year_statistics(request, year=None):
     # common query
     q = Event.objects.filter(start_date__range=date_range)
     min_year = Event.objects.aggregate(models.Min('pub_date'))['pub_date__min']
-    years = range(min_year.year, this_year + 1)
+    years = range(min_year.year, this_year + 2)
 
     # TODO: Project manager
     by_project_events = Project.objects.filter(event__start_date__range=date_range)\
@@ -991,16 +706,6 @@ class DetailDiary(DetailView):
         return context
 
 
-class DetailShopping(DetailView):
-    model = Shopping
-
-    def get_context_data(self, **kw):
-        context = super(DetailShopping, self).get_context_data(**kw)
-        context['shopping_form'] = ShoppingForm(instance=self.model.objects.get(id=self.kwargs['pk']))
-        context['shopping_edit'] = True
-        return context
-
-
 class DetailEvent(DetailView):
     model = Event
 
@@ -1008,27 +713,6 @@ class DetailEvent(DetailView):
         context = super(DetailEvent, self).get_context_data(**kw)
         context['emails_form'] = AddEventEmails()
         context['sodelovanja'] = Sodelovanje.objects.filter(event=self.kwargs['pk'])
-        return context
-
-
-class ArchiveIndexLend(ArchiveIndexView):
-    queryset = Lend.objects.all().order_by('due_date')
-    date_field = 'from_date'
-    allow_empty = True
-    paginate_by = 50
-
-    def get_context_data(self, **kw):
-        context = super(ArchiveIndexLend, self).get_context_data(**kw)
-        form = LendForm(self.request.POST)
-        context['form'] = form
-        # TODO: refactor this in new view
-        if self.request.method == 'POST' and form.is_valid():
-            new_lend = form.save()
-            if 'due_date' not in form.cleaned_data:
-                # TODO: specify as default on model
-                new_lend.due_date = datetime.datetime.today() + datetime.timedelta(7)
-
-            return HttpResponseRedirect(new_lend.get_absolute_url())
         return context
 
 
@@ -1068,10 +752,12 @@ class ArchiveIndexEvent(ArchiveIndexView):
         context = super(ArchiveIndexEvent, self).get_context_data(**kw)
         today = datetime.datetime.today()
         week_number = int(today.strftime('%W'))
-        context['event_last'] = Event.objects.get_week_events(today.year, week_number - 1)
-        context['event_this'] = Event.objects.get_week_events(today.year, week_number)
-        context['event_next'] = Event.objects.get_week_events(today.year, week_number + 1)
-        context['event_next2'] = Event.objects.get_week_events(today.year, week_number + 2)
+        context['events'] = [
+            [u'Prejšni teden', Event.objects.get_week_events(today.year, week_number - 1)],
+            [u'Trenutni teden', Event.objects.get_week_events(today.year, week_number)],
+            [u'Naslednji teden', Event.objects.get_week_events(today.year, week_number + 1)],
+            [u'Čez dva tedna', Event.objects.get_week_events(today.year, week_number + 2)],
+        ]
         return context
 
 
@@ -1103,3 +789,105 @@ class YearArchiveDiary(MixinArchiveDiary, YearArchiveView):
 
 class MonthArchiveDiary(MixinArchiveDiary, MonthArchiveView):
     pass
+
+
+# shopping views
+class MixinShopping(object):
+    model = Shopping
+    form_class = ShoppingForm
+
+    def get_context_data(self, **kw):
+        context = super(MixinShopping, self).get_context_data(**kw)
+        context['wishes'] = Shopping.objects.filter(bought=False)
+        return context
+
+    def form_valid(self, form):
+        # TODO: add this to form save method
+        shopping = form.save(commit=False)
+        shopping.author = self.request.user
+        shopping.save()
+        form.save_m2m()
+        return HttpResponseRedirect(reverse('shopping_index'))
+
+
+class CreateShopping(MixinShopping, CreateView):
+    template_name = "org/shopping_index.html"
+
+
+class UpdateShopping(MixinShopping, UpdateView):
+    template_name = "org/shopping_detail.html"
+
+
+# TODO: this is done with GET requests, which is wrong by all means
+# Use POST requests and forms
+# Also, rewrite to generic views
+
+@login_required
+def shopping_buy(request, id=None):
+    event = get_object_or_404(Shopping, pk=id)
+    event.bought = True
+    event.save()
+    return HttpResponseRedirect(reverse('shopping_index'))
+
+
+@login_required
+def shopping_support(request, id=None):
+    wish = get_object_or_404(Shopping, pk=id)
+    wish.supporters.add(request.user)
+    wish.save()
+    return HttpResponseRedirect(reverse('shopping_index'))
+
+
+@login_required
+def shopping_responsible(request, id=None):
+    wish = get_object_or_404(Shopping, pk=id)
+    wish.responsible = request.user
+    wish.save()
+    return HttpResponseRedirect(reverse('shopping_index'))
+
+
+# lends
+
+
+class MixinLend(object):
+    model = Lend
+    form_class = LendForm
+
+    def get_context_data(self, **kw):
+        context = super(MixinLend, self).get_context_data(**kw)
+        context['today'] = datetime.date.today()
+        context['lends'] = Lend.objects.filter(returned=False).order_by('due_date')
+        return context
+
+    def form_valid(self, form):
+        new_lend = form.save(commit=False)
+        if 'due_date' not in form.cleaned_data:
+            # TODO: specify as default on model
+            new_lend.due_date = datetime.datetime.today() + datetime.timedelta(7)
+
+        new_lend.save()
+        form.save_m2m()
+        return HttpResponseRedirect(reverse('lend_index'))
+
+
+class CreateLend(MixinLend, CreateView):
+    template_name = "org/lend_index.html"
+
+
+class UpdateLend(MixinLend, UpdateView):
+    template_name = "org/lend_detail.html"
+
+
+# this shouldn't be doable with get, make a form
+
+
+@login_required
+def lend_back(request, id=None):
+    lend = get_object_or_404(Lend, pk=id)
+    if not lend.note:
+        lend.note = ""
+    # TODO: add this info to DB
+    lend.note += "\n\n---\nvrnitev potrdil %s, %s " % (request.user, datetime.date.today())
+    lend.returned = True
+    lend.save()
+    return HttpResponseRedirect(reverse('lend_index'))

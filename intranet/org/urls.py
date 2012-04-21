@@ -1,12 +1,12 @@
 from django.conf.urls import patterns, url, include
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
-from django.views.generic import TemplateView, RedirectView
+from django.views.generic import RedirectView
 
 from intranet.org.feeds import LatestDiarys, LatestEvents
-from intranet.org.views import (DetailLend, DetailDiary, DetailShopping,
-                                DetailEvent, ArchiveIndexEvent,
-                                ArchiveIndexLend, ArchiveIndexDiary,
+from intranet.org.views import (DetailDiary, UpdateShopping,
+                                ArchiveIndexEvent, CreateShopping,
+                                ArchiveIndexDiary, CreateLend, UpdateLend,
                                 MonthArchiveEvent, YearArchiveEvent,
                                 MonthArchiveDiary, YearArchiveDiary)
 from pipa.ldap.forms import LoginForm
@@ -21,9 +21,8 @@ urlpatterns = patterns('',
 
     url(r'^events/$', login_required(ArchiveIndexEvent.as_view()), name="event_list"),
     url(r'^events/arhiv/(?P<year>\d{4})/$', login_required(YearArchiveEvent.as_view()), name="event_arhive_year"),
-    url(r'^events/arhiv/(?P<year>\d{4})/(?P<month>[a-z]{3}|[0-9]{1,2})/$', login_required(MonthArchiveEvent.as_view())),
+    url(r'^events/arhiv/(?P<year>\d{4})/(?P<month>[a-z]{3}|[0-9]{1,2})/$', login_required(MonthArchiveEvent.as_view()), name="event_arhive_month"),
     url(r'^events/create/', 'intranet.org.views.event_edit', name="event_create"),
-    url(r'^events/(?P<pk>\d+)/$', login_required(DetailEvent.as_view()), name="event_private_detail"),
     url(r'^events/(?P<event_pk>\d+)/edit/$', 'intranet.org.views.event_edit', name="event_edit"),
     url(r'^events/(?P<event_id>\d+)/count/$', 'intranet.org.views.event_count'),
     url(r'^events/(?P<event_id>\d+)/emails/$', 'intranet.org.views.add_event_emails'),
@@ -39,35 +38,23 @@ urlpatterns = patterns('',
     (r'^diarys/(?P<id>\d+)?/?(?P<action>(add|edit))/$', 'intranet.org.views.diarys_form'),
     (r'^diarys/(?P<pk>\d+)/$', login_required(DetailDiary.as_view())),
 
-    (r'^shopping/$', 'intranet.org.views.shopping_index'),
-    (r'^shopping/cost/(?P<cost>\d+)/$', 'intranet.org.views.shopping_by_cost'),
-    (r'^shopping/task/(?P<task>\d+)/$', 'intranet.org.views.shopping_by_task'),
-    (r'^shopping/user/(?P<user>\d+)/$', 'intranet.org.views.shopping_by_user'),
-    (r'^shopping/proj/(?P<project>\d+)/$', 'intranet.org.views.shopping_by_project'),
-    (r'^shopping/(?P<pk>\d+)/$', login_required(DetailShopping.as_view())),
-    (r'^shopping/(?P<id>\d+)?/?(?P<action>(add|edit))/(edit/)?$', 'intranet.org.views.shoppings_form'),
-    (r'^shopping/(?P<id>\d+)/buy/$', 'intranet.org.views.shopping_buy'),
-    (r'^shopping/(?P<id>\d+)/support/$', 'intranet.org.views.shopping_support'),
+    url(r'^shopping/$', login_required(CreateShopping.as_view()), name="shopping_index"),
+    url(r'^shopping/(?P<pk>\d+)/$', login_required(UpdateShopping.as_view()), name="shopping_detail"),
+    url(r'^shopping/(?P<id>\d+)/buy/$', 'intranet.org.views.shopping_buy', name="shopping_buy"),
+    url(r'^shopping/(?P<id>\d+)/support/$', 'intranet.org.views.shopping_support', name="shopping_support"),
+    url(r'^shopping/(?P<id>\d+)/responsible/$', 'intranet.org.views.shopping_responsible', name="shopping_responsible"),
 
-    (r'^lends/$', login_required(ArchiveIndexLend.as_view())),
-    (r'^lends/(?P<id>\d+)?/?(?P<action>(add|edit))/(edit/)?$', 'intranet.org.views.lends_form'),
-    (r'^lends/(?P<id>\d+)/back/$', 'intranet.org.views.lend_back'),
-    (r'^lends/(?P<pk>\d+)/$', login_required(DetailLend.as_view())),
-    (r'^lends/(?P<username>\w+)/$', 'intranet.org.views.lends_by_user'),
-
-    (r'^sodelovanja/$', 'intranet.org.views.sodelovanja'),
-    (r'^sodelovanja/person/$', 'intranet.org.views.person'),
+    url(r'^lend/$', login_required(CreateLend.as_view()), name="lend_index"),
+    url(r'^lend/(?P<pk>\d+)/$', login_required(UpdateLend.as_view()), name="lend_detail"),
+    url(r'^lend/(?P<id>\d+)/back/$', 'intranet.org.views.lend_back', name="lend_back"),
 
     (r'^tmp_upload/', 'intranet.org.views.temporary_upload'),
     (r'^image_crop_tool/resize/', 'intranet.org.views.image_resize'),
     (r'^image_crop_tool/save/', 'intranet.org.views.image_save'),
     (r'^image_crop_tool/$', 'intranet.org.views.image_crop_tool'),
 
-    url(r'^tehniki/$', 'intranet.org.views.tehniki', name="technician_list"),
-    (r'^tehniki/(?P<year>\d+)/(?P<month>[a-z]{3})/$', 'intranet.org.views.tehniki_monthly'),
-    (r'^tehniki/(?P<year>\d+)/(?P<week>\d+)/$', 'intranet.org.views.tehniki'),
     (r'^tehniki/add/$', 'intranet.org.views.tehniki_add'),
-    (r'^tehniki/add/(\d+)/$', 'intranet.org.views.tehniki_take'),
+    url(r'^tehniki/add/(?P<id>\d+)/$', 'intranet.org.views.tehniki_take', name="tehniki_take"),
     (r'^tehniki/cancel/(\d+)/$', 'intranet.org.views.tehniki_cancel'),
 
     (r'^dezurni/$', 'intranet.org.views.dezurni'),
@@ -77,11 +64,8 @@ urlpatterns = patterns('',
 
     (r'^scratchpad/change/$', 'intranet.org.views.scratchpad_change'),
     url(r'^statistika/(?P<year>\d{4})?', 'intranet.org.views.year_statistics', name='statistics_by_year'),
-    (r'^autocomplete/person/$', 'intranet.org.views.person_autocomplete'),
-    (r'^autocomplete/active_user/$', 'intranet.org.views.active_user_autocomplete'),
 
     # rss
-    (r'^feeds/$', TemplateView.as_view(template_name='org/feeds_index.html')),
     (r'^feeds/diarys/', LatestDiarys()),
     (r'^feeds/events/', LatestEvents()),
 

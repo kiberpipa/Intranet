@@ -1,96 +1,125 @@
-{% extends "org/base_3col.html" %}
+{% extends "org/base_bootstrap_fluid.html" %}
 {% load box %}
 
-{% block title %}Dnevnik dežuranja{% endblock %}
+{% block title %}Dnevnik Dežuranja{% endblock %}
 
-{% block toplinks %}
-	<div class="breadcrumbs">
-		<ul id="breadcrumbs">
-			<li>Pogledi:</li>
-			<li><a href="/intranet/dezurni/{{ year }}/{{ iso_week }}">Tedenski</a></li>
-			<li><a href="/intranet/dezurni/{{ year }}/{{ month_name }}">Mesecni</a></li>
-		</ul>
-	</div>
+{% block title-main %}
+	<h1>Dnevnik dežuranja</h1>
+	
+	Za mesec {{ month_start|date:"F" }} leta {{ month_start|date:"Y" }}
 {% endblock %}
 
-{% block heading %}
-        <h1>Dnevnik dezuranja - mesecni</h1>
-{% endblock %}
+{% block navigation %}
+		<div class="well">
+			<ul class="nav nav-list breadcrumbs">
+				<li class="nav-header">Pogledi</li>
+				<li><a href="/intranet/dezurni/{{ year }}/{{ iso_week }}">Tedenski</a></li>
+				<li class="active"><a href="/intranet/dezurni/{{ year }}/{{ month_name }}">Mesecni</a></li>
 
-{% block content-related-left %}
-  <div class="module" id="recent-actions-module">
-	<h2>Plache</h2>
-	{% box_plache log_list user %}
-</div>
+
+				<li class="nav-header">Plache za ta mesec</li>
+				<li>
+					{% box_plache log_list user %}
+				</li>
+			</ul>
+		</div>
+		
+		<div class="well">
+		    {% box_list Event "start_date__gte=start_date,start_date__lte=end_date" "template=org/list_event.html,order_by=-start_date" %}
+		</div>
 {% endblock %}
 
 {% block content-main %}
 	<div class="module">
-    	<table class="dezurni">
-    		<tr>
-				<th scope="col">
-					<a href="/intranet/dezurni/{{ navigation.prev }}">&lt;&lt;</a>|
-					{{ month_number }} |
-					<a href="/intranet/dezurni/{{ navigation.next }}">&gt;&gt;</a>
-				</th>
-        		<th scope="col">1000 - 1400</th>
-        		<th scope="col">1400 - 1800 </th>
-        		<th scope="col">1800 - 2200 </th>
-    		</tr>
-    {% for day in month %}
-    		<tr><td id='date'>{{ day.date }}</td>
-    {% for dezurni in day.dezurni %}
-      	{% if dezurni.name %}
-            <td id='dezurni{{ forloop.counter }}'>
-				<a href="/intranet/diarys/{{ dezurni.admin_id }}">{{ dezurni.name }}</a>
-			</td>
-        {% else %}
-            <td id='dezurni{{ forloop.counter }}' class="free">
-				<a href="javascript:;" onclick="formExplode(this, '{{ dezurni.unique }}')">
-					Vpiši</a>
-			</td>
-        {% endif %}
-    {% endfor %}
-    		</tr>
-    {% endfor %}
-    	</table>
-    </div>
-<div id="dnevnikForm">
-    <form action="/intranet/dezurni/add/" method="post" name="dnevnikForm" class="dnevnikForm">
-       <h3>Med dežuranjem sem počel naslednje stvari:</h3>
-          <input type="hidden" name="uniqueSpot" value="" />
-          <textarea name="log_formal" id="log_f" rows="10"></textarea>
-       <h3>Random stuff:</h3>
-          <textarea name="log_informal" id="log_if" rows="5"></textarea>
-          <input type="submit" value="Vnesi" />
-          <input type="reset" value="Obupaj" onclick="formImplode(this)"/>
-</div>
-<p><br></p>
 
-{% for object in log_list %}
-	<div class="module">
-        <h2><a href="/intranet/diarys/{{ object.id }}" class="h2">
-        {{ object.author }}: {{ object.date|date:"D d.m.Y" }},
-        	{{ object.task }} ({{ object.length }})</A></h2>
-      {% if object.log_formal %}
-          <h5><b>Dnevnik:</b></h5>
-          <p id="dn"><br />{{ object.log_formal|linebreaks }}</p>
-      {% endif %}
-      {% if object.log_informal %}
-          <h5><b>Blog:</b></h5>
-          <p mode="textarea" id="bl"><br />
-          {{ object.log_informal|linebreaks }}</p>
-      {% endif %}
+		<table class="dezurni table table-striped table-bordered">
+		<tr>
+			<th scope="col">
+				<a href="/intranet/dezurni/{{ navigation.prev }}">&lt;&lt;</a> {{ month_start|date:"F"|capfirst }} <a href="/intranet/dezurni/{{ navigation.next }}">&gt;&gt;</a>
+			</th>
+			{% ifequal nov_urnik 1 %}
+				<th scope="col">1100 - 1600</th>
+				<th scope="col">1600 - 2100 </th>
+			{% endifequal %}
+			{% ifequal nov_urnik 2 %}
+				<th scope="col">1000 - 1400</th>
+				<th scope="col">1400 - 1800</th>
+				<th scope="col">1800 - 2200 </th>
+			{% endifequal %}
+			{% ifnotequal nov_urnik 2 %}
+				{% ifnotequal nov_urnik 1 %}
+				<th scope="col">1000 - 1300 </th>
+				<th scope="col">1300 - 1600 </th>
+				<th scope="col">1600 - 1900</th>
+				<th scope="col">1900 - 2200 </th>
+				{% endifnotequal %}
+			{% endifnotequal %}
+		</tr>
+
+
+		{% for day in month %}
+		<tr>
+			<td id='date'>{{ day.date }}</td>
+			{% for slot in day.slots %}
+				{% if slot.diaries %}
+			<td id='dezurni{{ forloop.counter }}'>
+                {% for diary in slot.diaries %}
+				<a href="/intranet/diarys/{{ diary.id }}">{{ diary.author }}</a><br/>
+				{% endfor %}
+			</td>
+				{% else %}
+			<td id='dezurni{{ forloop.counter }}' class="free">
+				<a class="btn btn-mini" href="javascript:void(0);" onclick="return dezurni('{{ slot.unique }}')">Vpiši</a>
+			</td>
+				{% endif %}
+			{% endfor %}
+		</tr>
+		{% endfor %}
+
+		</table>
 	</div>
-{% endfor %}
+
+	{% if not log_list %}
+	<div class="module">
+		(za ta mesec še ni nobenih vpisanih dnevnikov)
+	</div>
+	{% else %}
+		{% for object in log_list %}
+			{% print_diary object %}
+		{% endfor %}
+	{% endif %}
+
+<div id="dnevnikForm" style="display: none;">
+	<form class="well" action="/intranet/dezurni/add/" method="post" name="dnevnikForm" class="dnevnikForm">
+		<input type="hidden" name="uniqueSpot" value="" />
+
+		<label>Med dežuranjem sem počel naslednje stvari:</label>
+		<textarea name="log_formal" id="log_f" rows="10" placeholder="Pospravil server room."></textarea>
+
+		<label>Random stuff (neobvezno):</label>
+		<textarea name="log_informal" id="log_if" rows="5" placeholder="Iskal kreativne nove načine za zlorabo dela in plačila ;-)"></textarea>
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">Vnesi</button>
+			<button class="btn" onclick="formImplode(this)">Prekliči</button>
+		</div>
+	</form>
+</div>
+
 
 {% endblock %}
 
-{% block content-related-right %}
-  <div class="module" id="recent-actions-module">
-    <h2>Dogodki meseca</h2>
-  	 <ul class="actionlist">
-	    {% box_list Event "start_date__gte=start_date,start_date__lte=end_date" "template=org/list_event.html,order_by=start_date" %}
-	    </ul>
-  </div>
+{% block extrahead%}
+<script type="text/javascript">
+	function dezurni(id) {
+		$('#dnevnikForm').show().find('input[name=uniqueSpot]').val(id);
+	}
+
+	$(document).ready(function () {
+		$('#dnevnikForm input[type=reset]').click(function (e) {
+			e.preventDefault();
+			$('#dnevnikForm').hide();
+		});
+	});
+</script>
 {% endblock %}

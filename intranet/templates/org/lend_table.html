@@ -1,0 +1,35 @@
+{% load url from future %}
+<div class="module">
+  <table class="table table-striped table-bordered">
+  <tr>
+    <th><i class="icon-gift"></i> Predmet</th>
+    <th><i class="icon-user"></i> Posodil</th>
+    <th><i class="icon-user"></i> Komu</th>
+    <th><i class="icon-envelope"></i> Kontakt</th>
+    <th><i class="icon-calendar"></i> Dne</th>
+    <th><i class="icon-calendar"></i> Rok vrnitve</th>
+    <th><i class="icon-pencil"></i> Razlog posoje</th>
+    <th><i class="icon-share-alt"></i> Vrni</th>
+  </tr>
+  {% for lend in objects %}
+    <tr>
+      <td><a href="{% url 'lend_detail' lend.id %}">{{ lend.what }}</a></td>
+      <td>{{ lend.from_who }}</td>
+      <td>{{ lend.to_who }}</td>
+      <td>{{ lend.contact_info }}</td>
+      <td>{{ lend.from_date }}</td>
+      <td>
+        {% if lend.due_date < today %}
+        <span class="badge badge-warning">{{ lend.due_date }}</span>
+        {% else %}
+        <span class="badge badge-success">{{ lend.due_date }}</span>
+        {% endif %}
+      </td>
+      <td>{{ lend.why }}</td>
+      <td>
+          <a class="btn" href="{% url 'lend_back' lend.id %}">Vrni</a>
+      </td>
+    </tr>
+  {% endfor %}
+  </table>
+</div>

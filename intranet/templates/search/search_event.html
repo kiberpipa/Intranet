@@ -12,18 +12,18 @@
                 <img src="{{ settings.MEDIA_URL }}events/2010/04/POT___.gif" />
             {% endif %}
             {% if result.object.flickr_set_id %}
-                <a href="{{ result.object.get_public_url }}#gallery" title="{% trans "Pictures of event" %}" >
+                <a href="{{ result.object.get_absolute_url }}#gallery" title="{% trans "Pictures of event" %}" >
                     {% trans "gallery" %}
                 </a>&nbsp;
             {% endif %}
             {% if result.object.get_video_urls %}
-                <a href="{{ result.object.get_public_url }}#video" title="{% trans "Videos of event" %}" >
+                <a href="{{ result.object.get_absolute_url }}#video" title="{% trans "Videos of event" %}" >
                     {% trans "videos" %}
                 </a>
             {% endif %}
         </div>
         <div class="content">
-            <div><a href="{{ result.object.get_public_url }}">{{ result.object.title }}</a> (<i>{{ result.object.start_date }}</i>)</div>
+            <div><a href="{{ result.object.get_absolute_url }}">{{ result.object.title }}</a> (<i>{{ result.object.start_date }}</i>)</div>
             {% for sodelovanje in result.object.sodelovanje_set.all %}
                 {% if forloop.first %}<strong>{% trans "Collaborators:" %}</strong>{% endif %}
                 <i>{{ sodelovanje.person }} ({{ sodelovanje.tip }})</i>{% if not forloop.last %},{% endif %}

@@ -1,0 +1,17 @@
+{% extends "org/base_bootstrap_fluid_span9.html" %}
+{% block title %}Reverzi opreme{% endblock %}
+
+{% block navigation %}
+    <div class="well">
+      <ul class="nav nav-list">
+          <li class="nav-header">Vpiši reverz</li>
+          <li>		
+              {% include "org/lend_form.html" %}
+          </li>
+	</ul>
+    </div>
+{% endblock %}
+
+{% block content-main %}
+    {% include "org/lend_table.html" with objects=lends %}
+{% endblock %}

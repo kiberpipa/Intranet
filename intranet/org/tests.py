@@ -167,23 +167,13 @@ class EventTest(BaseCase):
         resp = self.client.post('/intranet/events/create/', createdata)
         self.assertEqual(resp.status_code, 302)
         # if we don't get location, form failed
-        redirect_url, event_id = re.match('http://\w+(/intranet/events/.*(\d+)/)$', resp._headers['location'][1]).groups()
+        redirect_url, event_id = re.match('https://.+(/intranet/events/(\d+)/edit/)$', resp._headers['location'][1]).groups()
 
         # validate urls
         self.assertEqual(self.client.get('/event/dogodek-v-kleti-1/', follow=True).redirect_chain[-1], ('http://testserver/sl/event/dogodek-v-kleti-1/', 302))
 
         resp = self.client.get(redirect_url)
         self.assertEqual(resp.status_code, 200)
-
-        resp = self.client.get(redirect_url + 'info.txt/')
-        self.assertEqual(resp.status_code, 200)
-        for line in [i for i in resp.content.split('\n') if i]:
-            self.assertEqual(re.match('^\S+:\s', line) != None, True)
-
-        # autocomplete should work now because a sodelovanje was added
-        resp = self.client.get('/intranet/autocomplete/person/', {'q': u'Gašp'})
-        self.assertEqual(resp.status_code, 200)
-        self.assertEqual('\n' in resp.content, True)
 
         # new event is in the events overview page
         resp = self.client.get('/intranet/events/')
@@ -192,21 +182,10 @@ class EventTest(BaseCase):
 
         # TODO: test archive events
 
-        # add a number of visitors
-        resp = self.client.post(redirect_url + 'count/', {'visitors': 10, 'enter_your_email': ''})
-        self.assertEqual(resp.status_code, 302)
-        a_redirect_url, _ = re.match('http://\w+(/intranet/events/(\d+)/)$', resp._headers['location'][1]).groups()
-        self.assertEqual(a_redirect_url, redirect_url)
-
         # add emails to be notified
         email = 'root@kiberpipa.org'
         resp = self.client.post('/intranet/events/%s/emails/' % event_id, {'emails': email, 'enter_your_email': ''}, follow=True)
         self.assertEqual(resp.status_code, 200)
-
-        # check that email is listed
-        resp = self.client.get('/intranet/events/%s/' % event_id)
-        self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content.find(email) > -1, True)
 
         # tehniki
         resp = self.client.get('/intranet/tehniki/')

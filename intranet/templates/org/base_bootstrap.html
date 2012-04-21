@@ -1,0 +1,192 @@
+{% load i18n %}
+{% load url from future %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>{% block title %}Intranet | Kiberpipa{% endblock %}</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="-1" />
+
+	<!-- Le fav and touch icons -->
+	<link rel="shortcut icon" href="{{ settings.STATIC_URL }}www/images/favicon.ico" />
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{ settings.STATIC_URL}}org/bootstrap/ico/apple-touch-icon-114-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ settings.STATIC_URL }}org/bootstrap/ico/apple-touch-icon-72-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" href="{{ settings.STATIC_URL }}org/bootstrap/ico/apple-touch-icon-57-precomposed.png">
+
+	<!-- Le styles -->
+	<link href="{{ settings.STATIC_URL }}org/bootstrap/css/bootstrap.css" rel="stylesheet">
+	<link href="{{ settings.STATIC_URL }}org/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+	<link href="{{ settings.STATIC_URL }}org/bootstrap/css/styles.css" rel="stylesheet">
+
+	<!-- Le urgent javascript cause we do nasty stuffz like extraheads -->
+	<script src="{{ settings.STATIC_URL }}org/bootstrap/js/jquery.js"></script>
+	<script src="{{ settings.STATIC_URL }}org/bootstrap/js/bootstrap-transition.js"></script>
+	<script src="{{ settings.STATIC_URL }}org/bootstrap/js/bootstrap-alert.js"></script>
+	<script src="{{ settings.STATIC_URL }}org/bootstrap/js/bootstrap-modal.js"></script>
+	<script src="{{ settings.STATIC_URL }}org/bootstrap/js/bootstrap-dropdown.js"></script>
+	<script src="{{ settings.STATIC_URL }}org/bootstrap/js/bootstrap-scrollspy.js"></script>
+	<script src="{{ settings.STATIC_URL }}org/bootstrap/js/bootstrap-tab.js"></script>
+	<script src="{{ settings.STATIC_URL }}org/bootstrap/js/bootstrap-tooltip.js"></script>
+	<script src="{{ settings.STATIC_URL }}org/bootstrap/js/bootstrap-popover.js"></script>
+	<script src="{{ settings.STATIC_URL }}org/bootstrap/js/bootstrap-button.js"></script>
+	<script src="{{ settings.STATIC_URL }}org/bootstrap/js/bootstrap-collapse.js"></script>
+	<script src="{{ settings.STATIC_URL }}org/bootstrap/js/bootstrap-carousel.js"></script>
+	<script src="{{ settings.STATIC_URL }}org/bootstrap/js/bootstrap-typeahead.js"></script>
+
+	<!-- old intranet stuff, try to delete as much as possible -->
+	<link rel="stylesheet" type="text/css" href="{{ settings.STATIC_URL }}org/css/overcast/jquery-ui-1.8.14.custom.css" />
+	<link rel="stylesheet" type="text/css" href="{{ settings.STATIC_URL }}org/css/jquery-ui-timepicker-addon.css" />
+	<link rel="stylesheet" type="text/css" href="{{ settings.STATIC_URL }}chosen/chosen.css" />
+	<script type="text/javascript" src="/jsi18n/"></script>
+	<script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery-ui-1.8.14.custom.min.js" ></script>
+	<script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery-ui-timepicker-addon.js" ></script>
+	<script type="text/javascript" src="{{ settings.STATIC_URL }}chosen/chosen.jquery.min.js"></script>
+	<script type="text/javascript">
+	$(function () {
+		$(".chzn-select").chosen();
+        $('#id_due_date,#id_date,#id_due_by,#id_end_date').datepicker({firstDay: 1, dateFormat: "dd.mm.yy"});
+	});
+	</script>
+
+	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- this will be moved to a file laterz -->
+	<style type="text/css">
+		body, p, span { font-family: Ubuntu, sans-serif; }
+		body { padding-top: 80px; }
+
+		a.nohover { color: black; }
+		a.nohover:hover { text-decoration: none; }
+	
+		.icon-disabled { opacity:0.4; filter:alpha(opacity=40); }
+
+		.navbar .nav-tabs { border-bottom: 0; }
+		.title { border: 1px solid rgba(0, 0, 0, 0.05); padding: 19px 19px 5px 19px; border-radius: 5px 5px 0 0; background: inherit; }
+		#navigation .well { padding: 8px 0; background: url('{{ settings.STATIC_URL }}org/images/hexellence.png'); }
+		#navigation .module { padding: 0; margin: 15px 15px 15px 15px; border: none; }	
+
+		#content { background: url('{{ settings.STATIC_URL }}org/images/hexellence.png'); }
+
+		#content .module { border: 1px solid rgba(0, 0, 0, 0.05); background: white; border-top: 0; padding: 19px; } 
+		#content .footer-main { padding: 0; background: inherit; border: 1px solid rgba(0, 0, 0, 0.05); border-top: 0; border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; min-height: 0.8em;}
+		
+		.hero-unit { padding: 10px 10px 10px 60px; }
+
+		.profile_image { width: 50px; float: left; }
+		.profile_image_fake { display: inline-block; overflow: hidden; font-size: 10px; border: 1px solid black; height: 48px; width: 48px; text-align: center; vertical-align: middle;  }
+			
+
+		.diary { border: 1px solid rgba(0, 0, 0, 0.05); background: white; border-top: 0;  padding: 19px; }
+		.diary:hover { background: inherit; }
+		.diary .diary-body { margin-left: 60px; }
+		.diary hr { color: red; margin: -0.5em 0 0 0;}
+		.diary .username { color: rgb(153,153,153); }	
+		.diary .duration { color: rgb(153,153,153); float: right; }
+		.diary .filed { display: inline-block; color: rgb(153,153,153); font-size: 12px; }
+		.diary p.informal { margin-top: -0.5em; }
+
+		/* diary form
+		form p { margin-bottom: 0; }
+		form p label { width: 27%; overflow: hidden; display: inline-block; }
+		form p input { width: 68%; }
+		form p select { width: 72%; }
+		form p textarea { width: 90%; }
+		*/
+		
+		label[for='id_log_formal'], label[for='id_log_informal'] { width: 100%; }
+		#id_log_formal { height: 125px; }
+		#id_log_informal { height: 50px; }
+
+
+		/* error messages for fields */
+		form.form-horizontal .help-inline ul, form.form-horizontal .help-block ul { list-style-type: none; margin: 0; padding: 0;}
+		form.error .help-block { color: black; }
+		form.form-horizontal label.checkbox { display: inline; }
+
+
+		footer { padding: 3em 0 1em 0; color: lightgray; }
+
+	</style>
+
+	{% block extrahead %}{% endblock %}
+</head>
+{% block extrabody %}<body>{% endblock %}
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<div class="row-fluid">
+					<div class="span3">
+						<a href="/intranet/" class="brand">
+        		    		<img id="logo" alt="Kiberpipa" src="{{ settings.STATIC_URL }}org/images/kiberpipa-white.png" />
+				        </a>
+				     </div>
+				     <div class="span7" style="position: relative; height: 60px;">
+						<ul class="nav nav-tabs" style="position: absolute; bottom: 0;">
+				        	<li><a href="/intranet/events/">{% trans "Events" %}</a></li>
+						    <li><a class="active" href="/intranet/diarys/">{% trans "Diarys" %}</a></li>
+							<li><a href="/intranet/addressbook/">{% trans "Address book" %}</a></li>
+							<li><a href="/intranet/dezurni/">{% trans "On duty" %}</a></li>
+						    <li><a href="/intranet/wiki/">Wiki</a></li>
+
+							<li class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#">Administracija <b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<li><a href="{% url 'lend_index' %}">{% trans "Lends" %}</a></li>
+						    		<li><a href="/intranet/shopping/">{% trans "Shopping" %}</a></li>
+						        	<li><a href="/intranet/mercenaries/">{% trans "Mercenaries" %}</a></li>
+									<li class="divider"></li>
+									<li><a href="{% url 'statistics_by_year' %}">{% trans "Statistics" %}</a></li>
+									<li><a href="/intranet/events/pr/">{% trans "PR" %}</a></li>
+									{% if user.is_staff %}
+									<li class="divider"></li>
+									<li><a href="/intranet/admin">{% trans "Administration" %}</a></li>
+									{% endif %}
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+					<div class="span2" style="height: 60px; position: relative;">
+						<p class="navbar-text pull-right" style="position: absolute; bottom: 0;">
+						{% if user.is_authenticated %}
+							{% trans "Welcome" %}&nbsp;{{ user.username }}!&nbsp;<a href="/intranet/accounts/logout/">{% trans "Logout" %}</a>
+						{% else %}
+							<a href="/intranet/accounts/login/">{% trans "Login" %}</a>
+						{% endif %}
+						</p>
+					</div>
+
+				</div>				
+			</div><!--/ .container -->
+		</div><!--/ .navbar-inner -->
+	</div><!--/ .navbar -->
+
+	<div class="container">
+		{% block content %}{% endblock %}
+
+		<footer>
+			<div class="row-fluid">
+				<div class="span3">&nbsp;</div>
+			
+				<div class="span7">
+					<p class="thanks">Intranet je kolektivno delo članov Kiberpipe. Posebne zahvale Boštjanu Špetiču (igzebedze), Dejanu Sahelšku (sahel), Juretu Čuhalevu (gandalfar), Almirju Kariču (redduck666, <a href="http://www.kiberpipa.org/sl/news/11315/almirju-v-spomin/">R.I.P.</a>), Gašperju Žejnu (hruske), Domnu Kožarju (iElectric) in Andražu Brodniku (brodul).</p>
+
+					<p>Izdelano z <a href="https://www.djangoproject.com/">Django</a> in <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a>. 
+					    <a target="_blank" href="https://dev.kiberpipa.org/projects/kiberpipa-intranet/issues/new">Prijavi napako <img alt="bug" src="{{ settings.STATIC_URL }}org/images/hrosc.png" title="Prijavi napako" style="height: 1.5em;"></a>.
+				    </p>
+				</div>
+			</div>
+		</footer>
+	</div>
+</body>
+</html>

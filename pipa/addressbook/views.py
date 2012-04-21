@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 
 from pipa.addressbook.models import PipaProfile
 from pipa.addressbook.forms import ProfileForm
+from pipa.ldap.forms import LDAPPasswordChangeForm
 
 
 def alumni(request):
@@ -34,6 +35,7 @@ def addressbook(request):
     context = {'profile_form': profile_form,
         'object_list': PipaProfile.objects.all(),
         'user_list': User.objects.all().order_by('username'),
+               'auth_form': LDAPPasswordChangeForm(),
         }
 
     return render_to_response("org/addressbook.html", RequestContext(request, context))
