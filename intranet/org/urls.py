@@ -4,9 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import RedirectView
 
 from intranet.org.feeds import LatestDiarys, LatestEvents
-from intranet.org.views import (DetailLend, DetailDiary,
-                                ArchiveIndexEvent, CreateShopping, UpdateShopping,
-                                ArchiveIndexLend, ArchiveIndexDiary,
+from intranet.org.views import (DetailDiary, UpdateShopping,
+                                ArchiveIndexEvent, CreateShopping,
+                                ArchiveIndexDiary, CreateLend, UpdateLend,
                                 MonthArchiveEvent, YearArchiveEvent,
                                 MonthArchiveDiary, YearArchiveDiary)
 from pipa.ldap.forms import LoginForm
@@ -44,20 +44,15 @@ urlpatterns = patterns('',
     url(r'^shopping/(?P<id>\d+)/support/$', 'intranet.org.views.shopping_support', name="shopping_support"),
     url(r'^shopping/(?P<id>\d+)/responsible/$', 'intranet.org.views.shopping_responsible', name="shopping_responsible"),
 
-    (r'^lends/$', login_required(ArchiveIndexLend.as_view())),
-    (r'^lends/(?P<id>\d+)?/?(?P<action>(add|edit))/(edit/)?$', 'intranet.org.views.lends_form'),
-    (r'^lends/(?P<id>\d+)/back/$', 'intranet.org.views.lend_back'),
-    (r'^lends/(?P<pk>\d+)/$', login_required(DetailLend.as_view())),
-    (r'^lends/(?P<username>\w+)/$', 'intranet.org.views.lends_by_user'),
+    url(r'^lend/$', login_required(CreateLend.as_view()), name="lend_index"),
+    url(r'^lend/(?P<pk>\d+)/$', login_required(UpdateLend.as_view()), name="lend_detail"),
+    url(r'^lend/(?P<id>\d+)/back/$', 'intranet.org.views.lend_back', name="lend_back"),
 
     (r'^tmp_upload/', 'intranet.org.views.temporary_upload'),
     (r'^image_crop_tool/resize/', 'intranet.org.views.image_resize'),
     (r'^image_crop_tool/save/', 'intranet.org.views.image_save'),
     (r'^image_crop_tool/$', 'intranet.org.views.image_crop_tool'),
 
-    url(r'^tehniki/$', 'intranet.org.views.tehniki', name="technician_list"),
-    (r'^tehniki/(?P<year>\d+)/(?P<month>[a-z]{3})/$', 'intranet.org.views.tehniki_monthly'),
-    (r'^tehniki/(?P<year>\d+)/(?P<week>\d+)/$', 'intranet.org.views.tehniki'),
     (r'^tehniki/add/$', 'intranet.org.views.tehniki_add'),
     url(r'^tehniki/add/(?P<id>\d+)/$', 'intranet.org.views.tehniki_take', name="tehniki_take"),
     (r'^tehniki/cancel/(\d+)/$', 'intranet.org.views.tehniki_cancel'),

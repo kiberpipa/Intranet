@@ -1,4 +1,6 @@
-{% load i18n %}<!DOCTYPE html>
+{% load i18n %}
+{% load url from future %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<title>{% block title %}Intranet | Kiberpipa{% endblock %}</title>
@@ -49,6 +51,7 @@
 	<script type="text/javascript">
 	$(function () {
 		$(".chzn-select").chosen();
+        $('#id_due_date,#id_date,#id_due_by,#id_end_date').datepicker({firstDay: 1, dateFormat: "dd.mm.yy"});
 	});
 	</script>
 
@@ -129,22 +132,20 @@
 				     </div>
 				     <div class="span7" style="position: relative; height: 60px;">
 						<ul class="nav nav-tabs" style="position: absolute; bottom: 0;">
-							<li><a href="/intranet/dezurni/">{% trans "On duty" %}</a></li>
 				        	<li><a href="/intranet/events/">{% trans "Events" %}</a></li>
 						    <li><a class="active" href="/intranet/diarys/">{% trans "Diarys" %}</a></li>
 							<li><a href="/intranet/addressbook/">{% trans "Address book" %}</a></li>
+							<li><a href="/intranet/dezurni/">{% trans "On duty" %}</a></li>
 						    <li><a href="/intranet/wiki/">Wiki</a></li>
 
 							<li class="dropdown">
 								<a class="dropdown-toggle" data-toggle="dropdown" href="#">Administracija <b class="caret"></b></a>
 								<ul class="dropdown-menu">
-									<li><a href="/intranet/dezurni/">{% trans "On duty" %}</a></li>
-									<li><a href="/intranet/tehniki/">{% trans "Technicians" %}</a></li>
-								    <li><a href="/intranet/lends/">{% trans "Lends" %}</a></li>
+									<li><a href="{% url 'lend_index' %}">{% trans "Lends" %}</a></li>
 						    		<li><a href="/intranet/shopping/">{% trans "Shopping" %}</a></li>
 						        	<li><a href="/intranet/mercenaries/">{% trans "Mercenaries" %}</a></li>
 									<li class="divider"></li>
-									<li><a href="{% url statistics_by_year %}">{% trans "Statistics" %}</a></li>
+									<li><a href="{% url 'statistics_by_year' %}">{% trans "Statistics" %}</a></li>
 									<li><a href="/intranet/events/pr/">{% trans "PR" %}</a></li>
 									{% if user.is_staff %}
 									<li class="divider"></li>

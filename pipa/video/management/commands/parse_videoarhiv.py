@@ -78,6 +78,9 @@ class Command(BaseCommand):
                     },
                 )
 
+                # TODO: if event now has a video, and require_video is False, set it to True!
+                # TODO: also write a migration for this.
+
                 if is_created:
                     videos_to_notify.append(vid)
             except:

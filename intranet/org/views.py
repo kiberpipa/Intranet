@@ -184,57 +184,6 @@ def index(request):
 
 
 @login_required
-def lend_back(request, id=None):
-    lend = get_object_or_404(Lend, pk=id)
-    if not lend.note:
-        lend.note = ""
-    lend.note += "\n\n---\nvrnitev potrdil %s, %s " % (request.user, datetime.date.today())
-    lend.returned = True
-    lend.save()
-    return HttpResponseRedirect('../')
-
-
-@login_required
-def lends_form(request, id=None, action=None):
-    #process the add/edit requests, redirect to full url if successful, display form with errors if not.
-    if request.method == 'POST':
-        if id:
-            lend_form = LendForm(request.POST, instance=Lend.objects.get(id=id))
-        else:
-            lend_form = LendForm(request.POST)
-
-        if lend_form.is_valid():
-            lend = lend_form.save()
-            return HttpResponseRedirect(lend.get_absolute_url())
-    else:
-        if id:
-            lend_form = LendForm(instance=Lend.objects.get(id=id))
-        else:
-            lend_form = LendForm()
-
-    return render_to_response('org/lend.html', {
-        'lend_form': lend_form,
-        'lend_edit': True,
-        }, context_instance=RequestContext(request)
-    )
-
-
-@login_required
-def lends_by_user(request, username):
-    responsible = []
-    for l in Lend.objects.filter(returned=False):
-        if l.from_who not in responsible:
-            responsible.append(l.from_who)
-    user = User.objects.get(username__exact=username)
-    lend_list = Lend.objects.filter(returned__exact=False).filter(from_who__exact=user)
-    return render_to_response('org/lend_archive.html',
-                              {'latest': lend_list,
-                                'responsible': responsible,
-                              },
-                              context_instance=RequestContext(request))
-
-
-@login_required
 def diarys_form(request, id=None, action=None):
     if request.method == 'POST':
         if id:
@@ -406,91 +355,6 @@ def weekly_navigation(year=None, week=None, week_start=None, week_end=None):
 
     return {'prev': '%s/%s' % (year_prev, week_prev),
             'next': '%s/%s' % (year_next, week_next)}
-
-
-@login_required
-def tehniki_monthly(request, year=None, month=None):
-    iso_week = mx.DateTime.now().iso_week[1]
-    if month:
-        month = mx.DateTime.Date(int(year), int(month_dict[month]), 1).month
-    else:
-        month = mx.DateTime.now().month
-    if year:
-        year = mx.DateTime.Date(int(year), int(month), 1).year
-    else:
-        year = mx.DateTime.now().year
-
-    month_start = mx.DateTime.Date(year, month, 1)
-    month_end = month_start + mx.DateTime.DateTimeDelta(month_start.days_in_month)
-
-    month_number = month
-    events = Event.objects.get_date_events(month_start, month_end).filter(require_technician__exact=True)
-    log_list = Diary.objects.filter(task=23, date__range=(month_start, month_end))
-
-    month = []
-    for e in events:
-        try:
-            diary = e.diary_set.get()
-            e.diary = diary.id
-            e.diary_length = diary.length
-        except:
-            e.diary = 0
-
-        month.append((set(), e))
-
-    navigation = monthly_navigation(year, month_number)
-
-    return render_to_response('org/technicians_index.html', {
-         'month': month,
-         'log_list': log_list,
-         'month_number': month_number,
-         'month_name': month_to_string(month_number),
-         'what': 'mesec',
-         'iso_week': iso_week,
-         'year': year,
-         'navigation': navigation,
-         'start_date': month_start,
-         'end_date': month_end,
-         'ure': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-     }, context_instance=RequestContext(request))
-
-
-@login_required
-def tehniki(request, year=None, week=None):
-    iso_week = mx.DateTime.now().iso_week
-
-    year = int(year or mx.DateTime.now().year)
-    week_number = int(week or iso_week[1])
-
-    week_start = mx.DateTime.ISO.Week(year, week_number, 1)
-    week_end = mx.DateTime.ISO.Week(year, week_number, 8)
-    month_number = week_start.month
-
-    events = Event.objects.filter(start_date__range=(week_start, week_end), require_technician__exact=True).order_by('start_date')
-    log_list = Diary.objects.filter(task=23, date__range=(week_start, week_end))
-
-    week = []
-    for e in events:
-        authors = [a.author for a in e.diary_set.all()]
-        non_diary = set(e.technician.all()) - set(authors)
-        #(<array of authors of diarys>, event)
-        week += [(non_diary, e)]
-
-    navigation = weekly_navigation(year, week_number, week_start, week_end)
-
-    return render_to_response('org/technicians_index.html', {
-        'month': week,
-         'log_list': log_list,
-         'month_number': week_number,
-         'month_name': reverse_month_dict[month_number],
-         'what': 'teden',
-         'iso_week': week_number,
-         'year': year,
-         'navigation': navigation,
-         'start_date': week_start,
-         'end_date': week_end,
-         'ure': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-     }, context_instance=RequestContext(request))
 
 
 @login_required
@@ -745,7 +609,7 @@ def year_statistics(request, year=None):
     # common query
     q = Event.objects.filter(start_date__range=date_range)
     min_year = Event.objects.aggregate(models.Min('pub_date'))['pub_date__min']
-    years = range(min_year.year, this_year + 1)
+    years = range(min_year.year, this_year + 2)
 
     # TODO: Project manager
     by_project_events = Project.objects.filter(event__start_date__range=date_range)\
@@ -848,27 +712,6 @@ class DetailEvent(DetailView):
         context = super(DetailEvent, self).get_context_data(**kw)
         context['emails_form'] = AddEventEmails()
         context['sodelovanja'] = Sodelovanje.objects.filter(event=self.kwargs['pk'])
-        return context
-
-
-class ArchiveIndexLend(ArchiveIndexView):
-    queryset = Lend.objects.all().order_by('due_date')
-    date_field = 'from_date'
-    allow_empty = True
-    paginate_by = 50
-
-    def get_context_data(self, **kw):
-        context = super(ArchiveIndexLend, self).get_context_data(**kw)
-        form = LendForm(self.request.POST)
-        context['form'] = form
-        # TODO: refactor this in new view
-        if self.request.method == 'POST' and form.is_valid():
-            new_lend = form.save()
-            if 'due_date' not in form.cleaned_data:
-                # TODO: specify as default on model
-                new_lend.due_date = datetime.datetime.today() + datetime.timedelta(7)
-
-            return HttpResponseRedirect(new_lend.get_absolute_url())
         return context
 
 
@@ -1000,3 +843,50 @@ def shopping_responsible(request, id=None):
     wish.responsible = request.user
     wish.save()
     return HttpResponseRedirect(reverse('shopping_index'))
+
+
+# lends
+
+
+class MixinLend(object):
+    model = Lend
+    form_class = LendForm
+
+    def get_context_data(self, **kw):
+        context = super(MixinLend, self).get_context_data(**kw)
+        context['today'] = datetime.date.today()
+        context['lends'] = Lend.objects.filter(returned=False).order_by('due_date')
+        return context
+
+    def form_valid(self, form):
+        new_lend = form.save(commit=False)
+        if 'due_date' not in form.cleaned_data:
+            # TODO: specify as default on model
+            new_lend.due_date = datetime.datetime.today() + datetime.timedelta(7)
+
+        new_lend.save()
+        form.save_m2m()
+        return HttpResponseRedirect(reverse('lend_index'))
+
+
+class CreateLend(MixinLend, CreateView):
+    template_name = "org/lend_index.html"
+
+
+class UpdateLend(MixinLend, UpdateView):
+    template_name = "org/lend_detail.html"
+
+
+# this shouldn't be doable with get, make a form
+
+
+@login_required
+def lend_back(request, id=None):
+    lend = get_object_or_404(Lend, pk=id)
+    if not lend.note:
+        lend.note = ""
+    # TODO: add this info to DB
+    lend.note += "\n\n---\nvrnitev potrdil %s, %s " % (request.user, datetime.date.today())
+    lend.returned = True
+    lend.save()
+    return HttpResponseRedirect(reverse('lend_index'))

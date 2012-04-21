@@ -1,45 +1,31 @@
-{% extends "org/base_3col.html" %}
+{% extends "org/base_bootstrap_fluid_span9.html" %}
 {% block title %}Reverzi opreme{% endblock %}
+{% load url from future %}
 
-{% block extrahead %}
-{% load box %}
-{% endblock %}
 
-{% block heading %}
-        <h1>Reverz</h1>
-{% endblock %}
-
-{% block content-related-left %}
-  <div class="module" id="recent-actions-module">
-    <h2>Urejanje</h2>
-        <ul class="actionlist">
-                {% if object.returned %}
-                        <li>Ta predmet je ze vrnjen</li>
-                {% else %}
-                        <li><a href="/intranet/lends/{{ object.id }}/back/">Vrni!</a></li>
-                        <li><a href="/intranet/lends/">Dodaj novega!</a></li>
-                {% endif %}
-        </ul>
-				{% include "org/content/lend_form.html" %}
-  </div>
-{% endblock %}
-
-{% block content-main %}
+{% block navigation %}
+<div class="well">
+	<ul class="nav nav-list">
+		<li><a href="{% url 'lend_index' %}">&larr; Nazaj na reverze</a></li>
+	</ul>
+	{% if not object.returned %}
 	<div class="module">
-			<h2><a class="h2">
-				{{ object.what }}</a>
-          		do {{ object.due_date|date:"d.m.Y" }}</h2>
-        <h5>{{ object.from_who }} -> {{ object.to_who }} {% if log.contact_info %} ({{log.contact_info}}) {% endif %}</h5>
+		<a class="btn btn-primary" href="{% url 'lend_back' lend.id %}">Vrni</a>
 	</div>
-{% endblock %}
-
-{% block content-related-right %}
-  <div class="module" id="recent-actions-module">
+    	{% endif %}
 </div>
-  <div class="module" id="recent-actions-module">
-    <h2>Izposojena oprema</h2>
-  	 <ul class="actionlist">
-		{% box_list Lend "returned=False" "template=org/list_lend.html" %}
+<div class="well">
+	<ul class="nav nav-list">
+		<li class="nav-header">Uredi reverz</li>
+
+		<li>
+			{% include "org/lend_form.html" %}
+		</li>
 	</ul>
 </div>
+{% endblock %}
+
+
+{% block content-main %}
+    {% include "org/lend_table.html" with objects=lends %}
 {% endblock %}

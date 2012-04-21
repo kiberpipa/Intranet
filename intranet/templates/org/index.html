@@ -2,18 +2,7 @@
 {% load box i18n %}
 {% load url from future %}
 
-{% block extrahead %}
-<script>
-  $(document).ready(function(){
-    $('#id_date').datepicker({firstDay: 1});
-    $('#id_due_by').datepicker({firstDay: 1});
-    $('#id_due_date').datepicker({firstDay: 1});
-    });
-</script>
-{% endblock %}
-
 {% block navigation %}
-
 <div class="well" style="overflow: hidden;">
 	<div class="module">
 		<img alt="random rageface" title="Welcome to tha njuw intranetz!" src="{{ settings.STATIC_URL }}org/images/rageface/{{ rageface }}" width="200" height="200" style="margin-bottom: 1em;"/>
@@ -44,23 +33,6 @@
 
 {% block title %}
 	{% trans "Basic overview" %}
-{% endblock %}
-
-{% block content-related-left %}
-  <div class="module">
-    <h2 class="expand"><img src="{{ settings.STATIC_URL }}org/images/expand.gif" alt="expand diary" />{% trans "Add diary" %}</h2>
-    <div id="diary_box" class="hideme">{% include "org/content/diary_form.html" %}</div>
-  </div>
-
-  <div class="module">
-    <h2 class="expand"><img src="{{ settings.STATIC_URL }}org/images/expand.gif" alt="expand lends" />{% trans "Loan equipment" %}</h2>
-    <div id="lend_box" class="hideme">
-      {% include "org/content/lend_form.html" %}
-    </div>
-  </div>
-  
-  <div class="module">
-  </div>
 {% endblock %}
 
 {% block content-main %}

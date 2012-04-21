@@ -5,11 +5,10 @@ import httplib
 import datetime
 from datetime import date
 
-from chosen.widgets import ChosenSelectMultiple
+from chosen.widgets import ChosenSelectMultiple, ChosenSelect
 from django import forms
 from django.contrib.auth.models import User
 from django.forms.util import ErrorList
-from django.forms.models import ModelChoiceField
 from django.utils.formats import get_format
 from django.utils.translation import ugettext_lazy as _
 
@@ -197,11 +196,16 @@ class EventForm(forms.ModelForm):
 
 
 class LendForm(forms.ModelForm):
-    from_who = ModelChoiceField(User.objects.filter(is_active=True).order_by('username'))
-
     class Meta:
         model = Lend
-        fields = ('what', 'to_who', 'from_who', 'contact_info', 'due_date',)
+        fields = ('what', 'from_who', 'to_who', 'contact_info', 'due_date',)
+        widgets = {
+            'from_who': ChosenSelect(overlay=u''),
+        }
+
+    def __init__(self, *a, **kw):
+        super(LendForm, self).__init__(*a, **kw)
+        self.fields['from_who'].queryset = User.objects.filter(is_active=True).order_by('username')
 
 
 class ShoppingForm(forms.ModelForm):

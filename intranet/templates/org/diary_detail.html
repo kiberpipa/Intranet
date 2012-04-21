@@ -1,14 +1,6 @@
 {% extends "org/base_bootstrap_fluid.html" %}
 {% load box %}
 
-{% block extrahead %}
-<script>
-  $(document).ready(function(){
-    $('#id_date').datepicker({firstDay: 1});
-    });
-</script>
-{% endblock %}
-
 {% block title %}
 	Dnevnik #{{ object.id }}
 {% endblock %}

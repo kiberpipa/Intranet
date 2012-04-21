@@ -466,11 +466,11 @@ class StickyNote(models.Model):
 
 
 class Lend(models.Model):
-    what = models.CharField(max_length=200, verbose_name='Predmet')
+    what = models.CharField(max_length=200, verbose_name=_(u'Predmet'))
     to_who = models.CharField(max_length=200, verbose_name='Komu', blank=True, null=True)
     from_who = models.ForeignKey(User, verbose_name='Odobril')
     from_date = models.DateField(default=date.today())
-    due_date = models.DateField(default=(date.today() + timedelta(days=1)))
+    due_date = models.DateField(default=(date.today() + timedelta(days=1)), verbose_name=_(u'Due date'))
     contact_info = models.CharField(max_length=100, verbose_name='Kontakt', blank=True, null=True)
     why = models.CharField(max_length=200, verbose_name='Namen', blank=True, null=True)
     returned = models.BooleanField(default=False)
