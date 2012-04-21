@@ -21,15 +21,20 @@
 	</td>
 	<td>{{ event.project }}</td>
 	<td>
-		{% if event.video.all %}
-			{% for video in event.video.all %}
-				<a title="{{ video.title }}" href="{{ video.get_absolute_url }}"><i class="icon-film"></i></a>
-			{% endfor %}
-		{% else %}
-			<i class="icon-disabled icon-film" title="{% trans 'Awaiting upload' %}"></i>
-		{% endif %}
-		{% if not event.require_video %}
+		{% if not event.require_photo and not event.require_video %}
 			<span class="badge badge-success">Ne potrebuje</span>
+		{% endif %}
+
+		{% if event.require_video %}
+			{% if event.video.all %}
+				{% for video in event.video.all %}
+					<a title="{{ video.title }}" href="{{ video.get_absolute_url }}"><i class="icon-film"></i></a>
+				{% endfor %}
+			{% else %}
+				<i class="icon-disabled icon-film" title="{% trans 'Awaiting upload' %}"></i>
+			{% endif %}
+		{% else %}
+			<i class="icon-blank" title="{% trans 'Video not needed' %}"></i>
 		{% endif %}
 
 		{% if event.require_photo %}
@@ -39,7 +44,7 @@
 				<a href="{% url 'event_edit' event.id %}#id_flickr_set_id" class="btn btn-mini"><i class="icon-picture icon-disabled"></i> Vnesi</a>
 			{% endif %}
 		{% else %}
-			<i class="icon-blank" title="{% trans 'No photos' %}"></i>
+			<i class="icon-blank" title="{% trans 'Photos not needed' %}"></i>
 		{% endif %}
 	</td>
 	<td>
