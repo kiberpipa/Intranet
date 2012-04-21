@@ -23,25 +23,7 @@
 {% block content-main %}
   <div class="module">
     {% if object_list %}
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Ime</th>
-            <th>Projekt</th>
-            <th><i class="icon-film"></i> Video</th>
-            <th><i class="icon-picture"></i> Slike</th>
-            <th><i class="icon-user"></i> Tehnik</th>
-            <th><i class="icon-calendar"></i> Začetek</th>
-            <th><i class="icon-calendar"></i> Konec</th>
-          </tr>
-        </thead>
-        <tbody>
-        {% for event in object_list %}  
-          {% print_event event %}
-        {% endfor %}
-        </tbody>
-      </table>
-      <br/>
+      {% include 'org/event_table.html' with object_list=object_list %}
     {% else %}
       <p>Ni dogodkov.</p>
     {% endif %}

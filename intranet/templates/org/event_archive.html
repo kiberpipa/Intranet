@@ -22,29 +22,7 @@
 {% endblock %}
 
 {% block content-main %}
-<div class="module">
-    <table class="table">
-        <thead>
-          <tr>
-            <th><i class="icon-calendar"></i> Datum</th>
-            <th><i class="icon-barcode"></i> Naslov</th>
-            <th><i class="icon-file"></i> Projekt</th>
-            <th><i class="icon-film"></i><i class="icon-picture"></i> {% trans "Media" %}</th>
-            <th><i class="icon-user"></i> Tehniki</th>
-          </tr>
-        </thead>
-        <tbody>
-            {% for title, query in events %}
-                {% if query %}
-                    <tr class="heading"><td colspan="6">{{ title }}</td></tr>
-                    {% for event in query %}  
-                      {% print_event event %}
-                    {% endfor %}
-                {% else %}
-
-                {% endif %}
-            {% endfor %}
-        </tbody>
-    </table>
-  </div>
+<div class="module"> 
+  {% include 'org/event_table.html' with events=events%}
+</div>
 {% endblock %}
