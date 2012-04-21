@@ -2,14 +2,23 @@
 {% load url from future %}
 <tr>
 	<td>
-        {% if event.start_date|date:"D, d.m.Y" == event.end_date|date:"D, d.m.Y" %}
-            {{ event.start_date|date:"d.m.Y (D)" }}<br/>
-            {{ event.start_date|date:" H:i" }}-{{ event.end_date|date:"H:i" }}
-        {% else %}
-            {{ event.start_date|date:"d.m.Y (D) H:i" }}<br/>
-    	    {{ event.end_date|date:"d.m.Y (D) H:i " }}
-	    {% endif %}
-    </td>	<td><a href="{% url 'event_edit' event.id %}">{{ event.title }}</a></td>
+		{% if event.start_date|date:"D, d.m.Y" == event.end_date|date:"D, d.m.Y" %}
+			{{ event.start_date|date:"d.m.Y (D)" }}<br/>
+			{{ event.start_date|date:" H:i" }}-{{ event.end_date|date:"H:i" }}
+		{% else %}
+			{{ event.start_date|date:"d.m.Y (D) H:i" }}<br/>
+			{{ event.end_date|date:"d.m.Y (D) H:i " }}
+		{% endif %}
+	</td>
+	<td>
+		<a href="{% url 'event_edit' event.id %}">{{ event.title }}</a>
+		{% if not event.public %}
+		<span class="badge badge-info">Interni</span>
+		{% endif %}
+		{% if event.visitors %}
+		<span class="badge badge-info">{{ event.visitors }} Udeležencev</span>
+		{% endif %}
+	</td>
 	<td>{{ event.project }}</td>
 	<td>
 		{% if event.require_video %}
@@ -41,7 +50,8 @@
 					<!-- TODO: link to diary -->
 					<i class="icon-facetime-video" title="{% trans 'Techie' %}"></i> {{ technician }}
 					{% if technician == user %}
-					<br /><a class="btn btn-mini" href="/intranet/tehniki/cancel/{{ event.id }}/">{% trans "Sign off" %}</a>
+					<br />
+					<a class="btn btn-mini" href="/intranet/tehniki/cancel/{{ event.id }}/">{% trans "Sign off" %}</a>
 					{% endif %}
 					<br />
 				{% endfor %}
