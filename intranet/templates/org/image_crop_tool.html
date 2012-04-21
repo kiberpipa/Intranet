@@ -1,4 +1,4 @@
-{% extends "org/base.html" %}
+{% extends "org/base_bootstrap.html" %}
 {% load honeypot i18n %}
 {% block extrahead %}
 <script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.highlightFade.js" ></script>
@@ -64,8 +64,8 @@ $(document).ready(function () {
 {% block title %}Slike{% endblock %}
 
 {% block content %}
-<div id="content" class="colMS">
-    <h2>Nalaganje slike</h2>
+<div class="row-fluid">
+    <div class="span3">
     <div id="content-related" class="sidebar">
         <div id="recent-actions-module" class="module">
             <h2>Nalaganje slike</h2>
@@ -77,13 +77,12 @@ $(document).ready(function () {
                 <label for="id_title">Opis slike</label><input type="text" id="id_title" name="title" />
                 <input type="hidden" id="id_resized_filename" name="resized_filename" />
             </form>
-            <input type="submit" id="id_imageok" name="imageok" value="Dobro bo" />
+            <input class="btn btn-primary" type="submit" id="id_imageok" name="imageok" value="Dobro bo" />
             <div id="message">&nbsp;</div>
         </div>
     </div>
-</div>
-
-<div id="content-full" class="flex">
+    </div>
+    <div class="span9">
     <div class="module">
         <h2>Formatiranje slike</h2>
 
@@ -91,6 +90,7 @@ $(document).ready(function () {
         <form id="resizeform" action="" method="POST">
             {{ form.as_p }}
         </form>
+    </div>
     </div>
 </div>
 {% endblock %}

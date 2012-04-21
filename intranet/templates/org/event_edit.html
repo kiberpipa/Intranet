@@ -10,13 +10,12 @@
 	<script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.ajaxUpload.js" ></script>
 	<script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.imgareaselect-0.6.1.min.js" ></script>
 	<script type="text/javascript">
-function imgResized(img, sel) {
-    var result = new Array(sel.x1, sel.x2, sel.y1, sel.y2)
-    $("#id_resize").attr("value", result.join(','));
-}
 
 $(document).ready(function() {
-	return false;
+    function imgResized(img, sel) {
+	var result = new Array(sel.x1, sel.x2, sel.y1, sel.y2)
+	$("#id_resize").attr("value", result.join(','));
+    }
 
     $("#id_image").change(function(){
         $.ajaxFileUpload
@@ -83,42 +82,41 @@ $(document).ready(function() {
         }
         // update image
         $('#id_event_image').change();
-    });
+     });
+	$('#add_author').click(function(e) {
+		e.preventDefault();
+		a = $('#author_field');
+
+		function add_author(author, type) {
+		    author = $.trim(author);
+
+		    if (author.length === 0)
+			return;
+
+		    formatted = author + " - " + type;
+		    opt_exists = false;
+		    $('#authorsid > option').each(function() {
+			if ($(this).text() === formatted) {
+			    opt_exists = true;
+			    return false;
+			}
+		    });
+
+		    if (!opt_exists) {
+			opt = $('<option></option>');
+			opt.attr({'selected': 'true'}).text(formatted);
+			$('#authorsid').append(opt).trigger("liszt:updated");
+			return true;
+		    }
+		    return false;
+		}
+
+		if (add_author(a.val(), $('#type_id option:selected').text())) {
+			a.val("");
+		}
+    	});
 });
-
-    function add_author_click() {
-        a = $('#author_field');
-        if (add_author(a.val(), $('#type_id option:selected').text()))
-            a.val("");
-    }
-
-    function add_author(author, type) {
-        author = $.trim(author);
-
-        if (author.length === 0)
-            return;
-
-        formatted = author + " - " + type;
-        opt_exists = false;
-        $('#authorsid > option').each(function() {
-            if ($(this).text() === formatted) {
-                opt_exists = true;
-                return false;
-            }
-        });
-
-        if (!opt_exists) {
-            opt = $('<option></option>');
-            opt.attr({'selected': 'true'}).text(formatted);
-            $('#authorsid').append(opt).trigger("liszt:updated");
-            return true;
-        }
-        return false;
-    }
 </script>
-<style type="text/css">      
-  h3 {background:#f5f5f5 none repeat scroll 0 0;}
-</style>
 {% endblock %}
 
 {% block title %}
@@ -187,7 +185,7 @@ $(document).ready(function() {
 			        	<option value="{{ t.id }}">{{ t }}</option>
 						{% endfor %}
 		        	</select>
-						<button class="btn" onclick="add_author_click()">+</button>
+				<button class="btn" id="add_author"><i class="icon-plus"></i></button>
 					</p>
 				</div>
 			</div>
@@ -201,7 +199,8 @@ $(document).ready(function() {
 	    	<div class="control-group {% if form.event_image.errors %}error{% endif %}">
 				<label class="control-label" for="{{ form.event_image.html_name }}">{{ form.event_image.label }}</label>
 				<div class="controls">
-					{{ form.event_image }} <button href="/intranet/image_crop_tool/" target="_blank">+</button>
+				  {{ form.event_image }}
+				  <a class="btn" href="/intranet/image_crop_tool/" target="_blank"><i class="icon-plus"></i></a>
 					<span class="help-inline">{{ form.event_image.errors }}</span>
 
 			    <div id="ajax_img">
