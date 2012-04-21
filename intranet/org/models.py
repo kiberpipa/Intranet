@@ -392,29 +392,6 @@ class Sodelovanje(models.Model):
         super(Sodelovanje, self).save()
 
 
-# opravila v pipi
-##XXX DEPRECIATED, use Project instead
-class Task(models.Model):
-    title = models.CharField(max_length=100)
-    responsible = models.ForeignKey(User, blank=True, null=True)
-    note = models.TextField(blank=True)
-
-    pub_date = models.DateTimeField(auto_now_add=True)
-    chg_date = models.DateTimeField(auto_now=True)
-
-    def __unicode__(self):
-        return self.title
-
-    class Meta:
-        verbose_name = 'Opravilo'
-        verbose_name_plural = 'Opravila'
-
-    class Admin:
-        search_fields = ['title', 'note']
-        list_display = ['title', 'responsible']
-        js = ('js/tags.js',)
-
-
 # dnevnik dezurnih
 class Diary(models.Model):
     author = models.ForeignKey(User, related_name="diary_author", verbose_name=_("Author"))
