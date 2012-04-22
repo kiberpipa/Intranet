@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from django.forms.util import ErrorList
 from django.utils.formats import get_format
 from django.utils.translation import ugettext_lazy as _
+from tinymce.widgets import TinyMCE
 
 from intranet.org.models import (Event, Project, Lend,
                                  Diary, Shopping, IntranetImage)
@@ -222,6 +223,9 @@ class ShoppingForm(forms.ModelForm):
         self.fields['project'].help_text = ''
 
 
+DIARY_BUTTONS = 'bold,italic,underline,strikethrough,separator,bullist,numlist,separator,link,image,separator,fullscreen'
+
+
 class DiaryForm(forms.ModelForm):
     class Meta:
         model = Diary
@@ -230,6 +234,8 @@ class DiaryForm(forms.ModelForm):
             'date': DateTimeWidget,
             'event': SelectWidget(),
             'task': SelectWidget(),
+            'log_formal': TinyMCE(mce_attrs={'theme_advanced_buttons1': DIARY_BUTTONS}),
+            'log_informal': TinyMCE(mce_attrs={'theme_advanced_buttons1': DIARY_BUTTONS}),
         }
 
     def __init__(self, *a, **kw):

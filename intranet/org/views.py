@@ -577,7 +577,9 @@ class DetailDiary(DetailView):
 class ArchiveIndexDiary(ArchiveIndexView):
     date_field = 'date'
     allow_empty = True
+    allow_future = True
     paginate_by = 50
+    month_format = '%m'
 
     post = ArchiveIndexView.get
 
@@ -603,6 +605,7 @@ class MixinArchiveDiary(object):
     date_field = 'date'
     allow_empty = True
     allow_future = True
+    month_format = '%m'
 
 
 class YearArchiveDiary(MixinArchiveDiary, YearArchiveView):
@@ -769,6 +772,7 @@ class MixinArchiveEvent(object):
     date_field = 'start_date'
     allow_empty = True
     allow_future = True
+    month_format = '%m'
 
 
 class YearArchiveEvent(MixinArchiveEvent, YearArchiveView):
@@ -783,6 +787,7 @@ class ArchiveIndexEvent(ArchiveIndexView):
     model = Event
     date_field = 'start_date'
     allow_empty = True
+    allow_future = True
     paginate_by = 50
 
     post = ArchiveIndexView.get

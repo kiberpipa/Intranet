@@ -2,15 +2,11 @@
 {% load box i18n %}
 
 {% block extrahead %}
-	<script type="text/javascript" src="{{ settings.STATIC_URL }}tiny_mce/tiny_mce.js"></script>
-
-	<!-- not sure what of this we still need, do check! -->
+	<!-- TODO: not sure what of this we still need, do check! -->
 	<script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.highlightFade.js" ></script>
-	<script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.suggest.js" ></script>
 	<script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.ajaxUpload.js" ></script>
 	<script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.imgareaselect-0.6.1.min.js" ></script>
 	<script type="text/javascript">
-
 $(document).ready(function() {
     function imgResized(img, sel) {
 	var result = new Array(sel.x1, sel.x2, sel.y1, sel.y2)

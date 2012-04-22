@@ -14,11 +14,6 @@ from intranet.org.models import Scratchpad
 register = Library()
 
 
-@register.inclusion_tag('org/showcomments.html')
-def loadcomments(object, user):
-    return {'object': object, 'user': user}
-
-
 @register.inclusion_tag('org/box_plache.html')
 def box_plache(diarys, user):
     """summarize paid, unpaid time for given period of diaries"""
@@ -78,9 +73,10 @@ def box_scratchpad(user):
     return {'object': scratchpad}
 
 
-@register.inclusion_tag('org/print_diary.html')
-def print_diary(form):
-    return {'object': form}
+@register.inclusion_tag('org/print_diary.html', takes_context=True)
+def print_diary(context, obj):
+    context['object'] = obj
+    return context
 
 
 @register.inclusion_tag('org/print_event.html', takes_context=True)

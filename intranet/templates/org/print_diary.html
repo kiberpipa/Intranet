@@ -1,4 +1,4 @@
-{% load gravatar %}
+{% load gravatar i18n %}
 <div class="diary T{{ object.task.id }} P{{ object.project.id }}">
 	<div class="profile_image profile_image_fake">
 	<a href="../addressbook/#{{ object.author.username }}">
@@ -15,7 +15,7 @@
 		<span class="username"><a class="nohover" href="../addressbook/#{{ object.author.username }}">@{{ object.author.username }}</a></span>
 		<span class="duration">trajanje: {{ object.length|time:"G:i" }}</span><br/>
 
-		{% if object.log_formal %}
+	{% if object.log_formal %}
 	    <p class="formal">{{ object.log_formal|urlize|linebreaksbr }}</p>
     	{% endif %}
 	    {% if object.log_informal %}
@@ -23,9 +23,16 @@
 	    {% endif %}
          
         {% if object.is_paid %}
-    		<span class="filed">Filed for the term of {{ object.date|date:"l d.m.Y H:i"|capfirst }} ({{ object.length|date:"H:i" }})<br/>on <a href="/intranet/diarys/{{ object.id }}/">{{ object.pub_date|date:"l d.m.Y H:i"|capfirst }}</a> under #{{ object.task }}</span>
+	<span class="filed">{% trans "Filed for the term of" %} {{ object.date|date:"l d.m.Y H:i"|capfirst }} ({{ object.length|date:"H:i" }})
+	<br/>{% trans "on" %} <a href="/intranet/diarys/{{ object.id }}/">{{ object.pub_date|date:"l d.m.Y H:i"|capfirst }}</a> {% trans "under" %} #{{ object.task }}</span>
         {% else %}
-    		<span class="filed">Filed on <a href="/intranet/diarys/{{ object.id }}/">{{ object.date|date:"l d.m.Y H:i"|capfirst }}</a> under #{{ object.task }}</span>
+	<span class="filed">{% trans "Filed on" %}
+		<a href="/intranet/diarys/{{ object.id }}/">{{ object.date|date:"l d.m.Y H:i"|capfirst }}</a>
+		{% trans "under" %} #{{ object.task }}</span>
+    	{% endif %}
+
+	{% if object.author == user %}
+		<a class="btn btn-primary edit" href="/intranet/diarys/{{ object.id }}/">Uredi dnevnik</a>
     	{% endif %}
 	</div>
 </div>

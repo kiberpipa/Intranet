@@ -5,6 +5,7 @@ from django.conf.urls.i18n import i18n_patterns
 from django.views.generic import ListView, TemplateView
 from feedjack.models import Post
 
+
 urlpatterns = patterns('',
     (r'^intranet/', include('intranet.org.urls')),
     (r'^i18n/', include('django.conf.urls.i18n')),
