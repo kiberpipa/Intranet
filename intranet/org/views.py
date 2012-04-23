@@ -768,7 +768,7 @@ def event_template(request, year=0, week=0):
 
 
 class MixinArchiveEvent(object):
-    queryset = Event.objects.all().order_by('start_date')
+    queryset = Event.objects.select_related().prefetch_related('officers_on_duty', 'video', 'technician').order_by('start_date')
     date_field = 'start_date'
     allow_empty = True
     allow_future = True
