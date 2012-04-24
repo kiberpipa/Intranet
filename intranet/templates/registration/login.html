@@ -1,4 +1,5 @@
-{% extends "org/base_bootstrap_fluid.html" %}
+{% extends "org/base_bootstrap_blank.html" %}
+{% load i18n %}
 {% load url from future %}
 
 {% block extrahead %}
@@ -7,25 +8,66 @@
 		$('#id_username').focus();
 	});
 </script>
+<style type="text/css">
+    .modal-body { margin-top:  15px; }
+    .alert { margin: -15px 0 3em 0; }
+    .errorlist { list-style-type: none; margin: 0; padding: 0; }
+</style>
 {% endblock %}
 
 {% block title %}Prijava{% endblock %}
 
-{% block content-main %}
-<div class="module">
-	{% if user.is_authenticated %}
-		<p>V sistem ste ze prijavljeni kot: <tt>{{ user.username }}</tt>. Če se želite prijaviti kot kdo drug uporabnik, 
-		   <a href="{% url 'account_logout' %}" title="Odjavite se in potem ponovno prijavite">se najprej odjavite</a>.
-		</p>
-    	{% else %}
-		<div id="loginbox">
-		    <form method="POST" action="" name="LoginForm" class="form-horizontal">
-			{{ form.as_p }}
-			{% csrf_token %}
-			<input class="btn btn-primary" name="prijava" value="Prijava" type="submit" />
-			<input type="hidden" id="next" name="next" value="{{next}}" />
-		    </form>
-		</div>
-	{% endif %}
+{% block content %}
+<div class="modal" id="loginModal">
+    <div class="modal-header modal-header modal-header-dark">
+        <a href="{% url 'intranet.org.views.index'  %}"><img id="logo" alt="Kiberpipa" src="{{ settings.STATIC_URL }}org/images/kiberpipa-intranet-white.png" alt="Kiberpipini intranet" width="259" height="45" /></a>
+    </div>
+    {% if user.is_authenticated %}
+    <div class="modal-body">
+        <p>V sistem ste že prijavljeni kot: <tt>{{ user.username }}</tt>.</p>
+        <p>Če se želite prijaviti kot kdo drug uporabnik, <a href="{% url 'account_logout' %}" title="Odjavite se in potem ponovno prijavite">se najprej odjavite</a>.</p>
+    </div>
+    {% else %}
+    <form method="POST" action="" name="LoginForm" class="form-horizontal">
+        <div class="modal-body">
+    		{% if form.non_field_errors %}
+              <div class="alert alert-error">
+                  <a class="close" data-dismiss="alert">×</a>
+                  {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <fieldset>
+                {% csrf_token %}
+                <input type="hidden" id="next" name="next" value="{{next}}" />
+
+                <div class="control-group {% if form.username.errors %}error{% endif %}"">
+                    <label class="control-label" for="id_{{ form.username.html_name }}">{{ form.username.label }}</label>
+                    <div class="controls">
+                        <input type="text" id="id_{{ form.username.html_name }}" name="{{ form.username.html_name }}" maxlength="30" >
+                        <span class="help-inline">{{ form.username.errors }}</span>
+                    </div>
+                </div>
+                <div class="control-group {% if form.password.errors %}error{% endif %}"">
+                    <label class="control-label" for="id_{{ form.password.html_name }}">{{ form.password.label }}</label>
+                    <div class="controls">
+                        <input type="password" id="id_{{ form.password.html_name }}" name="{{ form.password.html_name }}" maxlength="30" >
+                        <span class="help-inline">{{ form.password.errors }}</span>
+                    </div>
+                </div>
+                <div class="control-group {% if form.remember_me.errors %}error{% endif %}"">
+                    <label class="control-label" for="id_{{ form.remember_me.html_name }}"></label>
+                    <div class="controls">
+                        <input type="checkbox" id="id_{{ form.remember_me.html_name }}" name="{{ form.remember_me.html_name }}" maxlength="30" >
+                        <label class="help-inline" for="id_{{ form.remember_me.html_name}}">{{ form.remember_me.label }}</label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <input class="btn btn-primary" name="prijava" value="{% trans 'Login' %}" type="submit" />
+            </div>
+    </form>
+    {% endif %}
 </div>
 {% endblock %}

@@ -48,7 +48,6 @@
 	<script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery-ui-1.8.14.custom.min.js" ></script>
 	<script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery-ui-timepicker-addon.js" ></script>
 	<script type="text/javascript" src="{{ settings.STATIC_URL }}chosen/chosen.jquery.min.js"></script>
-	<script type="text/javascript" src="{{ settings.STATIC_URL }}tiny_mce/tiny_mce.js"></script>
 	<script type="text/javascript">
 	$(function () {
 		$(".chzn-select").chosen();
@@ -63,73 +62,8 @@
 
 	{% block extrahead %}{% endblock %}
 </head>
-{% block extrabody %}<body>{% endblock %}
-	<div class="navbar navbar-fixed-top">
-		<div class="navbar-inner">
-			<div class="container">
-				<div class="row-fluid">
-					<div class="span3">
-						<a href="/intranet/" class="brand">
-        		    		<img id="logo" alt="Kiberpipa" src="{{ settings.STATIC_URL }}org/images/kiberpipa-white.png" />
-				        </a>
-				     </div>
-				     <div class="span7" style="position: relative; height: 60px;">
-						<ul class="nav nav-tabs" style="position: absolute; bottom: 0;">
-				        	<li><a href="/intranet/events/">{% trans "Events" %}</a></li>
-						    <li><a class="active" href="/intranet/diarys/">{% trans "Diarys" %}</a></li>
-							<li><a href="/intranet/addressbook/">{% trans "Address book" %}</a></li>
-							<li><a href="/intranet/dezurni/">{% trans "On duty" %}</a></li>
-						    <li><a href="/intranet/wiki/">Wiki</a></li>
 
-							<li class="dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" href="#">Administracija <b class="caret"></b></a>
-								<ul class="dropdown-menu">
-									<li><a href="{% url 'lend_index' %}">{% trans "Lends" %}</a></li>
-						    		<li><a href="/intranet/shopping/">{% trans "Shopping" %}</a></li>
-						        	<li><a href="/intranet/mercenaries/">{% trans "Mercenaries" %}</a></li>
-									<li class="divider"></li>
-									<li><a href="{% url 'statistics_by_year' %}">{% trans "Statistics" %}</a></li>
-									<li><a href="/intranet/events/pr/">{% trans "PR" %}</a></li>
-									{% if user.is_staff %}
-									<li class="divider"></li>
-									<li><a href="/intranet/admin">{% trans "Administration" %}</a></li>
-									{% endif %}
-								</ul>
-							</li>
-						</ul>
-					</div>
+{% block content %}{% endblock %}
 
-					<div class="span2" style="height: 60px; position: relative;">
-						<p class="navbar-text pull-right" style="position: absolute; bottom: 0;">
-						{% if user.is_authenticated %}
-							{% trans "Welcome" %}&nbsp;{{ user.username }}!&nbsp;<a href="/intranet/accounts/logout/">{% trans "Logout" %}</a>
-						{% else %}
-							<a href="/intranet/accounts/login/">{% trans "Login" %}</a>
-						{% endif %}
-						</p>
-					</div>
-
-				</div>				
-			</div><!--/ .container -->
-		</div><!--/ .navbar-inner -->
-	</div><!--/ .navbar -->
-
-	<div class="container">
-		{% block content %}{% endblock %}
-
-		<footer>
-			<div class="row-fluid">
-				<div class="span3">&nbsp;</div>
-			
-				<div class="span7">
-					<p class="thanks">Intranet je kolektivno delo članov Kiberpipe. Posebne zahvale Boštjanu Špetiču (igzebedze), Dejanu Sahelšku (sahel), Juretu Čuhalevu (gandalfar), Almirju Kariču (redduck666, <a href="http://www.kiberpipa.org/sl/news/11315/almirju-v-spomin/">R.I.P.</a>), Gašperju Žejnu (hruske), Domnu Kožarju (iElectric) in Andražu Brodniku (brodul).</p>
-
-					<p>Izdelano z <a href="https://www.djangoproject.com/">Django</a> in <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a>. 
-					    <a target="_blank" href="https://dev.kiberpipa.org/projects/kiberpipa-intranet/issues/new">Prijavi napako <img alt="bug" src="{{ settings.STATIC_URL }}org/images/hrosc.png" title="Prijavi napako" style="height: 1.5em;"></a>.
-				    </p>
-				</div>
-			</div>
-		</footer>
-	</div>
 </body>
 </html>

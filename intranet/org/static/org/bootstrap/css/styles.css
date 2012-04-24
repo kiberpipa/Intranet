@@ -1,3 +1,54 @@
+body, p, span { font-family: Ubuntu, sans-serif; }
+body { padding-top: 80px; }
+
+a.nohover { color: black; }
+a.nohover:hover { text-decoration: none; }
+
+.icon-disabled { opacity:0.4; filter:alpha(opacity=40); }
+
+.navbar .nav-tabs { border-bottom: 0; }
+.title { border: 1px solid rgba(0, 0, 0, 0.05); padding: 19px 19px 5px 19px; border-radius: 5px 5px 0 0; background: inherit; }
+#navigation .well { padding: 8px 0; background: url('/static/org/images/hexellence.png'); }
+#navigation .module { padding: 0; margin: 15px 15px 15px 15px; border: none; }	
+
+#navigation input, #navigation textarea, #navigation select { max-width: 95%; }
 
 
-body { background: url('../../images/first_aid_kit.png") repeat-both;
+#content { background: url('/static/org/images/hexellence.png'); }
+
+#content .module { border: 1px solid rgba(0, 0, 0, 0.05); background: white; border-top: 0; padding: 19px; } 
+#content .footer-main { padding: 0; background: inherit; border: 1px solid rgba(0, 0, 0, 0.05); border-top: 0; border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; min-height: 0.8em;}
+
+.hero-unit { padding: 10px 10px 10px 60px; }
+
+.profile_image { width: 50px; float: left; }
+.profile_image_fake { display: inline-block; overflow: hidden; font-size: 10px; border: 1px solid black; height: 48px; width: 48px; text-align: center; vertical-align: middle;  }
+	
+
+.diary { border: 1px solid rgba(0, 0, 0, 0.05); background: white; border-top: 0;  padding: 19px; }
+.diary:hover { background: inherit; }
+.diary .diary-body { margin-left: 60px; }
+.diary hr { color: red; margin: -0.5em 0 0 0;}
+.diary .username { color: rgb(153,153,153); }	
+.diary .duration { color: rgb(153,153,153); float: right; }
+.diary .filed { display: inline-block; color: rgb(153,153,153); font-size: 12px; }
+.diary p.informal { margin-top: -0.5em; }
+
+.modal form { margin-bottom: 0; }
+
+		
+label[for='id_log_formal'], label[for='id_log_informal'] { width: 100%; }
+#id_log_formal { height: 125px; }
+#id_log_informal { height: 50px; }
+
+
+/* error messages for fields */
+form.form-horizontal .help-inline ul, form.form-horizontal .help-block ul { list-style-type: none; margin: 0; padding: 0;}
+form.error .help-block { color: black; }
+form.form-horizontal label.checkbox { display: inline; }
+
+/* modal dialog */
+.modal .modal-header-dark { background-color: #2C2C2C; color: white; border-top-left-radius: 5px; border-top-right-radius: 5px; }
+
+
+footer { padding: 3em 0 1em 0; color: lightgray; }

@@ -1,2 +1,16 @@
-{% extends "org/base_bootstrap_fluid.html" %}
-{% block title %}{{ title }}{% endblock %}
+{% extends "org/base_bootstrap_blank.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block content %}
+
+<div class="modal" id="loginModal">
+    <div class="modal-header modal-header-dark">
+        <img id="logo" alt="Kiberpipa" src="{{ settings.STATIC_URL }}org/images/kiberpipa-intranet-white.png" alt="Kiberpipini intranet" width="259" height="45" />
+    </div>
+    <div class="modal-body">
+        <p>Odjavljeni ste.</p>
+        <p><a href="{% url 'account_login' %}">Ponovna prijava</a>.</p>
+    </div>
+</div>
+{% endblock %}
