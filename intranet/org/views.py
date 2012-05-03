@@ -169,6 +169,7 @@ def index(request):
     # deployment
     rageface = random.choice(["angry-unhappy.png", "determined-challenge-accepted.png", "happy-big-smile.png", "happy-cuteness-overload.png", "happy-derpina-eyes-closed.png", "happy-derpina.png", "happy-epic-win.png", "happy-everything-went-better-than-expected.png", "happy-female.png", "happy-i-see-what-you-did-there.png", "happy-kitteh-smile.png", "happy-never-alone.png", "happy-oh-stop-it-you.png", "happy-pfftch.png", "happy-smile-he-he-he.png", "happy-smile.png", "happy-thumbs-up.png", "happy-yes.png", "misc-clean-all-the-things.png", "rage-unhappy.png", "sad-forever-alone-happy.png", "trees-happy-smoking.png", "troll-sincere-troll.png"])
 
+
     return render_to_response('org/index.html',
                               {'start_date': today,
                                 'end_date': nextday,

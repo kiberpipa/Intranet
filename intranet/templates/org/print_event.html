@@ -13,9 +13,10 @@
 	<td>
 		<a href="{% url 'event_edit' event.id %}">{{ event.title }}</a><br/>
 		
-    	{% for sodelovanje in event.sodelovanja %}
-        <span class="badge badge-info">{{ sodelovanje.person }} - {{ sodelovanje.tip }}</span>
-        {% endfor %}
+		{% for sodelovanje in event.sodelovanja.all %}
+		<span class="badge">{{ sodelovanje.person }} - {{ sodelovanje.tip }}</span>
+		<br />
+		{% endfor %}
 
 		{% if not event.public %}
 		<span class="badge badge-info">Interni</span>
