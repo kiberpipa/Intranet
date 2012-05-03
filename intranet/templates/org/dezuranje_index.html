@@ -63,12 +63,13 @@
 			{% for dezurni in day.dezurni %}
 				{% if dezurni.name %}
 			<td id='dezurni{{ forloop.counter }}'>
-				<a href="/intranet/diarys/{{ dezurni.admin_id }}/">{{ dezurni.name }}</a>
+			    <a href="#diary_{{ dezurni.admin_id }}" onclick="return diary('#diary_{{ dezurni.admin_id }}');">{{ dezurni.name }}</a>
+				<!-- a href="/intranet/diarys/{{ dezurni.admin_id }}/">{{ dezurni.name }}</a-->
 				<!--               	<a href="/intranet/dezuranje/view/{{ dezurni.admin_id }}">{{ dezurni.name }}</a> -->
 			</td>
 				{% else %}
 			<td id='dezurni{{ forloop.counter }}' class="free">
-				<a class="btn btn-mini" href="javascript:void(0);" onclick="return dezurni('{{ dezurni.unique }}')">Vpiši</a>
+				<a class="btn btn-mini" href="javascript:void(0);" onclick="return dezurni('{{ dezurni.unique }}');">Vpiši</a>
 			</td>
 				{% endif %}
 			{% endfor %}
@@ -87,30 +88,22 @@
 		{% endfor %}
 	{% endif %}
 
-<div id="dnevnikForm" style="display: none;">
-	<form class="well" action="/intranet/dezurni/add/" method="post" name="dnevnikForm" class="dnevnikForm">
-		<input type="hidden" name="uniqueSpot" value="" />
-
-		<label>Med dežuranjem sem počel naslednje stvari:</label>
-		<textarea name="log_formal" id="log_f" rows="10" placeholder="Pospravil server room."></textarea>
-
-		<label>Random stuff (neobvezno):</label>
-		<textarea name="log_informal" id="log_if" rows="5" placeholder="Iskal kreativne nove načine za zlorabo dela in plačila ;-)"></textarea>
-
-		<div class="form-actions">
-			<button type="submit" class="btn btn-primary">Vnesi</button>
-			<button class="btn" onclick="formImplode(this)">Prekliči</button>
-		</div>
-	</form>
-</div>
-
-
+    {% include "org/diary_form.html" %}
 {% endblock %}
 
 {% block extrahead%}
 <script type="text/javascript">
+    function diary(diary_id) {
+        window.location.hash = diary_id;
+        $(".diary").css("background", "white");
+        $(diary_id).fadeTo('slow', 0.1, function() { $(this).css("background", "inherit").fadeTo('slow', 1); });
+        
+        return false;
+    }
+
 	function dezurni(id) {
-		$('#dnevnikForm').show().find('input[name=uniqueSpot]').val(id);
+        $('#dnevnikForm').find('input[name=uniqueSpot]').val(id);
+        $('#dnevnikForm').modal();
 	}
 
 	$(document).ready(function () {

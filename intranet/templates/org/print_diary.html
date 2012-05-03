@@ -1,5 +1,6 @@
 {% load gravatar i18n %}
-<div class="diary T{{ object.task.id }} P{{ object.project.id }}">
+<div class="diary T{{ object.task.id }} P{{ object.project.id }}" id="diary_{{ object.id }}">
+    <a name="diary_{{ object.id }}"></a>
 	<div class="profile_image profile_image_fake">
 	<a href="../addressbook/#{{ object.author.username }}">
 		{% if object.author.get_profile.image %}
