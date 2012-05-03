@@ -1,4 +1,5 @@
 {% if object_list %}
+<div class="module" style="border: 0; padding: 0 0 1px 0">
 {% for task in object_list %}
 	<div class="alert alert-error">
 		<a class="close" data-dismiss="alert">×</a>
@@ -9,4 +10,5 @@
 		<span class="filed"><a href="{{ task.get_absolute_url }}">{{ task.post_date|date:"l d.m.Y"|capfirst }}</a>. Traja do {{ task.end_date }}.
 	</div>
 {% endfor %}
+</div>
 {% endif %}
