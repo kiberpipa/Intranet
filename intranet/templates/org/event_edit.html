@@ -7,6 +7,20 @@
 	<script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.ajaxUpload.js" ></script>
 	<script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.imgareaselect-0.6.1.min.js" ></script>
 	<script type="text/javascript">
+
+// get next Tuesday (d = 2), Wednesday (d = 3) etc.
+Date.prototype.getNextWeekDay = function (d) {
+    if (d) {
+        var next = this;
+        if (this.getDate() >= d)
+            next.setDate( this.getDate() - this.getDay() + 7 + d);
+        else
+            next.setDate( this.getDate() - this.getDay() + d);
+
+        return next;
+    }
+}
+
 $(document).ready(function() {
     function imgResized(img, sel) {
 	var result = new Array(sel.x1, sel.x2, sel.y1, sel.y2)
@@ -49,7 +63,12 @@ $(document).ready(function() {
         var time = now.getYear() + 1900 + '/' + (now.getMonth() + 1) + '/' + now.getDate() + ' 19:00';
         switch ($("#id_project option:selected").val()) {
             case '6': //su
-                $("#id_start_date").attr("value", time);
+                var next = now.getNextWeekDay(3); // get next wednesday
+                var start = next.getYear() + 1900 + '/' + (next.getMonth() + 1) + '/' + next.getDate() + ' 19:00';
+                var end = next.getYear() + 1900 + '/' + (next.getMonth() + 1) + '/' + next.getDate() + ' 20:00';
+
+                $("#id_start_date").attr("value", start);
+                $("#id_end_date").attr("value", end);
                 $("#id_category").attr("value", 3).trigger("liszt:updated"); //izobrazevanje
                 $("#id_place").attr("value", 2).trigger("liszt:updated"); //glavni prostor
                 $("#id_responsible").attr("value", "fry").trigger("liszt:updated"); //43, fry
@@ -58,7 +77,12 @@ $(document).ready(function() {
                 $('#id_event_image option[value=131]').attr('selected', 'selected');
                 break;
             case '14': //vip
-                $("#id_start_date").attr("value", time);
+                var next = now.getNextWeekDay(4); // get next thursday
+                var start = next.getYear() + 1900 + '/' + (next.getMonth() + 1) + '/' + next.getDate() + ' 19:00';
+                var end = next.getYear() + 1900 + '/' + (next.getMonth() + 1) + '/' + next.getDate() + ' 20:00';
+
+                $("#id_start_date").attr("value", start);
+                $("#id_end_date").attr("value", end);
                 $("#id_category").attr("value", 3).trigger("liszt:updated"); //izobrazevanje
                 $("#id_place").attr("value", 2).trigger("liszt:updated"); //glavni prostor
                 $("#id_responsible").attr("value", "teardrop").trigger("liszt:updated"); //45, klemen
@@ -67,7 +91,13 @@ $(document).ready(function() {
                 $('#id_event_image option[value=167]').attr('selected', 'selected');
                 break;
             case '1': //pot
-                $("#id_start_date").attr("value", time);
+                var next = now.getNextWeekDay(2); // get next tuesday
+                
+                var start = next.getYear() + 1900 + '/' + (next.getMonth() + 1) + '/' + next.getDate() + ' 19:00';
+                var end = next.getYear() + 1900 + '/' + (next.getMonth() + 1) + '/' + next.getDate() + ' 20:00';
+
+                $("#id_start_date").attr("value", start);
+                $("#id_end_date").attr("value", end);
                 $("#id_category").attr("value", 3).trigger("liszt:updated"); //izobrazevanje
                 $("#id_place").attr("value", 2).trigger("liszt:updated"); //glavni prostor
                 $("#id_responsible").attr("value", "lowkey").trigger("liszt:updated"); //42 lowkey
@@ -159,6 +189,13 @@ $(document).ready(function() {
 				<div class="controls">
 					{{ form.project }}
 					<span class="help-inline">{{ form.project.errors }}</span>
+
+                    <p class="help-block">
+                        Bližnjice: 
+                        <button class="btn btn-mini" onclick="$('#id_project').val(1).chosen().change(); return false" >POT</button>
+                        <button class="btn btn-mini" onclick="$('#id_project').val(6).chosen().change(); return false" >SU</button>
+                        <button class="btn btn-mini" onclick="$('#id_project').val(14).chosen().change(); return false" >VIP</button>
+                    </p>
 				</div>
 			</div>
 
