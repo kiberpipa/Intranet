@@ -190,12 +190,12 @@ $(document).ready(function() {
 					{{ form.project }}
 					<span class="help-inline">{{ form.project.errors }}</span>
 
-                    <p class="help-block">
-                        Bližnjice: 
-                        <button class="btn btn-mini" onclick="$('#id_project').val(1).chosen().change(); return false" >POT</button>
-                        <button class="btn btn-mini" onclick="$('#id_project').val(6).chosen().change(); return false" >SU</button>
-                        <button class="btn btn-mini" onclick="$('#id_project').val(14).chosen().change(); return false" >VIP</button>
-                    </p>
+					<p class="help-block">
+                        			Bližnjice: 
+						<button class="btn btn-mini" onclick="$('#id_project').val(1).trigger('liszt:updated'); return false" >POT</button>
+						<button class="btn btn-mini" onclick="$('#id_project').val(6).trigger('liszt:updated'); return false" >SU</button>
+						<button class="btn btn-mini" onclick="$('#id_project').val(14).trigger('liszt:updated'); return false" >VIP</button>
+					</p>
 				</div>
 			</div>
 
