@@ -3,7 +3,7 @@
 <tr>
 	<td>
 		{% if event.start_date|date:"D, d.m.Y" == event.end_date|date:"D, d.m.Y" %}
-			{{ event.start_date|date:"d.m.Y (D)" }}<br/>
+			{{ event.start_date|date:"d.m.Y"}}&nbsp;{{ event.start_date|date:"(D)" }}<br/>
 			{{ event.start_date|date:" H:i" }}-{{ event.end_date|date:"H:i" }}
 		{% else %}
 			{{ event.start_date|date:"d.m.Y (D) H:i" }}<br/>
@@ -11,7 +11,12 @@
 		{% endif %}
 	</td>
 	<td>
-		<a href="{% url 'event_edit' event.id %}">{{ event.title }}</a>
+		<a href="{% url 'event_edit' event.id %}">{{ event.title }}</a><br/>
+		
+    	{% for sodelovanje in event.sodelovanja %}
+        <span class="badge badge-info">{{ sodelovanje.person }} - {{ sodelovanje.tip }}</span>
+        {% endfor %}
+
 		{% if not event.public %}
 		<span class="badge badge-info">Interni</span>
 		{% endif %}
@@ -22,7 +27,8 @@
 	<td>{{ event.project }}</td>
 	<td>
 		{% if not event.require_photo and not event.require_video %}
-			<span class="badge badge-success">Ne potrebuje</span>
+			<i class="icon-blank" title="{% trans 'Video not needed' %}"></i>
+			<i class="icon-blank" title="{% trans 'Photos not needed' %}"></i>
 		{% endif %}
 
 		{% if event.require_video %}
