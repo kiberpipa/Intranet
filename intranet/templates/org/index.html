@@ -4,26 +4,30 @@
 
 {% block navigation %}
 <div class="well" style="overflow: hidden;">
-	<div class="module">
-		<img alt="random rageface" title="Welcome to tha njuw intranetz!" src="{{ settings.STATIC_URL }}org/images/rageface/{{ rageface }}" width="200" height="200" style="margin-bottom: 1em;"/>
+    <ul class="nav nav-list">
+        <li class="nav-header">{% trans "Ohhi!" %}</li>
+        <li>
+    		<img alt="random rageface" title="Welcome to tha njuw intranetz!" src="{{ settings.STATIC_URL }}org/images/rageface/{{ rageface }}" width="200" height="200" style="margin-bottom: 1em;"/>
 
-		<p>Dobrodošel v polikanem Intranetu. Please do some work!</p>
+	        <p>Dobrodošel v polikanem Intranetu. Please do some work!</p>
 
-		<p>Na desni imaš seznam opravil, ki čakajo na tvojo pozornost. Nič
-		hudega, če je prazen &mdash; naš <a
-		href="http://wiki.kiberpipa.org">wiki</a> vedno rabi novih in svežih
-		vsebin.  V skrajni sili se nariši na IRC kanal #kiberpipa na strežniku
-		irc.sioff.net in potarnaj, da ti je dolgčas.  Work will be found!  </p>
-	</div>
+	        <p>Na desni imaš seznam opravil, ki čakajo na tvojo pozornost. Nič
+	        hudega, če je prazen &mdash; naš <a
+	        href="http://wiki.kiberpipa.org">wiki</a> vedno rabi novih in svežih
+	        vsebin.  V skrajni sili se nariši na IRC kanal #kiberpipa na strežniku
+	        irc.sioff.net in potarnaj, da ti je dolgčas.  Work will be found!  </p>
+	    </li>
+    </ul>
 	
-	<div class="module">
-		<h2>{% trans "Scratchpad" %}</h2>
+    <ul class="nav nav-list">
+		<li class="nav-header">{% trans "Scratchpad" %}</li>
 
-		<p>Kracarka skupna oglasna deska. Kar nakracaš tu, bo vidno vsakemu
-		uporabniku intraneta.</p>
+        <li>
+    		<p>Kracarka skupna oglasna deska. Kar nakracaš tu, bo vidno vsakemu uporabniku intraneta.</p>
 
-		{% box_scratchpad user.id %}
-	</div>
+    		{% box_scratchpad user.id %}
+    	</li>
+	</ul>
 </div>
 {% endblock %}
 
