@@ -1,17 +1,21 @@
 body, p, span { font-family: Ubuntu, sans-serif; }
 body { padding-top: 80px; }
-
 a.nohover { color: black; }
 a.nohover:hover { text-decoration: none; }
-
 .icon-disabled { opacity:0.4; filter:alpha(opacity=40); }
 
+/* 60px high navbar, text at the bottom */
 .navbar .nav-tabs { border-bottom: 0; }
-.title { border: 1px solid rgba(0, 0, 0, 0.05); padding: 19px 19px 5px 19px; border-radius: 5px 5px 0 0; background: inherit; }
-#navigation .well { padding: 8px 0; background: url('/static/org/images/hexellence.png'); }
-#navigation .module { padding: 0; margin: 15px 15px 15px 15px; border: none; }	
+.navbar .row-fluid div { position: relative; height: 60px; }
+.navbar ul, .navbar .navbar-text { position: absolute !important; bottom: 0; }
 
+.title { border: 1px solid rgba(0, 0, 0, 0.05); padding: 19px 19px 5px 19px; border-radius: 5px 5px 0 0; background: inherit; }
+#navigation .well { padding: 8px 0; background: url('/static/org/images/hexellence.png'); overflow: hidden; }
+#navigation .module { padding: 0; margin: 15px 15px 15px 15px; border: none; }	
 #navigation input, #navigation textarea, #navigation select { max-width: 95%; }
+#navigation img.rageface { margin-bottom: 1em; }
+
+#footer img.bug { height: 1.5em; }
 
 
 #content { background: url('/static/org/images/hexellence.png'); }
@@ -33,6 +37,10 @@ a.nohover:hover { text-decoration: none; }
 .diary .duration { color: rgb(153,153,153); float: right; }
 .diary .filed { display: inline-block; color: rgb(153,153,153); font-size: 12px; }
 .diary p.informal { margin-top: -0.5em; }
+
+/* sticky notes use <p class="alert"> and has it's own paddings and stuff */
+.sticky { border: 0; padding: 0 0 1px 0; }
+
 
 .modal form { margin-bottom: 0; }
 

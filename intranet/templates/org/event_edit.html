@@ -156,7 +156,7 @@ $(document).ready(function() {
 {% block navigation %} 
 			<div class="well"> 
 				<div class="module">
-					<p><img src="{{ settings.STATIC_URL}}org/images/rageface/determined-challenge-accepted.png" title="YESYOUCAN!" alt="YESYOUCAN, OBAMALAND!" style="width: 80%; margin-bottom: 1em;"/></p>
+					<p><img src="{{ settings.STATIC_URL}}org/images/rageface/determined-challenge-accepted.png" style="width: 80%; margin-bottom: 1em;"/></p>
 
 					<p>Pri vnašanju podatkov o dogodku poskušaj biti čimbolj natančen/-a, ker se na to zanašajo tako obiskovalci kot tudi tehniki, ki bodo po dogodku obdelovali videoposnetek.  Če se ti podatki kasneje spremenijo (nov opis, drug ali dodatni predavatelj), se prosim potrudi in to tukaj zabeleži.</p>
 	
@@ -169,7 +169,7 @@ $(document).ready(function() {
 
 {% block content-main %}
 
-<div class="module" style="padding-left: 0; padding-right: 0; padding-bottom: 0;">
+<div class="module">
 <form class="form-horizontal" method="POST" action="" enctype="multipart/form-data"> 
 	<fieldset>
 		{% if form.errors %}
