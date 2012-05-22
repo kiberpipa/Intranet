@@ -47,6 +47,14 @@ $(document).ready(function() {
                }
           });
      });
+
+    $('#id_email').change(function (e) {
+    if ($(this).val()) {
+    $('.response').text("Prosim pritisnite Enter pri vnosu emaila")
+    };
+
+    });
+
     $('#subscribe_mailinglist').keypress(function (e) {
         var self = $(this);
         if (e.which === 13) {
