@@ -187,6 +187,8 @@ class EventTest(BaseCase):
         resp = self.client.post('/intranet/events/%s/emails/' % event_id, {'emails': email, 'enter_your_email': ''}, follow=True)
         self.assertEqual(resp.status_code, 200)
 
+        # TODO: test dezurni for events
+
         # volunteer
         resp = self.client.get('/intranet/events/%s/technician/take/' % event_id, follow=True)
         self.assertEqual(resp.status_code, 200)
@@ -199,7 +201,6 @@ class EventTest(BaseCase):
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content.find('%s/technician/cancel/' % event_id), -1)
 
-        # add diary
         diarydata = {
             'log_formal': 'no kidding',
             'log_informal': 'just joking',
@@ -207,8 +208,9 @@ class EventTest(BaseCase):
             'uniqueSpot': event_id,
             'enter_your_email': '',
         }
-        #resp = self.client.post('/intranet/tehniki/add/', diarydata, follow=True)
-        #self.assertEqual(resp.status_code, 200)
+
+        self.client.get('/intranet/events/%s/technician/take/' % event_id, follow=True)
+        resp = self.client.get('/event/dogodek-v-kleti-%s/' % event_id, follow=True)
         # TODO: add diary for event
 
         # test ical
@@ -243,6 +245,10 @@ class DiaryTest(BaseCase):
         self.client.login(username=TESTUSER, password=TESTPASSWORD)
 
         resp = self.client.get('/intranet/diarys/')
+        self.assertEqual(resp.status_code, 200)
+
+        # submit empty diary
+        resp = self.client.post('/intranet/diarys/add/', {'enter_your_email': ''})
         self.assertEqual(resp.status_code, 200)
 
         now = datetime.datetime.now()

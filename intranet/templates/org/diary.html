@@ -1,10 +1,15 @@
-{% extends "org/base_3col.html" %}
+{% extends "org/base_bootstrap_fluid.html" %}
 {% block title %}Dnevnik{% endblock %}
 {% load box %}
 
-{% block content-main %}
-<div class="module" id="recent-actions-module">
-      <h2>Uredi dnevnik</h2>
-      {% include "org/content/diary_form.html" %}
-</div>
+{% block navigation %}
+	<div class="well">
+		<ul class="nav nav-list">
+			<li id="add_diary" class="nav-header">Dodaj dnevnik</li>
+
+			<li>
+				{% include "org/content/diary_form.html" %}
+			</li>
+		</ul>
+	</div>
 {% endblock %} 

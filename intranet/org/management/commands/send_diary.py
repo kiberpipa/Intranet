@@ -41,8 +41,8 @@ class Command(BaseCommand):
                                                )
         # no technician
         no_tech = events.filter(require_technician__exact=True).filter(technician__isnull=True)
-        # no responsible (for future compatibility)
-        no_responsible = events.filter(responsible__isnull=True)
+        # no officers on duty
+        no_responsible = events.filter(require_officers_on_duty__exact=True).filter(officers_on_duty__isnull=True)
 
         if diaries or no_tech or no_responsible:
             pass

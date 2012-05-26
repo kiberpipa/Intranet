@@ -48,7 +48,7 @@
 			{% if event.flickr_set_id %}
 				<a href="{{ event.flickr_url }}"><i class="icon-picture"></i></a>
 			{% else %}
-				<a href="{% url 'event_edit' event.id %}#id_flickr_set_id" class="btn btn-mini"><i class="icon-picture icon-disabled"></i> Vnesi</a>
+				<a href="{% url 'event_edit' event.id %}#id_flickr_set_id" class="btn btn-mini btn-warning"><i class="icon-picture icon-disabled"></i> Vnesi</a>
 			{% endif %}
 		{% else %}
 			<i class="icon-blank" title="{% trans 'Photos not needed' %}"></i>
@@ -57,25 +57,29 @@
 	<td>
   	<!-- handle technicians -->
 		{% for technician in event.technician.all %}
-			<i class="icon-facetime-video" title="{% trans 'Techie' %}"></i> {{ technician }}
 			{% if user == technician %}
-				<a href="" class="badge"><i class="icon-edit" title="{% trans 'Add/Edit diary' %}"></i></a>
-			{% endif %}
+				{% if user.id in event.diaries.get_author_ids %}
+				<a href="{% url 'event_diary_edit' event_pk=event.id %}#add_diary" class="badge badge-success" title="{% trans 'Edit diary' %}">
+				{% else %}
+				<a href="{% url 'diary_list' %}?task=23&event={{ event.id }}&length={{ event.length|stringformat:".2d" }}:00:00&date={{ event.start_date|date:"Y/m/d H:s" }}#add_diary" class="badge badge-warning" title="{% trans 'Add diary' %}">
+				{% endif %}
+					<i class="icon-facetime-video" title="{% trans 'Technician' %}"></i> {{ technician }}
+					&nbsp;
+					<i class="icon-edit"></i>
+					&nbsp;
+				</a>
+				<a class="btn btn-mini" href="{% url 'event_technician_cancel' event.id %}">{% trans "Sign off" %}</a>
 			<br />
-		{% endfor %}
-		{% if user in event.technician.all %}
-			<a class="btn btn-mini" href="{% url 'event_technician_cancel' event.id %}">{% trans "Sign off" %}</a>
-		{% else %}
-			{% if event.require_technician and user not in event.officers_on_duty.all %}
-				<a href="{% url 'event_technician_take' event.id %}" class="btn btn-small" title="{% trans 'Volunteer as techie' %}"><i class="icon-facetime-video"></i></a>
+			{% else %}
+				<i class="icon-facetime-video" title="{% trans 'Techie' %}"></i> {{ technician }}
 			{% endif %}
-		{% endif %}
+		{% endfor %}
 
   	<!-- handle officers -->
 		{% for officer in event.officers_on_duty.all %}
 			{% if user == officer %}
 				{% if user.id in event.diaries.get_author_ids %}
-				<a href="{% url 'event_diary_edit' event_pk=event.id %}#add_diary" class="badge" title="{% trans 'Edit diary' %}">
+				<a href="{% url 'event_diary_edit' event_pk=event.id %}#add_diary" class="badge badge-success" title="{% trans 'Edit diary' %}">
 				{% else %}
 				<a href="{% url 'diary_list' %}?task=22&event={{ event.id }}&length={{ event.length|stringformat:".2d" }}:00:00&date={{ event.start_date|date:"Y/m/d H:s" }}#add_diary" class="badge badge-warning" title="{% trans 'Add diary' %}">
 				{% endif %}
@@ -90,6 +94,10 @@
 			{% endif %}
 			<br />
 		{% endfor %}
+
+		{% if event.require_technician and user not in event.officers_on_duty.all  and user not in event.technician.all %}
+			<a href="{% url 'event_technician_take' event.id %}" class="btn btn-small" title="{% trans 'Volunteer as techie' %}"><i class="icon-facetime-video"></i></a>
+		{% endif %}
 		{% if event.require_officers_on_duty and user not in event.technician.all and user not in event.officers_on_duty.all %}
 			<a href="{% url 'event_officer_take' event.id %}" class="btn btn-small" title="{% trans 'Volunteer as officer' %}"><i class="icon-user"></i></a>
 		{% endif %}

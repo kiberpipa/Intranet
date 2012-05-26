@@ -510,9 +510,9 @@ def commit_hook(request):
 @login_required
 def diarys_form(request, id=None, action=None):
     if id:
-        diary_form = DiaryForm(request.POST, instance=Diary.objects.get(id=id))
+        diary_form = DiaryForm(request.POST or None, instance=Diary.objects.get(id=id))
     else:
-        diary_form = DiaryForm(request.POST)
+        diary_form = DiaryForm(request.POST or None)
 
     if request.method == "POST" and diary_form.is_valid():
         diary = diary_form.save(commit=False)
@@ -520,10 +520,10 @@ def diarys_form(request, id=None, action=None):
         diary.save()
         return HttpResponseRedirect(diary.get_absolute_url())
 
-    return render_to_response('org/diary.html', {
-        'diary_form': diary_form,
-        }, context_instance=RequestContext(request)
-    )
+    return render_to_response(
+        'org/diary.html',
+        {'diary_form': diary_form},
+        context_instance=RequestContext(request))
 
 
 class DetailDiary(DetailView):
