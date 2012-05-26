@@ -37,6 +37,7 @@ a.nohover:hover { text-decoration: none; }
 .diary .duration { color: rgb(153,153,153); float: right; }
 .diary .filed { display: inline-block; color: rgb(153,153,153); font-size: 12px; }
 .diary p.informal { margin-top: -0.5em; }
+.diary .edit { float: right }
 
 /* sticky notes use <p class="alert"> and has it's own paddings and stuff */
 .sticky { border: 0; padding: 0 0 1px 0; }
