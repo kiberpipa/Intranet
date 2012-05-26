@@ -9,7 +9,7 @@ class Migration(DataMigration):
     def forwards(self, orm):
         "Write your forwards methods here."
         for diary in orm.Diary.objects.all():
-            if diary.announce:
+            if diary.log_formal:
                 diary.log_formal = diary.log_formal.replace('\n', '<br />')
             if diary.log_informal:
                 diary.log_informal = diary.log_informal.replace('\n', '<br />')
