@@ -186,22 +186,16 @@ def index(request):
 
 @login_required
 def diarys_form(request, id=None, action=None):
-    if request.method == 'POST':
-        if id:
-            diary_form = DiaryForm(request.POST, instance=Diary.objects.get(id=id))
-        else:
-            diary_form = DiaryForm(request.POST)
-
-        if diary_form.is_valid():
-            diary = diary_form.save(commit=False)
-            diary.author = request.user
-            diary.save()
-            return HttpResponseRedirect(diary.get_absolute_url())
+    if id:
+        diary_form = DiaryForm(request.POST, instance=Diary.objects.get(id=id))
     else:
-        if id:
-            diary_form = DiaryForm(instance=Diary.objects.get(id=id))
-        else:
-            diary_form = DiaryForm()
+        diary_form = DiaryForm(request.POST)
+
+    if request.method == "POST" and diary_form.is_valid():
+        diary = diary_form.save(commit=False)
+        diary.author = request.user
+        diary.save()
+        return HttpResponseRedirect(diary.get_absolute_url())
 
     return render_to_response('org/diary.html', {
         'diary_form': diary_form,
