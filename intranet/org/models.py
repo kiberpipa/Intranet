@@ -270,7 +270,7 @@ class Event(models.Model):
 
     @property
     def length(self):
-        return (self.end_date - self.start_date).seconds / 3600.0
+        return int(round((self.end_date - self.start_date).seconds / 3600.0))
 
     def save(self):
         self.slug = slugify(self.title)
