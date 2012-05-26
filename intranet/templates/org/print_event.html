@@ -55,10 +55,12 @@
 		{% endif %}
 	</td>
 	<td>
-	  	<!-- handle technicians -->
+  	<!-- handle technicians -->
 		{% for technician in event.technician.all %}
-			<!-- TODO: link to diary -->
 			<i class="icon-facetime-video" title="{% trans 'Techie' %}"></i> {{ technician }}
+			{% if user == technician %}
+				<a href="" class="badge"><i class="icon-edit" title="{% trans 'Add/Edit diary' %}"></i></a>
+			{% endif %}
 			<br />
 		{% endfor %}
 		{% if user in event.technician.all %}
@@ -69,18 +71,27 @@
 			{% endif %}
 		{% endif %}
 
-	  	<!-- handle officers -->
+  	<!-- handle officers -->
 		{% for officer in event.officers_on_duty.all %}
-			<!-- TODO: link to diary -->
-			<i class="icon-user" title="{% trans 'Officer on duty' %}"></i> {{ officer }}
+			{% if user == officer %}
+				{% if user.id in event.diaries.get_author_ids %}
+				<a href="{% url 'event_diary_edit' event_pk=event.id %}#add_diary" class="badge" title="{% trans 'Edit diary' %}">
+				{% else %}
+				<a href="{% url 'diary_list' %}?task=22&event={{ event.id }}&length={{ event.length|stringformat:".2d" }}:00:00&date={{ event.start_date|date:"Y/m/d H:s" }}#add_diary" class="badge badge-warning" title="{% trans 'Add diary' %}">
+				{% endif %}
+					<i class="icon-user" title="{% trans 'Officer on duty' %}"></i> {{ officer }}
+					&nbsp;
+					<i class="icon-edit"></i>
+					&nbsp;
+				</a>
+				<a class="btn btn-mini" href="{% url 'event_officer_cancel' event.id %}">{% trans "Sign off" %}</a>
+			{% else %}
+				<i class="icon-user" title="{% trans 'Officer on duty' %}"></i> {{ officer }}
+			{% endif %}
 			<br />
 		{% endfor %}
-		{% if user in event.officers_on_duty.all %}
-			<a class="btn btn-mini" href="{% url 'event_officer_cancel' event.id %}">{% trans "Sign off" %}</a>
-		{% else %}
-			{% if event.require_officers_on_duty and user not in event.technician.all %}
-				<a href="{% url 'event_officer_take' event.id %}" class="btn btn-small" title="{% trans 'Volunteer as officer' %}"><i class="icon-user"></i></a>
-			{% endif %}
+		{% if event.require_officers_on_duty and user not in event.technician.all and user not in event.officers_on_duty.all %}
+			<a href="{% url 'event_officer_take' event.id %}" class="btn btn-small" title="{% trans 'Volunteer as officer' %}"><i class="icon-user"></i></a>
 		{% endif %}
 
 		{% if not event.require_technician and not event.require_officers_on_duty %}

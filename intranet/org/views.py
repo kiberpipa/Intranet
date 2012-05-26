@@ -3,7 +3,6 @@
 
 import datetime
 import os
-import re
 import csv
 import shutil
 import random
@@ -24,7 +23,6 @@ from django.utils import simplejson
 from django.db import models
 from PIL import Image
 
-from pipa.video.utils import prepare_video_zip
 from intranet.org.models import (Project, Email,
     Event, Shopping, Person, Sodelovanje, TipSodelovanja, Diary,
     Lend, Scratchpad)
@@ -168,7 +166,6 @@ def index(request):
     # path to the static dir is quite a chore with a multi-app django
     # deployment
     rageface = random.choice(["angry-unhappy.png", "determined-challenge-accepted.png", "happy-big-smile.png", "happy-cuteness-overload.png", "happy-derpina-eyes-closed.png", "happy-derpina.png", "happy-epic-win.png", "happy-everything-went-better-than-expected.png", "happy-female.png", "happy-i-see-what-you-did-there.png", "happy-kitteh-smile.png", "happy-never-alone.png", "happy-oh-stop-it-you.png", "happy-pfftch.png", "happy-smile-he-he-he.png", "happy-smile.png", "happy-thumbs-up.png", "happy-yes.png", "misc-clean-all-the-things.png", "rage-unhappy.png", "sad-forever-alone-happy.png", "trees-happy-smoking.png", "troll-sincere-troll.png"])
-
 
     return render_to_response('org/index.html',
                               {'start_date': today,
@@ -590,7 +587,7 @@ class ArchiveIndexDiary(ArchiveIndexView):
 
     def get_context_data(self, **kw):
         context = super(ArchiveIndexDiary, self).get_context_data(**kw)
-        context['diary_form'] = DiaryForm()
+        context['diary_form'] = DiaryForm(initial=self.request.GET.dict())
         context['filter'] = DiaryFilter(self.request.POST)
         return context
 
@@ -683,6 +680,10 @@ def event_edit(request, event_pk=None):
         }
     return render_to_response('org/event_edit.html', RequestContext(request, context))
 
+@login_required
+def event_diary_edit(request, event_pk):
+    diary_id = Diary.objects.filter(event__id=event_pk).filter(author=request.user).all()[0].id
+    return DetailDiary.as_view()(request, pk=diary_id)
 
 @login_required
 def event_count(request, event_id=None):
@@ -735,11 +736,21 @@ def event_template(request, year=0, week=0):
 
 
 class MixinArchiveEvent(object):
-    queryset = Event.objects.select_related().prefetch_related('officers_on_duty', 'video', 'technician').order_by('start_date')
+    queryset = Event.objects.load_related_fields().order_by('start_date')
     date_field = 'start_date'
     allow_empty = True
     allow_future = True
     month_format = '%m'
+
+    def get_context_data(self, **kw):
+        context = super(MixinArchiveEvent, self).get_context_data(**kw)
+
+        my_diaries = {}
+        for diary in Diary.objects.filter(event__in=context['object_list']).filter(author__exact=self.request.user).all():
+            my_diaries[diary.event.id] = diary
+        context['my_diaries'] = my_diaries
+        # TODO: cannot access dictionary by variable in templates
+        return context
 
 
 class YearArchiveEvent(MixinArchiveEvent, YearArchiveView):

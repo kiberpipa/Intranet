@@ -72,13 +72,19 @@ class EventQuerySet(QuerySet, EventMixin):
 
 
 class EventManager(models.Manager, EventMixin):
+    use_for_related_fields = True
+
     def get_query_set(self):
         return EventQuerySet(self.model, using=self._db)
+
+    def get_author_ids(self):
+        return self.values_list('author', flat=True)
 
 
 #####
 # Models
 #####
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=200, primary_key='True')
@@ -405,13 +411,15 @@ class Diary(models.Model):
     task = models.ForeignKey(Project, verbose_name=_("Project"))  # retained name for backwards compatibility
     date = models.DateTimeField(verbose_name=_("Start date"), default=date.today(), db_index=True)
     length = models.TimeField(default=datetime.time(4, 0), verbose_name=_("Duration"))
-    event = models.ForeignKey(Event, verbose_name=_("Event"), blank=True, null=True)
+    event = models.ForeignKey(Event, related_name="diaries", verbose_name=_("Event"), blank=True, null=True)
     log_formal = models.TextField(verbose_name=_("Formal log"))
     log_informal = models.TextField(verbose_name=_("Informal log"), blank=True, null=True)
 
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField(Tag, blank=True, null=True)
+
+    objects = EventManager()
 
     def __unicode__(self):
         #return "%s - %s: %s... (%s)" % (self.date.strftime('%x'), self.get_author(), self.log_formal[:66], self.length)
