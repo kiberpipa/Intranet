@@ -21,11 +21,11 @@
 <h2>Dnevniki</h2>
 {% for diary in diaries %}
 <strong>{{ diary.date }} - {{ diary.author }} - {{ diary.task }} - {{ diary.length }}</strong>
-<p>{{ diary.log_formal|linebreaksbr }}</p>
+<p>{{ diary.log_formal|safe }}</p>
 {% if diary.log_informal %}
 <br />
 <strong>neuradni del:</strong>
-<p>{{ diary.log_informal|linebreaksbr }}</p>
+<p>{{ diary.log_informal|safe }}</p>
 {% endif %}
 {% endfor %}
 
@@ -36,5 +36,5 @@
 <h2>Preteceni reverzi</h2>
 
 {% for lend in lends %}
-<p>{{ lend.what }} - {{ lend.to_who }} posodil {{ lend.from_who }} ({{ lend.days_due.days }} dni)</p>
+<p>{{ lend.what }} - {{ lend.to_who }} posodil {{ lend.from_who }} (vrni čez {{ lend.days_due.days }} dni)</p>
 {% endfor %}

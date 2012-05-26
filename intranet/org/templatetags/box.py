@@ -7,11 +7,18 @@ from django import template
 from django.template import Library
 from django.template import resolve_variable
 from django.core.exceptions import ObjectDoesNotExist
+from html2text import html2text as h2t
 
 from intranet.org.models import Scratchpad
 
 
 register = Library()
+
+
+@register.filter()
+def html2text(value):
+    """Convert HTML text to plaintext"""
+    return h2t(value)
 
 
 @register.inclusion_tag('org/box_plache.html')

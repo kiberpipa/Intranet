@@ -412,8 +412,8 @@ class Diary(models.Model):
     date = models.DateTimeField(verbose_name=_("Start date"), default=date.today(), db_index=True)
     length = models.TimeField(default=datetime.time(4, 0), verbose_name=_("Duration"))
     event = models.ForeignKey(Event, related_name="diaries", verbose_name=_("Event"), blank=True, null=True)
-    log_formal = models.TextField(verbose_name=_("Formal log"))
-    log_informal = models.TextField(verbose_name=_("Informal log"), blank=True, null=True)
+    log_formal = HTMLField(verbose_name=_("Formal log"))
+    log_informal = HTMLField(verbose_name=_("Informal log"), blank=True, null=True)
 
     pub_date = models.DateTimeField(auto_now_add=True)
     chg_date = models.DateTimeField(auto_now=True)

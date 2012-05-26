@@ -25,6 +25,7 @@ setup(name='intranet',
         # other
         'reportlab',
         'PyExcelerator',
+        'html2text',
         'pytz',
         'pygments',
         # intranet.org

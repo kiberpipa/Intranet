@@ -1,3 +1,4 @@
+{% load box %}
 {% load url from future %}
 {% if no_tech %}
 === Dogodki potrebujejo tehnika ===
@@ -16,10 +17,10 @@
 === Dnevniki ===
 {% for diary in diaries %}
 [ {{ diary.date }} - {{ diary.author }} - {{ diary.task }} - {{ diary.length }} ]
-{{ diary.log_formal }}
+{{ diary.log_formal|html2text }}
 {% if diary.log_informal %}
 --- neuradni del:
-{{ diary.log_informal }}
+{{ diary.log_informal|html2text }}
 {% endif %}
 {% endfor %}
 
@@ -29,5 +30,5 @@
 
 === Preteceni reverzi ===
 
-{% for lend in lends %}{{ lend.what }} - {{ lend.to_who }} posodil {{ lend.from_who }} ({{ lend.days_due.days }} dni)
+{% for lend in lends %}{{ lend.what }} - {{ lend.to_who }} posodil {{ lend.from_who }} (vrni čez {{ lend.days_due.days }} dni)
 {% endfor %}
