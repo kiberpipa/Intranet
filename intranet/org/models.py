@@ -59,6 +59,9 @@ class EventMixin(object):
         """Return public events"""
         return self.filter(public=True)
 
+    def load_related_fields(self):
+        """Return related fields that are needed when displaying relevant information"""
+        return self.select_related().prefetch_related('officers_on_duty', 'video', 'technician', "diaries", "sodelovanje_set")
 
     # TODO: average of visitors per event
     #by_project_events = q.values('project__name').annotate(num_visitors=models.Sum('visitors'), num_events=models.Count('project__name')).extra(tables=['org_project'])

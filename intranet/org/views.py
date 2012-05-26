@@ -770,10 +770,10 @@ class ArchiveIndexEvent(ArchiveIndexView):
         today = datetime.datetime.today()
         week_number = int(today.strftime('%W'))
         context['events'] = [
-            [u'Prejšni teden', Event.objects.get_week_events(today.year, week_number - 1)],
-            [u'Trenutni teden', Event.objects.get_week_events(today.year, week_number)],
-            [u'Naslednji teden', Event.objects.get_week_events(today.year, week_number + 1)],
-            [u'Čez dva tedna', Event.objects.get_week_events(today.year, week_number + 2)],
+            [u'Prejšni teden', Event.objects.get_week_events(today.year, week_number - 1).load_related_fields()],
+            [u'Trenutni teden', Event.objects.get_week_events(today.year, week_number).load_related_fields()],
+            [u'Naslednji teden', Event.objects.get_week_events(today.year, week_number + 1).load_related_fields()],
+            [u'Čez dva tedna', Event.objects.get_week_events(today.year, week_number + 2).load_related_fields()],
         ]
         return context
 
