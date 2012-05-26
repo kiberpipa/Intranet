@@ -207,8 +207,9 @@ class EventTest(BaseCase):
             'uniqueSpot': event_id,
             'enter_your_email': '',
         }
-        resp = self.client.post('/intranet/tehniki/add/', diarydata, follow=True)
-        self.assertEqual(resp.status_code, 200)
+        #resp = self.client.post('/intranet/tehniki/add/', diarydata, follow=True)
+        #self.assertEqual(resp.status_code, 200)
+        # TODO: add diary for event
 
         # test ical
         resp = self.client.get('/sl/calendar/ical/')
