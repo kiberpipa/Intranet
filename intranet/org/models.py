@@ -377,7 +377,7 @@ class Person(models.Model):
 
 
 class Sodelovanje(models.Model):
-    event = models.ForeignKey(Event, related_name="sodelovanja", blank=True, null=True)
+    event = models.ForeignKey(Event, blank=True, null=True)
     tip = models.ForeignKey(TipSodelovanja, blank=True, null=True)
     person = models.ForeignKey(Person)
     project = models.ForeignKey(Project, blank=True, null=True)

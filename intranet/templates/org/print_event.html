@@ -13,7 +13,7 @@
 	<td>
 		<a href="{% url 'event_edit' event.id %}">{{ event.title }}</a><br/>
 		
-		{% for sodelovanje in event.sodelovanja.all %}
+		{% for sodelovanje in event.sodelovanje_set.all %}
 		<span class="badge">{{ sodelovanje.person }} - {{ sodelovanje.tip }}</span>
 		<br />
 		{% endfor %}
