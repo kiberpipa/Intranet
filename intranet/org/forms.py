@@ -104,7 +104,7 @@ class DateTimeWidget(forms.widgets.TextInput):
         for fmt in [self.format] + list(get_format('DATETIME_INPUT_FORMATS')):
             try:
                 return datetime.datetime.strptime(value, fmt)
-            except ValueError:
+            except (ValueError, TypeError):
                 pass
 
 
