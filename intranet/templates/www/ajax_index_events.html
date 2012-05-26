@@ -3,7 +3,7 @@
 <div id="event{{ event.id }}" class="present-now">
 	<div class="present-event-date">
 		<strong {% if event.project.verbose_name %} title="{{ event.project.verbose_name }}"{% endif %}>{{ event.project|capfirst }}: </strong>
-		{{ event.start_date|date:"l, d. "|capfirst }}
+		{{ event.start_date|date:"D., d. "|capfirst }}
 		{{ event.start_date|date:"b Y"|capfirst }}
 		{% trans "at" %}
 		<strong>{{ event.start_date|date:"G:i" }}</strong>
