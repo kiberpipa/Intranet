@@ -181,25 +181,6 @@ def index(request):
                               context_instance=RequestContext(request))
 
 
-@login_required
-def diarys_form(request, id=None, action=None):
-    if id:
-        diary_form = DiaryForm(request.POST, instance=Diary.objects.get(id=id))
-    else:
-        diary_form = DiaryForm(request.POST)
-
-    if request.method == "POST" and diary_form.is_valid():
-        diary = diary_form.save(commit=False)
-        diary.author = request.user
-        diary.save()
-        return HttpResponseRedirect(diary.get_absolute_url())
-
-    return render_to_response('org/diary.html', {
-        'diary_form': diary_form,
-        }, context_instance=RequestContext(request)
-    )
-
-
 def monthly_navigation(year=None, month=None):
     month_prev = month - 1
     month_next = month + 1
@@ -240,28 +221,6 @@ def weekly_navigation(year=None, week=None, week_start=None, week_end=None):
 
     return {'prev': '%s/%s' % (year_prev, week_prev),
             'next': '%s/%s' % (year_next, week_next)}
-
-
-@login_required
-def tehniki_add(request):
-    id = request.POST['uniqueSpot']
-    if not id:
-        return HttpResponseRedirect('../')
-
-    event = Event.objects.get(pk=id)
-
-    p = Diary(
-        date=event.start_date,
-        event=event,
-        author=request.user,
-        task=Project.objects.get(pk=23),
-        log_formal=request.POST['log_formal'],
-        log_informal=request.POST['log_informal'],
-        length=datetime.time(int(request.POST.get('length', 1)), 0),
-    )
-    p.save()
-
-    return HttpResponseRedirect('../')
 
 
 @login_required
@@ -543,17 +502,28 @@ def commit_hook(request):
     return HttpResponse('OK')
 
 
-# generic views
 
 
-class DetailLend(DetailView):
-    model = Lend
+# diary
 
-    def get_context_data(self, **kw):
-        context = super(DetailLend, self).get_context_data(**kw)
-        context['lend_form'] = LendForm(instance=self.model.objects.get(id=self.kwargs['pk']))
-        context['lend_edit'] = True
-        return context
+
+@login_required
+def diarys_form(request, id=None, action=None):
+    if id:
+        diary_form = DiaryForm(request.POST, instance=Diary.objects.get(id=id))
+    else:
+        diary_form = DiaryForm(request.POST)
+
+    if request.method == "POST" and diary_form.is_valid():
+        diary = diary_form.save(commit=False)
+        diary.author = request.user
+        diary.save()
+        return HttpResponseRedirect(diary.get_absolute_url())
+
+    return render_to_response('org/diary.html', {
+        'diary_form': diary_form,
+        }, context_instance=RequestContext(request)
+    )
 
 
 class DetailDiary(DetailView):
@@ -608,7 +578,7 @@ class MonthArchiveDiary(MixinArchiveDiary, MonthArchiveView):
     pass
 
 
-# event views
+# events
 
 
 @login_required
@@ -783,7 +753,9 @@ class ArchiveIndexEvent(ArchiveIndexView):
         return context
 
 
-# shopping views
+# shopping
+
+
 class MixinShopping(object):
     model = Shopping
     form_class = ShoppingForm
@@ -870,11 +842,18 @@ class UpdateLend(MixinLend, UpdateView):
     template_name = "org/lend_detail.html"
 
 
-# this shouldn't be doable with get, make a form
+class DetailLend(DetailView):
+    model = Lend
+
+    def get_context_data(self, **kw):
+        context = super(DetailLend, self).get_context_data(**kw)
+        context['lend_form'] = LendForm(instance=self.model.objects.get(id=self.kwargs['pk']))
+        context['lend_edit'] = True
+        return context
 
 
 @login_required
-def lend_back(request, id=None):
+def lend_back(request, id=None):  # TODO: this shouldn't be doable with get, make a form
     lend = get_object_or_404(Lend, pk=id)
     if not lend.note:
         lend.note = ""
