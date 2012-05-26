@@ -635,34 +635,6 @@ def add_event_emails(request, event_id):
 
 
 @login_required
-def info_txt(request, event):
-    event = get_object_or_404(Event, pk=event)
-    content = []
-    if event.sodelovanje_set.all():
-        content.append(u'author: %s' % u', '.join([s.person.name for s in event.sodelovanje_set.all()]))
-    content.append(u'title: %s' % event.title)
-    content.append(u'date: %s' % event.start_date.strftime('%d.%m.%Y'))
-    content.append(u'cat: %s' % event.project)
-    desc = event.announce
-    desc = re.sub('\s+', ' ', re.sub('<.*?>', '', desc))
-    content.append(u'desc: %s' % (desc,))
-    content.append(u'url: http://www.kiberpipa.org%s' % event.get_absolute_url())
-    content.append(u'intranet-id: %s' % event.id)
-    response = HttpResponse(mimetype='application/octet-stream')
-    response['Content-Disposition'] = "attachment; filename=info.txt"
-    content_str = u'\n'.join(content)
-    response.write(content_str.encode('utf-8'))
-    return response
-
-
-@login_required
-def sablona(request, event):
-    event = get_object_or_404(Event, pk=event)
-    person = u', '.join([i.person.name for i in event.sodelovanje_set.all() if i.tip.id in (1, 5)]),
-    return prepare_video_zip(event.slug, event.title, event.start_date, person)
-
-
-@login_required
 def event_edit(request, event_pk=None):
     instance = None
     if event_pk is not None:
