@@ -598,6 +598,8 @@ def add_event_emails(request, event_id):
 @login_required
 def event_edit(request, event_pk=None):
     instance = None
+    authors = None
+
     if event_pk is not None:
         instance = get_object_or_404(Event.objects.select_related(), pk=event_pk)
 
@@ -637,6 +639,8 @@ def event_edit(request, event_pk=None):
                 i.delete()
 
             return HttpResponseRedirect(reverse('intranet.org.views.event_edit', args=[new_event.id]))
+        else:
+            authors = request.POST.getlist('authors')
     else:
         form = EventForm(instance=instance)
 
@@ -644,6 +648,7 @@ def event_edit(request, event_pk=None):
         'form': form,
         'tipi': TipSodelovanja.objects.all(),
         'sodelovanja': instance and instance.sodelovanje_set.all() or None,
+        'authors': authors,
         # TODO: remove duplicates
         'prev_sodelovanja': Sodelovanje.objects.values('tip__name', 'person__name').distinct().order_by('-person__name'),
         'image': (instance and instance.event_image and instance.event_image.image) or None
