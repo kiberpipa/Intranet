@@ -638,7 +638,10 @@ def event_edit(request, event_pk=None):
             for i in old_sodelovanja & sodelovanja ^ old_sodelovanja:
                 i.delete()
 
-            return HttpResponseRedirect(reverse('intranet.org.views.event_edit', args=[new_event.id]))
+            return redirect('event_list')
+            # changed redirect after successful add/edit
+            # keeping the old version here just in case we change our mind
+            # return HttpResponseRedirect(reverse('intranet.org.views.event_edit', args=[new_event.id]))
         else:
             authors = request.POST.getlist('authors')
     else:
