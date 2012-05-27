@@ -15,7 +15,7 @@ class Migration(DataMigration):
             for event in user.event_technican.all():
                 event.officers_on_duty.add(user)
                 event.save()
-            user.event_technician.clear()
+            user.event_technican.clear()
             user.save()
 
 
