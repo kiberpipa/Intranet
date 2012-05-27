@@ -58,7 +58,7 @@ $(document).ready(function() {
         }
     });
 
-    $("#id_project").chosen().change(function(){
+    $("#id_project").chosen().change(function() {
         var now = new Date();
         var time = now.getYear() + 1900 + '/' + (now.getMonth() + 1) + '/' + now.getDate() + ' 19:00';
         switch ($("#id_project option:selected").val()) {
@@ -141,6 +141,9 @@ $(document).ready(function() {
 			a.val("");
 		}
     	});
+
+	// show image on show
+        $('#id_event_image').change();
 });
 </script>
 {% endblock %}
