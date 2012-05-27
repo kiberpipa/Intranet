@@ -4,7 +4,7 @@
 		
 	{% for obj in object_list %}
 	<li {% ifequal obj.start_date.date today %} class="today"{% endifequal %}>
-		<a href="/intranet/events/{{ obj.id }}/">{{ obj.title }} {% if obj.note %} [!] {% endif %}</a>
+		<a href="/intranet/events/{{ obj.id }}/edit">{{ obj.title }} {% if obj.note %} [!] {% endif %}</a>
 		{{ obj.start_date|date:"D j. M H:i"}} ({{ obj.length }}h)
 	</li>
 	{% endfor %}
