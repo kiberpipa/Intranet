@@ -167,7 +167,10 @@ class EventTest(BaseCase):
         resp = self.client.post('/intranet/events/create/', createdata)
         self.assertEqual(resp.status_code, 302)
         # if we don't get location, form failed
-        redirect_url, event_id = re.match('https://.+(/intranet/events/(\d+)/edit/)$', resp._headers['location'][1]).groups()
+        
+        redirect_url = resp._headers['location'][1]
+        # <iElectric> lahko predpostavljas, da je 1
+        event_id = 1
 
         # validate urls
         self.assertEqual(self.client.get('/event/dogodek-v-kleti-1/', follow=True).redirect_chain[-1], ('http://testserver/sl/event/dogodek-v-kleti-1/', 302))
