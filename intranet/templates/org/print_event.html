@@ -57,6 +57,7 @@
 	<td>
   	<!-- handle technicians -->
 		{% for technician in event.technician.all %}
+		  <p>
 			{% if user == technician %}
 				{% if user.id in event.diaries.get_author_ids %}
 				<a href="{% url 'event_diary_edit' event_pk=event.id %}#add_diary" class="badge badge-success" title="{% trans 'Edit diary' %}">
@@ -73,6 +74,7 @@
 			{% else %}
 				<i class="icon-facetime-video" title="{% trans 'Techie' %}"></i> {{ technician }}
 			{% endif %}
+		  </p>
 		{% endfor %}
 
   	<!-- handle officers -->
@@ -95,12 +97,14 @@
 			<br />
 		{% endfor %}
 
+		<div><!-- to keep buttons in same level-->
 		{% if event.require_technician and user not in event.officers_on_duty.all  and user not in event.technician.all %}
 			<a href="{% url 'event_technician_take' event.id %}" class="btn btn-small" title="{% trans 'Volunteer as techie' %}"><i class="icon-facetime-video"></i></a>
 		{% endif %}
 		{% if event.require_officers_on_duty and user not in event.technician.all and user not in event.officers_on_duty.all %}
 			<a href="{% url 'event_officer_take' event.id %}" class="btn btn-small" title="{% trans 'Volunteer as officer' %}"><i class="icon-user"></i></a>
 		{% endif %}
+		</div>
 
 		{% if not event.require_technician and not event.require_officers_on_duty %}
 			<span class="badge badge-success">Ne potrebuje</span>

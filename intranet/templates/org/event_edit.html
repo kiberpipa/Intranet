@@ -195,33 +195,36 @@ $(document).ready(function() {
 
 					<p class="help-block">
                         			Bližnjice: 
-						<button class="btn btn-mini" onclick="$('#id_project').val(1).trigger('liszt:updated'); return false" >POT</button>
-						<button class="btn btn-mini" onclick="$('#id_project').val(6).trigger('liszt:updated'); return false" >SU</button>
-						<button class="btn btn-mini" onclick="$('#id_project').val(14).trigger('liszt:updated'); return false" >VIP</button>
+						<button class="btn btn-mini" onclick="$('#id_project').val(1).trigger('liszt:updated').chosen().trigger('change'); return false" >POT</button>
+						<button class="btn btn-mini" onclick="$('#id_project').val(6).trigger('liszt:updated').chosen().trigger('change'); return false" >SU</button>
+						<button class="btn btn-mini" onclick="$('#id_project').val(14).trigger('liszt:updated').chosen().trigger('change'); return false" >VIP</button>
 					</p>
 				</div>
 			</div>
 
 	    	<div class="control-group">
-				<label class="control-label" for="authorsid">{% trans "Authors" %}</label>
+			<label class="control-label" for="authorsid">{% trans "Authors" %}</label>
 				<div class="controls">
 					<select data-placeholder="{% trans 'Authors' %}" id="authorsid" name="authors" class="chzn-select" style="width:50%" multiple>
-	    	        	{% for sodelovanje in sodelovanja %}
-		            <option selected="selected">{{ sodelovanje.person }} - {{ sodelovanje.tip }}</option>
-			        {% endfor %}
-		    	    {% for sodelovanje in prev_sodelovanja %}
-		            <option>{{ sodelovanje.person__name }} - {{ sodelovanje.tip__name }}</option>
-		        	{% endfor %}
+	    	        		{% for sodelovanje in sodelovanja %}
+						<option selected="selected">{{ sodelovanje.person }} - {{ sodelovanje.tip }}</option>
+			        	{% endfor %}
+	    	        		{% for sodelovanje in authors %}
+						<option selected="selected">{{ sodelovanje }}</option>
+			        	{% endfor %}
+					{% for sodelovanje in prev_sodelovanja %}
+						<option>{{ sodelovanje.person__name }} - {{ sodelovanje.tip__name }}</option>
+			        	{% endfor %}
 					</select><br/>
 
 					<p class="help-block">
 						<input type="text" id="author_field" placeholder="Ime in priimek"/>
-						<select class="chzn-select" style="width: 20%" id="type_id">
+						<select class="chzn-select" style="width: 30%" id="type_id">
 						{% for t in tipi %}
-			        	<option value="{{ t.id }}">{{ t }}</option>
+			        			<option value="{{ t.id }}">{{ t }}</option>
 						{% endfor %}
-		        	</select>
-				<button class="btn" id="add_author"><i class="icon-plus"></i></button>
+				        	</select>
+						<button class="btn" id="add_author"><i class="icon-plus"></i></button>
 					</p>
 				</div>
 			</div>
