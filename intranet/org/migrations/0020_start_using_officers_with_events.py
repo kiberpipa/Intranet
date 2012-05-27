@@ -12,7 +12,7 @@ class Migration(DataMigration):
     def forwards(self, orm):
         "Write your forwards methods here."
         for user in User.objects.filter(id__in=[118, 34]):
-            for event in user.event_technican.all()
+            for event in user.event_technican.all():
                 event.officers_on_duty.add(user)
                 event.save()
             user.event_technician.clear()
