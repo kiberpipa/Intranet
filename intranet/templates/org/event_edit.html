@@ -10,15 +10,21 @@
 
 // get next Tuesday (d = 2), Wednesday (d = 3) etc.
 Date.prototype.getNextWeekDay = function (d) {
-    if (d) {
-        var next = this;
-        if (this.getDate() >= d)
-            next.setDate( this.getDate() - this.getDay() + 7 + d);
-        else
-            next.setDate( this.getDate() - this.getDay() + d);
+	if (d) {
+		var next = new Date(this);
 
-        return next;
-    }
+		// get current day of week, and make sure it's not some bloody american Sunday
+		var c = this.getDay() == 0 ? 7: this.getDay();
+		
+		// then, see if we're already past the target day this week,
+		// and adjust accordingly
+		if (c >= d)
+			next.setDate( this.getDate() - c + 7 + d);
+		else
+			next.setDate( this.getDate() - c + d);
+	}
+    
+	return next;
 }
 
 $(document).ready(function() {
