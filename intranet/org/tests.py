@@ -104,7 +104,7 @@ class EventTest(BaseCase):
 
         resp = self.client.post('/intranet/tmp_upload/', {'foo': ''})
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(simplejson.loads(resp.content)['status'], 'fail')
+        self.assertEqual(simplejson.loads(resp.content)['status'], 'no image uploaded')
 
         # TODO: test .png
         f = open(os.path.join(os.path.dirname(__file__), 'test_fixtures', 'sample-1.jpg'), 'rb')
