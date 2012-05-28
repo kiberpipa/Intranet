@@ -1,33 +1,23 @@
 body, p, span { font-family: Ubuntu, sans-serif; }
-body { padding-top: 80px; }
+body { padding-top: 40px; }
 a.nohover { color: black; }
 a.nohover:hover { text-decoration: none; }
 .icon-disabled { opacity:0.4; filter:alpha(opacity=40); }
-
-/* 60px high navbar, text at the bottom */
-.navbar .nav-tabs { border-bottom: 0; }
-.navbar .row-fluid div { position: relative; height: 60px; }
-.navbar ul, .navbar .navbar-text { position: absolute !important; bottom: 0; }
-
 .title { border: 1px solid rgba(0, 0, 0, 0.05); padding: 19px 19px 5px 19px; border-radius: 5px 5px 0 0; background: inherit; }
+
 #navigation .well { padding: 8px 0; background: url('/static/org/images/hexellence.png'); overflow: hidden; }
 #navigation .module { padding: 0; margin: 15px 15px 15px 15px; border: none; }	
 #navigation input, #navigation textarea, #navigation select { max-width: 95%; }
 #navigation img.rageface { margin-bottom: 1em; }
 
-#footer img.bug { height: 1.5em; }
-
-
 #content { background: url('/static/org/images/hexellence.png'); }
-
 #content .module { border: 1px solid rgba(0, 0, 0, 0.05); background: white; border-top: 0; padding: 19px; } 
 #content .footer-main { padding: 0; background: inherit; border: 1px solid rgba(0, 0, 0, 0.05); border-top: 0; border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; min-height: 0.8em;}
 
 .hero-unit { padding: 10px 10px 10px 60px; }
 
 .profile_image { width: 50px; float: left; }
-.profile_image_fake { display: inline-block; overflow: hidden; font-size: 10px; border: 1px solid black; height: 48px; width: 48px; text-align: center; vertical-align: middle;  }
-	
+.profile_image_fake { display: inline-block; overflow: hidden; font-size: 10px; border: 1px solid black; height: 48px; width: 48px; text-align: center; vertical-align: middle}
 
 .diary { border: 1px solid rgba(0, 0, 0, 0.05); background: white; border-top: 0;  padding: 19px; }
 .diary:hover { background: inherit; }
@@ -59,5 +49,5 @@ form.form-horizontal label.checkbox { display: inline; }
 /* modal dialog */
 .modal .modal-header-dark { background-color: #2C2C2C; color: white; border-top-left-radius: 5px; border-top-right-radius: 5px; }
 
-
 footer { padding: 3em 0 1em 0; color: lightgray; }
+#footer img.bug { height: 1.5em; }
