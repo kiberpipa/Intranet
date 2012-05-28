@@ -5,7 +5,12 @@
 {% block extrahead %}
 <script>
 	$(document).ready(function () {
-		$('#id_username').focus();
+		if (! $('#id_{{ form.username.html_name }}').val()) {
+			$('#id_{{form.username.html_name }}').focus();
+		} else {
+			$("#id_{{ form.password.html_name }}").focus();
+		}
+
 	});
 </script>
 <style type="text/css">
@@ -41,24 +46,24 @@
                 {% csrf_token %}
                 <input type="hidden" id="next" name="next" value="{{next}}" />
 
-                <div class="control-group {% if form.username.errors %}error{% endif %}"">
+                <div class="control-group {% if form.username.errors %}error{% endif %}">
                     <label class="control-label" for="id_{{ form.username.html_name }}">{{ form.username.label }}</label>
                     <div class="controls">
-                        <input type="text" id="id_{{ form.username.html_name }}" name="{{ form.username.html_name }}" maxlength="30" >
+                        <input type="text" id="id_{{ form.username.html_name }}" name="{{ form.username.html_name }}" maxlength="30" value="{% if form.username.value %}{{ form.username.value }}{% endif %}" />
                         <span class="help-inline">{{ form.username.errors }}</span>
                     </div>
                 </div>
-                <div class="control-group {% if form.password.errors %}error{% endif %}"">
+                <div class="control-group {% if form.password.errors %}error{% endif %}">
                     <label class="control-label" for="id_{{ form.password.html_name }}">{{ form.password.label }}</label>
                     <div class="controls">
-                        <input type="password" id="id_{{ form.password.html_name }}" name="{{ form.password.html_name }}" maxlength="30" >
+                        <input type="password" id="id_{{ form.password.html_name }}" name="{{ form.password.html_name }}" maxlength="30" />
                         <span class="help-inline">{{ form.password.errors }}</span>
                     </div>
                 </div>
-                <div class="control-group {% if form.remember_me.errors %}error{% endif %}"">
+                <div class="control-group {% if form.remember_me.errors %}error{% endif %}">
                     <label class="control-label" for="id_{{ form.remember_me.html_name }}"></label>
                     <div class="controls">
-                        <input type="checkbox" id="id_{{ form.remember_me.html_name }}" name="{{ form.remember_me.html_name }}" maxlength="30" >
+                        <input type="checkbox" id="id_{{ form.remember_me.html_name }}" name="{{ form.remember_me.html_name }}" maxlength="30"{% if form.remember_me.value %} checked="checked"{% endif %} />
                         <label class="help-inline" for="id_{{ form.remember_me.html_name}}">{{ form.remember_me.label }}</label>
                     </div>
                 </div>
