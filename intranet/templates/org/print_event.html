@@ -69,7 +69,7 @@
 					<i class="icon-edit"></i>
 					&nbsp;
 				</a>
-				<a class="btn btn-mini" href="{% url 'event_technician_cancel' event.id %}">{% trans "Sign off" %}</a>
+				<p><a class="btn btn-mini" href="{% url 'event_technician_cancel' event.id %}">{% trans "Sign off" %}</a></p>
 			<br />
 			{% else %}
 				<i class="icon-facetime-video" title="{% trans 'Techie' %}"></i> {{ technician }}
@@ -90,7 +90,7 @@
 					<i class="icon-edit"></i>
 					&nbsp;
 				</a>
-				<a class="btn btn-mini" href="{% url 'event_officer_cancel' event.id %}">{% trans "Sign off" %}</a>
+				<p><a class="btn btn-mini" href="{% url 'event_officer_cancel' event.id %}">{% trans "Sign off" %}</a></p>
 			{% else %}
 				<i class="icon-user" title="{% trans 'Officer on duty' %}"></i> {{ officer }}
 			{% endif %}
