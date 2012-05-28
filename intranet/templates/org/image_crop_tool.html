@@ -16,9 +16,15 @@ var imgResized = function imgResized(img, sel) {
         dataType: "json",
         data: $("#resizeform").serialize(),
         success: function (data, status) {
+            if (data.status === "ok") {
                 var tim = new Date();
                 $("#final_image").html('<img id="final_img" src="' + data["resized_url"] + '?t=' + tim.getTime() + '" />');
                 $("#id_resized_filename").attr("value", data['resized_filename']);
+                $('#id_imageok').removeAttr('disabled');
+            } else {
+                alert(data.status);
+                location.reload(true);
+            }
         }
     });
     
@@ -32,9 +38,14 @@ $(document).ready(function () {
             fileElementId: 'id_image',
             dataType: 'json',
             success: function (data, status) {
-                $("#ajax_img").html('<img id="rect" src="' + data['link'] + '">');
-                $('#id_filename').attr("value", data['filename']);
-                $('img#rect').imgAreaSelect({selectionColor: null, aspectRatio: "250:130", onSelectEnd: imgResized});
+                if (data.status === "ok") {
+                    $("#ajax_img").html('<img id="rect" src="' + data['link'] + '">');
+                    $('#id_filename').attr("value", data['filename']);
+                    $('img#rect').imgAreaSelect({selectionColor: null, aspectRatio: "250:130", onSelectEnd: imgResized});
+                } else {
+                    alert(data.status);
+                    location.reload(true);
+                }
             },
             error: function (data, status, e) {
                 alert("Nekaj je narobe:" + e);
@@ -43,6 +54,10 @@ $(document).ready(function () {
 
     });
     $("#id_imageok").click(function () {
+        if ($('#id_title').val() === "") {
+            alert("Manjka opis slike");
+            return null; 
+        }
         this.disabled=true;
         $.ajax({
             type: 'POST',
@@ -50,8 +65,13 @@ $(document).ready(function () {
             dataType: "json",
             data:$("#imageok_form").serialize(),
             success: function (data, status) {
-                $("#id_imageok").disabled = false;
-                $("#message").html("Saved.");
+                if (data.status === "ok") {
+                        $("#id_imageok").attr('disabled', '');
+                        $("#message").html("Saved.");
+                } else {
+                    alert(data.status);
+                    location.reload(true);
+                }
             }
         });
     });
@@ -71,10 +91,10 @@ $(document).ready(function () {
             </form>
             <div id="final_image">&nbsp;</div>
             <form id="imageok_form" method="POST" action="">
-                <label for="id_title">Opis slike</label><input type="text" id="id_title" name="title" />
+                <label for="id_title">Opis slike (obvezno!)</label><input type="text" id="id_title" name="title" />
                 <input type="hidden" id="id_resized_filename" name="resized_filename" />
             </form>
-            <input class="btn btn-primary" type="submit" id="id_imageok" name="imageok" value="Dobro bo" />
+            <input class="btn btn-primary" type="submit" id="id_imageok" name="imageok" disabled="disabled" value="Dobro bo" />
             <div id="message">&nbsp;</div>
         </div>
     </div>

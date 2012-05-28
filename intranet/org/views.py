@@ -46,7 +46,7 @@ def temporary_upload(request):
     Accepts an image upload to server and saves it in a temporary folder.
     """
     if not 'image' in request.FILES:
-        return HttpResponse(simplejson.dumps({'status': 'fail'}))
+        return HttpResponse(simplejson.dumps({'status': 'no image uploaded'}))
 
     filename = request.FILES['image']._get_name().strip().lower()
     imgdata = StringIO(request.FILES['image'].read())
@@ -59,7 +59,7 @@ def temporary_upload(request):
         im = Image.open(imgdata)
         im.size
     except Exception:
-        return HttpResponse(simplejson.dumps({'status': 'fail'}))
+        return HttpResponse(simplejson.dumps({'status': 'couldn\'t open the image'}))
 
     local_dir = os.path.join(settings.MEDIA_ROOT, 'tmp', request.session.session_key)
     try:
@@ -128,7 +128,12 @@ def image_save(request):
             if not form.errors:
                 image = form.save()
                 return HttpResponse(simplejson.dumps({'status': 'ok', 'image_id': image.id}))
-    return HttpResponse(simplejson.dumps({'status': 'fail'}))
+            else:
+                return HttpResponse(simplejson.dumps({'status': "%r" % form.errors}))
+        else:
+            return HttpResponse(simplejson.dumps({'status': 'resized filename and session filename do not match!'}))
+    else:
+        return HttpResponse(simplejson.dumps({'status': 'only POST requests!'}))
 
 
 @login_required
