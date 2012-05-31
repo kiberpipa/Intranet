@@ -53,6 +53,7 @@ def index(request):
 
 # TODO: cache for 3min
 def ajax_index_events(request):
+    now = datetime.datetime.now()
     past_month = datetime.datetime.today() - datetime.timedelta(30)
     last_midnight = datetime.datetime.today().replace(hour=0, minute=0, second=0)
 
@@ -68,6 +69,10 @@ def ajax_index_events(request):
     if is_streaming():
         try:
             streaming_event = Event.objects.filter(public=True, start_date__lte=datetime.datetime.now()).order_by('-start_date')[0]
+            prev = streaming_event.get_previous()
+            if 0 < (prev.start_date - now) < 1800:
+                # if there is 30min to next event, take that one
+                streaming_event = prev
         except IndexError:
             pass
 
