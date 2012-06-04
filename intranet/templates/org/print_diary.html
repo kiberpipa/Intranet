@@ -17,10 +17,10 @@
 		<span class="duration">trajanje: {{ object.length|time:"G:i" }}</span><br/>
 
 	{% if object.log_formal %}
-	    <p class="formal">{{ object.log_formal|safe }}</p>
+	    <p class="formal">{{ object.log_formal|safe|urlize }}</p>
     	{% endif %}
 	    {% if object.log_informal %}
-	    	<p class="informal"><i>Informal:</i> {{ object.log_informal|safe }}</p>
+	    	<p class="informal"><i>Informal:</i> {{ object.log_informal|safe|urlize }}</p>
 	    {% endif %}
          
         {% if object.is_paid %}
