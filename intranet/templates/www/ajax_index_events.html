@@ -34,8 +34,7 @@
 				<a href="{{ video_url }}" title="{% trans "Video of event" %}"><img src="{{ settings.STATIC_URL }}www/images/video20x20.png" /></a>
 			{% endfor %}
 			{% if event.flickr_set_id %}
-			<a href="{{ event.get_absolute_url }}" title="{% trans "Pictures of event" %}" ><img src="{{ settings.STATIC_URL }}www/images/images20x20.png" /></a>
-			<!-- TODO: activate gallery with javascript -->
+			<a href="{{ event.get_absolute_url }}#gallery" title="{% trans "Pictures of event" %}" ><img src="{{ settings.STATIC_URL }}www/images/images20x20.png" /></a>
 			{% endif %}
 		</div>
 		{% endif %}
