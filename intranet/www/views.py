@@ -69,10 +69,9 @@ def ajax_index_events(request):
     if is_streaming():
         try:
             streaming_event = Event.objects.filter(public=True, start_date__lte=datetime.datetime.now()).order_by('-start_date')[0]
-            prev = streaming_event.get_previous()
+            prev = streaming_event.get_next()
             td = prev.start_date - now
-            seconds_ago = (td.seconds + td.days * 24 * 3600)
-            if 0 < seconds_ago < 1800:
+            if td.days == 0 and 0 < td.seconds < 1800:
                 # if there is 30min to next event, take that one
                 streaming_event = prev
             # TODO: if previous event should have ended more than 3 hours ago, dont' display the stream
