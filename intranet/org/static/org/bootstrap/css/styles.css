@@ -19,7 +19,7 @@ a.nohover:hover { text-decoration: none; }
 .profile_image { width: 50px; float: left; }
 .profile_image_fake { display: inline-block; overflow: hidden; font-size: 10px; border: 1px solid black; height: 48px; width: 48px; text-align: center; vertical-align: middle}
 
-.diary { border: 1px solid rgba(0, 0, 0, 0.05); background: white; border-top: 0;  padding: 19px; }
+.diary { border: 1px solid rgba(0, 0, 0, 0.05); background: white; border-top: 0;  padding: 19px; word-wrap: break-word; }
 .diary:hover { background: inherit; }
 .diary .diary-body { margin-left: 60px; }
 .diary hr { color: red; margin: -0.5em 0 0 0;}
