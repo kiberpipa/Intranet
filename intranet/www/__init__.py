@@ -5,8 +5,7 @@ from django.conf  import settings
 
 def mail_comment(instance, **kwargs):
     subject = 'YAY! someone posted comment'
-    msg = 'Comment text:\n\n%s\n\nComment url:%s\n\n' % (instance.comment, settings.BASE_URL + instance.get_absolute_url())
+    msg = 'Comment text:\n\n%s\n\nComment url:%s\n\n' % (instance.comment, instance.get_absolute_url())
     #send_mail(subject, msg, 'webpage-comments@kiberpipa.org', ['dmulac@gmail.com'])
 
 signals.post_save.connect(mail_comment, sender=Comment)
-
