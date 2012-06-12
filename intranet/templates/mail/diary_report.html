@@ -21,11 +21,11 @@
 <h2>Dnevniki</h2>
 {% for diary in diaries %}
 <strong>{{ diary.date }} - {{ diary.author }} - {{ diary.task }} - {{ diary.length }}</strong>
-<p>{{ diary.log_formal|safe }}</p>
+<p>{{ diary.log_formal|safe|urlize }}</p>
 {% if diary.log_informal %}
 <br />
 <strong>neuradni del:</strong>
-<p>{{ diary.log_informal|safe }}</p>
+<p>{{ diary.log_informal|safe|urlize }}</p>
 {% endif %}
 {% endfor %}
 
