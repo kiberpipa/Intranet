@@ -49,6 +49,10 @@ class WWWTestCase(TestCase):
             ('https://example.com/sl/event/test-77-3-1/', 302),
         ])
 
+    def test_prostori(self):
+        resp = self.client.get('/sl/prostori/2/opis.ajax', follow=True)
+        self.assertEqual(resp.status_code, 200)
+
     def test_feeds(self):
         resp = self.client.get('/sl/feeds/novice/', follow=True)
         self.assertEqual(resp.status_code, 200)

@@ -25,7 +25,7 @@ urlpatterns = patterns('',
     url(r'^calendar/(?P<year>\d{4})/(?P<month>[0-1]?[0-9])?', 'intranet.www.views.calendar'),
     url(r'^calendar/ical/$', 'intranet.www.views.ical', name="calendar_ical"),
     url(r'^prostori/$', 'intranet.www.views.facilities'),
-    url(r'^prostori/(?P<object_id>\d+)/opis.ajax$', DetailView.as_view(
+    url(r'^prostori/(?P<pk>\d+)/opis.ajax$', DetailView.as_view(
         queryset=Place.objects.all(),
         template_name="www/facility_description_ajax.html",
     ), name="facility_description_ajax"),
