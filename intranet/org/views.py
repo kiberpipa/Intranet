@@ -515,7 +515,7 @@ def commit_hook(request):
 @login_required
 def diarys_form(request, id=None, action=None):
     if id:
-        diary_form = DiaryForm(request.POST or None, instance=Diary.objects.get(id=id))
+        diary_form = DiaryForm(request.POST or None, instance=get_object_or_404(Diary, pk=id))
     else:
         diary_form = DiaryForm(request.POST or None)
 
