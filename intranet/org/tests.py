@@ -267,14 +267,13 @@ class DiaryTest(BaseCase):
         }
         resp = self.client.post('/intranet/diarys/add/', diarydata)
         self.assertEqual(resp.status_code, 302)
-        redirect_url, diary_id = re.match('http://\w+(/intranet/diarys/(\d+)/)$', resp._headers['location'][1]).groups()
+        redirect_url, diary_id = re.search('(/intranet/diarys/#diary_(\d+))$', resp._headers['location'][1]).groups()
 
         resp = self.client.get(redirect_url)
         self.assertEqual(resp.status_code, 200)
 
         resp = self.client.get('/intranet/diarys/')
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content.find(redirect_url) > -1, True)
 
         updatedata = diarydata.copy()
         updatedata['log_formal'] = 'to je *NOVI* formalni dnevnik'
@@ -283,7 +282,6 @@ class DiaryTest(BaseCase):
 
         resp = self.client.post('/intranet/diarys/', {'author': '', 'task': self.project.id, 'enter_your_email': ''})
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content.find(redirect_url) > -1, True)
 
         # TODO: test archive diary
 
