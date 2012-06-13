@@ -523,7 +523,7 @@ def diarys_form(request, id=None, action=None):
         diary = diary_form.save(commit=False)
         diary.author = request.user
         diary.save()
-        return HttpResponseRedirect(diary.get_absolute_url())
+        return HttpResponseRedirect(reverse('diary_list') + "#diary_%d" % diary.id)
 
     return render_to_response(
         'org/diary.html',
