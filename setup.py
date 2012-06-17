@@ -28,8 +28,10 @@ setup(name='intranet',
         'html2text',
         'pytz',
         'pygments',
+        'Fabric',
         # intranet.org
         'python-ldap',
+        'django-tinymce',
         # intranet.www
         'python-memcached',
         'flickrapi',
@@ -47,12 +49,9 @@ setup(name='intranet',
         'django-gravatar2',
         'django-chosen',
         # development
-        'django-debug-toolbar',
         'django-extensions',
-        'Werkzeug',  # interactive debug
         'django-coverage',
         'coverage',
-        'django-tinymce',
         # solr
         'django-haystack',
         'pysolr',
@@ -68,4 +67,8 @@ setup(name='intranet',
     tests_require=[
         'nose',
     ],
+    extras_require={
+        'develop': ["bpython", 'django-debug-toolbar', 'Werkzeug'],
+        'deploy': ["gunicorn"],
+    },
 )
