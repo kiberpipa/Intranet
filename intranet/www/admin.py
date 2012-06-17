@@ -8,6 +8,10 @@ from intranet.www.models import *
 
 class NewsAdmin(VersionAdmin):
     fields = ['title', 'image', 'text', 'language']
+    date_hierarchy = 'date'
+    list_display = ('title', 'date')
+    list_filter = ('author', 'language')
+    search_fields = ('title', 'text')
 
     def save_model(self, request, obj, form, change):
         obj.slug = slugify(obj.title)

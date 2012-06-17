@@ -9,6 +9,9 @@ from tinymce.models import HTMLField
 
 
 class News(models.Model):
+    class Meta:
+        ordering = ("-date",)
+
     title = models.CharField(verbose_name="Naslov", max_length=150)
     text = HTMLField(verbose_name="Novica")
     image = models.ImageField(blank=True, null=True, upload_to='announce/%Y/%m/', verbose_name="Slika ob objavi")
@@ -25,3 +28,4 @@ class News(models.Model):
 
     def __unicode__(self):
         return self.title
+
