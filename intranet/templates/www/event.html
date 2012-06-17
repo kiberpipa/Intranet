@@ -67,7 +67,7 @@
                         <h3>{% trans "Similar events" %}</h3>
                         <ul>
                     {% endif %}
-                    <li><a href="{{ event.object.get_absolute_url }}">{{ event.object.title }}</a></li>
+		    <li><a href="{{ event.object.get_absolute_url }}">{{ event.object.title }} ({{ event.object.start_date}})</a></li>
                     {% if forloop.last %}
                         </ul>
                     {% endif %}
