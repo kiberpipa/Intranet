@@ -20,19 +20,24 @@
 
 {% block content %}
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/effects.js"></script>
-    <div id="dogodek">
+    <div id="dogodek" class="vevent">
         <div class="dogodek-news-title">
-        {{ event }}
+        <a href="{{ event.get_absolute_url }}" class="url summary">{{ event }}</a>
         </div>
-        {{ event.start_date|date:"l, d. "|capfirst }}
-        {{ event.start_date|date:"b Y G:i"|capfirst }}
+        <p class="dtstart">
+            {{ event.start_date|date:"l, d. "|capfirst }}
+            {{ event.start_date|date:"b Y G:i"|capfirst }}
+            <span class="value-title" title="{{ event.start_date|date:"Y-m-d" }}T{{ event.start_date|date:"H:i:sO" }}"></span>
+        </p>
         <div class="dogodek-content">
             <div class="dogodek-right">
-                <img src="{{ event.event_image.image.url }}" alt="{{ event.event_image.title }}" />
+                <img src="{{ event.event_image.image.url }}" alt="{{ event.event_image.title }}" class="photo" />
                 {% photos_box %}
             </div>
             <div class="dogodek-left">
+                <span class="description">
                 {{ event.announce|safe }}
+                </span>
                 <div class="dogodek-video">
                     {% if not event.video.all and event.require_video %}
                         <div>
@@ -74,5 +79,8 @@
                 {% endfor %}
             </div>
         </div>
-    </div>
+        <span class="location" style="display: none;">
+            <span class="fn org">Kiberpipa</span>
+        </span>
+    </div><!-- end dogodek -->
 {% endblock %}
