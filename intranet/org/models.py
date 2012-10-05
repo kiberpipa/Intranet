@@ -9,7 +9,7 @@ from datetime import date, timedelta
 
 from django.db import models
 from django.db.models.query import QuerySet
-from django.template.defaultfilters import slugify
+from django.template.defaultfilters import slugify, truncatewords
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -17,6 +17,7 @@ from django.utils.translation import ugettext_lazy as _
 from tinymce.models import HTMLField
 
 from pipa.mercenaries.models import CostCenter, SalaryType
+from intranet.www.templatetags.www import sanitize_html
 
 
 def to_utc(dt):
@@ -309,7 +310,7 @@ class Event(models.Model):
             ('sprop', 'website:www.kiberpipa.org'),
             ('sprop', 'name:Kiberpipa - %s' % self.project.name.encode('utf-8')),
             # take first 24 words of announce
-            ('details', (u' '.join(self.announce.split(u' ')[:24])).encode('utf-8')),
+            ('details', (truncatewords(sanitize_html(self.announce), 24)).encode('utf-8')),
             ('location', '%s, Kiberpipa, Ljubljana' % self.place),
             ]
         qs = urllib.urlencode(data)
