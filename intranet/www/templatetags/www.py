@@ -30,7 +30,7 @@ def calclass(date):
 def sanitize_html(value):
     #valid_tags = 'p i strong b u a h1 h2 h3 pre br img'.split()
     #valid_attrs = 'href src'.split()
-    soup = BeautifulSoup(value)
+    soup = BeautifulSoup(value, convertEntities=BeautifulSoup.HTML_ENTITIES)
     for comment in soup.findAll(
         text=lambda text: isinstance(text, Comment)):
         comment.extract()
@@ -41,7 +41,7 @@ def sanitize_html(value):
                      #if attr in valid_attrs]
     return soup.renderContents().decode('utf8').replace('javascript:', '')
 
-register.filter('santize', sanitize_html)
+register.filter('sanitize', sanitize_html)
 
 
 register.simple_tag(calclass)

@@ -117,7 +117,7 @@ $(document).ready(function() {
                    {% trans "Published by" %} {{ i.author }} {% trans "on" %} {{ i.date }}
                </div>
                <div class="blog-cp-content">
-                   {{ i.text|santize|truncatewords:"60" }}
+                   {{ i.text|sanitize|truncatewords:"60" }}
                </div>
           {% endfor %}
      </div>
@@ -134,7 +134,7 @@ $(document).ready(function() {
                 {% trans "Published by" %} {{ post.author }} {% trans "on" %} {{ post.date_modified }}
                </div>
                <div class="planet-content">
-                {{ post.content|santize|safe|truncatewords:"60" }}
+                {{ post.content|sanitize|safe|truncatewords:"60" }}
                </div>
           {% endfor %}
      </div>
