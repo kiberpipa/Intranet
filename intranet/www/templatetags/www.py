@@ -41,7 +41,7 @@ def sanitize_html(value):
                      #if attr in valid_attrs]
     return soup.renderContents().decode('utf8').replace('javascript:', '')
 
-register.filter('santize', sanitize_html)
+register.filter('sanitize', sanitize_html)
 
 
 register.simple_tag(calclass)
