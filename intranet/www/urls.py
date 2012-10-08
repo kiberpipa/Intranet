@@ -29,10 +29,10 @@ urlpatterns = patterns('',
         queryset=Place.objects.all(),
         template_name="www/facility_description_ajax.html",
     ), name="facility_description_ajax"),
-    url(r'^kjesmo/$', TemplateView.as_view(template_name='www/kjesmo.html')),
     url(r'^alumni/', 'pipa.addressbook.views.alumni'),
     # TODO: migrate press to flatpages
     url(r'^press/', 'intranet.www.views.press'),
+    url(r'^kjesmo/', 'intranet.www.views.location' ),
 
     # feeds
     (r'^feeds/all/', AllInOne()),

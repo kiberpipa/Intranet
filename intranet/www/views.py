@@ -241,6 +241,14 @@ def press(request):
     return render_to_response(template, RequestContext(request, {}))
 
 
+def location(request):
+    if request.LANGUAGE_CODE == 'en':
+        template = 'www/kjesmo_en.html'
+    else:
+        template = 'www/kjesmo.html'
+    return render_to_response(template, RequestContext(request, {}))
+
+
 class NewsList(ListView):
     template_name = 'www/news_list.html'
     queryset = News.objects.order_by('-date')
