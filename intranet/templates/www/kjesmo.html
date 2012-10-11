@@ -4,15 +4,20 @@
 {% block title %}{% trans "Location" %}{% endblock %}
 
 {% block extrahead %}
-<script src="https://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAPBgXzfTevk197UcydWpSFhRa5lmxJCj8vPH0dR9N8A5gpzj2SRRwVlh2r1_zVkIaL6PqJ-ZxLUgqLA" type="text/javascript"></script>
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyQuqfLWTvYxztDbP1Ksy46VRzX9Swf4A&sensor=false">
+    </script>
 <script type="text/javascript">
 var map;
 
 function initialize() {
-    if (GBrowserIsCompatible()) {
-        map = new GMap2(document.getElementById('mapdiv'));
-        map.setCenter(new GLatLng(46.056, 14.503203), 15);
-        map.setUIToDefault();
+
+    var mapOptions = {
+    zoom: 15,
+    center: new google.maps.LatLng(46.056, 14.503203),
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    var map = new google.maps.Map(document.getElementById("mapdiv"), mapOptions);
 
         var poi_list = [
             {name:"Kiberpipa", icon: "pipao", lat:46.055851, lon:14.504203, text:"Kersnikova 6, 1000 Ljubljana"},
@@ -26,19 +31,22 @@ function initialize() {
             {name:"Parkirišče Tivoli", icon: "park", lat: 46.058196, lon:14.49885, text: "Prvi dve uri 0,50 €, vsaka nadaljna ura 0,5 €.<br />Odprto: od 6h do 20h"},
             {name:"Parkirišče Sanatorij Emona", icon:"park", lat: 46.053550, lon:14.508690, text: "1 €/uro<br />Odprto: od 6h do 20h, sobota od 7h do 15h"},
             ];
-        
+
         for (var i=0; i<poi_list.length;i++){
-            var poiicon = new GIcon(G_DEFAULT_ICON);
-            poiicon.image = '{{ settings.STATIC_URL }}/www/images/' + poi_list[i].icon + '_icon.png';
-            poiicon.iconSize = new GSize(28,28);
-            poiicon.iconAnchor = new GPoint(14, 14);
-            poiicon.shadowSize = new GSize(0,0);
-            var poi = new GMarker(new GLatLng(poi_list[i].lat, poi_list[i].lon), {icon: poiicon});
-            poi.bindInfoWindow("<p><b>" + poi_list[i].name + "</b><br />" + poi_list[i].text + "</p>");
-            map.addOverlay(poi);
+            var tagLant = new google.maps.LatLng(poi_list[i].lat, poi_list[i].lon);
+            var image = new google.maps.MarkerImage( 
+                    '{{ settings.STATIC_URL }}/www/images/' + poi_list[i].icon + '_icon.png'
+            );
+            var beachMarker = new google.maps.Marker({
+            position: tagLant,
+            map: map,
+            title: poi_list[i].name,
+            icon: image
+            });
         }
-    }
+
 }
+
 
 $(document).ready(function () {
     initialize();
