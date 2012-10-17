@@ -175,7 +175,8 @@ def calendar(request, year=None, month=None, en=False):
 def ical(request):
     cal = [u'BEGIN:VCALENDAR',
         u'PRODID: -//Kiberpipa//NONSGML intranet//EN',
-        u'VERSION:2.0']
+        u'VERSION:2.0',
+        u'X-WR-TIMEZONE:Europe/Ljubljana']
     # DO NOT uncomment. Kulturnik.si parser breaks.
     #cal.append('SUMMARY:Dogodki v Kiberpipi')
     events = Event.objects.order_by('-chg_date')[:20]
@@ -200,9 +201,9 @@ def ical(request):
             u'ORGANIZER;CN=Kiberpipa:MAILTO:info@kiberpipa.org',
             time.strftime(u'DTSTAMP:%Y%m%dT%H%M%SZ', to_utc(e.start_date)),
             #pub_date.strftime('CREATED:%Y%m%dT%H%M%SZ'),
-            time.strftime(u'DTSTART:%Y%m%dT%H%M%S', to_utc(e.start_date)),
+            time.strftime(u'DTSTART;TZID=Europe/Ljubljana:%Y%m%dT%H%M%S', to_utc(e.start_date)),
             u'UID:event-%s@kiberpipa.org' % e.id,
-            time.strftime(u'DTEND:%Y%m%dT%H%M%S', to_utc(e.end_date)),
+            time.strftime(u'DTEND;TZID=Europe/Ljubljana:%Y%m%dT%H%M%S', to_utc(e.end_date)),
             time.strftime(u'LAST-MODIFIED:%Y%m%dT%H%M%SZ', to_utc(e.chg_date)),
             u'SUMMARY:%s: %s' % (unicode(e.project), e.title),
             u'URL:http://www.kiberpipa.org%s' % e.get_absolute_url(),
