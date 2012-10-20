@@ -38,6 +38,8 @@ setup(name='intranet',
         'requests',
         'python-dateutil',
         'django-mailman',
+        'django-spaminspector',
+        'akismet',
         # django stuff
         'Django>=1.4',
         'Feedjack',

@@ -10,7 +10,7 @@ from django.conf import settings
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext, Context
 from django.template.loader import get_template
-from django.http import HttpResponsePermanentRedirect, HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
 from django.contrib.comments.views.comments import post_comment
@@ -30,16 +30,6 @@ from pipa.video.utils import is_streaming
 
 
 logger = logging.getLogger(__name__)
-
-
-# TODO: replace this with honeypot method
-@csrf_protect
-def anti_spam(request):
-    # make sure users have taken at least 5 seconds to read
-    # this page before writing a comment (spam bots don't)
-    if int(request.POST['timestamp']) + 5 > int(datetime.datetime.now().strftime('%s')):
-        return HttpResponsePermanentRedirect('/')
-    return post_comment(request)
 
 
 def index(request):

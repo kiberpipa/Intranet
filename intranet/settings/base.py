@@ -44,6 +44,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.locale.LocaleMiddleware',
     'intranet.middleware.FlatPageLocaleURLFallbackMiddleware',
     'honeypot.middleware.HoneypotMiddleware',  # as soon as possible
+    'spaminspector.middleware.SpamInspectionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -90,6 +91,7 @@ INSTALLED_APPS = (
     'haystack',  # http://charlesleifer.com/blog/solr-ubuntu-revisited/
     'tinymce',
     'django_gravatar',
+    'spaminspector',
 )
 
 LOGGING = {
@@ -191,6 +193,9 @@ PUBLIC_LIVE_STREAM_URL = 'http://live.kiberpipa.org/live.html'
 # honeypot
 HONEYPOT_FIELD_NAME = "enter_your_email"
 HONEYPOT_SKIP_URLS = [u'/intranet/tmp_upload/', u'/intranet/diarys/commit_hook/']
+
+# django-spaminspector
+#SPAMINSPECTOR_AKISMET_KEY = ""
 
 # tinymce
 TINYMCE_JS_URL = STATIC_URL + 'tiny_mce/tiny_mce.js'
