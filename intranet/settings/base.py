@@ -195,7 +195,7 @@ HONEYPOT_FIELD_NAME = "enter_your_email"
 HONEYPOT_SKIP_URLS = [u'/intranet/tmp_upload/', u'/intranet/diarys/commit_hook/']
 
 # django-spaminspector
-#SPAMINSPECTOR_AKISMET_KEY = ""
+SPAMINSPECTOR_AKISMET_KEY = ""
 
 # tinymce
 TINYMCE_JS_URL = STATIC_URL + 'tiny_mce/tiny_mce.js'
