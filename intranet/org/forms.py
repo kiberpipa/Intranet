@@ -121,9 +121,11 @@ class CommaSeparatedIntegerField(forms.CharField):
     def clean(self, value):
         values = value.strip().split(',')
         for i in values:
-            if not re.match('^\d+$', i):
-                raise forms.ValidationError("Integer is required.")
-        return [int(i) for i in values]
+            try:
+                float(i)
+            except ValueError:
+                raise forms.ValidationError("Float is required.")
+        return [float(i) for i in values]
 
 
 class ImageResizeForm(forms.Form):
