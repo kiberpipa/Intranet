@@ -40,6 +40,7 @@ setup(name='intranet',
         'django-mailman',
         'django-spaminspector',
         'akismet',
+        'icalendar',
         # django stuff
         'Django>=1.4',
         'Feedjack',

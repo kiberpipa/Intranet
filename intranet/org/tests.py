@@ -217,9 +217,11 @@ class EventTest(BaseCase):
         # TODO: add diary for event
 
         # test ical
+        # TODO: move to www tests
         resp = self.client.get('/sl/calendar/ical/')
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp._headers['content-type'][1].startswith('text/calendar'), True)
+        self.assertTrue(resp.content.startswith('BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Kiberpipa//NONSGML intranet//EN\r\nBEGIN:VEVENT\r\nSUMMARY:'))
 
 
 class DiaryTest(BaseCase):

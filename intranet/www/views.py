@@ -6,6 +6,7 @@ import logging
 import urlparse
 from calendar import Calendar
 
+import icalendar
 from django.conf import settings
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext, Context
@@ -163,50 +164,39 @@ def calendar(request, year=None, month=None, en=False):
 
 
 def ical(request):
-    cal = [u'BEGIN:VCALENDAR',
-        u'PRODID: -//Kiberpipa//NONSGML intranet//EN',
-        u'VERSION:2.0',
-        u'X-WR-TIMEZONE:Europe/Ljubljana']
-    # DO NOT uncomment. Kulturnik.si parser breaks.
-    #cal.append('SUMMARY:Dogodki v Kiberpipi')
+    cal = icalendar.Calendar()
+    cal.add('prodid', '-//Kiberpipa//NONSGML intranet//EN')
+    cal.add('version', '2.0')
+
     events = Event.objects.order_by('-chg_date')[:20]
-    response = HttpResponse(mimetype='text/calendar; charset=UTF-8')
-    cal.append(u'')
 
     for e in events:
-        # there's gotta be a nicer way to do this
-        # TODO: yes, use icalendar library
-        # http://pypi.python.org/pypi/icalendar/
         if e.public:
             classification = u'PUBLIC'
         else:
             continue
-            #classification = u'PRIVATE'
+        cal_event = icalendar.Event()
+        cal_event.add('uid', u'UID:event-%s@kiberpipa.org' % e.id)
+        cal_event.add('summary', u'%s: %s' % (e.project, e.title))
+        cal_event.add('url', u'http://www.kiberpipa.org%s' % e.get_absolute_url())
+        cal_event.add('location', e.place.name)
+        cal_event.add('classification', classification)
+        cal_event.add('sequence', e.sequence)
+        cal_event.add('categories', u','.join([e.project.name, e.category.name]))
+        # http://www.kanzaki.com/docs/ical/transp.html
+        cal_event.add('transp', 'OPAQUE')
+        # dtstamp means when was the last time icalendar feed has changed
+        cal_event.add('dtstamp', datetime.datetime.now())
+        cal_event.add('dtstart', e.start_date)
+        cal_event.add('dtend', e.end_date)
+        cal_event.add('last-modified', e.chg_date)
+        organizer = icalendar.vCalAddress(u'MAILTO:info@kiberpipa.org')
+        organizer.params['cn'] = u'Kiberpipa'
+        cal_event.add('organizer', organizer)
+        cal.add_component(cal_event)
 
-        cal.extend((
-            u'BEGIN:VEVENT',
-            # DO NOT uncomment. Kulturnik.si parser breaks.
-            #'METHOD:REQUEST',
-            u'SEQUENCE:%s' % e.sequence,
-            u'ORGANIZER;CN=Kiberpipa:MAILTO:info@kiberpipa.org',
-            time.strftime(u'DTSTAMP:%Y%m%dT%H%M%SZ', to_utc(e.start_date)),
-            #pub_date.strftime('CREATED:%Y%m%dT%H%M%SZ'),
-            time.strftime(u'DTSTART;TZID=Europe/Ljubljana:%Y%m%dT%H%M%S', to_utc(e.start_date)),
-            u'UID:event-%s@kiberpipa.org' % e.id,
-            time.strftime(u'DTEND;TZID=Europe/Ljubljana:%Y%m%dT%H%M%S', to_utc(e.end_date)),
-            time.strftime(u'LAST-MODIFIED:%Y%m%dT%H%M%SZ', to_utc(e.chg_date)),
-            u'SUMMARY:%s: %s' % (unicode(e.project), e.title),
-            u'URL:http://www.kiberpipa.org%s' % e.get_absolute_url(),
-            u'CLASS:%s' % classification,
-            u'LOCATION:Kiberpipa, %s' % e.place,
-            u'CATEGORIES:%s' % ','.join([e.project.name, e.category.name]),
-            u'TRANSP:OPAQUE',
-            u'END:VEVENT',
-            u''))
-
-    cal.append(u'END:VCALENDAR')
-    ret = u'\r\n'.join(cal)
-    response.write(ret)
+    response = HttpResponse(mimetype='text/calendar; charset=UTF-8')
+    response.write(cal.to_ical())
     return response
 
 
