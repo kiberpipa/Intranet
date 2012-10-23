@@ -188,10 +188,10 @@ def ical(request):
         # http://www.kanzaki.com/docs/ical/transp.html
         cal_event.add('transp', 'OPAQUE')
         # dtstamp means when was the last time icalendar feed has changed
-        cal_event.add('dtstamp', datetime.datetime.now().replace(tzinfo=ljubljana_tz))
-        cal_event.add('dtstart', e.start_date.replace(tzinfo=ljubljana_tz))
-        cal_event.add('dtend', e.end_date.replace(tzinfo=ljubljana_tz))
-        cal_event.add('last-modified', e.chg_date.replace(tzinfo=ljubljana_tz))
+        cal_event.add('dtstamp', ljubljana_tz.localize(datetime.datetime.now()))
+        cal_event.add('dtstart', ljubljana_tz.localize(e.start_date))
+        cal_event.add('dtend', ljubljana_tz.localize(e.end_date))
+        cal_event.add('last-modified', ljubljana_tz.localize(e.chg_date))
         organizer = icalendar.vCalAddress(u'MAILTO:info@kiberpipa.org')
         organizer.params['cn'] = u'Kiberpipa'
         cal_event.add('organizer', organizer)
