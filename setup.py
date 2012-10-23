@@ -41,6 +41,7 @@ setup(name='intranet',
         'django-spaminspector',
         'akismet',
         'icalendar',
+        'pytz',
         # django stuff
         'Django>=1.4',
         'Feedjack',
