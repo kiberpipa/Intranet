@@ -41,11 +41,31 @@ def anti_spam(request):
         return HttpResponsePermanentRedirect('/')
     return post_comment(request)
 
+def sort_news(x, y):
+    date_x = x.date if 'date' in dir(x) else x.date_modified
+    date_y = y.date if 'date' in dir(y) else y.date_modified
+    return date_x < date_y
 
 def index(request):
+    # load news items (internal cms) and blog posts (members' blogs, fetched via rss)
+    news = News.objects.order_by('-date')[:4]
+    posts = Post.objects.order_by('-date_modified')[:4]
+
+    # splice both of them together into one list, and sort them by date
+    # but the most recent news items always comes first, even if older
+    # tiny technicality - their respective models use a different date field
+    both = []
+    both.extend(news[1:])
+    for post in posts:
+        post.date = post.date_modified
+        both.append(post)
+    both = sorted(both, cmp=sort_news, reverse=True)
+    both.insert(0, news[0])
+
     return render_to_response('www/index.html', {
-        'news': News.objects.order_by('-date')[0:4],
-        'planet': Post.objects.order_by('-date_modified')[:4],
+        'news': news,
+        'planet': posts,
+        'both' : both,
         'videos': Video.objects.order_by('-pub_date')[:4],
         'emailform': EmailForm,
     }, context_instance=RequestContext(request))
