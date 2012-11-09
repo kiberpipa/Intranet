@@ -30,71 +30,85 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block content %}
-     <div id="upcoming">
-        <div class="next3-left">
-           <div class="past3"><a href="#" onclick="return false;"><img src="{{ settings.STATIC_URL }}www/images/puscica-3levo.gif" alt="tri dogodke nazaj" /></a></div>
-           <div class="past"><a href="#" onclick="return false;"><img src="{{ settings.STATIC_URL }}www/images/puscica-levo.gif" alt="en dogodek nazaj" /></a></div>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=371734709577596";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    <div class="hero-unit">
+
+        <div id="macbook_carousel">
+            <div id="carousel" class="carousel slide" rel="carousel">
+                <!-- Carousel items -->				
+                <div class="carousel-inner">
+                    <div class="active item">
+                        <img src="img/carousel/1.jpg" />
+                    </div>
+                    <div class="item">
+                        <img src="http://placehold.it/600x360/C2D9A3/fff" />
+                    </div>
+                    <div class="item">
+                        <img src="http://placehold.it/600x360/47BFA6/fff" />
+                    </div>
+                </div>
+
+                <!-- Carousel navigation -->
+                <a class="carousel-control left" href="#carousel" data-slide="prev">&lsaquo;</a>
+                <a class="carousel-control right" href="#carousel" data-slide="next">&rsaquo;</a>
+            </div>
         </div>
-        <div class="present"></div>
-        <div class="next3-right">
-            <div class="future"><a href="#" onclick="return false;"><img src="{{ settings.STATIC_URL }}www/images/puscica-desno.gif" alt="en dogodek naprej" /></a></div>
-            <div class="future3"><a href="#" onclick="return false;"><img src="{{ settings.STATIC_URL }}www/images/puscica-3desno.gif" alt="tri dogodke naprej" /></a></div>
+
+    </div><!--/ end of .hero-unit-->
+
+    <hr />
+    <div class="container">
+        <div class="row">
+            <div class="span4">
+                <h2>{% trans "News" %}</h2>
+
+                {% for n in both %}
+                <a href="{{ n.get_absolute_url }}"><h3 style="font-size: 15px;">{{ n.title }}</h3></a>
+                <div class="blog-cp-content" style="font-family: georgia, 'times new roman', times, serif; font-size: 12px">
+                    {% if n.image %}<img src="{{ n.image.url }}" width="35%" style="float: right; padding: 0 1em 0 1em;" />{% endif %}
+
+                    {% if n.text %}
+                    {{ n.text|sanitize|safe|truncatewords:"60" }}<br />
+                    {% else %}
+                    {{ n.content|sanitize|safe|truncatewords:"60" }}<br />
+                    {% endif %}
+                    <i>{% trans "Published by" %} {{ n.author }} {% trans "on" %} {% if n.date %}{{ n.date }}{% else %}{{ n.date_modified }}{% endif %}</i>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="span4">
+                <h2>{% trans "Media" %}</h2>
+
+                {% for video in videos %}
+                <div class="video-button">
+                <a href="{{ video.play_url }}"><img width="67" src="{{ video.image_url }}" alt="slika" /></a>
+                </div>
+                burek
+                {% endfor %}
+            </div>
+            <div class="span4">
+                <h2>{% trans "Social" %}</h2>
+
+                <p><a href="/feeds/all/"><i class="icon-rss"></i> RSS</a></p>
+
+                <span>{% trans "Would you like to subscribe to information about weekly events?" %}</span>
+                <form id="subscribe_mailinglist" method="post" action="{% url 'ajax_subscribe_mailinglist' %}">
+                {{ emailform.as_table }}
+                <p><i class="response"></i></p>
+                </form>
+
+
+                <div class="fb-like-box" data-href="http://www.facebook.com/kiberpipa" data-width="292" data-show-faces="true" data-stream="false" data-header="false"></div>
+            </div>
         </div>
-    </div>
-
-    <div id="notifier">
-       <div class="button-chamber">
-           <h4><a href="http://video.kiberpipa.org/">{% trans "Newest videos in video.kiberpipa.org" %}</a></h4>
-
-           {% for video in videos %}
-               <div class="video-button">
-                   <a href="{{ video.play_url }}"><img width="67" src="{{ video.image_url }}" alt="slika" /></a>
-               </div>
-           {% endfor %}
-       </div>
-       <div class="button-chamber">
-           <h4>{% trans "Subscribe to Cyberpipe mailing list" %}</h4>
-           <span>{% trans "Would you like to subscribe to information about weekly events?" %}</span>
-           <form id="subscribe_mailinglist" method="post" action="{% url 'ajax_subscribe_mailinglist' %}">
-               {{ emailform.as_table }}
-               <p><i class="response"></i></p>
-           </form>
-       </div>
-    </div>
-
-    <div id="notifier">
-     <div class="button-chamber">
-          <div class="blog-cp-title">
-              <a href="/{{ LANGUAGE_CODE }}/news/">{% trans "Writings from the world with no windows" %}</a>
-          </div>
-          {% for i in news %}
-               <div class="blog-cp-news-title">
-                   <a href="{{ i.get_absolute_url }}">{{ i.title }}</a>
-               </div>
-               <div class="blog-cp-publish">
-                   {% trans "Published by" %} {{ i.author }} {% trans "on" %} {{ i.date }}
-               </div>
-               <div class="blog-cp-content">
-                   {{ i.text|sanitize|truncatewords:"60" }}
-               </div>
-          {% endfor %}
-     </div>
-
-     <div class="button-chamber">
-          <div class="planet-title">
-          {% trans "Reflections from /dev/random" %}
-          </div>
-          {% for post in planet %}
-               <div class="planet-news-title">
-                <a href="{{ post.link }}">{{ post.title }}</a>
-               </div>
-               <div class="planet-publish">
-                {% trans "Published by" %} {{ post.author }} {% trans "on" %} {{ post.date_modified }}
-               </div>
-               <div class="planet-content">
-                {{ post.content|sanitize|safe|truncatewords:"60" }}
-               </div>
-          {% endfor %}
-     </div>
+        
     </div>
 {% endblock %}
+    

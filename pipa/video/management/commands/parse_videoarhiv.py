@@ -64,8 +64,9 @@ class Command(BaseCommand):
                 try:
                     event = Event.objects.get(pk=int(x.get('remote_ref')))
                 except Event.DoesNotExist:
-                    logger.error('Wrong intranet id in videoarchive', extra={'remote': x})
-                    continue
+                    event = None
+                    logger.error('Wrong intranet id in videoarchive: %s' % x.get('remote_ref'), extra={'remote': x})
+#                    continue
 
                 vid, is_created = Video.objects.get_or_create(
                     remote_id=x['id'],
@@ -81,8 +82,8 @@ class Command(BaseCommand):
                 # TODO: if event now has a video, and require_video is False, set it to True!
                 # TODO: also write a migration for this.
 
-                if is_created:
-                    videos_to_notify.append(vid)
+#                if is_created:
+#                    videos_to_notify.append(vid)
             except:
                 logger.error('Could not parse videoarchive: %s' % x, exc_info=True, extra=locals())
 

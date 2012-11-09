@@ -44,6 +44,7 @@ def anti_spam(request):
 def sort_news(x, y):
     date_x = x.date if 'date' in dir(x) else x.date_modified
     date_y = y.date if 'date' in dir(y) else y.date_modified
+
     return date_x < date_y
 
 def index(request):
@@ -59,13 +60,13 @@ def index(request):
     for post in posts:
         post.date = post.date_modified
         both.append(post)
-    both = sorted(both, cmp=sort_news, reverse=True)
-    both.insert(0, news[0])
+    both2 = sorted(both, cmp=sort_news, reverse=True)
+    both2.insert(0, news[0])
 
     return render_to_response('www/index.html', {
         'news': news,
         'planet': posts,
-        'both' : both,
+        'both' : both2,
         'videos': Video.objects.order_by('-pub_date')[:4],
         'emailform': EmailForm,
     }, context_instance=RequestContext(request))

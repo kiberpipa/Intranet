@@ -28,7 +28,6 @@
     
     <!--link rel="stylesheet" href="{{ settings.STATIC_URL }}www/css/style.css" type="text/css" /-->
     <link href="{{ settings.STATIC_URL }}www/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{ settings.STATIC_URL }}www/css/font-awesome.css" rel="stylesheet">
     <link href="{{ settings.STATIC_URL }}www/css/wrapbootstrap-theme.css" rel="stylesheet">
     <!--[if IE 7]>
         <link href="{{ settings.STATIC_URL }}www/css/font-awesome/font-awesome-ie7.css" rel="stylesheet">
@@ -57,41 +56,43 @@
                     </a>
                     <div class="nav-collapse fr">
                         <ul class="nav">
-                            <li class="active"><a href="{% url 'index' %}">Home</a></li>
                             <li><a href="/{{ LANGUAGE_CODE }}/about/">{% trans "about" %}</a></li>
-                            <li><a href="about.html">About us</a></li>
-                            <li><a href="plans.html">Pricing</a></li>
-                            <li><a href="explore.html">Explore</a></li>
-                            <li><a href="faq.html">FAQ</a></li>
-                            <li><a href="alt.html">Alt</a></li>
-                            <li><a href="contact.html">Contact</a></li>
+                            <li><a href="/{{ LANGUAGE_CODE }}/calendar/">{% trans "calendar" %}</a></li>
+                            <li><a href="http://www.flickr.com/photos/kiberpipa/collections/">{% trans "gallery" %}</a></li>
+                            <li><a href="/{{ LANGUAGE_CODE }}/alumni/">{% trans "community" %}</a></li>
+                            <li><a href="/{{ LANGUAGE_CODE }}/support/">{% trans "support" %}</a></li>
+                            <li><a href="/{{ LANGUAGE_CODE }}/press/">{% trans "press" %}</a></li>
+                            {% get_available_languages as languages %}
+                            {% for lang_code, lang_name in languages %}
+                                {% if LANGUAGE_CODE != lang_code %}	
+                                    <li><a href="/{{ lang_code }}/">{{ lang_code }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            <li>
+                                <form class="navbar-search pull-left" method="get" action="{% url 'event_search' %}" id="searchform">
+                                   <input class="input" name="q" id="q" type="search" class="search-query" placeholder="{% trans 'Search events ...' %}" size="15" />
+                                </form>                
+                            </li>
                         </ul>
                     </div><!--/.nav-collapse -->
                 </div><!-- end .container -->
             </div><!-- end .navbar-inner -->
         </div><!-- end .navbar -->
     </header>
-    
-    <div id="content" class="container">
-        <div class="row">
-            <div class="span12">
-                {% block content %}{% endblock %}
-            </div>
-        </div>
-    </div>
+
+    {% block content %}{% endblock %}
 
     <footer class="row">
         <div class="container">
             <div class="row">
-                <div class="span12">
+                <div class="span12 pagination-centered">
                     {% block extrafooter %}
-                    {%  endblock %}
+                    {%  endblock %}<br />
                 </div>
             </div>
 
             <div class="row">
-                <div class="span3"></div>
-                <div class="span2">
+                <div class="span2 offset3 pagination-centered">
                     <h3>(CC) 2001-12</h3>
 
                     <p>
@@ -101,17 +102,18 @@
                         Slovenija
                     </p>
                 </div>
-                <div class="span2">
+                <div class="span2 pagination-centered">
                     <h3>Kontakt</h3>
 
                     <p>
                         <i class="icon-phone"></i>&nbsp;&nbsp;+386 1 438 03 05<br /> 
                         <i class="icon-envelope"></i>&nbsp;&nbsp;<a href="mailto:info@kiberpipa.org">info@kiberpipa.org</a><br />
                         <i class="icon-envelope"></i>&nbsp;&nbsp;<a href="irc://irc.sioff.net/#kiberpipa">irc.sioff.net/#kiberpipa</a><br />
-                        <i class="icon-envelope"></i>&nbsp;&nbsp;<a href="https://www.kiberpipa.org">kiberpipa.org</a>
+                        <i class="icon-envelope"></i>&nbsp;&nbsp;<a href="https://www.kiberpipa.org">kiberpipa.org</a><br />
+                        <i class="icon-rss"></i>&nbsp;&nbsp;<a href="/rss/" >RSS</a>
                     </p>
                 </div>
-                <div class="span2 social-networks">
+                <div class="span2 social-networks pagination-centered">
                     <h3> {% trans "Opening Hours" %}</h3>
                     <p>{% trans "only during events" %}</p>
 
@@ -119,6 +121,7 @@
     					<a href="#https://www.facebook.com/pages/Kiberpipa/233872970013161" title="Follow us on Facebook" class="icon-facebook"></a>
 	    				<a href="//twitter.com/kiberpipa" title="Follow us on Twitter" class="icon-twitter"></a>
 	    				<a href="//github.com/kiberpipa" title="Follow us on Github" class="icon-github"></a>
+                        
                     </p>
                 </div>
             </div><!-- end .row -->

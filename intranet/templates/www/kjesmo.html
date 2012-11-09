@@ -54,10 +54,9 @@ $(document).ready(function () {
 </script>
 <style>
 #mapdiv {
-    width: 600px;
-    height: 400px;
-    float: left;
-    margin: 10px;
+    width: 100%;
+    height: 480px;
+    margin-bottom: 1em;
 }
 
 #descdiv {
@@ -67,12 +66,15 @@ $(document).ready(function () {
 {% endblock %}
 
 {% block content %}
-    <div id="kjesmo">
-       <div id="mapdiv"></div>
+<div id="mapdiv"></div>
+
+<div id="content" class="container">
+    <div class="row">
+        <div class="span5 offset1">
+        {% block tekst %}
+            Kiberpipa ima svoje prostore v kleti Kersnikove ulice 6, v Ljubljani. Nahaja se v samem centru prestolnice in je lahko dostopna (zelo blizu glavne železniške in avtobusne postaje, postajališč mestnega potniškega prometa in javnih garaž). Kiberpipa je v soseski, kjer se dnevno zadržuje veliko mladih in študentov, saj je v neposredni bližini <a href="http://www.sou-lj.si/">ŠOU-a</a> in njegove informacijske točke, <a href="http://www.klubk4.org">Kluba K4</a>, Galerije Kapelica in <a href="http://www.mklj.si/">knjižnice Otona Župančiča</a>.
+        {% endblock %}
+        </div>
     </div>
-    <div id="descdiv">
-    {% block tekst %}
-        Kiberpipa ima svoje prostore v kleti Kersnikove ulice 6, v Ljubljani. Nahaja se v samem centru prestolnice in je lahko dostopna (zelo blizu glavne železniške in avtobusne postaje, postajališč mestnega potniškega prometa in javnih garaž). Kiberpipa je v soseski, kjer se dnevno zadržuje veliko mladih in študentov, saj je v neposredni bližini <a href="http://www.sou-lj.si/">ŠOU-a</a> in njegove informacijske točke, <a href="http://www.klubk4.org">Kluba K4</a>, Galerije Kapelica in <a href="http://www.mklj.si/">knjižnice Otona Župančiča</a>.
-    {% endblock %}
-    </div>
+<div>
 {% endblock %}
