@@ -25,6 +25,18 @@ $(document).ready(function() {
             });
         }
      });
+
+    $.getJSON("/ajax/index/events/", function(o) {
+        // add events
+        var c = $(".carousel-inner");
+        $(o.events).each(function()  {
+            var cls = $(c).find(".item").length == 0 ? "item active" : "item";
+            var html = '<div class="' + cls + '"><img src="' + this.image + '" />\
+                <div class="carousel-announce" style="position: absolute; bottom: 70px; background: rgba(255,255,255,0.7); height: 220px;"><div style="position:fixed; bottom: 1px; background: red;">' + this.announce + '</div></div>\
+                <div class="carousel-caption"><p>' + this.title + '<br/>' + this.project + '</p></div></div>';
+            $(c).append(html);
+        });
+    });
  });
 </script>
 {% endblock %}
@@ -44,15 +56,6 @@ $(document).ready(function() {
             <div id="carousel" class="carousel slide" rel="carousel">
                 <!-- Carousel items -->				
                 <div class="carousel-inner">
-                    <div class="active item">
-                        <img src="img/carousel/1.jpg" />
-                    </div>
-                    <div class="item">
-                        <img src="http://placehold.it/600x360/C2D9A3/fff" />
-                    </div>
-                    <div class="item">
-                        <img src="http://placehold.it/600x360/47BFA6/fff" />
-                    </div>
                 </div>
 
                 <!-- Carousel navigation -->
@@ -66,12 +69,13 @@ $(document).ready(function() {
     <hr />
     <div class="container">
         <div class="row">
-            <div class="span4">
+            <div class="span4 thenews">
                 <h2>{% trans "News" %}</h2>
 
+                <ol class="news">
                 {% for n in both %}
-                <a href="{{ n.get_absolute_url }}"><h3 style="font-size: 15px;">{{ n.title }}</h3></a>
-                <div class="blog-cp-content" style="font-family: georgia, 'times new roman', times, serif; font-size: 12px">
+                <li>
+                    <a href="{{ n.get_absolute_url }}"><h3>{{ n.title }}</h3></a>
                     {% if n.image %}<img src="{{ n.image.url }}" width="35%" style="float: right; padding: 0 1em 0 1em;" />{% endif %}
 
                     {% if n.text %}
@@ -80,18 +84,28 @@ $(document).ready(function() {
                     {{ n.content|sanitize|safe|truncatewords:"60" }}<br />
                     {% endif %}
                     <i>{% trans "Published by" %} {{ n.author }} {% trans "on" %} {% if n.date %}{{ n.date }}{% else %}{{ n.date_modified }}{% endif %}</i>
-                </div>
+                </li>
                 {% endfor %}
+                </ol>
+
+                <p><a href="#">Več novic</a></p>
             </div>
             <div class="span4">
                 <h2>{% trans "Media" %}</h2>
 
+                <h3>Recent videos</h3>
                 {% for video in videos %}
-                <div class="video-button">
-                <a href="{{ video.play_url }}"><img width="67" src="{{ video.image_url }}" alt="slika" /></a>
-                </div>
-                burek
+                <ol class="recent_videos">
+                	<li>
+                		<a href="{{ video.play_url }}"><img src="{{ video.image_url }}" alt="slika" /></a><br />
+                		<label>{{ video.title }}</label>
+                	</li>
+                </ol>
                 {% endfor %}
+
+                <h3>Recent photos</h3>
+                
+                <p>Le todo</p>
             </div>
             <div class="span4">
                 <h2>{% trans "Social" %}</h2>

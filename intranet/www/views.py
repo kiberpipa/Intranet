@@ -4,6 +4,7 @@ import datetime
 import time
 import logging
 import urlparse
+import json
 from calendar import Calendar
 
 from django.conf import settings
@@ -17,6 +18,8 @@ from django.contrib.comments.views.comments import post_comment
 from django.views.generic import ListView
 from django.views.decorators.csrf import csrf_protect
 from django.utils.translation import ugettext as _
+from django.core.serializers.json import DjangoJSONEncoder
+from django.template.defaultfilters import striptags,safe,truncatewords
 from feedjack.models import Post
 from dateutil.relativedelta import relativedelta
 from django_mailman.models import List
@@ -98,6 +101,19 @@ def ajax_index_events(request):
             # TODO: if previous event should have ended more than 3 hours ago, dont' display the stream
         except IndexError:
             pass
+
+    # damn django resultsets aren't json-serializable.
+    eventss = list()
+    for event in events:
+        d = dict(id=event.id, title = event.title, start_date=event.start_date)
+        d['project'] = event.project.verbose_name if event.project.verbose_name else event.project.name
+        d['announce'] = truncatewords(safe(striptags(event.announce)), 30)
+        d['image'] =event.event_image.image.url if event.event_image else settings.STATIC_URL + "www/images/img-upcoming.gif"
+        eventss.append(d)
+
+    ret = dict()
+    ret['events'] = eventss
+    return HttpResponse(json.dumps(ret, cls=DjangoJSONEncoder), mimetype='application/json')
 
     return render_to_response('www/ajax_index_events.html', locals(),
         context_instance=RequestContext(request))
