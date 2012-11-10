@@ -13,7 +13,7 @@ Prerequisites::
 
 Get Kiberpipa intranet::
 
-    git clone git://github.com/kiberpipa/Intranet.git kiberpipa-intranet
+    git clone https://github.com/kiberpipa/Intranet.git kiberpipa-intranet
     cd kiberpipa-intranet
 
 Install and run buildout::
