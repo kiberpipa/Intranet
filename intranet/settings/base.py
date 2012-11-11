@@ -184,6 +184,7 @@ SOUTH_TESTS_MIGRATE = False
 
 # pipa.photo
 PHOTOS_FLICKR_IMAGE_URL_S = 'http://farm%(farm)s.static.flickr.com/%(server)s/%(id)s_%(secret)s_s.jpg'
+PHOTOS_FLICKR_SET_IMAGE_URL_N = 'http://farm%(farm)s.static.flickr.com/%(server)s/%(primary)s_%(secret)s_n.jpg'
 PHOTOS_FLICKR_IMAGE_URL = 'http://farm%(farm)s.static.flickr.com/%(server)s/%(id)s_%(secret)s.jpg'
 
 # pipa.video

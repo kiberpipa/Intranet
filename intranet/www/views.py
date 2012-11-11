@@ -68,12 +68,10 @@ def index(request):
 
     try:
         pictures = []
-        # http://www.flickr.com/services/api/flickr.photos.search.html
+        # http://www.flickr.com/services/api/flickr.photosets.getList.html
         json = flickr_api.flickr_call(
-            method='flickr.photos.search',
-            extras='url_n',
+            method='flickr.photosets.getList',
             user_id='40437802@N07',  # http://idgettr.com/
-            privacy_filter=1,
             per_page=5,
             pages=1,
             format="json",
@@ -83,10 +81,14 @@ def index(request):
     else:
         r = simplejson.loads(json)
         if r.get('stat', 'error') == 'ok':
-            for image in r['photos']['photo']:
-                image['thumb_url'] = image['url_n']
-                image['url'] = 'http://www.flickr.com/photos/kiberpipa/%(id)s' % image
-                image['title'] = image.get('title', '')
+            photosets = r['photosets']['photoset']
+            photosets = sorted(photosets, key=lambda x: x['date_create'], reverse=True)
+            for image in photosets[:5]:
+                if int(image['photos']) == 0:
+                    continue
+                image['thumb_url'] = settings.PHOTOS_FLICKR_SET_IMAGE_URL_N % image
+                image['url'] = 'http://www.flickr.com/photos/kiberpipa/sets/%(id)s/' % image
+                image['title'] = image['title']['_content']
                 pictures.append(image)
 
     return render_to_response('www/index.html', {
