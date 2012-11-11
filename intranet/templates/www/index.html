@@ -114,12 +114,17 @@ $(document).ready(function() {
 
                 <span>{% trans "Would you like to subscribe to information about weekly events?" %}</span>
                 <form id="subscribe_mailinglist" method="post" action="{% url 'ajax_subscribe_mailinglist' %}">
-                {{ emailform.as_table }}
-                <p><i class="response"></i></p>
+                   {{ emailform.as_table }}
+                   <p><i class="response"></i></p>
                 </form>
 
-
                 <div class="fb-like-box" data-href="http://www.facebook.com/kiberpipa" data-width="292" data-show-faces="true" data-stream="false" data-header="false"></div>
+
+                <ul>
+                  {% for tweet in tweets %}
+                    {{ tweet.text }}
+                  {% endfor %}
+                <ul>
             </div>
         </div>
         

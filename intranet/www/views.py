@@ -26,6 +26,7 @@ from feedjack.models import Post
 from dateutil.relativedelta import relativedelta
 from django_mailman.models import List
 from haystack.query import SearchQuerySet
+import twitter
 
 from intranet.org.models import to_utc, Event, Email
 from intranet.www.models import News
@@ -59,12 +60,16 @@ def index(request):
     both2 = sorted(both, cmp=sort_news, reverse=True)
     both2.insert(0, news[0])
 
+    api = twitter.Api()
+    tweets = api.GetSearch(term='kiberpipa OR cyberpipe')
+
     return render_to_response('www/index.html', {
         'news': news,
         'planet': posts,
         'both' : both2,
         'videos': Video.objects.order_by('-pub_date')[:4],
         'emailform': EmailForm,
+        'tweets': tweets,
     }, context_instance=RequestContext(request))
 
 

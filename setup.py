@@ -37,6 +37,7 @@ setup(name='intranet',
         'flickrapi',
         'requests',
         'python-dateutil',
+        'python-twitter',
         'django-mailman',
         'django-spaminspector',
         'akismet',
@@ -62,8 +63,6 @@ setup(name='intranet',
         # database
         'psycopg2',
         'egenix-mx-base',
-        # commands
-        'twitter',
         # admin
         'raven',
         'django-reversion',
