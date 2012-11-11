@@ -29,8 +29,9 @@
     <!--link rel="stylesheet" href="{{ settings.STATIC_URL }}www/css/style.css" type="text/css" /-->
     <link href="{{ settings.STATIC_URL }}www/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ settings.STATIC_URL }}www/css/wrapbootstrap-theme.css" rel="stylesheet">
+    <link href="{{ settings.STATIC_URL }}www/css/font-awesome.css" rel="stylesheet">
     <!--[if IE 7]>
-        <link href="{{ settings.STATIC_URL }}www/css/font-awesome/font-awesome-ie7.css" rel="stylesheet">
+        <link href="{{ settings.STATIC_URL }}www/css/font-awesome-ie7.css" rel="stylesheet">
     <![endif]-->
     <link href='//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'>
 
@@ -64,16 +65,14 @@
                             <li><a href="/{{ LANGUAGE_CODE }}/press/">{% trans "press" %}</a></li>
                             {% get_available_languages as languages %}
                             {% for lang_code, lang_name in languages %}
-                                {% if LANGUAGE_CODE != lang_code %}	
+                                {% if LANGUAGE_CODE != lang_code %}    
                                     <li><a href="/{{ lang_code }}/">{{ lang_code }}</a></li>
                                 {% endif %}
                             {% endfor %}
-                            <li>
-                                <form class="navbar-search pull-left" method="get" action="{% url 'event_search' %}" id="searchform">
-                                   <input class="input" name="q" id="q" type="search" class="search-query" placeholder="{% trans 'Search events ...' %}" size="15" />
-                                </form>                
-                            </li>
                         </ul>
+                        <form class="navbar-search pull-left" method="get" action="{% url 'event_search' %}" id="searchform">
+                           <input class="input" name="q" id="q" type="search" class="search-query" placeholder="{% trans 'Search events ...' %}" size="15" />
+                        </form>                
                     </div><!--/.nav-collapse -->
                 </div><!-- end .container -->
             </div><!-- end .navbar-inner -->
@@ -118,33 +117,33 @@
                     <p>{% trans "only during events" %}</p>
 
                     <p>
-    					<a href="#https://www.facebook.com/pages/Kiberpipa/233872970013161" title="Follow us on Facebook" class="icon-facebook"></a>
-	    				<a href="//twitter.com/kiberpipa" title="Follow us on Twitter" class="icon-twitter"></a>
-	    				<a href="//github.com/kiberpipa" title="Follow us on Github" class="icon-github"></a>
+                        <a href="#https://www.facebook.com/pages/Kiberpipa/233872970013161" title="Follow us on Facebook" class="icon-facebook"></a>
+                        <a href="//twitter.com/kiberpipa" title="Follow us on Twitter" class="icon-twitter"></a>
+                        <a href="//github.com/kiberpipa" title="Follow us on Github" class="icon-github"></a>
                         
                     </p>
                 </div>
             </div><!-- end .row -->
         </div><!-- end .container -->
     </footer>
-	<div id="footer-extra">
-		<div class="container">
-			<div class="row">
-				<div class="span12 pagination-centered">
+    <div id="footer-extra">
+        <div class="container">
+            <div class="row">
+                <div class="span12 pagination-centered">
                     <a href="http://www.k6-4.org/"><img src="{{ settings.STATIC_URL }}www/images/zavod_pasica_inverted.png" alt="Zavod K6/4" /></a>&nbsp;&nbsp;
                     <a href="http://www.m3c.si/dat/M3C/"><img src="{{ settings.STATIC_URL }}www/images/logo_m3c_inverted.png" alt="M3C - Mreža Multimedijskih Centrov Slovenije" /></a>&nbsp;&nbsp;
                     <a href="http://www.gov.si/euskladi/skladi/strukt_esrr.html"><img src="{{ settings.STATIC_URL }}www/images/logo_evropski_sklad_inverted.png" alt="Evropski Sklad za Regionalni Razvoj" /></a>&nbsp;&nbsp;
                     <a href="http://www.kultura.gov.si/"><img src="{{ settings.STATIC_URL }}www/images/logo_kultura_inverted.png" alt="Kultura" /></a>
-				</div>
-			</div> <!-- end .row -->		
-		</div> <!-- end .container -->		
-	</div>
+                </div>
+            </div> <!-- end .row -->        
+        </div> <!-- end .container -->        
+    </div>
 
 
-	<!-- Placed at the end of the document so the pages load faster -->
-	<script type="text/javascript" src="{{ settings.STATIC_URL }}www/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="{{ settings.STATIC_URL }}www/js/jquery.isotope.min.js"></script>
-	<script type="text/javascript" src="{{ settings.STATIC_URL }}www/js/jquery.touchSwipe.js"></script>
-	<script type="text/javascript" src="{{ settings.STATIC_URL }}www/js/functions.min.js"></script>
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}www/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}www/js/jquery.isotope.min.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}www/js/jquery.touchSwipe.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}www/js/functions.min.js"></script>
 </body>
 </html>
