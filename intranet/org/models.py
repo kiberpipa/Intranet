@@ -4,7 +4,6 @@ import time
 import re
 import urllib
 import datetime
-from hashlib import md5
 from datetime import date, timedelta
 
 from django.db import models
@@ -203,18 +202,12 @@ class Organization(models.Model):
 class IntranetImage(models.Model):
     title = models.CharField(max_length=255)
     image = models.ImageField(upload_to='events/%Y/%m/', verbose_name="Slikca za Event page")
-    md5 = models.CharField(max_length=32, db_index=True, unique=True, blank=True)
 
     class Meta:
         ordering = ('-image',)
 
     def __unicode__(self):
         return u'Image: %s' % (self.image.url)
-
-    def save(self, *args, **kwargs):
-        super(IntranetImage, self).save(*args, **kwargs)
-        self.md5 = md5(open(self.image.path).read()).hexdigest()
-        super(IntranetImage, self).save(*args, **kwargs)
 
 
 # koledar dogodkov

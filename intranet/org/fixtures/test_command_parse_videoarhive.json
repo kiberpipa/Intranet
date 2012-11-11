@@ -123,7 +123,6 @@
   "model": "org.intranetimage",
   "fields": {
    "image": "events/2011/07/Basketball.png",
-   "md5": "9b7295eb2c0ed7d21f08e8c7e6d0425f",
    "title": "test"
   }
  },

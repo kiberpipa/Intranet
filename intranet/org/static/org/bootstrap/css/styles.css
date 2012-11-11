@@ -45,6 +45,7 @@ label[for='id_log_formal'], label[for='id_log_informal'] { width: 100%; }
 form.form-horizontal .help-inline ul, form.form-horizontal .help-block ul { list-style-type: none; margin: 0; padding: 0;}
 form.error .help-block { color: black; }
 form.form-horizontal label.checkbox { display: inline; }
+.errorlist { color: #F00 }
 
 /* modal dialog */
 .modal .modal-header-dark { background-color: #2C2C2C; color: white; border-top-left-radius: 5px; border-top-right-radius: 5px; }

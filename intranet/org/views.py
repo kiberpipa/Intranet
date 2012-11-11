@@ -84,7 +84,7 @@ def image_resize(request):
     if request.POST:
         form = ImageResizeForm(request.POST)
         if form.errors:
-            return HttpResponse(simplejson.dumps({'status': form.errors}))
+            return HttpResponse(simplejson.dumps({'status': "%r" % form.errors}))
         else:
             if form.cleaned_data.get('filename') != request.session.get('temporary_filename'):
                 return HttpResponse(simplejson.dumps({'status': 'fail3'}))

@@ -47,7 +47,6 @@
   "model": "org.intranetimage",
   "fields": {
    "image": "events/2011/09/sample-4.jpg",
-   "md5": "e60a189a3ef2b5f8b53eb446056bb389",
    "title": "opis"
   }
  },
