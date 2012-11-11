@@ -3,8 +3,10 @@
 import datetime
 import time
 import logging
+import urllib2
 import urlparse
 import json
+import simplejson
 from calendar import Calendar
 
 import icalendar
@@ -33,6 +35,7 @@ from intranet.www.models import News
 from intranet.www.forms import EmailForm, EventContactForm
 from pipa.video.models import Video
 from pipa.video.utils import is_streaming
+from pipa.gallery.templatetags.photos_box import api as flickr_api
 
 
 logger = logging.getLogger(__name__)
@@ -63,6 +66,29 @@ def index(request):
     api = twitter.Api()
     tweets = api.GetSearch(term='kiberpipa OR cyberpipe')
 
+    try:
+        pictures = []
+        # http://www.flickr.com/services/api/flickr.photos.search.html
+        json = flickr_api.flickr_call(
+            method='flickr.photos.search',
+            extras='url_n',
+            user_id='40437802@N07',  # http://idgettr.com/
+            privacy_filter=1,
+            per_page=5,
+            pages=1,
+            format="json",
+            nojsoncallback=1)
+    except urllib2.URLError:
+        pass
+    else:
+        r = simplejson.loads(json)
+        if r.get('stat', 'error') == 'ok':
+            for image in r['photos']['photo']:
+                image['thumb_url'] = image['url_n']
+                image['url'] = 'http://www.flickr.com/photos/kiberpipa/%(id)s' % image
+                image['title'] = image.get('title', '')
+                pictures.append(image)
+
     return render_to_response('www/index.html', {
         'news': news,
         'planet': posts,
@@ -70,6 +96,7 @@ def index(request):
         'videos': Video.objects.order_by('-pub_date')[:4],
         'emailform': EmailForm,
         'tweets': tweets,
+        'pictures': pictures,
     }, context_instance=RequestContext(request))
 
 

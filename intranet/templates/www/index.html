@@ -97,7 +97,7 @@ $(document).ready(function() {
                 {% for video in videos %}
                 <ol class="recent_videos">
                 	<li>
-                		<a href="{{ video.play_url }}"><img src="{{ video.image_url }}" alt="slika" /></a><br />
+                		<a href="{{ video.play_url }}"><img src="{{ video.image_url }}" alt="{{ video.title }}" /></a><br />
                 		<label>{{ video.title }}</label>
                 	</li>
                 </ol>
@@ -105,7 +105,14 @@ $(document).ready(function() {
 
                 <h3>Recent photos</h3>
                 
-                <p>Le todo</p>
+                {% for picture in pictures %}
+                <ol class="recent_videos">
+                    <li>
+                        <a href="{{ picture.url }}"><img src="{{ picture.thumb_url }}" alt="{{ picture.title}}" /></a><br />
+                        <label>{{ picture.title }}</label>
+                    </li>
+                </ol>
+                {% endfor %}
             </div>
             <div class="span4">
                 <h2>{% trans "Social" %}</h2>
