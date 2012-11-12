@@ -27,9 +27,10 @@
     <title>{% block title %}{% trans "All our code are belong to you" %}{% endblock %} :: Kiberpipa.org</title>
     
     <!--link rel="stylesheet" href="{{ settings.STATIC_URL }}www/css/style.css" type="text/css" /-->
-    <link href="{{ settings.STATIC_URL }}www/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ settings.STATIC_URL }}www/css/bootstrap.css" rel="stylesheet">
     <link href="{{ settings.STATIC_URL }}www/css/wrapbootstrap-theme.css" rel="stylesheet">
-    <link href="{{ settings.STATIC_URL }}www/css/font-awesome.css" rel="stylesheet">
+    <link href="{{ settings.STATIC_URL }}www/css/font-awesome.css" rel="stylesheet">
+
     <!--[if IE 7]>
         <link href="{{ settings.STATIC_URL }}www/css/font-awesome-ie7.css" rel="stylesheet">
     <![endif]-->
@@ -78,8 +79,10 @@
             </div><!-- end .navbar-inner -->
         </div><!-- end .navbar -->
     </header>
-
-    {% block content %}{% endblock %}
+ 
+    <div id="content" class="container">
+        {% block content %}{% endblock %}
+    </div>
 
     <footer class="row">
         <div class="container">
