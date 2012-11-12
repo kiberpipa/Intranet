@@ -32,25 +32,25 @@ $(document).ready(function() {
         $(o.events).each(function()  {
             var cls = $(c).find(".item").length == 0 ? "item active" : "item";
             var html = '<div class="' + cls + '"><img src="' + this.image + '" />\
-                <div class="carousel-announce" style="position: absolute; bottom: 70px; background: rgba(255,255,255,0.7); height: 220px;"><div style="position:fixed; bottom: 1px; background: red;">' + this.announce + '</div></div>\
-                <div class="carousel-caption"><p>' + this.title + '<br/>' + this.project + '</p></div></div>';
+                <div class="carousel-caption">\
+                    <div class="carousel-announce">' + this.announce + '</div>\
+                    <p style="height: 30px; vertical-align: text-bottom; margin-top: 1em; ">' + this.title + '<span class="project" style="float: right">' + this.project + '</span></p></div></div>';
             $(c).append(html);
         });
     });
  });
 </script>
+<style type="text/css">
+    .carousel .carousel-caption .carousel-announce { display: none; }
+    .carousel:hover .carousel-announce  { display: block; }
+</style>
+
 {% endblock %}
 
 {% block content %}
-    <div id="fb-root"></div>
-    <script>(function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=371734709577596";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
+  
     <div class="hero-unit">
+        <p class="ac">Prihajajoči dogodki v Multimedijskem centru Kiberpipa</p>
 
         <div id="macbook_carousel">
             <div id="carousel" class="carousel slide" rel="carousel">
@@ -97,7 +97,10 @@ $(document).ready(function() {
                 {% for video in videos %}
                 <ol class="recent_videos">
                 	<li>
-                		<a href="{{ video.play_url }}"><img src="{{ video.image_url }}" alt="{{ video.title }}" /></a><br />
+                		<a href="{{ video.play_url }}">
+                            <img class="thumb" src="{{ video.image_url }}" alt="{{ video.title }}" />
+                            <img class="overlay" src="{{ settings.STATIC_URL }}www/images/vod_overlay.png" alt="" title="" />
+                        </a>
                 		<label>{{ video.title }}</label>
                 	</li>
                 </ol>
@@ -127,9 +130,15 @@ $(document).ready(function() {
 
                 <div class="fb-like-box" data-href="http://www.facebook.com/kiberpipa" data-width="292" data-show-faces="true" data-stream="false" data-header="false"></div>
 
-                <ul>
-                  {% for tweet in tweets %}
-                    {{ tweet.text }}
+                <ul class="tweets">
+                    {% for tweet in tweets %}
+                    <li>
+                        <img class="tweet-profile-image" src="{{ tweet.user.profile_image_url }}" alt="{{ tweet.user.screen_name }}" title="{{ tweet.user.screen_name }}">
+                        <div class="tweet-inner">
+                            <b>{{ tweet.user.screen_name }}</b><br/>
+                            <p class="tweer-text" style="font-size: smaller">{{ tweet.text|urlize }}</p>
+                        </div>
+                    </li>
                   {% endfor %}
                 <ul>
             </div>

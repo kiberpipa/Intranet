@@ -134,7 +134,7 @@ def ajax_index_events(request):
     for event in events:
         d = dict(id=event.id, title = event.title, start_date=event.start_date)
         d['project'] = event.project.verbose_name if event.project.verbose_name else event.project.name
-        d['announce'] = truncatewords(safe(striptags(event.announce)), 30)
+        d['announce'] = truncatewords(safe(striptags(event.announce)), 100)
         d['image'] =event.event_image.image.url if event.event_image else settings.STATIC_URL + "www/images/img-upcoming.gif"
         eventss.append(d)
 
