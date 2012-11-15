@@ -57,9 +57,6 @@ class Command(BaseCommand):
 
             try:
                 slug = x.get('slug')
-                # ignore video entries from old archive as metadata is too different
-                if Video.objects.filter(videodir__istartswith=slug).exists():
-                        continue
 
                 try:
                     event = Event.objects.get(pk=int(x.get('remote_ref')))
