@@ -135,7 +135,7 @@ $(document).ready(function() {
                     <li>
                         <img class="tweet-profile-image" src="{{ tweet.user.profile_image_url }}" alt="{{ tweet.user.screen_name }}" title="{{ tweet.user.screen_name }}">
                         <div class="tweet-inner">
-                            <b>{{ tweet.user.screen_name }}</b><br/>
+                            <b><a href="http://twitter.com/{{ tweet.user.screen_name }}" target="_blank">{{ tweet.user.screen_name }}</a></b><br/>
                             <p class="tweer-text" style="font-size: smaller">{{ tweet.text|urlize }}</p>
                         </div>
                     </li>
