@@ -8,19 +8,23 @@ import shutil
 import random
 from cStringIO import StringIO
 import logging
+import subprocess
 
 import mx.DateTime
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.core.mail import send_mail
+from django.core.urlresolvers import reverse
+from django.db import models
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
+from django_mailman.models import List
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
-from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
-from django.views.generic import CreateView, UpdateView, DetailView, ArchiveIndexView, YearArchiveView, MonthArchiveView
+from django.template.loader import get_template
 from django.utils import simplejson
-from django.db import models
+from django.views.generic import CreateView, UpdateView, DetailView, ArchiveIndexView, YearArchiveView, MonthArchiveView
 from PIL import Image
 
 from intranet.org.models import (Project, Email,
@@ -28,7 +32,8 @@ from intranet.org.models import (Project, Email,
     Lend, Scratchpad)
 from intranet.org.forms import (DiaryFilter, AddEventEmails,
     EventForm, LendForm, ShoppingForm, DiaryForm,
-    ImageResizeForm, IntranetImageForm)
+    ImageResizeForm, IntranetImageForm,
+    NewMemberForm)
 
 
 month_dict = {'jan': 1, 'feb': 2, 'mar': 3,
@@ -875,3 +880,66 @@ def lend_back(request, id=None):  # TODO: this shouldn't be doable with get, mak
     lend.returned = True
     lend.save()
     return HttpResponseRedirect(reverse('lend_index'))
+
+
+@login_required
+def add_member(request):
+    """Add kiberpipa memeber with all the stuff"""
+    if not request.user.is_staff:
+        return
+
+    form = NewMemberForm(request.POST or None)
+
+    if request.method == "POST" and form.is_valid():
+        # create ldap record
+        password = random.sample(string.letters + string.digits, 8)
+
+        uid = int(subprocess.check_output("getent passwd | awk -F: '$3 < 3000 { print $3 }' | sort -n | tail -1").strip())
+        uid += 1
+        gid = int(subprocess.check_output("getent group | awk -F: '$3 < 3000 { print $3 }' | sort -n | tail -1").strip())
+        gid += 1
+
+        ldif_template = get_template('org/member_add.ldif').render(Context(dict(
+            data=form.cleaned_data,
+            password=passoword,
+            uid=uid,
+            gid=gid,
+        )))
+
+        with tempfile.NamedTemporaryFile() as f:
+            f.write(ldif_template)
+            f.flush()
+            subprocess.check_call('sudo -u root ldapadd -D cn=admin,dc=kiberpipa,dc=org -f %s -w %s' % (f.name, settings.LDAP_PASSWORD),
+                                  shell=True)
+
+        # create home folder
+        subprocess.check_call('sudo -u root mkdir /home/%s' % form.cleaned_data['username'],
+                              shell=True)
+
+        # TODO: add member to redmine
+
+        # add him to pipa-org
+        if form.cleaned_data['add_to_private_mailinglist']:
+            mailman_list = List.objects.get(id=2)
+            mailman_list.subscribe(form.cleaned_data['email'])
+
+        # send email to new user
+        html = get_template('mail/member_add_welcome_email.html').render(
+            Context(dict(
+                username=form.cleaned_data['username'],
+                password=password,
+        )))
+        send_mail('Dobrodošel/a v Kiberpipi!',
+                  html,
+                  'intranet@kiberpipa.org',
+                  [form.cleaned_data['email']])
+
+        return render_to_response(
+            'org/member_add_success.html',
+            {},
+            context_instance=RequestContext(request))
+
+    return render_to_response(
+        'org/member_add.html',
+        {'form': form},
+        context_instance=RequestContext(request))

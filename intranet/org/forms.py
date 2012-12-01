@@ -7,6 +7,7 @@ from datetime import date
 
 from chosen.widgets import ChosenSelectMultiple, ChosenSelect
 from django import forms
+from django.core.validators import RegexValidator
 from django.contrib.auth.models import User
 from django.forms.util import ErrorList
 from django.utils.formats import get_format
@@ -243,3 +244,16 @@ class DiaryForm(forms.ModelForm):
         self.base_fields['date'].initial = date.today()
         super(DiaryForm, self).__init__(*a, **kw)
         self.fields['task'].queryset = Project.objects.all().order_by('name')
+
+
+class NewMemberForm(forms.Form):
+    firstname = forms.CharField(max_length=100, required=True)
+    surname = forms.CharField(max_length=100, required=True)
+    email = forms.EmailField(max_length=100, required=True)
+    username = forms.CharField(max_length=100, required=True,
+                               validators=[RegexValidator(r'[a-zA-Z0-9.-_]{3,15}')])
+    # TODO: dogbert_login = forms.BooleanField(required=False)
+    # TODO: jon_login = forms.BooleanField(required=False)
+    intranet_login = forms.BooleanField(initial=True, required=False)
+    wiki_login = forms.BooleanField(initial=True, required=False)
+    add_to_private_mailinglist = forms.BooleanField(initial=True, required=False)

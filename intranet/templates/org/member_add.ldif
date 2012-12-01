@@ -1,0 +1,73 @@
+dn: uid={{ data.username }},ou=People,dc=kiberpipa,dc=org
+cn: {{ data.firstname }} {{ data.surname }}
+objectClass: account
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: top
+{% if data.wiki_login or data.intranet_login %}
+objectClass: intranet
+{% endif %}
+# TODO:objectClass: mailaccess
+## this defines attributes as sn, givenName ... UGLY!
+objectClass: dogbertshell
+uidNumber: {{ uid }}
+gidNumber: {{ gid }}
+homeDirectory: /home/{{ data.username }}
+loginShell: /bin/bash
+shadowLastChange: 11192
+userPassword: {{ password }}
+shadowMin: -1
+shadowMax: 99999
+shadowWarning: 7
+shadowInactive: -1
+shadowExpire: -1
+shadowFlag: 134538308
+maildrop: maja@kiberpipa.org
+uid: {{ data.username }}
+givenName: {{ data.firstname }}
+sn: {{ data.surname }}
+
+# TODO:    dogbert_login = forms.BooleanField(required=False)
+# TODO:    jon_login = forms.BooleanField(required=False)
+
+dn: cn={{ data.username }},ou=Groups,dc=kiberpipa,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: {{ data.username }}
+gidNumber: {{ gid }}
+memberUid: {{ data.username }}
+
+dn: cn=dezurni,ou=Groups,dc=kiberpipa,dc=org
+changetype: modify
+add: memberUid
+memberUid: {{ data.username }}
+
+dn: cn=audio,ou=Groups,dc=kiberpipa,dc=org
+changetype: modify
+add: memberUid
+memberUid: {{ data.username }}
+
+dn: cn=cdrom,ou=Groups,dc=kiberpipa,dc=org
+changetype: modify
+add: memberUid
+memberUid: {{ data.username }}
+
+dn: cn=floppy,ou=Groups,dc=kiberpipa,dc=org
+changetype: modify
+add: memberUid
+memberUid: {{ data.username }}
+
+dn: cn=plugdev,ou=Groups,dc=kiberpipa,dc=org
+changetype: modify
+add: memberUid
+memberUid: {{ data.username }}
+
+dn: cn=disk,ou=Groups,dc=kiberpipa,dc=org
+changetype: modify
+add: memberUid
+memberUid: {{ data.username }}
+
+dn: cn=video,ou=Groups,dc=kiberpipa,dc=org
+changetype: modify
+add: memberUid
+memberUid: {{ data.username }}

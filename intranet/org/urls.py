@@ -62,6 +62,8 @@ urlpatterns = patterns('',
     (r'^dezurni/(?P<year>\d+)/(?P<month>[a-z]{3})/$', 'intranet.org.views.dezurni_monthly'),
     (r'^dezurni/(?P<year>\d+)/(?P<week>\d+)/$', 'intranet.org.views.dezurni'),
 
+    url(r'^member/add$', 'intranet.org.views.add_member', name="add_member"),
+
     (r'^scratchpad/change/$', 'intranet.org.views.scratchpad_change'),
     url(r'^statistika/(?P<year>\d{4})?', 'intranet.org.views.year_statistics', name='statistics_by_year'),
 

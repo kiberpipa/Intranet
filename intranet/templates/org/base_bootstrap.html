@@ -92,6 +92,7 @@
 								<li><a href="/intranet/events/pr/">{% trans "PR" %}</a></li>
 								{% if request.user.is_staff %}
 								<li class="divider"></li>
+								<li><a href="{% url 'add_member' %}">{% trans "Add a member" %}</a></li>
 								<li><a href="/intranet/admin">{% trans "Administration" %}</a></li>
 								{% endif %}
 							</ul>

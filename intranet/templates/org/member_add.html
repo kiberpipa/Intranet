@@ -1,0 +1,12 @@
+{% extends "org/base_bootstrap_fluid.html" %}
+{% block title %}{% endblock %}
+
+
+{% block content-main %}
+  <div class="module">
+      <form action="/" method="POST">
+          {{ form }}
+          <p><button type="submit" class="btn btn-primary">Dodaj člana</button></p>
+      </form>
+  </div>
+{% endblock %}
