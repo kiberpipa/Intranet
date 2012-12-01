@@ -4,10 +4,8 @@ objectClass: account
 objectClass: posixAccount
 objectClass: shadowAccount
 objectClass: top
-{% if data.wiki_login or data.intranet_login %}
-objectClass: intranet
-{% endif %}
-# TODO:objectClass: mailaccess
+{% if data.wiki_login or data.intranet_login %}objectClass: intranet{% endif %}
+## TODO:objectClass: mailaccess
 ## this defines attributes as sn, givenName ... UGLY!
 objectClass: dogbertshell
 uidNumber: {{ uid }}
@@ -26,9 +24,8 @@ maildrop: maja@kiberpipa.org
 uid: {{ data.username }}
 givenName: {{ data.firstname }}
 sn: {{ data.surname }}
-
-# TODO:    dogbert_login = forms.BooleanField(required=False)
-# TODO:    jon_login = forms.BooleanField(required=False)
+## TODO:    dogbert_login = forms.BooleanField(required=False)
+## TODO:    jon_login = forms.BooleanField(required=False)
 
 dn: cn={{ data.username }},ou=Groups,dc=kiberpipa,dc=org
 objectClass: posixGroup

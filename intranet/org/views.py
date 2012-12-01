@@ -895,7 +895,7 @@ def add_member(request):
 
     if request.method == "POST" and form.is_valid():
         # create ldap record
-        password = random.sample(string.letters + string.digits, 8)
+        password = ''.join(random.sample(string.letters + string.digits, 8))
 
         uid = int(subprocess.Popen("getent passwd | awk -F: '$3 < 3000 { print $3 }' | sort -n | tail -1", stdout=subprocess.PIPE, shell=True).communicate()[0].strip())
         uid += 1
