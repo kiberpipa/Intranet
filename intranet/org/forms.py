@@ -251,7 +251,7 @@ class NewMemberForm(forms.Form):
     surname = forms.CharField(max_length=100, required=True)
     email = forms.EmailField(max_length=100, required=True)
     username = forms.CharField(max_length=100, required=True,
-                               validators=[RegexValidator(r'[a-zA-Z0-9.-_]{3,15}')])
+                               validators=[RegexValidator(regex=re.compile(r'[a-zA-Z0-9.-_]{3,15}'))])
     # TODO: dogbert_login = forms.BooleanField(required=False)
     # TODO: jon_login = forms.BooleanField(required=False)
     intranet_login = forms.BooleanField(initial=True, required=False)

@@ -6,6 +6,7 @@ import os
 import csv
 import shutil
 import random
+import string
 from cStringIO import StringIO
 import logging
 import subprocess
