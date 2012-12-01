@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import datetime
-import os
-import csv
-import shutil
-import random
-import string
 from cStringIO import StringIO
+import csv
+import datetime
 import logging
+import os
+import random
+import shutil
+import string
 import subprocess
+import tempfile
 
 import mx.DateTime
 from django.conf import settings
@@ -22,6 +23,7 @@ from django.db import models
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
 from django_mailman.models import List
 from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.template import Context
 from django.template import RequestContext
 from django.template.loader import get_template
 from django.utils import simplejson
@@ -895,20 +897,20 @@ def add_member(request):
         # create ldap record
         password = random.sample(string.letters + string.digits, 8)
 
-        uid = int(subprocess.check_output("getent passwd | awk -F: '$3 < 3000 { print $3 }' | sort -n | tail -1").strip())
+        uid = int(subprocess.Popen("getent passwd | awk -F: '$3 < 3000 { print $3 }' | sort -n | tail -1", stdout=subprocess.PIPE, shell=True).communicate()[0].strip())
         uid += 1
-        gid = int(subprocess.check_output("getent group | awk -F: '$3 < 3000 { print $3 }' | sort -n | tail -1").strip())
+        gid = int(subprocess.Popen("getent group | awk -F: '$3 < 3000 { print $3 }' | sort -n | tail -1", stdout=subprocess.PIPE, shell=True).communicate()[0].strip())
         gid += 1
 
         ldif_template = get_template('org/member_add.ldif').render(Context(dict(
             data=form.cleaned_data,
-            password=passoword,
+            password=password,
             uid=uid,
             gid=gid,
         )))
 
         with tempfile.NamedTemporaryFile() as f:
-            f.write(ldif_template)
+            f.write(ldif_template.encode('utf-8'))
             f.flush()
             subprocess.check_call('sudo -u root ldapadd -D cn=admin,dc=kiberpipa,dc=org -f %s -w %s' % (f.name, settings.LDAP_PASSWORD),
                                   shell=True)
