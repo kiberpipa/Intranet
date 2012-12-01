@@ -111,12 +111,6 @@ To first time deploy intranet to hostname:
 
     bin/fab remote_staging_deploy -H HOSTNAME -u REMOTE_USER
 
-For staging to rebuild, you just need to update deploy branch and push::
-
-    git checkout deploy
-    git merge master
-    git push
-
 
 Deploying from staging to production
 ====================================
