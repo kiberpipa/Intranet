@@ -4,7 +4,7 @@
 
 {% block content-main %}
   <div class="module">
-      <form action="/" method="POST">
+    <form action="{% url 'add_member' %}" method="POST">
           {{ form }}
           <p><button type="submit" class="btn btn-primary">Dodaj člana</button></p>
       </form>
