@@ -34,7 +34,6 @@ from fabric.decorators import task
 env.home_folder = '/home/%(user)s' % env
 env.root_folder = env.home_folder
 env.staging_folder = os.path.join(env.root_folder, 'staging')
-env.githook_folder = os.path.join(env.root_folder, 'githook')
 env.staging_media_folder = os.path.join(env.staging_folder, 'media')
 env.production_folder = os.path.join(env.root_folder, 'production')
 env.production_media_folder = os.path.join(env.production_folder, 'media')
