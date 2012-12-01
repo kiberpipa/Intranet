@@ -85,8 +85,6 @@ def remote_staging_bootstrap(fresh=True):
 @task
 def local_staging_redeploy():
     """Check for new commits and rebootstrap staging"""
-    if not has_new_commits():
-        return
 
     os.chdir(env.code_folder)
     remote_staging_bootstrap(fresh=False)
@@ -280,20 +278,6 @@ def install_defaults():
 
     # TODO: check for crontab support
     # TODO: check for used ports
-
-
-def has_new_commits():
-    """Check for fresh deploy branch commits"""
-    with lcd(env.code_folder):
-        local('git fetch origin')
-        output = local('git log %(branch)s...origin/%(branch)s' % env, capture=True)
-        if output.strip():
-            local('git pull origin')
-            print "new commits!"
-            return True
-        else:
-            print "no new commits."
-            return False
 
 
 def deploy():
