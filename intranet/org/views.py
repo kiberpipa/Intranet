@@ -924,11 +924,11 @@ def add_member(request):
         # add him to pipa-org
         if form.cleaned_data['add_to_private_mailinglist']:
             mailman_list = List.objects.get(id=2)
-            is_member = [m for m in mailman_list.get_all_members() if m[1] == form.cleaned_data['email']]
+            is_member = [m for m in mailman_list.get_all_members() if m[1].strip() == form.cleaned_data['email'].strip()]
             if not is_member:
                 mailman_list.subscribe(form.cleaned_data['email'],
-                                       form.cleaned_data['firstname'],
-                                       form.cleaned_data['surname'])
+                                       form.cleaned_data['firstname'].encode('utf-8'),
+                                       form.cleaned_data['surname'].encode('utf-8'))
 
         # send email to new user
         html = get_template('mail/member_add_welcome_email.html').render(
