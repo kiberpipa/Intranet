@@ -1,6 +1,6 @@
 # staging
 @reboot %(staging_folder)s/bin/supervisord
-*/5 * * * * cd %(staging_folder)s && %(staging_folder)s/bin/fab local_staging_redeploy -H localhost > /dev/null
+@reboot %(staging_folder)s/../githook/bin/supervisord
 
 # production
 @reboot %(production_location)s/bin/supervisord
