@@ -939,7 +939,9 @@ def add_member(request):
 
         # add a diary we added a member
         diary = Diary(
-            log_formal=u"Dodal novega člana: %s" % form.cleaned_data['username'],
+            log_formal=u"Dodal novega člana: %s (%s %s)" % (form.cleaned_data['username'],
+                                                            form.cleaned_data['firstname'],
+                                                            form.cleaned_data['surname']),
             author=request.user,
             length=datetime.time(1),  # 1h
             task=Project.objects.get(id=2),
@@ -948,7 +950,7 @@ def add_member(request):
 
         return render_to_response(
             'org/member_add_success.html',
-            {},
+            {'email': form.cleaned_data['email']},
             context_instance=RequestContext(request))
 
     return render_to_response(
