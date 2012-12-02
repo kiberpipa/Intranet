@@ -919,12 +919,16 @@ def add_member(request):
         subprocess.check_call('sudo -u root mkdir -p /home/%s' % form.cleaned_data['username'],
                               shell=True)
 
-        # TODO: add member to redmine
+        # TODO: add member to redmine group
 
         # add him to pipa-org
         if form.cleaned_data['add_to_private_mailinglist']:
             mailman_list = List.objects.get(id=2)
-            mailman_list.subscribe(form.cleaned_data['email'])
+            is_member = [m for m in mailman_list.get_all_members() if m[1] == form.cleaned_data['email']]
+            if not is_member:
+                mailman_list.subscribe(form.cleaned_data['email'],
+                                       form.cleaned_data['firstname'],
+                                       form.cleaned_data['surname'])
 
         # send email to new user
         html = get_template('mail/member_add_welcome_email.html').render(
