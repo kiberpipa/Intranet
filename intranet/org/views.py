@@ -916,7 +916,7 @@ def add_member(request):
                                   shell=True)
 
         # create home folder
-        subprocess.check_call('sudo -u root mkdir /home/%s' % form.cleaned_data['username'],
+        subprocess.check_call('sudo -u root mkdir -p /home/%s' % form.cleaned_data['username'],
                               shell=True)
 
         # TODO: add member to redmine
@@ -932,10 +932,19 @@ def add_member(request):
                 username=form.cleaned_data['username'],
                 password=password,
         )))
-        send_mail('Dobrodošel/a v Kiberpipi!',
+        send_mail(u'Dobrodošel/a v Kiberpipi!',
                   html,
-                  'intranet@kiberpipa.org',
+                  settings.DEFAULT_FROM_EMAIL,
                   [form.cleaned_data['email']])
+
+        # add a diary we added a member
+        diary = Diary(
+            log_formal=u"Dodal novega člana: %s" % form.cleaned_data['username'],
+            author=request.user,
+            length=datetime.time(1),  # 1h
+            task=Project.objects.get(id=2),
+        )
+        diary.save()
 
         return render_to_response(
             'org/member_add_success.html',
