@@ -13,7 +13,7 @@ gidNumber: {{ gid }}
 homeDirectory: /home/{{ data.username }}
 loginShell: /bin/bash
 shadowLastChange: 11192
-userPassword: {{ password }}
+userPassword: {{ password_hash }}
 shadowMin: -1
 shadowMax: 99999
 shadowWarning: 7

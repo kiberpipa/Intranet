@@ -31,6 +31,7 @@ setup(name='intranet',
         'Fabric',
         # intranet.org
         'python-ldap',
+        'passlib',
         'django-tinymce',
         # intranet.www
         'python-memcached',

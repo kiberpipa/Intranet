@@ -29,6 +29,7 @@ from django.template.loader import get_template
 from django.utils import simplejson
 from django.views.generic import CreateView, UpdateView, DetailView, ArchiveIndexView, YearArchiveView, MonthArchiveView
 from PIL import Image
+from passlib.hash import ldap_salted_sha1
 
 from intranet.org.models import (Project, Email,
     Event, Shopping, Person, Sodelovanje, TipSodelovanja, Diary,
@@ -896,6 +897,7 @@ def add_member(request):
     if request.method == "POST" and form.is_valid():
         # create ldap record
         password = ''.join(random.sample(string.letters + string.digits, 8))
+        password_hash = ldap_salted_sha1.encrypt(password)
 
         uid = int(subprocess.Popen("getent passwd | awk -F: '$3 < 3000 { print $3 }' | sort -n | tail -1", stdout=subprocess.PIPE, shell=True).communicate()[0].strip())
         uid += 1
@@ -904,7 +906,7 @@ def add_member(request):
 
         ldif_template = get_template('org/member_add.ldif').render(Context(dict(
             data=form.cleaned_data,
-            password=password,
+            password_hash=password_hash,
             uid=uid,
             gid=gid,
         )))
