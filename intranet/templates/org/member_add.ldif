@@ -20,7 +20,6 @@ shadowWarning: 7
 shadowInactive: -1
 shadowExpire: -1
 shadowFlag: 134538308
-maildrop: maja@kiberpipa.org
 uid: {{ data.username }}
 givenName: {{ data.firstname }}
 sn: {{ data.surname }}

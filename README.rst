@@ -105,11 +105,11 @@ Running tests
 Deploying to staging (https://new.kiberpipa.org)
 ================================================
 
-To first time deploy intranet to hostname:
+To first time deploy intranet to a server:
 
 ::
 
-    bin/fab remote_staging_deploy -H HOSTNAME -u REMOTE_USER
+    bin/fab remote_staging_bootstrap -H HOSTNAME -u REMOTE_USER
 
 
 Deploying from staging to production
