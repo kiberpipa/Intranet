@@ -183,7 +183,6 @@ def ical(request):
         cal_event.add('url', u'http://www.kiberpipa.org%s' % e.get_absolute_url())
         cal_event.add('location', e.place.name)
         cal_event.add('classification', classification)
-        cal_event.add('sequence', e.sequence)
         cal_event.add('categories', u','.join([e.project.name, e.category.name]))
         # http://www.kanzaki.com/docs/ical/transp.html
         cal_event.add('transp', 'OPAQUE')
