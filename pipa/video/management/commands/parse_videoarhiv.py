@@ -15,7 +15,7 @@ from intranet.org.models import Event
 
 
 logger = logging.getLogger(__name__)
-JSON_URL = 'http://video.kiberpipa.org/site/api/lectures/recent/?format=json'
+JSON_URL = 'http://video.kiberpipa.org/site/api/lectures/recent/?format=json&limit=200'
 
 
 class Command(BaseCommand):
