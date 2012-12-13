@@ -918,8 +918,9 @@ def add_member(request):
                                   shell=True)
 
         # create home folder
-        subprocess.check_call('sudo -u root mkdir -p /home/%s' % form.cleaned_data['username'],
-                              shell=True)
+        # TODO: dogbert login
+        #subprocess.check_call('sudo -u root mkdir -p /home/%s' % form.cleaned_data['username'],
+        #                      shell=True)
         # TODO: chown it (sudoers should be very strict about this)
         #subprocess.check_call('sudo -u root chown -p /home/%s' % form.cleaned_data['username'],
         #                      shell=True)
