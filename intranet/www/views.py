@@ -8,6 +8,7 @@ import urlparse
 import json
 import simplejson
 from calendar import Calendar
+import facebook
 
 import icalendar
 import pytz
@@ -24,6 +25,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.utils.translation import ugettext as _
 from django.core.serializers.json import DjangoJSONEncoder
 from django.template.defaultfilters import striptags,safe,truncatewords
+from django.core.cache import cache
 from feedjack.models import Post
 from dateutil.relativedelta import relativedelta
 from django_mailman.models import List
@@ -102,7 +104,6 @@ def index(request):
     }, context_instance=RequestContext(request))
 
 
-# TODO: cache for 3min
 def ajax_index_events(request):
     now = datetime.datetime.now()
     past_month = datetime.datetime.today() - datetime.timedelta(30)
@@ -129,6 +130,18 @@ def ajax_index_events(request):
         except IndexError:
             pass
 
+    # todo: outsource the access token into sth configurable 
+    try:
+        graph = facebook.GraphAPI("AAACghovbsYMBADZBbeW5y85EAAswJiTdPwkbYh3UohuKErYA4V4MZCUfpMmQKeXiI0KsEBM3OUJCAbXms35KLZCZBKUQYOA9i38DCeCZCtAZDZD")
+        graph.get_object("me")
+    except facebook.GraphAPIError:
+        # log an error, but only once per 48h (no spamming now, pls)
+        if cache.get('fb_api_token_tantrum', 'has expired'):
+            logger.error('FB access token has expired, pls renew as per TODOWIKI', exc_info=True, extra={ 'request': request })
+            cache.set('fb_api_token_tantrum', 'o_O', 2 * 24 * 3600)
+        graph = None
+        pass
+
     # damn django resultsets aren't json-serializable.
     eventss = list()
     for event in events:
@@ -136,20 +149,32 @@ def ajax_index_events(request):
         d['project'] = event.project.verbose_name if event.project.verbose_name else event.project.name
         d['announce'] = truncatewords(safe(striptags(event.announce)), 100)
         d['image'] =event.event_image.image.url if event.event_image else settings.STATIC_URL + "www/images/img-upcoming.gif"
+
+        # load list of ppl who have rsvp'd to this event via fb
+        # but check that the graph object (access token) is valid first
+        if event.facebook_event_id:
+            d['facebook_event_id'] = event.facebook_event_id
+            if graph:
+                try:
+                    res = graph.get_connections(str(event.facebook_event_id), "attending")
+                    if res and 'data' in res:
+                        d['attending']= res['data']
+                except facebook.GraphAPIError:
+                    logger.error('Could not load list of rsvps for event', exc_info=True, extra={ 'request': request, 'event' : event.id, 'facebook_event_id' : event.facebook_event_id })
+                    pass
+
         eventss.append(d)
 
     ret = dict()
     ret['events'] = eventss
+    
     return HttpResponse(json.dumps(ret, cls=DjangoJSONEncoder), mimetype='application/json')
-
-    return render_to_response('www/ajax_index_events.html', locals(),
-        context_instance=RequestContext(request))
 
 
 def ajax_add_mail(request, event, email):
     event = get_object_or_404(Event, pk=event)
     form = EmailForm({'email': email})
-    if form.is_valid():
+    if form.isvalid():
         email = Email.objects.get_or_create(email=form.cleaned_data['email'])[0]
         if email in event.emails.all():
             message = _(u'You have already subscribed to this event.')
@@ -218,17 +243,20 @@ def calendar(request, year=None, month=None, en=False):
     month = int(month or today.month)
     now = datetime.date(year, month, 15)
     cal = Calendar().monthdatescalendar(year, month)
-    events = []
 
+    weeks = []
     for week in cal:
+        week2 = []
         for day in week:
-            events.append([day, Event.objects.filter(start_date__year=day.year, start_date__month=day.month, start_date__day=day.day).order_by('start_date')])
+            week2.append([day, Event.objects.filter(start_date__year=day.year, start_date__month=day.month, start_date__day=day.day).order_by('start_date')])
 
-    next_month = events[15][0] + relativedelta(months=+1)
-    prev_month = events[15][0] + relativedelta(months=-1)
+        weeks.append(week2)
+
+    next_month = today + relativedelta(months=+1)
+    prev_month = today + relativedelta(months=-1)
 
     return render_to_response('www/calendar.html', {
-        'dates': events,
+        'weeks': weeks,
         'prev': reverse('intranet.www.views.calendar', kwargs=dict(year=prev_month.year, month=prev_month.month)),
         'next': reverse('intranet.www.views.calendar', kwargs=dict(year=next_month.year, month=next_month.month)),
         'now': now,

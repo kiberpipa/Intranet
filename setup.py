@@ -66,6 +66,7 @@ setup(name='intranet',
         # admin
         'raven',
         'django-reversion',
+        'facebook-sdk',
     ],
     tests_require=[
         'nose',

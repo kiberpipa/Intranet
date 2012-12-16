@@ -28,14 +28,27 @@ $(document).ready(function() {
 
     $.getJSON("/ajax/index/events/", function(o) {
         // add events
-        var c = $(".carousel-inner");
+	var c = $(".carousel-inner");
+	if (o == null || o.events.length == 0) {
+		var html = '<div class="item active">\
+			<p>Ni dogodkov</p>\
+		</div>';
+				
+		$(c).append(html);
+		return;
+	}
+
         $(o.events).each(function()  {
             var cls = $(c).find(".item").length == 0 ? "item active" : "item";
-            var html = '<div class="' + cls + '"><img src="' + this.image + '" />\
+            var attending = $.map(this.attending, function(a, i) {
+		return '<img src="//graph.facebook.com/' + a.id + '/picture/square" width="40" height="40" title="' + a.name + '" />';
+            }).join("");
+            
+            var html = '<div class="' + cls + '"><img class="poster" src="' + this.image + '" />\
                 <div class="carousel-caption">\
-                    <div class="carousel-announce">' + this.announce + '</div>\
+                    <div class="carousel-announce">' + this.announce + '<br/><br/>Attending:<br/>' + attending + '</div>\
                     <p style="height: 30px; vertical-align: text-bottom; margin-top: 1em; ">' + this.title + '<span class="project" style="float: right">' + this.project + '</span></p></div></div>';
-            $(c).append(html);
+            $(c).html(html);
         });
     });
  });
@@ -56,6 +69,9 @@ $(document).ready(function() {
             <div id="carousel" class="carousel slide" rel="carousel">
                 <!-- Carousel items -->				
                 <div class="carousel-inner">
+                	<div class="item active">
+				<img src="http://placehold.it/600x355&text=nalagam%20.." />
+                	</div>
                 </div>
 
                 <!-- Carousel navigation -->
