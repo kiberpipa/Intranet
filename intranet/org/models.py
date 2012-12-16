@@ -257,6 +257,9 @@ class Event(models.Model):
     emails = models.ManyToManyField(Email, blank=True, null=True)
     event_image = models.ForeignKey(IntranetImage, verbose_name="Slika", null=True, blank=True)
 
+    # facebook event id (for rsvps)
+    facebook_event_id = models.BigIntegerField(verbose_name="Facebook event ID", blank=True, null=True)
+
     # event manager
     objects = EventManager()
 
