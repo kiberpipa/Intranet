@@ -3,3 +3,5 @@ from development import *
 # pipa.gallery: specify those two to get event pictures
 PHOTOS_FLICKR_APIKEY = ''
 PHOTOS_FLICKR_SECRET = ''
+
+AKISMET_API_KEY = ''
