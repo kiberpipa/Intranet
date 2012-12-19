@@ -44,7 +44,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.locale.LocaleMiddleware',
     'intranet.middleware.FlatPageLocaleURLFallbackMiddleware',
     'honeypot.middleware.HoneypotMiddleware',  # as soon as possible
-    'spaminspector.middleware.SpamInspectionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -91,7 +90,7 @@ INSTALLED_APPS = (
     'haystack',  # http://charlesleifer.com/blog/solr-ubuntu-revisited/
     'tinymce',
     'django_gravatar',
-    'spaminspector',
+    'django_akismet_comments',
 )
 
 LOGGING = {
