@@ -39,7 +39,7 @@ footer .social-networks a:hover { background:#000;color:#fff }
 #footer-extra i { color:#afdbea }
 .navbar { margin:0 }
 .navbar .container { width: 950px;padding-bottom:0;border-bottom:0 solid #eee;margin-bottom:0 }
-.navbar-inner { background:#f6f6f6!important;background-image:none!important;box-shadow:none;filter:none;padding:0;box-shadow:inset 0 0 3px rgba(0,0,0,.2) }
+.navbar-inner { background:#f6f6f6!important;background-image:none!important;box-shadow:none;filter:none;padding:0;box-shadow:inset 0 0 3px rgba(0,0,0,.2); border: none; }
 .navbar .brand { font-weight:400;font-size:28px;color:#222;padding-top:13px }
 .navbar .brand span { font-size:40px;line-height:0 }
 .navbar .nav>li.active>a,.navbar .nav>li.active:hover>a { background-color:transparent;font-weight:bold;color:#222 }
@@ -56,15 +56,21 @@ footer .social-networks a:hover { background:#000;color:#fff }
 .carousel-control:hover { background:#0081cc }
 .carousel-control.left { left:0 }
 .carousel-control.right { right:0 }
-#macbook_carousel { position:relative;height:415px;background:url(../images/mac.png) top center no-repeat; margin:0 0 3em 0 }
-#macbook_carousel .carousel { width:600px;margin:0 auto;padding:28px 0 0 0 }
-#macbook_carousel .carousel .item { width:600px;height:360px;overflow:hidden }
-#macbook_carousel .carousel img { width:600px }
-#macbook_carousel .carousel-control.left { left:-120px }
-#macbook_carousel .carousel-control.right { right:-120px }
-#macbook_carousel .carousel-caption { padding: 0 10px 0 0; background: none; }
-#macbook_carousel .carousel-caption p { padding-left: 10px; }
-#macbook_carousel .carousel-caption .carousel-announce { background: rgba(0, 0, 0, 0.75); padding: 20px 10px 10px 10px; border-top-right-radius: 5px; color: white; max-width: 80%; }
+
+.event_carousel { position:relative;height:415px;background:url(../images/mac.png) top center no-repeat; margin:0 0 3em 0 }
+.event_carousel .carousel { width:600px;margin:0 auto;padding:28px 0 0 0 }
+.event_carousel .carousel .item { width:600px;height:360px;overflow:hidden }
+.event_carousel .carousel img { width:600px }
+.event_carousel .carousel-control.left { left:-120px }
+.event_carousel .carousel-control.right { right:-120px }
+.event_carousel .carousel-caption { padding: 0 10px 0 0; background: none; }
+.event_carousel .carousel-caption p { padding-left: 10px; }
+.event_carousel .carousel-caption .carousel-announce { background: rgba(0, 0, 0, 0.75); padding: 20px 10px 10px 10px; border-top-right-radius: 5px; color: white; max-width: 80%; }
+
+.event_carousel_nexus10 { background:url('../images/nexus10.png') top center no-repeat; height: 505px; }
+.event_carousel_nexus10 .carousel { padding: 62px 0 0 2px; }
+
+
 
 .hero-unit { position:relative;padding:30px 0 0 0;background:#fff }
 .hero-unit h1 { font-size:2.2em;font-weight:600 }
@@ -122,9 +128,10 @@ ul.the-icons li:hover { background:#eee }
 
 .recent_videos { margin: 0; padding: 0; }
 .recent_videos li { list-style-type: none; margin-bottom: 1em; }
-.recent_videos li img { width: 95%; border-radius: 5px; }
-.recent_videos a { display: inline-block; position: relative; }
+.recent_videos li img { width: 150px; border-radius: 5px; }
+.recent_videos a { display: inline-block; position: relative; float: left; }
 .recent_videos a img.overlay { position: absolute; top: 0px; left: 0px; z-index: 1; }
+.recent_videos li label { margin-left: 155px; height: 85px; }
 
 .tweets { margin: 0; padding: 0; list-style-type: none; }
 .tweets .tweet-profile-image { float: left; padding-top: 3px; }

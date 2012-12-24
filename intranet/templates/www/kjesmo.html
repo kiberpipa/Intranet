@@ -55,7 +55,7 @@ $(document).ready(function () {
 <style>
 #mapdiv {
     width: 100%;
-    height: 480px;
+    height: 400px;
     margin-bottom: 1em;
 }
 
@@ -66,15 +66,35 @@ $(document).ready(function () {
 {% endblock %}
 
 {% block content %}
-<div id="mapdiv"></div>
+    </div><!-- fake container -->
 
-<div id="content" class="container">
-    <div class="row">
-        <div class="span5 offset1">
-        {% block tekst %}
-            Kiberpipa ima svoje prostore v kleti Kersnikove ulice 6, v Ljubljani. Nahaja se v samem centru prestolnice in je lahko dostopna (zelo blizu glavne železniške in avtobusne postaje, postajališč mestnega potniškega prometa in javnih garaž). Kiberpipa je v soseski, kjer se dnevno zadržuje veliko mladih in študentov, saj je v neposredni bližini <a href="http://www.sou-lj.si/">ŠOU-a</a> in njegove informacijske točke, <a href="http://www.klubk4.org">Kluba K4</a>, Galerije Kapelica in <a href="http://www.mklj.si/">knjižnice Otona Župančiča</a>.
-        {% endblock %}
+    <div id="mapdiv"></div>
+
+    <div class="container">
+        <div class="row">
+            <div class="span3 hero-unit">
+                <p><b>Kiberpipa</b><br/>
+                Kersnikova ulica 6<br />
+                SI-1000 Ljubljana
+                </p>
+
+               
+                <i class="icon-phone"></i>&nbsp;&nbsp;+386 1 438 03 05<br> 
+                <i class="icon-envelope"></i>&nbsp;&nbsp;<a href="mailto:info@kiberpipa.org">info@kiberpipa.org</a><br>
+                <i class="icon-comment"></i>&nbsp;&nbsp;<a href="irc://irc.sioff.net/#kiberpipa">irc.sioff.net/#kiberpipa</a><br>
+                
+            </div>
+            <div class="span5">
+            {% block tekst %}
+                Multimedijski center <b>Kiberpipa</b> ima svoje prostore v kleti Kersnikove ulice 6, v Ljubljani. Nahaja se v samem centru prestolnice in je lahko dostopna (zelo blizu glavne železniške in avtobusne postaje, postajališč mestnega potniškega prometa in javnih garaž). Kiberpipa je v soseski, kjer se dnevno zadržuje veliko mladih in študentov, saj je v neposredni bližini <a href="http://www.sou-lj.si/">ŠOU-a</a> in njegove informacijske točke, <a href="http://www.klubk4.org">Kluba K4</a>, Galerije Kapelica in <a href="http://www.mklj.si/">knjižnice Otona Župančiča</a>.
+            {% endblock %}
+            </div>
+
+            <div class="span4">
+                <img src="http://video.kiberpipa.org/media/POT_Tomaz_Solc-433MHz_sniffing_with_tcpdump/image-i.jpg" />
+                <img src="https://www.kiberpipa.org/smedia/events/2009/03/2146015550_453a12a373.jpg" />
+                <img src="http://www.kiberpipa.org/ojdipus/gallery2/.semis/ojdipus%20-%2050.jpg">
+            </div>
         </div>
-    </div>
-<div>
+
 {% endblock %}

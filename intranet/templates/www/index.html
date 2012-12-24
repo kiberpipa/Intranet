@@ -52,7 +52,7 @@ $(document).ready(function() {
     <div class="hero-unit">
         <p class="ac">Prihajajoči dogodki v Multimedijskem centru Kiberpipa</p>
 
-        <div id="macbook_carousel">
+        <div class="event_carousel event_carousel_nexus10">
             <div id="carousel" class="carousel slide" rel="carousel">
                 <!-- Carousel items -->				
                 <div class="carousel-inner">
@@ -70,20 +70,22 @@ $(document).ready(function() {
     <div class="container">
         <div class="row">
             <div class="span4 thenews">
-                <h2>{% trans "News" %}</h2>
+                <h2 class="grey">{% trans "News" %}</h2>
 
                 <ol class="news">
                 {% for n in both %}
                 <li>
                     <a href="{{ n.get_absolute_url }}"><h3>{{ n.title }}</h3></a>
-                    {% if n.image %}<img src="{{ n.image.url }}" width="35%" style="float: right; padding: 0 1em 0 1em;" />{% endif %}
+
+                    {% if n.image %}<img src="{{ n.image.url }}" width="45%" style="float: right; padding: 0 1em 0 1em;" />{% endif %}
 
                     {% if n.text %}
                     {{ n.text|sanitize|safe|truncatewords:"60" }}<br />
                     {% else %}
+                    <span class="badge badge-info">Blog</span> 
                     {{ n.content|sanitize|safe|truncatewords:"60" }}<br />
                     {% endif %}
-                    <i>{% trans "Published by" %} {{ n.author }} {% trans "on" %} {% if n.date %}{{ n.date }}{% else %}{{ n.date_modified }}{% endif %}</i>
+                    <i>{% trans "Published by" %} <b>{{ n.author }}</b> {% trans "on" %} {% if n.date %}{{ n.date }}{% else %}{{ n.date_modified }}{% endif %}</i>
                 </li>
                 {% endfor %}
                 </ol>
@@ -91,15 +93,14 @@ $(document).ready(function() {
                 <p><a href="#">Več novic</a></p>
             </div>
             <div class="span4">
-                <h2>{% trans "Media" %}</h2>
+                <h2 class="grey">{% trans "Media" %}</h2>
 
-                <h3>Recent videos</h3>
                 {% for video in videos %}
                 <ol class="recent_videos">
                 	<li>
                 		<a href="{{ video.play_url }}">
-                            <img class="thumb" src="{{ video.image_url }}" alt="{{ video.title }}" />
-                            <img class="overlay" src="{{ settings.STATIC_URL }}www/images/vod_overlay.png" alt="" title="" />
+                                <img class="thumb" src="{{ video.image_url }}" alt="{{ video.title }}" />
+		                        <img class="overlay" src="{{ settings.STATIC_URL }}www/images/vod_overlay.png" alt="" title="" />
                         </a>
                 		<label>{{ video.title }}</label>
                 	</li>
@@ -118,7 +119,7 @@ $(document).ready(function() {
                 {% endfor %}
             </div>
             <div class="span4">
-                <h2>{% trans "Social" %}</h2>
+                <h2 class="grey">{% trans "Social" %}</h2>
 
                 <p><a href="/feeds/all/"><i class="icon-rss"></i> RSS</a></p>
 

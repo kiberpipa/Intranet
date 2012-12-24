@@ -95,7 +95,7 @@ def index(request):
         'news': news,
         'planet': posts,
         'both' : both2,
-        'videos': Video.objects.order_by('-pub_date')[:4],
+        'videos': Video.objects.order_by('-pub_date')[:5],
         'emailform': EmailForm,
         'tweets': tweets,
         'pictures': pictures,

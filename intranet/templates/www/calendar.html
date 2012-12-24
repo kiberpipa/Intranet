@@ -11,15 +11,17 @@
 {% endblock %}
 
 {% block content %}
+    <div class="hero-unit">
+        <div class="ac">
+            <a href="{% url 'calendar_ical' %}">iCal</a> <a href="{% url 'rss' %}" ><img src="{{ settings.STATIC_URL }}www/images/rss20x20.png" alt="RSS Feeds" /></a>
+
+            <small><a href="{{ prev }}"> &lt;&lt; {% trans "Previous month" %}</a></small>
+            <strong>{{ now|date:"F Y"|capfirst }}</strong>
+            <small><a href="{{ next }}">{% trans "Next month" %} &gt;&gt;</a></small>
+        </div>
+    </div>    
+
   <div id="koledar">
-    <div class="koledar-img">
-      <a href="{% url 'calendar_ical' %}">iCal</a> <a href="{% url 'rss' %}" ><img src="{{ settings.STATIC_URL }}www/images/rss20x20.png" alt="RSS Feeds" /></a>
-    </div>
-    <div class="koledar-title-main">
-      <small><a href="{{ prev }}"> &lt;&lt; {% trans "Previous month" %}</a></small>
-      <strong>{{ now|date:"F Y"|capfirst }}</strong>
-      <small><a href="{{ next }}">{% trans "Next month" %} &gt;&gt;</a></small>
-    </div>
 
     <div id="koledar-wrapper">
       <div class="koledar-title">
