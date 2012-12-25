@@ -89,8 +89,9 @@ footer .social-networks a:hover { background:#000;color:#fff }
 .most-popular { position:relative;color:#fff;display:inline-block;overflow:hidden;font-family:Arial,sans-serif;font-weight:900 }
 .most-popular p span { position:absolute;display:inline-block;right:-25px;color:#fff;box-shadow:0 0 10px rgba(0,0,0,0.2),inset 0 5px 30px rgba(255,255,255,0.2);text-align:center;text-transform:uppercase;top:22px;background:#d93131;width:100px;padding:3px 10px;-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);-o-transform:rotate(45deg);-ms-transform:rotate(45deg) }
 .member:hover .member-networks a { color:#de2c6c }
-.member .member-avatar { margin:0 0 20px 0 }
-.member .member-name { margin:0;color:#0082cc }
+.member .member-avatar { height: 110px; overflow: hidden; margin:0 0 20px 0 }
+.member .member-avatar img.thumbnail { max-height: 100px; }
+.member .member-name { margin:0;color:#0082cc; max-height: 1.5em; overflow: hidden;  }
 .member .member-position { color:#aaa;font-weight:normal;font-style:italic;margin:0 0 10px 0 }
 .member .member-networks { float:right }
 .member .member-networks a { font-size:20px;line-height:1.6em;margin:0 10px 0 0;color:#666 }

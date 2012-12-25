@@ -11,58 +11,65 @@
 
 {% block content %}
     <div class="hero-unit">
-        <div class="ac">Hello yes</div>
+        <div class="ac">{% trans "Kiberpipa is possible because of all the volunteers that are interested in tech, computers, art and the mix of everything through everyday life. Through the years there were many people that helped around, some stayed for a short while, while others are still helping around. Here is a list of people that helped in anyway and build Kiberpipa to be The Best Cybercenter in Europe." %}</div>
     </div>
 
-
-    <div id="community">
-    <div class="community-title">
-        {% trans "Community" %}
-        </div>
-        <div class="community-text">
-        {% trans "Kiberpipa is possible because of all the volunteers that are interested in tech, computers, art and the mix of everything through everyday life. Through the years there were many people that helped around, some stayed for a short while, while others are still helping around. Here is a list of people that helped in anyway and build Kiberpipa to be The Best Cybercenter in Europe." %}
-        </div>
-            <div class="community-content">
+    <div id="team-members">
+        <div class="row">
         {% for alumni in profiles %}{% if alumni.show_profile and alumni.user.is_active %}
-            <div class="community-person">
-            <div class="community-content-img">{% if alumni.image %}<img src="{{ alumni.image.url }}" width="80px"/>{% endif %}</div>
-            <div class="community-details">
-            <p class="alumni-title-p">{% if alumni.public_name %}{{ alumni.public_name }}{% else %}{{ alumni.user.get_full_name }}{% endif %}</p>
-            </div>
-            <div class="community-img-s">
-            {% if alumni.twitter and alumni.twitter_public %}
-                <a href="{{ alumni.twitter }}"><img src="{{ settings.STATIC_URL }}www/images/twitter20x20.png" alt="Twitter" title="Twitter" /></a>
-            {% endif %}
-            {% if alumni.facebook and alumni.facebook_public %}
-                <a href="{{ alumni.facebook }}"><img src="{{ settings.STATIC_URL }}www/images/facebook20x20.png" alt="Facebook" title="Facebook" /></a>
-            {% endif %}
-            {% if alumni.linkedin and alumni.linkedin_public %}
-                <a href="{{ alumni.linkedin }}"><img src="{{ settings.STATIC_URL }}www/images/linkedin20x20.png" alt="LinkedIn" title="LikedIn" /></a>
-            {% endif %}
-            {% if alumni.flickr and alumni.flickr_public %} 
-                <a href="{{ alumni.flickr }}"><img src="{{ settings.STATIC_URL }}www/images/flickr20x20.png" alt="Flickr" title="Flickr" /></a>
-            {% endif %}
-            </div>
-            <div class="community-details">
-            {% if alumni.www and alumni.www_public %}
-                <p class="alumni-desc">Web: <a href="{{ alumni.www }}">{{ alumni.www }}</a></p>
-            {% endif %}
-            {% if alumni.blog %}
-                <p class="alumni-desc">Blog: <a href="{{ alumni.blog }}">{{ alumni.blog }}</a></p>
-            {% endif %}
-            </div>
-            <div class="alumni-text">
-            <p>{{ alumni.description }}</p>
-            </div>
-{% if alumni.sshpubkey and alumni.sshpubkey_public %}
-            <div>
-                <a href="javascript:;" onmousedown="var tehid = 'sshkey_{{ alumni.user.id }}'; if(document.getElementById(tehid).style.display == 'none'){ document.getElementById(tehid).style.display = 'block'; } else{ document.getElementById(tehid).style.display = 'none'; }">Show key</a>
-                <div class="sshkey" id="sshkey_{{ alumni.user.id }}" style="display: none">
-                <textarea id="area_{{alumni.user.id}}" onfocus="this.select()" cols="50" rows="10">{{ alumni.sshpubkey }}</textarea>
+            {% cycle 'col1' 'col2' 'col3' as column silent %}
+            <article class="member span4">
+                <div class="member-avatar">
+                    {% if alumni.image %}
+                    <img class="thumbnail" src="{{ alumni.image.url }}" />
+                    {% else %}
+                    <img class="thumbnail" src="{{ settings.STATIC_URL }}www/images/picture-skupnost.gif" alt="" />
+                    {% endif %}
                 </div>
-            </div>
+
+                <p class="member-networks">
+                    {% if alumni.twitter and alumni.twitter_public %}
+                        <a href="{{ alumni.twitter }}" class="icon-twitter"></a>
+                    {% endif %}
+
+                    {% if alumni.facebook and alumni.facebook_public %}
+                        <a href="{{ alumni.facebook }}" class="icon-facebook"></a>
+                    {% endif %}
+                    {% if alumni.linkedin and alumni.linkedin_public %}
+                        <a href="{{ alumni.linkedin }}" class="icon-linkedin"></a>
+                    {% endif %}
+                    {% if alumni.flickr and alumni.flickr_public %} 
+                        <a href="{{ alumni.flickr }}" class="icon-flickr"></a>
+                    {% endif %}
+                    {% if alumni.www and alumni.www_public %}
+                        <a href="{{ alumni.www }}" title="webpage" class="icon-file"></a>
+                    {% endif %}
+                    {% if alumni.blog %}
+                        <a href="{{ alumni.blog }}" title="blog" class="icon-file"></a>
+                    {% endif %}
+                </p>
+
+                <h3 class="member-name">{% if alumni.public_name %}{{ alumni.public_name }}{% else %}{{ alumni.user.get_full_name }}{% endif %}</h3>
+                <!--h4 class="member-position">Founder and CEO</h4-->
+
+                <p class="member-bio">{{ alumni.description }}</p>
+
+{% if alumni.sshpubkey and alumni.sshpubkey_public %}
+                <div>
+                    <a href="javascript:;" onmousedown="var tehid = 'sshkey_{{ alumni.user.id }}'; if(document.getElementById(tehid).style.display == 'none'){ document.getElementById(tehid).style.display = 'block'; } else{ document.getElementById(tehid).style.display = 'none'; }">Show key</a>
+                    <div class="sshkey" id="sshkey_{{ alumni.user.id }}" style="display: none">
+                    <textarea id="area_{{alumni.user.id}}" onfocus="this.select()" cols="50" rows="10">{{ alumni.sshpubkey }}</textarea>
+                    </div>
+                </div>
 {% endif %}
-            </div>
+
+            </article>
+
+            {% if column == 'col3' and not forloop.last %}
+        </div>
+        <div class="row">
+            {% endif %}            
         {% endif %}{% endfor %}
+        </div>
     </div>
 {% endblock %}
