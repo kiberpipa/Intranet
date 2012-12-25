@@ -1,7 +1,7 @@
 {% extends "www/base-second.html" %}
-{% load www i18n %}
+{% load www i18n flatpages %}
 
-{% block title %}{% trans "Location" %}{% endblock %}
+{% block title %}{% trans "About" %}{% endblock %}
 
 {% block extrahead %}
     <script type="text/javascript"
@@ -53,15 +53,7 @@ $(document).ready(function () {
 });
 </script>
 <style>
-#mapdiv {
-    width: 100%;
-    height: 400px;
-    margin-bottom: 1em;
-}
 
-#descdiv {
-    margin: 10px;
-}
 </style>
 {% endblock %}
 
@@ -70,7 +62,7 @@ $(document).ready(function () {
 
     <div id="mapdiv"></div>
 
-    <div class="container">
+    <div class="container about">
         <div class="row">
             <div class="span3 hero-unit">
                 <p><b>Kiberpipa</b><br/>
@@ -84,16 +76,47 @@ $(document).ready(function () {
                 <i class="icon-comment"></i>&nbsp;&nbsp;<a href="irc://irc.sioff.net/#kiberpipa">irc.sioff.net/#kiberpipa</a><br>
                 
             </div>
-            <div class="span5">
+            <div class="span6">
             {% block tekst %}
-                Multimedijski center <b>Kiberpipa</b> ima svoje prostore v kleti Kersnikove ulice 6, v Ljubljani. Nahaja se v samem centru prestolnice in je lahko dostopna (zelo blizu glavne železniške in avtobusne postaje, postajališč mestnega potniškega prometa in javnih garaž). Kiberpipa je v soseski, kjer se dnevno zadržuje veliko mladih in študentov, saj je v neposredni bližini <a href="http://www.sou-lj.si/">ŠOU-a</a> in njegove informacijske točke, <a href="http://www.klubk4.org">Kluba K4</a>, Galerije Kapelica in <a href="http://www.mklj.si/">knjižnice Otona Župančiča</a>.
+                <p>Multimedijski center <b>Kiberpipa</b> ima svoje prostore v kleti Kersnikove ulice 6, v Ljubljani. Nahaja se v samem centru prestolnice in je lahko dostopna (zelo blizu glavne železniške in avtobusne postaje, postajališč mestnega potniškega prometa in javnih garaž). Kiberpipa je v soseski, kjer se dnevno zadržuje veliko mladih in študentov, saj je v neposredni bližini <a href="http://www.sou-lj.si/">ŠOU-a</a> in njegove informacijske točke, <a href="http://www.klubk4.org">Kluba K4</a>, Galerije Kapelica in <a href="http://www.mklj.si/">knjižnice Otona Župančiča</a>.</p>
+
+                {% get_flatpages '/sl/about/' as about_pages %}
+                {% for page in about_pages %}
+                {{ page.content|safe }}
+                {% endfor %}
             {% endblock %}
             </div>
 
-            <div class="span4">
-                <img src="http://video.kiberpipa.org/media/POT_Tomaz_Solc-433MHz_sniffing_with_tcpdump/image-i.jpg" />
-                <img src="https://www.kiberpipa.org/smedia/events/2009/03/2146015550_453a12a373.jpg" />
-                <img src="http://www.kiberpipa.org/ojdipus/gallery2/.semis/ojdipus%20-%2050.jpg">
+            <div class="span3 promoimages">
+                <a title="" href="https://www.kiberpipa.org/sl/event/kako-varno-je-spletno-nakupovanje-1464/" target="_blank"><img src="{{ settings.STATIC_URL }}www/images/promo/gorazd_zagar.jpg"></a>
+                <a title="" href="https://www.kiberpipa.org/sl/event/vip-vecer-z-jozetom-mermalom-pripoved-o-mestu-v-malem-1579/" target="_blank"><img src="{{ settings.STATIC_URL }}www/images/promo/vip.jpg"></a>
+                <a title="https://www.kiberpipa.org/sl/event/433-mhz-in-tcpdump-wireless-sniffing-malo-drugace-1496/" href="" target="_blank"><img src="{{ settings.STATIC_URL }}www/images/promo/solc.jpg"></a>
+                <a title="" href="https://slo-tech.com/clanki/cyberpip01/cyberpip01.shtml" target="_blank"><img src="{{ settings.STATIC_URL }}www/images/promo/otvoritev.jpg"></a>
+                <a title="" href="http://www.mladina.si/97440/katalizator-racunalniskih-subkultur/" target="_blank"><img src="{{ settings.STATIC_URL }}www/images/promo/tori_sraka.jpg"></a>
+                <a title="" href="https://www.kiberpipa.org/sl/muzej/" target="_blank"><img src="{{ settings.STATIC_URL }}www/images/promo/muzej.jpg"></a>
+                <a title="" href="http://www.kiberpipa.org/ojdipus/" target="_blank"><img src="{{ settings.STATIC_URL }}www/images/promo/ojdipus.jpg"></a>
+                <a title="" href="https://slo-tech.com/novice/t383421#crta" target="_blank"><img src="{{ settings.STATIC_URL }}www/images/promo/ubuntu910.jpg"></a>
+                <a title="" href="https://slo-tech.com/novice/t473764#crta" target="_blank"><img src="{{ settings.STATIC_URL }}www/images/promo/brodul.jpg"></a>
+                <a title="" href="https://www.kiberpipa.org/sl/event/testiranje-django-spletnih-aplikacij-719/" target="_blank"><img src="{{ settings.STATIC_URL }}www/images/promo/django_book.jpg"></a>
+                <a title="" href="" target="_blank"><img src="{{ settings.STATIC_URL }}www/images/promo/priprave_na_nolan.jpg"></a>
+
+                <a title="Recept za pipa torto" href="https://www.kiberpipa.org/sl/news/11255/recept-za-geeky-cake/" target="_blank"><img src="{{ settings.STATIC_URL }}www/images/promo/caek.jpg"></a>
+                <a title="" href="" target="_blank"><img src="{{ settings.STATIC_URL }}www/images/promo/todd.jpg"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             </div>
         </div>
 
