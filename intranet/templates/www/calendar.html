@@ -13,68 +13,67 @@
 {% block content %}
     <div class="hero-unit">
         <div class="ac">
+            <h1>{{ now|date:"F Y"|capfirst }}</h1>
+
             <a href="{% url 'calendar_ical' %}">iCal</a> <a href="{% url 'rss' %}" ><img src="{{ settings.STATIC_URL }}www/images/rss20x20.png" alt="RSS Feeds" /></a>
 
+
+
             <small><a href="{{ prev }}"> &lt;&lt; {% trans "Previous month" %}</a></small>
-            <strong>{{ now|date:"F Y"|capfirst }}</strong>
+            
             <small><a href="{{ next }}">{% trans "Next month" %} &gt;&gt;</a></small>
         </div>
     </div>    
 
-  <div id="koledar">
-
-    <div id="koledar-wrapper">
-      <div class="koledar-title">
-        {% trans "Monday" %}
-      </div>
-      <div class="koledar-title">
-        {% trans "Tuesday" %}
-      </div>
-      <div class="koledar-title">
-        {% trans "Wednesday" %}
-      </div>
-      <div class="koledar-title">
-        {% trans "Thursday" %}
-      </div>
-      <div class="koledar-title">
-        {% trans "Friday" %}
-      </div>
-      <div class="koledar-title">
-        {% trans "Saturday" %}
-      </div>
-      <div class="koledar-title">
-        {% trans "Sunday" %}
-      </div>
-      <div class="koledar-datumi-wrap">  
-        {% for date, events in dates %}
-          <div class="koledar-box {% calclass date %}">
-            <div class="koledar-box-num">
-              {{ date.day }}
-            </div>
-            {% if events %}
-              <ul>
-              {% for event in events %}
-                <li>
-                  <strong>{{ event.start_date|date:"[H:i]"}}</strong>
-                  {% if event.public %}
-                    <a href="{{ event.get_absolute_url }}">{{ event.title|truncchar:"32" }}</a>
-                    {% for video_url in event.get_video_urls %}
-                        <a href="{{ video_url }}" title="{% trans "Videos of event" %}"><img src="{{ settings.STATIC_URL }}www/images/video20x20.png" /></a>
-                    {% endfor %}
-                    {% if event.flickr_set_id %}
-                        <a href="{{ event.get_absolute_url }}" title="{% trans "Pictures of event" %}" ><img src="{{ settings.STATIC_URL }}www/images/images16x16.png" /></a>
-                    <!-- TODO: activate gallery with javascript -->
-                    {% endif %}
-                  {% else %}
-                    {% trans "Reserved." %}
-                  {% endif %}
-                  </li>
-     	      {% endfor %}
-              </ul>
+    <table class="calendar table table-bordered" cellspacing="0" cellpadding="0" border="0">
+        <thead>
+            <tr>
+                <th class="mon">{% trans "Monday" %}</th>
+                <th class="tue">{% trans "Tuesday" %}</th>
+                <th class="wed">{% trans "Wednesday" %}</th>
+                <th class="thu">{% trans "Thursday" %}</th>
+                <th class="fri">{% trans "Friday" %}</th>
+                <th class="sat">{% trans "Saturday" %}</th>
+                <th class="sun">{% trans "Sunday" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for date, events in dates %}
+            {% cycle 'mon' 'tue' 'wed' 'thu' 'fri' 'sat' 'sun' as weekday silent %}            
+            {% if weekday == 'mon' %}
+            <tr class="week">
             {% endif %}
-          </div>
-        {% endfor %}
-      </div>  
-    </div>
-  </div>
+                <td class="{% calclass date %}">
+                    <label class="num">{{ date.day }}</label>
+
+                    {% if events %}
+                    <ul class="events">
+                    {% for event in events %}
+                        <li>
+                            <strong>{{ event.start_date|date:"[H:i]"}}</strong>
+                            {% if event.public %}
+                                <a href="{{ event.get_absolute_url }}">{{ event.title|truncchar:"32" }}</a>
+
+                                {% for video_url in event.get_video_urls %}
+                                <a href="{{ video_url }}" title="{% trans "Videos of event" %}"><img src="{{ settings.STATIC_URL }}www/images/video20x20.png" /></a>
+                                {% endfor %}
+
+                                {% if event.flickr_set_id %}
+                                <a href="{{ event.get_absolute_url }}" title="{% trans "Pictures of event" %}" ><img src="{{ settings.STATIC_URL }}www/images/images16x16.png" /></a>
+                                {% endif %}
+                            {% else %}
+                                {% trans "Reserved." %}
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                    </ul>
+                    {% endif %}
+                </td>
+
+            {% if weekday == 'sun' %}
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>  
 {% endblock %}
