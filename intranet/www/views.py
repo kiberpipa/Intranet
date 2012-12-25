@@ -303,6 +303,10 @@ def location(request):
     return render_to_response(template, RequestContext(request, {}))
 
 
+def support(request):
+    template = 'www/support.html'
+    return render_to_response(template, RequestContext(request, {}))
+
 class NewsList(ListView):
     template_name = 'www/news_list.html'
     queryset = News.objects.order_by('-date')

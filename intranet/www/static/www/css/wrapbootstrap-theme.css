@@ -124,10 +124,12 @@ ul.the-icons { margin:0 }
 ul.the-icons li { display:inline;padding:10px 20px;margin:0;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px }
 ul.the-icons li:hover { background:#eee }
 
+/* column with nice looking images from kiberpipa's past */
+.promoimages a { display: inline-block; margin-bottom: 0.2em; }
+.promoimages img { border-radius: 5px; }
+
 /* about page */
 .about .hero-unit { padding-top: 0; }
-.about .promoimages a { display: inline-block; margin-bottom: 0.2em; }
-.about .promoimages img { border-radius: 5px; }
 #mapdiv { width: 100%; height: 400px; margin-bottom: 3em; }
 #descdiv { margin: 10px; }
 
