@@ -202,7 +202,7 @@ SPAMINSPECTOR_AKISMET_KEY = ""
 TINYMCE_JS_URL = STATIC_URL + 'tiny_mce/tiny_mce.js'
 TINYMCE_DEFAULT_CONFIG = {
     'theme': 'advanced',
-    'theme_advanced_buttons1': 'bold,italic,underline,strikethrough,separator,bullist,numlist,separator,link,unlink,image,separator,undo,redo,removeformat,separator,fullscreen',
+    'theme_advanced_buttons1': 'bold,italic,underline,strikethrough,separator,bullist,numlist,separator,link,unlink,image,separator,undo,redo,removeformat,separator,fullscreen,code',
     'plugins': 'fullscreen',
     'theme_advanced_buttons2': '',
     'theme_advanced_buttons3': '',
