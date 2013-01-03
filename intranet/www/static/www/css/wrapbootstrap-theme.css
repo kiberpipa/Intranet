@@ -125,7 +125,7 @@ ul.the-icons li { display:inline;padding:10px 20px;margin:0;border-radius:4px;-m
 ul.the-icons li:hover { background:#eee }
 
 /* column with nice looking images from kiberpipa's past */
-.promoimages a { display: inline-block; margin-bottom: 0.2em; }
+.promoimages a { display: inline-block; margin-bottom: 0.25em; }
 .promoimages img { border-radius: 5px; }
 
 /* about page */
@@ -133,13 +133,40 @@ ul.the-icons li:hover { background:#eee }
 #mapdiv { width: 100%; height: 400px; margin-bottom: 3em; }
 #descdiv { margin: 10px; }
 
+/* flatpage wrappers */
+.flatpage .titlerow { margin-top: 3em; }
+.flatpage h2 { margin-top: 1em; }
+.flatpage h3 { margin-top: 1.5em; }
+.flatpage h2:nth-child(1), .flatpage h4:nth-child(1) { margin-top: 0; }
+
 /* koledar */
-.calendar label.num { font-size: xx-large; display: block; margin-bottom: 1.5em; color: #aaa; }
+.calendar-header .ac { position: relative; margin-bottom: 2em; }
+.calendar-header .carousel-control { top: 30px; padding: 0; }
+.calendar h2 { font-size: 42px; margin-bottom: 0; }
+.calendar th { width: 15%; }
+.calendar th.sat, .calendar th.sun { width: 5%; }
+.calendar label.num { display: block; margin: 0.2em 0 1.2em 0; }
+.calendar td.prev-month label.num, .calendar td.next-month label.num, .calendar td.prev-month a { color: #aaa; }
+.calendar td.today { background: #08C;
+    -moz-box-shadow:    inset 0 0 20px blue;
+    -webkit-box-shadow: inset 0 0 20px blue;
+    box-shadow:         inset 0 0 20px blue;
+}
+.calendar td.today label, .calendar td.today a { color: white; }
 .calendar ul.events { list-style-type: none; margin: 0; }
+
+.thenews { margin-top: 1.5em; }
+.thenews h2 { margin-bottom: 0; }
+.thenews .content { margin: 1em 0 3em 0; }
+.thenews .image { float: right; max-width: 50%; max-height: 12em; overflow: hidden; margin: 0 0 1em 1em; }
 
 .thenews .news { margin: 0 0 2em 0;  padding: 0; list-style-type: none; }
 .thenews .news li { font-size: 12px }
 .thenews .news li h3 { line-height: 1.3em; font-size: 15px; }
+.thecomments { font-size: small; }
+.thecomments form ul { list-style-type: none; margin: 0; }
+.thecomments form label[for='id_honeypot'] { display: none; }
+.thecomments form #id_honeypot { display: none; }
 
 .recent_videos { margin: 0; padding: 0; }
 .recent_videos li { list-style-type: none; margin-bottom: 1em; }
