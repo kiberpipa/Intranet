@@ -14,33 +14,29 @@ from pipa.ldap.forms import LDAPPasswordChangeForm
 @login_required
 def password_change(request):
     msg = ''
-    pw_form = LDAPPasswordChangeForm()
+    pw_form = LDAPPasswordChangeForm(request.POST or None)
 
-    if request.method == 'POST':
-        pw_form = LDAPPasswordChangeForm(request.POST)
+    if request.POST and pw_form.is_valid():
+        new_pass = pw_form.cleaned_data['new_password']
+        old_pass = pw_form.cleaned_data['old_password']
+        if new_pass == pw_form.cleaned_data['new_password_confirm']:
+            msg = 'Password successfuly set.'
+            try:
+                l = ldap.initialize(settings.LDAP_SERVER)
+                dn = 'uid=%s,ou=people,dc=kiberpipa,dc=org' % request.user.username
+                l.simple_bind_s(dn, old_pass)
+                l.passwd_s(dn, old_pass, new_pass)
+            except ldap.CONSTRAINT_VIOLATION, e:
+                msg = e[0]['info']
+            except ldap.INVALID_CREDENTIALS:
+                msg = 'Sorry, wrong password'
+        else:
+            msg = 'Sorry, passwords do not match'
 
-        if pw_form.is_valid():
-            if pw_form.cleaned_data['new_password'] == pw_form.cleaned_data['new_password_confirm']:
-                msg = 'Password successfuly set.'
-                try:
-                    l = ldap.initialize(settings.LDAP_SERVER)
-                    dn = 'uid=%s,ou=people,dc=kiberpipa,dc=org' % request.user.username
-                    l.simple_bind_s(dn, pw_form.cleaned_data['old_password'])
-                    l.passwd_s(dn, pw_form.cleaned_data['old_password'], pw_form.cleaned_data['new_password'])
-                except ldap.SERVER_DOWN:
-                    msg = 'LDAP server seems to be unavailable. Better luck next time. OH, and do notify the admins!'
-                except ldap.CONSTRAINT_VIOLATION, e:
-                    msg = e[0]['info']
-                except ldap.INVALID_CREDENTIALS:
-                    msg = 'Sorry, wrong password.'
-            else:
-                msg = 'Sorry, new password doesn not match the confirm.'
-
-    context = {
-        'message': msg,
-        'ldap_password_change_form': pw_form,
-        }
-    return render_to_response('ldap/password_change.html', RequestContext(request, context))
+    return render_to_response("ldap/password_change.html",
+                              {'message': msg,
+                               'ldap_password_change_form': pw_form},
+                              context_instance=RequestContext(request))
 
 
 def login(request, *args, **kwargs):
