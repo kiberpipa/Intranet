@@ -1,3 +1,5 @@
+from datetime import date, timedelta
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -10,9 +12,26 @@ from pipa.ldap.forms import LDAPPasswordChangeForm
 
 
 def alumni(request):
+    one_year_ago = date.today() - timedelta(days=365)
+
+    """
     profiles = PipaProfile.objects.filter(show_profile=True)\
                           .filter(user__is_active=True)\
+                          .exclude(image__exact='').exclude(image__exact='')\
                           .order_by('user__first_name')
+
+    """
+    active = PipaProfile.objects.filter(show_profile=True)\
+                            .filter(user__last_login__gte=one_year_ago)\
+                            .exclude(image__exact='').exclude(image__exact='')\
+                            .order_by('user__first_name')
+
+    active_ids = []
+    for a in active:
+        active_ids.append(a.id)
+    inactive = PipaProfile.objects.exclude(id__in=active_ids)
+        
+
     return render_to_response("alumni/alumni.html",
                               RequestContext(request, locals()))
 

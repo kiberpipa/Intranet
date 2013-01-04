@@ -1,30 +1,26 @@
-{% extends "www/base-second.html" %}
+{% extends "www/flatpage_wrapper.html" %}
 {% load i18n comments %}
 
-{% block title %}{{ news }}{% endblock %}
+{% block title %}{{ news.title }}{% endblock %}
 
-{% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="span12 thenews">
-                <h2>{{ news.title }}</h2>
+{% block promo %}
+    {% if news.image %}
+    <img src="{{ news.image.url }}" />
+    {% endif %}
+{% endblock %}
 
+{% block tekst %}
+            <div thenews">
                 <div class="meta">
-                    {% trans "Author" %} {{ news.author }} {% trans "date" %} {{ news.date }}
+                    <b>{{ news.author }}</b> {% trans "date" %} {{ news.date }}
                 </div>
-                <div class="blog-news-content">
-                    <div class="blog-news-content img">
-                        {% if news.image %}
-                        <img src="{{ news.image.url }}" />
-                        {% endif %}
-                    </div>
-
+                <div class="content">
                     {{ news.text|safe }}
                 </div>
             </div>
 
-            <div class="dogodek-komentarji">
-                <p class="title-kom">{% trans "Comments:" %}</p>
+            <div class="thecomments">
+                <h3>{% trans "Comments:" %}</h3>
 
                 {% get_comment_list for news as comment_list %}
                 {% for comment in comment_list %}
@@ -44,6 +40,5 @@
                 </ul>
                 </form>
             </div>
-        </div>
-    </div>
+
 {% endblock %}

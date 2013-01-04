@@ -34,7 +34,7 @@ $(document).ready(function() {
             var html = '<div class="' + cls + '"><img src="' + this.image + '" />\
                 <div class="carousel-caption">\
                     <div class="carousel-announce">' + this.announce + '</div>\
-                    <p style="height: 30px; vertical-align: text-bottom; margin-top: 1em; ">' + this.title + '<span class="project" style="float: right">' + this.project + '</span></p></div></div>';
+                    <p style="height: 30px; vertical-align: text-bottom; margin-top: 1em; "><a href="' + this.url + '">' + this.title + '</a><span class="project" style="float: right">' + this.project + '</span></p></div></div>';
             $(c).append(html);
         });
     });
@@ -50,9 +50,10 @@ $(document).ready(function() {
 {% block content %}
   
     <div class="hero-unit">
-        <p class="ac">Prihajajoči dogodki v Multimedijskem centru Kiberpipa</p>
+        <p class="ac visible-desktop">{% trans 'Prihajajoči dogodki v Multimedijskem centru Kiberpipa' %}</p>
+        <p class="ac visible-phone">{% trans 'Prihajajoči dogodki' %}</p>
 
-        <div class="event_carousel event_carousel_nexus10">
+        <div class="event_carousel event_carousel_nexus10--">
             <div id="carousel" class="carousel slide" rel="carousel">
                 <!-- Carousel items -->				
                 <div class="carousel-inner">
@@ -64,6 +65,10 @@ $(document).ready(function() {
             </div>
         </div>
 
+        <span class="label hidden-desktop">hidden-desktop</span>
+        <span class="label visible-desktop">visible-desktop</span>
+        <span class="label hidden-phone">hidden-phone</span>
+        <span class="label visible-phone">visible-phone</span>
     </div><!--/ end of .hero-unit-->
 
     <hr />

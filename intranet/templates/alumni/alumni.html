@@ -5,21 +5,32 @@
 {% block extrahead %}{% endblock %}
 
 {% block content %}
-    <div class="hero-unit">
-        <div class="ac">{% trans "Kiberpipa is possible because of all the volunteers that are interested in tech, computers, art and the mix of everything through everyday life. Through the years there were many people that helped around, some stayed for a short while, while others are still helping around. Here is a list of people that helped in anyway and build Kiberpipa to be The Best Cybercenter in Europe." %}</div>
+    <div class="row titlerow">
+        <div class="span8 offset2">
+            <h2 class="grey">{% trans 'Alumni' %}</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span8 offset2">{% trans "Kiberpipa is possible because of all the volunteers that are interested in tech, computers, art and the mix of everything through everyday life. Through the years there were many people that helped around, some stayed for a short while, while others are still helping around. Here is a list of people that helped in anyway and build Kiberpipa to be The Best Cybercenter in Europe." %}
+        </div>
     </div>
 
-    <div id="team-members">
-        <div class="row">
-        {% for alumni in profiles %}{% if alumni.show_profile and alumni.user.is_active %}
+    <div class="row">
+        <div class="span8 offset2"><h3>Aktivni člani</h3></div>
+    </div>
+    <div class="row alumni">
+        <div class="span2"></div>
+        {% for alumni in active %}{% if alumni.show_profile and alumni.user.is_active %}
             {% cycle 'col1' 'col2' 'col3' as column silent %}
-            <article class="member span4">
+            <article class="member span3">
                 <div class="member-avatar">
                     {% if alumni.image %}
                     <img class="thumbnail" src="{{ alumni.image.url }}" />
                     {% else %}
                     <img class="thumbnail" src="{{ settings.STATIC_URL }}www/images/picture-skupnost.gif" alt="" />
                     {% endif %}
+
+                    <h3 class="member-name">{% if alumni.public_name %}{{ alumni.public_name }}{% else %}{{ alumni.user.get_full_name }}{% endif %}</h3>
                 </div>
 
                 <p class="member-networks">
@@ -44,7 +55,7 @@
                     {% endif %}
                 </p>
 
-                <h3 class="member-name">{% if alumni.public_name %}{{ alumni.public_name }}{% else %}{{ alumni.user.get_full_name }}{% endif %}</h3>
+                
                 <!--h4 class="member-position">Founder and CEO</h4-->
 
                 <p class="member-bio">{{ alumni.description }}</p>
@@ -63,8 +74,22 @@
             {% if column == 'col3' and not forloop.last %}
         </div>
         <div class="row">
+            <div class="span2"></div>
             {% endif %}            
         {% endif %}{% endfor %}
         </div>
+
+    <div class="row inactive">
+        {% for alumni in inactive %}
+                <div class="member-avatar">
+                    {% if alumni.image %}
+                    <img class="thumbnail" src="{{ alumni.image.url }}" />
+                    {% else %}
+                    <img class="thumbnail" src="{{ settings.STATIC_URL }}www/images/picture-skupnost.gif" alt="" />
+                    {% endif %}
+
+                    <h3 class="member-name">{% if alumni.public_name %}{{ alumni.public_name }}{% else %}{{ alumni.user.get_full_name }}{% endif %}</h3>
+                </div>            
+        {% endfor %}
     </div>
 {% endblock %}

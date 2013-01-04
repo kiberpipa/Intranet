@@ -59,8 +59,8 @@ footer .social-networks a:hover { background:#000;color:#fff }
 
 .event_carousel { position:relative;height:415px;background:url(../images/mac.png) top center no-repeat; margin:0 0 3em 0 }
 .event_carousel .carousel { width:600px;margin:0 auto;padding:28px 0 0 0 }
-.event_carousel .carousel .item { width:600px;height:360px;overflow:hidden }
-.event_carousel .carousel img { width:600px }
+.event_carousel .carousel .item { max-width: 600px; height:360px;overflow:hidden }
+.event_carousel .carousel img { width: 100%; }
 .event_carousel .carousel-control.left { left:-120px }
 .event_carousel .carousel-control.right { right:-120px }
 .event_carousel .carousel-caption { padding: 0 10px 0 0; background: none; }
@@ -90,11 +90,11 @@ footer .social-networks a:hover { background:#000;color:#fff }
 .most-popular p span { position:absolute;display:inline-block;right:-25px;color:#fff;box-shadow:0 0 10px rgba(0,0,0,0.2),inset 0 5px 30px rgba(255,255,255,0.2);text-align:center;text-transform:uppercase;top:22px;background:#d93131;width:100px;padding:3px 10px;-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);-o-transform:rotate(45deg);-ms-transform:rotate(45deg) }
 
 .member { border-top: 1px dotted #aaa; padding: 1em 0 1em 0; }
-#team-members .row:first .member { border-top: none; }
+.member:nth-child(1), .member:nth-child(2), .member:nth-child(3) { border-top: none; }
 .member:hover .member-networks a { color:#de2c6c }
-.member .member-avatar { max-height: 160px; height: 160px; overflow: hidden; margin:0 0 20px 0 }
-.member .member-avatar img.thumbnail { max-height: 150px; }
-.member .member-name { margin:0;color:#0082cc; max-height: 1.5em; overflow: hidden;  }
+.member .member-avatar { max-height: 140px; height: 140px; overflow: hidden; margin:0 0 20px 0 }
+.member .member-avatar img.thumbnail { max-height: 130px; display: inline-block; }
+.member .member-name { display: inline; margin:0;color:#0082cc; max-height: 1.5em; overflow: hidden; vertical-align: top; padding: 0 0 0 0.5em; }
 .member .member-position { color:#aaa;font-weight:normal;font-style:italic;margin:0 0 10px 0 }
 .member .member-networks { float:right }
 .member .member-networks a { font-size:20px;line-height:1.6em;margin:0 10px 0 0;color:#666 }
@@ -134,7 +134,7 @@ ul.the-icons li:hover { background:#eee }
 #descdiv { margin: 10px; }
 
 /* flatpage wrappers */
-.flatpage .titlerow { margin-top: 3em; }
+.titlerow { margin-top: 3em; }
 .flatpage h2 { margin-top: 1em; }
 .flatpage h3 { margin-top: 1.5em; }
 .flatpage h2:nth-child(1), .flatpage h4:nth-child(1) { margin-top: 0; }
@@ -155,7 +155,11 @@ ul.the-icons li:hover { background:#eee }
 .calendar td.today label, .calendar td.today a { color: white; }
 .calendar ul.events { list-style-type: none; margin: 0; }
 
-.thenews { margin-top: 1.5em; }
+/* alumni */
+.alumni { margin-top: 2em; }
+
+
+.thenews {  }
 .thenews h2 { margin-bottom: 0; }
 .thenews .content { margin: 1em 0 3em 0; }
 .thenews .image { float: right; max-width: 50%; max-height: 12em; overflow: hidden; margin: 0 0 1em 1em; }

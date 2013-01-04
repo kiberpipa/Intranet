@@ -135,7 +135,8 @@ def ajax_index_events(request):
         d = dict(id=event.id, title = event.title, start_date=event.start_date)
         d['project'] = event.project.verbose_name if event.project.verbose_name else event.project.name
         d['announce'] = truncatewords(safe(striptags(event.announce)), 100)
-        d['image'] =event.event_image.image.url if event.event_image else settings.STATIC_URL + "www/images/img-upcoming.gif"
+        d['image'] = event.event_image.image.url if event.event_image else settings.STATIC_URL + "www/images/img-upcoming.gif"
+        d['url'] = event.get_absolute_url()
         eventss.append(d)
 
     ret = dict()
@@ -211,6 +212,24 @@ def news_detail(request, slug=None, id=None):
         },
         context_instance=RequestContext(request))
 
+def calendar_dayclass(date, month):
+    # stuff needed to determine date class
+    # like today's date, the first day of next month, or the last day of the previous one
+    today = datetime.date.today()
+    next_month = month + relativedelta(months=1)
+    next_month = datetime.date(next_month.year, next_month.month, 1)
+    prev_month = datetime.date(month.year, month.month, 1) - relativedelta(days=1)
+
+    if date == today:
+        return 'today'
+    elif date >= next_month:
+        return 'next-month'
+    elif date <= prev_month:
+        return 'prev-month'
+    elif date < today:
+        return 'past-in-this-month'
+    elif date > today:
+        return 'future-in-this-month'
 
 def calendar(request, year=None, month=None, en=False):
     today = datetime.date.today()
@@ -219,13 +238,15 @@ def calendar(request, year=None, month=None, en=False):
     now = datetime.date(year, month, 15)
     cal = Calendar().monthdatescalendar(year, month)
     events = []
+    classes = []
 
     for week in cal:
         for day in week:
-            events.append([day, Event.objects.filter(start_date__year=day.year, start_date__month=day.month, start_date__day=day.day).order_by('start_date')])
+            events.append([day, calendar_dayclass(day, now), Event.objects.filter(start_date__year=day.year, start_date__month=day.month, start_date__day=day.day).order_by('start_date')])
 
-    next_month = events[15][0] + relativedelta(months=+1)
-    prev_month = events[15][0] + relativedelta(months=-1)
+
+    next_month = now + relativedelta(months=+1)
+    prev_month = now + relativedelta(months=-1)
 
     return render_to_response('www/calendar.html', {
         'dates': events,
