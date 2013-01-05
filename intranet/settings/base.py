@@ -59,6 +59,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.i18n',
     'django.core.context_processors.request',
     'intranet.org.context_processors.django_settings',
+    'intranet.www.context_processors.generate_menu',
 )
 
 INSTALLED_APPS = (
@@ -92,6 +93,7 @@ INSTALLED_APPS = (
     'tinymce',
     'django_gravatar',
     'spaminspector',
+    'activelink',
 )
 
 LOGGING = {

@@ -43,6 +43,7 @@ setup(name='intranet',
         'akismet',
         'icalendar',
         'pytz',
+        'django-activelink',
         # django stuff
         'Django>=1.4',
         'Feedjack',

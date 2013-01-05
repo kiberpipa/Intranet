@@ -1,9 +1,12 @@
-<!DOCTYPE html>{% load i18n %}{% load url from future %}{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html>
+{% load i18n %}
+{% load activelink %}
+{% load url from future %}
+{% get_current_language as LANGUAGE_CODE %}
 <!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
 <!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
 <!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--><html class="not-ie" lang="sl">
-<!--<![endif]-->
+<!--[if (gte IE 9)|!(IE)]> <html class="not-ie" lang="sl"> <![endif]-->
 <head>
     <link rel="alternate" type="application/rss+xml" title="Kiberpipa - Vse" href="/feeds/all/" />
     <link rel="alternate" type="application/rss+xml" title="Kiberpipa - Novice" href="/feeds/novice/" />
@@ -56,12 +59,9 @@
                     </a>
                     <div class="nav-collapse fr">
                         <ul class="nav">
-                            <li><a href="/{{ LANGUAGE_CODE }}/about/">{% trans "about" %}</a></li>
-                            <li class="active"><a href="/{{ LANGUAGE_CODE }}/calendar/">{% trans "calendar" %}</a></li>
-                            <li><a href="http://www.flickr.com/photos/kiberpipa/collections/">{% trans "gallery" %}</a></li>
-                            <li><a href="/{{ LANGUAGE_CODE }}/alumni/">{% trans "community" %}</a></li>
-                            <li><a href="/{{ LANGUAGE_CODE }}/support/">{% trans "support" %}</a></li>
-                            <li><a href="/{{ LANGUAGE_CODE }}/press/">{% trans "press" %}</a></li>
+                            {% for menuitem in menu %}
+                                <li class="{% ifactive menuitem.url %}active{% endifactive %}"><a href="{{ menuitem.url }}">{% trans menuitem.name %}</a></li>
+                            {% endfor %}
                             {% get_available_languages as languages %}
                             {% for lang_code, lang_name in languages %}
                                 {% if LANGUAGE_CODE != lang_code %}    
