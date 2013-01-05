@@ -48,29 +48,54 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block content %}
-  
     <div class="hero-unit">
         <p class="ac visible-desktop">{% trans 'Prihajajoči dogodki v Multimedijskem centru Kiberpipa' %}</p>
         <p class="ac visible-phone">{% trans 'Prihajajoči dogodki' %}</p>
 
-        <div class="event_carousel event_carousel_nexus10--">
-            <div id="carousel" class="carousel slide" rel="carousel">
-                <!-- Carousel items -->				
-                <div class="carousel-inner">
-                </div>
-
-                <!-- Carousel navigation -->
-                <a class="carousel-control left" href="#carousel" data-slide="prev">&lsaquo;</a>
-                <a class="carousel-control right" href="#carousel" data-slide="next">&rsaquo;</a>
-            </div>
+        <div class="navbar">
+          <div class="navbar-inner">
+            <ul class="nav">
+              <li><a href="#">&lsaquo;&lsaquo;</a></li>
+              <li><a href="#">Pon, 7. Jan</a></li>
+              <li><a href="#">Tor, 8. Jan</a></li>
+              <li><a href="#">Sre, 9. Jan</a></li>
+              <li class="active"><a href="#">Čet, 10. Jan</a></li>
+              <li><a href="#">Pet, 11. Jan</a></li>
+              <li><a href="#">Sob, 12. Jan</a></li>
+              <li><a href="#">Ned, 13. Jan</a></li>
+            </ul>
+            <ul class="nav pull-right">
+              <li><a href="#">&rsaquo;&rsaquo;</a></li>
+            </ul>
+          </div>
         </div>
 
-        <span class="label hidden-desktop">hidden-desktop</span>
-        <span class="label visible-desktop">visible-desktop</span>
-        <span class="label hidden-phone">hidden-phone</span>
-        <span class="label visible-phone">visible-phone</span>
-    </div><!--/ end of .hero-unit-->
+        <div style="margin-top: 30px">
+         <div class="row">
+           <img class="span5 img-rounded" src="/smedia/events/2012/10/sample-1_4.jpg" style="height: 200px" />
+           <div class="span7">
+            <h4>Srečno 2013<h4>
+            <span class="badge badge-inverse">ob 13:00, v Kiberpipi</span>
+            <br />
+            <br />
+            <p>Dragi obiskovalci in obiskovalke Kiberpipe,   zahvaljujemo se vam za vse prijetne skupne ure v Kiberpipi, v letu 2013 pa vam želimo, da bo takšnih ur v Kiberpipi še več! <a href="#">&rsaquo;&rsaquo;</a></p>
+           </div>
+         </div>
 
+         <div class="row" style="margin-top: 10px">
+           <img class="span5 img-rounded" src="/smedia/events/2012/10/sam_0432.jpg" style="height: 200px" />
+           <div class="span7">
+            <h4>Izobraževanje: Hvala za nevrone nr.8: Evolucija uporabnega znanja<h4>
+            <span class="badge badge-inverse">ob 17:00, v Kiberpipi</span>
+            <br />
+            <br />
+            <p>En dan pred koncem sveta in ljudsko vstajo se bomo v Kiberpipi pogovarjali o evoluciji znanja na družbeni ravni. Zanimalo nas bo, kako se znanje razvija vzporedno s samo tehnološko evolucijo <a href="#">&rsaquo;&rsaquo;</a></p>
+           </div>
+         </div>
+        </div>
+
+    </div>
+  
     <hr />
     <div class="container">
         <div class="row">
