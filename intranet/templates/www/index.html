@@ -102,13 +102,13 @@ $(document).ready(function() {
 
                 {% for video in videos %}
                 <ol class="recent_videos">
-                	<li>
-                		<a href="{{ video.play_url }}">
-                                <img class="thumb" src="{{ video.image_url }}" alt="{{ video.title }}" />
-		                        <img class="overlay" src="{{ settings.STATIC_URL }}www/images/vod_overlay.png" alt="" title="" />
+                    <li>
+                        <a href="{{ video.play_url }}">
+                             <img class="thumb" src="{{ video.image_url }}" alt="{{ video.title }}" />
+                            <img class="overlay" src="{{ settings.STATIC_URL }}www/images/vod_overlay.png" alt="" title="" />
                         </a>
-                		<label>{{ video.title }}</label>
-                	</li>
+                        <label>{{ video.title }}</label>
+                     </li>
                 </ol>
                 {% endfor %}
 
