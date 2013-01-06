@@ -105,14 +105,13 @@ $(document).ready(function() {
                 <ol class="news">
                 {% for n in both %}
                 <li>
-                    <a href="{{ n.get_absolute_url }}"><h3>{{ n.title }}</h3></a>
+                    <a href="{{ n.get_absolute_url }}"><h3>{% if not n.text %}{{ n.author }}: {% endif %}{{ n.title }}</h3></a>
 
                     {% if n.image %}<img src="{{ n.image.url }}" width="45%" style="float: right; padding: 0 1em 0 1em;" />{% endif %}
 
                     {% if n.text %}
                     {{ n.text|sanitize|safe|truncatewords:"60" }}<br />
                     {% else %}
-                    <span class="badge badge-info">Blog</span> 
                     {{ n.content|sanitize|safe|truncatewords:"60" }}<br />
                     {% endif %}
                     <i>{% trans "Published by" %} <b>{{ n.author }}</b> {% trans "on" %} {% if n.date %}{{ n.date }}{% else %}{{ n.date_modified }}{% endif %}</i>
