@@ -48,6 +48,11 @@ def sort_news(x, y):
     return date_x < date_y
 
 def index(request):
+    """
+        Load everything we need for the frontpage
+        And that's a lot of stuff
+
+    """
     # load news items (internal cms) and blog posts (members' blogs, fetched via rss)
     news = News.objects.order_by('-date')[:4]
     posts = Post.objects.order_by('-date_modified')[:4]
@@ -63,9 +68,14 @@ def index(request):
     both2 = sorted(both, cmp=sort_news, reverse=True)
     both2.insert(0, news[0])
 
+    # load upcoming events
+    events = upcoming_events()
+
+    # load some tweets
     api = twitter.Api()
     tweets = api.GetSearch(term='kiberpipa OR cyberpipe')
 
+    # recent flickr uploads
     try:
         pictures = []
         # http://www.flickr.com/services/api/flickr.photosets.getList.html
@@ -92,6 +102,7 @@ def index(request):
                 pictures.append(image)
 
     return render_to_response('www/index.html', {
+        'events' : events,
         'news': news,
         'planet': posts,
         'both' : both2,
@@ -102,8 +113,13 @@ def index(request):
     }, context_instance=RequestContext(request))
 
 
-# TODO: cache for 3min
-def ajax_index_events(request):
+def upcoming_events():
+    """
+        prepare a list of recent & upcoming events
+         - all past ones going back 30 days
+         - all the upcoming ones
+
+    """
     now = datetime.datetime.now()
     past_month = datetime.datetime.today() - datetime.timedelta(30)
     last_midnight = datetime.datetime.today().replace(hour=0, minute=0, second=0)
@@ -128,6 +144,12 @@ def ajax_index_events(request):
             # TODO: if previous event should have ended more than 3 hours ago, dont' display the stream
         except IndexError:
             pass
+
+    return events
+
+# TODO: cache for 3min
+def ajax_index_events(request):
+    events = upcoming_events();
 
     # damn django resultsets aren't json-serializable.
     eventss = list()
