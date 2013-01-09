@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 from pipa.addressbook.models import PipaProfile
 from pipa.addressbook.forms import ProfileForm
@@ -12,26 +12,31 @@ from pipa.ldap.forms import LDAPPasswordChangeForm
 
 
 def alumni(request):
+    """
+        divide peepz into three groups:
+         - active = logged in in the last year + pic
+         - alumni = inactive, but honorable mention we put in
+            a specific auth group
+         - inactive = everyone else
+    """
     one_year_ago = date.today() - timedelta(days=365)
-
-    """
-    profiles = PipaProfile.objects.filter(show_profile=True)\
-                          .filter(user__is_active=True)\
-                          .exclude(image__exact='').exclude(image__exact='')\
-                          .order_by('user__first_name')
-
-    """
     active = PipaProfile.objects.filter(show_profile=True)\
                             .filter(user__last_login__gte=one_year_ago)\
                             .exclude(image__exact='').exclude(image__exact='')\
                             .order_by('user__first_name')
-
     active_ids = []
     for a in active:
         active_ids.append(a.id)
-    inactive = PipaProfile.objects.exclude(id__in=active_ids)
-        
 
+    # what sorcery is this, hardcoded pks agains :)
+    alumni_group = Group.objects.get(pk=8)
+    alumni = alumni_group.user_set.all().exclude(id__in=active_ids)
+    alumni_ids = []
+    for a in alumni:
+        alumni_ids.append(a.id)
+
+    inactive = PipaProfile.objects.exclude(id__in=active_ids).exclude(id__in=alumni_ids)
+        
     return render_to_response("alumni/alumni.html",
                               RequestContext(request, locals()))
 

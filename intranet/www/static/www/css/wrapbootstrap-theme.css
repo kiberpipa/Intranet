@@ -157,6 +157,7 @@ ul.the-icons li:hover { background:#eee }
 
 /* alumni */
 .alumni { margin-top: 2em; }
+.alumni img.thumbnail { width: 80px; }
 
 
 .thenews {  }
