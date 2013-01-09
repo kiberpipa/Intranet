@@ -1,23 +1,9 @@
-<!DOCTYPE html>
-{% load i18n %}
-{% load activelink %}
-{% load url from future %}
-{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html>{% load i18n activelink %}{% load url from future %}{% get_current_language as LANGUAGE_CODE %}
 <!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
 <!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
 <!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
 <!--[if (gte IE 9)|!(IE)]> <html class="not-ie" lang="sl"> <![endif]-->
 <head>
-    <link rel="alternate" type="application/rss+xml" title="Kiberpipa - Vse" href="/feeds/all/" />
-    <link rel="alternate" type="application/rss+xml" title="Kiberpipa - Novice" href="/feeds/novice/" />
-    <link rel="alternate" type="application/rss+xml" title="Kiberpipa - Dogodki" href="/feeds/dogodki/" />
-    <link rel="alternate" type="application/rss+xml" title="Kiberpipa - POT" href="/feeds/pot/" />
-    <link rel="alternate" type="application/rss+xml" title="Kiberpipa - SU" href="/feeds/su/" />
-    <link rel="alternate" type="application/rss+xml" title="Kiberpipa - VIP" href="/feeds/vip/" />
-    <link rel="alternate" type="application/rss+xml" title="Kiberpipa - Muzej" href="/feeds/muzej/" />
-    <link rel="alternate" type="application/rss+xml" title="Kiberpipa - Planet" href="/feeds/planet/" />
-    <link rel="shortcut icon" href="{{ settings.STATIC_URL }}www/images/favicon.ico" />
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Multimedijski center Kiberpipa, Kersnikova 6, 1000 Ljubljana">
@@ -25,11 +11,8 @@
     <meta name="keywords" content="linux,open source,art,diy,kiberpipa" />
     <title>{% block title %}{% trans "All our code are belong to you" %}{% endblock %} :: Kiberpipa.org</title>
     
-    <!--link rel="stylesheet" href="{{ settings.STATIC_URL }}www/css/style.css" type="text/css" /-->
     <link href="{{ settings.STATIC_URL }}www/css/bootstrap.css" rel="stylesheet">
     <link href="{{ settings.STATIC_URL }}www/css/wrapbootstrap-theme.css" rel="stylesheet">
-    <!-- todo: decide between Ubuntu and Awesome fonts, make sure it's loaded localy -->    
-    <link href='http://fonts.googleapis.com/css?family=Ubuntu&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
     <link href="{{ settings.STATIC_URL }}www/css/font-awesome.css" rel="stylesheet">
 
     <!--[if IE 7]>
@@ -41,6 +24,17 @@
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <script src="{{ settings.STATIC_URL }}www/js/jquery-1.8.2.min.js"></script>
+
+    <link rel="alternate" type="application/rss+xml" title="Kiberpipa - Vse" href="/feeds/all/" />
+    <link rel="alternate" type="application/rss+xml" title="Kiberpipa - Novice" href="/feeds/novice/" />
+    <link rel="alternate" type="application/rss+xml" title="Kiberpipa - Dogodki" href="/feeds/dogodki/" />
+    <link rel="alternate" type="application/rss+xml" title="Kiberpipa - POT" href="/feeds/pot/" />
+    <link rel="alternate" type="application/rss+xml" title="Kiberpipa - SU" href="/feeds/su/" />
+    <link rel="alternate" type="application/rss+xml" title="Kiberpipa - VIP" href="/feeds/vip/" />
+    <link rel="alternate" type="application/rss+xml" title="Kiberpipa - Muzej" href="/feeds/muzej/" />
+    <link rel="alternate" type="application/rss+xml" title="Kiberpipa - Planet" href="/feeds/planet/" />
+    <link rel="shortcut icon" href="{{ settings.STATIC_URL }}www/images/favicon.ico" />
+
     {% block extrahead %}{% endblock %}
 </head>
 
@@ -70,7 +64,7 @@
                             {% endfor %}
                         </ul>
                         <form class="navbar-search pull-left" method="get" action="{% url 'event_search' %}" id="searchform">
-                           <input class="input input-medium" name="q" id="q" type="search" class="search-query" placeholder="{% trans 'Search events ...' %}" size="15" />
+                           <input class="input input-medium search-query" name="q" id="q" type="search" placeholder="{% trans 'Search events ...' %}" size="15" />
                         </form>                
                     </div><!--/.nav-collapse -->
                 </div><!-- end .container -->
@@ -91,14 +85,24 @@
     <footer class="row">
         <div class="container">
             <div class="row">
-                <div class="span12 pagination-centered">
-                    {% block extrafooter %}
-                    {%  endblock %}<br />
+                <div class="span11 pagination-centered">
+                    <div id="second-nav">
+                        {% if LANGUAGE_CODE == 'sl' %} <a href="http://www.kiberpipa.org/sl/muzej/">muzej</a> {% else %} <a href="http://www.kiberpipa.org/en/museum/">museum</a> {% endif %}
+                        | g404
+                        | <a href="http://www.kiberpipa.org/err0r/">err0r</a>
+                        | <a href="http://www.kiberpipa.org/postlab/">postlab</a>
+                        | <a href="http://www.kiberpipa.org/haip">haip</a>
+                        | <a href="http://www.kiberpipa.org/filmsteka/">filmšteka</a>
+                        | <a href="http://pot.kiberpipa.org/">POT</a>
+                        | <a href="https://www.facebook.com/SpletneUrice">SU</a>
+                        | VIP
+                        | <a href="http://www.kiberpipa.net/">NET</a>
+                    </div>
                 </div>
             </div>
 
             <div class="row">
-                <div class="span3 offset2 pagination-centered">
+                <div class="span3 offset1 pagination-centered">
                     <h3>(CC) 2001-12</h3>
 
                     <p>
@@ -135,7 +139,7 @@
     <div id="footer-extra">
         <div class="container">
             <div class="row">
-                <div class="span12 pagination-centered">
+                <div class="span11 pagination-centered">
                     <a href="http://www.k6-4.org/"><img src="{{ settings.STATIC_URL }}www/images/zavod_pasica_inverted.png" alt="Zavod K6/4" /></a>&nbsp;&nbsp;
                     <a href="http://www.m3c.si/dat/M3C/"><img src="{{ settings.STATIC_URL }}www/images/logo_m3c_inverted.png" alt="M3C - Mreža Multimedijskih Centrov Slovenije" /></a>&nbsp;&nbsp;
                     <a href="http://www.gov.si/euskladi/skladi/strukt_esrr.html"><img src="{{ settings.STATIC_URL }}www/images/logo_evropski_sklad_inverted.png" alt="Evropski Sklad za Regionalni Razvoj" /></a>&nbsp;&nbsp;
