@@ -84,7 +84,7 @@
         </div>
     </header>
  
-    <div id="content" class="container">
+    <div id="content" class="container {% block contentclass %}{% endblock %}">
         {% block content %}{% endblock %}
     </div>
 
