@@ -11,6 +11,22 @@ from pipa.addressbook.forms import ProfileForm
 from pipa.ldap.forms import LDAPPasswordChangeForm
 
 
+def therealalumni():
+    one_year_ago = date.today() - timedelta(days=365)
+    active = PipaProfile.objects.filter(show_profile=True)\
+                            .filter(user__last_login__gte=one_year_ago)\
+                            .exclude(image__exact='').exclude(image__exact='')\
+                            .order_by('user__first_name')
+    active_user_ids = map(lambda x: x.user.id, active)
+
+    # what sorcery is this, hardcoded pks agains :)
+    alumni_group = Group.objects.get(pk=8)
+    alumni_users = alumni_group.user_set.all().exclude(id__in=active_user_ids)
+    alumni_user_ids = map(lambda x: x.id, alumni_users)
+    alumni = PipaProfile.objects.filter(user__id__in=alumni_user_ids)    
+    
+    return (active, alumni)
+
 def alumni(request):
     """
         divide peepz into three groups:
@@ -24,16 +40,15 @@ def alumni(request):
                             .filter(user__last_login__gte=one_year_ago)\
                             .exclude(image__exact='').exclude(image__exact='')\
                             .order_by('user__first_name')
-    active_ids = []
-    for a in active:
-        active_ids.append(a.id)
+    active_user_ids = map(lambda x: x.user.id, active)
+    active_ids = map(lambda x: x.id, active)
 
     # what sorcery is this, hardcoded pks agains :)
     alumni_group = Group.objects.get(pk=8)
-    alumni = alumni_group.user_set.all().exclude(id__in=active_ids)
-    alumni_ids = []
-    for a in alumni:
-        alumni_ids.append(a.id)
+    alumni_users = alumni_group.user_set.all().exclude(id__in=active_user_ids)
+    alumni_user_ids = map(lambda x: x.id, alumni_users)
+    alumni = PipaProfile.objects.filter(user__id__in=alumni_user_ids)
+    alumni_ids = map(lambda x: x.id, alumni)
 
     inactive = PipaProfile.objects.exclude(id__in=active_ids).exclude(id__in=alumni_ids)
         
