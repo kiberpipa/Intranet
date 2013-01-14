@@ -65,10 +65,10 @@ $(document).ready(function() {
             </div>
         </div>
 
-        <span class="label hidden-desktop">hidden-desktop</span>
+        <!--span class="label hidden-desktop">hidden-desktop</span>
         <span class="label visible-desktop">visible-desktop</span>
         <span class="label hidden-phone">hidden-phone</span>
-        <span class="label visible-phone">visible-phone</span>
+        <span class="label visible-phone">visible-phone</span-->
     </div><!--/ end of .hero-unit-->
 
     <hr />
@@ -97,17 +97,22 @@ $(document).ready(function() {
 
                 <p><a href="{% url 'news' %}">Več novic</a></p>
             </div>
-            <div class="span4">
+            <div class="span4 themedia">
                 <h2 class="grey">{% trans "Media" %}</h2>
 
                 {% for video in videos %}
                 <ol class="recent_videos">
                     <li>
-                        <a href="{{ video.play_url }}">
-                             <img class="thumb" src="{{ video.image_url }}" alt="{{ video.title }}" />
-                            <img class="overlay" src="{{ settings.STATIC_URL }}www/images/vod_overlay.png" alt="" title="" />
+                        <a href="{{ video.play_url }}" target="_blank">
+                            <img class="thumb" src="{{ video.image_url }}" alt="{{ video.title }}" />
+                            <img class="overlay hidden-phone" src="{{ settings.STATIC_URL }}www/images/vod_overlay.png" alt="" title="" />
                         </a>
-                        <label>{{ video.title }}</label>
+                        <label><a href="{{ video.play_url }}" target="_blank">{{ video.title }}</a>
+
+                        {% for author in video.event.authors %}
+                            {{ author.name }}
+                        {% endfor %}
+                        </label>
                      </li>
                 </ol>
                 {% endfor %}
@@ -123,7 +128,7 @@ $(document).ready(function() {
                 </ol>
                 {% endfor %}
             </div>
-            <div class="span4">
+            <div class="span4 thesocialstuffz">
                 <h2 class="grey">{% trans "Social" %}</h2>
 
                 <p><a href="/feeds/all/"><i class="icon-rss"></i> RSS</a></p>
