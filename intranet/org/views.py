@@ -3,6 +3,7 @@
 
 import datetime
 import os
+import glob
 import csv
 import shutil
 import random
@@ -709,13 +710,34 @@ def event_officer_cancel(request, pk):
     return redirect('event_list')
 
 
-def event_template(request, year=0, week=0):
+def event_template(request, year=0, week=0, template=None, ga=None):
     """docstring for event_template"""
     week = int(week) or datetime.date.today().isocalendar()[1] + 1
     year = int(year) or datetime.date.today().year
 
+    # some helpful links
+    week_current = datetime.date.today().isocalendar()[1];
+    year_current = datetime.date.today().year
+
+    which_week = "next"
+    if year == year_current and week == week_current:
+        which_week = "current"
+
+    # scan for available templates
+    templates = []
+    for td in settings.TEMPLATE_DIRS:
+        found = glob.glob("%s/org/pr/mailing_*.html" % td)
+        found = map(lambda x: x.replace(td + "/", ""), found)
+        templates.extend(found)
+
     events = Event.objects.get_week_events(int(year), int(week)).is_public()
-    return render_to_response("org/event_template.html", {"events": events}, context_instance=RequestContext(request))
+
+    # todo: locals()
+    return render_to_response("org/event_template.html", 
+        {"events": events, "templates": templates, "which_week" : which_week, "year" : year, "week" : "%02d" % week, 
+            "week_current" : week_current, "year_current" : year_current,
+        },
+        context_instance=RequestContext(request))
 
 
 class MixinArchiveEvent(object):
