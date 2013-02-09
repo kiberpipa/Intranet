@@ -72,6 +72,7 @@ def index(request):
     both2.insert(0, news[0])
 
     # load some tweets
+    # TODO: https://github.com/bear/python-twitter/pull/33
     api = twitter.Api()
     tweets = api.GetSearch(term='kiberpipa OR cyberpipe', query_users=False)
 
