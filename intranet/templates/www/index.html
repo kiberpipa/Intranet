@@ -143,7 +143,7 @@ $(document).ready(function() {
                     {% else %}
                     {{ n.content|sanitize|safe|truncatewords:"60" }}<br />
                     {% endif %}
-                    <i>{% trans "Published by" %} <b>{{ n.author }}</b> {% trans "on" %} {% if n.date %}{{ n.date }}{% else %}{{ n.date_modified }}{% endif %}</i>
+                    <i>{% trans "Published by" %} <b>{% if n.text %}{{ n.author.get_full_name }}{% else %}{{ n.author }}{% endif %}</b>, {% trans "on" %} {% if n.date %}{{ n.date }}{% else %}{{ n.date_modified }}{% endif %}</i>
                 </li>
                 {% endfor %}
                 </ol>
@@ -157,7 +157,7 @@ $(document).ready(function() {
                 <ol class="recent_videos">
                     <li>
                         <a href="{{ video.play_url }}">
-                             <img class="thumb" src="{{ video.image_url }}" alt="{{ video.title }}" />
+                            <img class="thumb" src="{{ video.image_url }}" alt="{{ video.title }}" />
                             <img class="overlay" src="{{ settings.STATIC_URL }}www/images/vod_overlay.png" alt="" title="" />
                         </a>
                         <label>{{ video.title }}</label>
@@ -181,9 +181,9 @@ $(document).ready(function() {
 
                 <p><a href="/feeds/all/"><i class="icon-rss"></i> RSS</a></p>
 
-                <span>{% trans "Would you like to subscribe to information about weekly events?" %}</span>
+                <p>{% trans "Would you like to subscribe to information about weekly events?" %}</p>
                 <form id="subscribe_mailinglist" method="post" action="{% url 'ajax_subscribe_mailinglist' %}">
-                   {{ emailform.as_table }}
+                   <input name="email" id="id_email" placeholder="Email" type="text" />
                    <p><i class="response"></i></p>
                 </form>
 
