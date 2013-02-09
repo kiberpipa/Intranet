@@ -126,12 +126,17 @@ Deploying from staging to production
     bin/fab remote_production_deploy -H HOSTNAME -u REMOTE_USER
 
 
-createuser -p 5433 -P i3
-createdb -p 5433 i3
-psql -p 5433
-GRANT ALL PRIVILEGES ON DATABASE i3 TO i3;
-pg_restore --list db.sql | grep -v LANGUAGE | grep -v FUNCTION | grep -v AGGREGATE > db.list
-pg_restore -Fc --no-acl -e --no-owner -p 5433 -U i3 -d i3 -L db.list db.sql
-mkdir media
-cd media
-tar xf ../mediafiles.tar.gz
+Restoring database
+================== 
+
+::
+
+    createuser -p 5433 -P i3
+    createdb -p 5433 i3
+    psql -p 5433
+    GRANT ALL PRIVILEGES ON DATABASE i3 TO i3;
+    pg_restore --list db.sql | grep -v LANGUAGE | grep -v FUNCTION | grep -v AGGREGATE > db.list
+    pg_restore -Fc --no-acl -e --no-owner -p 5433 -U i3 -d i3 -L db.list db.sql
+    mkdir media
+    cd media
+    tar xf ../mediafiles.tar.gz
