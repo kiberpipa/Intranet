@@ -52,17 +52,12 @@
                                 <a href="{{ event.get_absolute_url }}">{{ event.title|truncchar:"65" }}</a>
 
                                 {% for video_url in event.get_video_urls %}
-                                <a href="{{ video_url }}" title="{% trans "Videos of event" %}"><img src="{{ settings.STATIC_URL }}www/images/video20x20.png" /></a>
+                                <a href="{{ video_url }}" title="{% trans "Videos of event" %}"><i class="icon-facetime-video"></i></a>
                                 {% endfor %}
 
                                 {% if event.flickr_set_id %}
-                                <a href="{{ event.get_absolute_url }}" title="{% trans "Pictures of event" %}" ><img src="{{ settings.STATIC_URL }}www/images/images16x16.png" /></a>
+                                <a href="{{ event.get_absolute_url }}" title="{% trans "Pictures of event" %}" ><i class="icon-picture"></i></a>
                                 {% endif %}
-                            {% else %}
-                                <!--                                
-                                <strong>{{ event.start_date|date:"[H:i]"}}</strong>
-                                {% trans "Reserved." %}
-                                -->
                             {% endif %}
                         </li>
                     {% endfor %}
