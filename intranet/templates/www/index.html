@@ -121,8 +121,7 @@ $(document).ready(function() {
           <button class="btn btn-large navigation next">&rsaquo;&rsaquo;</button>
         </div>
 
-        <div id="events_content" style="margin-top: 20px">
-        </div>
+    </div><!--/ end of .hero-unit-->
 
     </div>
   
@@ -150,17 +149,22 @@ $(document).ready(function() {
 
                 <p><a href="{% url 'news' %}">{% trans "More news" %}</a></p>
             </div>
-            <div class="span4">
+            <div class="span4 themedia">
                 <h2 class="grey">{% trans "Media" %}</h2>
 
                 {% for video in videos %}
                 <ol class="recent_videos">
                     <li>
-                        <a href="{{ video.play_url }}">
+                        <a href="{{ video.play_url }}" target="_blank">
                             <img class="thumb" src="{{ video.image_url }}" alt="{{ video.title }}" />
-                            <img class="overlay" src="{{ settings.STATIC_URL }}www/images/vod_overlay.png" alt="" title="" />
+                            <img class="overlay hidden-phone" src="{{ settings.STATIC_URL }}www/images/vod_overlay.png" alt="" title="" />
                         </a>
-                        <label>{{ video.title }}</label>
+                        <label><a href="{{ video.play_url }}" target="_blank">{{ video.title }}</a>
+
+                        {% for author in video.event.authors %}
+                            {{ author.name }}
+                        {% endfor %}
+                        </label>
                      </li>
                 </ol>
                 {% endfor %}
@@ -176,7 +180,7 @@ $(document).ready(function() {
                 </ol>
                 {% endfor %}
             </div>
-            <div class="span4">
+            <div class="span4 thesocialstuffz">
                 <h2 class="grey">{% trans "Social" %}</h2>
 
                 <p><a href="/feeds/all/"><i class="icon-rss"></i> RSS</a></p>

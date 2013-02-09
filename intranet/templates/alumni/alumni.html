@@ -1,9 +1,9 @@
 {% extends "www/base.html" %}
-{% load www i18n %}
+{% load www i18n flatpages %}
 
 {% block title %}{% trans "Community" %}{% endblock %}
 {% block extrahead %}{% endblock %}
-{% block contentclass %}alumni{% endblock %}
+{% block contentclass %}community{% endblock %}
 
 {% block content %}
         <div class="row titlerow">
@@ -14,64 +14,70 @@
 
         <div class="row">
             <div class="span9 offset2">
-                {% trans "Kiberpipa is possible because of all the volunteers that are interested in tech, computers, art and the mix of everything through everyday life. Through the years there were many people that helped around, some stayed for a short while, while others are still helping around. Here is a list of people that helped in anyway and build Kiberpipa to be The Best Cybercenter in Europe." %}
+                {% if LANGUAGE_CODE == 'sl' %}{% get_flatpages '/sl/community/' as pages %}
+                {% else %}{% get_flatpages '/en/community/' as pages %}{% endif %}
+                {% for page in pages %}
+                {{ page.content|safe }}
+                {% empty %}
+                WARN: flatpage missing
+                {% endfor %}
 
-                <ul class="nav nav-tabs nav-stacked">
-                    <li><a href="#active"><i class="icon-chevron-right"></i> {% trans 'Active members' %}</a></li>
-                    <li><a href="#alumni"><i class="icon-chevron-right"></i> {% trans 'Alumni' %}</a></li>
-                    <li><a href="#others"><i class="icon-chevron-right"></i> {% trans 'Others' %}</a></li>
-                </ul>
+                <div class="nav">
+                    <div class="btn-group">
+                        <a class="btn" href="#active">{% trans 'Active members' %} ({{ active|length }})</a>
+                        <a class="btn" href="#alumni">{% trans 'Alumni' %} ({{ alumni|length }})</a>
+                        <a class="btn" href="#inactive">{% trans 'Inactive' %} ({{ inactive|length }})</a>
+                    </div>
+                </div>
 
                 <section id="active">
-                    <h3>Aktivni člani</h3>
-
-                    <p>Po abecedi, aktivni v zadnjem letu dni</p>
+                    <h3>{% trans 'Active members' %}</h3>
         
                     <ol class="members active">
-                        {% for alumni in active %}{% if alumni.show_profile and alumni.user.is_active %}
+                        {% for member in active %}{% if member.show_profile and member.user.is_active %}
                         {% cycle 'col1' 'col2' 'col3' as column silent %}
                         <li class="member">
                             <div class="member-avatar">
-                                {% if alumni.image %}
-                                <img class="thumbnail" src="{{ alumni.image.url }}" alt="{{ alumni.user.username }}" title="{{ alumni.user.username }}" />
+                                {% if member.image %}
+                                <img class="thumbnail" src="{{ member.image.url }}" alt="{{ member.user.username }}" title="{{ member.user.username }}" />
                                 {% else %}
-                                <img class="thumbnail" src="{{ settings.STATIC_URL }}www/images/picture-skupnost.gif" alt="{{ alumni.user.username }}" title="{{ alumni.user.username }}" />
+                                <img class="thumbnail" src="{{ settings.STATIC_URL }}www/images/picture-skupnost.gif" alt="{{ member.user.username }}" title="{{ member.user.username }}" />
                                 {% endif %}
 
                                 <span class="member-networks">
-                                    {% if alumni.twitter and alumni.twitter_public %}
-                                        <a href="{{ alumni.twitter }}" class="icon-twitter" title="Twitter"></a>
+                                    {% if member.twitter and member.twitter_public %}
+                                        <a href="{{ member.twitter }}" class="icon-twitter" title="Twitter"></a>
                                     {% endif %}
-                                    {% if alumni.facebook and alumni.facebook_public %}
-                                        <a href="{{ alumni.facebook }}" class="icon-facebook" title="Facebook"></a>
+                                    {% if member.facebook and member.facebook_public %}
+                                        <a href="{{ member.facebook }}" class="icon-facebook" title="Facebook"></a>
                                     {% endif %}
-                                    {% if alumni.linkedin and alumni.linkedin_public %}
-                                        <a href="{{ alumni.linkedin }}" class="icon-linkedin" title="LinkedIn"></a>
+                                    {% if member.linkedin and member.linkedin_public %}
+                                        <a href="{{ member.linkedin }}" class="icon-linkedin" title="LinkedIn"></a>
                                     {% endif %}
-                                    {% if alumni.flickr and alumni.flickr_public %} 
-                                        <a href="{{ alumni.flickr }}" class="icon-flickr" title="Flickr"></a>
+                                    {% if member.flickr and member.flickr_public %} 
+                                        <a href="{{ member.flickr }}" class="icon-flickr" title="Flickr"></a>
                                     {% endif %}
-                                    {% if alumni.www and alumni.www_public %}
-                                        <a href="{{ alumni.www }}" class="icon-file" title="Webpage"></a>
+                                    {% if member.www and member.www_public %}
+                                        <a href="{{ member.www }}" class="icon-file" title="Webpage"></a>
                                     {% endif %}
-                                    {% if alumni.blog %}
-                                        <a href="{{ alumni.blog }}" class="icon-file" title="Blog"></a>
+                                    {% if member.blog %}
+                                        <a href="{{ member.blog }}" class="icon-file" title="Blog"></a>
                                     {% endif %}
                                 </span>
 
                             </div>
 
 
-                            <h3 class="member-name">{% if alumni.public_name %}{{ alumni.public_name }}{% else %}{{ alumni.user.get_full_name }}{% endif %}</h3>
+                            <h3 class="member-name">{% if member.public_name %}{{ member.public_name }}{% else %}{{ member.user.get_full_name }}{% endif %}</h3>
                             <!--h4 class="member-position">Founder and CEO</h4-->
 
-                            <p class="member-bio">{{ alumni.description }}</p>
+                            <p class="member-bio">{{ member.description }}</p>
 
-                            {% if alumni.sshpubkey and alumni.sshpubkey_public %}
+                            {% if member.sshpubkey and member.sshpubkey_public %}
                             <div>
-                                <a href="javascript:;" onmousedown="var tehid = 'sshkey_{{ alumni.user.id }}'; if(document.getElementById(tehid).style.display == 'none'){ document.getElementById(tehid).style.display = 'block'; } else{ document.getElementById(tehid).style.display = 'none'; }">Show public key</a>
-                                <div class="sshkey" id="sshkey_{{ alumni.user.id }}" style="display: none">
-                                    <textarea id="area_{{alumni.user.id}}" onfocus="this.select()" cols="50" rows="10">{{ alumni.sshpubkey }}</textarea>
+                                <a href="javascript:;" onmousedown="var tehid = 'sshkey_{{ member.user.id }}'; if(document.getElementById(tehid).style.display == 'none'){ document.getElementById(tehid).style.display = 'block'; } else{ document.getElementById(tehid).style.display = 'none'; }">Show public key</a>
+                                <div class="sshkey" id="sshkey_{{ member.user.id }}" style="display: none">
+                                    <textarea id="area_{{member.user.id}}" onfocus="this.select()" cols="50" rows="10">{{ member.sshpubkey }}</textarea>
                                 </div>
                             </div>
                             {% endif %}
@@ -81,77 +87,78 @@
                 </section>
 
                 <section id="alumni">
-                    <h3>{% trans 'Alumni'|capfirst %}</h3>
+                    <h3>{% trans 'alumni'|capfirst %}</h3>
 
-                    <p>Po abecedi, aktivni v zadnjem letu dni</p>
-        
                     <ol class="members alumni">
-                        {% for alumni in alumni %}{% if alumni.show_profile and alumni.user.is_active %}
+                        {% for member in alumni %}
                         {% cycle 'col1' 'col2' 'col3' as column silent %}
                         <li class="member">
                             <div class="member-avatar">
-                                {% if alumni.image %}
-                                <img class="thumbnail" src="{{ alumni.image.url }}" alt="{{ alumni.user.username }}" title="{{ alumni.user.username }}" />
+                                {% if member.image %}
+                                <img class="thumbnail" src="{{ member.image.url }}" alt="{{ member.user.username }}" title="{{ member.user.username }}" />
                                 {% else %}
-                                <img class="thumbnail" src="{{ settings.STATIC_URL }}www/images/picture-skupnost.gif" alt="{{ alumni.user.username }}" title="{{ alumni.user.username }}" />
+                                <img class="thumbnail" src="{{ settings.STATIC_URL }}www/images/picture-skupnost.gif" alt="{{ member.user.username }}" title="{{ member.user.username }}" />
                                 {% endif %}
 
                                 <span class="member-networks">
-                                    {% if alumni.twitter and alumni.twitter_public %}
-                                        <a href="{{ alumni.twitter }}" class="icon-twitter"></a>
+                                    {% if member.twitter and member.twitter_public %}
+                                        <a href="{{ member.twitter }}" class="icon-twitter"></a>
                                     {% endif %}
-                                    {% if alumni.facebook and alumni.facebook_public %}
-                                        <a href="{{ alumni.facebook }}" class="icon-facebook"></a>
+                                    {% if member.facebook and member.facebook_public %}
+                                        <a href="{{ member.facebook }}" class="icon-facebook"></a>
                                     {% endif %}
-                                    {% if alumni.linkedin and alumni.linkedin_public %}
-                                        <a href="{{ alumni.linkedin }}" class="icon-linkedin"></a>
+                                    {% if member.linkedin and member.linkedin_public %}
+                                        <a href="{{ member.linkedin }}" class="icon-linkedin"></a>
                                     {% endif %}
-                                    {% if alumni.flickr and alumni.flickr_public %} 
-                                        <a href="{{ alumni.flickr }}" class="icon-flickr"></a>
+                                    {% if member.flickr and member.flickr_public %} 
+                                        <a href="{{ member.flickr }}" class="icon-flickr"></a>
                                     {% endif %}
-                                    {% if alumni.www and alumni.www_public %}
-                                        <a href="{{ alumni.www }}" title="webpage" class="icon-file"></a>
+                                    {% if member.www and member.www_public %}
+                                        <a href="{{ member.www }}" title="webpage" class="icon-file"></a>
                                     {% endif %}
-                                    {% if alumni.blog %}
-                                        <a href="{{ alumni.blog }}" title="blog" class="icon-file"></a>
+                                    {% if member.blog %}
+                                        <a href="{{ member.blog }}" title="blog" class="icon-file"></a>
                                     {% endif %}
                                 </span>
 
                             </div>
 
 
-                            <h3 class="member-name">{% if alumni.public_name %}{{ alumni.public_name }}{% else %}{{ alumni.user.get_full_name }}{% endif %}</h3>
+                            <h3 class="member-name">{% if member.public_name %}{{ member.public_name }}{% else %}{{ member.user.get_full_name }}{% endif %}</h3>
                             <!--h4 class="member-position">Founder and CEO</h4-->
 
-                            <p class="member-bio">{{ alumni.description }}</p>
+                            <p class="member-bio">{{ member.description }}</p>
 
-                            {% if alumni.sshpubkey and alumni.sshpubkey_public %}
+                            {% if member.sshpubkey and member.sshpubkey_public %}
                             <div>
-                                <a href="javascript:;" onmousedown="var tehid = 'sshkey_{{ alumni.user.id }}'; if(document.getElementById(tehid).style.display == 'none'){ document.getElementById(tehid).style.display = 'block'; } else{ document.getElementById(tehid).style.display = 'none'; }">Show public key</a>
-                                <div class="sshkey" id="sshkey_{{ alumni.user.id }}" style="display: none">
-                                    <textarea id="area_{{alumni.user.id}}" onfocus="this.select()" cols="50" rows="10">{{ alumni.sshpubkey }}</textarea>
+                                <a href="javascript:;" onmousedown="var tehid = 'sshkey_{{ member.user.id }}'; if(document.getElementById(tehid).style.display == 'none'){ document.getElementById(tehid).style.display = 'block'; } else{ document.getElementById(tehid).style.display = 'none'; }">Show public key</a>
+                                <div class="sshkey" id="sshkey_{{ member.user.id }}" style="display: none">
+                                    <textarea id="area_{{member.user.id}}" onfocus="this.select()" cols="50" rows="10">{{ member.sshpubkey }}</textarea>
                                 </div>
                             </div>
                             {% endif %}
                         </li>
-                        {% endif %}{% endfor %}
+                        {% empty %}
+                        <li>Ni alumnov</li>
+                        {% endfor %}
                     </ol>
                 </section>
 
                 <section id="inactive">
                     <h3>Inactive</h3>
 
-                    {% for alumni in inactive %}
+                    {% for member in inactive %}
                     <div class="member-avatar">
-                        {% if alumni.image %}
-                        <img class="thumbnail" src="{{ alumni.image.url }}" alt="{{ alumni.user.username }}" title="{{ alumni.user.username }}" />
+                        {% if member.image %}
+                        <img class="thumbnail" src="{{ member.image.url }}" alt="{{ member.user.username }}" title="{{ member.user.username }}" />
                         {% else %}
-                        <img class="thumbnail" src="{{ settings.STATIC_URL }}www/images/picture-skupnost.gif" alt="{{ alumni.user.username }}" title="{{ alumni.user.username }}" />
+                        <img class="thumbnail" src="{{ settings.STATIC_URL }}www/images/picture-skupnost.gif" alt="{{ member.user.username }}" title="{{ member.user.username }}" />
                         {% endif %}
 
-                        <h3 class="member-name">{% if alumni.public_name %}{{ alumni.public_name }}{% else %}{{ alumni.user.get_full_name }}{% endif %}</h3>
+                        <h3 class="member-name">{% if member.public_name %}{{ member.public_name }}{% else %}{{ member.user.username }}{% endif %}</h3>
                     </div>            
                     {% endfor %}
                 </section>
             </div>
+        </div>
 {% endblock %}

@@ -1,21 +1,143 @@
-<html>
-  <head>
-  </head>
-  <body>
-    <img width="214" height="63" src="{{ settings.STATIC_URL }}www/images/logo.png"></img>
-    <br />
-    <br />
-    <span><strong>Prijava na elektronske novice:</strong> http://www.kiberpipa.org/</span><br />
-    <span><strong>Lokacija:</strong> http://www.kiberpipa.org/sl/kjesmo/</span><br />
-    <span><strong>Kontakt:</strong> info@kiberpipa.org</span><br />
-    <h1>Tedenski napovednik</h1>
+{% extends "org/base_bootstrap_fluid.html" %}
+{% load box i18n %}
+{% load url from future %}
 
-    {% for event in events %}
-    <h2>{{ event.start_date|date:"l (j N)" }} ob {{ event.start_date|date:"G:i" }}: {{ event.title }}</h2>
+{% block title %}Tedenski napovednik{% endblock %}
+{% block navigation %}
+<div class="well">
+    <ul class="nav nav-list">
+        <li class="nav-header" style="padding-bottom: 0.5em">{% trans "Timeframe" %}</li>
+        <!-- li style="padding-left: 0.5em"><a href="/intranet/events/pr/">{% trans "Previous week" %}</li -->
+        <li {% if which_week = 'current' %}class="active"{% endif %} style="padding-left: 0.5em"><a href="/intranet/events/pr/{{ year_current }}/{{ week_current }}/">{% trans "Current week" %} ({{ year_current }}-{{ week_current }})</li>
+        <li {% if which_week = 'next' %}class="active"{% endif %} style="padding-left: 0.5em"><a href="/intranet/events/pr/">{% trans "Next week" %} ({{ year }}-{{ week }})</a></li>
 
-      <div style="font-size: 0.9em">
-      {{ event.announce|safe }}
-      </div>
-    {% endfor %}
-  </body>
-</html>
+        <li class="nav-header">{% trans "E-Mail Template" %}</li>
+        <li style="padding: 0.5em 0 0 1em;">
+            <select name="template">
+            {% for template in templates %}
+                <option value="{{ template }}">{{ template }}</option>
+            {% endfor %}
+            </select>
+        </li>
+
+        <li class="nav-header">{% trans "GA tracking" %}</li>
+        <li style="padding: 0.5em 0 0 1em;">
+            <label for="ga_source">Campaign Source:</label>
+            <input type="text" id="ga_source" value="napovednik-{{ year }}-{{ week }}">
+
+            <label for="ga_medium">Campaign Medium:</label>
+            <input readonly type="text" id="ga_medium" value="email">
+
+            <label for="ga_source">Campaign Name:</label>
+            <input readonly type="text" id="ga_campaign" value="napovednik">
+            
+        </li>
+
+        <li class="nav-header">{% trans "Test-send email" %}</li>
+        <li style="padding: 0.5em 0 0 1em;">
+            <input type="text" placeholder="Email" value="igor.kolar@gmail.com">
+            <button class="btn btn-submit">DA</button>
+        </li>
+
+        <li style="margin-top: 2em; font-size: smaller; color: #aaa;">
+            Opombe:
+            <ul>
+                <li>izbira tedna povozi vsakršne spremembe vsebine (preview / source)!!</li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+{% endblock %}
+
+{% block content-main %}
+<div class="module">
+    <div class="tabbable">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#preview" data-toggle="tab">{% trans 'Preview' %}</a></li>
+            <li><a href="#source" data-toggle="tab">{% trans 'Source' %}</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="preview">
+                <div id="preview-inner" style="background: white; padding: 0; margin: 0; border: 1px dotted #aaa">
+
+{% include 'org/pr/mailing_oskar1.html' %}
+
+                </div>
+            </div>
+            <div class="tab-pane" id="source">
+                <p>
+                    <button class="btn" onclick="return update_preview();">Update preview with changes</button>
+                </p>
+
+                <textarea id="sourcecode_header" name="sourcecode_header" style="width: 95%; display: none;" rows="7" readonly><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <title>Kiberpipin napovednik</title>
+</head>
+<body style="padding: 0; margin: 0;"></textarea>
+
+                <textarea id="sourcecode" name="sourcecode" rows="30" style="width: 95%"></textarea>
+
+                <textarea id="sourcecode_footer" name="sourcecode_footer" rows="2" style="width: 95%; display: none;" readonly></body>
+</html></textarea>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extrahead %}
+        <script type="text/javascript">
+            function ga_query_string(ga_content) {
+                return "?utm_source=" + $("#ga_source").val() + "&utm_medium=" + $("#ga_medium").val() + "&utm_campaign=" + $("#ga_campaign").val() + "&utm_content=" + ga_content;
+            }
+
+            // add ga query string to a src/href param
+            // clear the old ga qs if present
+            function add_qs(oldval, qs) {
+                    // remove old qs
+                    oldval = oldval.replace(/\\?utm_.*/, '');
+                    console.debug("Old val after regex: " + oldval);
+                    
+
+                    var newval = oldval + 
+                        (oldval.indexOf("?") == -1 ? "?" : "&") +
+                        qs.replace("?", "");
+
+                    return newval;
+            }
+
+            function update_preview() {
+                $("#preview-inner").html($("#sourcecode").val());
+                
+                return false();
+            }
+
+            function add_ga() {
+                // logo image
+                var logo = $("#preview .logo").first();
+                var logo_src = $(logo).attr("src");
+                logo_src = logo_src.replace(/\?.*/, '');
+                logo_src += ga_query_string("logo");
+                $(logo).attr("src", logo_src);
+
+                // outgoing links
+                $("#preview a.ga").each(function() {
+                    $(this).attr("src", $(this).attr("src") + ga_query_string("link"));
+                });
+            }
+
+            $(document).ready(function() {
+                add_ga();            
+
+                $("#sourcecode").val($("#preview-inner").html().trim().replace(/\n\n+/, '\n'))
+            });
+        </script>
+        <style type="text/css">
+            #preview .announce p { font-family: Garamond, serif !important; }
+        </style>
+{% endblock %}

@@ -143,20 +143,22 @@ ul.the-icons li:hover { background:#eee }
 .calendar td.today label, .calendar td.today a { color: white; }
 .calendar ul.events { list-style-type: none; margin: 0; }
 
-/* alumni */
-.alumni { margin-top: 2em; }
-.alumni .members { list-style-type: none; margin: 0; padding: 0; vertical-align: top; }
-.alumni .member { display: inline-block; width: 30%; margin-right: 3%; vertical-align: top; }
-.member { border-top: 1px dotted #aaa; padding: 1em 0 1em 0; }
-.member:nth-child(1), .member:nth-child(2), .member:nth-child(3) { border-top: none; }
-.member:hover .member-networks a { color:#de2c6c }
-.member .member-avatar { max-height: 120px; height: 120px; overflow: hidden; margin:0 0 20px 0 }
-.member .member-avatar img.thumbnail { width: 80px; max-height: 120px; display: inline-block; }
-.member .member-name { margin:0;color:#0082cc; max-height: 1.5em; overflow: hidden; vertical-align: top;  }
-.member .member-position { color:#aaa;font-weight:normal;font-style:italic;margin:0 0 10px 0 }
-.member .member-networks { width: 50%; float: right; }
-.member .member-networks a { font-size:20px;line-height:1.6em; margin:0 5px 0 0;color:#666 }
-.member .member-bio { padding: 0 0 16px 0;font-size:.9em;color:#777 }
+/* community */
+.community { margin-top: 2em; }
+.community .nav { margin-top: 1em; }
+.community section { margin-top: 2em; }
+.community .members { list-style-type: none; margin: 0; padding: 0; vertical-align: top; }
+.community .member { display: inline-block; width: 30%; margin-right: 3%; vertical-align: top; }
+.community .member { border-top: 1px dotted #aaa; padding: 1em 0 1em 0; }
+.community .member:nth-child(1), .member:nth-child(2), .member:nth-child(3) { border-top: none; }
+.community .member:hover .member-networks a { color:#de2c6c }
+.community .member-avatar { min-height: 120px; overflow: hidden; margin:0 0 20px 0 }
+.community .member-avatar img.thumbnail { width: 80px; max-height: 120px; display: inline-block; }
+.community .member-name { margin:0;color:#0082cc; max-height: 1.5em; overflow: hidden; vertical-align: top;  }
+.community .member-position { color:#aaa;font-weight:normal;font-style:italic;margin:0 0 10px 0 }
+.community .member-networks { width: 50%; float: right; }
+.community .member-networks a { font-size:20px;line-height:1.6em; margin:0 5px 0 0;color:#666 }
+.community .member-bio { padding: 0 0 16px 0;font-size:.9em;color:#777 }
 
 /* front page, bellow the carousel */
 .thenews {  }
@@ -172,6 +174,7 @@ ul.the-icons li:hover { background:#eee }
 .thecomments form label[for='id_honeypot'] { display: none; }
 .thecomments form #id_honeypot { display: none; }
 
+.themedia label { font-weight: bold; }
 .recent_videos { margin: 0; padding: 0; }
 .recent_videos li { list-style-type: none; margin-bottom: 1em; }
 .recent_videos li img { width: 150px; border-radius: 5px; }
