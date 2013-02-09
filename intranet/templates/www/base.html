@@ -56,7 +56,7 @@
                             {% for menuitem in menu %}
                                 <li class="{% ifactive menuitem.url %}active{% endifactive %}"><a href="{{ menuitem.url }}">{% trans menuitem.name %}</a></li>
                             {% endfor %}
-                            <li><a href="/feeds/all/" title="RSS"><i class="icon-rss"></i></a></i>
+                            <li><a href="/feeds/all/" title="RSS"><i class="icon-rss"></i></a></li>
                             {% get_available_languages as languages %}
                             {% for lang_code, lang_name in languages %}
                                 {% if LANGUAGE_CODE != lang_code %}    

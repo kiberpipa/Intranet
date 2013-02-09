@@ -142,7 +142,7 @@ $(document).ready(function() {
                     {% else %}
                     {{ n.content|sanitize|safe|truncatewords:"60" }}<br />
                     {% endif %}
-                    <i>{% trans "Published by" %} <b>{% if n.text %}{{ n.author.get_full_name }}{% else %}{{ n.author }}{% endif %}</b>, {% trans "on" %} {% if n.date %}{{ n.date }}{% else %}{{ n.date_modified }}{% endif %}</i>
+                    <i><b>{% if n.text %}{{ n.author.get_full_name }}{% else %}{{ n.author }}{% endif %}</b>, {% trans "on" %} {% if n.date %}{{ n.date }}{% else %}{{ n.date_modified }}{% endif %}</i>
                 </li>
                 {% endfor %}
                 </ol>
@@ -203,7 +203,7 @@ $(document).ready(function() {
                         </div>
                     </li>
                   {% endfor %}
-                <ul>
+                </ul>
             </div>
         </div>
         
