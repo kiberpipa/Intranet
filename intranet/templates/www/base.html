@@ -59,7 +59,8 @@
                             {% get_available_languages as languages %}
                             {% for lang_code, lang_name in languages %}
                                 {% if LANGUAGE_CODE != lang_code %}    
-                                    <li><a href="/{{ lang_code }}/">{{ lang_code }}</a></li>
+                                    <!-- flags taken from https://www.gosquared.com/resources/flag-icons -->
+                                    <li><a href="/{{ lang_code }}/"><img src="{{ settings.STATIC_URL }}www/images/flags/{{ lang_code }}.png" /></a></li>
                                 {% endif %}
                             {% endfor %}
                         </ul>
