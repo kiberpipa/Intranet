@@ -92,7 +92,6 @@ INSTALLED_APPS = (
     'tinymce',
     'django_gravatar',
     'django_akismet_comments',
-    'spaminspector',
     'activelink',
 )
 
