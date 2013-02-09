@@ -362,6 +362,15 @@ def about(request):
     return render_to_response(template, RequestContext(request, {}))
 
 
+# TODO: use locale aware flatpages for this
+def press(request):
+    if request.LANGUAGE_CODE == 'en':
+        template = 'www/press_en.html'
+    else:
+        template = 'www/press.html'
+    return render_to_response(template, RequestContext(request, {}))
+
+
 def support(request):
     template = 'www/support.html'
     return render_to_response(template, RequestContext(request, {}))
