@@ -57,21 +57,6 @@ footer .social-networks a:hover { background:#000;color:#fff }
 .carousel-control.left { left:0 }
 .carousel-control.right { right:0 }
 
-.event_carousel { position:relative;height:415px;background:url(../images/mac.png) top center no-repeat; margin:0 0 3em 0 }
-.event_carousel .carousel { width:600px;margin:0 auto;padding:28px 0 0 0 }
-.event_carousel .carousel .item { max-width: 600px; height:360px;overflow:hidden }
-.event_carousel .carousel img { width: 100%; }
-.event_carousel .carousel-control.left { left:-120px }
-.event_carousel .carousel-control.right { right:-120px }
-.event_carousel .carousel-caption { padding: 0 10px 0 0; background: none; }
-.event_carousel .carousel-caption p { padding-left: 10px; }
-.event_carousel .carousel-caption .carousel-announce { background: rgba(0, 0, 0, 0.75); padding: 20px 10px 10px 10px; border-top-right-radius: 5px; color: white; max-width: 80%; }
-
-.event_carousel_nexus10 { background:url('../images/nexus10.png') top center no-repeat; height: 505px; }
-.event_carousel_nexus10 .carousel { padding: 62px 0 0 2px; }
-
-
-
 .hero-unit { position:relative;padding:30px 0 0 0;background:#fff }
 .hero-unit h1 { font-size:2.2em;font-weight:600 }
 .faq ul { list-style-type:none;margin:0 }
@@ -161,6 +146,9 @@ ul.the-icons li:hover { background:#eee }
 .community .member-bio { padding: 0 0 16px 0;font-size:.9em;color:#777 }
 
 /* front page, bellow the carousel */
+
+#events_content { margin-bottom: 30px}
+
 .thenews {  }
 .thenews h2 { margin-bottom: 0; }
 .thenews .content { margin: 1em 0 3em 0; }
@@ -173,7 +161,6 @@ ul.the-icons li:hover { background:#eee }
 .thecomments form ul { list-style-type: none; margin: 0; }
 .thecomments form label[for='id_honeypot'] { display: none; }
 .thecomments form #id_honeypot { display: none; }
-
 
 .recent_media { margin-bottom: 5px}
  
