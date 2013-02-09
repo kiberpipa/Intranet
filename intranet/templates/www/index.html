@@ -185,8 +185,6 @@ $(document).ready(function() {
             <div class="span4 thesocialstuffz">
                 <h2 class="grey">{% trans "Social" %}</h2>
 
-                <p><a href="/feeds/all/"><i class="icon-rss"></i> RSS</a></p>
-
                 <p>{% trans "Would you like to subscribe to information about weekly events?" %}</p>
                 <form id="subscribe_mailinglist" method="post" action="{% url 'ajax_subscribe_mailinglist' %}">
                    <input name="email" id="id_email" placeholder="Email" type="text" />
