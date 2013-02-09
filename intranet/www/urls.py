@@ -43,7 +43,6 @@ urlpatterns = patterns('',
     (r'^feeds/dogodki/', EventsFeed()),
     (r'^feeds/pot/', POTFeed()),
     (r'^feeds/su/', SUFeed()),
-    (r'^feeds/vip/', VIPFeed()),
     (r'^feeds/planet/', PlanetFeed()),
     (r'^feeds/muzej/', MuzejFeed()),
 

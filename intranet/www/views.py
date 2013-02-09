@@ -106,7 +106,6 @@ def index(request):
         'planet': posts,
         'both': both2,
         'videos': videos,
-        'emailform': EmailForm,
         'tweets': tweets,
         'pictures': pictures,
     }, context_instance=RequestContext(request))
