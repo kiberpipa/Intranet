@@ -4,8 +4,12 @@
 
 {% block extrahead %}
 <script type='text/javascript'>
-
 $(document).ready(function() {
+
+    function zero_pad(num, places) {
+      var zero = places - num.toString().length + 1;
+      return Array(+(zero > 0 && zero)).join("0") + num;
+    }
 
     $('#subscribe_mailinglist').keypress(function (e) {
         var self = $(this);
@@ -26,25 +30,78 @@ $(document).ready(function() {
         }
      });
 
-    $.getJSON("/ajax/index/events/", function(o) {
-        // add events
-        var c = $(".carousel-inner");
-        $(o.events).each(function()  {
-            var cls = $(c).find(".item").length == 0 ? "item active" : "item";
-            var html = '<div class="' + cls + '"><img src="' + this.image + '" />\
-                <div class="carousel-caption">\
-                    <div class="carousel-announce">' + this.announce + '</div>\
-                    <p style="height: 30px; vertical-align: text-bottom; margin-top: 1em; "><a href="' + this.url + '">' + this.title + '</a><span class="project" style="float: right">' + this.project + '</span></p></div></div>';
-            $(c).append(html);
-        });
+    var render_events = function (url) {
+      $.getJSON(url, function(o) {
+        var i,
+            event_,
+            events_container = $('#events_content'),
+            num_of_events,
+            el;
+
+        // add links to menu arrows
+        $('#events_menu .prev').data('href', o.prev_url);
+        $('#events_menu .next').data('href', o.next_url);
+
+        // clear all events for display
+        events_container.empty();
+
+        for (i = 0; i < 7; i++) {
+          var event_ = o.events[i],
+              num_of_events = event_.events.length,
+              el = $('#events_menu .day' + i);
+          el.text(event_.date);
+          if (event_.is_today === true) {
+            el.addClass('btn-inverse');
+          }
+          if (num_of_events > 0) {
+            el.prepend('<span class="badge">' + num_of_events + '</span>&nbsp;');
+          }
+
+          // render events divs
+          $.each(event_.events, function(index, value) {
+            var start_date = new Date(value.start_date),
+                end_date = new Date(value.end_date);
+                hide = $('#events_menu .day' + i + '.btn-inverse').length ? '' : 'hide'
+            events_container.append([
+              '<div class="pipa-event row ' + hide + ' day' + i + '" style="margin-bottom: 20px">',
+                '<a href="'+ value.url + '">',
+                  '<img class="span5 img-rounded" src="' + value.image + '" style="height: 200px" />',
+                '</a>',
+                '<div class="span7">',
+                  '<h4><a href="'+ value.url + '">' + value.project + ': ' + value.title + '</a></h4>',
+                  '<span class="badge badge-inverse">ob ' + zero_pad(start_date.getHours(), 2) + ':' + zero_pad(start_date.getMinutes(), 2) + ', ' + value.place + '</span>',
+                  '<br /><br />',
+                  '<p>' + value.announce + '</p>',
+                '</div>',
+              '</div>',
+            ].join('\n'));
+          });
+        }
+          
+      });
+    };
+
+    render_events('/ajax/index/events/');
+
+    $('#events_menu .navigation').click(function (e) {
+      var that = $(this),
+          href;
+      e.preventDefault();
+      href = that.data('href');
+      render_events(href);
     });
+
+    // map day buttons to actions
+    $('#events_menu .day').click(function (e) {
+      var day = $(this).data('day');
+      $('.pipa-event').addClass('hide');
+      $('.pipa-event.day' + day).removeClass('hide');
+      $('#events_menu .day').removeClass('btn-inverse');
+      $('#events_menu .day' + day).addClass('btn-inverse');
+    });
+
  });
 </script>
-<style type="text/css">
-    .carousel .carousel-caption .carousel-announce { display: none; }
-    .carousel:hover .carousel-announce  { display: block; }
-</style>
-
 {% endblock %}
 
 {% block content %}
@@ -52,51 +109,23 @@ $(document).ready(function() {
         <p class="ac visible-desktop">{% trans 'Prihajajoči dogodki v Multimedijskem centru Kiberpipa' %}</p>
         <p class="ac visible-phone">{% trans 'Prihajajoči dogodki' %}</p>
 
-        <div class="navbar">
-          <div class="navbar-inner">
-            <ul class="nav">
-              <li><a href="#">&lsaquo;&lsaquo;</a></li>
-              <li><a href="#">Pon, 7. Jan</a></li>
-              <li><a href="#">Tor, 8. Jan</a></li>
-              <li><a href="#">Sre, 9. Jan</a></li>
-              <li class="active"><a href="#">Čet, 10. Jan</a></li>
-              <li><a href="#">Pet, 11. Jan</a></li>
-              <li><a href="#">Sob, 12. Jan</a></li>
-              <li><a href="#">Ned, 13. Jan</a></li>
-            </ul>
-            <ul class="nav pull-right">
-              <li><a href="#">&rsaquo;&rsaquo;</a></li>
-            </ul>
-          </div>
+        <div id="events_menu" class="btn-group ac">
+          <button class="btn btn-large navigation prev">&lsaquo;&lsaquo;</button>
+          <button class="btn btn-large day day0" data-day="0"></button>
+          <button class="btn btn-large day day1" data-day="1"></button>
+          <button class="btn btn-large day day2" data-day="2"></button>
+          <button class="btn btn-large day day3" data-day="3"></button>
+          <button class="btn btn-large day day4" data-day="4"></button>
+          <button class="btn btn-large day day5" data-day="5"></button>
+          <button class="btn btn-large day day6" data-day="6"></button>
+          <button class="btn btn-large navigation next">&rsaquo;&rsaquo;</button>
         </div>
 
-        <div style="margin-top: 30px">
-         <div class="row">
-           <img class="span5 img-rounded" src="/smedia/events/2012/10/sample-1_4.jpg" style="height: 200px" />
-           <div class="span7">
-            <h4>Srečno 2013<h4>
-            <span class="badge badge-inverse">ob 13:00, v Kiberpipi</span>
-            <br />
-            <br />
-            <p>Dragi obiskovalci in obiskovalke Kiberpipe,   zahvaljujemo se vam za vse prijetne skupne ure v Kiberpipi, v letu 2013 pa vam želimo, da bo takšnih ur v Kiberpipi še več! <a href="#">&rsaquo;&rsaquo;</a></p>
-           </div>
-         </div>
-
-         <div class="row" style="margin-top: 10px">
-           <img class="span5 img-rounded" src="/smedia/events/2012/10/sam_0432.jpg" style="height: 200px" />
-           <div class="span7">
-            <h4>Izobraževanje: Hvala za nevrone nr.8: Evolucija uporabnega znanja<h4>
-            <span class="badge badge-inverse">ob 17:00, v Kiberpipi</span>
-            <br />
-            <br />
-            <p>En dan pred koncem sveta in ljudsko vstajo se bomo v Kiberpipi pogovarjali o evoluciji znanja na družbeni ravni. Zanimalo nas bo, kako se znanje razvija vzporedno s samo tehnološko evolucijo <a href="#">&rsaquo;&rsaquo;</a></p>
-           </div>
-         </div>
+        <div id="events_content" style="margin-top: 20px">
         </div>
 
     </div>
   
-    <hr />
     <div class="container">
         <div class="row">
             <div class="span4 thenews">
@@ -119,7 +148,7 @@ $(document).ready(function() {
                 {% endfor %}
                 </ol>
 
-                <p><a href="{% url 'news' %}">Več novic</a></p>
+                <p><a href="{% url 'news' %}">{% trans "More news" %}</a></p>
             </div>
             <div class="span4">
                 <h2 class="grey">{% trans "Media" %}</h2>
@@ -136,7 +165,7 @@ $(document).ready(function() {
                 </ol>
                 {% endfor %}
 
-                <h3>Recent photos</h3>
+                <h3>{% trans "Recent photos" %}</h3>
                 
                 {% for picture in pictures %}
                 <ol class="recent_videos">
