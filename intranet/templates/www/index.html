@@ -128,7 +128,7 @@ $(document).ready(function() {
         <div class="row">
             <div class="span12" id="events_content"></div>
             <div class="span4 thenews">
-                <h2 class="grey">{% trans "News" %}</h2>
+                <h2 class="muted">{% trans "News" %}</h2>
 
                 <ol class="news">
                 {% for n in both %}
@@ -150,7 +150,7 @@ $(document).ready(function() {
                 <p><a href="{% url 'news' %}">{% trans "More news" %}</a></p>
             </div>
             <div class="span4">
-                <h2 class="grey">{% trans "Video" %}</h2>
+                <h2 class="muted">{% trans "Video" %}</h2>
 
                 {% for video in videos %}
                 <div class="recent_media row-fluid">
@@ -169,7 +169,7 @@ $(document).ready(function() {
                 </div>
                 {% endfor %}
 
-                <h2 class="grey">{% trans "Photos" %}</h2>
+                <h2 class="muted">{% trans "Photos" %}</h2>
                 
                 {% for picture in pictures %}
                 <div class="recent_media row-fluid">
@@ -183,7 +183,7 @@ $(document).ready(function() {
                 {% endfor %}
             </div>
             <div class="span4 thesocialstuffz">
-                <h2 class="grey">{% trans "Social" %}</h2>
+                <h2 class="muted">{% trans "Social" %}</h2>
 
                 <p>{% trans "Would you like to subscribe to information about weekly events?" %}</p>
                 <form id="subscribe_mailinglist" method="post" action="{% url 'ajax_subscribe_mailinglist' %}">
