@@ -20,7 +20,7 @@ from django.template.defaultfilters import striptags, safe, truncatewords
 from django.template import RequestContext, Context
 from django.template.loader import get_template
 from django.utils.translation import ugettext as _
-from django.views.decorators.cache import cache_page
+from django.utils.dateformat import format as format_
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic import ListView
 from django_mailman.models import List
@@ -48,7 +48,6 @@ def sort_news(x, y):
 
 
 # TODO: http://stackoverflow.com/questions/2268417/expire-a-view-cache-in-django
-#@cache_page(5 * 60)
 def index(request):
     """
         Load everything we need for the frontpage
@@ -176,7 +175,7 @@ def ajax_index_events(request, year=None, week=None):
     # group by events with the days in a week
     for i, day in enumerate(map(lambda i: start + relativedelta(days=i), range(0, 7))):
         ret['events'][i] = dict(
-            date=day.strftime('%a, %d. %b'),
+            date=format_(day, 'D, d. b').capitalize(),
             events=[],
             is_today=day == today,
         )
