@@ -56,7 +56,7 @@ def index(request):
 
     """
     # load news items (internal) and blog posts (members' blogs, fetched via rss)
-    news = News.objects.order_by('-date')[:4]
+    news = News.objects.select_related().order_by('-date')[:4]
     posts = Post.objects.order_by('-date_modified')[:4]
     videos = Video.objects.order_by('-pub_date')[:5]
 
@@ -73,7 +73,7 @@ def index(request):
 
     # load some tweets
     api = twitter.Api()
-    tweets = api.GetSearch(term='kiberpipa OR cyberpipe')
+    tweets = api.GetSearch(term='kiberpipa OR cyberpipe', query_users=False)
 
     # recent flickr uploads
     try:
