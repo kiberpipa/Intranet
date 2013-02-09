@@ -137,10 +137,8 @@ ul.the-icons li:hover { background:#eee }
 .calendar th.sat, .calendar th.sun { width: 5%; }
 .calendar label.num { display: block; margin: 0.2em 0 1.2em 0; }
 .calendar td.prev-month label.num, .calendar td.next-month label.num, .calendar td.prev-month a { color: #aaa; }
-.calendar td.today { background: #08C;
-    -moz-box-shadow:    inset 0 0 20px blue;
-    -webkit-box-shadow: inset 0 0 20px blue;
-    box-shadow:         inset 0 0 20px blue;
+.calendar td.today {
+    background: #08C;
 }
 .calendar td.today label, .calendar td.today a { color: white; }
 .calendar ul.events { list-style-type: none; margin: 0; }
