@@ -1,0 +1,35 @@
+{% extends "www/flatpage_wrapper.html" %}
+{% load www i18n flatpages %}
+
+{% block title %}{% trans "Podpora Kiberpipi" %}{% endblock %}
+{% block extrahead %}{% endblock %}
+
+{% block tekst %}
+    {% get_flatpages '/sl/support/' as pages %}
+    {% for page in pages %}
+    <article class="support">
+    {{ page.content|safe }}
+    </article>
+    {% endfor %}
+
+    <h3>Donacije</h3>
+
+    <p>
+
+    <p>Urejamo papirovje, kmalu!</p>
+
+    <a name="dohodnina"></a>
+    <h3>Dohodnina</h3>
+    {% get_flatpages '/sl/dohodnina/' as pages %}
+    {% for page in pages %}
+    {{ page.content|safe }}
+    {% endfor %}
+
+
+{% endblock %}
+
+{% block promo %}
+            <a href="http://www.flickr.com/photos/kiberpipa/sets/72157623795093646/with/4499659213/"><img src="{{ settings.STATIC_URL }}www/images/promo/pot_ob_zici.jpg" alt="" title="Kiberpipa - pot ob žici, maj 2008"></a>
+            <a href="http://www.flickr.com/photos/kiberpipa/sets/72157623672130361/with/4500794560/" target="_blank"><img title="Rovanje po trdih diskih" src="{{ settings.STATIC_URL }}www/images/promo/diski.jpg"></a>         
+            <a title="Recept za pipa torto" href="https://www.kiberpipa.org/sl/news/11255/recept-za-geeky-cake/" target="_blank"><img src="{{ settings.STATIC_URL }}www/images/promo/caek.jpg"></a>
+{% endblock %}

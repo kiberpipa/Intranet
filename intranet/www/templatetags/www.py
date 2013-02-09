@@ -1,4 +1,5 @@
 import datetime
+from dateutil.relativedelta import relativedelta
 import re
 from BeautifulSoup import BeautifulSoup, Comment
 
@@ -7,19 +8,20 @@ register = Library()
 
 def calclass(date):
     today = datetime.date.today()
-    num_next_month = today - datetime.timedelta(30)
-    num_prev_month = today + datetime.timedelta(30)
-    next_month = datetime.date(today.year, num_next_month.month, 1)
-    prev_month = datetime.date(today.year, num_prev_month.month, 1)
+
+    # calculate start of next month, and end of previous month
+    next_month = date + relativedelta(months=1)
+    next_month = datetime.date(next_month.year, next_month.month, 1)
+    prev_month = datetime.date(date.year, date.month, 1) - relativedelta(days=1)
 
     if date == today:
         return 'koledar-today'
     elif date >= next_month:
         return 'koledar-next'
     elif date <= prev_month:
-        return 'koledar-prev'
+        return 'koledar-prev  %s vs %s' % (date, prev_month)
     elif date < today:
-        return 'koledar-past'
+        return 'koledar-past  %s vs %s' % (date, prev_month)
     elif date > today:
         return 'koledar-future'
 

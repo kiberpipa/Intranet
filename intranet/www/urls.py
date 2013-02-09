@@ -16,7 +16,7 @@ urlpatterns = patterns('',
         template='search/search_event.html',
         searchqueryset=SearchQuerySet().models(Event).filter(is_public=True),
         ), name="event_search"),
-    url(r'^news/$', NewsList.as_view()),
+    url(r'^news/$', NewsList.as_view(), name="news"),
     url(r'^news/comments/post/$', 'django.contrib.comments.views.comments.post_comment'),
     url(r'^news/(?P<id>\d+)/(?P<slug>[-\w]+)/$', 'intranet.www.views.news_detail'),
     url(r'^news/(?P<id>\d+)/$', 'intranet.www.views.news_detail'),
@@ -32,7 +32,11 @@ urlpatterns = patterns('',
     url(r'^alumni/', 'pipa.addressbook.views.alumni'),
     # TODO: migrate press to flatpages
     url(r'^press/', 'intranet.www.views.press'),
+    url(r'^about/', 'intranet.www.views.location' ),
     url(r'^kjesmo/', 'intranet.www.views.location' ),
+    
+    # converted flatpages to custom templates with some flatpage includes
+    url(r'^support/', 'intranet.www.views.support' ),
 
     # feeds
     (r'^feeds/all/', AllInOne()),

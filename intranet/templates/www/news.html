@@ -1,49 +1,44 @@
-{% extends "www/base-second.html" %}
+{% extends "www/flatpage_wrapper.html" %}
 {% load i18n comments %}
 
-{% block title %}{{ news }}{% endblock %}
+{% block title %}{{ news.title }}{% endblock %}
 
-{% block content %}
-  <div id="blog-news">
-    <div class="blog-news-title">
-      {% trans "Kiberpipas blog" %}
-    </div>
-    <div class="blog-news-en-title">
-      {{ news.title }}
-    </div>
-    <div class="blog-news-publish">
-      {% trans "Author" %} {{ news.author }} {% trans "date" %} {{ news.date }}
-    </div>
-    <div class="blog-news-content">
-      <div class="blog-news-content img">
-	{% if news.image %}
-	  <img src="{{ news.image.url }}" />
-	{% endif %}
-      </div>
-      {{ news.text|safe }}
-    </div>
+{% block promo %}
+    {% if news.image %}
+    <img src="{{ news.image.url }}" />
+    {% endif %}
+{% endblock %}
 
+{% block tekst %}
+            <div thenews">
+                <div class="meta">
+                    <b>{{ news.author }}</b> {% trans "date" %} {{ news.date }}
+                </div>
+                <div class="content">
+                    {{ news.text|safe }}
+                </div>
+            </div>
 
-    <div class="dogodek-komentarji">
-      <p class="title-kom">{% trans "Comments:" %}</p>
+            <div class="thecomments">
+                <h3>{% trans "Comments:" %}</h3>
 
-      {% get_comment_list for news as comment_list %}
-      {% for comment in comment_list %}
-	<p class="komentar-avtor"><a href="{{ comment.url }}">{{ comment.name }}</a> {% trans "has wrote:" %}</p>
-	<p class="date-kom">{{ comment.submit_date|date:"j N Y, H:i" }}</p>
-	<p class="komentar-vsebina">{{ comment.comment }}</p>
-      {% endfor %}
+                {% get_comment_list for news as comment_list %}
+                {% for comment in comment_list %}
+                <p class="komentar-avtor"><a href="{{ comment.url }}">{{ comment.name }}</a> {% trans "has wrote:" %}</p>
+                <p class="date-kom">{{ comment.submit_date|date:"j N Y, H:i" }}</p>
+                <p class="komentar-vsebina">{{ comment.comment }}</p>
+                {% endfor %}
 
-      {% get_comment_form for news as form %}
-      <form action="{% comment_form_target %}" method="POST">
-	<ul>
-	  {{ form.as_ul }}
-	  {% csrf_token %}
-	  <li class="submit">
-	    <input type="submit" name="submit" class="submit-post" value="{% trans "Send comment" %}">
-	  </li>
-	</ul>
-      </form>
-    </div>
-  </div>
+                {% get_comment_form for news as form %}
+                <form action="{% comment_form_target %}" method="POST">
+                <ul>
+                {{ form.as_ul }}
+                {% csrf_token %}
+                <li class="submit">
+                <input type="submit" name="submit" class="submit-post" value="{% trans "Send comment" %}">
+                </li>
+                </ul>
+                </form>
+            </div>
+
 {% endblock %}

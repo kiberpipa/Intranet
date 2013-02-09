@@ -1,82 +1,195 @@
 # *-* coding: utf-8 *-*
 
 import datetime
-import time
 import logging
+import urllib2
 import urlparse
+import simplejson
 from calendar import Calendar
 
 import icalendar
 import pytz
+from dateutil.relativedelta import relativedelta
 from django.conf import settings
+from django.core.mail import send_mail
+from django.core.serializers.json import DjangoJSONEncoder
+from django.core.urlresolvers import reverse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
+from django.template.defaultfilters import striptags, safe, truncatewords
 from django.template import RequestContext, Context
 from django.template.loader import get_template
-from django.http import HttpResponse, HttpResponseRedirect
-from django.core.urlresolvers import reverse
-from django.core.mail import send_mail
-from django.contrib.comments.views.comments import post_comment
-from django.views.generic import ListView
-from django.views.decorators.csrf import csrf_protect
 from django.utils.translation import ugettext as _
-from feedjack.models import Post
-from dateutil.relativedelta import relativedelta
+from django.views.decorators.cache import cache_page
+from django.views.decorators.csrf import csrf_protect
+from django.views.generic import ListView
 from django_mailman.models import List
+from feedjack.models import Post
 from haystack.query import SearchQuerySet
+import twitter
 
-from intranet.org.models import to_utc, Event, Email
+from intranet.org.models import Event, Email
 from intranet.www.models import News
 from intranet.www.forms import EmailForm, EventContactForm
 from pipa.video.models import Video
 from pipa.video.utils import is_streaming
+from pipa.gallery.templatetags.photos_box import api as flickr_api
 
 
 logger = logging.getLogger(__name__)
 ljubljana_tz = pytz.timezone('Europe/Ljubljana')
 
 
+def sort_news(x, y):
+    date_x = x.date if 'date' in dir(x) else x.date_modified
+    date_y = y.date if 'date' in dir(y) else y.date_modified
+
+    return date_x < date_y
+
+
+# TODO: http://stackoverflow.com/questions/2268417/expire-a-view-cache-in-django
+#@cache_page(5 * 60)
 def index(request):
+    """
+        Load everything we need for the frontpage
+        And that's a lot of stuff
+
+    """
+    # load news items (internal) and blog posts (members' blogs, fetched via rss)
+    news = News.objects.order_by('-date')[:4]
+    posts = Post.objects.order_by('-date_modified')[:4]
+    videos = Video.objects.order_by('-pub_date')[:5]
+
+    # splice both of them together into one list, and sort them by date
+    # but the most recent news items always comes first, even if older
+    # tiny technicality - their respective models use a different date field
+    both = []
+    both.extend(news[1:])
+    for post in posts:
+        post.date = post.date_modified
+        both.append(post)
+    both2 = sorted(both, cmp=sort_news, reverse=True)
+    both2.insert(0, news[0])
+
+    # load some tweets
+    api = twitter.Api()
+    tweets = api.GetSearch(term='kiberpipa OR cyberpipe')
+
+    # recent flickr uploads
+    try:
+        pictures = []
+        # http://www.flickr.com/services/api/flickr.photosets.getList.html
+        json = flickr_api.flickr_call(
+            method='flickr.photosets.getList',
+            user_id='40437802@N07',  # http://idgettr.com/
+            per_page=5,
+            pages=1,
+            format="json",
+            nojsoncallback=1)
+    except urllib2.URLError:
+        pass
+    else:
+        r = simplejson.loads(json)
+        if r.get('stat', 'error') == 'ok':
+            photosets = r['photosets']['photoset']
+            photosets = sorted(photosets, key=lambda x: x['date_create'], reverse=True)
+            for image in photosets[:5]:
+                if int(image['photos']) == 0:
+                    continue
+                image['thumb_url'] = settings.PHOTOS_FLICKR_SET_IMAGE_URL_N % image
+                image['url'] = 'http://www.flickr.com/photos/kiberpipa/sets/%(id)s/' % image
+                image['title'] = image['title']['_content']
+                pictures.append(image)
+
     return render_to_response('www/index.html', {
-        'news': News.objects.order_by('-date')[0:4],
-        'planet': Post.objects.order_by('-date_modified')[:4],
-        'videos': Video.objects.order_by('-pub_date')[:4],
+        'news': news,
+        'planet': posts,
+        'both': both2,
+        'videos': videos,
         'emailform': EmailForm,
+        'tweets': tweets,
+        'pictures': pictures,
     }, context_instance=RequestContext(request))
 
 
-# TODO: cache for 3min
-def ajax_index_events(request):
-    now = datetime.datetime.now()
-    past_month = datetime.datetime.today() - datetime.timedelta(30)
-    last_midnight = datetime.datetime.today().replace(hour=0, minute=0, second=0)
+def ajax_index_events(request, year=None, week=None):
+    today = datetime.date.today()
+    week = int(week or today.isocalendar()[1])
+    year = int(year or today.year)
 
-    events = Event.objects.filter(public=True, start_date__gte=past_month).order_by('start_date')
-    try:
-        next = Event.objects.filter(public=True, start_date__gte=last_midnight).order_by('start_date')[0]
-        position = list(events).index(next) - 1  # show one event before the current one
-    except IndexError:
-        # if we don't have upcoming events, show this past_month events
-        position = events.count() - 1
+    # %Y: year,
+    # %W: week of the year (starting with first monday of the year),
+    # %w: weekday (0 being sunday)
+    start = week_start_date(year, week)
+    end = start + relativedelta(days=7)
 
+    # get all events in this week
+    # TODO: this will fail for events that last more than a week
+    # TODO: for this purpose, we should just use postgres daterange sooner or later.
+    q = Event.objects.filter(public=True,
+                             start_date__range=(start, end),
+                             end_date__range=(start, end))
+    events = q.order_by('start_date').all()
+
+    # figure out if we are streaming now
     streaming_event = None
-    if is_streaming():
+    if week == int(today.isocalendar()[1]) and is_streaming():
         try:
-            streaming_event = Event.objects.filter(public=True, start_date__lte=datetime.datetime.now()).order_by('-start_date')[0]
-            try:
-                prev = streaming_event.get_next()
-            except Event.DoesNotExist:
-                pass
-            else:
-                td = prev.start_date - now
-                if td.days == 0 and 0 < td.seconds < 1800:
-                    # if there is 30min to next event, take that one
-                    streaming_event = prev
-                # TODO: if previous event should have ended more than 3 hours ago, dont' display the stream
+            now = datetime.datetime.now()
+            streaming_event = Event.objects.filter(public=True,
+                                                   start_date__lte=now).order_by('-start_date')[0]
+            next_event = streaming_event.get_next()
+            td = next_event.start_date - now
+            if td.days == 0 and 0 < td.seconds < 1800:
+                # if there is 30min to next event, take that one
+                streaming_event = next_event
+            # TODO: if previous event should have ended more than 3 hours ago, don't display the stream
         except IndexError:
             pass
 
-    return render_to_response('www/ajax_index_events.html', locals(),
-        context_instance=RequestContext(request))
+    # TODO: a bug with calculating week number
+    prev_week_date = start - relativedelta(days=7)
+    next_week_date = start + relativedelta(days=7)
+    ret = dict()
+    ret['prev_url'] = reverse('ajax_events_week', kwargs=dict(year=prev_week_date.isocalendar()[0], week=prev_week_date.isocalendar()[1]))
+    ret['next_url'] = reverse('ajax_events_week', kwargs=dict(year=next_week_date.isocalendar()[0], week=next_week_date.isocalendar()[1]))
+    ret['events'] = {}
+
+    dict_events = []
+
+    for event in events:
+        d = dict(id=event.id,
+                 title=event.title,
+                 start_date=event.start_date,
+                 end_date=event.end_date,
+                 place=event.place.name,
+                 url=event.get_absolute_url())
+        d['project'] = event.project.verbose_name or event.project.name
+        d['announce'] = truncatewords(safe(striptags(event.announce)), 50)
+        d['image'] = event.event_image.image.url
+        if streaming_event:
+            d['is_streaming'] = streaming_event.id == event.id
+        else:
+            d['is_streaming'] = False
+        dict_events.append(d)
+
+    # group by events with the days in a week
+    for i, day in enumerate(map(lambda i: start + relativedelta(days=i), range(0, 7))):
+        ret['events'][i] = dict(
+            date=day.strftime('%a, %d. %b'),
+            events=[],
+            is_today=day == today,
+        )
+        for event in dict_events:
+            start_date = datetime.date(event['start_date'].year, event['start_date'].month, event['start_date'].day)
+            end_date = datetime.date(event['end_date'].year, event['end_date'].month, event['end_date'].day)
+            # TODO: order of events is wrong
+            if start_date <= day <= end_date:
+                ret['events'][i]['events'].append(event)
+                # TODO: note if event hasnt started today
+
+    return HttpResponse(simplejson.dumps(ret, cls=DjangoJSONEncoder),
+                        mimetype='application/json')
 
 
 def ajax_add_mail(request, event, email):
@@ -145,6 +258,26 @@ def news_detail(request, slug=None, id=None):
         context_instance=RequestContext(request))
 
 
+def calendar_dayclass(date, month):
+    # stuff needed to determine date class
+    # like today's date, the first day of next month, or the last day of the previous one
+    today = datetime.date.today()
+    next_month = month + relativedelta(months=1)
+    next_month = datetime.date(next_month.year, next_month.month, 1)
+    prev_month = datetime.date(month.year, month.month, 1) - relativedelta(days=1)
+
+    if date == today:
+        return 'today'
+    elif date >= next_month:
+        return 'next-month'
+    elif date <= prev_month:
+        return 'prev-month'
+    elif date < today:
+        return 'past-in-this-month'
+    elif date > today:
+        return 'future-in-this-month'
+
+
 def calendar(request, year=None, month=None, en=False):
     today = datetime.date.today()
     year = int(year or today.year)
@@ -155,10 +288,10 @@ def calendar(request, year=None, month=None, en=False):
 
     for week in cal:
         for day in week:
-            events.append([day, Event.objects.filter(start_date__year=day.year, start_date__month=day.month, start_date__day=day.day).order_by('start_date')])
+            events.append([day, calendar_dayclass(day, now), Event.objects.filter(start_date__year=day.year, start_date__month=day.month, start_date__day=day.day).order_by('start_date')])
 
-    next_month = events[15][0] + relativedelta(months=+1)
-    prev_month = events[15][0] + relativedelta(months=-1)
+    next_month = now + relativedelta(months=+1)
+    prev_month = now + relativedelta(months=-1)
 
     return render_to_response('www/calendar.html', {
         'dates': events,
@@ -210,12 +343,16 @@ def facilities(request):
     if request.method == 'POST':
         form = EventContactForm(request.POST)
         if form.is_valid():
-            text = get_template('mail/facilities_request.txt').render(Context(form.cleaned_data))
-            send_mail("Povpraševanje o prostorih", text, settings.DEFAULT_FROM_EMAIL, ['info@kiberpipa.org'])
-            done = _(u'Your rental inquiry has been sent. We will answer it in a couple of work days')
+            text = get_template('mail/facilities_request.txt').render(
+                Context(form.cleaned_data))
+            send_mail("Povpraševanje o prostorih",
+                      text,
+                      settings.DEFAULT_FROM_EMAIL, ['info@kiberpipa.org'])
+            done = _(u'Your rental inquiry has been sent. We will answer it in a couple of work days')  # NOQA
     else:
         form = EventContactForm()
-    return render_to_response('www/facilities.html', RequestContext(request, locals()))
+    return render_to_response('www/facilities.html',
+                              RequestContext(request, locals()))
 
 
 # TODO: use locale aware flatpages for this
@@ -235,6 +372,11 @@ def location(request):
     return render_to_response(template, RequestContext(request, {}))
 
 
+def support(request):
+    template = 'www/support.html'
+    return render_to_response(template, RequestContext(request, {}))
+
+
 class NewsList(ListView):
     template_name = 'www/news_list.html'
     queryset = News.objects.order_by('-date')
@@ -245,3 +387,16 @@ class NewsList(ListView):
             return self.queryset.filter(language='en')
         else:
             return self.queryset
+
+
+def week_start_date(year, week):
+    """Calculate week start date from ISO week.
+    Taken from http://stackoverflow.com/a/1287862/133235
+    """
+    d = datetime.date(year, 1, 1)
+    delta_days = d.isoweekday() - 1
+    delta_weeks = week
+    if year == d.isocalendar()[0]:
+        delta_weeks -= 1
+    delta = datetime.timedelta(days=-delta_days, weeks=delta_weeks)
+    return d + delta

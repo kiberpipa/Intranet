@@ -1,0 +1,27 @@
+{% extends "www/base.html" %}
+{% load www i18n %}
+
+{% block content %}
+        <div class="flatpage">
+            <div class="row titlerow">
+                <div class="span8 offset2">
+                    <h2 class="grey">{% block title %}{% endblock %}</h2>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="span7 offset2">
+                    {% block tekst %}
+
+                    {% endblock %}
+                </div>
+                    
+                <div class="span3 promoimages">
+                    {% block promo %}
+                    <a href="http://www.flickr.com/photos/kiberpipa/sets/72157623795093646/with/4499659213/"><img src="{{ settings.STATIC_URL }}www/images/promo/pot_ob_zici.jpg" alt="" title="Kiberpipa - pot ob žici, maj 2008"></a>
+                    <a href="http://www.flickr.com/photos/kiberpipa/sets/72157623795093646/with/4499659213/"><img src="{{ settings.STATIC_URL }}www/images/promo/majica.jpg" alt="" title="Kiberpipa - pot ob žici, maj 2008"></a>
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+{% endblock %}

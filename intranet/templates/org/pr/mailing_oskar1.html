@@ -1,0 +1,108 @@
+<table border="0" width="" cellspacing="0" cellpadding="0">
+	<tr>
+		<td width="90"></td>
+		<td colspan="2" width="500" height="125" valign="mid" align="center">
+			<img class="logo" src="{{ settings.STATIC_URL }}org/images/pr/pipa_logo.png" width="160" height="45" alt="Kiberpipa" />
+		</td>
+		<td width="90"></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td colspan="2" height="15" valign="top" align="center">
+			<img src="{{ settings.STATIC_URL }}org/images/pr/ruler_top.png" width="500" height="15" alt="">
+		</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td colspan="2" height="110" valign="middle" align="center">
+            <img src="{{ settings.STATIC_URL }}org/images/pr/tedenski_program.png" alt="Tedenski program">
+		</td>
+		<td></td>
+	</tr>
+	
+    {% for event in events %}
+    {% cycle 'col1' 'col2' as columns silent %}
+
+    {% if columns == 'col1' %}
+    <tr>
+        <td></td>
+        <td width="249" height="130" valign="top" style="background: url('{{ settings.STATIC_URL }}org/images/pr/POT.jpg') no-repeat; background-color: rgba(0, 0, 255, 0.8); max-height: 130px; overflow: hidden; border-top: 1px solid white; border-right: 1px solid white;">
+    {% else %}
+        <td width="250" height="130" valign="top" style="background: url('{{ settings.STATIC_URL }}org/images/pr/SU.jpg') no-repeat; background-color: #333333; max-height: 130px; overflow: hidden; border-top: 1px solid white; border-right: 1px solid white;">
+    {% endif %}
+
+            <div style="padding: 8px; font-family: Arial, serif; color: white;">
+                <span class="date" style="font-size: 22px; padding-right: 10px;">{{ event.start_date|date:"d. "}} {{ event.start_date|date:"b"|capfirst }}</span><span class="time">{{ event.start_date|date:"G:i" }}</span><br>
+                <span class="project" style="font-size: 18px;">{{ event.project|capfirst }}</span>
+
+                <p class="desc" style="margin-top: 0.3em; font-family: Arial, sans-serif; font-size: 18px;">
+                    <a href="#event_{{ event.id }}" style="color: white; text-decoration: none;">{{ event.title }}</a>
+                </p>
+            </a>
+        </td>
+
+    {% if columns == 'col2' %}
+        <td></td>
+    </tr>
+    {% endif %}
+    {% if columns == 'col1' and forloop.last %}
+		<td width="250" height="130" valign="top" style="background-color: white; max-height: 130px; overflow: hidden; color: white; font-family: Arial, serif; border-top: 1px solid white; border-right: 1px solid white;">
+			<div style="padding: 8px;">
+			</div>
+		</td>
+		<td></td>
+	</tr>
+    {% endif %}
+    {% endfor %}	
+
+    <tr>
+        <td></td>
+        <td colspan="2" width="500" height="80" valign="middle" align="center" style="padding-top: 2em;">
+            <img src="http://www.kiberpipa.org/~ike/pipa_napovednik/img/ruler_bot.png" width="500" height="35" alt="">
+        </td>
+        <td></td>
+    </tr>
+
+    {% for event in events %}{% cycle 'col1' 'col2' as columns silent %}
+    {% if columns == 'col1' %}
+	<tr class="announce">
+        <td></td>
+        <td width="250" valign="top">
+			<div style="padding: 0 8px 8px 0; font-family: Garamond;">
+    {% else %}
+        <td width="250" valign="top">
+			<div style="padding: 0 0 8px 25px; font-family: Garamond;">
+    {% endif %}
+
+                <a name="event_{{ event.id }}"></a>
+				<h2 style="font-family: Garamond, serif; margin-bottom: 0; line-height: 1.1em;"><a class="ga" href="{{ event.get_absolute_url }}" style="text-decoration: none;">{{ event.title }}</a></h2>
+                <span class="project" style="font-family: Garamond,serif;">{{ event.project|capfirst }}</span><br/>
+				<span class="datetime" style="font-family: Garamond, serif;">{{ event.start_date|date:"D., d. "|capfirst }}
+                {{ event.start_date|date:"b Y"|capfirst }} ob {{ event.start_date|date:"G:i" }}</span>
+				
+				<p style="margin-top: 2em;">
+                    {{ event.announce|safe|truncatewords_html:120 }}
+				</p>
+			</div>
+
+    {% if columns == 'col2' %}
+        <td></td>
+    </tr>
+    {% endif %}
+    {% if columns == 'col1' and forloop.last %}
+		<td width="250" valign="top"></td>
+		<td></td>
+	</tr>
+    {% endif %}
+    {% endfor %}	
+	
+
+	<tr>
+		<td></td>
+		<td colspan="2" style="padding: 2em 0 1em 0; font-size: smaller; font-family: Garamond, serif;" align="center">
+			<p>(cc) 2013 Kiberpipa, Kersnikova 6, 1000 Ljubljana</p>
+		</td>
+		<td></td>
+	</tr>
+</table>

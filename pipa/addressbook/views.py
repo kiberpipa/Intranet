@@ -1,18 +1,57 @@
+from datetime import date, timedelta
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 from pipa.addressbook.models import PipaProfile
 from pipa.addressbook.forms import ProfileForm
 from pipa.ldap.forms import LDAPPasswordChangeForm
 
 
+def therealalumni():
+    one_year_ago = date.today() - timedelta(days=365)
+    active = PipaProfile.objects.filter(show_profile=True)\
+                            .filter(user__last_login__gte=one_year_ago)\
+                            .exclude(image__exact='').exclude(image__exact='')\
+                            .order_by('user__first_name')
+    active_user_ids = map(lambda x: x.user.id, active)
+
+    # what sorcery is this, hardcoded pks agains :)
+    alumni_group = Group.objects.get(pk=8)
+    alumni_users = alumni_group.user_set.all().exclude(id__in=active_user_ids)
+    alumni_user_ids = map(lambda x: x.id, alumni_users)
+    alumni = PipaProfile.objects.filter(user__id__in=alumni_user_ids)    
+    
+    return (active, alumni)
+
 def alumni(request):
-    profiles = PipaProfile.objects.filter(show_profile=True)\
-                          .filter(user__is_active=True)\
-                          .order_by('user__first_name')
+    """
+        divide peepz into three groups:
+         - active = logged in in the last year + pic
+         - alumni = inactive, but honorable mention we put in
+            a specific auth group
+         - inactive = everyone else
+    """
+    one_year_ago = date.today() - timedelta(days=365)
+    active = PipaProfile.objects.filter(show_profile=True)\
+                            .filter(user__last_login__gte=one_year_ago)\
+                            .exclude(image__exact='').exclude(image__exact='')\
+                            .order_by('user__first_name')
+    active_user_ids = map(lambda x: x.user.id, active)
+    active_ids = map(lambda x: x.id, active)
+
+    # what sorcery is this, hardcoded pks agains :)
+    alumni_group = Group.objects.get(pk=8)
+    alumni_users = alumni_group.user_set.all().exclude(id__in=active_user_ids)
+    alumni_user_ids = map(lambda x: x.id, alumni_users)
+    alumni = PipaProfile.objects.filter(user__id__in=alumni_user_ids)
+    alumni_ids = map(lambda x: x.id, alumni)
+
+    inactive = PipaProfile.objects.exclude(id__in=active_ids).exclude(id__in=alumni_ids)
+        
     return render_to_response("alumni/alumni.html",
                               RequestContext(request, locals()))
 

@@ -44,13 +44,6 @@
 	<script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery-ui-timepicker-addon.js" ></script>
 	<script type="text/javascript" src="{{ settings.STATIC_URL }}chosen/chosen.jquery.min.js"></script>
 	<script type="text/javascript" src="{{ settings.STATIC_URL }}tiny_mce/tiny_mce.js"></script>
-	<script type="text/javascript">
-	$(function () {
-		$(".chzn-select").chosen();
-        $('#id_due_date,#id_date,#id_due_by,#id_end_date').datepicker({firstDay: 1, dateFormat: "dd.mm.yy"});
-	});
-	</script>
-
 	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 	<!--[if lt IE 9]>
 	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>

@@ -58,6 +58,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.i18n',
     'django.core.context_processors.request',
     'intranet.org.context_processors.django_settings',
+    'intranet.www.context_processors.generate_menu',
 )
 
 INSTALLED_APPS = (
@@ -91,6 +92,8 @@ INSTALLED_APPS = (
     'tinymce',
     'django_gravatar',
     'django_akismet_comments',
+    'spaminspector',
+    'activelink',
 )
 
 LOGGING = {
@@ -183,6 +186,7 @@ SOUTH_TESTS_MIGRATE = False
 
 # pipa.photo
 PHOTOS_FLICKR_IMAGE_URL_S = 'http://farm%(farm)s.static.flickr.com/%(server)s/%(id)s_%(secret)s_s.jpg'
+PHOTOS_FLICKR_SET_IMAGE_URL_N = 'http://farm%(farm)s.static.flickr.com/%(server)s/%(primary)s_%(secret)s_n.jpg'
 PHOTOS_FLICKR_IMAGE_URL = 'http://farm%(farm)s.static.flickr.com/%(server)s/%(id)s_%(secret)s.jpg'
 
 # pipa.video
@@ -200,7 +204,7 @@ SPAMINSPECTOR_AKISMET_KEY = ""
 TINYMCE_JS_URL = STATIC_URL + 'tiny_mce/tiny_mce.js'
 TINYMCE_DEFAULT_CONFIG = {
     'theme': 'advanced',
-    'theme_advanced_buttons1': 'bold,italic,underline,strikethrough,separator,bullist,numlist,separator,link,unlink,image,separator,undo,redo,removeformat,separator,fullscreen',
+    'theme_advanced_buttons1': 'bold,italic,underline,strikethrough,separator,bullist,numlist,separator,link,unlink,image,separator,undo,redo,removeformat,separator,fullscreen,code',
     'plugins': 'fullscreen',
     'theme_advanced_buttons2': '',
     'theme_advanced_buttons3': '',

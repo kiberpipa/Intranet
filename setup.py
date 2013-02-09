@@ -38,10 +38,12 @@ setup(name='intranet',
         'flickrapi',
         'requests',
         'python-dateutil',
+        'python-twitter',
         'django-mailman',
         'django-akismet-comments',
         'icalendar',
         'pytz',
+        'django-activelink',
         # django stuff
         'Django>=1.4',
         'Feedjack',
@@ -62,8 +64,6 @@ setup(name='intranet',
         # database
         'psycopg2',
         'egenix-mx-base',
-        # commands
-        'twitter',
         # admin
         'raven',
         'django-reversion',
