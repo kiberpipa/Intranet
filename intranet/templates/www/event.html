@@ -18,11 +18,15 @@
     <p>&nbsp;</p>
 
     <img src="{{ event.event_image.image.url }}" alt="{{ event.event_image.title }}" class="photo" />
+
+    <div class="dogodek-social hero-unit">
+       <a href="{{ event.google_calendar_url }}"><img src="http://www.google.com/calendar/images/ext/gc_button6.gif" alt="Dodaj v Google Koledar" title="Dodaj v Google Koledar" /></a>
+    </div>
     {% photos_box %}
 {% endblock %}
 
 {% block tekst %}
-    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/effects.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/effects.js"></script>
     <div id="dogodek" class="vevent">
 
         <p class="dtstart">
@@ -48,28 +52,27 @@
                                 <input value="{% trans "submit" %}" id="add_email" type="submit">
                             </form>
                             <br />
-			    <p id="video-response"></p>
+                            <p id="video-response"></p>
                         </div>
                     {% endif %}
                     {% if event.video.all %}
-                        <h1><a name="video">{% trans "Videos" %}</a></h1>
+                        <br />
+                        <br />
+                        <h1>{% trans "Videos" %}</h1>
                         {% for video in event.video.all %}
                             <div class="dogodek-video-button">
                                 <a href="{{ video.play_url }}"><img  src="{{ video.image_url }}" /></a>
-                                <p>{{ video.title|default:"" }}</p>
+                                <h4><a href="{{ video.play_url }}"><i class="icon-facetime-video"></i> {{ video.title|default:"" }}</a></h4>
                             </div>
                         {% endfor %}
                     {% endif %}
-                </div>
-                <div class="dogodek-social">
-                    <a href="{{ event.google_calendar_url }}"><img src="http://www.google.com/calendar/images/ext/gc_button6.gif" alt="Dodaj v Google Koledar" title="Dodaj v Google Koledar" /></a>
                 </div>
                 {% for event in related_content %}
                     {% if forloop.first %}
                         <h3>{% trans "Similar events" %}</h3>
                         <ul>
                     {% endif %}
-		    <li><a href="{{ event.object.get_absolute_url }}">{{ event.object.title }} ({{ event.object.start_date}})</a></li>
+                    <li><a href="{{ event.object.get_absolute_url }}">{{ event.object.title }} ({{ event.object.start_date}})</a></li>
                     {% if forloop.last %}
                         </ul>
                     {% endif %}
