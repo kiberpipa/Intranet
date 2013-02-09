@@ -149,35 +149,37 @@ $(document).ready(function() {
 
                 <p><a href="{% url 'news' %}">{% trans "More news" %}</a></p>
             </div>
-            <div class="span4 themedia">
-                <h2 class="grey">{% trans "Media" %}</h2>
+            <div class="span4">
+                <h2 class="grey">{% trans "Video" %}</h2>
 
                 {% for video in videos %}
-                <ol class="recent_videos">
-                    <li>
+                <div class="recent_media row-fluid">
+                    <div class="span6">
                         <a href="{{ video.play_url }}" target="_blank">
-                            <img class="thumb" src="{{ video.image_url }}" alt="{{ video.title }}" />
-                            <img class="overlay hidden-phone" src="{{ settings.STATIC_URL }}www/images/vod_overlay.png" alt="" title="" />
+                          <div style="position: relative; left:0; top:0">
+                            <img style="position: relative; left:0; top:0" src="{{ video.image_url }}" alt="{{ video.title }}" />
+                            <img style="position: absolute; z-index:3; top:0; left:0" src="{{ settings.STATIC_URL }}www/images/vod_overlay.png" />
+                          </div>
                         </a>
-                        <label><a href="{{ video.play_url }}" target="_blank">{{ video.title }}</a>
-
-                        {% for author in video.event.authors %}
-                            {{ author.name }}
-                        {% endfor %}
-                        </label>
-                     </li>
-                </ol>
+                    </div>
+                    <div class="span6">
+                        <strong><a href="{{ video.play_url }}" target="_blank">{{ video.title }}</a>
+                        </strong>
+                    </div>
+                </div>
                 {% endfor %}
 
-                <h3>{% trans "Recent photos" %}</h3>
+                <h2 class="grey">{% trans "Photos" %}</h2>
                 
                 {% for picture in pictures %}
-                <ol class="recent_videos">
-                    <li>
-                        <a href="{{ picture.url }}"><img src="{{ picture.thumb_url }}" alt="{{ picture.title}}" /></a><br />
-                        <label>{{ picture.title }}</label>
-                    </li>
-                </ol>
+                <div class="recent_media row-fluid">
+                    <div class="span6 thumbnail">
+                        <a href="{{ picture.url }}"><img src="{{ picture.thumb_url }}" alt="{{ picture.title }}" /></a>
+                    </div>
+                    <div class="span6">
+                        <strong><a href="{{ picture.url }}" target="_blank">{{ picture.title }}</a></strong>
+                    </div>
+                </div>
                 {% endfor %}
             </div>
             <div class="span4 thesocialstuffz">

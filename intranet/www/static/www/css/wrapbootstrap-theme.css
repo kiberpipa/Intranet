@@ -174,14 +174,9 @@ ul.the-icons li:hover { background:#eee }
 .thecomments form label[for='id_honeypot'] { display: none; }
 .thecomments form #id_honeypot { display: none; }
 
-.themedia label { font-weight: bold; }
-.recent_videos { margin: 0; padding: 0; }
-.recent_videos li { list-style-type: none; margin-bottom: 1em; }
-.recent_videos li img { width: 150px; border-radius: 5px; }
-.recent_videos a { display: inline-block; position: relative; float: left; }
-.recent_videos a img.overlay { position: absolute; top: 0px; left: 0px; z-index: 1; }
-.recent_videos li label { margin-left: 155px; height: 85px; }
 
+.recent_media { margin-bottom: 5px}
+ 
 .tweets { margin: 0; padding: 0; list-style-type: none; }
 .tweets .tweet-profile-image { float: left; padding-top: 3px; }
 .tweets .tweet-inner { margin-left: 55px; min-height: 60px; }
