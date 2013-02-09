@@ -355,20 +355,11 @@ def facilities(request):
                               RequestContext(request, locals()))
 
 
-# TODO: use locale aware flatpages for this
-def press(request):
+def about(request):
     if request.LANGUAGE_CODE == 'en':
-        template = 'www/press_en.html'
+        template = 'www/about_en.html'
     else:
-        template = 'www/press.html'
-    return render_to_response(template, RequestContext(request, {}))
-
-
-def location(request):
-    if request.LANGUAGE_CODE == 'en':
-        template = 'www/kjesmo_en.html'
-    else:
-        template = 'www/kjesmo.html'
+        template = 'www/about.html'
     return render_to_response(template, RequestContext(request, {}))
 
 

@@ -32,11 +32,10 @@ urlpatterns = patterns('',
     url(r'^alumni/', 'pipa.addressbook.views.alumni'),
     # TODO: migrate press to flatpages
     url(r'^press/', 'intranet.www.views.press'),
-    url(r'^about/', 'intranet.www.views.location' ),
-    url(r'^kjesmo/', 'intranet.www.views.location' ),
-    
+    url(r'^about/', 'intranet.www.views.about'),
+
     # converted flatpages to custom templates with some flatpage includes
-    url(r'^support/', 'intranet.www.views.support' ),
+    url(r'^support/', 'intranet.www.views.support'),
 
     # feeds
     (r'^feeds/all/', AllInOne()),
