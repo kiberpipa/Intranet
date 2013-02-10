@@ -101,7 +101,7 @@ local resources, you can keep this script from going over the network.
 '''
 
 parser = OptionParser(usage=usage)
-parser.add_option("-v", "--version", dest="version",
+parser.add_option("-v", "--version", dest="version", default="1.7.0",
                           help="use a specific zc.buildout version")
 parser.add_option("-d", "--distribute",
                    action="store_true", dest="use_distribute", default=False,
