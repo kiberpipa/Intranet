@@ -1,9 +1,6 @@
 <!DOCTYPE html>{% load i18n activelink %}{% load url from future %}{% get_current_language as LANGUAGE_CODE %}
-<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
-<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
-<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]> <html class="not-ie" lang="sl"> <![endif]-->
-<head>
+<html lang="{{ LANGUAGE_CODE }}">
+    <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Multimedijski center Kiberpipa, Kersnikova 6, 1000 Ljubljana">
