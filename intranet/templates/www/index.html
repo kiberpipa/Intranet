@@ -50,7 +50,7 @@ $(document).ready(function() {
               num_of_events = event_.events.length,
               el = $('#events_menu .day' + i);
           el.text(event_.date);
-          if (event_.is_today === true) {
+          if (event_.is_today === true && $('#events_menu .btn-inverse').length === 0) {
             el.addClass('btn-inverse');
           }
           if (num_of_events > 0) {
