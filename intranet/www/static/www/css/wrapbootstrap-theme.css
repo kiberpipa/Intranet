@@ -166,3 +166,6 @@ ul.the-icons li:hover { background:#eee }
 .tweets { margin: 0; padding: 0; list-style-type: none; }
 .tweets .tweet-profile-image { float: left; padding-top: 3px; }
 .tweets .tweet-inner { margin-left: 55px; min-height: 60px; }
+
+/* footer */
+.more-space { margin: 20px 0 }
