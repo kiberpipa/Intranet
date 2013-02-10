@@ -11,6 +11,6 @@ def generate_menu(request):
         {'url': 'http://www.flickr.com/photos/kiberpipa/collections/',
          'name': _('gallery')},
         {'url': 'http://video.kiberpipa.org/', 'name': _('video')},
-        {'url': '/%s/alumni/' % language, 'name': _('community')},
+        {'url': '/%s/alumni/' % language, 'name': _('people')},
         {'url': '/%s/support/' % language, 'name': _('support')},
     ]}
