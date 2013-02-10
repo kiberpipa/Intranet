@@ -73,7 +73,7 @@ def index(request):
     # load some tweets
     # TODO: https://github.com/bear/python-twitter/pull/33
     api = twitter.Api()
-    tweets = api.GetSearch(term='kiberpipa OR cyberpipe', query_users=False)
+    tweets = api.GetSearch(term='kiberpipa OR cyberpipe', query_users=False, per_page=20)
 
     # recent flickr uploads
     try:
@@ -93,7 +93,7 @@ def index(request):
         if r.get('stat', 'error') == 'ok':
             photosets = r['photosets']['photoset']
             photosets = sorted(photosets, key=lambda x: x['date_create'], reverse=True)
-            for image in photosets[:5]:
+            for image in photosets[:10]:
                 if int(image['photos']) == 0:
                     continue
                 image['thumb_url'] = settings.PHOTOS_FLICKR_SET_IMAGE_URL_N % image

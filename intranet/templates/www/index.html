@@ -143,6 +143,8 @@ $(document).ready(function() {
                     {{ n.content|sanitize|safe|truncatewords:"60" }}<br />
                     {% endif %}
                     <i><b>{% if n.text %}{{ n.author.get_full_name }}{% else %}{{ n.author }}{% endif %}</b>, {% trans "on" %} {% if n.date %}{{ n.date }}{% else %}{{ n.date_modified }}{% endif %}</i>
+                    <br />
+                    <br />
                 </li>
                 {% endfor %}
                 </ol>
@@ -168,6 +170,9 @@ $(document).ready(function() {
                     </div>
                 </div>
                 {% endfor %}
+
+                <br />
+                <br />
 
                 <h2 class="muted">{% trans "Photos" %}</h2>
                 
