@@ -8,8 +8,9 @@
     <meta name="keywords" content="linux,open source,art,diy,kiberpipa" />
     <title>{% block title %}{% trans "All our code are belong to you" %}{% endblock %} :: Kiberpipa.org</title>
     
-    <link href="{{ settings.STATIC_URL }}www/css/bootstrap.css" rel="stylesheet">
+    <link href="{{ settings.STATIC_URL }}www/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ settings.STATIC_URL }}www/css/wrapbootstrap-theme.css" rel="stylesheet">
+    <link href="{{ settings.STATIC_URL }}www/css/bootstrap-responsive.min.css" rel="stylesheet">
     <link href="{{ settings.STATIC_URL }}www/css/font-awesome.css" rel="stylesheet">
 
     <!--[if IE 7]>
@@ -36,8 +37,8 @@
 </head>
 
 <body>
-    <header id="header">
-        <div class="navbar visible-desktop">
+    <header>
+        <div class="navbar navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container">
                     <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -48,11 +49,16 @@
                     <a class="brand" href="{% url 'index' %}">
                         <img src="{{ settings.STATIC_URL }}www/images/logo.png" alt="Kiberpipa Logo" title="Multimedijski center Kiberpipa"/>
                     </a>
-                    <div class="nav-collapse fr">
+                    <div class="nav-collapse collapse">
                         <ul class="nav">
                             {% for menuitem in menu %}
                                 <li class="{% ifactive menuitem.url %}active{% endifactive %}"><a href="{{ menuitem.url }}">{% trans menuitem.name %}</a></li>
                             {% endfor %}
+                        </ul>
+                        <form class="navbar-search pull-right" method="get" action="{% url 'event_search' %}" id="searchform">
+                           <input class="input input-medium span2 search-query" name="q" id="q" type="search" placeholder="{% trans 'Search events ...' %}" />
+                        </form>                
+                        <ul class="nav pull-right">
                             <li><a href="/feeds/all/" title="RSS"><i class="icon-rss"></i></a></li>
                             {% get_available_languages as languages %}
                             {% for lang_code, lang_name in languages %}
@@ -62,9 +68,6 @@
                                 {% endif %}
                             {% endfor %}
                         </ul>
-                        <form class="navbar-search pull-left" method="get" action="{% url 'event_search' %}" id="searchform">
-                           <input class="input input-medium span2 search-query" name="q" id="q" type="search" placeholder="{% trans 'Search events ...' %}" />
-                        </form>                
                     </div><!--/.nav-collapse -->
                 </div><!-- end .container -->
             </div><!-- end .navbar-inner -->
@@ -75,7 +78,6 @@
                 <a class="brand" href="{% url 'index' %}"><img src="{{ settings.STATIC_URL }}www/images/logo.png" alt="Kiberpipa Logo" title="Multimedijski center Kiberpipa"/></a>
             </div></div>
         </div>
-    </header>
  
     <div id="content" class="container {% block contentclass %}{% endblock %}">
         {% block content %}{% endblock %}

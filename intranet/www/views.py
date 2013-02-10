@@ -93,7 +93,7 @@ def index(request):
         if r.get('stat', 'error') == 'ok':
             photosets = r['photosets']['photoset']
             photosets = sorted(photosets, key=lambda x: x['date_create'], reverse=True)
-            for image in photosets[:10]:
+            for image in photosets[:7]:
                 if int(image['photos']) == 0:
                     continue
                 image['thumb_url'] = settings.PHOTOS_FLICKR_SET_IMAGE_URL_N % image
