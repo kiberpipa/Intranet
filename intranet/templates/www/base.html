@@ -72,12 +72,6 @@
                 </div><!-- end .container -->
             </div><!-- end .navbar-inner -->
         </div><!-- end .navbar -->
-
-        <div class="navbar visible-phone">
-            <div class="navbar-inner"><div class="container">
-                <a class="brand" href="{% url 'index' %}"><img src="{{ settings.STATIC_URL }}www/images/logo.png" alt="Kiberpipa Logo" title="Multimedijski center Kiberpipa"/></a>
-            </div></div>
-        </div>
  
     <div id="content" class="container {% block contentclass %}{% endblock %}">
         {% block content %}{% endblock %}
