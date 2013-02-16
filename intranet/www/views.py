@@ -73,7 +73,10 @@ def index(request):
     # load some tweets
     # TODO: https://github.com/bear/python-twitter/pull/33
     api = twitter.Api()
-    tweets = api.GetSearch(term='kiberpipa OR cyberpipe', query_users=False, per_page=20)
+    try:
+        tweets = api.GetSearch(term='kiberpipa OR cyberpipe', query_users=False, per_page=20)
+    except urllib2.URLError:
+        tweets = []
 
     # recent flickr uploads
     try:
