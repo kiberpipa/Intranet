@@ -1,9 +1,17 @@
 from django.conf.urls import patterns, url
-from django.views.generic import RedirectView, TemplateView, DetailView
+from django.views.generic import RedirectView, DetailView
 from haystack.query import SearchQuerySet
 
 from intranet.org.models import Place, Event
-from intranet.www.feeds import AllInOne, NewsFeed, EventsFeed, POTFeed, SUFeed, VIPFeed, PlanetFeed, MuzejFeed
+from intranet.www.feeds import (
+    AllInOne,
+    NewsFeed,
+    EventsFeed,
+    POTFeed,
+    SUFeed,
+    PlanetFeed,
+    MuzejFeed,
+)
 from intranet.www.views import NewsList
 
 
