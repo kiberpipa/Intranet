@@ -179,6 +179,7 @@ def ajax_index_events(request, year=None, week=None):
     for i, day in enumerate(map(lambda i: start + relativedelta(days=i), range(0, 7))):
         ret['events'][i] = dict(
             date=format_(day, 'D, d. b').capitalize(),
+            short_date=format_(day, 'd. n.'),
             events=[],
             is_today=day == today,
         )

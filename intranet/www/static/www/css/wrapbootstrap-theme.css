@@ -145,6 +145,14 @@ ul.the-icons li:hover { background:#eee }
 .community .member-bio { padding: 0 0 16px 0;font-size:.9em;color:#777 }
 
 /* front page, bellow the carousel */
+#events_menu { width: 100% }
+#events_menu button { font-size: 15px }
+#events_menu .navigation { width: 8% }
+#events_menu .day {width: 12%}
+
+@media (max-width: 767px) { #events_menu button { float: left; width: 100%!important } }
+@media (min-width: 768px) and (max-width: 979px) { #events_menu button span.badge { margin-left: -13px } }
+
 
 #events_content { margin-bottom: 30px}
 
@@ -162,6 +170,7 @@ ul.the-icons li:hover { background:#eee }
 .thecomments form #id_honeypot { display: none; }
 
 .recent_media { margin-bottom: 15px}
+.recent_media img { width: 100% }
  
 .tweets { margin: 0; padding: 0; list-style-type: none; }
 .tweets .tweet-profile-image { float: left; padding-top: 3px; }
