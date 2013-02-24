@@ -5,6 +5,7 @@ import logging
 import urllib2
 import urlparse
 import simplejson
+import socket
 from calendar import Calendar
 
 import icalendar
@@ -75,7 +76,7 @@ def index(request):
     api = twitter.Api()
     try:
         tweets = api.GetSearch(term='kiberpipa OR cyberpipe', query_users=False, per_page=20)
-    except urllib2.URLError:
+    except (urllib2.URLError, socket.timeout):
         tweets = []
 
     # recent flickr uploads
@@ -89,7 +90,7 @@ def index(request):
             pages=1,
             format="json",
             nojsoncallback=1)
-    except urllib2.URLError:
+    except (urllib2.URLError, socket.timeout):
         pass
     else:
         r = simplejson.loads(json)
