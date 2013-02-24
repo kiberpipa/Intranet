@@ -63,17 +63,20 @@ $(document).ready(function() {
                 end_date = new Date(value.end_date);
                 hide = $('#events_menu .day' + i + '.btn-inverse').length ? '' : 'hide'
             events_container.append([
-              '<div class="pipa-event row ' + hide + ' day' + i + '" style="margin-bottom: 20px">',
-                '<a href="'+ value.url + '">',
-                  '<img class="span5 img-rounded" src="' + value.image + '" style="height: 200px" />',
-                '</a>',
+              '<div class="pipa-event row-fluid ' + hide + ' day' + i + '" style="margin-bottom: 20px">',
+                '<div class="span5 ac">',
+                  '<a href="'+ value.url + '" style="display: inline-block">',
+                    '<img class="span5 img-rounded visible-desktop" src="' + value.image + '" style="height: 200px; width: 385px" />',
+                    '<img class="span5 img-rounded hidden-desktop" src="' + value.image + '" style="height: 130px; width: 250px" />',
+                  '</a>',
+                '</div>',
                 '<div class="span7">',
                   '<h4><a href="'+ value.url + '">' + value.project + ': ' + value.title + '</a></h4>',
                   '<span class="badge badge-inverse">ob ' + zero_pad(start_date.getHours(), 2) + ':' + zero_pad(start_date.getMinutes(), 2) + ', ' + value.place + '</span>',
                   '<br /><br />',
                   '<p>' + value.announce + '</p>',
                 '</div>',
-              '</div>',
+              '</div>'
             ].join('\n'));
           });
           noevents();
