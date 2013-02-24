@@ -76,8 +76,8 @@ $(document).ready(function() {
               '</div>',
             ].join('\n'));
           });
+          noevents();
         }
-          
       });
     };
 
@@ -98,8 +98,20 @@ $(document).ready(function() {
       $('.pipa-event.day' + day).removeClass('hide');
       $('#events_menu .day').removeClass('btn-inverse');
       $('#events_menu .day' + day).addClass('btn-inverse');
+      noevents();
     });
 
+    // if we have no events on selected day, say so
+    function noevents() {
+      $('#noevents').remove();
+      if ($('.pipa-event').not('.hide').length === 0) {
+        $('#events_content').prepend([
+         '<h4 id="noevents" class="ac">',
+           '{% trans 'There are no events on selected date.' %}',
+         '</h4>',
+        ].join('\n'));
+      }
+    }
  });
 </script>
 {% endblock %}
