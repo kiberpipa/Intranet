@@ -319,9 +319,9 @@ def ical(request):
         else:
             continue
         cal_event = icalendar.Event()
-        cal_event.add('uid', u'UID:event-%s@kiberpipa.org' % e.id)
+        cal_event.add('uid', u'UID:event-%s-%s@kiberpipa.org' % (e.id, e.slug))
         cal_event.add('summary', u'%s: %s' % (e.project, e.title))
-        cal_event.add('url', u'http://www.kiberpipa.org%s' % e.get_absolute_url())
+        cal_event.add('url', u'https://www.kiberpipa.org%s' % e.get_absolute_url())
         cal_event.add('location', e.place.name)
         cal_event.add('classification', classification)
         cal_event.add('categories', u','.join([e.project.name, e.category.name]))
