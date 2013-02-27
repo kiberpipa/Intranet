@@ -86,7 +86,7 @@ INSTALLED_APPS = (
     'pipa.gallery',
     'honeypot',
     'django_extensions',
-    'raven.contrib.django',
+    'raven.contrib.django.raven_compat',
     'django_mailman',
     'haystack',  # http://charlesleifer.com/blog/solr-ubuntu-revisited/
     'tinymce',
