@@ -17,9 +17,8 @@
                 {% if LANGUAGE_CODE == 'sl' %}{% get_flatpages '/sl/community/' as pages %}
                 {% else %}{% get_flatpages '/en/community/' as pages %}{% endif %}
                 {% for page in pages %}
-                {{ page.content|safe }}
+                    {{ page.content|safe }}
                 {% empty %}
-                WARN: flatpage missing
                 {% endfor %}
 
                 <div class="nav">
@@ -145,7 +144,7 @@
                 </section>
 
                 <section id="inactive">
-                    <h3>Inactive</h3>
+                    <h3>{% trans 'Inactive' %}</h3>
 
                     {% for member in inactive %}
                     <div class="member-avatar">
