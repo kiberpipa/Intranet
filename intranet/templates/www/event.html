@@ -61,7 +61,7 @@
                         <h1>{% trans "Videos" %}</h1>
                         {% for video in event.video.all %}
                             <div class="dogodek-video-button">
-                                <a href="{{ video.play_url }}"><img  src="{{ video.image_url }}" /></a>
+                                <a href="{{ video.play_url }}"><img  src="{{ video.get_secure_image_url }}" /></a>
                                 <h4><a href="{{ video.play_url }}"><i class="icon-facetime-video"></i> {{ video.title|default:"" }}</a></h4>
                             </div>
                         {% endfor %}

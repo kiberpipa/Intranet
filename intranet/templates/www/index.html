@@ -181,7 +181,7 @@ $(document).ready(function() {
                     <div class="span6">
                         <a href="{{ video.play_url }}" target="_blank">
                           <div style="position: relative; left:0; top:0">
-                            <img style="position: relative; left:0; top:0" src="{{ video.image_url }}" alt="{{ video.title }}" />
+                            <img style="position: relative; left:0; top:0" src="{{ video.get_secure_image_url }}" alt="{{ video.title }}" />
                             <img style="position: absolute; z-index:3; top:0; left:0" src="{{ settings.STATIC_URL }}www/images/vod_overlay.png" />
                           </div>
                         </a>

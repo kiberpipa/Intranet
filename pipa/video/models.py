@@ -12,7 +12,11 @@ class Video(models.Model):
     remote_id = models.CharField(max_length=100, unique=True, null=True)
 
     def __unicode__(self):
-        return self.videodir
+        return self.title
 
     def get_absolute_url(self):
         return self.play_url
+
+    def get_secure_image_url(self):
+        # TODO: for now redirect to our page until v.k.o support https
+        return 'https://www.kiberpipa.org/videothumb/%s.jpg' % self.image_url.replace('/image-i.jpg', '').replace('http://video.kiberpipa.org/media/', '')
