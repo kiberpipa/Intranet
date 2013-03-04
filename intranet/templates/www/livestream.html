@@ -58,7 +58,7 @@ $(document).ready(function() {
         <div class="span6" id="video-container">
             <video width="100%" height="100%"
                    poster="{{ settings.STATIC_URL }}www/images/stream_offline.png" controls="controls" autoplay>
-                 <source src="http://www.kiberpipa.org:8100/consume/private" type="video/webm" />
+                 <source src="http://www.kiberpipa.org:8100/consume/first" type="video/webm" />
                  {{ _('Your browser does not support the video tag. Download Firefox or Chromium.') }}
             </video>
             <!-- TODO: if stream is not running, get next event with video -->
@@ -85,7 +85,7 @@ $(document).ready(function() {
             </p>    
         </div>
         <div class="span6">
-            <script src="http://widgets.twimg.com/j/2/widget.js"></script>
+            <script src="https://widgets.twimg.com/j/2/widget.js"></script>
             <script>
                 new TWTR.Widget({
                   version: 2,
