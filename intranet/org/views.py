@@ -103,7 +103,7 @@ def image_resize(request):
             else:
                 # resize!
                 x1, x2, y1, y2 = tuple(form.cleaned_data['resize'])
-                box = (int(x1), int(y1), int(x2) - 1, int(y2) - 1)
+                box = (int(x1), int(y1), int(x2), int(y2))
 
                 resized_dir = os.path.join(settings.MEDIA_ROOT, 'tmp', request.session.session_key, 's')
                 try:
@@ -113,10 +113,11 @@ def image_resize(request):
                     return HttpResponse(simplejson.dumps({'status': 'fail4'}))
                 resized_filename = os.path.join(resized_dir, os.path.basename(form.cleaned_data.get('filename')))
                 image_filename = form.cleaned_data['filename']
+
+                # crop and resize the image
                 im = Image.open(image_filename)
-                cropped = im.crop(box)
-                index = cropped.resize((250, 130), Image.ANTIALIAS)
-                index.save(resized_filename)
+                new_image = im.transform((480, 250), Image.EXTENT, box)
+                new_image.save(resized_filename)
                 request.session['resized_filename'] = resized_filename
                 resized_url = os.path.join(settings.MEDIA_URL, 'tmp', request.session.session_key, 's', os.path.basename(form.cleaned_data.get('filename')))
                 return HttpResponse(simplejson.dumps({'status': 'ok',

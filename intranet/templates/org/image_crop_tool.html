@@ -4,10 +4,11 @@
 <script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.highlightFade.js" ></script>
 <script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.suggest.js" ></script>
 <script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.ajaxUpload.js" ></script>
-<script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.imgareaselect-0.6.1.min.js" ></script>
+<script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/jquery.Jcrop.min.js" ></script>
+<link href="{{ settings.STATIC_URL }}org/css/jquery.Jcrop.min.css" rel="stylesheet">
 <script type="text/javascript">
-var imgResized = function imgResized(img, sel) {
-    var result = new Array(sel.x1, sel.x2, sel.y1, sel.y2);
+var imgResized = function imgResized(sel) {
+    var result = new Array(sel.x, sel.x2, sel.y, sel.y2);
     $("#id_resize").attr("value", result.join(','));
     
     $.ajax({
@@ -31,6 +32,7 @@ var imgResized = function imgResized(img, sel) {
 }
 
 $(document).ready(function () {
+    $('#previewimg, #cropimg').hide();
     $("#id_image").change(function () {
         $.ajaxFileUpload({
             url: '/intranet/tmp_upload/',
@@ -39,9 +41,21 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (data, status) {
                 if (data.status === "ok") {
+                    $('#previewimg, #cropimg').show();
+                    $('#uploadimg').hide();
                     $("#ajax_img").html('<img id="rect" src="' + data['link'] + '">');
                     $('#id_filename').attr("value", data['filename']);
-                    $('img#rect').imgAreaSelect({selectionColor: null, aspectRatio: "250:130", onSelectEnd: imgResized});
+                    $('img#rect').load(function() {
+                        $this = $(this);
+                        $this.Jcrop({
+                            setSelect: [480, 250, 0, 0],
+                            aspectRatio: 480/250,
+                            minSize: [480, 250],
+                            trueSize: [this.naturalWidth, this.naturalHeight],
+                            trueSize: [3648, 2736],
+                            onSelect: imgResized
+                        });
+                    });
                 } else {
                     alert(data.status);
                     location.reload(true);
@@ -83,31 +97,34 @@ $(document).ready(function () {
 {% block content %}
 <div class="row-fluid">
     <div class="span3">
-    <div id="content-related" class="sidebar">
-        <div id="recent-actions-module" class="module">
-            <h2>Nalaganje slike</h2>
-            <form id="upload_image" method="POST" action="" enctype="multipart/form-data">
-                <input name="image" type="file" id="id_image" />
-            </form>
+        <div id="previewimg">
+            <h2>Predogled</h2>
             <div id="final_image">&nbsp;</div>
+            <br />
             <form id="imageok_form" method="POST" action="">
-                <label for="id_title">Opis slike (obvezno!)</label><input type="text" id="id_title" name="title" />
-                <input type="hidden" id="id_resized_filename" name="resized_filename" />
+                <input type="text" id="id_title" name="title"  placeholder="Opis slike... (obvezno)" />
+                <input type="hidden" id="id_resized_filename" name="resized_filename"/>
             </form>
-            <input class="btn btn-primary" type="submit" id="id_imageok" name="imageok" disabled="disabled" value="Dobro bo" />
+            <input class="btn btn-primary" type="submit" id="id_imageok" name="imageok" disabled="disabled" value="Shrani" />
             <div id="message">&nbsp;</div>
         </div>
     </div>
-    </div>
     <div class="span9">
-    <div class="module">
-        <h2>Formatiranje slike</h2>
+        <div id="uploadimg">
+            <h2>Naloži sliko</h2>
+            <br />
+            <form id="upload_image" method="POST" action="" enctype="multipart/form-data">
+                <input name="image" type="file" id="id_image" />
+            </form>
+        </div>
 
-        <div id="ajax_img">&nbsp;</div>
-        <form id="resizeform" action="" method="POST">
-            {{ form.as_p }}
-        </form>
-    </div>
+        <div id="cropimg">
+            <h2>Izreži sliko</h2>
+            <div id="ajax_img">&nbsp;</div>
+            <form id="resizeform" action="" method="POST">
+                {{ form.as_p }}
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %}
