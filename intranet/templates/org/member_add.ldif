@@ -24,7 +24,7 @@ uid: {{ data.username }}
 givenName: {{ data.firstname }}
 sn: {{ data.surname }}
 ## TODO: dogbert_login = forms.BooleanField(required=False)
-## TODO: jon_login = forms.BooleanField(required=False)
+## TODO: jonssh jon_login = forms.BooleanField(required=False)
 
 dn: cn={{ data.username }},ou=Groups,dc=kiberpipa,dc=org
 objectClass: posixGroup
