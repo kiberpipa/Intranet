@@ -15,7 +15,7 @@ from intranet.org.models import Event
 
 
 logger = logging.getLogger(__name__)
-JSON_URL = 'http://video.kiberpipa.org/site/api/lectures/recent/?format=json&limit=200'
+JSON_URL = 'http://video.kiberpipa.org/site/api/lectures/recent/?format=json&limit=50'
 
 
 class Command(BaseCommand):
@@ -52,19 +52,22 @@ class Command(BaseCommand):
     def handle(self, *a, **kw):
         videos_to_notify = []
         for x in self.parse_videoarchive():
-            if not x.get('remote_ref', None):
+            remote_ref = x.get('remote_ref', None)
+            if not remote_ref:
                 continue
 
             try:
+                try:
+                    event = Event.objects.get(pk=int(remote_ref))
+                except Event.DoesNotExist:
+                    logger.error('Wrong intranet id in videoarchive: %s' % x.get('remote_ref'), extra={'remote': x})
+                    continue
+
                 slug = x.get('slug')
 
-                try:
-                    event = Event.objects.get(pk=int(x.get('remote_ref')))
-                except Event.DoesNotExist:
-                    event = None
-                    logger.error('Wrong intranet id in videoarchive: %s' % x.get('remote_ref'), extra={'remote': x})
-#                    continue
-
+                # because of legacy reasons, we have to be careful not to load
+                # old videos that do not have remote_id set in DB, because they will be
+                # readded
                 vid, is_created = Video.objects.get_or_create(
                     remote_id=x['id'],
                     defaults={
@@ -79,8 +82,8 @@ class Command(BaseCommand):
                 # TODO: if event now has a video, and require_video is False, set it to True!
                 # TODO: also write a migration for this.
 
-#                if is_created:
-#                    videos_to_notify.append(vid)
+                if is_created:
+                    videos_to_notify.append(vid)
             except:
                 logger.error('Could not parse videoarchive: %s' % x, exc_info=True, extra=locals())
 
