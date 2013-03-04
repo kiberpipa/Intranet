@@ -7,10 +7,8 @@ import datetime
 import logging
 import os
 import glob
-import csv
 import shutil
 import random
-import shutil
 import string
 import subprocess
 import tempfile
