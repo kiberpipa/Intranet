@@ -78,6 +78,14 @@ $(document).ready(function() {
                 '</div>',
               '</div>'
             ].join('\n'));
+
+            if (value.is_streaming) {
+              $('.hero-unit').prepend([
+                 '<p class="alert alert-success ac">',
+                 'Trenutno prenašamo v živo dogodek <a href="{% url 'livestream' %}">' + value.title + '</a>.',
+                 '</p>',
+              ].join('\n'));
+            }
           });
           noevents();
         }

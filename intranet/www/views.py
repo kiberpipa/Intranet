@@ -33,7 +33,7 @@ from intranet.org.models import Event, Email
 from intranet.www.models import News
 from intranet.www.forms import EmailForm, EventContactForm
 from pipa.video.models import Video
-from pipa.video.utils import is_streaming
+from pipa.video.utils import is_streaming, get_streaming_event, get_next_streaming_event
 from pipa.gallery.templatetags.photos_box import api as flickr_api
 
 
@@ -137,18 +137,7 @@ def ajax_index_events(request, year=None, week=None):
     # figure out if we are streaming now
     streaming_event = None
     if week == int(today.isocalendar()[1]) and is_streaming():
-        try:
-            now = datetime.datetime.now()
-            streaming_event = Event.objects.filter(public=True,
-                                                   start_date__lte=now).order_by('-start_date')[0]
-            next_event = streaming_event.get_next()
-            td = next_event.start_date - now
-            if td.days == 0 and 0 < td.seconds < 1800:
-                # if there is 30min to next event, take that one
-                streaming_event = next_event
-            # TODO: if previous event should have ended more than 3 hours ago, don't display the stream
-        except IndexError:
-            pass
+        streaming_event = get_streaming_event()
 
     # TODO: a bug with calculating week number
     prev_week_date = start - relativedelta(days=7)
@@ -379,6 +368,21 @@ def press(request):
 def support(request):
     template = 'www/support.html'
     return render_to_response(template, RequestContext(request, {}))
+
+
+def livestream(request):
+    if is_streaming():
+        event = get_streaming_event()
+    else:
+        event = get_next_streaming_event()
+
+    return render_to_response('www/livestream.html', RequestContext(request, {
+        'event': event,
+    }))
+
+
+def livestream_newslide(request):
+    return ""
 
 
 class NewsList(ListView):

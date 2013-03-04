@@ -1,0 +1,118 @@
+{% extends "www/base.html" %}
+{% load www i18n %}
+{% load url from future %}
+
+{% block extrahead %}
+<style type="text/css">
+#video-container { width: 560px; max-width: 100% }
+#slides { width: 560px; max-width: 100%; position: relative }
+#slides .frontimg, .slides .backimg { width: 100%; height: 100%; border: 1px solid black; }
+#slides div.frontimg { position: absolute; }
+#slides div.backimg { position: absolute; top: 0; left: 0; display: none; }
+</style>
+
+<script type='text/javascript'>
+$(document).ready(function() {
+    var refresh_slides = function refresh_slides() {
+        var $el = $('#slides');
+
+        $.ajax({
+          url: "http://www.kiberpipa.org:8099/slides.php?a=checknew",
+            ifModified: true,
+            success: function(content, status, xhr) {
+                // set the back img and fade it in
+                var backimg = $el.find("img.backimg").first(),
+                    fade_interval = 1000,
+                    fade_el = $(backimg).parent();
+
+                if (status === "notmodified") {
+                    return; 
+                }
+
+                backimg.attr('src', "slides.php?" + new Date().getTime());
+                if (fade_el.is(":animated")) {
+                    fade_el.stop();
+                }
+                fade_el.fadeIn(fade_interval, function() {
+                    // once done fading the new slide in, set it as the front image
+                    // and hide the back image so that it can be reused when
+                    // a new slide comes in
+                    $el.find("img.frontimg").attr("src", $("img.backimg").attr("src"));
+                });
+            },
+        });
+    }
+
+    // check for new slide everty 2s and replace it 
+    setTimeout(refresh_slides, 2000);
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <h2 class="span12">Prenos v živo</h2>
+    </div>
+    <div class="row">
+        <div class="span6" id="video-container">
+            <video width="100%" height="100%"
+                   poster="{{ settings.STATIC_URL }}www/images/stream_offline.png" controls="controls" autoplay>
+                 <source src="http://www.kiberpipa.org:8100/consume/private" type="video/webm" />
+                 {{ _('Your browser does not support the video tag. Download Firefox or Chromium.') }}
+            </video>
+            <!-- TODO: if stream is not running, get next event with video -->
+            <h3><a href="{{ event.get_absolute_url }}">{{ event.project }}: {{ event.title }}</a></h3>
+        </div>
+        <div class="span6" id="slides">
+                <img class="frontimg" src="{{ settings.STATIC_URL }}www/images/stream_blank.jpeg" height="100%" />
+                <div class="backimg" style="width:100%;height:100%;">
+                    <img class="backimg" src="{{ settings.STATIC_URL }}www/images/stream_blank.jpeg" height="100%" />
+                </div>
+            <p class="ac">Prosojnice s predavanj, v živo.
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <p>{{ event.announce|safe }}</p>
+            <br />
+            <p class="alert alert-info">
+                Prostovoljci se trudijo, da bi v živo prenašali predavanja, ki potekajo v Kiberpipi.
+                Včasih nam ne uspe. :D Zato vas vabimo, da se nam pridružite v živo. <br />
+                V primeru težav lahko kontaktirate tehnika na
+                <a href="http://twitter.com/#!/kiberpipa/">@kiberpipa</a> ali
+                preko irca na <a href="http://chat.mibbit.com/?channel=%23kiberpipa&server=irc.sioff.net">#kiberpipa @ irc.sioff.net</a>.
+            </p>    
+        </div>
+        <div class="span6">
+            <script src="http://widgets.twimg.com/j/2/widget.js"></script>
+            <script>
+                new TWTR.Widget({
+                  version: 2,
+                  type: 'search',
+                  search: 'kiberpipa',
+                  interval: 30000,
+                  title: 'Kiberpipa Live Stream',
+                  subject: 'Zadnje omembe Kiberpipe',
+                  width: 565,
+                  height: 400,
+                  theme: {
+                      shell: { background: '#1c1c1c', color: '#FFF' },
+                      tweets: { background: '#1c1c1c', color: '#FFF', links: '#0088cc' }
+                  },
+                  features: {
+                      scrollbar: true,
+                      loop: true,
+                      live: true,
+                      hashtags: true,
+                      timestamp: true,
+                      avatars: true,
+                      toptweets: false,
+                      behavior: 'default'
+                  }
+                }).render().start();
+            </script>
+        </div>
+    </div>
+</div>
+{% endblock %}

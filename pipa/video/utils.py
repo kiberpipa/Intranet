@@ -1,4 +1,5 @@
 import os
+import datetime
 from zipfile import ZipFile
 from cStringIO import StringIO
 
@@ -6,6 +7,8 @@ import requests
 from django.template import Template, Context
 from django.http import HttpResponse
 from django.conf import settings
+
+from intranet.org.models import Event
 
 
 def _sablona_file(fn):
@@ -46,3 +49,35 @@ def is_streaming():
         return False
     else:
         return 200 <= r.status_code < 300
+
+
+def get_streaming_event():
+    try:
+        now = datetime.datetime.now()
+        streaming_event = Event.objects.filter(public=True,
+                                               start_date__lte=now).order_by('-start_date')[0]
+        try:
+            next_event = streaming_event.get_next()
+        except Event.DoesNotExist:
+            streaming_event = next_event
+        else:
+            td = next_event.start_date - now
+            if td.days == 0 and 0 < td.seconds < 1800:
+                # if there is 30min to next event, take that one
+                streaming_event = next_event
+        # TODO: if previous event should have ended more than 3 hours ago, don't display the stream
+    except IndexError:
+        return
+
+    return streaming_event
+
+
+def get_next_streaming_event():
+    now = datetime.datetime.now()
+    q = Event.objects.filter(public=True,
+                             require_video=True,
+                             start_date__gte=now)
+    try:
+        return q.order_by('-start_date')[0]
+    except IndexError:
+        return
