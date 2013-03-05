@@ -10,6 +10,7 @@ from calendar import Calendar
 
 import icalendar
 import pytz
+
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.core.mail import send_mail
@@ -27,6 +28,7 @@ from django.views.generic import ListView
 from django_mailman.models import List
 from feedjack.models import Post
 from haystack.query import SearchQuerySet
+from raven.contrib.django.raven_compat.models import client
 import twitter
 
 from intranet.org.models import Event, Email
@@ -76,7 +78,8 @@ def index(request):
     api = twitter.Api()
     try:
         tweets = api.GetSearch(term='kiberpipa OR cyberpipe', query_users=False, per_page=20)
-    except (urllib2.URLError, socket.timeout):
+    except (urllib2.URLError, socket.timeout, twitter.TwitterError):
+        client.captureException()
         tweets = []
 
     # recent flickr uploads
@@ -91,7 +94,7 @@ def index(request):
             format="json",
             nojsoncallback=1)
     except (urllib2.URLError, socket.timeout):
-        pass
+        client.captureException()
     else:
         r = simplejson.loads(json)
         if r.get('stat', 'error') == 'ok':
