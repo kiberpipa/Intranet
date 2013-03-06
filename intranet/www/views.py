@@ -74,7 +74,6 @@ def index(request):
     both2.insert(0, news[0])
 
     # load some tweets
-    # TODO: https://github.com/bear/python-twitter/pull/33
     api = twitter.Api()
     try:
         tweets = api.GetSearch(term='kiberpipa OR cyberpipe', query_users=False, per_page=20)
@@ -155,8 +154,8 @@ def ajax_index_events(request, year=None, week=None):
     for event in events:
         d = dict(id=event.id,
                  title=event.title,
-                 start_date=event.start_date,
-                 end_date=event.end_date,
+                 start_date=ljubljana_tz.localize(event.start_date),
+                 end_date=ljubljana_tz.localize(event.end_date),
                  place=event.place.name,
                  url=event.get_absolute_url())
         d['project'] = event.project.verbose_name or event.project.name

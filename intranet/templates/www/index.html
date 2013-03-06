@@ -3,6 +3,7 @@
 {% load url from future %}
 
 {% block extrahead %}
+<script src="{{ settings.STATIC_URL }}www/js/moment-2.0.0.min.js"></script>
 <script type='text/javascript'>
 $(document).ready(function() {
 
@@ -59,9 +60,7 @@ $(document).ready(function() {
 
           // render events divs
           $.each(event_.events, function(index, value) {
-            var start_date = new Date(value.start_date),
-                end_date = new Date(value.end_date);
-                hide = $('#events_menu .day' + i + '.btn-inverse').length ? '' : 'hide'
+            var hide = $('#events_menu .day' + i + '.btn-inverse').length ? '' : 'hide';
             events_container.append([
               '<div class="pipa-event row-fluid ' + hide + ' day' + i + '" style="margin-bottom: 20px">',
                 '<div class="span5 ac">',
@@ -72,7 +71,7 @@ $(document).ready(function() {
                 '</div>',
                 '<div class="span7">',
                   '<h4><a href="'+ value.url + '">' + value.project + ': ' + value.title + '</a></h4>',
-                  '<span class="badge badge-inverse">ob ' + zero_pad(start_date.getHours(), 2) + ':' + zero_pad(start_date.getMinutes(), 2) + ', ' + value.place + '</span>',
+                  '<span class="badge badge-inverse">ob ' + moment(value.start_date).format('HH:mm') + ', ' + value.place + '</span>',
                   '<br /><br />',
                   '<p>' + value.announce + '</p>',
                 '</div>',
