@@ -15,7 +15,7 @@ from intranet.org.models import Event
 
 
 logger = logging.getLogger(__name__)
-JSON_URL = 'http://video.kiberpipa.org/site/api/lectures/recent/?format=json&limit=50'
+JSON_URL = 'http://video.kiberpipa.org/site/api/lectures/public/?ordering=-time&page_size=50'
 
 
 class Command(BaseCommand):
@@ -25,7 +25,7 @@ class Command(BaseCommand):
         """"""
         u = urllib.urlopen(JSON_URL)
         data = simplejson.loads(u.read())
-        return data['recent_lectures']
+        return data['results']
 
     def send_notification_emails(self, videos):
         subscribers = {}
