@@ -17,3 +17,4 @@ buildout.cfg
 .installed.cfg
 .mr.developer.cfg
 localsettings.py
+/intranet.egg-info
