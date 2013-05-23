@@ -122,7 +122,14 @@ $(document).ready(function() {
         ].join('\n'));
       }
     }
- });
+
+    // q&d fix for 4:3 video thumbs (the overlay is 16:9 only)
+    $(".recent_media").not(":has(.thumbnail)").each(function() { 
+        var f = $($(this).find("img")[0]);
+        var s = $($(this).find("img")[1]); 
+        $(s).height($(f).height()); }
+    });
+});
 </script>
 {% endblock %}
 
