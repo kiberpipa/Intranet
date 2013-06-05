@@ -48,7 +48,9 @@ footer .social-networks a:hover { background:#000;color:#fff }
 .navbar .nav>li>a { padding:26px 10px 26px 10px;color:#444!important;font-size:1.1em;text-shadow:0 -1px 0 rgba(255,255,255,0.25) }
 .navbar .nav>li>a:hover { color:#222;text-decoration:underline }
 .navbar .nav>li>button { color:white;margin-top:22px }
-.navbar .navbar-search { margin-top: 20px; margin-left: 10px}
+.navbar .icon i { margin-top: 5px; }
+.navbar .flag img { margin-top: 0px; }
+.navbar .navbar-search { margin-top: 23px; margin-left: 1.5em; }
 .carousel { position:relative }
 
 .carousel-control { position:absolute;top:50%;margin-top:-20px;-webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;border:0;padding:6px;line-height:.4em;background:#888;-ms-filter:"alpha(opacity=100)";filter:alpha(opacity=100);opacity:1;-webkit-transition:all .2s;-moz-transition:all .2s;-o-transition:all .2s;-ms-transition:all .2s;transition:all .2s }

@@ -60,12 +60,12 @@
                            <input class="input input-medium span2 search-query" name="q" id="q" type="search" placeholder="{% trans 'Search events ...' %}" />
                         </form>                
                         <ul class="nav pull-right">
-                            <li><a href="/feeds/all/" title="RSS"><i class="icon-rss"></i></a></li>
+                            <li class="icon"><a href="/feeds/all/" title="RSS"><i class="icon-rss"></i></a></li>
                             {% get_available_languages as languages %}
                             {% for lang_code, lang_name in languages %}
                                 {% if LANGUAGE_CODE != lang_code %}    
                                     <!-- flags taken from https://www.gosquared.com/resources/flag-icons -->
-                                    <li><a href="/{{ lang_code }}/"><img src="{{ settings.STATIC_URL }}www/images/flags/{{ lang_code }}.png" /></a></li>
+                                    <li class="flag"><a href="/{{ lang_code }}/"><img src="{{ settings.STATIC_URL }}www/images/flags/{{ lang_code }}.png" /></a></li>
                                 {% endif %}
                             {% endfor %}
                         </ul>
