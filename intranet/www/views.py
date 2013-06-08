@@ -74,9 +74,16 @@ def index(request):
     both2.insert(0, news[0])
 
     # load some tweets
-    api = twitter.Api()
+    api = twitter.Api(
+        consumer_key=settings.TWITTER_CONSUMER_KEY,
+        consumer_secret=settings.TWITTER_CONSUMER_SECRET,
+        access_token_secret=settings.TWITTER_ACCESS_TOKEN_SECRET,
+        access_token_key=settings.TWITTER_ACCESS_TOKEN_KEY,
+    )
+
     try:
-        tweets = api.GetSearch(term='kiberpipa OR cyberpipe', query_users=False, per_page=20)
+
+        tweets = api.GetSearch(term='kiberpipa OR cyberpipe', count=20)
     except (urllib2.URLError, socket.timeout, twitter.TwitterError):
         client.captureException()
         tweets = []
