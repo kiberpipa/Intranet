@@ -110,6 +110,7 @@ ul.the-icons li:hover { background:#eee }
 #descdiv { margin: 10px; }
 
 /* flatpage wrappers */
+h2.muted { margin: 0 0 20px 0; }
 .titlerow { margin-top: 3em; }
 .flatpage h2 { margin-top: 1em; }
 .flatpage h3 { margin-top: 1.5em; }
