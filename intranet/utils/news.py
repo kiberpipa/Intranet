@@ -4,7 +4,6 @@
 
 import MySQLdb
 import sys
-from mx.DateTime.ISO import ParseAny
 import datetime
 
 from intranet.www.models import News

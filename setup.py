@@ -63,7 +63,6 @@ setup(name='intranet',
         'pysolr',
         # database
         'psycopg2',
-        'egenix-mx-base',
         # admin
         'raven',
         'django-reversion',

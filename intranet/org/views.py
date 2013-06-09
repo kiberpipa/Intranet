@@ -13,7 +13,6 @@ import string
 import subprocess
 import tempfile
 
-import mx.DateTime
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -241,30 +240,31 @@ def weekly_navigation(year=None, week=None, week_start=None, week_end=None):
 
 @login_required
 def dezurni_monthly(request, year=None, month=None):
-    iso_week = mx.DateTime.now().iso_week
-# doloci mesec pregledovanja
+    iso_week = datetime.datetime.now().isocalendar()
+
+    # doloci mesec pregledovanja
     if year:
-        year = mx.DateTime.Date(int(year), int(month_dict[month]), 1).year
+        year = datetime.datetime(int(year), int(month_dict[month]), 1).year
     else:
-        year = mx.DateTime.now().year
+        year = datetime.datetime.now().year
 
     if month:
-        month = mx.DateTime.Date(int(year), int(month_dict[month]), 1).month
+        month = datetime.datetime(int(year), int(month_dict[month]), 1).month
     else:
-        month = mx.DateTime.now().month
+        month = datetime.datetime.now().month
 
-    month_start = mx.DateTime.Date(year, month, 1)
-    month_end = month_start + mx.DateTime.DateTimeDelta(month_start.days_in_month)
+    month_start = datetime.datetime(year, month, 1)
+    month_end = month_start + datetime.timedelta(month_start.days_in_month)
     month_number = month
     month_now = month_start
     month = []
 
     ###od tega datuma naprej velja nov urnik
-    Time = mx.DateTime.Time
-    if mx.DateTime.Date(2008, 04, 14) <= month_start and mx.DateTime.Date(2008, 9, 14) > month_start:
+    Time = datetime.time
+    if datetime.date(2008, 04, 14) <= month_start and datetime.date(2008, 9, 14) > month_start:
         nov_urnik = 1
         time_list = [Time(11), Time(16)]
-    elif mx.DateTime.Date(2008, 9, 14) <= month_start:
+    elif datetime.date(2008, 9, 14) <= month_start:
         nov_urnik = 2
         time_list = [Time(10), Time(14), Time(18)]
     else:
@@ -307,44 +307,45 @@ def dezurni_monthly(request, year=None, month=None):
             day_dict['slots'].append(slot_dict)
 
         month.append(day_dict)
-        month_now = month_now + mx.DateTime.oneDay
+        month_now = month_now + datetime.timedelta(1)
 
     navigation = monthly_navigation(year, month_number)
 
     return render_to_response('org/dezuranje_monthly.html',
-                                        {'month': month,
-                                        'log_list': diarys,
-                                        'year': year,
-                                        'iso_week': iso_week[1],
-                                        'month_start': month_start,
-                                        'month_name': month_to_string(month_number),
-                                        'navigation': navigation,
-                                        'month_number': month_number,
-                                        'start_date': month_start,
-                                        'end_date': month_end,
-                                        'nov_urnik': nov_urnik,
-                                        'time_list': time_list,
-                                        },
+                              {'month': month,
+                               'log_list': diarys,
+                               'year': year,
+                               'iso_week': iso_week[1],
+                               'month_start': month_start,
+                               'month_name': month_to_string(month_number),
+                               'navigation': navigation,
+                               'month_number': month_number,
+                               'start_date': month_start,
+                               'end_date': month_end,
+                               'nov_urnik': nov_urnik,
+                               'time_list': time_list,
+                              },
                               context_instance=RequestContext(request))
 
 
 @login_required
 def dezurni(request, year=None, week=None, month=None):
-    iso_week = mx.DateTime.now().iso_week
-    month = mx.DateTime.now().month
+    now = datetime.datetime.now()
+    iso_week = now.isocalendar()
+    month = now.month
 
     if year:
         year = int(year)
     else:
-        year = mx.DateTime.now().year
+        year = now.year
 
     if week:
         i = int(week)
     else:
         i = iso_week[1]
 
-    week_start = mx.DateTime.ISO.Week(year, i, 1)
-    week_end = mx.DateTime.ISO.Week(year, i, 6)
+    week_start = iso_to_gregorian(year, i, 1)
+    week_end = iso_to_gregorian(year, i, 6)
     week_number = i
     week_now = week_start
     week = []
@@ -354,13 +355,13 @@ def dezurni(request, year=None, week=None, month=None):
         dict['date'] = week_now.strftime('%d.%m. %a')
         dict['dezurni'] = []
 
-        Time = mx.DateTime.Time
+        Time = datetime.time
 
         ###od tega datuma naprej velja nov urnik
-        if mx.DateTime.Date(2008, 04, 14) <= week_start and mx.DateTime.Date(2008, 9, 14) > week_start:
+        if datetime.date(2008, 04, 14) <= week_start and datetime.date(2008, 9, 14) > week_start:
             nov_urnik = 1
             time_list = [Time(11), Time(16)]
-        elif mx.DateTime.Date(2008, 9, 14) <= week_start:
+        elif datetime.date(2008, 9, 14) <= week_start:
             nov_urnik = 2
             time_list = [Time(10), Time(14), Time(18)]
         else:
@@ -368,19 +369,23 @@ def dezurni(request, year=None, week=None, month=None):
             time_list = [Time(10), Time(13), Time(16), Time(19)]
 
         for i in time_list:
-            dezurni_list = Diary.objects.filter(task=22, date__range=(week_now + i, week_now + i + Time(2.59))).order_by('date')
+            week_ = datetime.datetime.combine(week_now, i)
+            dezurni_list = Diary.objects.filter(task=22,
+                                                date__range=(week_,
+                                                             week_ + datetime.timedelta(hours=2, minutes=59),
+                                                            )).order_by('date')
             dezurni_dict = {}
             if dezurni_list:
                 dezurni_obj = dezurni_list[0]
                 dezurni_dict['name'] = dezurni_obj.author
                 dezurni_dict['admin_id'] = dezurni_obj.id
             else:
-                dezurni_dict['unique'] = (week_now + i).strftime('%d.%m.%y-%H:%M')
+                dezurni_dict['unique'] = week_.strftime('%d.%m.%y-%H:%M')
                 dezurni_dict['name'] = None
             dict['dezurni'].append(dezurni_dict)
 
         week.append(dict)
-        week_now = week_now + mx.DateTime.oneDay
+        week_now = week_now + datetime.timedelta(1)
 
     log_list = Diary.objects.filter(task__pk=22, date__range=(week_start, week_end)).order_by('-date')
     navigation = weekly_navigation(year, week_number, week_start, week_end)
@@ -406,14 +411,7 @@ def dezurni_add(request):
     if not request.POST or not 'uniqueSpot' in new_data:
         return HttpResponseRedirect('../')
 
-    d = mx.DateTime.DateTimeFrom(request.POST['uniqueSpot'].__str__())
-    datum = datetime.datetime(year=d.year,
-                              month=d.month,
-                              day=d.day,
-                              hour=d.hour,
-                              minute=d.minute,
-                              second=0,
-                              microsecond=0)
+    datum = datetime.strptime(str(request.POST['uniqueSpot']), "%d.%m.%y-%H:%M")
 
     p = Diary(date=datum,
               author=request.user,
@@ -989,3 +987,18 @@ def add_member(request):
         'org/member_add.html',
         {'form': form},
         context_instance=RequestContext(request))
+
+
+# taken from http://stackoverflow.com/a/1700069/133235
+
+
+def iso_year_start(iso_year):
+    "The gregorian calendar date of the first day of the given ISO year"
+    fourth_jan = datetime.date(iso_year, 1, 4)
+    delta = datetime.timedelta(fourth_jan.isoweekday()-1)
+    return fourth_jan - delta 
+
+def iso_to_gregorian(iso_year, iso_week, iso_day):
+    "Gregorian calendar date for the given ISO year, week and day"
+    year_start = iso_year_start(iso_year)
+    return year_start + datetime.timedelta(days=iso_day-1, weeks=iso_week-1)
