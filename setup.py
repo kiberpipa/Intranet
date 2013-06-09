@@ -23,7 +23,6 @@ setup(name='intranet',
         'BeautifulSoup',
         'simplejson',  # TODO: use json
         # other
-        'reportlab',
         'PyExcelerator',
         'html2text',
         'pytz',
@@ -42,7 +41,6 @@ setup(name='intranet',
         'django-mailman',
         'django-akismet-comments',
         'icalendar',
-        'pytz',
         'django-activelink',
         # django stuff
         'Django>=1.4',
