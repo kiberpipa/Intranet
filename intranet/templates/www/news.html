@@ -24,7 +24,7 @@
 
                 {% get_comment_list for news as comment_list %}
                 {% for comment in comment_list %}
-                <p class="komentar-avtor"><a href="{{ comment.url }}">{{ comment.name }}</a> {% trans "has wrote:" %}</p>
+                <p class="komentar-avtor"><a rel="nofollow" href="{{ comment.url }}">{{ comment.name }}</a> {% trans "has wrote:" %}</p>
                 <p class="date-kom">{{ comment.submit_date|date:"j N Y, H:i" }}</p>
                 <p class="komentar-vsebina">{{ comment.comment }}</p>
                 {% endfor %}
