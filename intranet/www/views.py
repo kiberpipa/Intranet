@@ -2,6 +2,7 @@
 
 import datetime
 import logging
+import ssl
 import urllib2
 import urlparse
 import simplejson
@@ -74,6 +75,7 @@ def index(request):
     both2.insert(0, news[0])
 
     # load some tweets
+    # TODO: https://github.com/bear/python-twitter/issues/21
     api = twitter.Api(
         consumer_key=settings.TWITTER_CONSUMER_KEY,
         consumer_secret=settings.TWITTER_CONSUMER_SECRET,
@@ -84,7 +86,7 @@ def index(request):
     try:
 
         tweets = api.GetSearch(term='kiberpipa OR cyberpipe', count=20)
-    except (urllib2.URLError, socket.timeout, twitter.TwitterError):
+    except (urllib2.URLError, socket.timeout, twitter.TwitterError, ssl.SSLError):
         client.captureException()
         tweets = []
 
@@ -99,7 +101,7 @@ def index(request):
             pages=1,
             format="json",
             nojsoncallback=1)
-    except (urllib2.URLError, socket.timeout):
+    except (urllib2.URLError, socket.timeout, ssl.SSLError):
         client.captureException()
     else:
         r = simplejson.loads(json)
