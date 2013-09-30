@@ -20,7 +20,7 @@ function initialize() {
     var map = new google.maps.Map(document.getElementById("mapdiv"), mapOptions);
 
         var poi_list = [
-            {name:"Kiberpipa", icon: "pipao", lat:46.055851, lon:14.504203, text:"Kersnikova 6, 1000 Ljubljana"},
+            {name:"Kiberpipa", icon: "pipao", lat:46.055851, lon:14.9860106, text:"Kersnikova 6, 1000 Ljubljana"},
             {name:"Železniška postaja Ljubljana", icon: "vlak", lat:46.058054, lon: 14.510390, text: '<a href="http://www.slo-zeleznice.si/">Železniška postaja Ljubljana</a>'},
             {name:"Avtobusna postaja Ljubljana", icon: "bus", lat:46.057675, lon:14.509170, text: '<a href="http://www.ap-ljubljana.si/">Avtobusna postaja Ljubljana</a>'},
             {name:"LPP postaja Bavarski dvor", icon: "lpp", lat: 46.056106, lon:14.505289, text: ''},
@@ -78,7 +78,7 @@ $(document).ready(function () {
             </div>
             <div class="span6">
             {% block tekst %}
-                <p>Multimedijski center <b>Kiberpipa</b> ima svoje prostore v kleti Kersnikove ulice 6, v Ljubljani. Nahaja se v samem centru prestolnice in je lahko dostopna (zelo blizu glavne železniške in avtobusne postaje, postajališč mestnega potniškega prometa in javnih garaž). Kiberpipa je v soseski, kjer se dnevno zadržuje veliko mladih in študentov, saj je v neposredni bližini <a href="http://www.sou-lj.si/">ŠOU-a</a> in njegove informacijske točke, <a href="http://www.klubk4.org">Kluba K4</a>, Galerije Kapelica in <a href="http://www.mklj.si/">knjižnice Otona Župančiča</a>.</p>
+                <p><b>Kiberpipa</b> ima svoje prostore na Slovenski Cesti 47, v Ljubljani. Nahaja se v samem centru prestolnice in je lahko dostopna (zelo blizu glavne železniške in avtobusne postaje, postajališč mestnega potniškega prometa in javnih garaž). Kiberpipa je v soseski, kjer se dnevno zadržuje veliko mladih in študentov, saj je v neposredni bližini <a href="http://www.sou-lj.si/">ŠOU-a</a> in njegove informacijske točke, <a href="http://www.klubk4.org">Kluba K4</a>, Galerije Kapelica in <a href="http://www.mklj.si/">knjižnice Otona Župančiča</a>.</p>
 
                 {% get_flatpages '/sl/about/' as about_pages %}
                 {% for page in about_pages %}
