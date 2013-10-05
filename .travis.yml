@@ -8,7 +8,7 @@ branches:
 install:
   - sudo apt-get install python-dev libpq-dev libldap2-dev libsasl2-dev
   - ln -s buildout.d/development.cfg buildout.cfg
-  - python bootstrap.py
+  - python bootstrap.py -d
   - bin/buildout
   - cp intranet/settings/local.py.example intranet/settings/local.py
   - bin/django syncdb --all --noinput
