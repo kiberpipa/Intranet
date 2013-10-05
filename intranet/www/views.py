@@ -84,8 +84,18 @@ def index(request):
     )
 
     try:
+        tweets = api.GetSearch(term='kiberpipa OR cyberpipe', count=20, include_entities=True)
+        # unshorten urls
+        for tweet in tweets:
+            if tweet.retweeted_status is not None:
+                tweet.text = tweet.retweeted_status.text
+                # unshorten urls for retweets (yes twitter api sux)
+                for url in tweet.retweeted_status.urls:
+                    tweet.text = tweet.text.replace(url.url, url.expanded_url)
+                    print url.url, url.expanded_url
+            for url in tweet.urls:
+                tweet.text = tweet.text.replace(url.url, url.expanded_url)
 
-        tweets = api.GetSearch(term='kiberpipa OR cyberpipe', count=20)
     except (urllib2.URLError, socket.timeout, twitter.TwitterError, ssl.SSLError):
         client.captureException()
         tweets = []
