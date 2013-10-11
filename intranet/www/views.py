@@ -73,34 +73,34 @@ def index(request):
         both.append(post)
     both2 = sorted(both, cmp=sort_news, reverse=True)
     if news:
-      both2.insert(0, news[0])
+        both2.insert(0, news[0])
 
     # load some tweets
     # TODO: https://github.com/bear/python-twitter/issues/21
     tweets = []
     if hasattr(settings, "TWITTER_CONSUMER_KEY"):
-      api = twitter.Api(
-          consumer_key=settings.TWITTER_CONSUMER_KEY,
-          consumer_secret=settings.TWITTER_CONSUMER_SECRET,
-          access_token_secret=settings.TWITTER_ACCESS_TOKEN_SECRET,
-          access_token_key=settings.TWITTER_ACCESS_TOKEN_KEY,
-      )
+        api = twitter.Api(
+            consumer_key=settings.TWITTER_CONSUMER_KEY,
+            consumer_secret=settings.TWITTER_CONSUMER_SECRET,
+            access_token_secret=settings.TWITTER_ACCESS_TOKEN_SECRET,
+            access_token_key=settings.TWITTER_ACCESS_TOKEN_KEY,
+        )
 
-      try:
-          tweets = api.GetSearch(term='kiberpipa OR cyberpipe', count=20, include_entities=True)
-          # unshorten urls
-          for tweet in tweets:
-              if tweet.retweeted_status is not None:
-                  tweet.text = tweet.retweeted_status.text
-                  # unshorten urls for retweets (yes twitter api sux)
-                  for url in tweet.retweeted_status.urls:
-                      tweet.text = tweet.text.replace(url.url, url.expanded_url)
-                      print url.url, url.expanded_url
-              for url in tweet.urls:
-                  tweet.text = tweet.text.replace(url.url, url.expanded_url)
+        try:
+            tweets = api.GetSearch(term='kiberpipa OR cyberpipe', count=20, include_entities=True)
+            # unshorten urls
+            for tweet in tweets:
+                if tweet.retweeted_status is not None:
+                    tweet.text = tweet.retweeted_status.text
+                    # unshorten urls for retweets (yes twitter api sux)
+                    for url in tweet.retweeted_status.urls:
+                        tweet.text = tweet.text.replace(url.url, url.expanded_url)
+                        print url.url, url.expanded_url
+                for url in tweet.urls:
+                    tweet.text = tweet.text.replace(url.url, url.expanded_url)
 
-      except (urllib2.URLError, socket.timeout, twitter.TwitterError, ssl.SSLError):
-          client.captureException()
+        except (urllib2.URLError, socket.timeout, twitter.TwitterError, ssl.SSLError):
+            client.captureException()
 
     # recent flickr uploads
     try:
