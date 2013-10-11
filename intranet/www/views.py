@@ -72,7 +72,8 @@ def index(request):
         post.date = post.date_modified
         both.append(post)
     both2 = sorted(both, cmp=sort_news, reverse=True)
-    both2.insert(0, news[0])
+    if news:
+      both2.insert(0, news[0])
 
     # load some tweets
     # TODO: https://github.com/bear/python-twitter/issues/21
