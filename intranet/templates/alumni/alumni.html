@@ -81,7 +81,10 @@
                             </div>
                             {% endif %}
                         </li>
-                        {% endif %}{% endfor %}
+                        {% endif %}
+                        {% empty %}
+                        <li>Ni aktivnih članov</li>
+                        {% endfor %}
                     </ol>
                 </section>
 
@@ -155,7 +158,9 @@
                         {% endif %}
 
                         <h3 class="member-name">{% if member.public_name %}{{ member.public_name }}{% else %}{{ member.user.username }}{% endif %}</h3>
-                    </div>            
+                    </div>
+                    {% empty %}
+                    Ni neaktivnih članov
                     {% endfor %}
                 </section>
             </div>

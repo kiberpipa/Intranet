@@ -20,21 +20,31 @@ def alumni(request):
          - inactive = everyone else
     """
     one_year_ago = date.today() - timedelta(days=365)
-    # TODO: exclude alumni group
+
+    # active users are those that logged in withing the last year,
+    # and have a profile picture set
     active = PipaProfile.objects.filter(show_profile=True)\
-                            .filter(user__last_login__gte=one_year_ago)\
-                            .exclude(image__exact='').exclude(image__exact='')\
-                            .order_by('user__first_name')
+        .filter(user__last_login__gte=one_year_ago)\
+        .exclude(image__exact='')\
+        .order_by('user__first_name')
     active_user_ids = map(lambda x: x.user.id, active)
     active_ids = map(lambda x: x.id, active)
 
-    # what sorcery is this, hardcoded pks agains :)
-    alumni_group = Group.objects.get(pk=8)
-    alumni_users = alumni_group.user_set.all().exclude(id__in=active_user_ids)
-    alumni_user_ids = map(lambda x: x.id, alumni_users)
-    alumni = PipaProfile.objects.filter(user__id__in=alumni_user_ids)
-    alumni_ids = map(lambda x: x.id, alumni)
+    # alumni are people in a special user group,
+    # unless they return to active status as above        
+    alumni_ids = []
+    try:
+        alumni_group = Group.objects.get(pk=8)
+        alumni_users = alumni_group.user_set.all().exclude(id__in=active_user_ids)
+        alumni_user_ids = map(lambda x: x.id, alumni_users)
+        alumni = PipaProfile.objects.filter(user__id__in=alumni_user_ids)
+        alumni_ids = map(lambda x: x.id, alumni)
+    except Group.DoesNotExist:
+        pass
 
+    # inactive users means everybody else.
+    # probably someone who was given an account a long time ago
+    # but hasn't done much since. still worth a honorary mention tho :)
     inactive = PipaProfile.objects.exclude(id__in=active_ids).exclude(id__in=alumni_ids)
 
     return render_to_response("alumni/alumni.html",
