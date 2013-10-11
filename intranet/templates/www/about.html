@@ -20,7 +20,7 @@ function initialize() {
     var map = new google.maps.Map(document.getElementById("mapdiv"), mapOptions);
 
         var poi_list = [
-            {name:"Kiberpipa", icon: "pipao", lat:46.055851, lon:14.9860106, text:"Kersnikova 6, 1000 Ljubljana"},
+            {name:"Kiberpipa", icon: "pipao", lat:46.055251, lon: 14.5043106, text:"Kersnikova 6, 1000 Ljubljana"},
             {name:"Železniška postaja Ljubljana", icon: "vlak", lat:46.058054, lon: 14.510390, text: '<a href="http://www.slo-zeleznice.si/">Železniška postaja Ljubljana</a>'},
             {name:"Avtobusna postaja Ljubljana", icon: "bus", lat:46.057675, lon:14.509170, text: '<a href="http://www.ap-ljubljana.si/">Avtobusna postaja Ljubljana</a>'},
             {name:"LPP postaja Bavarski dvor", icon: "lpp", lat: 46.056106, lon:14.505289, text: ''},
@@ -83,6 +83,8 @@ $(document).ready(function () {
                 {% get_flatpages '/sl/about/' as about_pages %}
                 {% for page in about_pages %}
                 {{ page.content|safe }}
+                {% empty %}
+                  <span class="label label-warning">ADMIN: Please supply the '/sl/about' flat page!</span>
                 {% endfor %}
             {% endblock %}
             </div>
