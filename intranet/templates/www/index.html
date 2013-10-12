@@ -225,7 +225,7 @@ $(document).ready(function() {
                         <img class="tweet-profile-image" src="{{ tweet.user.profile_image_url }}" alt="{{ tweet.user.screen_name }}" title="{{ tweet.user.screen_name }}">
                         <div class="tweet-inner">
                          <b><a href="http://twitter.com/{{tweet.user.screen_name}}/status/{{ tweet.GetId }}" target="_blank">{{ tweet.user.screen_name }}</a></b><br/>
-                            <p class="tweer-text" style="font-size: smaller">{{ tweet.text|urlize }}</p>
+                            {% autoescape off %}<p class="tweer-text" style="font-size: smaller">{{ tweet.text|urlize }}</p>{% endautoescape %}
                         </div>
                     </li>
                   {% endfor %}

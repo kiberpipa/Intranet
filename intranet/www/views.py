@@ -99,6 +99,14 @@ def index(request):
                 for url in tweet.urls:
                     tweet.text = tweet.text.replace(url.url, url.expanded_url)
 
+                # resolve mentions, hashtags
+                for mention in tweet.user_mentions:
+                    name = mention.screen_name
+                    tweet.text = tweet.text.replace("@" + name,
+                        """<a ref="nofollow" target="_blank" href="https://twitter.com/%s">@%s</a>""" % (mention.screen_name, mention.screen_name))
+                for hashtag in tweet.hashtags:
+                    tweet.text = tweet.text.replace("#" + hashtag.text, 
+                        """<a rel="nofollow" target="_blank" href="https://twitter.com/search?q=%s&src=hash">#%s</a>""" % (hashtag.text, hashtag.text))
         except (urllib2.URLError, socket.timeout, twitter.TwitterError, ssl.SSLError):
             client.captureException()
 
