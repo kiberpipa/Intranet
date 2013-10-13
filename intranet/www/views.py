@@ -2,6 +2,7 @@
 
 import datetime
 import logging
+import re
 import ssl
 import urllib2
 import urlparse
@@ -102,8 +103,12 @@ def index(request):
                 # resolve mentions, hashtags
                 for mention in tweet.user_mentions:
                     name = mention.screen_name
-                    tweet.text = tweet.text.replace("@" + name,
-                        """<a ref="nofollow" target="_blank" href="https://twitter.com/%s">@%s</a>""" % (mention.screen_name, mention.screen_name))
+                    # sometimes, people will write mentions by hand, in the wrong case (eg. "@gittip" when the acc is really @Gitttip).
+                    # if we were to use the vanilla (case-sensitive) .replace(), we wouln't have been able to catch these buggers
+                    tweet.text = re.sub("@" + name,
+                        """<a ref="nofollow" target="_blank" href="https://twitter.com/%s">@%s</a>""" % (mention.screen_name, mention.screen_name),
+                        tweet.text,
+                        flags = re.I) 
                 for hashtag in tweet.hashtags:
                     tweet.text = tweet.text.replace("#" + hashtag.text, 
                         """<a rel="nofollow" target="_blank" href="https://twitter.com/search?q=%s&src=hash">#%s</a>""" % (hashtag.text, hashtag.text))
