@@ -88,7 +88,10 @@ def index(request):
         )
 
         try:
-            tweets = api.GetSearch(term='kiberpipa OR cyberpipe', count=20, include_entities=True)
+            tweets = api.GetSearch(term='kiberpipa OR cyberpipe', count=50, include_entities=True)
+            tweets_map = dict((tweet.id, tweet) for tweet in tweets) # for faster lookup by id
+            originals = filter(lambda x : not x.retweeted_status, tweets) # original tweets, aka not rts
+
             # unshorten urls
             for tweet in tweets:
                 if tweet.retweeted_status is not None:
@@ -112,6 +115,21 @@ def index(request):
                 for hashtag in tweet.hashtags:
                     tweet.text = tweet.text.replace("#" + hashtag.text, 
                         """<a rel="nofollow" target="_blank" href="https://twitter.com/search?q=%s&src=hash">#%s</a>""" % (hashtag.text, hashtag.text))
+
+                # merge all retweets under the original tweet
+                if tweet.retweeted_status:
+                    rt_id = tweet.retweeted_status.id
+                    # the odd case that the original tweet was not among the most recent ones
+                    if not rt_id in tweets_map:
+                        fake_rt = tweet.retweeted_status
+                        fake_rt.__setattr__('rts', []);                   
+                        tweets_map[rt_id] = fake_rt
+
+                    # add the retweet to the "rts" list on the original tweet
+                    rt = tweets_map[rt_id]
+                    if not hasattr(rt, "rts"):
+                        rt.__setattr__('rts', [])
+                    rt.rts.append(tweet)
         except (urllib2.URLError, socket.timeout, twitter.TwitterError, ssl.SSLError):
             client.captureException()
 
@@ -147,6 +165,7 @@ def index(request):
         'both': both2,
         'videos': videos,
         'tweets': tweets,
+        'original_tweets' : originals[:20],
         'pictures': pictures,
     }, context_instance=RequestContext(request))
 
