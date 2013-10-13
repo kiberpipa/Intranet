@@ -99,7 +99,6 @@ def index(request):
                     # unshorten urls for retweets (yes twitter api sux)
                     for url in tweet.retweeted_status.urls:
                         tweet.text = tweet.text.replace(url.url, url.expanded_url)
-                        print url.url, url.expanded_url
                 for url in tweet.urls:
                     tweet.text = tweet.text.replace(url.url, url.expanded_url)
 
