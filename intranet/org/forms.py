@@ -190,7 +190,7 @@ class EventForm(forms.ModelForm):
             self._errors["end_date"] = ErrorList(['Zaključek se lahko zgodi samo po začetku dogodka.'])
 
         if cleaned_data.get("public"):
-            if not cleaned_data.get("event_image") or not self.instance.sequence > 0:
+            if not cleaned_data.get("event_image"):
                 self._errors["event_image"] = ErrorList(['Javni dogodki potrebujejo sliko.'])
             if not cleaned_data.get("announce"):
                 self._errors["announce"] = ErrorList([u'Javni dogodki potrebujejo najavo.'])
