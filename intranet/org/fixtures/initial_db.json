@@ -1,4 +1,21 @@
 [
+ {"pk": 1,
+  "model": "auth.user",
+  "fields": {
+   "username": "ielectric",
+   "first_name": "d",
+   "last_name": "k",
+   "is_active": true,
+   "is_superuser": true,
+   "is_staff": true,
+   "last_login": "2013-09-21T16:58:34.882",
+   "groups": [],
+   "user_permissions": [],
+   "password": "pbkdf2_sha256$10000$2q0ua5vZYKW6$qgp1oAYAhW6Wl0foEDsMTeVj6qpXyg4lxz8gk500GV4=",
+   "email": "domen@dev.si",
+   "date_joined": "2013-06-07T21:45:39"
+  }
+ },
  {
   "pk": 1,
   "model": "org.project",
