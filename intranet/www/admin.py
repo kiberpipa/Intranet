@@ -7,7 +7,7 @@ from intranet.www.models import *
 
 
 class NewsAdmin(VersionAdmin):
-    fields = ['title', 'image', 'text', 'language']
+    fields = ['title', 'image', 'text', 'language', 'author']
     date_hierarchy = 'date'
     list_display = ('title', 'date')
     list_filter = ('author', 'language')
@@ -15,6 +15,8 @@ class NewsAdmin(VersionAdmin):
 
     def save_model(self, request, obj, form, change):
         obj.slug = slugify(obj.title)
+        if not obj.author:
+            obj.author = request.user
         obj.save()
 
 
