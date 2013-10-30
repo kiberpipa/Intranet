@@ -170,6 +170,14 @@ def index(request):
 
 def ajax_index_events(request, year=None, week=None):
     today = datetime.date.today()
+    if year is None and week is None:
+        # for default view display next public event first
+        try:
+            e = Event.objects.filter(public=True,
+                                     start_date__gte=today).order_by('start_date')[0]
+            today = e.start_date.date()
+        except IndexError:
+            pass
     week = int(week or today.isocalendar()[1])
     year = int(year or today.year)
 
