@@ -182,3 +182,57 @@ h2.muted { margin: 0 0 20px 0; }
 /* footer */
 .more-space { margin: 20px 0 }
 #second-nav { font-size: 18px }
+
+/* page marker */
+
+#pagemarker {
+    position: absolute;
+    left: 0;
+    top: 205px;
+}
+
+#pagemarker .marker span {
+    font-size: 20px;
+    font-family: 'Whitney Cond A', 'Whitney Cond B', "ronnia-condensed", sans-serif;
+    font-weight: 700;
+    line-height: 3;
+    color: #FFF;
+}
+#pagemarker a {text-decoration: none;}
+#pagemarker .marker {
+    box-shadow: 2px 2px 2px #BBB;
+    padding-left: 10px;
+    margin-top: 10px;
+    width: 150px;
+    height: 60px;
+    background-color: #08c;
+    position: relative;
+    
+    border-radius: 1px;
+    
+    /* unhover transitions */
+    transition:width 0.5s ease;
+    -webkit-transition: width 0.5s ease;
+    -moz-transition: width 0.5s ease;
+    -o-transition: width 0.5s ease;
+}
+
+#pagemarker .marker:after {
+    content: "";
+    width: 0;
+    border-radius: 1px;
+    position: absolute;
+    right: -30px;
+    border-left: 30px solid #08c;
+    border-top: 30px solid transparent;
+    border-bottom: 30px solid transparent;
+}
+
+#pagemarker .marker:hover {
+    cursor: pointer;
+    width: 170px;
+    transition: width 0.5s ease;
+    -webkit-transition: width 0.5s ease;
+    -moz-transition: width 0.5s ease;
+    -o-transition: width 0.5s ease;
+}
