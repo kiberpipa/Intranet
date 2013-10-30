@@ -500,7 +500,6 @@ msgid "There are no events on selected date."
 msgstr "Ni dogodkov na izbrani dan."
 
 #: intranet/templates/www/index.html:131
-#, fuzzy
 msgid "Upcoming events in Kiberpipa hackerspace"
 msgstr "Prihajajoči dogodki v Kiberpipa hackerspace-u"
 
