@@ -79,6 +79,7 @@ def index(request):
     # load some tweets
     # TODO: https://github.com/bear/python-twitter/issues/21
     tweets = []
+    originals = []
     if hasattr(settings, "TWITTER_CONSUMER_KEY"):
         api = twitter.Api(
             consumer_key=settings.TWITTER_CONSUMER_KEY,
