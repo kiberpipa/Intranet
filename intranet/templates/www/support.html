@@ -2,116 +2,27 @@
 {% load www i18n flatpages %}
 
 {% block title %}{% trans "Podpora Kiberpipi" %}{% endblock %}
+{% block pageclass %}support{% endblock %}
 {% block extrahead %}{% endblock %}
 
 {% block left-col %}
-<script data-gittip-username="Kiberpipa"
-        src="//gttp.co/v1.js"></script>
+  <script data-gittip-username="Kiberpipa" src="//gttp.co/v1.js"></script>
 
-<br />
-<br />
-
-<p>Postopek donacije:</p>
-
-<ol>
-  <li><a href="https://gittip.com/">Registrirajte se s Twitter ali Github računom</a></li>
-  <li><a href="https://www.gittip.com/credit-card.html">Vpišite svojo kreditno kartico</a></li>
-  <li><a href="https://www.gittip.com/Kiberpipa/">Nastavite znesek tedenske donacije (npr. $4 na teden)</a></li>
-</ol>
-
-<br />
-<p>Za donacije podjetij pripravljamo Paypal. Pustite nam kratek email na <a href="mailto:info@kiberpipa.org">info@kiberpipa.org</a> in obvestili vas bomo, ko lahko pričnete s pomočjo.</p>
+  {% get_flatpages '/sl/gittip/' as about_pages %}
+  {% for page in about_pages %}
+  {{ page.content|safe }}
+  {% empty %}
+    <span class="label label-warning">ADMIN: Please supply<br/> the '/sl/gittip/' flat page!</span>
+  {% endfor %}
 {% endblock %}
 
 {% block tekst %}
-<p>Kiberpipa se seli na svoje, v nove, bolj svetle prostore zraven
-<a href="http://www.mklj.si/index.php/knjiznica-otona-zupancica">Knjižnice Otona Župančiča</a> (niti lučaj od stare lokacije),
-kjer bo nadaljevala svoja poslanstva
-promocije <strong>neoviranega prenašanja znanja</strong>, nujno potrebnega za razvoj družbe in posameznika v njej,
-in promocije/razvoja <strong>proste programske opreme</strong> ter <strong>odprtokodne filozofije</strong> v vseh drugih panogah.</p>
-
-<p>Delovanje Kiberpipe je skoraj izključno napor prostovoljcev,
-ki <a href="http://www.mladina.si/97440/katalizator-racunalniskih-subkultur/"><strong>že 12 let</strong></a>
-držimo "pipo" pokonci kot najbolj <em>odprt</em> in <em>dostopen</em>
-
-<a href="http://hackerspaces.org/wiki/Kiberpipa"><em>hackerspace</em></a> v središču Ljubljane.</p>
-<p>Če <strong>želite naše aktivnosti podpreti</strong> in sedanjim ter prihodnjim generacijam
-omogočiti še <strong>bolj pester <a href="/calendar/">program</a></strong>, lahko to storite po navodilih na levem delu spletne strani.</p>
-
-<h4><strong>Dragi bivši <em>sodelavci</em> in <em>predavatelji</em>,</strong></h4>
-<p>Brez vseh vas (nas) programa ne bi bilo.
-Želimo si in vas vabimo, da tudi v prihodnje <strong>pridete kaj pogledat</strong>
-in povedat, s čim zanimivim se ukvarjate.</p>
-<h4><strong>Draga <em>uspešna</em> slovenska podjetja in podjetniki,</strong></h4>
-<p>Veseli nas, da vam gre dobro tudi v tako nemogočih razmerah.
-Če želite omogočiti alternativno (in dejansko uporabno)
-visoko-tehnološko izobraževanje novim generacijam
-ali spodbuditi nastanek in zagon novih, inovativnih, samozadostnih
-podjetniških idej, podprite naše delovanje.
-Odprti smo za predloge potencialnih sponzorjev.</p>
-<p>Eksplicitno si želimo zahvalit za pretekla sponzorstva naslednjih podjetij:
-<a href="http://www.domenca.com">Domenca</a>, <a href="http://www.hehe.si">Hehe</a>, <a href="http://www.marand.si">Marand</a>, <a href="http://www.parsek.si">Parsek</a>, <a href="http://www.zemanta.com">Zemanta</a>.
-</p>
-<h4><strong>Draga <em>nadebudna</em> slovenska podjetja in podjetniki,</strong></h4>
-<p>Obiščite nas. Z najnaprednejšimi algoritmi bomo ekipa strokovnjakov brezplačno
-analizirali vaš problem in vam svetovali.
-Zelo verjetno je, da vas poleg neugodnega okolja "nazaj držijo" tudi
-zastarele tehnologije in okorni informacijski sistemi.
-Če želite, vam bomo z veseljem pomagali
-<strong>zmanjšati stroške</strong>, <strong>povečati raven učinkovitosti</strong>,
-<strong>skrajšati postopke</strong>, vaš informacijski sistem pa bomo ohranili
-<strong>bolj zanesljiv</strong>, <strong>uporabniku prijazen</strong> in <strong>cenejši</strong> za nadaljnje
-vzdrževanje.</p>
-<h4><strong>Dragi študentje vseh disciplin in digitalno-analogni zanesenjaki,</strong></h4>
-<p>Oglasite se kaj. <strong>Pridite na čaj</strong>. Lahko v okviru <a href="/calendar/">enega od dogodkov</a>
-ali pa kar <strong>kadarkoli</strong>!</p>
-<div id="donations"></div>
-
-<p>Če nas želite podpreti in omogočati nadaljevanje odprte, dejavne in izobraževalne
-aktivnosti v Kiberpipi, nam lahko donirate kak kos opreme ali pa nas finančno podprete.</p>
-
-<!--h4>Enkratne donacije</h4>
-<p><span style="background:yellow">PayPal Donate button</span></p>
-<p>Preko <a href="">izpolnjenega UPN obrazca</a> (<a href="">NLB klik link</a>).</p>
-<h4>Mesečna podpornina (sponzorji)</h4>
-<p><span style="background:yellow">PayPal Recurring Subscription/Donation</span></p>
-<p><span style="background:yellow">Gittip Flattr widgets</span></p>
-<p>Preko bančnega sistema <a href="">direktna bremenitev</a> (trajnik).</p>
-<h3>Seznam podpornikov</h3>
-<p>Seznam podpornikov Kiberpipe je naveden spodaj.
-Seznam donatorjev je urejen po datumu donacije,
-seznam sponzorjev pa po višini podpornine.</p>
-<p>Hvala vsem!</p>
-<style>
-table.supporters {border-collapse:collapse;border:1px solid gray;}
-table.supporters th {background:silver;}
-table.supporters td {text-align:center; font-size:0.9em;}
-table.supporters tr > * {padding:6px;}
-</style>
-
-<table class="table table-stripped" style="float:left">
-<tr><th>Datum</th><th>Donator</th><th>€</th></tr>
-<tr><td colspan="3">Še nihče ni enkratno doniral! :(</td></tr>
-<tr><td>2013-09-22</td><td><a href="//spam.site">janez novak</a></td><td>13.03</td></tr>
-</table>
-
-<table class="table table-stripped" style="float:right">
-<tr><th>Od</th><th>Sponzor</th><th>€/mesec</th></tr>
-<tr><td colspan="3">Še nihče nas ne podpira! :(</td></tr>
-<tr><td>2013-10</td><td><a href="//zemanta">Zemanta</a></td><td>50.01</td></tr>
-<tr><td>...</td><td>...</td><td>...</td></tr>
-</table>
-
-<div style="clear:both"></div>
-
-<p>Pravne osebe lahko donacije do višine 0,3% obdavčenega prihodka uveljavljate
-kot davčno olajšavo.</p>
-<h3>Dohodnina</h3>
-<p>Fizične osebe nam lahko namenite do 0,5% dohodnine,
-tako da izpolnete in na DURS predložite <a href="http://www.durs.gov.si/fileadmin/durs.gov.si/pageuploads/Davki-predpisi_in_pojasnila/Dohodnina/Obrazci-FIZICNE_OSEBE/177.pdf">ta obrazec</a> ali izpolnete ekvivalent prek sistema <a href="http://edavki.durs.si">eDavki</a>.
-<strong>Stane vas nič</strong>, natančno pa boste vedeli, za kaj gre denar in da gre za dobro stvar. :-)</p>
-<p>Donacijo napišete: Društvu Lugos, SI123456789.</p-->
-
+  {% get_flatpages '/sl/support/' as about_pages %}
+  {% for page in about_pages %}
+  {{ page.content|safe }}
+  {% empty %}
+    <span class="label label-warning">ADMIN: Please supply the '/sl/support/' flat page!</span>
+  {% endfor %}
 {% endblock %}
 
 {% block promo %}
