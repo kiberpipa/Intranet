@@ -13,4 +13,5 @@ def generate_menu(request):
         {'url': 'http://video.kiberpipa.org/', 'name': _('video')},
         {'url': '/%s/alumni/' % language, 'name': _('community')},
         {'url': '/%s/support/' % language, 'name': _('support')},
+        {'url': '/%s/press/' % language, 'name': _('press')},
     ]}
