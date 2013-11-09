@@ -2,7 +2,7 @@
 {% load www i18n %}
 
 {% block content %}
-        <div class="flatpage">
+        <div class="flatpage {% block pageclass %}{% endblock %}">
             <div class="row titlerow">
                 <div class="span8 offset2">
                     <h2>{% block title %}{% endblock %}</h2>
