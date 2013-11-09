@@ -1,11 +1,14 @@
 {% extends "www/press.html" %}
+{% load i18n flatpages %}
+
+{% block title %}{% trans "Press" %}{% endblock %}
+{% block pageclass %}press{% endblock %}
 
 {% block tekst %}
-<p>Established in 2001 as a part of the K6/4 Institute, Kiberpipa ('Cyberpipe') is an important catalyst for the Slovene cybernetic scene and fosters creative and critical approaches in the age of an information society. Operating as a cultural centre, computer laboratory and Internet café (with free wireless access), Cyberpipe engages primarily in open code programming and the recycling of computer devices, it organises workshops (for example, Linux workshops, drawing and painting in DTP with free programmes, E-mail culture, Linux video editing and Mozilla Composer workshop), lectures, and entertainment and information events. Cyberpipe also runs Net Art Pipe (NAP), which is dedicated to the exploration of computer-based art and to facilitating discussions on this topic. The programme also features so-called Open Dates - weekly meetings for information exchange - and a monthly LAMM (LinuxAudioMeetMe) that focuses on issues and sound/music production connected with the Linux platform.</p>
-
-<p>Kiberpipa co-operates with numerous organisations in Slovenia, eg the Slo-Tech and 3delavnica teams, regional multimedia centres (including Ljudmila - Ljubljana Digital Media Lab, KIBLA Multimedia Centre) and organisations abroad (Mama New Media Centre in Zagreb, HackLab in Pula for example).</p>
-
-<p>Kiberpipa organises the biennial HAIP Festival (Hack/Act/Interact/Progress Festival).}</p>
-
-<p>Kiberpipa is a member of the m3c Multimedia Centres Network of Slovenia.</p>
+  {% get_flatpages '/en/press/' as about_pages %}
+  {% for page in about_pages %}
+  {{ page.content|safe }}
+  {% empty %}
+    <span class="label label-warning">ADMIN: Please supply the '/en/press' flat page!</span>
+  {% endfor %}
 {% endblock %}
