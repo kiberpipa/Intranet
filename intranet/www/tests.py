@@ -189,8 +189,6 @@ class WWWTestCase(TestCase):
         self.assertEqual(resp.status_code, 200)
         resp = self.client.get('/sl/feeds/su/', follow=True)
         self.assertEqual(resp.status_code, 200)
-        resp = self.client.get('/sl/feeds/vip/', follow=True)
-        self.assertEqual(resp.status_code, 200)
         resp = self.client.get('/sl/feeds/planet/', follow=True)
         self.assertEqual(resp.status_code, 200)
         resp = self.client.get('/sl/feeds/muzej/', follow=True)
