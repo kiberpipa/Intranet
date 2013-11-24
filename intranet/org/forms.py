@@ -152,6 +152,7 @@ class EventForm(forms.ModelForm):
             'responsible': SelectWidget(),
             'category': SelectWidget(),
             'language': SelectWidget(),
+            'announce': TinyMCE(mce_attrs={'width': 500, 'height': 400}),
             # TODO: breaks ajax image 'event_image': SelectWidget(),
             'start_date': DateTimeWidget(extra="""
                 onClose: function(date, inst) {
