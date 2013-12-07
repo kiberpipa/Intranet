@@ -80,7 +80,7 @@ INSTALLED_APPS = (
     'intranet.www',
     'pipa.video',
     'pipa.ldap',
-    'pipa.ltsp',
+#    'pipa.ltsp',  # not used anymore
     'pipa.mercenaries',
     'pipa.addressbook',
     'pipa.gallery',
