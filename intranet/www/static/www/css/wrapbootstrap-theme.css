@@ -222,17 +222,22 @@ h2.muted { margin: 0 0 20px 0; }
     width: 0;
     border-radius: 1px;
     position: absolute;
-    right: -30px;
-    border-left: 30px solid #08c;
-    border-top: 30px solid transparent;
-    border-bottom: 30px solid transparent;
+    right: -20px;
+    border-left: 20px solid #08c;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
 }
 
 #pagemarker .marker:hover {
     cursor: pointer;
-    width: 170px;
+    width: 190px;
     transition: width 0.5s ease;
     -webkit-transition: width 0.5s ease;
     -moz-transition: width 0.5s ease;
     -o-transition: width 0.5s ease;
+}
+
+/* fix bug http://stackoverflow.com/questions/16595046/small-caps-doesnt-work-with-twitter-bootstrap-on-chrome */
+h1, h2, h3, h4, h5, h6 {
+    text-rendering: auto;
 }
