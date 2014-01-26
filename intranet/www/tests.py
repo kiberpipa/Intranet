@@ -1,11 +1,12 @@
 # *-* coding: utf-8 *-*
 
 import datetime
-import simplejson
+
 
 from dateutil.relativedelta import relativedelta
 from django.test import TestCase
 from django.utils.dateformat import format as format_
+from django.utils import simplejson
 from intranet.org.models import Event
 
 

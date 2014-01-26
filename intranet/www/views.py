@@ -6,8 +6,8 @@ import re
 import ssl
 import urllib2
 import urlparse
-import simplejson
 import socket
+import json as simplejson
 from calendar import Calendar
 
 import icalendar

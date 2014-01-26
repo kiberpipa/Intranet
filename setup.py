@@ -21,7 +21,6 @@ setup(name='intranet',
     install_requires=[
         # deprecated
         'BeautifulSoup',
-        'simplejson',  # TODO: use json
         # other
         'PyExcelerator',
         'html2text',
