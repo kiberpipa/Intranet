@@ -269,7 +269,7 @@ class Event(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return urllib.unquote(reverse('event_detail', kwargs=dict(id=self.id, slug=self.slug)))
+        return reverse('event_detail', kwargs=dict(id=self.id, slug=self.slug))
 
     @property
     def length(self):
