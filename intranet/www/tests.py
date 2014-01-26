@@ -160,22 +160,16 @@ class WWWTestCase(TestCase):
     def test_public_event(self):
         resp = self.client.get('/event/blabla-1/', follow=True)
         self.assertEqual(resp.status_code, 200)
-        self.assertListEqual(resp.redirect_chain, [
-            ('http://testserver/sl/event/blabla-1/', 302),
-            ('https://example.com/sl/event/test-77-3-1/', 302),
-        ])
+        self.assertRedirects(resp, '/sl/event/test-77-3-1/')
 
         resp = self.client.get('/sl/event/test-77-3-1/', follow=True)
         self.assertEqual(resp.status_code, 200)
         self.assertListEqual(resp.redirect_chain, [])
 
-        resp = self.client.get('/sl/event/2011-jan-01/1/blabla/hopsasa/', follow=True)
+        resp = self.client.get('/sl/event/2011-jan-01/1/blabla/hopsasa/',
+                               follow=True)
         self.assertEqual(resp.status_code, 200)
-        self.assertListEqual(resp.redirect_chain, [
-            ('http://testserver/event/blabla-1/', 301),
-            ('http://testserver/sl/event/blabla-1/', 302),
-            ('https://example.com/sl/event/test-77-3-1/', 302),
-        ])
+        self.assertRedirects(resp, '/sl/event/test-77-3-1/', status_code=301)
 
     def test_prostori(self):
         resp = self.client.get('/sl/prostori/2/opis.ajax', follow=True)
