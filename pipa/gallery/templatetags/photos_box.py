@@ -3,11 +3,11 @@
 
 import logging
 import urllib2
+import json
 
 import flickrapi
 from django.core.cache import cache
 from django.conf import settings
-from django.utils import simplejson
 from django.template import Library, loader
 
 
@@ -39,7 +39,7 @@ def photos_box(context):
         return ""
 
     images = []
-    r = simplejson.loads(json)
+    r = json.loads(json)
 
     if r.get('stat', 'error') == 'ok':
         for image in r['photoset']['photo']:

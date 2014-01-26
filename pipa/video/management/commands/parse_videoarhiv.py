@@ -4,7 +4,7 @@ import urllib
 import datetime
 import time
 import logging
-import simplejson
+import json
 
 from django.core.management.base import BaseCommand
 from django.core.mail import send_mail
@@ -24,7 +24,7 @@ class Command(BaseCommand):
     def parse_videoarchive(self):
         """"""
         u = urllib.urlopen(JSON_URL)
-        data = simplejson.loads(u.read())
+        data = json.loads(u.read())
         return data['results']
 
     def send_notification_emails(self, videos):

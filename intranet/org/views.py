@@ -12,6 +12,7 @@ import random
 import string
 import subprocess
 import tempfile
+import json as simplejson
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -26,7 +27,6 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import Context
 from django.template import RequestContext
 from django.template.loader import get_template
-from django.utils import simplejson
 from django.views.generic import CreateView, UpdateView, DetailView, ArchiveIndexView, YearArchiveView, MonthArchiveView
 from PIL import Image
 from passlib.hash import ldap_salted_sha1

@@ -3,12 +3,12 @@
 import re
 import os
 import datetime
+import json as simplejson
 
 from django.core.management import call_command
 from django.core import mail
 from django.test import TestCase
 from django.contrib.auth.models import User
-from django.utils import simplejson
 
 from intranet.org.models import Place, Project, Category, TipSodelovanja, IntranetImage, Diary
 
