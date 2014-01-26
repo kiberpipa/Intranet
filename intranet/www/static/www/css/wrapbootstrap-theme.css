@@ -242,7 +242,7 @@ h1, h2, h3, h4, h5, h6 {
     text-rendering: auto;
 }
 
-@media (min-width: 1050px) { 
+@media (min-width: 1510px) { 
     .fingers {
         visibility: visible;
     }
