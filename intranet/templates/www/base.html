@@ -141,12 +141,16 @@
         </div><!-- end .container -->
     </footer>
 
+    {% if LANGUAGE_CODE == 'sl' %}
     <div id="pagemarker" class="visible-desktop">
-      <!-- TODO: dynamic -->
-      <a href="/sl/join/"><div class="marker"><span>Pridruži se nam</span></div></a>
+      <!-- TODO: dynamic urls -->
+      <!-- TODO: non-desktop: put stuff in menu -->
+      <a href="mailto:info@kiberpipa.org"><div class="marker"><span>Pridruži se nam</span></div></a>
+      <a href="mailto:info@kiberpipa.org"><div class="marker"><span>Predlagaj dogodek</span></div></a>
       <a href="/sl/support/"><div class="marker"><span>Podpri nas</span></div></a>
       <a href="/sl/alumni/"><div class="marker"><span>Kdo smo</span></div></a>
     <div>    
+    {% endif %}
 
     <!-- Placed at the end of the document so the pages load faster -->
     <script type="text/javascript" src="{{ settings.STATIC_URL }}www/js/bootstrap.min.js"></script>

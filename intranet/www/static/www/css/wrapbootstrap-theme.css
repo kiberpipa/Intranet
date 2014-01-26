@@ -192,19 +192,19 @@ h2.muted { margin: 0 0 20px 0; }
 }
 
 #pagemarker .marker span {
-    font-size: 20px;
+    font-size: 17.5px;
     font-family: 'Whitney Cond A', 'Whitney Cond B', "ronnia-condensed", sans-serif;
     font-weight: 700;
-    line-height: 3;
+    line-height: 2.5;
     color: #FFF;
 }
 #pagemarker a {text-decoration: none;}
 #pagemarker .marker {
     box-shadow: 2px 2px 2px #BBB;
-    padding-left: 10px;
+    padding-left: 8px;
     margin-top: 10px;
-    width: 150px;
-    height: 60px;
+    width: 170px;
+    height: 40px;
     background-color: #08c;
     position: relative;
     
