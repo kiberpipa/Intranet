@@ -29,7 +29,7 @@ def photos_box(context):
         return ''
 
     try:
-        json = api.flickr_call(
+        jsonresp = api.flickr_call(
             method='flickr.photosets.getPhotos',
             photoset_id=flickr_set_id,
             format="json",
@@ -39,7 +39,7 @@ def photos_box(context):
         return ""
 
     images = []
-    r = json.loads(json)
+    r = json.loads(jsonresp)
 
     if r.get('stat', 'error') == 'ok':
         for image in r['photoset']['photo']:
