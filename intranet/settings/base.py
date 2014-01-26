@@ -176,8 +176,13 @@ APPEND_SLASH = True
 TEST_RUNNER = 'django_coverage.coverage_runner.CoverageRunner'
 
 # haystack
-HAYSTACK_SEARCH_ENGINE = 'solr'
-HAYSTACK_SITECONF = 'intranet.haystacksearch'
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
+        'URL': 'http://localhost:8983/solr/intranet/'
+    },
+}
 
 # south
 SOUTH_TESTS_MIGRATE = False

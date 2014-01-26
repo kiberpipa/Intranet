@@ -5,3 +5,5 @@ PHOTOS_FLICKR_APIKEY = ''
 PHOTOS_FLICKR_SECRET = ''
 
 AKISMET_API_KEY = ''
+
+SECRET_KEY = "ohJoh4nu5oovoogiabie"
