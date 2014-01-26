@@ -151,7 +151,7 @@ class EventTest(BaseCase):
             'tip': 1,
             'category': self.category.id,
             'language': 'sl',
-            'responsible': 1,
+            'responsible': User.objects.get(username=TESTUSER).id,
             'public': 'on',
             'start_date': tomorrow_noon.strftime('%Y/%m/%d %H:%M'),
             'end_date': tomorrow_noon_fifteen.strftime('%Y/%m/%d %H:%M'),
