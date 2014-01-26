@@ -168,12 +168,13 @@ class EventTest(BaseCase):
         self.assertEqual(resp.status_code, 302)
         # if we don't get location, form failed
         
-        redirect_url = resp._headers['location'][1]
+        redirect_url = '/sl/event/dogodek-v-kleti-1/'
         # <iElectric> lahko predpostavljas, da je 1
         event_id = 1
 
         # validate urls
-        self.assertEqual(self.client.get('/event/dogodek-v-kleti-1/', follow=True).redirect_chain[-1], ('http://testserver/sl/event/dogodek-v-kleti-1/', 302))
+        resp = self.client.get('/event/dogodek-v-kleti-1/', follow=True)
+        self.assertRedirects(resp, '/sl/event/dogodek-v-kleti-1/')
 
         resp = self.client.get(redirect_url)
         self.assertEqual(resp.status_code, 200)
@@ -181,7 +182,7 @@ class EventTest(BaseCase):
         # new event is in the events overview page
         resp = self.client.get('/intranet/events/')
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content.find(redirect_url) > -1, True)
+        self.assertEqual(resp.content.find('/intranet/events/%d/edit' % event_id) > -1, True)
 
         # TODO: test archive events
 
