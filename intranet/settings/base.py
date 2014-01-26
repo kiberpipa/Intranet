@@ -36,6 +36,11 @@ STATIC_URL = '/static/'
 STATIC_ROOT = next_to_root('static')
 ADMIN_MEDIA_PREFIX = STATIC_URL + 'grappelli/'
 
+ALLOWED_HOSTS = [
+   "www.kiberpipa.org",
+   "new.kiberpipa.org",
+]
+
 
 MIDDLEWARE_CLASSES = (
     'raven.contrib.django.middleware.Sentry404CatchMiddleware',
