@@ -52,7 +52,6 @@ setup(name='intranet',
         'django-gravatar2',
         'django-chosen',
         # development
-        'django-extensions',
         'django-coverage',
         'coverage',
         # solr
