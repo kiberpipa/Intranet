@@ -10,6 +10,7 @@ from django.template import Context
 from django.template.loader import get_template
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import set_script_prefix
+from django.core.urlresolvers import clear_script_prefix
 
 from intranet.org.models import Scratchpad, Diary, Lend, Event
 
@@ -54,10 +55,14 @@ class Command(BaseCommand):
         url = "https://%s/" % Site.objects.get_current().domain
         set_script_prefix(url)
 
-        text = get_template('mail/diary_report.txt').render(Context(locals()))
-        html = get_template('mail/diary_report.html').render(Context(locals()))
+        try:
+            text = get_template('mail/diary_report.txt').render(Context(locals()))
+            html = get_template('mail/diary_report.html').render(Context(locals()))
 
-        email = EmailMultiAlternatives(subject, text, settings.DEFAULT_FROM_EMAIL, ['pipa-org@list.sou-lj.si'])
-        email.attach_alternative(html, 'text/html')
-        email.send()
-        print "email sent"
+            email = EmailMultiAlternatives(subject, text, settings.DEFAULT_FROM_EMAIL, ['pipa-org@list.sou-lj.si'])
+            email.attach_alternative(html, 'text/html')
+            email.send()
+            print "email sent"
+        finally:
+            # set_script_prefix is global for current thread
+            clear_script_prefix()
