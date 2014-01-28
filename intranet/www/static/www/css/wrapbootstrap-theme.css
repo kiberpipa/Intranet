@@ -164,7 +164,7 @@ h2.muted { margin: 0 0 20px 0; }
 .thenews .content { margin: 1em 0 3em 0; }
 .thenews .image { float: right; max-width: 50%; max-height: 12em; overflow: hidden; margin: 0 0 1em 1em; }
 
-.thenews .news { margin: 0 0 2em 0;  padding: 0; list-style-type: none; }
+.thenews .news { margin: 0 0 2em 0;  padding: 0; list-style-type: none; word-wrap: break-word; }
 .thenews .news li { font-size: 12px }
 .thenews .news li h3 { line-height: 1.3em; font-size: 15px; }
 .thecomments { font-size: small; }
