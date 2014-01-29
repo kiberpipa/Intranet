@@ -18,6 +18,6 @@ script: bin/test
 
 notifications:
   irc:
-    - "irc.sioff.net#kiberpipa"
+    - "irc.freenode.net#kiberpipa"
   email:
     - domen@dev.si
