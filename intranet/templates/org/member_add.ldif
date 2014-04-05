@@ -8,8 +8,6 @@ objectClass: top
 ## TODO:objectClass: mailaccess
 ## this defines attributes as sn, givenName ... UGLY!
 objectClass: dogbertshell
-uidNumber: {{ uid }}
-gidNumber: {{ gid }}
 homeDirectory: /home/{{ data.username }}
 loginShell: /bin/bash
 shadowLastChange: 11192

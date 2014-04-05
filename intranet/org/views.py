@@ -920,16 +920,9 @@ def add_member(request):
         password = ''.join(random.sample(string.letters + string.digits, 8))
         password_hash = ldap_salted_sha1.encrypt(password)
 
-        uid = int(subprocess.Popen("getent passwd | awk -F: '$3 < 3000 { print $3 }' | sort -n | tail -1", stdout=subprocess.PIPE, shell=True).communicate()[0].strip())
-        uid += 1
-        gid = int(subprocess.Popen("getent group | awk -F: '$3 < 3000 { print $3 }' | sort -n | tail -1", stdout=subprocess.PIPE, shell=True).communicate()[0].strip())
-        gid += 1
-
         ldif_template = get_template('org/member_add.ldif').render(Context(dict(
             data=form.cleaned_data,
             password_hash=password_hash,
-            uid=uid,
-            gid=gid,
         )))
 
         with tempfile.NamedTemporaryFile() as f:
