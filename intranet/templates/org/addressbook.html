@@ -11,7 +11,7 @@
 </div>
 
 <div class="well">
-  <ul class="nav nav-list">
+  <ul class="nav nav-list" id="changepw">
     <li class="nav-header">Uredi profil</li>
     <li>
       <form method="POST" action="{{ request.path }}" enctype="multipart/form-data">
@@ -29,7 +29,7 @@
     {% if profile.user.is_active %}
       <div class="module">
       <h2><a name="{{ profile.user.username }}">{{ profile.user.first_name }} "{{ profile.user.username }}" {{ profile.user.last_name }}</a></h2>
-        <div class="user">
+        <div class="user" id="profil">
             <ul>
                 {% if profile %}
                 <li>E-pošta: <a href="mailto:{{ profile.user.email }}">{{ profile.user.email }}</a></li>
