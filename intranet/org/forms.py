@@ -137,6 +137,7 @@ class ImageResizeForm(forms.Form):
 class IntranetImageForm(forms.ModelForm):
     class Meta:
         model = IntranetImage
+        exclude = ()
 
 
 class EventForm(forms.ModelForm):
