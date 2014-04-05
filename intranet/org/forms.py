@@ -14,7 +14,7 @@ from django.utils.formats import get_format
 from django.utils.translation import ugettext_lazy as _
 from tinymce.widgets import TinyMCE
 
-from intranet.org.models import (Event, Project, Lend,
+from intranet.org.models import (Event, Project, Lend, Place,
                                  Diary, Shopping, IntranetImage)
 
 # TODO: i18n for widget
@@ -167,6 +167,7 @@ class EventForm(forms.ModelForm):
 
     def __init__(self, *a, **kw):
         super(EventForm, self).__init__(*a, **kw)
+        self.fields["place"].queryset = Place.objects.filter(is_public=True)
 
     def clean_responsible(self):
         resp = self.cleaned_data['responsible']
