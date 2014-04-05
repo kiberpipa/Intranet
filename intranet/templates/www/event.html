@@ -23,8 +23,8 @@
     <div id="dogodek" class="vevent">
 
         <p class="dtstart">
-            <span class="badge badge-inverse">{{ event.start_date|date:"l, d. "|capfirst }} ob {{ event.start_date|date:"b Y G:i"|capfirst }}</span>
-            <span class="badge badge-info">Lokacija: {{event.place}}</span>
+            <span class="badge badge-inverse">{{ event.start_date|date:"l, d. b Y"|capfirst }} ob {{ event.start_date|date:"G:i" }}</span>
+            <p class="badge badge-info">Lokacija: {{event.place}}</p>
             <span class="value-title" title="{{ event.start_date|date:"Y-m-d" }}T{{ event.start_date|date:"H:i:sO" }}"></span>
         </p>
         <div class="dogodek-content">
