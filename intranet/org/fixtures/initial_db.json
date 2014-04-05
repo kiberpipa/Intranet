@@ -2,7 +2,7 @@
  {"pk": 9001,
   "model": "auth.user",
   "fields": {
-   "username": "ielectric",
+   "username": "admin",
    "first_name": "d",
    "last_name": "k",
    "is_active": true,
