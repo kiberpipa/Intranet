@@ -29,9 +29,9 @@
         </p>
         <div class="dogodek-content">
             <div class="dogodek-left">
-                <span class="description">
+                <p class="description">
                 {{ event.announce|safe }}
-                </span>
+                </p>
                 <div class="dogodek-video">
                     {% if not event.video.all and event.require_video %}
                         <div class="well">
