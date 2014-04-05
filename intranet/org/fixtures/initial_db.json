@@ -49,7 +49,8 @@
   "model": "org.place",
   "fields": {
    "note": "",
-   "name": "Prvi prostor"
+   "name": "Prvi prostor",
+   "is_public": true 
   }
  },
  {
