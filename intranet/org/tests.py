@@ -87,7 +87,7 @@ class EventTest(BaseCase):
     def setUp(self):
         self.ensure_test_user()
         self.user = User.objects.get(username=TESTUSER)
-        self.place = Place(name='Kiberpipa', note='Bla')
+        self.place = Place(name='Kiberpipa', note='Bla', is_public=True)
         self.place.save()
         self.project = Project(id=23, name='Tehnicarjenje', responsible=self.user)
         self.project.save(200)
