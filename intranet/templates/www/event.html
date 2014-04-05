@@ -1,4 +1,4 @@
-{% extends "www/flatpage_wrapper.html" %}
+{% extends "www/base.html" %}
 {% load i18n photos_box more_like_this %}
 
 {% block extrahead %}
@@ -12,26 +12,19 @@
 </script>
 {% endblock %}
 
-{% block title %}{{ event.title }}{% endblock %}
+{% block content %}
+<br><br><br>
+<div class="row">
 
-{% block promo %}
-    <p>&nbsp;</p>
-
-    <img src="{{ event.event_image.image.url }}" alt="{{ event.event_image.title }}" class="photo" />
-
-    <div class="dogodek-social hero-unit">
-       <a href="{{ event.google_calendar_url }}"><img src="http://www.google.com/calendar/images/ext/gc_button6.gif" alt="Dodaj v Google Koledar" title="Dodaj v Google Koledar" /></a>
-    </div>
-    {% photos_box %}
-{% endblock %}
-
-{% block tekst %}
+    <div class="span7">
+      <h1>{{ event.title }}</h1>
+      
     <script type="text/javascript" src="{{ settings.STATIC_URL }}org/js/effects.js"></script>
     <div id="dogodek" class="vevent">
 
         <p class="dtstart">
-            {{ event.start_date|date:"l, d. "|capfirst }}
-            {{ event.start_date|date:"b Y G:i"|capfirst }}
+            <span class="badge badge-inverse">{{ event.start_date|date:"l, d. "|capfirst }} ob {{ event.start_date|date:"b Y G:i"|capfirst }}</span>
+            <span class="badge badge-info">Lokacija: {{event.place}}</span>
             <span class="value-title" title="{{ event.start_date|date:"Y-m-d" }}T{{ event.start_date|date:"H:i:sO" }}"></span>
         </p>
         <div class="dogodek-content">
@@ -41,18 +34,19 @@
                 </span>
                 <div class="dogodek-video">
                     {% if not event.video.all and event.require_video %}
-                        <div>
-                            <br />
-                            {% trans "Please enter your contact data so we can inform you when the video will be available." %}
+                        <div class="well">
+                            <p></p>{% trans "Please enter your contact data so we can inform you when the video will be available." %}
+                            </p>
                             <form method="post" action="">
+                            <div class="input-append">
+                              <input class="span5" id="id_email" type="email" placeholder="Email">
+                              <input class="btn" value="{% trans "submit" %}" id="add_email" type="submit">
+                        
+                            </div>
                                 <input id="add_email_id" type="hidden" value="{{ event.id }}">
-                                <table>
-                                    {{ form.as_table }}
-                                </table>
-                                <input value="{% trans "submit" %}" id="add_email" type="submit">
                             </form>
-                            <br />
                             <p id="video-response"></p>
+                           
                         </div>
                     {% endif %}
                     {% if event.video.all %}
@@ -83,4 +77,17 @@
             <span class="fn org">Kiberpipa</span>
         </span>
     </div><!-- end dogodek -->
+    </div>
+        
+    <div class="span5 promoimages">
+
+  
+      <img src="{{ event.event_image.image.url }}" alt="{{ event.event_image.title }}" style="height: 250px; width: 480px" />
+  
+      <div class="dogodek-social hero-unit">
+         <a href="{{ event.google_calendar_url }}"><img src="http://www.google.com/calendar/images/ext/gc_button6.gif" alt="Dodaj v Google Koledar" title="Dodaj v Google Koledar" /></a>
+      </div>
+      {% photos_box %}
+    </div>
+</div>
 {% endblock %}
