@@ -1,12 +1,12 @@
+SHELL=/bin/bash
+
 all: develop
 
-
 nix:
-	@type nix-shell >/dev/null || curl -L https://nixos.org/nix/install | bash
-	@type nix-shell >/dev/null || . ~/.nix-profile/etc/profile.d/nix.sh
+	@type nix-shell 2>/dev/null || [[ -e ~/.nix-profile/etc/profile.d/nix.sh ]] || curl -L https://nixos.org/nix/install | bash
 
 develop: nix
-	@nix-shell --command 'eval "$$shellHook"' 
+	./.with-nix.sh --command 'eval "$$shellHook"' 
 
 test:
 	@django-admin.py test intranet.org intranet.www
