@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-from pyExcelerator import *
 
 def salary_xls(compact, bureaucrat, params, year, month):
+    raise Exception('deprecated')
     title = Font()
     title.name = 'Arial'
     title.bold = True

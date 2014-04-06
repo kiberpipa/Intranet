@@ -22,17 +22,14 @@ setup(name='intranet',
         # deprecated
         'BeautifulSoup',
         # other
-        'PyExcelerator',
         'html2text',
         'pytz',
         'pygments',
-        'Fabric',
         # intranet.org
         'python-ldap',
         'passlib',
         'django-tinymce',
         # intranet.www
-        'python-memcached',
         'flickrapi',
         'requests',
         'python-dateutil',
