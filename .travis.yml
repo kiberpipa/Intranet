@@ -5,7 +5,7 @@ python:
 install:
   - cp intranet/settings/local.py.example intranet/settings/local.py
   - make exec COMMAND="django-admin.py syncdb --all --noinput"
-  - make exec COMMAND="django-admin.py migrate --fake --noinput""
+  - make exec COMMAND="django-admin.py migrate --fake --noinput"
 script: make test
 
 notifications:

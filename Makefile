@@ -6,7 +6,7 @@ nix:
 	@type nix-shell 2>/dev/null || [[ -e ~/.nix-profile/etc/profile.d/nix.sh ]] || curl -L https://nixos.org/nix/install | bash
 
 develop: nix
-	./.with-nix.sh --command 'eval "$$shellHook"' 
+	./.with-nix.sh --command 'eval "$$shellHook";return' 
 
 exec: nix
 	./.with-nix.sh --command 'eval "$$shellHook";$(COMMAND);exit' --pure

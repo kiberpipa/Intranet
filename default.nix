@@ -424,6 +424,7 @@ in buildPythonPackage rec {
     django-haystack
     South
     flickrapi
+    python.modules.sqlite3
   ];
   
   shellHook = ''
