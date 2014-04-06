@@ -342,6 +342,37 @@ let
       license = unknown;
     };
   };
+  
+  django-debug-toolbar = pythonPackages.buildPythonPackage rec {
+    name = "django-debug-toolbar-1.0.1";
+
+    propagatedBuildInputs = with pythonPackages; [ sqlparse django_1_6 ];
+
+    src = fetchurl {
+      url = "https://pypi.python.org/packages/source/d/django-debug-toolbar/django-debug-toolbar-1.0.1.tar.gz";
+      md5 = "ef346e11ad80d25469110ee9dbdf92c2";
+    };
+
+    meta = with stdenv.lib; {
+      homepage = https://github.com/django-debug-toolbar/django-debug-toolbar;
+    };
+  };
+
+  sqlparse = pythonPackages.buildPythonPackage rec {
+    name = "sqlparse-0.1.11";
+
+    propagatedBuildInputs = with pythonPackages; [  ];
+
+    src = fetchurl {
+      url = "https://pypi.python.org/packages/source/s/sqlparse/sqlparse-0.1.11.tar.gz";
+      md5 = "abc3315f4970e7ff0f6758d693dc8a45";
+    };
+
+    meta = with stdenv.lib; {
+      description = "``sqlparse`` is a non-validating SQL parser module";
+      homepage = https://github.com/andialbrecht/sqlparse;
+    };
+  };
 
 
 in buildPythonPackage rec {
@@ -350,8 +381,12 @@ in buildPythonPackage rec {
   src = ./.;
   
   # TODO: django-honeypot from iElectric branch
+  # TODO: downgrade haystack
   # TODO: systemd for gunicorn
-  # TODO: staging
+  # TODO: staging, production
+  # TODO: configure solr
+  # TODO: travis-ci
+  # TODO: remove dependency on SOLR for development
 
   propagatedBuildInputs = with python27Packages; [
     pytz
@@ -381,6 +416,7 @@ in buildPythonPackage rec {
     django-chosen
     django-coverage
     django-tinymce
+    django-debug-toolbar
     django-mailman
     django-reversion
     django-honeypot
