@@ -1,48 +1,40 @@
 About
 =====
 
-Intranet is a web application based on Django framework for management of information in Kiberpipa NGO. Goal is to refactor current code to smaller modules and port to some existing CMS so that modules could be reused by someone else (eg. hackerspace).
+Intranet is a web application based on Django framework for management of information in Kiberpipa hackerspace.
+Goal is to refactor current code to smaller modules and port to some existing CMS so that modules could be
+reused by someone else (eg. hackerspace).
 
 
 Development setup
 =================
 
-Prerequisites::
+Get development enironment::
 
-    sudo apt-get install git python2.7 python2.7-dev python2.7-setuptools libpq-dev libldap2-dev libsasl2-dev libjpeg-dev
-
-Get Kiberpipa intranet::
-
-    git clone https://github.com/kiberpipa/Intranet.git kiberpipa-intranet
-    cd kiberpipa-intranet
-
-Install and run buildout::
-
-    ln -s buildout.d/development.cfg buildout.cfg
-    python2.7 bootstrap.py
-    bin/buildout
-
-(bootstrap.py is braindead and might want write access to /usr/local/lib/python2.7/dist-packages. The simplest workaround is to temporarily change permissions of that directory to be writeable by your account. You can later delete files bootstrap.py puts there and restore permissions without any obvious problems.)
-
+    $ git clone https://github.com/kiberpipa/Intranet.git kiberpipa-intranet
+    $ cd kiberpipa-intranet
+    $ make
+    
 Copy over default settings::
 
-    cp intranet/settings/local.py.example intranet/settings/local.py
+    $ cp intranet/settings/local.py.example intranet/settings/local.py
 
-Create the (default is Sqlite3) database::
+Create (default is Sqlite3) database::
 
-    bin/django syncdb --all
+    $ django-admin.py syncdb --all
 
-Django will ask you to create user with administration privileges, follow instructions and remember username/password. Continue with migrations::
+Django will ask you to create user with administration privileges, follow instructions and remember username/password.
+Continue by faking migrations::
 
-    bin/django migrate --fake
-
-Start the development server. Wohoo!::
-
-    bin/django runserver
+    $ django-admin.py migrate --fake
 
 Load testing data::
 
-    bin/django loaddata initial_db
+    $ django-admin.py loaddata initial_db
+    
+Start the development server. Wohoo!::
+
+    $ django-admin.py runserver
 
 
 Solr setup
@@ -100,24 +92,6 @@ Running tests
 ::
 
     ./bin/test
-
-
-Deploying to staging (https://new.kiberpipa.org)
-================================================
-
-To first time deploy intranet to a server:
-
-::
-
-    bin/fab remote_staging_bootstrap -H HOSTNAME -u REMOTE_USER
-
-
-Deploying from staging to production
-====================================
-
-::
-
-    bin/fab remote_production_deploy -H HOSTNAME -u REMOTE_USER
 
 
 Restoring database
