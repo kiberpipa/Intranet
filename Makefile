@@ -1,4 +1,4 @@
-SHELL=/bin/bash
+SHELL=bash
 
 all: develop
 
@@ -8,5 +8,8 @@ nix:
 develop: nix
 	./.with-nix.sh --command 'eval "$$shellHook"' 
 
-test:
-	@django-admin.py test intranet.org intranet.www
+exec: nix
+	./.with-nix.sh --command 'eval "$$shellHook";$(COMMAND);exit' --pure
+
+test: COMMAND=django-admin.py test intranet.org intranet.www
+test: nix exec

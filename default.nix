@@ -426,6 +426,13 @@ in buildPythonPackage rec {
     flickrapi
   ];
   
+  shellHook = ''
+    mkdir -p /tmp/$name/lib/${python.libPrefix}/site-packages
+    export PATH="/tmp/$name/bin:$PATH"
+    export PYTHONPATH="/tmp/$name/lib/${python.libPrefix}/site-packages:$PYTHONPATH"
+    python setup.py develop --prefix /tmp/$name
+  '';
+  
   # maybe enable it with sqlite3
   doCheck = false;
   

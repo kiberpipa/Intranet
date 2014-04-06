@@ -9,6 +9,8 @@ reused by someone else (eg. hackerspace).
 Development setup
 =================
 
+Make sure you have `curl` and `git` installed on your system. 
+
 Get development enironment::
 
     $ git clone https://github.com/kiberpipa/Intranet.git kiberpipa-intranet

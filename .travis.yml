@@ -3,10 +3,9 @@ python:
   - 2.6
   - 2.7
 install:
-  - make
   - cp intranet/settings/local.py.example intranet/settings/local.py
-  - django-admin.py syncdb --all --noinput
-  - django-admin.py migrate --fake --noinput
+  - make exec COMMAND="django-admin.py syncdb --all --noinput"
+  - make exec COMMAND="django-admin.py migrate --fake --noinput""
 script: make test
 
 notifications:
