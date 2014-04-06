@@ -2,22 +2,15 @@ language: python
 python:
   - 2.6
   - 2.7
-branches:
-  except:
-    - deploy
 install:
-  - sudo apt-get install python-dev libpq-dev libldap2-dev libsasl2-dev
-  - ln -s buildout.d/development.cfg buildout.cfg
-  - pip install -U setuptools 
-  - python bootstrap.py
-  - bin/buildout
+  - make
   - cp intranet/settings/local.py.example intranet/settings/local.py
-  - bin/django syncdb --all --noinput
-  - bin/django migrate --fake --noinput
-script: bin/test
+  - django-admin.py syncdb --all --noinput
+  - django-admin.py migrate --fake --noinput
+script: make test
 
 notifications:
   irc:
-    - "irc.freenode.net#kiberpipa"
+    - "chat.freenode.net#kiberpipa"
   email:
     - domen@dev.si

@@ -37,6 +37,14 @@ Start the development server. Wohoo!::
     $ django-admin.py runserver
 
 
+Running tests
+=============
+
+::
+
+    make test
+
+
 Solr setup
 ==========
 
@@ -86,12 +94,6 @@ Managing with translations
 * commit django.po and django.mo
 
 
-Running tests
-=============
-
-::
-
-    ./bin/test
 
 
 Restoring database
