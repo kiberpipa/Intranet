@@ -178,8 +178,6 @@ EMAIL_SUBJECT_PREFIX = '[intranet] '
 SERVER_EMAIL = 'intranet@kiberpipa.org'
 APPEND_SLASH = True
 
-TEST_RUNNER = 'django_coverage.coverage_runner.CoverageRunner'
-
 # haystack
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 HAYSTACK_CONNECTIONS = {

@@ -48,9 +48,6 @@ setup(name='intranet',
         'django-grappelli',
         'django-gravatar2',
         'django-chosen',
-        # development
-        'django-coverage',
-        'coverage',
         # solr
         'django-haystack',
         'pysolr',

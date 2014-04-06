@@ -58,9 +58,10 @@ let
 
     propagatedBuildInputs = [ pythonPackages.setuptools pythonPackages.six ];
 
-    src = fetchurl {
-      url = "https://pypi.python.org/packages/source/d/django-honeypot/django-honeypot-0.4.0.tar.gz";
-      md5 = "02fe39a9f98d56149fec23e49de4304a";
+    src = fetchgit {
+      url = "https://github.com/iElectric/django-honeypot.git";
+      rev = "99e423e7f2687bf10156d8fe1c948971d94d7ff5";
+      sha256 = "0dfjwbqd4jfb48dbsl4ca5rvakfby2pr45rd41wrdygcw2c8glpx";
     };
 
     meta = with stdenv.lib; {
@@ -380,12 +381,9 @@ in buildPythonPackage rec {
 
   src = ./.;
   
-  # TODO: django-honeypot from iElectric branch
-  # TODO: downgrade haystack
   # TODO: systemd for gunicorn
   # TODO: staging, production
   # TODO: configure solr
-  # TODO: travis-ci
   # TODO: remove dependency on SOLR for development
 
   propagatedBuildInputs = with python27Packages; [
@@ -396,7 +394,6 @@ in buildPythonPackage rec {
     django_1_6
     beautifulsoup
     python-twitter
-    coverage
     pillow
     psycopg2
     requests
@@ -414,7 +411,6 @@ in buildPythonPackage rec {
     django-activelink
     django-grappelli
     django-chosen
-    django-coverage
     django-tinymce
     django-debug-toolbar
     django-mailman
