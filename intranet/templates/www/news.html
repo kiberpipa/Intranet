@@ -1,19 +1,17 @@
-{% extends "www/flatpage_wrapper.html" %}
+{% extends "www/base.html" %}
 {% load i18n comments %}
 
-{% block title %}{{ news.title }}{% endblock %}
 
-{% block promo %}
-    {% if news.image %}
-    <img src="{{ news.image.url }}" />
-    {% endif %}
-{% endblock %}
 
-{% block tekst %}
+{% block content %}
+<div class="row">
+    <div class="span8">
+            <br><br>
+            <h1>{{ news.title }}</h1>
             <div thenews">
-                <div class="meta">
+                <p class="meta">
                     <b>{{ news.author.get_full_name }}</b> {% trans "date" %} {{ news.date }}
-                </div>
+                </p>
                 <div class="content">
                     {{ news.text|safe }}
                 </div>
@@ -40,5 +38,11 @@
                 </ul>
                 </form>
             </div>
-
+    </div>
+    <div class="span4">
+        {% if news.image %}
+        <img src="{{ news.image.url }}" />
+        {% endif %}
+    </div>
+</div>
 {% endblock %}
