@@ -384,7 +384,6 @@ in buildPythonPackage rec {
   # TODO: systemd for gunicorn
   # TODO: staging, production
   # TODO: configure solr
-  # TODO: remove dependency on SOLR for development
 
   propagatedBuildInputs = with python27Packages; [
     pytz

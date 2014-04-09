@@ -96,8 +96,6 @@ Managing with translations
 * commit django.po and django.mo
 
 
-
-
 Restoring database
 ================== 
 
