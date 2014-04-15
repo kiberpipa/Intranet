@@ -4,7 +4,7 @@
 ::selection { background:#fc9362;color:#fff;text-shadow:none }
 :focus { outline-color:transparent!important;outline-style:none!important }
 html { background:#1c1c1c }
-body { font-family: 'Ubuntu', Helvetica, Arial, sans-serif; border-top:5px solid #e0e8ea; padding-top: 68px }
+body { font-family: 'Ubuntu', Helvetica, Arial, sans-serif; padding-top: 68px }
 .btn.btn-primary { background-image:none;box-shadow:none }
 .fr { float:right }
 .fl { float:left }
