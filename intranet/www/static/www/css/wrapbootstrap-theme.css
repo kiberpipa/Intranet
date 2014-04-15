@@ -44,7 +44,6 @@ footer .social-networks a:hover { background:#000;color:#fff }
 .navbar .brand span { font-size:40px;line-height:0 }
 .navbar .nav>li.active>a,.navbar .nav>li.active:hover>a { background-color:transparent;font-weight:bold;color:#222 }
 .navbar .nav>li.active>a { background-image:url(../images/navbar-active-item.png);background-position:center bottom;background-repeat:no-repeat }
-.navbar .nav>li { margin:0 0 0 10px }
 .navbar .nav>li>a { padding:26px 10px 26px 10px;color:#444!important;font-size:1.1em;text-shadow:0 -1px 0 rgba(255,255,255,0.25) }
 .navbar .nav>li>a:hover { color:#222;text-decoration:underline }
 .navbar .nav>li>button { color:white;margin-top:22px }
@@ -246,4 +245,8 @@ h1, h2, h3, h4, h5, h6 {
     .fingers {
         visibility: visible;
     }
+}
+
+@media (min-width: 1200px) {
+	.navbar .nav>li { margin:0 0 0 10px }
 }
