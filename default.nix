@@ -49,7 +49,6 @@ let
     meta = {
       description = "UNKNOWN";
       homepage = http://github.com/etianen/django-reversion;
-      #license = unknown;
     };
   };
   
@@ -67,7 +66,6 @@ let
     meta = with stdenv.lib; {
       description = "";
       homepage = http://github.com/sunlightlabs/django-honeypot/;
-      #license = unknown;
     };
   };
   
@@ -340,7 +338,6 @@ let
     meta = with stdenv.lib; {
       description = "# Python Twitter";
       homepage = https://github.com/bear/python-twitter;
-      license = unknown;
     };
   };
   
