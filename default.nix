@@ -1,4 +1,4 @@
-{ localsettings ? ./intranet/settings/local.py.example }:
+{ localsettings ? "./intranet/settings/local.py.example" }:
 
 with import <nixpkgs> {};
 
@@ -423,9 +423,11 @@ in buildPythonPackage rec {
   doCheck = false;
   
   # attributes for deployment
-  Feedjack = Feedjack;
-  django = python27Packages.django_1_6;
-  PYTHONPATH = "$PYTHONPATH";
+  passthru = {
+    PYTHONPATH = "$PYTHONPATH";
+    Feedjack = Feedjack;
+    django = python27Packages.django_1_6;
+  };
   
   DJANGO_SETTINGS_MODULE = "intranet.settings.local";
 }
