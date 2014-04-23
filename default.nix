@@ -1,4 +1,4 @@
-{ }:
+{ localsettings ? ./intranet/settings/local.py.example }:
 
 with import <nixpkgs> {};
 
@@ -378,10 +378,6 @@ in buildPythonPackage rec {
 
   src = ./.;
   
-  # TODO: systemd for gunicorn
-  # TODO: staging, production
-  # TODO: configure solr
-
   propagatedBuildInputs = with python27Packages; [
     pytz
     pysolr
@@ -419,15 +415,17 @@ in buildPythonPackage rec {
     python.modules.sqlite3
   ];
   
-  shellHook = ''
-    mkdir -p /tmp/$name/lib/${python.libPrefix}/site-packages
-    export PATH="/tmp/$name/bin:$PATH"
-    export PYTHONPATH="/tmp/$name/lib/${python.libPrefix}/site-packages:$PYTHONPATH"
-    python setup.py develop --prefix /tmp/$name
+  postInstall = ''
+    cp ${localsettings} ./intranet/settings/local.py
   '';
   
   # maybe enable it with sqlite3
   doCheck = false;
+  
+  # attributes for deployment
+  Feedjack = Feedjack;
+  django = django_1_6;
+  PYTHONPATH = "$PYTHONPATH";
   
   DJANGO_SETTINGS_MODULE = "intranet.settings.local";
 }
