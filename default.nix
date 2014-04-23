@@ -417,6 +417,7 @@ in buildPythonPackage rec {
   
   postInstall = ''
     cp ${localsettings} ./intranet/settings/local.py
+    echo "$PYTHONPATH:`pwd`" > $out/nix-support/PYTHONPATH
   '';
   
   # maybe enable it with sqlite3
@@ -424,7 +425,6 @@ in buildPythonPackage rec {
   
   # attributes for deployment
   passthru = {
-    PYTHONPATH = "$PYTHONPATH";
     Feedjack = Feedjack;
     django = python27Packages.django_1_6;
   };
