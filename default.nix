@@ -424,7 +424,7 @@ in buildPythonPackage rec {
   
   # attributes for deployment
   Feedjack = Feedjack;
-  django = django_1_6;
+  django = python27Packages.django_1_6;
   PYTHONPATH = "$PYTHONPATH";
   
   DJANGO_SETTINGS_MODULE = "intranet.settings.local";
