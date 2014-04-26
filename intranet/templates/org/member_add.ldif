@@ -18,6 +18,8 @@ shadowWarning: 7
 shadowInactive: -1
 shadowExpire: -1
 shadowFlag: 134538308
+uidNumber: 9999
+gidNumber: 9999
 uid: {{ data.username }}
 givenName: {{ data.firstname }}
 sn: {{ data.surname }}
