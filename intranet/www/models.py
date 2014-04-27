@@ -27,7 +27,7 @@ class News(models.Model):
     # TODO: make this foreignkeys to events
     calendar_id = models.IntegerField(blank=True, null=True)
     language = models.CharField(max_length=2,
-                                default='si',
+                                default='sl',
                                 choices=settings.LANGUAGES,
                                 blank=True,
                                 null=True)
