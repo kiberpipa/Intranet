@@ -14,6 +14,13 @@ class NewsAdmin(VersionAdmin):
     list_filter = ('author', 'language')
     search_fields = ('title', 'text')
 
+    def get_form(self, request, obj=None, **kwargs):
+        # pre-populate author field with the current user
+        # there is probably a cleaner way to do this - if you know it, pls fix
+        form = super(NewsAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['author'].initial = request.user
+        return form
+
     def save_model(self, request, obj, form, change):
         obj.slug = slugify(obj.title)
         if not hasattr(obj, 'author'):
