@@ -22,6 +22,9 @@ class NewsFeed(Feed):
     def item_description(self, item):
         return item.text  # safe
 
+    def item_pubdate(self, item):
+        return item.date
+
 
 class EventsFeed(Feed):
     title = "Kiberpipa - Dogodki"
@@ -42,6 +45,9 @@ class EventsFeed(Feed):
 
     def item_description(self, item):
         return item.announce  # safe
+
+    def item_pubdate(self, item):
+        return item.start_date if hasattr(item, "start_date") else item.date
 
 
 class POTFeed(EventsFeed):
