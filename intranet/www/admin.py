@@ -16,7 +16,7 @@ class NewsAdmin(VersionAdmin):
 
     def save_model(self, request, obj, form, change):
         obj.slug = slugify(obj.title)
-        if not obj.author:
+        if not hasattr(obj, 'author'):
             obj.author = request.user
         obj.save()
 
