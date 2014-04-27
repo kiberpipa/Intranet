@@ -1,22 +1,20 @@
-{% load box %}
+{% load box i18n %}
 
 {% if object_list %}
 <table class="table table-striped">
-	<caption>Moji dogodki</caption>
     <thead>
-    	<tr>
-        	<th>Ime</th>
-            <th>Projekt</th>
-            <th><i class="icon-film"></i> Video</th>
-            <th><i class="icon-picture"></i> Slike</th>
-            <th><i class="icon-user"></i> Tehnik</th>
-            <th><i class="icon-calendar"></i> Datum</th>
-		</tr>
-	</thead>
-	<tbody>
+        <tr>
+            <th><i class="icon-calendar"></i> {% trans "Date" %}</th>
+            <th><i class="icon-barcode"></i> {% trans "Title" %} / {% trans "Location" %}</th>
+            <th><i class="icon-film"></i> {% trans "Project" %}</th>
+            <th><i class="icon-picture"></i> {% trans "Media" %}</th>
+            <th><i class="icon-user"></i> {% trans "Staff" %}</th>
+    	</tr>
+    </thead>
+    <tbody>
 {% for task in object_list %}
 {% print_event task %}
 {% endfor %}
-	</tbody>
+    </tbody>
 </table>
 {% endif %}
