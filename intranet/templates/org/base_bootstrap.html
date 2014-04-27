@@ -67,6 +67,9 @@
 				</a>
 				<div class="nav-collapse">
 					<ul class="nav">
+						{% if request.user.is_staff %}
+						<li><a href="/intranet/admin/www/news/"><i class="icon-pencil icon-white"></i> {% trans "News" %}</a></li>
+						{% endif %}
 						<li><a href="/intranet/events/"><i class="icon-calendar icon-white"></i> {% trans "Events" %}</a></li>
 						<li><a href="/intranet/diarys/"><i class="icon-book icon-white"></i> {% trans "Diarys" %}</a></li>
 						<li><a href="/intranet/addressbook/"><i class="icon-user icon-white"></i> {% trans "Address book" %}</a></li>
