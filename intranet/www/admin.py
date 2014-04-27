@@ -4,10 +4,11 @@ from reversion.admin import VersionAdmin
 from django_mailman.models import List
 
 from intranet.www.models import *
-
+from intranet.www.forms import NewsForm
 
 class NewsAdmin(VersionAdmin):
-    fields = ['title', 'image', 'text', 'language', 'author']
+    form = NewsForm
+
     date_hierarchy = 'date'
     list_display = ('title', 'date')
     list_filter = ('author', 'language')

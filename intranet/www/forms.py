@@ -7,7 +7,9 @@ from django.conf import settings
 from django.utils.translation import ugettext as _
 
 from intranet.org.models import Place
+from intranet.www.models import News
 
+from tinymce.widgets import TinyMCE
 
 class EmailForm(forms.Form):
     email = forms.EmailField()
@@ -38,3 +40,13 @@ class EventContactForm(forms.Form):
         widget=widgets.DateTimeInput(attrs={'class': 'datetime-ui'}))
     text = forms.CharField(label=_(u'Event description'), widget=widgets.Textarea)
     contact = forms.EmailField(label=_(u'Contact person (email)'))
+
+
+class NewsForm(forms.ModelForm):
+    class Meta:
+        model = News
+        fields = ['title', 'image', 'text', 'language', 'author']
+        widgets = {
+            'text' : TinyMCE(mce_attrs={'height': 300}), # make it higher
+        }
+            
