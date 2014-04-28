@@ -2,48 +2,43 @@
 {% load i18n comments %}
 {% block title %}{{ news.title }}{% endblock %}
 
-
 {% block content %}
-<div class="row">
-    <div class="span8">
-            <br><br>
-            <h1>{{ news.title }}</h1>
-            <div id="thenews">
-                <p class="meta">
-                    <b>{{ news.author.get_full_name }}</b> {% trans "date" %} {{ news.date }}
-                </p>
-                <div class="content">
-                    {{ news.text|safe }}
-                </div>
+        <div class="row">
+            <div class="span8">
+                <br><br>
+                    <h1>{{ news.title }}</h1>
+                    <div id="thenews">
+                        <p class="meta">
+                            <b>{{ news.author.get_full_name }}</b> {% trans "date" %} {{ news.date }}
+                        </p>
+                        <div class="content">
+                            {{ news.text|safe }}
+                        </div>
+                    </div>
+
+                    <div class="thecomments">
+                        <h3>{% trans "Comments:" %}</h3>
+                        {% get_comment_list for news as comment_list %}{% for comment in comment_list %}
+                        <p class="komentar-avtor"><a rel="nofollow" href="{{ comment.url }}">{{ comment.name }}</a> {% trans "has wrote:" %}</p>
+                        <p class="date-kom">{{ comment.submit_date|date:"j N Y, H:i" }}</p>
+                        <p class="komentar-vsebina">{{ comment.comment }}</p>{% endfor %}
+
+                        {% get_comment_form for news as form %}
+                        <form action="{% comment_form_target %}" method="POST">
+                        <ul>
+                        {{ form.as_ul }}
+                        {% csrf_token %}
+                        <li class="submit">
+                        <input type="submit" name="submit" class="submit-post" value="{% trans "Send comment" %}">
+                        </li>
+                        </ul>
+                        </form>
+                    </div>
             </div>
 
-            <div class="thecomments">
-                <h3>{% trans "Comments:" %}</h3>
-
-                {% get_comment_list for news as comment_list %}
-                {% for comment in comment_list %}
-                <p class="komentar-avtor"><a rel="nofollow" href="{{ comment.url }}">{{ comment.name }}</a> {% trans "has wrote:" %}</p>
-                <p class="date-kom">{{ comment.submit_date|date:"j N Y, H:i" }}</p>
-                <p class="komentar-vsebina">{{ comment.comment }}</p>
-                {% endfor %}
-
-                {% get_comment_form for news as form %}
-                <form action="{% comment_form_target %}" method="POST">
-                <ul>
-                {{ form.as_ul }}
-                {% csrf_token %}
-                <li class="submit">
-                <input type="submit" name="submit" class="submit-post" value="{% trans "Send comment" %}">
-                </li>
-                </ul>
-                </form>
+            <div class="span4">
+                {% if news.image %}<br><br><br>
+                <img alt="" title="" width="{{ news.image.width }}" height="{{ news.image.height }}" src="{{ news.image.url }}" />{% endif %}
             </div>
-    </div>
-    <div class="span4">
-        {% if news.image %}
-        <br><br><br>
-        <img alt="" title="" width="{{ news.image.width }}" height="{{ news.image.height }}" src="{{ news.image.url }}" />
-        {% endif %}
-    </div>
-</div>
+        </div>
 {% endblock %}
