@@ -22,6 +22,7 @@ footer ul li { padding:4px 0 }
 footer ul li a { color:#999 }
 footer ul li a:hover { color:#fff }
 footer input[type=submit].btn { margin-top:-8px!important }
+footer .cctext { max-width: 250px; margin: 1em auto; }
 footer .social-networks a { display:inline-block;margin:5px;padding:4px 0 0 0;font-size:22px;border-radius:50%;-moz-border-radius:50%;-webkit-border-radius:50%;text-align:center;width:32px;height:30px;line-height:24px;background:#222;text-decoration:none;color:#fff;-webkit-transition:all .3s;-moz-transition:all .3s;-o-transition:all .3s;-ms-transition:all .3s;transition:all .3s }
 footer .social-networks .icon-facebook { border:3px solid #3b5998 }
 footer .social-networks .icon-facebook:hover { background:#3b5998 }
