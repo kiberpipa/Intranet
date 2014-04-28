@@ -61,7 +61,7 @@
                             <a href="{{ video.play_url }}" target="_blank">
                               <div style="position: relative; left:0; top:0">
                                 <img style="position: relative; left:0; top:0" src="{{ video.get_secure_image_url }}" alt="{{ video.title }}" />
-                                <img style="position: absolute; z-index:3; top:0; left:0; height:100%" src="{{ settings.STATIC_URL }}www/images/vod_overlay.png" />
+                                <img style="position: absolute; z-index:3; top:0; left:0; height:100%" src="{{ settings.STATIC_URL }}www/images/vod_overlay.png" alt="" />
                               </div>
                             </a>
                         </div>
@@ -103,12 +103,12 @@
                             <img class="tweet-profile-image" src="{{ tweet.user.profile_image_url }}" alt="{{ tweet.user.screen_name }}" title="{{ tweet.user.screen_name }}">
                             <div class="tweet-inner">
                                 <b><a href="http://twitter.com/{{tweet.user.screen_name}}/status/{{ tweet.GetId }}" target="_blank">{{ tweet.user.screen_name }}</a></b><br/>
-                                {% autoescape off %}<p class="tweer-text" style="font-size: smaller">{{ tweet.text|urlize }}</p>{% endautoescape %}
+                                {% autoescape off %}<p class="tweet-text" style="font-size: smaller">{{ tweet.text|urlize }}</p>{% endautoescape %}
 
                                 {% if tweet.rts %}
                                 <p class="tweet-rts" style="font-size: smaller; line-height: 26px; margin-top: -5px;">{{ tweet.retweet_count }} RT:
                                 {% for rt in tweet.rts %}
-                                    <a rel="nofollow" target="_blank" href="https://twitter.com/{{ rt.user.screen_name }}/status/{{ rt.id }}"><img width="24" height="24" src="{{ rt.user.profile_image_url }}" title="{{ rt.user.name }}" style="border-radius: 3px"></a> 
+                                    <a rel="nofollow" target="_blank" href="https://twitter.com/{{ rt.user.screen_name }}/status/{{ rt.id }}"><img width="24" height="24" src="{{ rt.user.profile_image_url }}" alt="{{ rt.user.name }}" title="{{ rt.user.name }}" style="border-radius: 3px"></a> 
                                 {% endfor %}
                                 </p>
                                 {% endif %}                        
