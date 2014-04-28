@@ -65,7 +65,7 @@
                             {% for lang_code, lang_name in languages %}
                                 {% if LANGUAGE_CODE != lang_code %}    
                                     <!-- flags taken from https://www.gosquared.com/resources/flag-icons -->
-                                    <li class="flag"><a href="/{{ lang_code }}/"><img src="{{ settings.STATIC_URL }}www/images/flags/{{ lang_code }}.png" /></a></li>
+                                    <li class="flag"><a href="/{{ lang_code }}/"><img src="{{ settings.STATIC_URL }}www/images/flags/{{ lang_code }}.png" alt="{{ lang_code }}"></a></li>
                                 {% endif %}
                             {% endfor %}
                         </ul>
@@ -73,6 +73,7 @@
                 </div><!-- end .container -->
             </div><!-- end .navbar-inner -->
         </div><!-- end .navbar -->
+    </header>
  
     <div id="content" class="container {% block contentclass %}{% endblock %}">
         {% block content %}{% endblock %}
@@ -147,7 +148,7 @@
       <a href="mailto:info@kiberpipa.org"><div class="marker"><span>Predlagaj dogodek</span></div></a>
       <a href="/sl/support/"><div class="marker"><span>Podpri nas</span></div></a>
       <a href="/sl/alumni/"><div class="marker"><span>Kdo smo</span></div></a>
-    <div>    
+    </div>    
     {% endif %}
 
     <!-- Placed at the end of the document so the pages load faster -->

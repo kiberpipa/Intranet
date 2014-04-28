@@ -156,7 +156,7 @@ $(document).ready(function() {
                 <li>
                     <a href="{{ n.get_absolute_url }}"><h3>{% if not n.text %}{{ n.author }}: {% endif %}{{ n.title }}</h3></a>
 
-                    {% if n.image %}<img src="{{ n.image.url }}" width="45%" style="float: right; padding: 0 1em 0 1em;" />{% endif %}
+                    {% if n.image %}<img src="{{ n.image.url }}" style="width: 45%; float: right; padding: 0 1em 0 1em;" alt="" title="">{% endif %}
 
                     {% if n.text %}
                     {{ n.text|sanitize|safe|truncatewords:"60" }}<br />
