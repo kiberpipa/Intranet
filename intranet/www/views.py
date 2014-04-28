@@ -113,7 +113,7 @@ def index(request):
                         tweet.text) 
                 for hashtag in tweet.hashtags:
                     tweet.text = tweet.text.replace("#" + hashtag.text, 
-                        """<a rel="nofollow" target="_blank" href="https://twitter.com/search?q=%s&src=hash">#%s</a>""" % (hashtag.text, hashtag.text))
+                        """<a rel="nofollow" target="_blank" href="https://twitter.com/search?q=%s&amp;src=hash">#%s</a>""" % (hashtag.text, hashtag.text))
 
                 # merge all retweets under the original tweet
                 if tweet.retweeted_status:
