@@ -12,119 +12,112 @@
 {% endblock %}
 
 {% block content %}
-    <div class="hero-unit ac">
-        <p class="visible-desktop">{% trans 'Upcoming events in Kiberpipa hackerspace' %}</p>
-        <p class="visible-phone">{% trans 'Upcoming events' %}</p>
+        <div class="hero-unit ac">
+            <p class="visible-desktop">{% trans 'Upcoming events in Kiberpipa hackerspace' %}</p>
+            <p class="visible-phone">{% trans 'Upcoming events' %}</p>
 
-        <div id="events_menu" class="btn-group ac">
-          <button class="btn btn-large navigation prev">&lsaquo;&lsaquo;</button>
-          <button class="btn btn-large day day0" data-day="0"></button>
-          <button class="btn btn-large day day1" data-day="1"></button>
-          <button class="btn btn-large day day2" data-day="2"></button>
-          <button class="btn btn-large day day3" data-day="3"></button>
-          <button class="btn btn-large day day4" data-day="4"></button>
-          <button class="btn btn-large day day5" data-day="5"></button>
-          <button class="btn btn-large day day6" data-day="6"></button>
-          <button class="btn btn-large navigation next">&rsaquo;&rsaquo;</button>
+            <div id="events_menu" class="btn-group ac">
+                <button class="btn btn-large navigation prev">&lsaquo;&lsaquo;</button>
+                <button class="btn btn-large day day0" data-day="0"></button>
+                <button class="btn btn-large day day1" data-day="1"></button>
+                <button class="btn btn-large day day2" data-day="2"></button>
+                <button class="btn btn-large day day3" data-day="3"></button>
+                <button class="btn btn-large day day4" data-day="4"></button>
+                <button class="btn btn-large day day5" data-day="5"></button>
+                <button class="btn btn-large day day6" data-day="6"></button>
+                <button class="btn btn-large navigation next">&rsaquo;&rsaquo;</button>
+            </div>
         </div>
 
-    </div><!--/ end of .hero-unit-->
-
-    <div class="container">
-        <div class="row">
-            <div class="span12" id="events_content"></div>
-            <div class="span4 thenews">
-                <h2 class="muted">{% trans "News" %}</h2>
-
-                <ol class="news">
-                {% for n in both %}
-                <li>
-                    <a href="{{ n.get_absolute_url }}"><h3>{% if not n.text %}{{ n.author }}: {% endif %}{{ n.title }}</h3></a>
-
-                    {% if n.image %}<img src="{{ n.image.url }}" style="width: 45%; float: right; padding: 0 1em 0 1em;" alt="" title="">{% endif %}
-
-                    {% if n.text %}
-                    {{ n.text|sanitize|safe|truncatewords:"60" }}<br />
-                    {% else %}
-                    {{ n.content|sanitize|safe|truncatewords:"60" }}<br />
-                    {% endif %}
-                    <i><b>{% if n.text %}{{ n.author.get_full_name }}{% else %}{{ n.author }}{% endif %}</b>, {% trans "on" %} {% if n.date %}{{ n.date }}{% else %}{{ n.date_modified }}{% endif %}</i>
-                    <br />
-                    <br />
-                </li>
-                {% endfor %}
-                </ol>
-
-                <p><i class="icon-circle-arrow-right"></i>&nbsp;<a href="{% url 'news' %}">... {% trans "More news" %}</a></p>
+        <div class="container">
+            <div class="row">
+                <div class="span12" id="events_content"></div>
             </div>
-            <div class="span4">
-                <h2 class="muted">{% trans "Video" %}</h2>
 
-                {% for video in videos %}
-                <div class="recent_media row-fluid">
-                    <div class="span6">
-                        <a href="{{ video.play_url }}" target="_blank">
-                          <div style="position: relative; left:0; top:0">
-                            <img style="position: relative; left:0; top:0" src="{{ video.get_secure_image_url }}" alt="{{ video.title }}" />
-                            <img style="position: absolute; z-index:3; top:0; left:0; height:100%" src="{{ settings.STATIC_URL }}www/images/vod_overlay.png" />
-                          </div>
-                        </a>
-                    </div>
-                    <div class="span6">
-                        <strong><a href="{{ video.play_url }}" target="_blank">{{ video.title }}</a>
-                        </strong>
-                    </div>
+            <div class="row">
+                <div class="span4 thenews">
+                    <h2 class="muted">{% trans "News" %}</h2>
+
+                    <ol class="news">
+                        {% for n in both %}<li>
+                            <a href="{{ n.get_absolute_url }}"><h3>{% if not n.text %}{{ n.author }}: {% endif %}{{ n.title }}</h3></a>
+                            {% if n.image %}<img src="{{ n.image.url }}" style="width: 45%; float: right; padding: 0 1em 0 1em;" alt="" title="">{% endif %}
+
+                            {% if n.text %}{{ n.text|sanitize|safe|truncatewords:"60" }}<br />
+                            {% else %}{{ n.content|sanitize|safe|truncatewords:"60" }}<br />{% endif %}
+
+                            <i><b>{% if n.text %}{{ n.author.get_full_name }}{% else %}{{ n.author }}{% endif %}</b>, {% trans "on" %} {% if n.date %}{{ n.date }}{% else %}{{ n.date_modified }}{% endif %}</i>
+                            <br /><br />
+                        </li>{% endfor %}
+                    </ol>
+
+                    <p><i class="icon-circle-arrow-right"></i>&nbsp;<a href="{% url 'news' %}">... {% trans "More news" %}</a></p>
                 </div>
-                {% endfor %}
+                <div class="span4">
+                    <h2 class="muted">{% trans "Video" %}</h2>
 
-                <br />
-                <br />
-
-                <h2 class="muted">{% trans "Photos" %}</h2>
-                
-                {% for picture in pictures %}
-                <div class="recent_media row-fluid">
-                    <div class="span6 thumbnail">
-                        <a href="{{ picture.url }}"><img src="{{ picture.thumb_url }}" alt="{{ picture.title }}" /></a>
-                    </div>
-                    <div class="span6">
-                        <strong><a href="{{ picture.url }}" target="_blank">{{ picture.title }}</a></strong>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            <div class="span4 thesocialstuffz">
-                <h2 class="muted">{% trans "Social" %}</h2>
-
-                <p>{% trans "Would you like to subscribe to information about weekly events?" %}</p>
-                <form id="subscribe_mailinglist" method="post" action="{% url 'ajax_subscribe_mailinglist' %}">
-                   <input name="email" id="id_email" placeholder="Email" type="text" />
-                   <p><i class="response"></i></p>
-                </form>
-
-                <div class="fb-like-box" data-href="http://www.facebook.com/kiberpipa" data-width="292" data-show-faces="true" data-stream="false" data-header="false"></div>
-
-                <ul class="tweets">
-                    {% for tweet in original_tweets %}
-                    <li>
-                        <img class="tweet-profile-image" src="{{ tweet.user.profile_image_url }}" alt="{{ tweet.user.screen_name }}" title="{{ tweet.user.screen_name }}">
-                        <div class="tweet-inner">
-                            <b><a href="http://twitter.com/{{tweet.user.screen_name}}/status/{{ tweet.GetId }}" target="_blank">{{ tweet.user.screen_name }}</a></b><br/>
-                            {% autoescape off %}<p class="tweer-text" style="font-size: smaller">{{ tweet.text|urlize }}</p>{% endautoescape %}
-
-                            {% if tweet.rts %}
-                            <p class="tweet-rts" style="font-size: smaller; line-height: 26px; margin-top: -5px;">{{ tweet.retweet_count }} RT:
-                            {% for rt in tweet.rts %}
-                                <a rel="nofollow" target="_blank" href="https://twitter.com/{{ rt.user.screen_name }}/status/{{ rt.id }}"><img width="24" height="24" src="{{ rt.user.profile_image_url }}" title="{{ rt.user.name }}" style="border-radius: 3px"></a> 
-                            {% endfor %}
-                            </p>
-                            {% endif %}                        
+                    {% for video in videos %}<div class="recent_media row-fluid">
+                        <div class="span6">
+                            <a href="{{ video.play_url }}" target="_blank">
+                              <div style="position: relative; left:0; top:0">
+                                <img style="position: relative; left:0; top:0" src="{{ video.get_secure_image_url }}" alt="{{ video.title }}" />
+                                <img style="position: absolute; z-index:3; top:0; left:0; height:100%" src="{{ settings.STATIC_URL }}www/images/vod_overlay.png" />
+                              </div>
+                            </a>
                         </div>
-                    </li>
-                  {% endfor %}
-                </ul>
+                        <div class="span6">
+                            <strong><a href="{{ video.play_url }}" target="_blank">{{ video.title }}</a>
+                            </strong>
+                        </div>
+                    </div>{% endfor %}
+
+                    <br /><br />
+
+                    <h2 class="muted">{% trans "Photos" %}</h2>
+                    
+                    {% for picture in pictures %}
+                    <div class="recent_media row-fluid">
+                        <div class="span6 thumbnail">
+                            <a href="{{ picture.url }}"><img src="{{ picture.thumb_url }}" alt="{{ picture.title }}" /></a>
+                        </div>
+                        <div class="span6">
+                            <strong><a href="{{ picture.url }}" target="_blank">{{ picture.title }}</a></strong>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="span4 thesocialstuffz">
+                    <h2 class="muted">{% trans "Social" %}</h2>
+
+                    <p>{% trans "Would you like to subscribe to information about weekly events?" %}</p>
+                    <form id="subscribe_mailinglist" method="post" action="{% url 'ajax_subscribe_mailinglist' %}">
+                        <input name="email" id="id_email" placeholder="Email" type="text" />
+                        <p><i class="response"></i></p>
+                    </form>
+
+                    <div class="fb-like-box" data-href="http://www.facebook.com/kiberpipa" data-width="292" data-show-faces="true" data-stream="false" data-header="false"></div>
+
+                    <ul class="tweets">
+                        {% for tweet in original_tweets %}
+                        <li>
+                            <img class="tweet-profile-image" src="{{ tweet.user.profile_image_url }}" alt="{{ tweet.user.screen_name }}" title="{{ tweet.user.screen_name }}">
+                            <div class="tweet-inner">
+                                <b><a href="http://twitter.com/{{tweet.user.screen_name}}/status/{{ tweet.GetId }}" target="_blank">{{ tweet.user.screen_name }}</a></b><br/>
+                                {% autoescape off %}<p class="tweer-text" style="font-size: smaller">{{ tweet.text|urlize }}</p>{% endautoescape %}
+
+                                {% if tweet.rts %}
+                                <p class="tweet-rts" style="font-size: smaller; line-height: 26px; margin-top: -5px;">{{ tweet.retweet_count }} RT:
+                                {% for rt in tweet.rts %}
+                                    <a rel="nofollow" target="_blank" href="https://twitter.com/{{ rt.user.screen_name }}/status/{{ rt.id }}"><img width="24" height="24" src="{{ rt.user.profile_image_url }}" title="{{ rt.user.name }}" style="border-radius: 3px"></a> 
+                                {% endfor %}
+                                </p>
+                                {% endif %}                        
+                            </div>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
 {% endblock %}
     
