@@ -928,18 +928,15 @@ def add_member(request):
         with tempfile.NamedTemporaryFile() as f:
             f.write(ldif_template.encode('utf-8'))
             f.flush()
-            subprocess.check_call('sudo -u root ldapadd -D cn=admin,dc=kiberpipa,dc=org -f %s -w %s' % (f.name, settings.LDAP_PASSWORD),
-                                  shell=True)
-
-        # create home folder
-        # TODO: dogbert login
-        #subprocess.check_call('sudo -u root mkdir -p /home/%s' % form.cleaned_data['username'],
-        #                      shell=True)
-        # TODO: chown it (sudoers should be very strict about this)
-        #subprocess.check_call('sudo -u root chown -p /home/%s' % form.cleaned_data['username'],
-        #                      shell=True)
-
-        # TODO: add member to redmine group
+            
+            p = subprocess.Popen('sudo -u root ldapadd -D cn=admin,dc=kiberpipa,dc=org -f %s -w %s' % (f.name, settings.LDAP_PASSWORD),
+                                 stdout=subprocess.PIPE,
+                                 stderr=subprocess.PIPE,
+                                 shell=True)
+            
+            stdout, stderr = p.communicate()
+            if p.returncode != 0:
+                raise Exception("Failed adding a member to opendalp.")
 
         # add him to pipa-org
         if form.cleaned_data['add_to_private_mailinglist']:
