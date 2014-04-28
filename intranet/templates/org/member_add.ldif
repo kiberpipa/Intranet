@@ -23,47 +23,8 @@ gidNumber: 9999
 uid: {{ data.username }}
 givenName: {{ data.firstname }}
 sn: {{ data.surname }}
-## TODO: dogbert_login = forms.BooleanField(required=False)
-## TODO: jonssh jon_login = forms.BooleanField(required=False)
-
-dn: cn={{ data.username }},ou=Groups,dc=kiberpipa,dc=org
-objectClass: posixGroup
-objectClass: top
-cn: {{ data.username }}
-gidNumber: {{ gid }}
-memberUid: {{ data.username }}
 
 dn: cn=dezurni,ou=Groups,dc=kiberpipa,dc=org
-changetype: modify
-add: memberUid
-memberUid: {{ data.username }}
-
-dn: cn=audio,ou=Groups,dc=kiberpipa,dc=org
-changetype: modify
-add: memberUid
-memberUid: {{ data.username }}
-
-dn: cn=cdrom,ou=Groups,dc=kiberpipa,dc=org
-changetype: modify
-add: memberUid
-memberUid: {{ data.username }}
-
-dn: cn=floppy,ou=Groups,dc=kiberpipa,dc=org
-changetype: modify
-add: memberUid
-memberUid: {{ data.username }}
-
-dn: cn=plugdev,ou=Groups,dc=kiberpipa,dc=org
-changetype: modify
-add: memberUid
-memberUid: {{ data.username }}
-
-dn: cn=disk,ou=Groups,dc=kiberpipa,dc=org
-changetype: modify
-add: memberUid
-memberUid: {{ data.username }}
-
-dn: cn=video,ou=Groups,dc=kiberpipa,dc=org
 changetype: modify
 add: memberUid
 memberUid: {{ data.username }}
