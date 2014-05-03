@@ -7,3 +7,5 @@ Sporočamo Vam, da je video dogodka, ki smo ga posneli, na voljo za ogled.
 {% endfor %}
 
 Ekipa Kiberpipe
+
+PS: Podporo nam lahko izkažete v protivrednosti dveh piv na teden preko https://www.kiberpipa.org/sl/support/
