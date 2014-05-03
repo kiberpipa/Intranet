@@ -60,9 +60,6 @@ def temporary_upload(request):
     filename = request.FILES['image']._get_name().strip().lower()
     imgdata = StringIO(request.FILES['image'].read())
     imgdata.seek(0)
-    # check that it's image
-    if not (filename.endswith('.jpg') or filename.endswith('.jpeg')):
-        return HttpResponse(simplejson.dumps({'status': '.jpeg only!'}))
 
     try:
         im = Image.open(imgdata)
