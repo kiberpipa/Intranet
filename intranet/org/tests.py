@@ -102,15 +102,31 @@ class EventTest(BaseCase):
         resp = self.client.get('/intranet/image_crop_tool/')
         self.assertEqual(resp.status_code, 200)
 
+        # no image
         resp = self.client.post('/intranet/tmp_upload/', {'foo': ''})
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(simplejson.loads(resp.content)['status'], 'no image uploaded')
 
-        # TODO: test .png
+        # too small image
         f = open(os.path.join(os.path.dirname(__file__), 'test_fixtures', 'sample-1.jpg'), 'rb')
         resp = self.client.post('/intranet/tmp_upload/', {'image': f})
         f.close()
-
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(simplejson.loads(resp.content)['status'], 'Image size should be minimum 480 width and 250 height.')
+        
+        # jpeg upload
+        f = open(os.path.join(os.path.dirname(__file__), 'test_fixtures', 'sample-2.jpg'), 'rb')
+        resp = self.client.post('/intranet/tmp_upload/', {'image': f})
+        f.close()
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(simplejson.loads(resp.content)['status'], 'ok')
+        self.assertTrue('temporary_filename' in self.client.session)
+        filename = simplejson.loads(resp.content)['filename']
+        
+        # png upload
+        f = open(os.path.join(os.path.dirname(__file__), 'test_fixtures', 'sample-1.png'), 'rb')
+        resp = self.client.post('/intranet/tmp_upload/', {'image': f})
+        f.close()
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(simplejson.loads(resp.content)['status'], 'ok')
         self.assertTrue('temporary_filename' in self.client.session)
