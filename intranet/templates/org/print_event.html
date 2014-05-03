@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load box %}
 {% load url from future %}
 <tr>
 	<td>
@@ -12,7 +13,7 @@
 	</td>
 	<td>
     	{% if event.note %}
-        <i class="icon-warning-sign" title="Event has notes, read them carefully"></i>
+        <i class="icon-warning-sign" title="{{ event.note|html2text }}"></i>
         {% endif %}
 		<a href="{% url 'event_edit' event.id %}">{{ event.title }}</a>
 
