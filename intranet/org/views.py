@@ -106,20 +106,30 @@ def image_resize(request):
                 try:
                     if not os.path.exists(resized_dir):
                         os.makedirs(resized_dir)
-                except Exception:
+                except IOError:
                     return HttpResponse(simplejson.dumps({'status': 'fail4'}))
-                resized_filename = os.path.join(resized_dir, os.path.basename(form.cleaned_data.get('filename')))
-                image_filename = form.cleaned_data['filename']
+                image_path = form.cleaned_data.get('filename')
+                resized_image_filename = os.path.basename(form.cleaned_data.get('filename')) + '.jpg'
+                resized_image_path = os.path.join(resized_dir, resized_image_filename)
 
                 # crop and resize the image
-                im = Image.open(image_filename)
-                new_image = im.transform((480, 250), Image.EXTENT, box)
-                new_image.save(resized_filename)
-                request.session['resized_filename'] = resized_filename
-                resized_url = os.path.join(settings.MEDIA_URL, 'tmp', request.session.session_key, 's', os.path.basename(form.cleaned_data.get('filename')))
+                im = Image.open(image_path)
+                new_image = im.transform((480, 250),
+                                         Image.EXTENT,
+                                         box,
+                                         resample=Image.BICUBIC)
+                new_image.save(resized_image_path,
+                               quality=95,
+                               optimize=True)
+                request.session['resized_filename'] = resized_image_path
+                resized_url = os.path.join(settings.MEDIA_URL,
+                                           'tmp',
+                                           request.session.session_key,
+                                           's',
+                                           resized_image_filename)
                 return HttpResponse(simplejson.dumps({'status': 'ok',
                     'resized_url': resized_url,
-                    'resized_filename': resized_filename}))
+                    'resized_filename': resized_image_path}))
 
     return HttpResponse(simplejson.dumps({'status': 'ok'}))
 
