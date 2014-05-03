@@ -11,19 +11,28 @@
 		{% endif %}
 	</td>
 	<td>
-		<a href="{% url 'event_edit' event.id %}">{{ event.title }}</a><br/>
+    	{% if event.note %}
+        <i class="icon-warning-sign" title="Event has notes, read them carefully"></i>
+        {% endif %}
+		<a href="{% url 'event_edit' event.id %}">{{ event.title }}</a>
+
+		<br/>
 		
 		{% for sodelovanje in event.sodelovanje_set.all %}
-		<span class="badge">{{ sodelovanje.person }} - {{ sodelovanje.tip }}</span>
-		<br />
+		  <span class="badge">{{ sodelovanje.person }} - {{ sodelovanje.tip }}</span>
+		  <br />
 		{% endfor %}
 
 		{% if not event.public %}
-		<span class="badge badge-info">Interni</span>
+		  <span class="badge badge-info">Interni</span><br />
 		{% endif %}
 		{% if event.visitors %}
-		<span class="badge badge-info">{{ event.visitors }} Udeležencev</span>
+		  <span class="badge badge-info">{{ event.visitors }} Udeležencev</span><br />
 		{% endif %}
+		{% if event.emails.count %}
+		  <span class="badge {% if event.video.all %}badge-info{% else %}badge-warning{% endif %}">Obveščenih, ko bo video posnetek na voljo: {{ event.emails.count }}</span><br />
+		{% endif %}
+		
 		<span class="badge badge-inverse">{{ event.place.name }}</span>
 	</td>
 	<td>{{ event.project }}</td>
