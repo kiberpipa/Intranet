@@ -101,8 +101,7 @@ ul.the-icons li { display:inline;padding:10px 20px;margin:0;border-radius:4px;-m
 ul.the-icons li:hover { background:#eee }
 
 /* column with nice looking images from kiberpipa's past */
-.promoimages a { display: inline-block; margin-bottom: 0.25em; }
-.promoimages img { border-radius: 5px; }
+.promoimages img { border-radius: 5px; margin-bottom: 0.75em }
 
 /* about page */
 .about .hero-unit { padding-top: 0; }
