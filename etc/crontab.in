@@ -6,7 +6,7 @@ MAILTO=domen@dev.si
 
 # production
 @reboot %(production_location)s/bin/supervisord
-22 * * * * %(production_location)s/bin/feedjack_update --settings=intranet.settings.local > /dev/null
-22 * * * * %(production_location)s/bin/django parse_videoarhiv > /dev/null
-0 6 * * * %(production_location)s/bin/django send_diary > /dev/null
-0 6 * * sun %(production_location)s/bin/django send_events > /dev/null
+22 * * * * %(production_location)s/bin/feedjack_update -v 0  --settings=intranet.settings.local
+22 * * * * %(production_location)s/bin/django -v 0 parse_videoarhiv
+0 6 * * * %(production_location)s/bin/django -v 0 send_diary 
+5 6 * * sun %(production_location)s/bin/django -v 0 send_events 
