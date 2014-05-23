@@ -1,3 +1,5 @@
+MAILTO=domen@dev.si
+
 # staging
 @reboot %(staging_folder)s/bin/supervisord
 @reboot %(staging_folder)s/../githook/bin/supervisord
