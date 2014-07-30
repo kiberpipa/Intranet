@@ -3,6 +3,7 @@
 
 import datetime
 
+from dateutil.relativedelta import relativedelta
 from django.core.management.base import BaseCommand
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
@@ -37,8 +38,8 @@ class Command(BaseCommand):
         # warnings for events:
         # today and tomorrow
         events = Event.objects.get_date_events(
-                                               datetime.datetime(interested_datetime.year, interested_datetime.month, interested_datetime.day + 1, 0, 0),
-                                               datetime.datetime(interested_datetime.year, interested_datetime.month, interested_datetime.day + 3, 0, 0)
+                                               datetime.datetime(interested_datetime.year, interested_datetime.month, interested_datetime.day, 0, 0) + relativedelta(days=1),
+                                               datetime.datetime(interested_datetime.year, interested_datetime.month, interested_datetime.day, 0, 0) + relativedelta(days=3),
                                                )
         # no technician
         no_tech = events.filter(require_technician__exact=True).filter(technician__isnull=True)
