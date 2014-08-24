@@ -65,7 +65,7 @@ def temporary_upload(request):
         im = Image.open(imgdata)
         im.size
         if im.size < (480, 250):
-            return HttpResponse(simplejson.dumps({'status': 'Image size should be minimum 480 width and 250 height.'}))
+            return HttpResponse(simplejson.dumps({'status': "Image size should be minimum 480 width and 250 height.\n\nYours is %dx%d." % (im.size[0], im.size[1]) }))
     except Exception:
         return HttpResponse(simplejson.dumps({'status': 'couldn\'t open the image'}))
 
