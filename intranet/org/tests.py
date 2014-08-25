@@ -112,7 +112,7 @@ class EventTest(BaseCase):
         resp = self.client.post('/intranet/tmp_upload/', {'image': f})
         f.close()
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(simplejson.loads(resp.content)['status'], 'Image size should be minimum 480 width and 250 height.')
+        self.assertEqual(simplejson.loads(resp.content)['status'], 'Image size should be minimum 480 width and 250 height.\n\nYours is 420x315.')
         
         # jpeg upload
         f = open(os.path.join(os.path.dirname(__file__), 'test_fixtures', 'sample-2.jpg'), 'rb')
