@@ -17,7 +17,11 @@
             <a class="carousel-control left" href="{{ prev }}">‹</a>
             <a class="carousel-control right" href="{{ next }}">›</a>
             <p>
-                <a href="{% url 'calendar_ical' %}"><i class="icon-calendar"></i> iCal</a> &nbsp; <a href="{% url 'rss' %}" ><i class="icon-rss"></i> RSS</a>
+                <a href="{% url 'calendar_ical' %}"><i class="icon-calendar"></i> iCal</a> &nbsp;
+                <a href="{% url 'rss' %}" ><i class="icon-rss"></i> RSS</a> &nbsp;
+                <a href="https://www.google.com/calendar/render?cid=dt5vr520liqaiuiirm6ev69q9gqepjo9@import.calendar.google.com">
+                    <img alt="Synchronize on Google Calendar" src="{{ settings.STATIC_URL }}www/images/calendar_plus_en.gif" />
+                </a>
             </p>
         </div>
     </div>    
