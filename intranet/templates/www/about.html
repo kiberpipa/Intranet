@@ -5,45 +5,57 @@
 
 {% block extrahead %}
     <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyQuqfLWTvYxztDbP1Ksy46VRzX9Swf4A&sensor=false">
+      src="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js">
     </script>
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css">
+    </link>
+    <style type="text/css">
+        .leaflet-marker-icon {
+            -moz-box-shadow:    0 6px 5px -5px #333;
+            -webkit-box-shadow: 0 6px 5px -5px #333;
+            box-shadow:         0 6px 5px -5px #333;
+        }
+        .description {
+            color: #888;
+        }
+    </style>
 <script type="text/javascript">
 var map;
 
 function initialize() {
 
-    var mapOptions = {
-    zoom: 15,
-    center: new google.maps.LatLng(46.056, 14.503203),
-    mapTypeId: google.maps.MapTypeId.ROADMAP
+    var map = L.map('mapdiv', {
+        center: [46.056, 14.503203],
+        zoom: 16
+    });
+
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    var poi_list = [
+        {name:"Kiberpipa", icon: "pipao", lat:46.055251, lon: 14.5043106, text:"Gosposvetska c. 2, 1000 Ljubljana"},
+        {name:"Železniška postaja Ljubljana", icon: "vlak", lat:46.058054, lon: 14.510390, text: '<a href="http://www.slo-zeleznice.si/">Železniška postaja Ljubljana</a>'},
+        {name:"Avtobusna postaja Ljubljana", icon: "bus", lat:46.057675, lon:14.509170, text: '<a href="http://www.ap-ljubljana.si/">Avtobusna postaja Ljubljana</a>'},
+        {name:"LPP postaja Bavarski dvor", icon: "lpp", lat: 46.056106, lon:14.505289, text: ''},
+        {name:"LPP postaja Hotel lev / Kolizej", icon: "lpp", lat:46.055992, lon:14.50213, text:''},
+        {name:"Garažna hiša Kozolec", icon: "park", lat: 46.056724, lon: 14.504925, text:"dnevna tarifa od 7h do 19h - 1,00 €/uro<br />nočna tarifa od 19h do 7h - 1,5 €/noč<br />Odprto: 24ur"},
+        {name:"Parkirna hiša Trdinova", icon: "park", lat: 46.055708, lon: 14.507129, text:"dnevna tarifa od 7h do 19h od 1. do 6. ure 2 €/uro, od 7. do 12. ure 1,5 €/uro<br />nočna tarifa od 19h do 7h 1. in 2. ura 1,5 €/uro, 3. do 12. ura 0,5 €/uro"},
+        {name:"Parkirišče za BS Petrol", icon: "park", lat: 46.057913, lon: 14.502330, text: ""},
+        {name:"Parkirišče Tivoli", icon: "park", lat: 46.058196, lon:14.49885, text: "Prvi dve uri 0,50 €, vsaka nadaljna ura 0,5 €.<br />Odprto: od 6h do 20h"},
+        {name:"Parkirišče Sanatorij Emona", icon:"park", lat: 46.053550, lon:14.508690, text: "1 €/uro<br />Odprto: od 6h do 20h, sobota od 7h do 15h"},
+        ];
+
+    for (var i=0; i<poi_list.length;i++){
+        var icon = L.icon({
+            iconUrl: '{{ settings.STATIC_URL }}/www/images/' + poi_list[i].icon + '_icon.png',
+            iconSize: [24, 24],
+            iconAnchor: [12, 12],
+            popupAnchor: [0, -12]
+        });
+        L.marker([poi_list[i].lat, poi_list[i].lon], {icon: icon}).addTo(map)
+            .bindPopup(poi_list[i].name + "<div class=description>" + poi_list[i].text + "</div>");
     }
-    var map = new google.maps.Map(document.getElementById("mapdiv"), mapOptions);
-
-        var poi_list = [
-            {name:"Kiberpipa", icon: "pipao", lat:46.055251, lon: 14.5043106, text:"Kersnikova 6, 1000 Ljubljana"},
-            {name:"Železniška postaja Ljubljana", icon: "vlak", lat:46.058054, lon: 14.510390, text: '<a href="http://www.slo-zeleznice.si/">Železniška postaja Ljubljana</a>'},
-            {name:"Avtobusna postaja Ljubljana", icon: "bus", lat:46.057675, lon:14.509170, text: '<a href="http://www.ap-ljubljana.si/">Avtobusna postaja Ljubljana</a>'},
-            {name:"LPP postaja Bavarski dvor", icon: "lpp", lat: 46.056106, lon:14.505289, text: ''},
-            {name:"LPP postaja Hotel lev / Kolizej", icon: "lpp", lat:46.055992, lon:14.50213, text:''},
-            {name:"Garažna hiša Kozolec", icon: "park", lat: 46.056724, lon: 14.504925, text:"dnevna tarifa od 7h do 19h - 1,00 €/uro<br />nočna tarifa od 19h do 7h - 1,5 €/noč<br />Odprto: 24ur"},
-            {name:"Parkirna hiša Trdinova", icon: "park", lat: 46.055708, lon: 14.507129, text:"dnevna tarifa od 7h do 19h od 1. do 6. ure 2 €/uro, od 7. do 12. ure 1,5 €/uro<br />nočna tarifa od 19h do 7h 1. in 2. ura 1,5 €/uro, 3. do 12. ura 0,5 €/uro"},
-            {name:"Parkirišče za BS Petrol", icon: "park", lat: 46.057913, lon: 14.502330, text: ""},
-            {name:"Parkirišče Tivoli", icon: "park", lat: 46.058196, lon:14.49885, text: "Prvi dve uri 0,50 €, vsaka nadaljna ura 0,5 €.<br />Odprto: od 6h do 20h"},
-            {name:"Parkirišče Sanatorij Emona", icon:"park", lat: 46.053550, lon:14.508690, text: "1 €/uro<br />Odprto: od 6h do 20h, sobota od 7h do 15h"},
-            ];
-
-        for (var i=0; i<poi_list.length;i++){
-            var tagLant = new google.maps.LatLng(poi_list[i].lat, poi_list[i].lon);
-            var image = new google.maps.MarkerImage( 
-                    '{{ settings.STATIC_URL }}/www/images/' + poi_list[i].icon + '_icon.png'
-            );
-            var beachMarker = new google.maps.Marker({
-            position: tagLant,
-            map: map,
-            title: poi_list[i].name,
-            icon: image
-            });
-        }
 
 }
 
@@ -70,11 +82,11 @@ $(document).ready(function () {
                 SI-1000 Ljubljana
                 </p>
 
-               
+
                 <!--<i class="icon-phone"></i>&nbsp;&nbsp;phone_number<br> -->
                 <i class="icon-envelope"></i>&nbsp;&nbsp;<a href="mailto:info@kiberpipa.org">info@kiberpipa.org</a><br>
                 <i class="icon-comment"></i>&nbsp;&nbsp;<a href="irc://chat.freenode.net/#kiberpipa">chat.freenode.net/#kiberpipa</a><br>
-                
+
             </div>
             <div class="span6">
             {% block tekst %}
@@ -90,11 +102,11 @@ $(document).ready(function () {
             </div>
 
             <div class="span3 promoimages">
-                <a title="" href="http://www.flickr.com/photos/kiberpipa/sets/72157629271763796/with/7003701223/" title="burek"><img src="{{ settings.STATIC_URL }}www/images/promo/idioterna.jpg" alt=""></a>      
+                <a title="" href="http://www.flickr.com/photos/kiberpipa/sets/72157629271763796/with/7003701223/" title="burek"><img src="{{ settings.STATIC_URL }}www/images/promo/idioterna.jpg" alt=""></a>
                 <a title="" href="https://www.kiberpipa.org/sl/event/kako-varno-je-spletno-nakupovanje-1464/" target="_blank"><img src="{{ settings.STATIC_URL }}www/images/promo/gorazd_zagar.jpg"></a>
                 <a title="Marko Mrdjenović, sicer vodja spletnih uric, razlaga o NoSQL bazi Redis." href="http://www.flickr.com/photos/kiberpipa/sets/72157625471357955/with/5260839502/" target="_blank"><img src="{{ settings.STATIC_URL }}www/images/promo/fry.jpg" alt=""></a>
                 <a title="" href="https://www.kiberpipa.org/sl/event/vip-vecer-z-jozetom-mermalom-pripoved-o-mestu-v-malem-1579/" target="_blank"><img src="{{ settings.STATIC_URL }}www/images/promo/vip2.jpg"></a>
-                <a title="https://www.kiberpipa.org/sl/event/433-mhz-in-tcpdump-wireless-sniffing-malo-drugace-1496/" href="" target="_blank"><img src="{{ settings.STATIC_URL }}www/images/promo/solc.jpg"></a> 
+                <a title="https://www.kiberpipa.org/sl/event/433-mhz-in-tcpdump-wireless-sniffing-malo-drugace-1496/" href="" target="_blank"><img src="{{ settings.STATIC_URL }}www/images/promo/solc.jpg"></a>
                 <a title="" href="http://www.mladina.si/97440/katalizator-racunalniskih-subkultur/" target="_blank"><img src="{{ settings.STATIC_URL }}www/images/promo/fry.jpg"></a>
                 <a title="" href="https://www.kiberpipa.org/sl/muzej/" target="_blank"><img src="{{ settings.STATIC_URL }}www/images/promo/muzej.jpg"></a>
                 <a title="" href="http://www.kiberpipa.org/ojdipus/" target="_blank"><img src="{{ settings.STATIC_URL }}www/images/promo/ojdipus.jpg"></a>
@@ -103,7 +115,7 @@ $(document).ready(function () {
                 <a title="" href="https://www.kiberpipa.org/sl/event/testiranje-django-spletnih-aplikacij-719/" target="_blank"><img src="{{ settings.STATIC_URL }}www/images/promo/django_book.jpg"></a>
                 <a title="" href="" target="_blank"><img src="{{ settings.STATIC_URL }}www/images/promo/priprave_na_nolan.jpg"></a>
                 <a title="" href="" target="_blank"><img src="{{ settings.STATIC_URL }}www/images/promo/todd.jpg"></a>
-    
+
                 <!-- za razmislek
                 <a title="" href="https://slo-tech.com/clanki/cyberpip01/cyberpip01.shtml" target="_blank"><img src="{{ settings.STATIC_URL }}www/images/promo/otvoritev.jpg"></a>
                 -->
