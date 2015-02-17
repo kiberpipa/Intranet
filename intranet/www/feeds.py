@@ -27,15 +27,18 @@ class MediaRssFeed(Rss201rev2Feed):
         """
         super(MediaRssFeed, self).add_item_elements(handler, item)
 
-        thumbnail = { 'url': item['thumbnail_url'] }
+        if item.get('thumbnail_url') != None:
 
-        if 'thumbnail_width' in item:
-            thumbnail['width'] = str(item['thumbnail_width'])
+            thumbnail = { 'url': item['thumbnail_url'] }
 
-        if 'thumbnail_height' in item:
-            thumbnail['height'] = str(item['thumbnail_height'])
+            if 'thumbnail_width' in item:
+                thumbnail['width'] = str(item['thumbnail_width'])
 
-        handler.addQuickElement(u"media:thumbnail", '', thumbnail)
+            if 'thumbnail_height' in item:
+                thumbnail['height'] = str(item['thumbnail_height'])
+
+            handler.addQuickElement(u"media:thumbnail", '', thumbnail)
+
 
 class NewsFeed(Feed):
     title = "Kiberpipa - Novice"
@@ -54,6 +57,19 @@ class NewsFeed(Feed):
 
     def item_pubdate(self, item):
         return item.date
+
+    def item_extra_kwargs(self, item):
+        """
+        Return a dictionary to the feedgenerator for each item to be added to the feed.
+        If the object is a Gallery, uses a random sample image for use as the feed Item
+        """
+
+        return {
+            'thumbnail_url': item.image.url,
+            # Optional
+            # 'thumbnail_width': 480,
+            # 'thumbnail_height': 250,
+        }
 
 
 class EventsFeed(Feed):
