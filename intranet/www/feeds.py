@@ -2,16 +2,46 @@
 import datetime
 
 from django.contrib.syndication.views import Feed
+from django.utils.feedgenerator import Rss201rev2Feed
 from feedjack.models import Post
 
 from intranet.org.models import Event, Project
 from intranet.www.models import News
 
 
+class MediaRssFeed(Rss201rev2Feed):
+    """
+    Implement thumbnails which adhere to Yahoo Media RSS (mrss) feed.
+
+    @see http://djangosnippets.org/snippets/1648/
+    """
+    def rss_attributes(self):
+        attrs = super(MediaRssFeed, self).rss_attributes()
+        attrs['xmlns:dc'] = "http://purl.org/dc/elements/1.1/"
+        attrs['xmlns:media'] = 'http://search.yahoo.com/mrss/'
+        return attrs
+
+    def add_item_elements(self, handler, item):
+        """
+        Callback to add thumbnail element to each item (item/entry) element.
+        """
+        super(MediaRssFeed, self).add_item_elements(handler, item)
+
+        thumbnail = { 'url': item['thumbnail_url'] }
+
+        if 'thumbnail_width' in item:
+            thumbnail['width'] = str(item['thumbnail_width'])
+
+        if 'thumbnail_height' in item:
+            thumbnail['height'] = str(item['thumbnail_height'])
+
+        handler.addQuickElement(u"media:thumbnail", '', thumbnail)
+
 class NewsFeed(Feed):
     title = "Kiberpipa - Novice"
     link = "/sl/feeds/novice/"
     description = "Novice"
+    feed_type = MediaRssFeed
 
     def items(self):
         return News.objects.order_by('-date')[:10]
@@ -30,6 +60,7 @@ class EventsFeed(Feed):
     title = "Kiberpipa - Dogodki"
     link = "/sl/feeds/dogodki/"
     description = "Najave dogodkov v Kiberpipi"
+    feed_type = MediaRssFeed
 
     def _get_events(self):
         return Event.objects.filter(public=True, start_date__lte=datetime.datetime.today() + datetime.timedelta(8)).order_by('-start_date')
@@ -48,6 +79,19 @@ class EventsFeed(Feed):
 
     def item_pubdate(self, item):
         return item.start_date if hasattr(item, "start_date") else item.date
+
+    def item_extra_kwargs(self, item):
+        """
+        Return a dictionary to the feedgenerator for each item to be added to the feed.
+        If the object is a Gallery, uses a random sample image for use as the feed Item
+        """
+
+        return {
+            'thumbnail_url': item.event_image.image.url,
+            # Optional
+            # 'thumbnail_width': 480,
+            # 'thumbnail_height': 250,
+        }
 
 
 class POTFeed(EventsFeed):
