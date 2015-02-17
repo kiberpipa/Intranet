@@ -63,13 +63,12 @@ class NewsFeed(Feed):
         Return a dictionary to the feedgenerator for each item to be added to the feed.
         If the object is a Gallery, uses a random sample image for use as the feed Item
         """
-
-        return {
-            'thumbnail_url': item.image.url,
-            # Optional
-            # 'thumbnail_width': 480,
-            # 'thumbnail_height': 250,
-        }
+        try:
+            return {
+                'thumbnail_url': item.image.url,
+            }
+        except ValueError:
+            return { }
 
 
 class EventsFeed(Feed):
