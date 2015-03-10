@@ -21,6 +21,7 @@ class Command(BaseCommand):
     help = "Sends daily email repot about intranet changes"
 
     def handle(self, *args, **options):
+        self.verbosity = int(options.get('verbosity'))
         if args:
             interested_datetime = datetime.datetime.strptime(args[0], '%d.%m.%Y')
         else:
@@ -49,7 +50,8 @@ class Command(BaseCommand):
         if diaries or no_tech or no_responsible:
             pass
         else:
-            print "nothing to send"
+            if self.verbosity >= 1:
+                print "nothing to send"
             return
 
         # this causes url handling to force absolute urls
@@ -63,7 +65,8 @@ class Command(BaseCommand):
             email = EmailMultiAlternatives(subject, text, settings.DEFAULT_FROM_EMAIL, ['pipa-org@list.sou-lj.si'])
             email.attach_alternative(html, 'text/html')
             email.send()
-            print "email sent"
+            if self.verbosity >= 1:
+                print "email sent"
         finally:
             # set_script_prefix is global for current thread
             clear_script_prefix()

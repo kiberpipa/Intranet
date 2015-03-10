@@ -21,6 +21,8 @@ class Command(BaseCommand):
     help = "Sends weekly email repot about events"
 
     def handle(self, *args, **options):
+        self.verbosity = int(options.get('verbosity'))
+
         # commands need explicit activation of translations
         translation.activate(settings.LANGUAGE_CODE)
         # this causes url handling to force absolute urls
@@ -56,7 +58,8 @@ class Command(BaseCommand):
             no_pictures = events.filter(require_photo__exact=True).filter(flickr_set_id__exact=None)
 
             if events.count() == 0:
-                print "no events to send"
+                if self.verbosity >= 1:
+                    print "no events to send"
                 return
 
             unfinished_events = (no_visitors, no_video, no_pictures)
@@ -76,7 +79,8 @@ class Command(BaseCommand):
             email = EmailMultiAlternatives(subject, text, settings.DEFAULT_FROM_EMAIL, ['pipa-org@list.sou-lj.si'])
             email.attach_alternative(html, 'text/html')
             email.send()
-            print "events email sent"
+            if self.verbosity >= 1:
+                print "events email sent"
         finally:
             # set_script_prefix is global for current thread
             clear_script_prefix()
