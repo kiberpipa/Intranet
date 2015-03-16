@@ -6,7 +6,7 @@
 <h4>{% trans "From last" %} {{ days_range }} {% trans  "days:" %}</h4>
 <ul>
     {% for event in events %}
-        <li> <a href="{% url 'event_detail' event.id %}">{{ event }}</a> ({{ event.visitors }} {% trans "visitors" %}) </li>
+        <li> <a href="{% url 'event_detail' id=event.id slug=event.slug %}">{{ event }}</a> ({{ event.visitors }} {% trans "visitors" %}) </li>
     {% endfor %}
 </ul>
 
