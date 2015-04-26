@@ -46,7 +46,7 @@ class Command(BaseCommand):
 
             all_visitors = 0
             for e in events:
-                all_visitors += e.visitors
+                all_visitors += e.visitors or 0
 
             # is public and no visitors
             no_visitors = events.filter(public__exact=True).filter(visitors__exact=0)
